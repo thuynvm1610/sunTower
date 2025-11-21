@@ -3,6 +3,7 @@ package com.estate.service;
 import java.util.List;
 import java.util.Map;
 
+import com.estate.dto.BuildingDetailDTO;
 import com.estate.dto.BuildingFilterDTO;
 import com.estate.dto.BuildingFormDTO;
 import com.estate.dto.BuildingListDTO;
@@ -19,7 +20,8 @@ public interface BuildingService {
     List<String> getStreetName();
     List<String> getDirectionName();
     List<String> getLevelName();
-    BuildingFormDTO save(BuildingFormDTO dto);
+    void save(BuildingFormDTO dto);
     BuildingFormDTO findById(Long id);
     void delete(Long id);
+    BuildingDetailDTO viewById(Long id);
 }

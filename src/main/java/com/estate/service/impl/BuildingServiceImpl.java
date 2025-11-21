@@ -1,7 +1,9 @@
 package com.estate.service.impl;
 
+import com.estate.converter.BuildingDetailConverter;
 import com.estate.converter.BuildingFormConverter;
 import com.estate.converter.BuildingListConverter;
+import com.estate.dto.BuildingDetailDTO;
 import com.estate.dto.BuildingFilterDTO;
 import com.estate.dto.BuildingFormDTO;
 import com.estate.dto.BuildingListDTO;
@@ -48,6 +50,9 @@ public class BuildingServiceImpl implements BuildingService {
 
     @Autowired
     private BuildingFormConverter buildingFormConverter;
+
+    @Autowired
+    private BuildingDetailConverter buildingDetailConverter;
 
     @Override
     public long countAll() {
@@ -171,7 +176,7 @@ public class BuildingServiceImpl implements BuildingService {
 
     @Override
     @Transactional
-    public BuildingFormDTO save(BuildingFormDTO dto) {
+    public void save(BuildingFormDTO dto) {
 
         BuildingEntity entity;
 
@@ -234,9 +239,6 @@ public class BuildingServiceImpl implements BuildingService {
 
             rentAreaRepository.saveAll(areas);
         }
-
-        dto.setId(saved.getId());
-        return dto;
     }
 
     @Override
@@ -257,6 +259,14 @@ public class BuildingServiceImpl implements BuildingService {
             throw new BusinessException("Không thể xóa! Tòa nhà đang có hợp đồng liên quan.");
         }
         buildingRepository.deleteById(id);
+    }
+
+    @Override
+    public BuildingDetailDTO viewById(Long id) {
+        BuildingEntity buildingEntity = buildingRepository.findById(id)
+                .orElseThrow(() -> new BusinessException("Không tìm thấy tòa nhà"));
+        BuildingDetailDTO buildingDetailDTO = buildingDetailConverter.toDTO(buildingEntity);
+        return buildingDetailDTO;
     }
 
 }

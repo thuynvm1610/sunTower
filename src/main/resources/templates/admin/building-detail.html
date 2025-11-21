@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>SunTower | Chi tiết Tòa nhà</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap + Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link th:href="@{/css/admin.css}" rel="stylesheet">
+
+    <style>
+        body {
+            background: #fafbfc;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            overflow-x: hidden;
+        }
+
+        main.content {
+            margin-left: 250px;
+            padding: 2.5rem 3rem;
+            margin-top: 70px;
+        }
+
+        /* Page header */
+        .page-header {
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-header h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #111827;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .page-header h2 i {
+            color: #3b82f6;
+        }
+
+        /* Action buttons */
+        .header-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn-action-header {
+            padding: 0.625rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .btn-back {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .btn-back:hover {
+            background: #e5e7eb;
+            color: #111827;
+        }
+
+        .btn-edit {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background: #d97706;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-delete {
+            background: #dc2626;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #b91c1c;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+        }
+
+        /* Info cards */
+        .info-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .info-card-header i {
+            font-size: 1.25rem;
+            color: #3b82f6;
+        }
+
+        .info-card-header h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #111827;
+            margin: 0;
+        }
+
+        /* Info row */
+        .info-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .info-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+
+        .info-value {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #111827;
+            padding: 0.625rem 0.875rem;
+            background: #f9fafb;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            min-height: 42px;
+            display: flex;
+            align-items: center;
+        }
+
+        .info-value.empty {
+            color: #9ca3af;
+            font-style: italic;
+        }
+
+        /* Badges */
+        .badge-custom {
+            display: inline-block;
+            padding: 0.375rem 0.75rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            white-space: nowrap;
+        }
+
+        .badge-level {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .badge-direction {
+            background: #f0fdf4;
+            color: #059669;
+        }
+
+        .badge-price {
+            background: #ecfdf5;
+            color: #059669;
+            font-size: 1.125rem;
+        }
+
+        /* Image gallery */
+        .building-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .building-image.empty {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f9fafb;
+            color: #9ca3af;
+            font-size: 3rem;
+        }
+
+        /* Link */
+        .building-link {
+            color: #3b82f6;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+
+        .building-link:hover {
+            color: #2563eb;
+            text-decoration: underline;
+        }
+
+        /* Manager list */
+        .manager-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .manager-item {
+            padding: 0.75rem 1rem;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .manager-item i {
+            color: #3b82f6;
+            font-size: 1.25rem;
+        }
+
+        .manager-name {
+            font-weight: 600;
+            color: #111827;
+        }
+
+        /* Rent areas */
+        .rent-areas {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .rent-area-tag {
+            padding: 0.375rem 0.75rem;
+            background: #eff6ff;
+            color: #2563eb;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            main.content {
+                margin-left: 0;
+                padding: 1.5rem;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .header-actions {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .btn-action-header {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .info-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER + SIDEBAR -->
+    <div th:replace="~{layout/header :: header}"></div>
+    <div th:replace="~{layout/sidebar :: sidebar}"></div>
+
+    <main class="content">
+        <div class="container-fluid">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h2>
+                    <i class="bi bi-building"></i>
+                    Chi tiết Tòa nhà
+                </h2>
+                <div class="header-actions">
+                    <a th:href="@{/admin/building/list}" class="btn-action-header btn-back">
+                        <i class="bi bi-arrow-left"></i>
+                        Quay lại danh sách
+                    </a>
+                    <a th:href="@{'/admin/building/edit/' + ${building.id}}" class="btn-action-header btn-edit">
+                        <i class="bi bi-pencil"></i>
+                        Chỉnh sửa
+                    </a>
+                    <button class="btn-action-header btn-delete" th:data-id="${building.id}">
+                        <i class="bi bi-trash"></i>
+                        Xóa
+                    </button>
+                </div>
+            </div>
+
+            <!-- Thông tin cơ bản -->
+            <div class="info-card">
+                <div class="info-card-header">
+                    <i class="bi bi-info-circle-fill"></i>
+                    <h3>Thông tin cơ bản</h3>
+                </div>
+                <div class="info-row">
+                    <div class="info-item">
+                        <span class="info-label">Mã tòa nhà</span>
+                        <div class="info-value" th:text="${building.id}"></div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Tên tòa nhà</span>
+                        <div class="info-value" th:text="${building.name}"></div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Quận</span>
+                        <div class="info-value" th:text="${building.district}"></div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Phường</span>
+                        <div class="info-value" th:classappend="${#strings.isEmpty(building.ward)} ? 'empty'"
+                            th:text="${#strings.isEmpty(building.ward)} ? 'Chưa cập nhật' : ${building.ward}">
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Đường</span>
+                        <div class="info-value" th:classappend="${#strings.isEmpty(building.street)} ? 'empty'"
+                            th:text="${#strings.isEmpty(building.street)} ? 'Chưa cập nhật' : ${building.street}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Đặc điểm tòa nhà -->
+            <div class="info-card">
+                <div class="info-card-header">
+                    <i class="bi bi-building-fill"></i>
+                    <h3>Đặc điểm tòa nhà</h3>
+                </div>
+                <div class="info-row">
+                    <div class="info-item">
+                        <span class="info-label">Số tầng</span>
+                        <div class="info-value" th:text="${building.numberOfFloor}">20</div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Số tầng hầm</span>
+                        <div class="info-value" th:text="${building.numberOfBasement}">2</div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Diện tích sàn (m²)</span>
+                        <div class="info-value" th:text="${building.floorArea}">5000</div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Hướng</span>
+                        <div class="info-value">
+                            <span class="badge-custom badge-direction" th:text="${building.direction}"></span>
+                            <span th:unless="${building.direction}" class="empty">Chưa cập nhật</span>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Hạng</span>
+                        <div class="info-value">
+                            <span class="badge-custom badge-level" th:text="${building.level}"></span>
+                            <span th:unless="${building.level}" class="empty">Chưa cập nhật</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Giá và phí -->
+            <div class="info-card">
+                <div class="info-card-header">
+                    <i class="bi bi-cash-stack"></i>
+                    <h3>Giá và phí (VNĐ)</h3>
+                </div>
+                <div class="info-row">
+                    <div class="info-item">
+                        <span class="info-label">Giá thuê</span>
+                        <div class="info-value">
+                            <span class="badge-custom badge-price" th:if="${building.rentPrice}"
+                                th:text="${#numbers.formatDecimal(building.rentPrice, 0, 'COMMA', 0, 'POINT')}">15,000,000</span>
+                            <span th:unless="${building.rentPrice}" class="empty">Chưa cập nhật</span>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Phí dịch vụ</span>
+                        <div class="info-value"
+                            th:text="${building.serviceFee != null ? #numbers.formatDecimal(building.serviceFee, 0, 'COMMA', 0, 'POINT') : 'Chưa cập nhật'}"
+                            th:classappend="${building.serviceFee == null} ? 'empty'">500,000
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Phí xe ô tô</span>
+                        <div class="info-value"
+                            th:text="${building.carFee != null ? #numbers.formatDecimal(building.carFee, 0, 'COMMA', 0, 'POINT') : 'Chưa cập nhật'}"
+                            th:classappend="${building.carFee == null} ? 'empty'">200,000
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Phí xe máy</span>
+                        <div class="info-value"
+                            th:text="${building.motorbikeFee != null ? #numbers.formatDecimal(building.motorbikeFee, 0, 'COMMA', 0, 'POINT') : 'Chưa cập nhật'}"
+                            th:classappend="${building.motorbikeFee == null} ? 'empty'">50,000
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Phí nước</span>
+                        <div class="info-value"
+                            th:text="${building.waterFee != null ? #numbers.formatDecimal(building.waterFee, 0, 'COMMA', 0, 'POINT') : 'Chưa cập nhật'}"
+                            th:classappend="${building.waterFee == null} ? 'empty'">100,000
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Phí điện</span>
+                        <div class="info-value"
+                            th:text="${building.electricityFee != null ? #numbers.formatDecimal(building.electricityFee, 0, 'COMMA', 0, 'POINT') : 'Chưa cập nhật'}"
+                            th:classappend="${building.electricityFee == null} ? 'empty'">3,500
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Đặt cọc</span>
+                        <div class="info-value"
+                            th:text="${building.deposit != null ? #numbers.formatDecimal(building.deposit, 0, 'COMMA', 0, 'POINT') : 'Chưa cập nhật'}"
+                            th:classappend="${building.deposit == null} ? 'empty'">30,000,000
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diện tích cho thuê -->
+            <div class="info-card">
+                <div class="info-card-header">
+                    <i class="bi bi-rulers"></i>
+                    <h3>Diện tích cho thuê (m²)</h3>
+                </div>
+                <div th:if="${not #strings.isEmpty(building.rentAreaValues)}">
+                    <div class="rent-areas">
+                        <span class="rent-area-tag"
+                            th:each="area : ${#strings.arraySplit(building.rentAreaValues, ',')}"
+                            th:text="${area} + ' m²'">100 m²</span>
+                    </div>
+                </div>
+                <div th:unless="${not #strings.isEmpty(building.rentAreaValues)}" class="info-value empty">
+                    Chưa cập nhật diện tích cho thuê
+                </div>
+            </div>
+
+            <!-- Nhân viên quản lý -->
+            <div class="info-card">
+                <div class="info-card-header">
+                    <i class="bi bi-people-fill"></i>
+                    <h3>Nhân viên quản lý</h3>
+                </div>
+                <div th:if="${not #lists.isEmpty(building.staffs)}">
+                    <div class="manager-list">
+                        <div class="manager-item" th:each="manager : ${building.staffs}">
+                            <i class="bi bi-person-circle"></i>
+                            <span class="manager-name" th:text="${manager}"></span>
+                        </div>
+                    </div>
+                </div>
+                <div th:unless="${not #lists.isEmpty(building.staffs)}" class="info-value empty">
+                    Chưa có nhân viên quản lý
+                </div>
+            </div>
+
+            <!-- Hình ảnh và Link -->
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <i class="bi bi-image-fill"></i>
+                            <h3>Hình ảnh</h3>
+                        </div>
+                        <div th:if="${not #strings.isEmpty(building.image)}">
+                            <img th:src="${building.image}" alt="Building Image" class="building-image">
+                        </div>
+                        <div th:unless="${not #strings.isEmpty(building.image)}" class="building-image empty">
+                            <i class="bi bi-image"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <i class="bi bi-link-45deg"></i>
+                            <h3>Link tòa nhà</h3>
+                        </div>
+                        <div th:if="${not #strings.isEmpty(building.linkOfBuilding)}">
+                            <a th:href="${building.linkOfBuilding}" target="_blank" class="building-link">
+                                <i class="bi bi-box-arrow-up-right"></i>
+                                <span th:text="${building.linkOfBuilding}">https://example.com</span>
+                            </a>
+                        </div>
+                        <div th:unless="${not #strings.isEmpty(building.linkOfBuilding)}" class="info-value empty">
+                            Chưa có link
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!--Bootstrap-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- CDN SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!--JQuery-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        // Ajax xóa tòa nhà
+        $(document).on("click", ".btn-delete", function (e) {
+            e.preventDefault();
+
+            let id = $(e.target).closest(".btn-delete").data("id");
+
+            if (!confirm("Bạn có chắc muốn xóa tòa nhà này?")) return;
+
+            $.ajax({
+                url: "/admin/building/delete/" + id,
+                type: "DELETE",
+                success: function () {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Thành công',
+                        text: 'Xóa tòa nhà thành công!',
+                        timer: 1500,       // tự động đóng sau 1.5s
+                        showConfirmButton: false
+                    }).then(() => {
+                        loadBuildings(currentPage);
+                    });
+                },
+                error: function (xhr) {
+                    const err = xhr.responseJSON;
+                    if (err && err.message) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: err.message
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: 'Xóa thất bại!'
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

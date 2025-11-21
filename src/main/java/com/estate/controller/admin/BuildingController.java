@@ -1,6 +1,7 @@
 package com.estate.controller.admin;
 
 
+import com.estate.dto.BuildingDetailDTO;
 import com.estate.dto.BuildingFilterDTO;
 import com.estate.dto.BuildingFormDTO;
 import com.estate.enums.Direction;
@@ -99,6 +100,19 @@ public class BuildingController {
         model.addAttribute("page", "building");
 
         return "admin/building-edit";
+    }
+
+    @GetMapping("/{id}")
+    public String detailBuilding(
+            @PathVariable("id") Long id,
+            Model model
+    ) {
+        BuildingDetailDTO building = buildingService.viewById(id);
+        model.addAttribute("building", building);
+
+        model.addAttribute("page", "building");
+
+        return "admin/building-detail";
     }
 
 }
