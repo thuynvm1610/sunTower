@@ -1,0 +1,53 @@
+<aside class="sidebar" th:fragment="sidebar">
+    <nav class="sidebar-nav">
+        <a href="/admin/dashboard" th:classappend="${page == 'dashboard'} ? 'active'" class="nav-link">
+            <div class="nav-icon">
+                <i class="bi bi-speedometer2"></i>
+            </div>
+            <span class="nav-text">Dashboard</span>
+            <div class="nav-indicator"></div>
+        </a>
+
+        <a href="/admin/building/list" th:classappend="${page == 'building'} ? 'active'" class="nav-link">
+            <div class="nav-icon">
+                <i class="bi bi-building"></i>
+            </div>
+            <span class="nav-text">Quản lý tòa nhà</span>
+            <div class="nav-indicator"></div>
+        </a>
+
+        <a href="/admin/customer/list" th:classappend="${page == 'customer'} ? 'active'" class="nav-link">
+            <div class="nav-icon">
+                <i class="bi bi-people"></i>
+            </div>
+            <span class="nav-text">Khách hàng</span>
+            <div class="nav-indicator"></div>
+        </a>
+
+        <a href="/admin/staff/list" th:classappend="${page == 'staff'} ? 'active'" class="nav-link">
+            <div class="nav-icon">
+                <i class="bi bi-person-badge"></i>
+            </div>
+            <span class="nav-text">Nhân viên</span>
+            <div class="nav-indicator"></div>
+        </a>
+
+        <a href="/admin/settings" th:classappend="${page == 'settings'} ? 'active'" class="nav-link">
+            <div class="nav-icon">
+                <i class="bi bi-gear"></i>
+            </div>
+            <span class="nav-text">Cài đặt</span>
+            <div class="nav-indicator"></div>
+        </a>
+
+        <div class="sidebar-divider"></div>
+
+        <a href="/logout" class="nav-link logout-link">
+            <div class="nav-icon">
+                <i class="bi bi-box-arrow-right"></i>
+            </div>
+            <span class="nav-text">Đăng xuất</span>
+            <div class="nav-indicator"></div>
+        </a>
+    </nav>
+</aside>

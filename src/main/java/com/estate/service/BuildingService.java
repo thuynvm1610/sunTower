@@ -1,0 +1,25 @@
+package com.estate.service;
+
+import java.util.List;
+import java.util.Map;
+
+import com.estate.dto.BuildingFilterDTO;
+import com.estate.dto.BuildingFormDTO;
+import com.estate.dto.BuildingListDTO;
+import com.estate.repository.entity.BuildingEntity;
+import org.springframework.data.domain.Page;
+
+public interface BuildingService {
+    long countAll();
+    List<BuildingListDTO> findRecent();
+    Map<String, Long> getBuildingCountByDistrict();
+    Page<BuildingListDTO> getBuildings(int page, int size);
+    Page<BuildingListDTO> search(BuildingFilterDTO filter, int page, int size);
+    List<String> getWardName();
+    List<String> getStreetName();
+    List<String> getDirectionName();
+    List<String> getLevelName();
+    BuildingFormDTO save(BuildingFormDTO dto);
+    BuildingFormDTO findById(Long id);
+    void delete(Long id);
+}

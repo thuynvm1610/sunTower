@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>SunTower | Quản lý Tòa nhà</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap + Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link th:href="@{/css/admin.css}" rel="stylesheet">
+
+    <style>
+        body {
+            background: #fafbfc;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            overflow-x: hidden;
+        }
+
+        main.content {
+            margin-left: 250px;
+            padding: 2.5rem 3rem;
+            margin-top: 70px;
+        }
+
+        /* Page header */
+        .page-header {
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-header h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #111827;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .page-header h2 i {
+            color: #3b82f6;
+        }
+
+        /* Modern button */
+        .btn-add {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 0.625rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .btn-add:hover {
+            background: #2563eb;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Filter card */
+        .filter-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-card .form-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        .filter-card .form-control {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 0.625rem 0.875rem;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+
+        .filter-card .form-control:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        /* Highlight khi có giá trị */
+        .filter-card .form-control.has-value {
+            background-color: #E8F0FE;
+            border-color: #3b82f6;
+            font-weight: 600;
+        }
+
+        /* Filter buttons */
+        .filter-actions {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: flex-end;
+            margin-top: 1.25rem;
+        }
+
+        .btn-filter {
+            padding: 0.625rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-filter.btn-reset {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .btn-filter.btn-reset:hover {
+            background: #e5e7eb;
+        }
+
+        .btn-filter.btn-search {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-filter.btn-search:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+        }
+
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .filter-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #111827;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-toggle-filter {
+            background: #f3f4f6;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-toggle-filter:hover {
+            background: #e5e7eb;
+        }
+
+        .btn-toggle-filter i {
+            transition: transform 0.3s ease;
+        }
+
+        .btn-toggle-filter.collapsed i {
+            transform: rotate(180deg);
+        }
+
+        .filter-body {
+            max-height: 1000px;
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            opacity: 1;
+        }
+
+        .filter-body.collapsed {
+            max-height: 0;
+            opacity: 0;
+        }
+
+        .filter-section-title {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .filter-section-title i {
+            color: #3b82f6;
+        }
+
+        .range-inputs {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .range-inputs .form-control {
+            flex: 1;
+        }
+
+        .range-separator {
+            color: #9ca3af;
+            font-weight: 500;
+        }
+
+        /* Table card */
+        .table-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .table-card .table-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            font-weight: 600;
+            color: #111827;
+            font-size: 1rem;
+            background: #fafbfc;
+        }
+
+        /* Modern table */
+        .modern-table {
+            margin: 0;
+            min-height: 480px;
+        }
+
+        .modern-table thead th {
+            background: #f9fafb;
+            border: none;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 0.875rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+            height: 60px;
+            /* Chiều cao cố định cho header */
+        }
+
+        .modern-table tbody {
+            min-height: 420px;
+            /* 5 dòng * 84px */
+            display: table-row-group;
+        }
+
+        .modern-table tbody td {
+            position: relative;
+        }
+
+        .modern-table tbody tr {
+            height: 84px;
+            min-height: 84px;
+        }
+
+        .modern-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .modern-table tbody tr {
+            transition: background 0.15s ease;
+        }
+
+        .modern-table tbody tr:hover {
+            background: #f9fafb;
+        }
+
+        /* Đảm bảo table-responsive không ảnh hưởng min-height */
+        .table-responsive {
+            min-height: 480px;
+        }
+
+        /* Table badges and cells */
+        .building-name {
+            font-weight: 600;
+            color: #111827;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.4;
+            max-height: 2.8em;
+        }
+
+        .building-id {
+            color: #6b7280;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .price-badge,
+        .level-badge {
+            display: inline-block;
+            padding: 0.375rem 0.75rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            white-space: nowrap;
+        }
+
+        .price-badge {
+            background: #ecfdf5;
+            color: #059669;
+        }
+
+        .level-badge {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        /* Action buttons */
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .btn-action {
+            width: 32px;
+            height: 32px;
+            padding: 0;
+            border-radius: 6px;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            font-size: 0.875rem;
+        }
+
+        .btn-action.btn-view {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .btn-action.btn-view:hover {
+            background: #dbeafe;
+            transform: translateY(-1px);
+        }
+
+        .btn-action.btn-edit {
+            background: #fffbeb;
+            color: #d97706;
+        }
+
+        .btn-action.btn-edit:hover {
+            background: #fef3c7;
+            transform: translateY(-1px);
+        }
+
+        .btn-action.btn-delete {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .btn-action.btn-delete:hover {
+            background: #fee2e2;
+            transform: translateY(-1px);
+        }
+
+        /* Empty state */
+        .empty-state {
+            padding: 3rem;
+            text-align: center;
+            color: #9ca3af;
+            min-height: 420px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: #d1d5db;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state p {
+            margin: 0;
+            font-size: 0.875rem;
+        }
+
+        /* Pagination */
+        .pagination-wrapper {
+            min-height: auto;
+            margin-top: 1.5rem;
+        }
+
+        .pagination {
+            gap: 0.5rem;
+        }
+
+        .pagination .page-item {
+            margin: 0;
+        }
+
+        .pagination .page-link {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 0.5rem 0.875rem;
+            color: #374151;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+
+        .pagination .page-link:hover {
+            background: #f9fafb;
+            border-color: #d1d5db;
+            color: #111827;
+        }
+
+        .pagination .page-item.active .page-link {
+            background: #3b82f6;
+            border-color: #3b82f6;
+            color: white;
+        }
+
+        .pagination .page-item.disabled .page-link {
+            background: #f9fafb;
+            border-color: #e5e7eb;
+            color: #d1d5db;
+        }
+
+        /* Placeholder row khi đang loading */
+        .loading-row td {
+            text-align: center;
+            color: #9ca3af;
+            font-style: italic;
+            height: 84px;
+        }
+
+        /* Contact info */
+        .contact-info {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            line-height: 1.5;
+        }
+
+        .contact-info i {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            main.content {
+                margin-left: 0;
+                padding: 1.5rem;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .action-buttons {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER + SIDEBAR -->
+    <div th:replace="~{layout/header :: header}"></div>
+    <div th:replace="~{layout/sidebar :: sidebar}"></div>
+
+    <main class="content">
+        <div class="container-fluid">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h2>
+                    <i class="bi bi-building"></i>
+                    Quản lý Tòa nhà
+                </h2>
+                <a th:href="@{/admin/building/add}" class="btn-add">
+                    <i class="bi bi-plus-circle"></i>
+                    Thêm tòa nhà
+                </a>
+            </div>
+
+            <!-- Filter Card -->
+            <form class="filter-card" th:action="@{/admin/building/search}" method="get">
+                <div class="filter-header">
+                    <div class="filter-title">
+                        <i class="bi bi-funnel"></i>
+                        Bộ lọc tìm kiếm
+                    </div>
+                    <button type="button" class="btn-toggle-filter" onclick="toggleFilter()">
+                        <i class="bi bi-chevron-up" id="toggleIcon"></i>
+                    </button>
+                </div>
+
+                <div class="filter-body" id="filterBody">
+                    <!-- Thông tin cơ bản -->
+                    <div class="filter-section-title">
+                        <i class="bi bi-info-circle"></i> Thông tin cơ bản
+                    </div>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-3">
+                            <label class="form-label">Tên tòa nhà</label>
+                            <input type="text" class="form-control" name="name" placeholder="VD: Sun Tower">
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Quận</label>
+                            <select class="form-control" name="districtId">
+                                <option value="">-- Chọn quận --</option>
+                                <option th:each="d : ${districts}" th:value="${d.getValue()}" th:text="${d.getKey()}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Phường</label>
+                            <select class="form-control" name="ward">
+                                <option value="">-- Chọn phường --</option>
+                                <option th:each="w : ${wards}" th:value="${w}" th:text="${w}"></option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Phố</label>
+                            <select class="form-control" name="street">
+                                <option value="">-- Chọn phố --</option>
+                                <option th:each="s : ${streets}" th:value="${s}" th:text="${s}"></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Đặc điểm tòa nhà -->
+                    <div class="filter-section-title">
+                        <i class="bi bi-building"></i> Đặc điểm tòa nhà
+                    </div>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-3">
+                            <label class="form-label">Số tầng</label>
+                            <div class="range-inputs">
+                                <input type="number" class="form-control" name="numberOfFloorFrom" placeholder="Từ"
+                                    min="0">
+                                <span class="range-separator">-</span>
+                                <input type="number" class="form-control" name="numberOfFloorTo" placeholder="Đến"
+                                    min="0">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Số tầng hầm</label>
+                            <div class="range-inputs">
+                                <input type="number" class="form-control" name="numberOfBasementFrom" placeholder="Từ"
+                                    min="0">
+                                <span class="range-separator">-</span>
+                                <input type="number" class="form-control" name="numberOfBasementTo" placeholder="Đến"
+                                    min="0">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Diện tích sàn (m²)</label>
+                            <div class="range-inputs">
+                                <input type="number" class="form-control" name="floorAreaFrom" placeholder="Từ" min="0">
+                                <span class="range-separator">-</span>
+                                <input type="number" class="form-control" name="floorAreaTo" placeholder="Đến" min="0">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Diện tích thuê (m²)</label>
+                            <div class="range-inputs">
+                                <input type="number" class="form-control" name="rentAreaFrom" placeholder="Từ" min="0">
+                                <span class="range-separator">-</span>
+                                <input type="number" class="form-control" name="rentAreaTo" placeholder="Đến" min="0">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Hướng</label>
+                            <select class="form-control" name="direction">
+                                <option value="">-- Chọn hướng --</option>
+                                <option th:each="d : ${directions}" th:value="${d.name()}" th:text="${d.label}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Hạng</label>
+                            <select class="form-control" name="level">
+                                <option value="">-- Chọn hạng --</option>
+                                <option th:each="l : ${levels}" th:value="${l.name()}" th:text="${l.label}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Nhân viên quản lý</label>
+                            <select class="form-control" name="managerName">
+                                <option value="">-- Chọn quản lý --</option>
+                                <option th:each="m : ${managers}" th:value="${m.fullName}" th:text="${m.fullName}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Giá và phí -->
+                    <div class="filter-section-title">
+                        <i class="bi bi-cash-stack"></i> Giá và phí (VNĐ)
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label">Giá thuê</label>
+                            <div class="range-inputs">
+                                <input type="number" class="form-control" name="rentPriceFrom" placeholder="Từ" min="0">
+                                <span class="range-separator">-</span>
+                                <input type="number" class="form-control" name="rentPriceTo" placeholder="Đến" min="0">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Phí dịch vụ</label>
+                            <div class="range-inputs">
+                                <input type="number" class="form-control" name="serviceFeeFrom" placeholder="Từ"
+                                    min="0">
+                                <span class="range-separator">-</span>
+                                <input type="number" class="form-control" name="serviceFeeTo" placeholder="Đến" min="0">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Phí xe ô tô</label>
+                            <div class="range-inputs">
+                                <input type="number" class="form-control" name="carFeeFrom" placeholder="Từ" min="0">
+                                <span class="range-separator">-</span>
+                                <input type="number" class="form-control" name="carFeeTo" placeholder="Đến" min="0">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Phí xe máy</label>
+                            <div class="range-inputs">
+                                <input type="number" class="form-control" name="motorbikeFeeFrom" placeholder="Từ"
+                                    min="0">
+                                <span class="range-separator">-</span>
+                                <input type="number" class="form-control" name="motorbikeFeeTo" placeholder="Đến"
+                                    min="0">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Phí nước</label>
+                            <div class="range-inputs">
+                                <input type="number" class="form-control" name="waterFeeFrom" placeholder="Từ" min="0">
+                                <span class="range-separator">-</span>
+                                <input type="number" class="form-control" name="waterFeeTo" placeholder="Đến" min="0">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Phí điện</label>
+                            <div class="range-inputs">
+                                <input type="number" class="form-control" name="electricityFeeFrom" placeholder="Từ"
+                                    min="0">
+                                <span class="range-separator">-</span>
+                                <input type="number" class="form-control" name="electricityFeeTo" placeholder="Đến"
+                                    min="0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="filter-actions">
+                        <button type="reset" class="btn-filter btn-reset">
+                            <i class="bi bi-arrow-clockwise"></i>
+                            Reset
+                        </button>
+                        <button type="submit" class="btn-filter btn-search">
+                            <i class="bi bi-search"></i>
+                            Tìm kiếm
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <!-- Table Card -->
+            <div class="table-card">
+                <div class="table-header">
+                    Danh sách tòa nhà
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table modern-table">
+                        <thead>
+                            <tr>
+                                <th>Mã</th>
+                                <th>Tên tòa</th>
+                                <th>Địa chỉ</th>
+                                <th>Hạng</th>
+                                <th>Giá thuê</th>
+                                <th>Quản lý</th>
+                                <th style="text-align: center;">Hành động</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="buildingTableBody">
+                            <!-- dữ liệu sẽ được Ajax thêm vào -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div id="pagination"></div>
+        </div>
+    </main>
+
+    <!--Bootstrap-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- CDN SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!--JQuery-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        function toggleFilter() {
+            const filterBody = document.getElementById('filterBody');
+            const toggleBtn = document.querySelector('.btn-toggle-filter');
+            const toggleIcon = document.getElementById('toggleIcon');
+
+            filterBody.classList.toggle('collapsed');
+            toggleBtn.classList.toggle('collapsed');
+
+            // Lưu trạng thái vào localStorage
+            const isCollapsed = filterBody.classList.contains('collapsed');
+            localStorage.setItem('filterCollapsed', isCollapsed);
+        }
+
+        // Khôi phục trạng thái khi tải trang
+        document.addEventListener('DOMContentLoaded', function () {
+            const filterBody = document.getElementById('filterBody');
+            const toggleBtn = document.querySelector('.btn-toggle-filter');
+            const isCollapsed = localStorage.getItem('filterCollapsed') === 'true';
+
+            if (isCollapsed) {
+                filterBody.classList.add('collapsed');
+                toggleBtn.classList.add('collapsed');
+            }
+        });
+    </script>
+
+    <script>
+        let currentPage = 1;
+        const pageSize = 5;
+        const levelLabels = {
+            A_PLUS: "A+",
+            A: "A",
+            B_PLUS: "B+",
+            B: "B",
+            C_PLUS: "C+",
+            C: "C"
+        };
+
+        // Hàm load dữ liệu bảng tòa nhà bằng Ajax
+        function loadBuildings(page, event) {
+            if (event) event.preventDefault();
+
+            $.ajax({
+                url: "/admin/building/list/page",
+                type: "GET",
+                data: { page: page, size: pageSize },
+                success: function (data) {
+                    currentPage = page;
+                    const tbody = $("#buildingTableBody");
+                    tbody.empty();
+
+                    if (data.content.length === 0) {
+                        tbody.append(`<tr><td colspan="7" class="text-center text-muted">Không có dữ liệu</td></tr>`);
+                        $("#pagination").empty();
+                        return;
+                    }
+
+                    $.each(data.content, function (i, b) {
+                        tbody.append(`
+                        <tr>
+                            <td>${b.id}</td>
+                            <td><span class="building-name">${b.name}</span></td>
+                            <td>${b.address}</td>
+                            <td><span class="level-badge">${levelLabels[b.level] || ''}</span></td>
+                            <td><span class="price-badge">${b.rentPrice || ''}</span></td>
+                            <td>${b.managerName || ''}</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="/admin/building/${b.id}" class="btn-action btn-view" title="Xem chi tiết">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <a href="/admin/building/edit/${b.id}" class="btn-action btn-edit" title="Chỉnh sửa">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a href="#" title="Xóa" class="btn-action btn-delete" data-id="${b.id}">
+                                       <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    `);
+                    });
+
+                    renderPagination(data.totalPages, page);
+                },
+                error: function () {
+                    alert("Không tải được dữ liệu!");
+                }
+            });
+        }
+
+        // Hàm render phân trang Bootstrap
+        function renderPagination(totalPages, current) {
+            const pagination = $("#pagination");
+            pagination.empty();
+
+            if (totalPages <= 1) return;
+
+            let html = `
+            <nav class="pagination-wrapper mt-3">
+                <ul class="pagination justify-content-center">
+        `;
+
+            // Nút "First"
+            html += `
+        <li class="page-item ${current === 1 ? 'disabled' : ''}">
+            <a href="#" class="page-link" onclick="loadBuildings(1, event)">First</a>
+        </li>
+        `;
+
+            // Nút "Previous"
+            html += `
+            <li class="page-item ${current === 1 ? 'disabled' : ''}">
+                <a href="#" class="page-link" onclick="loadBuildings(${current - 1}, event)">
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+            </li>
+        `;
+
+            // Các trang số
+            for (let i = 1; i <= totalPages; i++) {
+                html += `
+                <li class="page-item ${i === current ? 'active' : ''}">
+                    <a href="#" class="page-link" onclick="loadBuildings(${i}, event)">${i}</a>
+                </li>
+            `;
+            }
+
+            // Nút "Next"
+            html += `
+            <li class="page-item ${current === totalPages ? 'disabled' : ''}">
+                <a href="#" class="page-link" onclick="loadBuildings(${current + 1}, event)">
+                    <i class="bi bi-chevron-right"></i>
+                </a>
+            </li>
+        `;
+
+            // Nút "Last"
+            html += `
+            <li class="page-item ${current === totalPages ? 'disabled' : ''}">
+                <a href="#" class="page-link" onclick="loadBuildings(${totalPages}, event)">Last</a>
+            </li>
+        `;
+
+            html += `
+                </ul>
+            </nav>
+        `;
+
+            pagination.html(html);
+        }
+
+        // Khi trang load, gọi Ajax lần đầu
+        $(document).ready(function () {
+            loadBuildings(1);
+            // Hàm highlight trường có giá trị
+            function highlightFilledInputs() {
+                $('.filter-card .form-control').each(function () {
+                    const $input = $(this);
+                    if ($input.val() && $input.val().trim() !== '') {
+                        $input.addClass('has-value');
+                    } else {
+                        $input.removeClass('has-value');
+                    }
+                });
+            }
+
+            // Highlight các trường đã có giá trị khi load trang
+            highlightFilledInputs();
+
+            // Lắng nghe sự kiện input/change để highlight real-time
+            $('.filter-card .form-control').on('input change', function () {
+                const $this = $(this);
+                if ($this.val() && $this.val().trim() !== '') {
+                    $this.addClass('has-value');
+                } else {
+                    $this.removeClass('has-value');
+                }
+            });
+
+            // Reset highlight khi reset form
+            $('.btn-filter.btn-reset').on('click', function () {
+                setTimeout(function () {
+                    $('.filter-card .form-control').removeClass('has-value');
+                }, 10);
+            });
+        });
+
+        // Ajax xóa tòa nhà
+        $(document).on("click", ".btn-delete", function (e) {
+            e.preventDefault();
+
+            let id = $(this).data("id");
+
+            if (!confirm("Bạn có chắc muốn xóa tòa nhà này?")) return;
+
+            $.ajax({
+                url: "/admin/building/delete/" + id,
+                type: "DELETE",
+                success: function () {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Thành công',
+                        text: 'Xóa tòa nhà thành công!',
+                        timer: 1500,       // tự động đóng sau 1.5s
+                        showConfirmButton: false
+                    }).then(() => {
+                        loadBuildings(currentPage);
+                    });
+                },
+                error: function (xhr) {
+                    const err = xhr.responseJSON;
+                    if (err && err.message) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: err.message
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: 'Xóa thất bại!'
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

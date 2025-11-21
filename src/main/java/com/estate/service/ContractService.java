@@ -1,0 +1,16 @@
+package com.estate.service;
+
+import com.estate.dto.StaffPerformanceDTO;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
+
+public interface ContractService {
+    Long countAll();
+    List<StaffPerformanceDTO> getTopStaffs();
+    List<BigDecimal> getMonthlyRevenue(int year);
+    List<BigDecimal> getYearlyRevenue(int yearBeforeLast, int lastYear, int currentYear);
+    Map<String, Long> getContractCountByBuilding();
+    Map<Long, Long> getContractCountByYear();
+}
