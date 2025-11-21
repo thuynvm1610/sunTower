@@ -949,39 +949,50 @@
 
             let id = $(this).data("id");
 
-            if (!confirm("Bạn có chắc muốn xóa tòa nhà này?")) return;
-
-            $.ajax({
-                url: "/admin/building/delete/" + id,
-                type: "DELETE",
-                success: function () {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Thành công',
-                        text: 'Xóa tòa nhà thành công!',
-                        timer: 1500,       // tự động đóng sau 1.5s
-                        showConfirmButton: false
-                    }).then(() => {
-                        loadBuildings(currentPage);
+            Swal.fire({
+                title: 'Xác nhận xóa',
+                text: "Bạn có chắc muốn xóa tòa nhà này?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc2626',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "/admin/building/delete/" + id,
+                        type: "DELETE",
+                        success: function () {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Thành công',
+                                text: 'Xóa tòa nhà thành công!',
+                                timer: 1500,       // tự động đóng sau 1.5s
+                                showConfirmButton: false
+                            }).then(() => {
+                                loadBuildings(currentPage);
+                            });
+                        },
+                        error: function (xhr) {
+                            const err = xhr.responseJSON;
+                            if (err && err.message) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Lỗi',
+                                    text: err.message
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Lỗi',
+                                    text: 'Xóa thất bại!'
+                                });
+                            }
+                        }
                     });
-                },
-                error: function (xhr) {
-                    const err = xhr.responseJSON;
-                    if (err && err.message) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Lỗi',
-                            text: err.message
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Lỗi',
-                            text: 'Xóa thất bại!'
-                        });
-                    }
                 }
-            });
+            })
         });
     </script>
 </body>
