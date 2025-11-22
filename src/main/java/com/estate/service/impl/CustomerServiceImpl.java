@@ -1,9 +1,11 @@
 package com.estate.service.impl;
 
 import com.estate.converter.CustomerListConverter;
+import com.estate.dto.BuildingListDTO;
 import com.estate.dto.CustomerListDTO;
 import com.estate.dto.PotentialCustomersDTO;
 import com.estate.repository.CustomerRepository;
+import com.estate.repository.entity.BuildingEntity;
 import com.estate.repository.entity.CustomerEntity;
 import com.estate.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,8 +50,33 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Page<CustomerListDTO> getBuildings(int page, int size) {
+    public Page<CustomerListDTO> getCustomers(int page, int size) {
         Page<CustomerEntity> customerPage = customerRepository.findAll(PageRequest.of(page, size));
+
+        // Tạo list chứa DTO
+        List<CustomerListDTO> dtoList = new ArrayList<>();
+
+        // Duyệt qua từng CustomerEntity
+        for (CustomerEntity c : customerPage) {
+            // Convert entity sang DTO
+            CustomerListDTO dto = customerListConverter.toDto(c);
+            dtoList.add(dto);
+        }
+
+        // Tạo PageImpl giữ nguyên thông tin phân trang gốc
+        Page<CustomerListDTO> result = new PageImpl<>(
+                dtoList,
+                customerPage.getPageable(),
+                customerPage.getTotalElements()
+        );
+
+        return result;
+    }
+
+    @Override
+    public Page<CustomerListDTO> search(String fullName, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<CustomerEntity> customerPage = customerRepository.findByFullNameContainingIgnoreCase(fullName, pageable);
 
         // Tạo list chứa DTO
         List<CustomerListDTO> dtoList = new ArrayList<>();

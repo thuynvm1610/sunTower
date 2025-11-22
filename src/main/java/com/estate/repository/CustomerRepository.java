@@ -1,6 +1,7 @@
 package com.estate.repository;
 
 import com.estate.repository.entity.CustomerEntity;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,4 +14,5 @@ public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> 
             "GROUP BY c.id, c.fullName " +
             "ORDER BY COUNT(co) DESC")
     List<Object[]> countContractsByCustomer(Pageable pageable);
-}
+
+    Page<CustomerEntity> findByFullNameContainingIgnoreCase(String fullName, Pageable pageable);}

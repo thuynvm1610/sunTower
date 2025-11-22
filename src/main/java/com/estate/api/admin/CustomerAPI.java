@@ -1,5 +1,7 @@
 package com.estate.api.admin;
 
+import com.estate.dto.BuildingFilterDTO;
+import com.estate.dto.BuildingListDTO;
 import com.estate.dto.CustomerListDTO;
 import com.estate.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,16 @@ public class CustomerAPI {
     public Page<CustomerListDTO> getBuildingsPage(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "5") int size) {
+        return customerService.getCustomers(page - 1, size);
+    }
 
-        return customerService.getBuildings(page - 1, size);
+    @GetMapping("/search/page")
+    public Page<CustomerListDTO> getBuildingsSearchPage(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(required = false) String fullName
+    ) {
+        Page<CustomerListDTO> result = customerService.search(fullName, page - 1, size);
+        return result;
     }
 }
