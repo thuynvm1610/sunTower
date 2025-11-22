@@ -28,6 +28,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class BuildingServiceImpl implements BuildingService {
 
     @Autowired
@@ -175,7 +176,6 @@ public class BuildingServiceImpl implements BuildingService {
     }
 
     @Override
-    @Transactional
     public void save(BuildingFormDTO dto) {
 
         BuildingEntity entity;

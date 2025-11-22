@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>SunTower | Thêm Khách hàng</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap + Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link th:href="@{/css/admin.css}" rel="stylesheet">
+
+    <style>
+        body {
+            background: #fafbfc;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            overflow-x: hidden;
+        }
+
+        main.content {
+            margin-left: 250px;
+            padding: 2.5rem 3rem;
+            margin-top: 70px;
+        }
+
+        /* Page header */
+        .page-header {
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-header h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #111827;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .page-header h2 i {
+            color: #3b82f6;
+        }
+
+        /* Modern button */
+        .btn-back {
+            background: white;
+            color: #374151;
+            border: 1px solid #e5e7eb;
+            padding: 0.625rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .btn-back:hover {
+            background: #f9fafb;
+            color: #111827;
+            border-color: #d1d5db;
+            transform: translateY(-1px);
+        }
+
+        /* Form card */
+        .form-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .form-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #111827;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-section-title {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-section-title i {
+            color: #3b82f6;
+        }
+
+        /* Form controls */
+        .form-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        .required {
+            color: #ef4444;
+            margin-left: 0.25rem;
+        }
+
+        .form-control,
+        .form-select {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 0.625rem 0.875rem;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            outline: none;
+        }
+
+        .form-control::placeholder {
+            color: #9ca3af;
+        }
+
+        /* Highlight khi có giá trị */
+        .form-control.has-value {
+            background-color: #E8F0FE;
+            border-color: #3b82f6;
+            font-weight: 600;
+        }
+
+        /* Input groups */
+        .input-group-text {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-right: none;
+            color: #6b7280;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .input-group .form-control {
+            border-left: none;
+        }
+
+        .input-group:focus-within .input-group-text {
+            border-color: #3b82f6;
+            background: #eff6ff;
+            color: #3b82f6;
+        }
+
+        /* Helper text */
+        .form-text {
+            font-size: 0.8125rem;
+            color: #6b7280;
+            margin-top: 0.375rem;
+        }
+
+        /* Form actions */
+        .form-actions {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: flex-end;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .btn-action {
+            padding: 0.625rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .btn-action.btn-reset {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .btn-action.btn-reset:hover {
+            background: #e5e7eb;
+        }
+
+        .btn-action.btn-submit {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-action.btn-submit:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+        }
+
+        /* Info box */
+        .info-box {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .info-box i {
+            color: #3b82f6;
+            font-size: 1.125rem;
+        }
+
+        .info-box-content {
+            font-size: 0.875rem;
+            color: #1e40af;
+            line-height: 1.5;
+        }
+
+        /* Staff Selection Styles */
+        .staff-selection-container {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            background: #fafbfc;
+            max-height: 280px;
+            overflow-y: auto;
+        }
+
+        .staff-selection-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .staff-selection-container::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+
+        .staff-selection-container::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        .staff-selection-container::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .staff-item {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            transition: background-color 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+        }
+
+        .staff-item:last-child {
+            border-bottom: none;
+        }
+
+        .staff-item:hover {
+            background: #f0f9ff;
+        }
+
+        .staff-item.selected {
+            background: #eff6ff;
+        }
+
+        .staff-checkbox {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #3b82f6;
+            flex-shrink: 0;
+        }
+
+        .staff-label {
+            font-size: 0.875rem;
+            color: #374151;
+            cursor: pointer;
+            flex-grow: 1;
+            margin: 0;
+            user-select: none;
+        }
+
+        .staff-item:hover .staff-label {
+            color: #1e40af;
+        }
+
+        .staff-selection-header {
+            padding: 0.75rem 1rem;
+            background: #f9fafb;
+            border-bottom: 1px solid #e5e7eb;
+            border-radius: 8px 8px 0 0;
+            font-size: 0.8125rem;
+            color: #6b7280;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .selected-count {
+            color: #3b82f6;
+            font-weight: 700;
+        }
+
+        .empty-state {
+            padding: 2rem 1rem;
+            text-align: center;
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+
+        .empty-state i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+            opacity: 0.5;
+        }
+
+        /* Password strength indicator */
+        .password-strength {
+            height: 4px;
+            border-radius: 2px;
+            background: #e5e7eb;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+
+        .password-strength-bar {
+            height: 100%;
+            width: 0;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .password-strength-bar.weak {
+            width: 33.33%;
+            background: #ef4444;
+        }
+
+        .password-strength-bar.medium {
+            width: 66.66%;
+            background: #f59e0b;
+        }
+
+        .password-strength-bar.strong {
+            width: 100%;
+            background: #10b981;
+        }
+
+        .password-strength-text {
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+            font-weight: 600;
+        }
+
+        .password-strength-text.weak {
+            color: #ef4444;
+        }
+
+        .password-strength-text.medium {
+            color: #f59e0b;
+        }
+
+        .password-strength-text.strong {
+            color: #10b981;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            main.content {
+                margin-left: 0;
+                padding: 1.5rem;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn-action {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .staff-selection-container {
+                max-height: 240px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- HEADER + SIDEBAR -->
+<div th:replace="~{layout/header :: header}"></div>
+<div th:replace="~{layout/sidebar :: sidebar}"></div>
+
+<main class="content">
+    <div class="container-fluid">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h2>
+                <i class="bi bi-person-plus"></i>
+                Thêm khách hàng mới
+            </h2>
+            <a th:href="@{/admin/customer/list}" class="btn-back">
+                <i class="bi bi-arrow-left"></i>
+                Quay lại danh sách
+            </a>
+        </div>
+
+        <!-- Info Box -->
+        <div class="info-box">
+            <i class="bi bi-info-circle"></i>
+            <div class="info-box-content">
+                Vui lòng điền đầy đủ thông tin bắt buộc để thêm khách hàng mới vào hệ thống.
+            </div>
+        </div>
+
+        <!-- Form Card -->
+        <form class="form-card" id="customerForm">
+            <div class="form-header">
+                <div class="form-title">
+                    <i class="bi bi-people"></i>
+                    Thông tin khách hàng
+                </div>
+            </div>
+
+            <!-- Thông tin tài khoản -->
+            <div class="form-section-title">
+                <i class="bi bi-person-circle"></i> Thông tin tài khoản
+            </div>
+            <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                    <label class="form-label">
+                        Tên đăng nhập
+                        <span class="required">*</span>
+                    </label>
+                    <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-person"></i>
+                            </span>
+                        <input type="text" class="form-control" name="username"
+                               placeholder="VD: customer01" required>
+                    </div>
+                    <small class="form-text">Tên đăng nhập phải là duy nhất trong hệ thống</small>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">
+                        Mật khẩu
+                        <span class="required">*</span>
+                    </label>
+                    <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-lock"></i>
+                            </span>
+                        <input type="password" class="form-control" name="password"
+                               placeholder="Nhập mật khẩu" required id="passwordInput">
+                    </div>
+                    <div class="password-strength">
+                        <div class="password-strength-bar" id="strengthBar"></div>
+                    </div>
+                    <small class="password-strength-text" id="strengthText"></small>
+                </div>
+            </div>
+
+            <!-- Thông tin cá nhân -->
+            <div class="form-section-title">
+                <i class="bi bi-info-circle"></i> Thông tin cá nhân
+            </div>
+            <div class="row g-3 mb-4">
+                <div class="col-md-12">
+                    <label class="form-label">
+                        Họ và tên
+                        <span class="required">*</span>
+                    </label>
+                    <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-person-badge"></i>
+                            </span>
+                        <input type="text" class="form-control" name="fullName"
+                               placeholder="VD: Nguyễn Văn A" required>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">
+                        Số điện thoại
+                        <span class="required">*</span>
+                    </label>
+                    <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-telephone"></i>
+                            </span>
+                        <input type="tel" class="form-control" name="phone"
+                               placeholder="VD: 0912345678" required>
+                    </div>
+                    <small class="form-text">Nhập số điện thoại 10 chữ số</small>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">
+                        Email
+                        <span class="required">*</span>
+                    </label>
+                    <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-envelope"></i>
+                            </span>
+                        <input type="email" class="form-control" name="email"
+                               placeholder="VD: customer@example.com" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phân công nhân viên chăm sóc -->
+            <div class="form-section-title">
+                <i class="bi bi-person-badge"></i> Phân công nhân viên chăm sóc
+            </div>
+            <div class="row g-3 mb-4">
+                <div class="col-md-12">
+                    <label class="form-label">
+                        Nhân viên chăm sóc
+                        <span class="required">*</span>
+                    </label>
+                    <div class="staff-selection-container">
+                        <div class="staff-selection-header">
+                            <span>Chọn nhân viên</span>
+                            <span class="selected-count">(<span id="selectedCount">0</span> đã chọn)</span>
+                        </div>
+                        <div th:if="${staffs != null and !staffs.isEmpty()}">
+                            <div class="staff-item" th:each="s : ${staffs}">
+                                <input type="checkbox" class="staff-checkbox" name="staffIds" th:value="${s.id}"
+                                       th:id="'staff_' + ${s.id}" onchange="updateSelectedCount()">
+                                <label class="staff-label" th:for="'staff_' + ${s.id}"
+                                       th:text="${s.fullName}"></label>
+                            </div>
+                        </div>
+                        <div th:if="${staffs == null or staffs.isEmpty()}" class="empty-state">
+                            <i class="bi bi-inbox"></i>
+                            <div>Không có nhân viên nào</div>
+                        </div>
+                    </div>
+                    <small class="form-text">Chọn một hoặc nhiều nhân viên để chăm sóc khách hàng này</small>
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+                <button type="reset" class="btn-action btn-reset" onclick="resetForm()">
+                    <i class="bi bi-arrow-clockwise"></i>
+                    Reset
+                </button>
+                <button type="submit" class="btn-action btn-submit">
+                    <i class="bi bi-check-circle"></i>
+                    Lưu khách hàng
+                </button>
+            </div>
+        </form>
+    </div>
+</main>
+
+<!--Bootstrap-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- CDN SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!--JQuery-->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    // Password strength checker
+    function checkPasswordStrength(password) {
+        const strengthBar = document.getElementById('strengthBar');
+        const strengthText = document.getElementById('strengthText');
+
+        if (!password) {
+            strengthBar.className = 'password-strength-bar';
+            strengthText.textContent = '';
+            return;
+        }
+
+        let strength = 0;
+        if (password.length >= 8) strength++;
+        if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
+        if (password.match(/[0-9]/)) strength++;
+        if (password.match(/[^a-zA-Z0-9]/)) strength++;
+
+        strengthBar.className = 'password-strength-bar';
+        strengthText.className = 'password-strength-text';
+
+        if (strength <= 1) {
+            strengthBar.classList.add('weak');
+            strengthText.classList.add('weak');
+            strengthText.textContent = 'Mật khẩu yếu';
+        } else if (strength <= 2) {
+            strengthBar.classList.add('medium');
+            strengthText.classList.add('medium');
+            strengthText.textContent = 'Mật khẩu trung bình';
+        } else {
+            strengthBar.classList.add('strong');
+            strengthText.classList.add('strong');
+            strengthText.textContent = 'Mật khẩu mạnh';
+        }
+    }
+
+    document.getElementById('passwordInput').addEventListener('input', function(e) {
+        checkPasswordStrength(e.target.value);
+    });
+
+    function updateSelectedCount() {
+        const checkboxes = document.querySelectorAll('input[name="staffIds"]:checked');
+        document.getElementById('selectedCount').textContent = checkboxes.length;
+
+        // Update visual state
+        document.querySelectorAll('.staff-item').forEach(item => {
+            const checkbox = item.querySelector('.staff-checkbox');
+            if (checkbox.checked) {
+                item.classList.add('selected');
+            } else {
+                item.classList.remove('selected');
+            }
+        });
+    }
+
+    function resetForm() {
+        document.querySelectorAll('input[name="staffIds"]').forEach(cb => {
+            cb.checked = false;
+        });
+        updateSelectedCount();
+
+        // Reset password strength
+        const strengthBar = document.getElementById('strengthBar');
+        const strengthText = document.getElementById('strengthText');
+        strengthBar.className = 'password-strength-bar';
+        strengthText.textContent = '';
+    }
+
+    // Enable clicking on staff item to toggle checkbox
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.staff-item').forEach(item => {
+            item.addEventListener('click', function (e) {
+                if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'LABEL') {
+                    const checkbox = this.querySelector('.staff-checkbox');
+                    checkbox.checked = !checkbox.checked;
+                    updateSelectedCount();
+                }
+            });
+        });
+
+        updateSelectedCount();
+    });
+</script>
+
+<script>
+    $("#customerForm").on("submit", function (e) {
+        e.preventDefault();
+
+        // Lấy danh sách nhân viên chăm sóc (multiple)
+        let staffIds = $("input[name='staffIds']:checked")
+            .map(function () {
+                return Number($(this).val());
+            })
+            .get();
+
+        const data = {
+            username: $("[name='username']").val(),
+            password: $("[name='password']").val(),
+            fullName: $("[name='fullName']").val(),
+            phone: $("[name='phone']").val(),
+            email: $("[name='email']").val(),
+            staffIds: staffIds // Danh sách nhân viên chăm sóc
+        };
+
+        $.ajax({
+            url: "/admin/customer/add",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+
+            success: function () {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công',
+                    text: 'Thêm khách hàng thành công!',
+                    timer: 1500,
+                    showConfirmButton: false
+                }).then(() => {
+                    window.location.href = "/admin/customer/list";
+                });
+            },
+            error: function (xhr) {
+                const err = xhr.responseJSON;
+                if (err && err.message) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: err.message
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: 'Thêm thất bại!'
+                    });
+                }
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        // Hàm highlight trường có giá trị
+        function highlightFilledInputs() {
+            $('.form-control').each(function () {
+                const $input = $(this);
+                if ($input.val() && $input.val().trim() !== '') {
+                    $input.addClass('has-value');
+                } else {
+                    $input.removeClass('has-value');
+                }
+            });
+        }
+
+        // Highlight các trường đã có giá trị khi load trang
+        highlightFilledInputs();
+
+        // Lắng nghe sự kiện input/change để highlight real-time
+        $('.form-control').on('input change', function () {
+            const $this = $(this);
+            if ($this.val() && $this.val().trim() !== '') {
+                $this.addClass('has-value');
+            } else {
+                $this.removeClass('has-value');
+            }
+        });
+
+        // Reset highlight khi reset form
+        $('.btn-reset').on('click', function () {
+            setTimeout(function () {
+                $('.form-control').removeClass('has-value');
+            }, 10);
+        });
+    });
+</script>
+</body>
+
+</html>

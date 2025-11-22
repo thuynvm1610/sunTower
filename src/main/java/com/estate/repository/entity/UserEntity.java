@@ -64,6 +64,4 @@ public class UserEntity {
 
     @ManyToMany(mappedBy = "staffs_customers")
     private List<CustomerEntity> customers;
-
-
 }

@@ -15,4 +15,11 @@ public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> 
             "ORDER BY COUNT(co) DESC")
     List<Object[]> countContractsByCustomer(Pageable pageable);
 
-    Page<CustomerEntity> findByFullNameContainingIgnoreCase(String fullName, Pageable pageable);}
+    Page<CustomerEntity> findByFullNameContainingIgnoreCase(String fullName, Pageable pageable);
+
+    boolean existsByUsername(String username);
+
+    boolean existsByEmail(String email);
+
+    boolean existsByPhone(String phone);
+}

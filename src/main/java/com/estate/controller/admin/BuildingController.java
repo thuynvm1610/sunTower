@@ -66,9 +66,7 @@ public class BuildingController {
 
     @GetMapping("/add")
     public String addBuildingForm(Model model) {
-        model.addAttribute("building", new BuildingFormDTO());
-
-        model.addAttribute("managers", userService.getStaffName());
+        model.addAttribute("staffs", userService.getStaffName());
 
         model.addAttribute("districts", districtService.findAll());
 

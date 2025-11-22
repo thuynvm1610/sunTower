@@ -1,12 +1,15 @@
 package com.estate.service.impl;
 
+import com.estate.converter.CustomerFormConverter;
 import com.estate.converter.CustomerListConverter;
-import com.estate.dto.BuildingListDTO;
+import com.estate.dto.CustomerFormDTO;
 import com.estate.dto.CustomerListDTO;
 import com.estate.dto.PotentialCustomersDTO;
+import com.estate.exception.BusinessException;
 import com.estate.repository.CustomerRepository;
-import com.estate.repository.entity.BuildingEntity;
+import com.estate.repository.UserRepository;
 import com.estate.repository.entity.CustomerEntity;
+import com.estate.repository.entity.UserEntity;
 import com.estate.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,18 +17,26 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
     @Autowired
     private CustomerListConverter customerListConverter;
+
+    @Autowired
+    private CustomerFormConverter customerFormConverter;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public long countAll() {
@@ -96,5 +107,38 @@ public class CustomerServiceImpl implements CustomerService {
         );
 
         return result;
+    }
+
+    @Override
+    public void save(CustomerFormDTO dto) {
+        CustomerEntity entity;
+
+        if (customerRepository.existsByUsername(dto.getUsername())) {
+            throw new BusinessException("Username đã tồn tại");
+        }
+
+        if (customerRepository.existsByEmail(dto.getEmail())) {
+            throw new BusinessException("Email đã tồn tại");
+        }
+
+        if (customerRepository.existsByPhone(dto.getPhone())) {
+            throw new BusinessException("Số điện thoại đã tồn tại");
+        }
+
+        if (dto.getId() != null) {
+            // Update
+            entity = customerRepository.findById(dto.getId())
+                    .orElseThrow(() -> new BusinessException("Không tìm thấy khách hàng để sửa"));
+        } else {
+            // Thêm mới
+            entity = customerFormConverter.toEntity(dto);
+        }
+
+        // Lưu danh sách nhân viên quản lý
+        List<UserEntity> staffs = userRepository.findAllById(dto.getStaffIds());
+        entity.setStaffs_customers(staffs);
+
+        // Lưu khách hàng
+        CustomerEntity saved = customerRepository.save(entity);
     }
 }
