@@ -5,7 +5,7 @@ import com.estate.dto.StaffPerformanceDTO;
 import com.estate.service.BuildingService;
 import com.estate.service.ContractService;
 import com.estate.service.CustomerService;
-import com.estate.service.UserService;
+import com.estate.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +27,7 @@ public class DashboardController {
     private CustomerService customerService;
 
     @Autowired
-    private UserService userService;
+    private StaffService staffService;
 
     @Autowired
     private ContractService contractService;
@@ -37,7 +37,7 @@ public class DashboardController {
         model.addAttribute("pageTitle", "Trang quản trị hệ thống SunTower");
         model.addAttribute("totalBuildings", buildingService.countAll());
         model.addAttribute("totalCustomers", customerService.countAll());
-        model.addAttribute("totalStaffs", userService.countAllStaffs());
+        model.addAttribute("totalStaffs", staffService.countAllStaffs());
         model.addAttribute("totalContracts", contractService.countAll());
 
         model.addAttribute("recentBuildings", buildingService.findRecent());

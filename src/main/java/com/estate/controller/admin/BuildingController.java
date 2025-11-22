@@ -8,7 +8,7 @@ import com.estate.enums.Direction;
 import com.estate.enums.Level;
 import com.estate.service.BuildingService;
 import com.estate.service.DistrictService;
-import com.estate.service.UserService;
+import com.estate.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,14 +23,14 @@ public class BuildingController {
     private BuildingService buildingService;
 
     @Autowired
-    private UserService userService;
+    private StaffService staffService;
 
     @Autowired
     private DistrictService districtService;
 
     @GetMapping("/list")
     public String listBuildings(Model model) {
-        model.addAttribute("managers", userService.getStaffName());
+        model.addAttribute("managers", staffService.getStaffName());
         model.addAttribute("wards", buildingService.getWardName());
         model.addAttribute("streets", buildingService.getStreetName());
 //        model.addAttribute("directions", buildingService.getDirectionName());
@@ -49,7 +49,7 @@ public class BuildingController {
     ) {
         model.addAttribute("filter", filter);
 
-        model.addAttribute("managers", userService.getStaffName());
+        model.addAttribute("managers", staffService.getStaffName());
         model.addAttribute("wards", buildingService.getWardName());
         model.addAttribute("streets", buildingService.getStreetName());
 //        model.addAttribute("directions", buildingService.getDirectionName());
@@ -63,7 +63,7 @@ public class BuildingController {
 
     @GetMapping("/add")
     public String addBuildingForm(Model model) {
-        model.addAttribute("staffs", userService.getStaffName());
+        model.addAttribute("staffs", staffService.getStaffName());
 
         model.addAttribute("districts", districtService.findAll());
 
@@ -84,7 +84,7 @@ public class BuildingController {
         BuildingFormDTO building = buildingService.findById(id);
         model.addAttribute("building", building);
 
-        model.addAttribute("managers", userService.getStaffName());
+        model.addAttribute("managers", staffService.getStaffName());
 
         model.addAttribute("districts", districtService.findAll());
 

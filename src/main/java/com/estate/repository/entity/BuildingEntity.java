@@ -108,5 +108,5 @@ public class BuildingEntity {
             joinColumns = @JoinColumn(name = "building_id"),
             inverseJoinColumns = @JoinColumn(name = "staff_id")
     )
-    private List<UserEntity> staffs_buildings = new ArrayList<>();
+    private List<StaffEntity> staffs_buildings = new ArrayList<>();
 }

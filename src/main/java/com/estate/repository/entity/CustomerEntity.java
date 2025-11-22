@@ -61,7 +61,7 @@ public class CustomerEntity {
             joinColumns = @JoinColumn(name = "customer_id"),
             inverseJoinColumns = @JoinColumn(name = "staff_id")
     )
-    private List<UserEntity> staffs_customers;
+    private List<StaffEntity> staffs_customers;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<ContractEntity> contracts;

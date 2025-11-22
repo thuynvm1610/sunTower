@@ -14,7 +14,7 @@ import com.estate.repository.*;
 import com.estate.repository.entity.BuildingEntity;
 import com.estate.repository.entity.DistrictEntity;
 import com.estate.repository.entity.RentAreaEntity;
-import com.estate.repository.entity.UserEntity;
+import com.estate.repository.entity.StaffEntity;
 import com.estate.service.BuildingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -44,7 +44,7 @@ public class BuildingServiceImpl implements BuildingService {
     private BuildingListConverter buildingListConverter;
 
     @Autowired
-    private UserRepository userRepository;
+    private StaffRepository staffRepository;
 
     @Autowired
     private ContractRepository contractRepository;
@@ -67,7 +67,7 @@ public class BuildingServiceImpl implements BuildingService {
 
         for (BuildingEntity b : buildingEntities) {
             // Lấy danh sách tên nhân viên quản lý
-            List<String> staffNames = userRepository.findStaffNamesByBuildingId(b.getId());
+            List<String> staffNames = staffRepository.findStaffNamesByBuildingId(b.getId());
             String staffNamesStr = String.join(" - ", staffNames);
 
             // Map sang DTO
@@ -100,7 +100,7 @@ public class BuildingServiceImpl implements BuildingService {
 
         // Duyệt qua từng BuildingEntity
         for (BuildingEntity b : buildingPage) {
-            List<String> managersName = userRepository.findStaffNamesByBuildingId(b.getId());
+            List<String> managersName = staffRepository.findStaffNamesByBuildingId(b.getId());
             String managerNameStr = String.join(" - ", managersName);
 
             // Convert entity sang DTO, có thêm managerName
@@ -129,7 +129,7 @@ public class BuildingServiceImpl implements BuildingService {
 
         // Duyệt qua từng BuildingEntity
         for (BuildingEntity b : buildingPage) {
-            List<String> managersName = userRepository.findStaffNamesByBuildingId(b.getId());
+            List<String> managersName = staffRepository.findStaffNamesByBuildingId(b.getId());
             String managerNameStr = String.join(" - ", managersName);
 
             // Convert entity sang DTO, có thêm managerName
@@ -221,7 +221,7 @@ public class BuildingServiceImpl implements BuildingService {
         entity.setDistrict(district);
 
         // Lưu danh sách nhân viên quản lý
-        List<UserEntity> staffs = userRepository.findAllById(dto.getStaffIds());
+        List<StaffEntity> staffs = staffRepository.findAllById(dto.getStaffIds());
         entity.setStaffs_buildings(staffs);
 
         // Lưu tòa nhà

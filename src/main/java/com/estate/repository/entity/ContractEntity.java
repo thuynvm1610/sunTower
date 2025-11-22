@@ -61,5 +61,5 @@ public class ContractEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "staff_id")
-    private UserEntity staff;
+    private StaffEntity staff;
 }

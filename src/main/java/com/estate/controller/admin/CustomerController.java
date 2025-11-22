@@ -1,9 +1,8 @@
 package com.estate.controller.admin;
 
-import com.estate.dto.BuildingDetailDTO;
 import com.estate.dto.CustomerDetailDTO;
 import com.estate.service.CustomerService;
-import com.estate.service.UserService;
+import com.estate.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/admin/customer")
 public class CustomerController {
     @Autowired
-    private UserService userService;
+    private StaffService staffService;
 
     @Autowired
     private CustomerService customerService;
@@ -39,7 +38,7 @@ public class CustomerController {
 
     @GetMapping("/add")
     public String addCustomerForm(Model model) {
-        model.addAttribute("staffs", userService.getStaffName());
+        model.addAttribute("staffs", staffService.getStaffName());
 
         model.addAttribute("page", "customer");
 

@@ -7,10 +7,9 @@ import com.estate.dto.*;
 import com.estate.exception.BusinessException;
 import com.estate.repository.ContractRepository;
 import com.estate.repository.CustomerRepository;
-import com.estate.repository.UserRepository;
-import com.estate.repository.entity.BuildingEntity;
+import com.estate.repository.StaffRepository;
 import com.estate.repository.entity.CustomerEntity;
-import com.estate.repository.entity.UserEntity;
+import com.estate.repository.entity.StaffEntity;
 import com.estate.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,7 +36,7 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerFormConverter customerFormConverter;
 
     @Autowired
-    private UserRepository userRepository;
+    private StaffRepository staffRepository;
 
     @Autowired
     private ContractRepository contractRepository;
@@ -142,7 +141,7 @@ public class CustomerServiceImpl implements CustomerService {
         }
 
         // Lưu danh sách nhân viên quản lý
-        List<UserEntity> staffs = userRepository.findAllById(dto.getStaffIds());
+        List<StaffEntity> staffs = staffRepository.findAllById(dto.getStaffIds());
         entity.setStaffs_customers(staffs);
 
         // Lưu khách hàng
