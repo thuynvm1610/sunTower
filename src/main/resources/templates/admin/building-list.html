@@ -971,7 +971,7 @@
                                 timer: 1500,       // tự động đóng sau 1.5s
                                 showConfirmButton: false
                             }).then(() => {
-                                loadBuildings(currentPage);
+                                window.location.href = "/admin/building/list";
                             });
                         },
                         error: function (xhr) {
