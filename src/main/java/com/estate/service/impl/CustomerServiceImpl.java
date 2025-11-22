@@ -1,14 +1,14 @@
 package com.estate.service.impl;
 
+import com.estate.converter.CustomerDetailConverter;
 import com.estate.converter.CustomerFormConverter;
 import com.estate.converter.CustomerListConverter;
-import com.estate.dto.CustomerFormDTO;
-import com.estate.dto.CustomerListDTO;
-import com.estate.dto.PotentialCustomersDTO;
+import com.estate.dto.*;
 import com.estate.exception.BusinessException;
 import com.estate.repository.ContractRepository;
 import com.estate.repository.CustomerRepository;
 import com.estate.repository.UserRepository;
+import com.estate.repository.entity.BuildingEntity;
 import com.estate.repository.entity.CustomerEntity;
 import com.estate.repository.entity.UserEntity;
 import com.estate.service.CustomerService;
@@ -41,6 +41,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     private ContractRepository contractRepository;
+
+    @Autowired
+    private CustomerDetailConverter customerDetailConverter;
 
     @Override
     public long countAll() {
@@ -156,5 +159,13 @@ public class CustomerServiceImpl implements CustomerService {
             throw new BusinessException("Không thể xóa! Khách hàng đang có hợp đồng liên quan.");
         }
         customerRepository.deleteById(id);
+    }
+
+    @Override
+    public CustomerDetailDTO viewById(Long id) {
+        CustomerEntity customerEntity = customerRepository.findById(id)
+                .orElseThrow(() -> new BusinessException("Không tìm thấy khách hàng"));
+        CustomerDetailDTO customerDetailDTO = customerDetailConverter.toDTO(customerEntity);
+        return customerDetailDTO;
     }
 }

@@ -1,8 +1,6 @@
 package com.estate.service;
 
-import com.estate.dto.CustomerFormDTO;
-import com.estate.dto.CustomerListDTO;
-import com.estate.dto.PotentialCustomersDTO;
+import com.estate.dto.*;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -14,4 +12,5 @@ public interface CustomerService {
     Page<CustomerListDTO> search(String fullName, int page, int size);
     void save(CustomerFormDTO dto);
     void delete(Long id);
+    CustomerDetailDTO viewById(Long id);
 }
