@@ -565,12 +565,12 @@
                                 <span>Chọn nhân viên</span>
                                 <span class="selected-count">(<span id="selectedCount">0</span> đã chọn)</span>
                             </div>
-                            <div th:if="${managers != null and !managers.isEmpty()}">
-                                <div class="staff-item" th:each="m : ${managers}">
-                                    <input type="checkbox" class="staff-checkbox" name="staffIds" th:value="${m.id}"
-                                        th:id="'staff_' + ${m.id}" onchange="updateSelectedCount()">
-                                    <label class="staff-label" th:for="'staff_' + ${m.id}"
-                                        th:text="${m.fullName}"></label>
+                            <div th:if="${staffs != null and !staffs.isEmpty()}">
+                                <div class="staff-item" th:each="s : ${staffs}">
+                                    <input type="checkbox" class="staff-checkbox" name="staffIds" th:value="${s.id}"
+                                        th:id="'staff_' + ${s.id}" onchange="updateSelectedCount()">
+                                    <label class="staff-label" th:for="'staff_' + ${s.id}"
+                                        th:text="${s.fullName}"></label>
                                 </div>
                             </div>
                             <div th:if="${managers == null or managers.isEmpty()}" class="empty-state">
