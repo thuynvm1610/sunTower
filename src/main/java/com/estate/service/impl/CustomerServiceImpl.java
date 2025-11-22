@@ -6,6 +6,7 @@ import com.estate.dto.CustomerFormDTO;
 import com.estate.dto.CustomerListDTO;
 import com.estate.dto.PotentialCustomersDTO;
 import com.estate.exception.BusinessException;
+import com.estate.repository.ContractRepository;
 import com.estate.repository.CustomerRepository;
 import com.estate.repository.UserRepository;
 import com.estate.repository.entity.CustomerEntity;
@@ -37,6 +38,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ContractRepository contractRepository;
 
     @Override
     public long countAll() {
@@ -140,5 +144,17 @@ public class CustomerServiceImpl implements CustomerService {
 
         // Lưu khách hàng
         CustomerEntity saved = customerRepository.save(entity);
+    }
+
+    @Override
+    public void delete(Long id) {
+        if (!customerRepository.existsById(id)) {
+            throw new BusinessException("Không tìm thấy khách hàng để xóa");
+        }
+        long count = contractRepository.countByCustomerId(id);
+        if (count > 0) {
+            throw new BusinessException("Không thể xóa! Khách hàng đang có hợp đồng liên quan.");
+        }
+        customerRepository.deleteById(id);
     }
 }

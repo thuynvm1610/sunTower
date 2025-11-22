@@ -663,7 +663,7 @@
                             timer: 1500,
                             showConfirmButton: false
                         }).then(() => {
-                            loadCustomers(currentPage);
+                            window.location.href = "/admin/customer/list";
                         });
                     },
                     error: function (xhr) {

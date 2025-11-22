@@ -1,14 +1,13 @@
 package com.estate.service;
 
-import java.util.List;
-import java.util.Map;
-
 import com.estate.dto.BuildingDetailDTO;
 import com.estate.dto.BuildingFilterDTO;
 import com.estate.dto.BuildingFormDTO;
 import com.estate.dto.BuildingListDTO;
-import com.estate.repository.entity.BuildingEntity;
 import org.springframework.data.domain.Page;
+
+import java.util.List;
+import java.util.Map;
 
 public interface BuildingService {
     long countAll();

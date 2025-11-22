@@ -1,8 +1,6 @@
 package com.estate.converter;
 
-import com.estate.dto.BuildingListDTO;
 import com.estate.dto.CustomerListDTO;
-import com.estate.repository.entity.BuildingEntity;
 import com.estate.repository.entity.CustomerEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

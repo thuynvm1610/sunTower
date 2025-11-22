@@ -1,9 +1,9 @@
 package com.estate.repository;
 
 import com.estate.repository.custom.BuildingRepositoryCustom;
+import com.estate.repository.entity.BuildingEntity;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.estate.repository.entity.BuildingEntity;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;

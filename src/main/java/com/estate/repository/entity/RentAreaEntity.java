@@ -1,6 +1,5 @@
 package com.estate.repository.entity;
 
-import com.estate.repository.entity.BuildingEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

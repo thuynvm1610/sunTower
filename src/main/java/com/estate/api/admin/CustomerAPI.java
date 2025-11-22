@@ -52,4 +52,10 @@ public class CustomerAPI {
         customerService.save(dto);
         return ResponseEntity.ok("Thêm khách hàng thành công");
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteCustomer(@PathVariable Long id) {
+        customerService.delete(id);
+        return ResponseEntity.ok().build();
+    }
 }

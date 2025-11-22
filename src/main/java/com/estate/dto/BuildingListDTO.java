@@ -1,6 +1,5 @@
 package com.estate.dto;
 
-import com.estate.enums.Level;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

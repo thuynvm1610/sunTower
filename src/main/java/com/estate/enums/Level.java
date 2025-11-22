@@ -1,7 +1,6 @@
 package com.estate.enums;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 public enum Level {

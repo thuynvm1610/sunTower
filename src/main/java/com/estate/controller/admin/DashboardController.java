@@ -2,15 +2,14 @@ package com.estate.controller.admin;
 
 import com.estate.dto.PotentialCustomersDTO;
 import com.estate.dto.StaffPerformanceDTO;
+import com.estate.service.BuildingService;
 import com.estate.service.ContractService;
+import com.estate.service.CustomerService;
 import com.estate.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import com.estate.service.BuildingService;
-import com.estate.service.CustomerService;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.math.BigDecimal;
