@@ -1,9 +1,6 @@
 package com.estate.service;
 
-import com.estate.dto.CustomerFormDTO;
-import com.estate.dto.CustomerListDTO;
-import com.estate.dto.StaffFormDTO;
-import com.estate.dto.StaffListDTO;
+import com.estate.dto.*;
 import com.estate.repository.entity.StaffEntity;
 import org.springframework.data.domain.Page;
 
@@ -17,5 +14,5 @@ public interface StaffService {
     Page<StaffListDTO> search(Map<String, String> filter, int page, int size);
     void save(StaffFormDTO dto);
     void delete(Long id);
-
+    StaffDetailDTO viewById(Long id);
 }

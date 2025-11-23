@@ -1,10 +1,9 @@
 package com.estate.service.impl;
 
+import com.estate.converter.StaffDetailConverter;
 import com.estate.converter.StaffFormConverter;
 import com.estate.converter.StaffListConverter;
-import com.estate.dto.CustomerListDTO;
-import com.estate.dto.StaffFormDTO;
-import com.estate.dto.StaffListDTO;
+import com.estate.dto.*;
 import com.estate.exception.BusinessException;
 import com.estate.repository.StaffRepository;
 import com.estate.repository.entity.CustomerEntity;
@@ -31,6 +30,9 @@ public class StaffServiceImpl implements StaffService {
 
     @Autowired
     private StaffFormConverter staffFormConverter;
+
+    @Autowired
+    private StaffDetailConverter staffDetailConverter;
 
     @Override
     public Long countAllStaffs() {
@@ -147,5 +149,13 @@ public class StaffServiceImpl implements StaffService {
             throw new BusinessException("Không thể xóa! Nhân viên này đang chịu trách nhiệm chăm sóc khách hàng.");
         }
         staffRepository.deleteById(id);
+    }
+
+    @Override
+    public StaffDetailDTO viewById(Long id) {
+        StaffEntity staffEntity = staffRepository.findById(id)
+                .orElseThrow(() -> new BusinessException("Không tìm thấy nhân viên"));
+        StaffDetailDTO staffDetailDTO = staffDetailConverter.toDTO(staffEntity);
+        return staffDetailDTO;
     }
 }
