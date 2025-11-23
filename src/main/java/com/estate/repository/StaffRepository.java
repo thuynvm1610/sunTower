@@ -35,4 +35,10 @@ public interface StaffRepository extends JpaRepository<StaffEntity, Long> {
 
     boolean existsByPhone(String phone);
 
+    @Query("select count(b) from StaffEntity s join s.buildings b where s.id = :staffId")
+    Long countBuildingsByStaffId(@Param("staffId") Long staffId);
+
+    @Query("select count(c) from StaffEntity s join s.customers c where s.id = :customerId")
+    Long countCustomersByStaffId(@Param("customerId") Long customerId);
+
 }

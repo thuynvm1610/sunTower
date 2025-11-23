@@ -132,4 +132,20 @@ public class StaffServiceImpl implements StaffService {
         // Lưu nhân viên
         StaffEntity saved = staffRepository.save(entity);
     }
+
+    @Override
+    public void delete(Long id) {
+        if (!staffRepository.existsById(id)) {
+            throw new BusinessException("Không tìm thấy nhân viên để xóa");
+        }
+        long buildingCnt = staffRepository.countBuildingsByStaffId(id);
+        if (buildingCnt > 0) {
+            throw new BusinessException("Không thể xóa! Nhân viên này đang chịu trách nhiệm quản lý tòa nhà.");
+        }
+        long customerCnt = staffRepository.countCustomersByStaffId(id);
+        if (customerCnt > 0) {
+            throw new BusinessException("Không thể xóa! Nhân viên này đang chịu trách nhiệm chăm sóc khách hàng.");
+        }
+        staffRepository.deleteById(id);
+    }
 }

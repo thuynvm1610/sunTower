@@ -16,4 +16,6 @@ public interface StaffService {
     Page<StaffListDTO> getStaffs(int page, int size, String role);
     Page<StaffListDTO> search(Map<String, String> filter, int page, int size);
     void save(StaffFormDTO dto);
+    void delete(Long id);
+
 }

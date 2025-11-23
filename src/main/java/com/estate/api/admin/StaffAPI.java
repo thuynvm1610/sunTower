@@ -57,4 +57,10 @@ public class StaffAPI {
         staffService.save(dto);
         return ResponseEntity.ok("Thêm nhân viên thành công");
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteStaff(@PathVariable Long id) {
+        staffService.delete(id);
+        return ResponseEntity.ok().build();
+    }
 }
