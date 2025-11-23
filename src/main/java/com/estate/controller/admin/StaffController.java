@@ -26,4 +26,12 @@ public class StaffController {
         model.addAttribute("page", "customer");
         return "admin/staff-search";
     }
+
+    @GetMapping("/add")
+    public String addStaffForm(Model model) {
+
+        model.addAttribute("page", "staff");
+
+        return "admin/staff-add";
+    }
 }

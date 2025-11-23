@@ -1,8 +1,11 @@
 package com.estate.service.impl;
 
+import com.estate.converter.StaffFormConverter;
 import com.estate.converter.StaffListConverter;
 import com.estate.dto.CustomerListDTO;
+import com.estate.dto.StaffFormDTO;
 import com.estate.dto.StaffListDTO;
+import com.estate.exception.BusinessException;
 import com.estate.repository.StaffRepository;
 import com.estate.repository.entity.CustomerEntity;
 import com.estate.repository.entity.StaffEntity;
@@ -25,6 +28,9 @@ public class StaffServiceImpl implements StaffService {
 
     @Autowired
     private StaffListConverter staffListConverter;
+
+    @Autowired
+    private StaffFormConverter staffFormConverter;
 
     @Override
     public Long countAllStaffs() {
@@ -96,5 +102,34 @@ public class StaffServiceImpl implements StaffService {
         );
 
         return result;
+    }
+
+    @Override
+    public void save(StaffFormDTO dto) {
+        StaffEntity entity;
+
+        if (staffRepository.existsByUsername(dto.getUsername())) {
+            throw new BusinessException("Username đã tồn tại");
+        }
+
+        if (staffRepository.existsByEmail(dto.getEmail())) {
+            throw new BusinessException("Email đã tồn tại");
+        }
+
+        if (staffRepository.existsByPhone(dto.getPhone())) {
+            throw new BusinessException("Số điện thoại đã tồn tại");
+        }
+
+        if (dto.getId() != null) {
+            // Update
+            entity = staffRepository.findById(dto.getId())
+                    .orElseThrow(() -> new BusinessException("Không tìm thấy nhân viên để sửa"));
+        } else {
+            // Thêm mới
+            entity = staffFormConverter.toEntity(dto);
+        }
+
+        // Lưu nhân viên
+        StaffEntity saved = staffRepository.save(entity);
     }
 }

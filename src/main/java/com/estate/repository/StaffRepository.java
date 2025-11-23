@@ -29,4 +29,10 @@ public interface StaffRepository extends JpaRepository<StaffEntity, Long> {
             Pageable pageable
     );
 
+    boolean existsByUsername(String username);
+
+    boolean existsByEmail(String email);
+
+    boolean existsByPhone(String phone);
+
 }

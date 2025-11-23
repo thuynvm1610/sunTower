@@ -37,7 +37,7 @@ public class StaffEntity {
     private String email;
 
     @Column
-    private String role; // ADMIN, STAFF, CUSTOMER
+    private String role; // ADMIN, STAFF
 
     @Column(name = "created_date")
     @Temporal(TemporalType.TIMESTAMP)
