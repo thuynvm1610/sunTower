@@ -16,6 +16,17 @@
             <div class="nav-indicator"></div>
         </a>
 
+        <a href="/admin/contract/list" th:classappend="${page == 'contract'} ? 'active'" class="nav-link">
+            <div class="nav-icon">
+                <i class="bi bi-file-earmark-text"></i>
+            </div>
+            <span class="nav-text">Quản lý hợp đồng</span>
+            <div class="nav-indicator"></div>
+            <span class="nav-badge" th:if="${newContractsCount != null and newContractsCount > 0}">
+                <span th:text="${newContractsCount}">3</span>
+            </span>
+        </a>
+
         <a href="/admin/customer/list" th:classappend="${page == 'customer'} ? 'active'" class="nav-link">
             <div class="nav-icon">
                 <i class="bi bi-people"></i>
@@ -30,6 +41,32 @@
             </div>
             <span class="nav-text">Nhân viên</span>
             <div class="nav-indicator"></div>
+        </a>
+
+        <div class="sidebar-divider"></div>
+
+        <!-- Phần quản lý bổ sung -->
+        <div class="nav-section-title">
+            <span>Tiện ích</span>
+        </div>
+
+        <a href="/admin/reports" th:classappend="${page == 'reports'} ? 'active'" class="nav-link">
+            <div class="nav-icon">
+                <i class="bi bi-bar-chart-line"></i>
+            </div>
+            <span class="nav-text">Báo cáo</span>
+            <div class="nav-indicator"></div>
+        </a>
+
+        <a href="/admin/notifications" th:classappend="${page == 'notifications'} ? 'active'" class="nav-link">
+            <div class="nav-icon">
+                <i class="bi bi-bell"></i>
+            </div>
+            <span class="nav-text">Thông báo</span>
+            <div class="nav-indicator"></div>
+            <span class="nav-badge badge-notification" th:if="${unreadNotifications != null and unreadNotifications > 0}">
+                <span th:text="${unreadNotifications}">5</span>
+            </span>
         </a>
 
         <a href="/admin/settings" th:classappend="${page == 'settings'} ? 'active'" class="nav-link">
@@ -50,4 +87,12 @@
             <div class="nav-indicator"></div>
         </a>
     </nav>
+
+    <!-- Sidebar Footer - Thông tin phiên bản -->
+    <div class="sidebar-footer">
+        <div class="version-info">
+            <i class="bi bi-info-circle"></i>
+            <span>SunTower v2.5.1</span>
+        </div>
+    </div>
 </aside>
