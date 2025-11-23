@@ -21,4 +21,12 @@ public interface StaffRepository extends JpaRepository<StaffEntity, Long> {
 
     Page<StaffEntity> findByRole(Pageable pageable, String role);
 
+    Page<StaffEntity> findByFullNameContainingIgnoreCase(String fullName, Pageable pageable);
+
+    Page<StaffEntity> findByFullNameContainingIgnoreCaseAndRole(
+            String fullName,
+            String role,
+            Pageable pageable
+    );
+
 }

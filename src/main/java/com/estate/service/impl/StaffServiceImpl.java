@@ -11,10 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class StaffServiceImpl implements StaffService {
@@ -37,6 +39,44 @@ public class StaffServiceImpl implements StaffService {
     @Override
     public Page<StaffListDTO> getStaffs(int page, int size, String role) {
         Page<StaffEntity> staffPage = staffRepository.findByRole(PageRequest.of(page, size), role);
+
+        // Tạo list chứa DTO
+        List<StaffListDTO> dtoList = new ArrayList<>();
+
+        // Duyệt qua từng StaffEntity
+        for (StaffEntity s : staffPage) {
+            // Convert entity sang DTO
+            StaffListDTO dto = staffListConverter.toDto(s);
+            dtoList.add(dto);
+        }
+
+        // Tạo PageImpl giữ nguyên thông tin phân trang gốc
+        Page<StaffListDTO> result = new PageImpl<>(
+                dtoList,
+                staffPage.getPageable(),
+                staffPage.getTotalElements()
+        );
+
+        return result;
+    }
+
+    @Override
+    public Page<StaffListDTO> search(Map<String, String> filter, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<StaffEntity> staffPage;
+
+        String fullName = filter.get("fullName");
+        String role = filter.get("role");
+
+        if (role == null || role.isEmpty()) {
+            staffPage = staffRepository.findByFullNameContainingIgnoreCase(fullName, pageable);
+        }
+        else if (fullName == null || fullName.isEmpty()) {
+            staffPage = staffRepository.findByRole(pageable, role);
+        } else {
+            staffPage = staffRepository.findByFullNameContainingIgnoreCaseAndRole(fullName, role, pageable);
+        }
 
         // Tạo list chứa DTO
         List<StaffListDTO> dtoList = new ArrayList<>();
