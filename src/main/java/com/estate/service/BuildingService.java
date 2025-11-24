@@ -23,4 +23,5 @@ public interface BuildingService {
     BuildingFormDTO findById(Long id);
     void delete(Long id);
     BuildingDetailDTO viewById(Long id);
+    Map<String, Long> getBuildingsName();
 }

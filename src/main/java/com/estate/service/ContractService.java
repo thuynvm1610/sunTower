@@ -1,6 +1,9 @@
 package com.estate.service;
 
+import com.estate.dto.ContractListDTO;
+import com.estate.dto.CustomerListDTO;
 import com.estate.dto.StaffPerformanceDTO;
+import org.springframework.data.domain.Page;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -13,4 +16,5 @@ public interface ContractService {
     List<BigDecimal> getYearlyRevenue(int yearBeforeLast, int lastYear, int currentYear);
     Map<String, Long> getContractCountByBuilding();
     Map<Long, Long> getContractCountByYear();
+    Page<ContractListDTO> getContracts(int page, int size);
 }

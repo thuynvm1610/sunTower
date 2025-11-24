@@ -4,6 +4,7 @@ import com.estate.dto.*;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CustomerService {
     long countAll();
@@ -13,4 +14,5 @@ public interface CustomerService {
     void save(CustomerFormDTO dto);
     void delete(Long id);
     CustomerDetailDTO viewById(Long id);
+    Map<String, Long> getCustomersName();
 }

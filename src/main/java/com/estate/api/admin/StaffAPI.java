@@ -1,6 +1,5 @@
 package com.estate.api.admin;
 
-import com.estate.dto.CustomerFormDTO;
 import com.estate.dto.StaffFormDTO;
 import com.estate.dto.StaffListDTO;
 import com.estate.exception.InputValidationException;

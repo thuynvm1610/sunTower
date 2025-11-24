@@ -269,4 +269,14 @@ public class BuildingServiceImpl implements BuildingService {
         return buildingDetailDTO;
     }
 
+    @Override
+    public Map<String, Long> getBuildingsName() {
+        List<BuildingEntity> buildingEntities = buildingRepository.findAll();
+        Map<String, Long> result = new HashMap<>();
+        for (BuildingEntity b : buildingEntities) {
+            result.put(b.getName(), b.getId());
+        }
+        return result;
+    }
+
 }

@@ -1,10 +1,16 @@
 package com.estate.service.impl;
 
+import com.estate.converter.ContractListConverter;
+import com.estate.dto.ContractListDTO;
+import com.estate.dto.StaffListDTO;
 import com.estate.dto.StaffPerformanceDTO;
 import com.estate.repository.ContractRepository;
 import com.estate.repository.entity.ContractEntity;
+import com.estate.repository.entity.StaffEntity;
 import com.estate.service.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,6 +25,9 @@ import java.util.stream.Collectors;
 public class ContractServiceImpl implements ContractService {
     @Autowired
     private ContractRepository contractRepository;
+
+    @Autowired
+    private ContractListConverter contractListConverter;
 
     @Override
     public Long countAll() {
@@ -143,5 +152,29 @@ public class ContractServiceImpl implements ContractService {
             map.put(row[0], row[1]);
         }
         return map;
+    }
+
+    @Override
+    public Page<ContractListDTO> getContracts(int page, int size) {
+        Page<ContractEntity> contractPage = contractRepository.findAll(PageRequest.of(page, size));
+
+        // Tạo list chứa DTO
+        List<ContractListDTO> dtoList = new ArrayList<>();
+
+        // Duyệt qua từng ContractEntity
+        for (ContractEntity c : contractPage) {
+            // Convert entity sang DTO
+            ContractListDTO dto = contractListConverter.toDto(c);
+            dtoList.add(dto);
+        }
+
+        // Tạo PageImpl giữ nguyên thông tin phân trang gốc
+        Page<ContractListDTO> result = new PageImpl<>(
+                dtoList,
+                contractPage.getPageable(),
+                contractPage.getTotalElements()
+        );
+
+        return result;
     }
 }

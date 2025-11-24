@@ -20,7 +20,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -166,5 +168,15 @@ public class CustomerServiceImpl implements CustomerService {
                 .orElseThrow(() -> new BusinessException("Không tìm thấy khách hàng"));
         CustomerDetailDTO customerDetailDTO = customerDetailConverter.toDTO(customerEntity);
         return customerDetailDTO;
+    }
+
+    @Override
+    public Map<String, Long> getCustomersName() {
+        List<CustomerEntity> customerEntities = customerRepository.findAll();
+        Map<String, Long> result = new HashMap<>();
+        for (CustomerEntity c : customerEntities) {
+            result.put(c.getFullName(), c.getId());
+        }
+        return result;
     }
 }

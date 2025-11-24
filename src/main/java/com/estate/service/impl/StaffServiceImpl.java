@@ -40,7 +40,7 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public List<StaffEntity> getStaffName() {
+    public List<StaffEntity> getStaffsName() {
         return staffRepository.findByRole("STAFF");
     }
 

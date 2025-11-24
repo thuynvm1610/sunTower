@@ -9,7 +9,7 @@ import java.util.Map;
 
 public interface StaffService {
     Long countAllStaffs();
-    List<StaffEntity> getStaffName();
+    List<StaffEntity> getStaffsName();
     Page<StaffListDTO> getStaffs(int page, int size, String role);
     Page<StaffListDTO> search(Map<String, String> filter, int page, int size);
     void save(StaffFormDTO dto);

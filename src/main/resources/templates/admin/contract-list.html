@@ -539,7 +539,7 @@
                         <label class="form-label">Tên khách hàng</label>
                         <select class="form-control" name="customerId">
                             <option value="">-- Chọn khách hàng --</option>
-                            <option th:each="c : ${customers}" th:value="${c.id}" th:text="${c.fullName}">
+                            <option th:each="c : ${customers}" th:value="${c.value}" th:text="${c.key}">
                             </option>
                         </select>
                     </div>
@@ -548,7 +548,7 @@
                         <label class="form-label">Tên tòa nhà</label>
                         <select class="form-control" name="buildingId">
                             <option value="">-- Chọn tòa nhà --</option>
-                            <option th:each="b : ${buildings}" th:value="${b.id}" th:text="${b.name}">
+                            <option th:each="b : ${buildings}" th:value="${b.value}" th:text="${b.key}">
                             </option>
                         </select>
                     </div>
@@ -599,9 +599,8 @@
                         <label class="form-label">Trạng thái</label>
                         <select class="form-control" name="status">
                             <option value="">-- Tất cả trạng thái --</option>
-                            <option value="ACTIVE">Đang hiệu lực</option>
-                            <option value="EXPIRED">Hết hạn</option>
-                            <option value="PENDING">Chờ xử lý</option>
+                            <option value="Đang hiệu lực">Đang hiệu lực</option>
+                            <option value="Hết hạn">Hết hạn</option>
                         </select>
                     </div>
                 </div>
@@ -708,9 +707,8 @@
     // Hàm lấy badge status
     function getStatusBadge(status) {
         const statusMap = {
-            'ACTIVE': { class: 'active', text: 'Hiệu lực' },
-            'EXPIRED': { class: 'expired', text: 'Hết hạn' },
-            'PENDING': { class: 'pending', text: 'Chờ xử lý' }
+            'Đang hiệu lực': { class: 'active', text: 'Hiệu lực' },
+            'Hết hạn': { class: 'expired', text: 'Hết hạn' },
         };
         const s = statusMap[status] || { class: 'pending', text: status };
         return `<span class="status-badge ${s.class}">${s.text}</span>`;
@@ -747,9 +745,9 @@
                 $.each(data.content, function (i, c) {
                     tbody.append(`
                         <tr>
-                            <td><span class="contract-id">HD-${String(c.id).padStart(5, '0')}</span></td>
-                            <td><span class="customer-name">${c.customerName || ''}</span></td>
-                            <td><span class="building-name">${c.buildingName || ''}</span></td>
+                            <td><span class="contract-id">${c.id}</span></td>
+                            <td><span class="customer-name">${c.customer || ''}</span></td>
+                            <td><span class="building-name">${c.building || ''}</span></td>
                             <td><span class="price-badge">${formatPrice(c.rentPrice)}</span></td>
                             <td>
                                 <div class="date-info">

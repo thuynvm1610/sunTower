@@ -30,7 +30,7 @@ public class BuildingController {
 
     @GetMapping("/list")
     public String listBuildings(Model model) {
-        model.addAttribute("managers", staffService.getStaffName());
+        model.addAttribute("managers", staffService.getStaffsName());
         model.addAttribute("wards", buildingService.getWardName());
         model.addAttribute("streets", buildingService.getStreetName());
 //        model.addAttribute("directions", buildingService.getDirectionName());
@@ -49,7 +49,7 @@ public class BuildingController {
     ) {
         model.addAttribute("filter", filter);
 
-        model.addAttribute("managers", staffService.getStaffName());
+        model.addAttribute("managers", staffService.getStaffsName());
         model.addAttribute("wards", buildingService.getWardName());
         model.addAttribute("streets", buildingService.getStreetName());
 //        model.addAttribute("directions", buildingService.getDirectionName());
@@ -63,7 +63,7 @@ public class BuildingController {
 
     @GetMapping("/add")
     public String addBuildingForm(Model model) {
-        model.addAttribute("staffs", staffService.getStaffName());
+        model.addAttribute("staffs", staffService.getStaffsName());
 
         model.addAttribute("districts", districtService.findAll());
 
@@ -84,7 +84,7 @@ public class BuildingController {
         BuildingFormDTO building = buildingService.findById(id);
         model.addAttribute("building", building);
 
-        model.addAttribute("managers", staffService.getStaffName());
+        model.addAttribute("managers", staffService.getStaffsName());
 
         model.addAttribute("districts", districtService.findAll());
 
