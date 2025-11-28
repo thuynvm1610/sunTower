@@ -578,20 +578,11 @@
                     </div>
 
                     <div class="col-md-4">
-                        <label class="form-label">Ngày bắt đầu</label>
+                        <label class="form-label">Ngày bắt đầu - Ngày kết thúc</label>
                         <div class="range-inputs">
-                            <input type="date" class="form-control" name="startDateFrom">
+                            <input type="date" class="form-control" name="startDate">
                             <span class="range-separator">-</span>
-                            <input type="date" class="form-control" name="startDateTo">
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="form-label">Ngày kết thúc</label>
-                        <div class="range-inputs">
-                            <input type="date" class="form-control" name="endDateFrom">
-                            <span class="range-separator">-</span>
-                            <input type="date" class="form-control" name="endDateTo">
+                            <input type="date" class="form-control" name="endDate">
                         </div>
                     </div>
 
@@ -745,7 +736,7 @@
                 $.each(data.content, function (i, c) {
                     tbody.append(`
                         <tr>
-                            <td><span class="contract-id">${c.id}</span></td>
+                            <td><span class="contract-id"> ${c.id}</span></td>
                             <td><span class="customer-name">${c.customer || ''}</span></td>
                             <td><span class="building-name">${c.building || ''}</span></td>
                             <td><span class="price-badge">${formatPrice(c.rentPrice)}</span></td>

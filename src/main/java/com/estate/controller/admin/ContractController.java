@@ -1,5 +1,6 @@
 package com.estate.controller.admin;
 
+import com.estate.dto.ContractFilterDTO;
 import com.estate.service.BuildingService;
 import com.estate.service.CustomerService;
 import com.estate.service.StaffService;
@@ -28,5 +29,21 @@ public class ContractController {
         model.addAttribute("staffs", staffService.getStaffsName());
         model.addAttribute("page", "contract");
         return "admin/contract-list";
+    }
+
+    @GetMapping("/search")
+    public String searchContracts(
+            ContractFilterDTO filter,
+            Model model
+    ) {
+        model.addAttribute("filter", filter);
+
+        model.addAttribute("customers", customerService.getCustomersName());
+        model.addAttribute("buildings", buildingService.getBuildingsName());
+        model.addAttribute("staffs", staffService.getStaffsName());
+
+        model.addAttribute("page", "contract");
+
+        return "admin/contract-search";
     }
 }

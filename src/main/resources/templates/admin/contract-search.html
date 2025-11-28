@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>SunTower | Kết quả tìm kiếm</title>
+    <title>SunTower | Kết quả tìm kiếm hợp đồng</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Bootstrap + Icons -->
@@ -191,7 +191,6 @@
             transition: max-height 0.3s ease;
             overflow: hidden;
             max-height: 2000px;
-            /* chiều cao khi mở */
         }
 
         .filter-body.collapsed {
@@ -258,7 +257,6 @@
             background: #fafbfc;
         }
 
-        /* Đảm bảo table-responsive không ảnh hưởng min-height */
         .table-responsive {
             min-height: 480px;
         }
@@ -280,17 +278,20 @@
             text-transform: uppercase;
             letter-spacing: 0.025em;
             height: 60px;
-            /* Chiều cao cố định cho header */
         }
 
         .modern-table tbody {
             min-height: 420px;
-            /* 5 dòng * 84px */
             display: table-row-group;
         }
 
         .modern-table tbody td {
             position: relative;
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 0.875rem;
+            color: #374151;
+            vertical-align: middle;
         }
 
         .modern-table tbody tr {
@@ -311,6 +312,13 @@
         }
 
         /* Table badges and cells */
+        .contract-id {
+            font-weight: 600;
+            color: #111827;
+            white-space: nowrap;
+        }
+
+        .customer-name,
         .building-name {
             font-weight: 600;
             color: #111827;
@@ -323,14 +331,18 @@
             max-height: 2.8em;
         }
 
-        .building-id {
-            color: #6b7280;
-            font-weight: 500;
+        .price-badge {
+            display: inline-block;
+            padding: 0.375rem 0.75rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.875rem;
             white-space: nowrap;
+            background: #ecfdf5;
+            color: #059669;
         }
 
-        .price-badge,
-        .level-badge {
+        .status-badge {
             display: inline-block;
             padding: 0.375rem 0.75rem;
             border-radius: 6px;
@@ -339,14 +351,25 @@
             white-space: nowrap;
         }
 
-        .price-badge {
-            background: #ecfdf5;
-            color: #059669;
+        .status-badge.active {
+            background: #dcfce7;
+            color: #16a34a;
         }
 
-        .level-badge {
-            background: #eff6ff;
-            color: #2563eb;
+        .status-badge.expired {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .status-badge.pending {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .date-info {
+            font-size: 0.8125rem;
+            color: #6b7280;
+            line-height: 1.5;
         }
 
         /* Action buttons */
@@ -466,29 +489,6 @@
             color: #d1d5db;
         }
 
-        /* Placeholder row khi đang loading */
-        .loading-row td {
-            text-align: center;
-            color: #9ca3af;
-            font-style: italic;
-            height: 84px;
-        }
-
-        /* Contact info */
-        .contact-info {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            line-height: 1.5;
-        }
-
-        .contact-info i {
-            color: #6b7280;
-            font-size: 0.875rem;
-            margin-top: 0.25rem;
-        }
-
         /* Responsive */
         @media (max-width: 768px) {
             main.content {
@@ -521,9 +521,9 @@
             <div class="page-header">
                 <h2>
                     <i class="bi bi-search"></i>
-                    Kết quả tìm kiếm
+                    Kết quả tìm kiếm hợp đồng
                 </h2>
-                <a th:href="@{/admin/building/list}" class="btn-back">
+                <a th:href="@{/admin/contract/list}" class="btn-back">
                     <i class="bi bi-arrow-left"></i>
                     Quay lại danh sách
                 </a>
@@ -532,7 +532,7 @@
             <!-- Result Badge -->
             <div class="result-badge">
                 <i class="bi bi-check-circle-fill"></i>
-                <span>Tìm thấy <strong id="totalElements">0</strong> tòa nhà</span>
+                <span>Tìm thấy <strong id="totalElements">0</strong> hợp đồng</span>
             </div>
 
             <!-- Table Card -->
@@ -545,18 +545,18 @@
                     <table class="table modern-table">
                         <thead>
                             <tr>
-                                <th>Mã</th>
-                                <th>Tên tòa</th>
-                                <th>Địa chỉ</th>
-                                <th>Hạng</th>
+                                <th>Mã HĐ</th>
+                                <th>Khách hàng</th>
+                                <th>Tòa nhà</th>
                                 <th>Giá thuê</th>
-                                <th>Quản lý</th>
+                                <th>Thời gian</th>
+                                <th>Hiệu lực</th>
                                 <th style="text-align: center;">Hành động</th>
                             </tr>
                         </thead>
 
-                        <tbody id="buildingTableBody">
-                            <!-- dữ liệu sẽ được Ajax thêm vào -->
+                        <tbody id="contractTableBody">
+                            <!-- Dữ liệu sẽ được Ajax thêm vào -->
                         </tbody>
                     </table>
                 </div>
@@ -566,7 +566,7 @@
             <div id="pagination"></div>
 
             <!-- Filter Card -->
-            <form class="filter-card" th:action="@{/admin/building/search}" method="get">
+            <form class="filter-card" th:action="@{/admin/contract/search}" method="get">
                 <div class="filter-header">
                     <div class="filter-title">
                         <i class="bi bi-funnel"></i>
@@ -583,130 +583,44 @@
                         <i class="bi bi-info-circle"></i> Thông tin cơ bản
                     </div>
                     <div class="row g-3 mb-4">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Tên khách hàng</label>
+                            <select class="form-control" name="customerId" th:value="${filter.customerId}">
+                                <option value="">-- Chọn khách hàng --</option>
+                                <option th:each="c : ${customers}" th:value="${c.value}" th:text="${c.key}"
+                                    th:selected="${c.value == filter.customerId}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
                             <label class="form-label">Tên tòa nhà</label>
-                            <input type="text" class="form-control" name="name" th:value="${filter.name}"
-                                placeholder="VD: Sun Tower">
-                        </div>
-
-                        <div class="col-md-3">
-                            <label class="form-label">Quận</label>
-                            <select class="form-control" name="districtId" th:value="${filter.districtId}">
-                                <option value="">-- Chọn quận --</option>
-                                <option th:each="d : ${districts}" th:value="${d.getValue()}" th:text="${d.getKey()}"
-                                    th:selected="${d.getValue() == filter.districtId}">
+                            <select class="form-control" name="buildingId" th:value="${filter.buildingId}">
+                                <option value="">-- Chọn tòa nhà --</option>
+                                <option th:each="b : ${buildings}" th:value="${b.value}" th:text="${b.key}"
+                                    th:selected="${b.value == filter.buildingId}">
                                 </option>
                             </select>
                         </div>
 
-                        <div class="col-md-3">
-                            <label class="form-label">Phường</label>
-                            <select class="form-control" name="ward" th:value="${filter.ward}">
-                                <option value="">-- Chọn phường --</option>
-                                <option th:each="w : ${wards}" th:value="${w}" th:text="${w}"
-                                    th:selected="${w == filter.ward}">
-                                </option>
-                            </select>
-                        </div>
-
-                        <div class="col-md-3">
-                            <label class="form-label">Phố</label>
-                            <select class="form-control" name="street" th:value="${filter.street}">
-                                <option value="">-- Chọn phố --</option>
-                                <option th:each="s : ${streets}" th:value="${s}" th:text="${s}"
-                                    th:selected="${s == filter.street}">
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Đặc điểm tòa nhà -->
-                    <div class="filter-section-title">
-                        <i class="bi bi-building"></i> Đặc điểm tòa nhà
-                    </div>
-                    <div class="row g-3 mb-4">
-                        <div class="col-md-3">
-                            <label class="form-label">Số tầng</label>
-                            <div class="range-inputs">
-                                <input type="number" class="form-control" name="numberOfFloorFrom"
-                                    th:value="${filter.numberOfFloorFrom}" placeholder="Từ" min="0">
-                                <span class="range-separator">-</span>
-                                <input type="number" class="form-control" name="numberOfFloorTo"
-                                    th:value="${filter.numberOfFloorTo}" placeholder="Đến" min="0">
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <label class="form-label">Số tầng hầm</label>
-                            <div class="range-inputs">
-                                <input type="number" class="form-control" name="numberOfBasementFrom"
-                                    th:value="${filter.numberOfBasementFrom}" placeholder="Từ" min="0">
-                                <span class="range-separator">-</span>
-                                <input type="number" class="form-control" name="numberOfBasementTo"
-                                    th:value="${filter.numberOfBasementTo}" placeholder="Đến" min="0">
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <label class="form-label">Diện tích sàn (m²)</label>
-                            <div class="range-inputs">
-                                <input type="number" class="form-control" name="floorAreaFrom"
-                                    th:value="${filter.floorAreaFrom}" placeholder="Từ" min="0">
-                                <span class="range-separator">-</span>
-                                <input type="number" class="form-control" name="floorAreaTo"
-                                    th:value="${filter.floorAreaTo}" placeholder="Đến" min="0">
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <label class="form-label">Diện tích thuê (m²)</label>
-                            <div class="range-inputs">
-                                <input type="number" class="form-control" name="rentAreaFrom"
-                                    th:value="${filter.rentAreaFrom}" placeholder="Từ" min="0">
-                                <span class="range-separator">-</span>
-                                <input type="number" class="form-control" name="rentAreaTo"
-                                    th:value="${filter.rentAreaTo}" placeholder="Đến" min="0">
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <label class="form-label">Hướng</label>
-                            <select class="form-control" name="direction" th:value="${filter.direction}">
-                                <option value="">-- Chọn hướng --</option>
-                                <option th:each="d : ${directions}" th:value="${d.name()}" th:text="${d.label}"
-                                    th:selected="${d == filter.direction}">
-                                </option>
-                            </select>
-                        </div>
-
-                        <div class="col-md-3">
-                            <label class="form-label">Hạng</label>
-                            <select class="form-control" name="level" th:value="${filter.level}">
-                                <option value="">-- Chọn hạng --</option>
-                                <option th:each="l : ${levels}" th:value="${l.name()}" th:text="${l.label}"
-                                    th:selected="${l == filter.level}">
-                                </option>
-                            </select>
-                        </div>
-
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label class="form-label">Nhân viên quản lý</label>
-                            <select class="form-control" name="managerName">
-                                <option value="">-- Chọn quản lý --</option>
-                                <option th:each="m : ${managers}" th:value="${m.fullName}" th:text="${m.fullName}"
-                                    th:selected="${m.fullName == filter.managerName}">
+                            <select class="form-control" name="staffId" th:value="${filter.staffId}">
+                                <option value="">-- Chọn nhân viên --</option>
+                                <option th:each="s : ${staffs}" th:value="${s.id}" th:text="${s.fullName}"
+                                    th:selected="${s.id == filter.staffId}">
                                 </option>
                             </select>
                         </div>
                     </div>
 
-                    <!-- Giá và phí -->
+                    <!-- Giá thuê và thời gian -->
                     <div class="filter-section-title">
-                        <i class="bi bi-cash-stack"></i> Giá và phí (VNĐ)
+                        <i class="bi bi-cash-stack"></i> Giá thuê và thời gian
                     </div>
                     <div class="row g-3">
-                        <div class="col-md-3">
-                            <label class="form-label">Giá thuê</label>
+                        <div class="col-md-4">
+                            <label class="form-label">Giá thuê (VNĐ)</label>
                             <div class="range-inputs">
                                 <input type="number" class="form-control" name="rentPriceFrom"
                                     th:value="${filter.rentPriceFrom}" placeholder="Từ" min="0">
@@ -716,59 +630,24 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3">
-                            <label class="form-label">Phí dịch vụ</label>
+                        <div class="col-md-4">
+                            <label class="form-label">Ngày bắt đầu - Ngày kết thúc</label>
                             <div class="range-inputs">
-                                <input type="number" class="form-control" name="serviceFeeFrom"
-                                    th:value="${filter.serviceFeeFrom}" placeholder="Từ" min="0">
+                                <input type="date" class="form-control" name="startDate" th:value="${filter.startDate}">
                                 <span class="range-separator">-</span>
-                                <input type="number" class="form-control" name="serviceFeeTo"
-                                    th:value="${filter.serviceFeeTo}" placeholder="Đến" min="0">
+                                <input type="date" class="form-control" name="endDate" th:value="${filter.endDate}">
                             </div>
                         </div>
 
-                        <div class="col-md-3">
-                            <label class="form-label">Phí xe ô tô</label>
-                            <div class="range-inputs">
-                                <input type="number" class="form-control" name="carFeeFrom"
-                                    th:value="${filter.carFeeFrom}" placeholder="Từ" min="0">
-                                <span class="range-separator">-</span>
-                                <input type="number" class="form-control" name="carFeeTo" th:value="${filter.carFeeTo}"
-                                    placeholder="Đến" min="0">
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <label class="form-label">Phí xe máy</label>
-                            <div class="range-inputs">
-                                <input type="number" class="form-control" name="motorbikeFeeFrom"
-                                    th:value="${filter.motorbikeFeeFrom}" placeholder="Từ" min="0">
-                                <span class="range-separator">-</span>
-                                <input type="number" class="form-control" name="motorbikeFeeTo"
-                                    th:value="${filter.motorbikeFeeTo}" placeholder="Đến" min="0">
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <label class="form-label">Phí nước</label>
-                            <div class="range-inputs">
-                                <input type="number" class="form-control" name="waterFeeFrom"
-                                    th:value="${filter.waterFeeFrom}" placeholder="Từ" min="0">
-                                <span class="range-separator">-</span>
-                                <input type="number" class="form-control" name="waterFeeTo"
-                                    th:value="${filter.waterFeeTo}" placeholder="Đến" min="0">
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <label class="form-label">Phí điện</label>
-                            <div class="range-inputs">
-                                <input type="number" class="form-control" name="electricityFeeFrom"
-                                    th:value="${filter.electricityFeeFrom}" placeholder="Từ" min="0">
-                                <span class="range-separator">-</span>
-                                <input type="number" class="form-control" name="electricityFeeTo"
-                                    th:value="${filter.electricityFeeTo}" placeholder="Đến" min="0">
-                            </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Trạng thái</label>
+                            <select class="form-control" name="status" th:value="${filter.status}">
+                                <option value="">-- Tất cả trạng thái --</option>
+                                <option value="Đang hiệu lực" th:selected="${filter.status == 'Đang hiệu lực'}">Đang
+                                    hiệu lực
+                                </option>
+                                <option value="Hết hạn" th:selected="${filter.status == 'Hết hạn'}">Hết hạn</option>
+                            </select>
                         </div>
                     </div>
 
@@ -837,99 +716,103 @@
     <script>
         let currentPage = 1;
         const pageSize = 5;
-        const levelLabels = {
-            A_PLUS: "A+",
-            A: "A",
-            B_PLUS: "B+",
-            B: "B",
-            C_PLUS: "C+",
-            C: "C"
-        };
 
-        // Hàm load dữ liệu bảng tòa nhà bằng Ajax
-        function loadBuildings(page, filter, event) {
+        // Hàm format ngày tháng
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const date = new Date(dateString);
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
+
+        // Hàm format giá tiền
+        function formatPrice(price) {
+            if (!price) return '';
+            return new Intl.NumberFormat('vi-VN').format(price) + ' đ';
+        }
+
+        // Hàm lấy badge status
+        function getStatusBadge(status) {
+            const statusMap = {
+                'Đang hiệu lực': { class: 'active', text: 'Hiệu lực' },
+                'Hết hạn': { class: 'expired', text: 'Hết hạn' },
+            };
+            const s = statusMap[status] || { class: 'pending', text: status };
+            return `<span class="status-badge ${s.class}">${s.text}</span>`;
+        }
+
+        // Hàm load dữ liệu bảng hợp đồng bằng Ajax
+        function loadContracts(page, filter, event) {
             if (event) event.preventDefault();
 
             $.ajax({
-                url: "/admin/building/search/page",
+                url: "/admin/contract/search/page",
                 type: "GET",
                 data: {
                     page: page,
                     size: pageSize,
-                    name: filter.name,
-                    districtId: filter.districtId,
-                    ward: filter.ward,
-                    street: filter.street,
-                    numberOfFloorFrom: filter.numberOfFloorFrom,
-                    numberOfFloorTo: filter.numberOfFloorTo,
-                    numberOfBasementFrom: filter.numberOfBasementFrom,
-                    numberOfBasementTo: filter.numberOfBasementTo,
-                    floorAreaFrom: filter.floorAreaFrom,
-                    floorAreaTo: filter.floorAreaTo,
-                    rentAreaFrom: filter.rentAreaFrom,
-                    rentAreaTo: filter.rentAreaTo,
-                    direction: filter.direction,
-                    level: filter.level,
+                    customerId: filter.customerId,
+                    buildingId: filter.buildingId,
+                    staffId: filter.staffId,
                     rentPriceFrom: filter.rentPriceFrom,
                     rentPriceTo: filter.rentPriceTo,
-                    serviceFeeFrom: filter.serviceFeeFrom,
-                    serviceFeeTo: filter.serviceFeeTo,
-                    carFeeFrom: filter.carFeeFrom,
-                    carFeeTo: filter.carFeeTo,
-                    motorbikeFeeFrom: filter.motorbikeFeeFrom,
-                    motorbikeFeeTo: filter.motorbikeFeeTo,
-                    waterFeeFrom: filter.waterFeeFrom,
-                    waterFeeTo: filter.waterFeeTo,
-                    electricityFeeFrom: filter.electricityFeeFrom,
-                    electricityFeeTo: filter.electricityFeeTo,
-                    managerName: filter.managerName
+                    startDate: filter.startDate,
+                    endDate: filter.endDate,
+                    status: filter.status
                 },
                 success: function (data) {
                     currentPage = page;
-                    const tbody = $("#buildingTableBody");
+                    const tbody = $("#contractTableBody");
                     tbody.empty();
 
                     if (data.content.length === 0) {
                         tbody.append(`
-                            <tr>
-                                <td colspan="7">
-                                    <div class="empty-state">
-                                        <i class="bi bi-inbox"></i>
-                                        <p>Không có dữ liệu tòa nhà</p>
-                                    </div>
-                                </td>
-                            </tr>
-                        `);
+                        <tr>
+                            <td colspan="7">
+                                <div class="empty-state">
+                                    <i class="bi bi-inbox"></i>
+                                    <p>Không có dữ liệu hợp đồng</p>
+                                </div>
+                            </td>
+                        </tr>
+                    `);
                         $("#pagination").empty();
                         return;
                     }
 
                     $("#totalElements").text(data.totalElements);
 
-                    $.each(data.content, function (i, b) {
+                    $.each(data.content, function (i, c) {
                         tbody.append(`
-                        <tr>
-                            <td>${b.id}</td>
-                            <td><span class="building-name">${b.name}</span></td>
-                            <td>${b.address}</td>
-                            <td><span class="level-badge">${levelLabels[b.level] || ''}</span></td>
-                            <td><span class="price-badge">${b.rentPrice || ''}</span></td>
-                            <td>${b.managerName || ''}</td>
-                            <td>
-                                <div class="action-buttons">
-                                    <a href="/admin/building/${b.id}" class="btn-action btn-view" title="Xem chi tiết">
-                                        <i class="bi bi-eye"></i>
-                                    </a>
-                                    <a href="/admin/building/edit/${b.id}" class="btn-action btn-edit" title="Chỉnh sửa">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <a href="#" title="Xóa" class="btn-action btn-delete" data-id="${b.id}">
-                                       <i class="bi bi-trash"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                    `);
+                    <tr>
+                        <td><span class="contract-id">${c.id}</span></td>
+                        <td><span class="customer-name">${c.customer || ''}</span></td>
+                        <td><span class="building-name">${c.building || ''}</span></td>
+                        <td><span class="price-badge">${formatPrice(c.rentPrice)}</span></td>
+                        <td>
+                            <div class="date-info">
+                                <div><i class="bi bi-calendar-check"></i> ${formatDate(c.startDate)}</div>
+                                <div><i class="bi bi-calendar-x"></i> ${formatDate(c.endDate)}</div>
+                            </div>
+                        </td>
+                        <td>${getStatusBadge(c.status)}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <a href="/admin/contract/${c.id}" class="btn-action btn-view" title="Xem chi tiết">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a href="/admin/contract/edit/${c.id}" class="btn-action btn-edit" title="Chỉnh sửa">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a href="#" title="Xóa" class="btn-action btn-delete" data-id="${c.id}">
+                                   <i class="bi bi-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                `);
                     });
 
                     renderPagination(data.totalPages, page);
@@ -953,39 +836,38 @@
             let html = `<nav class="pagination-wrapper mt-3"><ul class="pagination justify-content-center">`;
 
             html += `<li class="page-item ${current === 1 ? 'disabled' : ''}">
-            <a href="#" class="page-link" onclick="loadBuildings(1, filter); return false;">First</a>
+            <a href="#" class="page-link" onclick="loadContracts(1, filter); return false;">First</a>
         </li>`;
 
             html += `<li class="page-item ${current === 1 ? 'disabled' : ''}">
-            <a href="#" class="page-link" onclick="loadBuildings(${current - 1}, filter); return false;">
+            <a href="#" class="page-link" onclick="loadContracts(${current - 1}, filter); return false;">
                 <i class="bi bi-chevron-left"></i>
             </a>
         </li>`;
 
             for (let i = 1; i <= totalPages; i++) {
                 html += `<li class="page-item ${i === current ? 'active' : ''}">
-                <a href="#" class="page-link" onclick="loadBuildings(${i}, filter); return false;">${i}</a>
+                <a href="#" class="page-link" onclick="loadContracts(${i}, filter); return false;">${i}</a>
             </li>`;
             }
 
             html += `<li class="page-item ${current === totalPages ? 'disabled' : ''}">
-            <a href="#" class="page-link" onclick="loadBuildings(${current + 1}, filter); return false;">
+            <a href="#" class="page-link" onclick="loadContracts(${current + 1}, filter); return false;">
                 <i class="bi bi-chevron-right"></i>
             </a>
         </li>`;
 
             html += `<li class="page-item ${current === totalPages ? 'disabled' : ''}">
-            <a href="#" class="page-link" onclick="loadBuildings(${totalPages}, filter); return false;">Last</a>
+            <a href="#" class="page-link" onclick="loadContracts(${totalPages}, filter); return false;">Last</a>
         </li>`;
 
             html += `</ul></nav>`;
 
             pagination.html(html);
         }
-
         // Khi trang load, gọi Ajax lần đầu
         $(document).ready(function () {
-            loadBuildings(1, filter);
+            loadContracts(1, filter);
             // Hàm highlight trường có giá trị
             function highlightFilledInputs() {
                 $('.filter-card .form-control').each(function () {
@@ -1018,8 +900,7 @@
                 }, 10);
             });
         });
-
-        // Ajax xóa tòa nhà
+        // Ajax xóa hợp đồng
         $(document).on("click", ".btn-delete", function (e) {
             e.preventDefault();
 
@@ -1027,7 +908,7 @@
 
             Swal.fire({
                 title: 'Xác nhận xóa',
-                text: "Bạn có chắc muốn xóa tòa nhà này?",
+                text: "Bạn có chắc muốn xóa hợp đồng này?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#dc2626',
@@ -1037,17 +918,17 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "/admin/building/delete/" + id,
+                        url: "/admin/contract/delete/" + id,
                         type: "DELETE",
                         success: function () {
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Thành công',
-                                text: 'Xóa tòa nhà thành công!',
+                                text: 'Xóa hợp đồng thành công!',
                                 timer: 1500,       // tự động đóng sau 1.5s
                                 showConfirmButton: false
                             }).then(() => {
-                                window.location.href = "/admin/building/list";
+                                window.location.href = "/admin/contract/list";
                             });
                         },
                         error: function (xhr) {

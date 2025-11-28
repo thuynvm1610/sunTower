@@ -1,5 +1,6 @@
 package com.estate.repository;
 
+import com.estate.repository.custom.ContractRepositoryCustom;
 import com.estate.repository.entity.ContractEntity;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public interface ContractRepository extends JpaRepository<ContractEntity, Long> {
+public interface ContractRepository extends JpaRepository<ContractEntity, Long>, ContractRepositoryCustom {
     @Query("SELECT c.staff.id, c.staff.fullName, COUNT(c.id) " +
             "FROM ContractEntity c " +
             "GROUP BY c.staff.id, c.staff.fullName " +

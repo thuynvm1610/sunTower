@@ -1,10 +1,9 @@
 package com.estate.service.impl;
 
 import com.estate.converter.ContractListConverter;
-import com.estate.dto.ContractListDTO;
-import com.estate.dto.StaffListDTO;
-import com.estate.dto.StaffPerformanceDTO;
+import com.estate.dto.*;
 import com.estate.repository.ContractRepository;
+import com.estate.repository.entity.BuildingEntity;
 import com.estate.repository.entity.ContractEntity;
 import com.estate.repository.entity.StaffEntity;
 import com.estate.service.ContractService;
@@ -165,6 +164,32 @@ public class ContractServiceImpl implements ContractService {
         for (ContractEntity c : contractPage) {
             // Convert entity sang DTO
             ContractListDTO dto = contractListConverter.toDto(c);
+            dtoList.add(dto);
+        }
+
+        // Tạo PageImpl giữ nguyên thông tin phân trang gốc
+        Page<ContractListDTO> result = new PageImpl<>(
+                dtoList,
+                contractPage.getPageable(),
+                contractPage.getTotalElements()
+        );
+
+        return result;
+    }
+
+    @Override
+    public Page<ContractListDTO> search(ContractFilterDTO filter, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<ContractEntity> contractPage = contractRepository.searchContracts(filter, pageable);
+
+        // Tạo list chứa DTO
+        List<ContractListDTO> dtoList = new ArrayList<>();
+
+        // Duyệt qua từng ContractEntity
+        for (ContractEntity c : contractPage) {
+            // Convert entity sang DTO
+            ContractListDTO dto = contractListConverter.toDto(c);
+
             dtoList.add(dto);
         }
 
