@@ -63,5 +63,5 @@ public class StaffEntity {
     private List<BuildingEntity> buildings = new ArrayList<>();
 
     @ManyToMany(mappedBy = "staffs_customers")
-    private List<CustomerEntity> customers;
+    private List<CustomerEntity> customers = new ArrayList<>();;
 }

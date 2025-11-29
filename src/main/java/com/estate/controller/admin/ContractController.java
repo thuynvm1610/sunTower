@@ -46,4 +46,15 @@ public class ContractController {
 
         return "admin/contract-search";
     }
+
+    @GetMapping("/add")
+    public String addCustomerForm(Model model) {
+        model.addAttribute("staffs", staffService.getStaffsName());
+        model.addAttribute("buildings", buildingService.getBuildingsName());
+        model.addAttribute("customers", customerService.getCustomersName());
+
+        model.addAttribute("page", "contract");
+
+        return "admin/contract-add";
+    }
 }

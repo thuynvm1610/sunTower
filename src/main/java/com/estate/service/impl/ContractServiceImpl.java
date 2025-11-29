@@ -1,10 +1,19 @@
 package com.estate.service.impl;
 
+import com.estate.converter.ContractFormConverter;
 import com.estate.converter.ContractListConverter;
-import com.estate.dto.*;
+import com.estate.dto.ContractFilterDTO;
+import com.estate.dto.ContractFormDTO;
+import com.estate.dto.ContractListDTO;
+import com.estate.dto.StaffPerformanceDTO;
+import com.estate.exception.BusinessException;
+import com.estate.repository.BuildingRepository;
 import com.estate.repository.ContractRepository;
+import com.estate.repository.CustomerRepository;
+import com.estate.repository.StaffRepository;
 import com.estate.repository.entity.BuildingEntity;
 import com.estate.repository.entity.ContractEntity;
+import com.estate.repository.entity.CustomerEntity;
 import com.estate.repository.entity.StaffEntity;
 import com.estate.service.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +22,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -21,12 +31,25 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class ContractServiceImpl implements ContractService {
     @Autowired
     private ContractRepository contractRepository;
 
     @Autowired
     private ContractListConverter contractListConverter;
+
+    @Autowired
+    private ContractFormConverter contractFormConverter;
+
+    @Autowired
+    private StaffRepository staffRepository;
+
+    @Autowired
+    private BuildingRepository buildingRepository;
+
+    @Autowired
+    private CustomerRepository customerRepository;
 
     @Override
     public Long countAll() {
@@ -201,5 +224,40 @@ public class ContractServiceImpl implements ContractService {
         );
 
         return result;
+    }
+
+    @Override
+    public void save(ContractFormDTO dto) {
+        ContractEntity entity;
+
+        StaffEntity staff = staffRepository.findById(dto.getStaffId())
+                .orElseThrow(() -> new BusinessException("Không tìm thấy nhân viên"));
+        // Kiểm tra nhân viên có quản lý tòa nhà không
+        if (!staffRepository.existsByStaffIdAndBuildingId(dto.getStaffId(), dto.getBuildingId())) {
+            BuildingEntity building = buildingRepository.findById(dto.getBuildingId())
+                    .orElseThrow(() -> new BusinessException("Không tìm thấy tòa nhà"));
+            throw new BusinessException("Nhân viên " + staff.getFullName() + " hiện không quản lý tòa nhà " +
+                    building.getName());
+        }
+
+        // Kiểm tra nhân viên có quản lý khách hàng không
+        if (!staffRepository.existsByStaffIdAndCustomerId(dto.getStaffId(), dto.getCustomerId())) {
+            CustomerEntity customer = customerRepository.findById(dto.getCustomerId())
+                    .orElseThrow(() -> new BusinessException("Không tìm thấy khách hàng"));
+            throw new BusinessException("Nhân viên " + staff.getFullName() + " hiện không quản lý khách hàng " +
+                    customer.getFullName());
+        }
+
+        if (dto.getId() != null) {
+            // Update
+            entity = contractRepository.findById(dto.getId())
+                    .orElseThrow(() -> new BusinessException("Không tìm thấy hợp đồng để sửa"));
+        } else {
+            // Thêm mới
+            entity = contractFormConverter.toEntity(dto);
+        }
+
+        // Lưu hợp đồng
+        ContractEntity saved = contractRepository.save(entity);
     }
 }
