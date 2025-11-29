@@ -260,4 +260,12 @@ public class ContractServiceImpl implements ContractService {
         // Lưu hợp đồng
         ContractEntity saved = contractRepository.save(entity);
     }
+
+    @Override
+    public void delete(Long id) {
+        if (!contractRepository.existsById(id)) {
+            throw new BusinessException("Không tìm thấy hợp đồng để xóa");
+        }
+        contractRepository.deleteById(id);
+    }
 }

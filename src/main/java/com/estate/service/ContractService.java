@@ -20,4 +20,5 @@ public interface ContractService {
     Page<ContractListDTO> getContracts(int page, int size);
     Page<ContractListDTO> search(ContractFilterDTO filter, int page, int size);
     void save(ContractFormDTO dto);
+    void delete(Long id);
 }

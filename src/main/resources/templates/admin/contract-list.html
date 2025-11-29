@@ -902,7 +902,7 @@
                             timer: 1500,
                             showConfirmButton: false
                         }).then(() => {
-                            loadContracts(currentPage);
+                            window.location.href = "/admin/contract/list";
                         });
                     },
                     error: function (xhr) {

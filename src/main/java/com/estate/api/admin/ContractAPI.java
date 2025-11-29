@@ -55,4 +55,10 @@ public class ContractAPI {
         contractService.save(dto);
         return ResponseEntity.ok("Thêm hợp đồng thành công");
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteContract(@PathVariable Long id) {
+        contractService.delete(id);
+        return ResponseEntity.ok().build();
+    }
 }
