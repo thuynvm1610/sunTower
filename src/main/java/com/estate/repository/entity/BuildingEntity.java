@@ -99,8 +99,8 @@ public class BuildingEntity {
     @JoinColumn(name = "district_id")
     private DistrictEntity district;
 
-    @OneToMany(mappedBy = "building", cascade = CascadeType.ALL)
-    private List<RentAreaEntity> rentAreas;
+    @OneToMany(mappedBy = "building", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RentAreaEntity> rentAreas = new ArrayList<>();;
 
     @ManyToMany
     @JoinTable(

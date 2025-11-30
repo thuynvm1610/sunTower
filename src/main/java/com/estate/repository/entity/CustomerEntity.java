@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -61,8 +62,8 @@ public class CustomerEntity {
             joinColumns = @JoinColumn(name = "customer_id"),
             inverseJoinColumns = @JoinColumn(name = "staff_id")
     )
-    private List<StaffEntity> staffs_customers;
+    private List<StaffEntity> staffs_customers = new ArrayList<>();;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    private List<ContractEntity> contracts;
+    private List<ContractEntity> contracts = new ArrayList<>();;
 }

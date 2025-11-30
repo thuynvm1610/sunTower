@@ -181,65 +181,17 @@ public class BuildingServiceImpl implements BuildingService {
         BuildingEntity entity;
 
         if (dto.getId() != null) {
-            // Update
             entity = buildingRepository.findById(dto.getId())
                     .orElseThrow(() -> new BusinessException("Không tìm thấy tòa nhà để sửa"));
         } else {
-            // Thêm mới
             entity = new BuildingEntity();
         }
 
-        // Set thông tin cơ bản
-        entity.setName(dto.getName());
-        entity.setWard(dto.getWard());
-        entity.setStreet(dto.getStreet());
-        entity.setNumberOfFloor(dto.getNumberOfFloor());
-        entity.setNumberOfBasement(dto.getNumberOfBasement());
-        entity.setFloorArea(dto.getFloorArea());
+        buildingFormConverter.toEntity(entity, dto);
 
-        if (dto.getDirection() != null && !dto.getDirection().isEmpty()) {
-            entity.setDirection(Direction.valueOf(dto.getDirection()));
-        }
-
-        if (dto.getLevel() != null && !dto.getLevel().isEmpty()) {
-            entity.setLevel(Level.valueOf(dto.getLevel()));
-        }
-
-        entity.setRentPrice(dto.getRentPrice());
-        entity.setServiceFee(dto.getServiceFee());
-        entity.setCarFee(dto.getCarFee());
-        entity.setMotorbikeFee(dto.getMotorbikeFee());
-        entity.setWaterFee(dto.getWaterFee());
-        entity.setElectricityFee(dto.getElectricityFee());
-        entity.setDeposit(dto.getDeposit());
-        entity.setLinkOfBuilding(dto.getLinkOfBuilding());
-        entity.setImage(dto.getImage());
-
-        // Lưu quận
-        DistrictEntity district = districtRepository.findById(dto.getDistrictId())
-                .orElseThrow(() -> new BusinessException("Không tìm thấy quận"));
-        entity.setDistrict(district);
-
-        // Lưu danh sách nhân viên quản lý
-        List<StaffEntity> staffs = staffRepository.findAllById(dto.getStaffIds());
-        entity.setStaffs_buildings(staffs);
-
-        // Lưu tòa nhà
-        BuildingEntity saved = buildingRepository.save(entity);
-
-        // Xử lý rent_area (Update)
-        rentAreaRepository.deleteByBuildingId(saved.getId()); // Xóa cũ
-
-        if (dto.getRentAreaValues() != null && !dto.getRentAreaValues().isEmpty()) { // Thêm mới
-            List<RentAreaEntity> areas = Arrays.stream(dto.getRentAreaValues().split(","))
-                    .map(String::trim)
-                    .map(Integer::parseInt)
-                    .map(v -> new RentAreaEntity(v, saved))
-                    .toList();
-
-            rentAreaRepository.saveAll(areas);
-        }
+        buildingRepository.save(entity);
     }
+
 
     @Override
     public BuildingFormDTO findById(Long id) {
