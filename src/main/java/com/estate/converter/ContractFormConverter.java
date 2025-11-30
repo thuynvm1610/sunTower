@@ -1,5 +1,6 @@
 package com.estate.converter;
 
+import com.estate.dto.BuildingFormDTO;
 import com.estate.dto.ContractFormDTO;
 import com.estate.exception.BusinessException;
 import com.estate.repository.BuildingRepository;
@@ -12,6 +13,8 @@ import com.estate.repository.entity.StaffEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.stream.Collectors;
 
 @Component
 public class ContractFormConverter {
@@ -41,5 +44,11 @@ public class ContractFormConverter {
         entity.setStartDate(dto.getStartDate().atStartOfDay());
         entity.setEndDate(dto.getEndDate().atTime(23,59,59));
         return entity;
+    }
+
+    public ContractFormDTO toDTO(ContractEntity entity) {
+        ContractFormDTO dto = modelMapper.map(entity, ContractFormDTO.class);
+
+        return dto;
     }
 }

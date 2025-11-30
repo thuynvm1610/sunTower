@@ -2,10 +2,7 @@ package com.estate.service.impl;
 
 import com.estate.converter.ContractFormConverter;
 import com.estate.converter.ContractListConverter;
-import com.estate.dto.ContractFilterDTO;
-import com.estate.dto.ContractFormDTO;
-import com.estate.dto.ContractListDTO;
-import com.estate.dto.StaffPerformanceDTO;
+import com.estate.dto.*;
 import com.estate.exception.BusinessException;
 import com.estate.repository.BuildingRepository;
 import com.estate.repository.ContractRepository;
@@ -267,5 +264,13 @@ public class ContractServiceImpl implements ContractService {
             throw new BusinessException("Không tìm thấy hợp đồng để xóa");
         }
         contractRepository.deleteById(id);
+    }
+
+    @Override
+    public ContractFormDTO findById(Long id) {
+        ContractEntity contractEntity = contractRepository.findById(id)
+                .orElseThrow(() -> new BusinessException("Không tìm thấy hợp đồng"));
+        ContractFormDTO contractFormDTO = contractFormConverter.toDTO(contractEntity);
+        return contractFormDTO;
     }
 }
