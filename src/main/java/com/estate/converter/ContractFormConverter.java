@@ -31,13 +31,8 @@ public class ContractFormConverter {
     private CustomerRepository customerRepository;
 
     public ContractEntity toEntity(ContractEntity entity, ContractFormDTO dto) {
-        // Map primitive fields
-        entity.setRentPrice(dto.getRentPrice());
-        entity.setStatus(dto.getStatus());
-        entity.setStartDate(dto.getStartDate().atStartOfDay());
-        entity.setEndDate(dto.getEndDate().atTime(23,59,59));
+        modelMapper.map(dto, entity);
 
-        // Map relations
         BuildingEntity building = buildingRepository.findById(dto.getBuildingId())
                 .orElseThrow(() -> new BusinessException("Không tìm thấy tòa nhà"));
         entity.setBuilding(building);
@@ -55,7 +50,9 @@ public class ContractFormConverter {
 
     public ContractFormDTO toDTO(ContractEntity entity) {
         ContractFormDTO dto = modelMapper.map(entity, ContractFormDTO.class);
-
+        dto.setBuildingId(entity.getBuilding().getId());
+        dto.setCustomerId(entity.getCustomer().getId());
+        dto.setStaffId(entity.getStaff().getId());
         return dto;
     }
 }
