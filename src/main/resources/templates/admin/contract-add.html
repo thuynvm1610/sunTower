@@ -599,8 +599,8 @@
         // Validate date range
         if (!validateDateRange()) {
             Swal.fire({
-                icon: 'error',
-                title: 'Lỗi',
+                icon: 'warning',
+                title: 'Cảnh báo',
                 text: 'Ngày kết thúc phải sau ngày bắt đầu!'
             });
             return;

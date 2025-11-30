@@ -249,13 +249,15 @@ public class ContractServiceImpl implements ContractService {
             // Update
             entity = contractRepository.findById(dto.getId())
                     .orElseThrow(() -> new BusinessException("Không tìm thấy hợp đồng để sửa"));
+            contractFormConverter.toEntity(entity, dto);
         } else {
             // Thêm mới
-            entity = contractFormConverter.toEntity(dto);
+            entity = new ContractEntity();
+            contractFormConverter.toEntity(entity, dto);
         }
 
         // Lưu hợp đồng
-        ContractEntity saved = contractRepository.save(entity);
+        contractRepository.save(entity);
     }
 
     @Override

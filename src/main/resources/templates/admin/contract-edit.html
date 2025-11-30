@@ -276,6 +276,21 @@
                 justify-content: center;
             }
         }
+
+        /* Date range validation */
+        .date-validation {
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+            font-weight: 600;
+        }
+
+        .date-validation.valid {
+            color: #10b981;
+        }
+
+        .date-validation.invalid {
+            color: #ef4444;
+        }
     </style>
 </head>
 
@@ -390,12 +405,13 @@
                         Ngày bắt đầu
                         <span class="required">*</span>
                     </label>
-                    <input type="date"
-                           class="form-control"
-                           name="startDate"
-                           th:value="${contract.startDate}"
-                           required>
-                    <small class="form-text">Thời điểm bắt đầu hợp đồng</small>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="bi bi-calendar-check"></i>
+                        </span>
+                        <input type="date" class="form-control" name="startDate"
+                               required th:value="${contract.startDate}" id="startDateInput">
+                    </div>
                 </div>
 
                 <div class="col-md-4">
@@ -403,12 +419,14 @@
                         Ngày kết thúc
                         <span class="required">*</span>
                     </label>
-                    <input type="date"
-                           class="form-control"
-                           name="endDate"
-                           th:value="${contract.endDate}"
-                           required>
-                    <small class="form-text">Thời điểm kết thúc hợp đồng</small>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="bi bi-calendar-x"></i>
+                        </span>
+                        <input type="date" class="form-control" name="endDate"
+                               required th:value="${contract.endDate}" id="endDateInput">
+                    </div>
+                    <small class="date-validation" id="dateValidation"></small>
                 </div>
 
                 <div class="col-md-4">
@@ -439,7 +457,9 @@
                     </label>
                     <select class="form-control" name="status" th:value="${contract.status}" required>
                         <option value="">-- Chọn trạng thái --</option>
-                        <option value="Đang hiệu lực" th:selected="${contract.status == 'Đang hiệu lực'}">Đang hiệu lực</option>
+                        <option value="Đang hiệu lực" th:selected="${contract.status == 'Đang hiệu lực'}">Đang hiệu
+                            lực
+                        </option>
                         <option value="Hết hạn" th:selected="${contract.status == 'Hết hạn'}">Hết hạn</option>
                     </select>
                     <small class="form-text">Trạng thái hiện tại của hợp đồng</small>
@@ -469,6 +489,33 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
+    // Date validation
+    function validateDateRange() {
+        const startDate = document.getElementById('startDateInput').value;
+        const endDate = document.getElementById('endDateInput').value;
+        const validation = document.getElementById('dateValidation');
+
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+
+        if (end <= start) {
+            validation.className = 'date-validation invalid';
+            validation.textContent = 'Ngày kết thúc phải sau ngày bắt đầu';
+            return false;
+        } else {
+            const diffTime = Math.abs(end - start);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            validation.className = 'date-validation valid';
+            validation.textContent = `Thời hạn hợp đồng: ${diffDays} ngày`;
+            return true;
+        }
+    }
+
+    document.getElementById('startDateInput').addEventListener('change', validateDateRange);
+    document.getElementById('endDateInput').addEventListener('change', validateDateRange);
+</script>
+
+<script>
     function resetInputData() {
         document.querySelectorAll('.form-card input, .form-card select')
             .forEach(e => {
@@ -485,11 +532,8 @@
     $("#contractForm").on("submit", function (e) {
         e.preventDefault();
 
-        // Validate ngày kết thúc phải sau ngày bắt đầu
-        const startDate = new Date($("[name='startDate']").val());
-        const endDate = new Date($("[name='endDate']").val());
-
-        if (endDate <= startDate) {
+        // Validate date range
+        if (!validateDateRange()) {
             Swal.fire({
                 icon: 'warning',
                 title: 'Cảnh báo',

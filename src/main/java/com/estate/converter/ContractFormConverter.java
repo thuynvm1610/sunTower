@@ -30,19 +30,26 @@ public class ContractFormConverter {
     @Autowired
     private CustomerRepository customerRepository;
 
-    public ContractEntity toEntity(ContractFormDTO dto) {
-        ContractEntity entity = modelMapper.map(dto, ContractEntity.class);
+    public ContractEntity toEntity(ContractEntity entity, ContractFormDTO dto) {
+        // Map primitive fields
+        entity.setRentPrice(dto.getRentPrice());
+        entity.setStatus(dto.getStatus());
+        entity.setStartDate(dto.getStartDate().atStartOfDay());
+        entity.setEndDate(dto.getEndDate().atTime(23,59,59));
+
+        // Map relations
         BuildingEntity building = buildingRepository.findById(dto.getBuildingId())
                 .orElseThrow(() -> new BusinessException("Không tìm thấy tòa nhà"));
         entity.setBuilding(building);
+
         StaffEntity staff = staffRepository.findById(dto.getStaffId())
                 .orElseThrow(() -> new BusinessException("Không tìm thấy nhân viên"));
         entity.setStaff(staff);
+
         CustomerEntity customer = customerRepository.findById(dto.getCustomerId())
                 .orElseThrow(() -> new BusinessException("Không tìm thấy khách hàng"));
         entity.setCustomer(customer);
-        entity.setStartDate(dto.getStartDate().atStartOfDay());
-        entity.setEndDate(dto.getEndDate().atTime(23,59,59));
+
         return entity;
     }
 

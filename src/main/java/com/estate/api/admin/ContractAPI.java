@@ -1,9 +1,6 @@
 package com.estate.api.admin;
 
-import com.estate.dto.ContractFilterDTO;
-import com.estate.dto.ContractFormDTO;
-import com.estate.dto.ContractListDTO;
-import com.estate.dto.StaffFormDTO;
+import com.estate.dto.*;
 import com.estate.exception.InputValidationException;
 import com.estate.service.ContractService;
 import jakarta.validation.Valid;
@@ -39,7 +36,7 @@ public class ContractAPI {
 
     @PostMapping("/add")
     public ResponseEntity<?> addContract(@Valid @RequestBody ContractFormDTO dto,
-                                      BindingResult result) {
+                                         BindingResult result) {
         if (result.hasErrors()) {
             String message;
 
@@ -54,6 +51,25 @@ public class ContractAPI {
 
         contractService.save(dto);
         return ResponseEntity.ok("Thêm hợp đồng thành công");
+    }
+
+    @PutMapping("/edit")
+    public ResponseEntity<?> editContract(@Valid @RequestBody ContractFormDTO dto,
+                                          BindingResult result) {
+        if (result.hasErrors()) {
+            String message;
+
+            if (!result.getFieldErrors().isEmpty()) {
+                message = result.getFieldErrors().get(0).getDefaultMessage();
+            } else {
+                message = result.getAllErrors().get(0).getDefaultMessage();
+            }
+
+            throw new InputValidationException(message);
+        }
+
+        contractService.save(dto);
+        return ResponseEntity.ok("Sửa hợp đồng thành công");
     }
 
     @DeleteMapping("/delete/{id}")
