@@ -1,9 +1,6 @@
 package com.estate.service;
 
-import com.estate.dto.ContractFilterDTO;
-import com.estate.dto.ContractFormDTO;
-import com.estate.dto.ContractListDTO;
-import com.estate.dto.StaffPerformanceDTO;
+import com.estate.dto.*;
 import org.springframework.data.domain.Page;
 
 import java.math.BigDecimal;
@@ -22,4 +19,5 @@ public interface ContractService {
     void save(ContractFormDTO dto);
     void delete(Long id);
     ContractFormDTO findById(Long id);
+    ContractDetailDTO viewById(Long id);
 }

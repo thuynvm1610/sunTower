@@ -1,5 +1,6 @@
 package com.estate.service.impl;
 
+import com.estate.converter.ContractDetailConverter;
 import com.estate.converter.ContractFormConverter;
 import com.estate.converter.ContractListConverter;
 import com.estate.dto.*;
@@ -47,6 +48,9 @@ public class ContractServiceImpl implements ContractService {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private ContractDetailConverter contractDetailConverter;
 
     @Override
     public Long countAll() {
@@ -274,5 +278,13 @@ public class ContractServiceImpl implements ContractService {
                 .orElseThrow(() -> new BusinessException("Không tìm thấy hợp đồng"));
         ContractFormDTO contractFormDTO = contractFormConverter.toDTO(contractEntity);
         return contractFormDTO;
+    }
+
+    @Override
+    public ContractDetailDTO viewById(Long id) {
+        ContractEntity contractEntity = contractRepository.findById(id)
+                .orElseThrow(() -> new BusinessException("Không tìm thấy hợp đồng"));
+        ContractDetailDTO contractDetailDTO = contractDetailConverter.toDto(contractEntity);
+        return contractDetailDTO;
     }
 }

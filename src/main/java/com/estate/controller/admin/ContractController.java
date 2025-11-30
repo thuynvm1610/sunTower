@@ -1,9 +1,8 @@
 package com.estate.controller.admin;
 
+import com.estate.dto.ContractDetailDTO;
 import com.estate.dto.ContractFilterDTO;
 import com.estate.dto.ContractFormDTO;
-import com.estate.enums.Direction;
-import com.estate.enums.Level;
 import com.estate.service.BuildingService;
 import com.estate.service.ContractService;
 import com.estate.service.CustomerService;
@@ -81,5 +80,21 @@ public class ContractController {
         model.addAttribute("page", "contract");
 
         return "admin/contract-edit";
+    }
+
+    @GetMapping("/{id}")
+    public String detailContract(
+            @PathVariable("id") Long id,
+            Model model
+    ) {
+        ContractDetailDTO contract = contractService.viewById(id);
+        model.addAttribute("contract", contract);
+
+        model.addAttribute("page", "contract");
+
+        System.out.println("DTO startDate = " + contract.getStartDate());
+        System.out.println("DTO endDate = " + contract.getEndDate());
+
+        return "admin/contract-detail";
     }
 }
