@@ -173,6 +173,12 @@
             font-size: 1.125rem;
         }
 
+        .info-value.area {
+            color: #2563eb;
+            font-weight: 600;
+            font-size: 1.125rem;
+        }
+
         /* Status badges */
         .badge-status {
             display: inline-flex;
@@ -454,10 +460,17 @@
 
             <div class="info-row">
                 <div class="info-item">
-                    <span class="info-label">Giá thuê</span>
+                    <span class="info-label">Diện tích thuê</span>
+                    <div class="info-value area">
+                        <i class="bi bi-rulers me-2"></i>
+                        <span th:text="${contract.rentArea} + ' m²'">100 m²</span>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Giá thuê (m²)</span>
                     <div class="info-value price">
                         <i class="bi bi-cash-stack me-2"></i>
-                        <span th:text="${contract.rentPrice} + ' VNĐ'">15,000,000 VNĐ</span>
+                        <span th:text="${#numbers.formatDecimal(contract.rentPrice, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">15,000,000 VNĐ</span>
                     </div>
                 </div>
                 <div class="info-item">
@@ -553,7 +566,7 @@
                         </div>
                         <div class="entity-row">
                             <i class="bi bi-hash"></i>
-                            <span>Mã TB: <strong th:text="${contract.building.id}">1</strong></span>
+                            <span>Mã TN: <strong th:text="${contract.building.id}">1</strong></span>
                         </div>
                     </div>
                     <div class="info-value empty" th:unless="${contract.building != null}">

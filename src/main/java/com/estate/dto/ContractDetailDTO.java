@@ -17,6 +17,7 @@ import java.time.LocalDate;
 public class ContractDetailDTO {
     private Long id;
     private BigDecimal rentPrice;
+    private Integer rentArea;
     private LocalDate startDate;
     private LocalDate endDate;
     private String status;

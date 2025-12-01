@@ -24,6 +24,9 @@ public class ContractEntity {
     @Column(name = "rent_price")
     private BigDecimal rentPrice;
 
+    @Column(name = "rent_area")
+    private Integer rentArea;
+
     @Column(name = "start_date")
     private LocalDateTime startDate;
 
