@@ -729,7 +729,7 @@
                                 <th>Tên tòa</th>
                                 <th>Địa chỉ</th>
                                 <th>Hạng</th>
-                                <th>Giá thuê</th>
+                                <th>Giá thuê (m²)</th>
                                 <th>Quản lý</th>
                                 <th style="text-align: center;">Hành động</th>
                             </tr>
@@ -819,7 +819,7 @@
                             <td><span class="building-name">${b.name}</span></td>
                             <td>${b.address}</td>
                             <td><span class="level-badge">${levelLabels[b.level] || ''}</span></td>
-                            <td><span class="price-badge">${b.rentPrice || ''}</span></td>
+                            <td><span class="price-badge">${b.rentPrice || ''} đ</span></td>
                             <td>${b.managerName || ''}</td>
                             <td>
                                 <div class="action-buttons">
