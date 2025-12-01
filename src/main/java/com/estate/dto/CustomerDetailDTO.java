@@ -6,7 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -19,6 +21,6 @@ public class CustomerDetailDTO {
     private String fullName;
     private String phone;
     private String email;
-    private List<String> staffs = new ArrayList<>();
+    private Map<String, Long> staffs = new HashMap<>();
     private List<CustomerContractDTO> customerContracts = new ArrayList<>();
 }

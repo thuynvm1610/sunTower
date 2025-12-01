@@ -448,7 +448,9 @@
             </div>
             <div th:if="${not #lists.isEmpty(staff.customers)}">
                 <div class="customer-list">
-                    <div class="customer-item" th:each="customer : ${staff.customers}">
+                    <div class="customer-item" th:each="customer : ${staff.customers}"
+                         th:onclick="|window.location='/admin/customer/' + ${customer.id}|"
+                         style="cursor: pointer;">
                         <i class="bi bi-person-circle"></i>
                         <div class="customer-info">
                             <div class="customer-name" th:text="${customer.fullName}">Nguyễn Văn A</div>
@@ -473,7 +475,9 @@
             </div>
             <div th:if="${not #lists.isEmpty(staff.buildings)}">
                 <div class="building-list">
-                    <div class="building-item" th:each="building : ${staff.buildings}">
+                    <div class="building-item" th:each="building : ${staff.buildings}"
+                         th:onclick="|window.location='/admin/building/' + ${building.id}|"
+                         style="cursor: pointer;">
                         <i class="bi bi-building"></i>
                         <div class="building-info">
                             <div class="building-name" th:text="${building.name}">SunTower A</div>

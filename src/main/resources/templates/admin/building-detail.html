@@ -296,292 +296,302 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        .manager-item:hover {
+            background: #f3f4f6;
+            border-radius: 6px;
+            transition: 0.2s;
+        }
     </style>
 </head>
 
 <body>
 
-    <!-- HEADER + SIDEBAR -->
-    <div th:replace="~{layout/header :: header}"></div>
-    <div th:replace="~{layout/sidebar :: sidebar}"></div>
+<!-- HEADER + SIDEBAR -->
+<div th:replace="~{layout/header :: header}"></div>
+<div th:replace="~{layout/sidebar :: sidebar}"></div>
 
-    <main class="content">
-        <div class="container-fluid">
-            <!-- Page Header -->
-            <div class="page-header">
-                <h2>
-                    <i class="bi bi-building"></i>
-                    Chi tiết Tòa nhà
-                </h2>
-                <div class="header-actions">
-                    <a th:href="@{/admin/building/list}" class="btn-action-header btn-back">
-                        <i class="bi bi-arrow-left"></i>
-                        Quay lại danh sách
-                    </a>
-                    <a th:href="@{'/admin/building/edit/' + ${building.id}}" class="btn-action-header btn-edit">
-                        <i class="bi bi-pencil"></i>
-                        Chỉnh sửa
-                    </a>
-                    <button class="btn-action-header btn-delete" th:data-id="${building.id}">
-                        <i class="bi bi-trash"></i>
-                        Xóa
-                    </button>
-                </div>
+<main class="content">
+    <div class="container-fluid">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h2>
+                <i class="bi bi-building"></i>
+                Chi tiết Tòa nhà
+            </h2>
+            <div class="header-actions">
+                <a th:href="@{/admin/building/list}" class="btn-action-header btn-back">
+                    <i class="bi bi-arrow-left"></i>
+                    Quay lại danh sách
+                </a>
+                <a th:href="@{'/admin/building/edit/' + ${building.id}}" class="btn-action-header btn-edit">
+                    <i class="bi bi-pencil"></i>
+                    Chỉnh sửa
+                </a>
+                <button class="btn-action-header btn-delete" th:data-id="${building.id}">
+                    <i class="bi bi-trash"></i>
+                    Xóa
+                </button>
             </div>
+        </div>
 
-            <!-- Thông tin cơ bản -->
-            <div class="info-card">
-                <div class="info-card-header">
-                    <i class="bi bi-info-circle-fill"></i>
-                    <h3>Thông tin cơ bản</h3>
-                </div>
-                <div class="info-row">
-                    <div class="info-item">
-                        <span class="info-label">Mã tòa nhà</span>
-                        <div class="info-value" th:text="${building.id}"></div>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Tên tòa nhà</span>
-                        <div class="info-value" th:text="${building.name}"></div>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Quận</span>
-                        <div class="info-value" th:text="${building.district}"></div>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Phường</span>
-                        <div class="info-value" th:classappend="${#strings.isEmpty(building.ward)} ? 'empty'"
-                            th:text="${#strings.isEmpty(building.ward)} ? 'Chưa cập nhật' : ${building.ward}">
-                        </div>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Đường</span>
-                        <div class="info-value" th:classappend="${#strings.isEmpty(building.street)} ? 'empty'"
-                            th:text="${#strings.isEmpty(building.street)} ? 'Chưa cập nhật' : ${building.street}">
-                        </div>
-                    </div>
-                </div>
+        <!-- Thông tin cơ bản -->
+        <div class="info-card">
+            <div class="info-card-header">
+                <i class="bi bi-info-circle-fill"></i>
+                <h3>Thông tin cơ bản</h3>
             </div>
-
-            <!-- Đặc điểm tòa nhà -->
-            <div class="info-card">
-                <div class="info-card-header">
-                    <i class="bi bi-building-fill"></i>
-                    <h3>Đặc điểm tòa nhà</h3>
+            <div class="info-row">
+                <div class="info-item">
+                    <span class="info-label">Mã tòa nhà</span>
+                    <div class="info-value" th:text="${building.id}"></div>
                 </div>
-                <div class="info-row">
-                    <div class="info-item">
-                        <span class="info-label">Số tầng</span>
-                        <div class="info-value" th:text="${building.numberOfFloor}">20</div>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Số tầng hầm</span>
-                        <div class="info-value" th:text="${building.numberOfBasement}">2</div>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Diện tích sàn (m²)</span>
-                        <div class="info-value" th:text="${building.floorArea}">5000</div>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Hướng</span>
-                        <div class="info-value">
-                            <span class="badge-custom badge-direction" th:text="${building.direction}"></span>
-                            <span th:unless="${building.direction}" class="empty">Chưa cập nhật</span>
-                        </div>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Hạng</span>
-                        <div class="info-value">
-                            <span class="badge-custom badge-level" th:text="${building.level}"></span>
-                            <span th:unless="${building.level}" class="empty">Chưa cập nhật</span>
-                        </div>
+                <div class="info-item">
+                    <span class="info-label">Tên tòa nhà</span>
+                    <div class="info-value" th:text="${building.name}"></div>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Quận</span>
+                    <div class="info-value" th:text="${building.district}"></div>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Phường</span>
+                    <div class="info-value" th:classappend="${#strings.isEmpty(building.ward)} ? 'empty'"
+                         th:text="${#strings.isEmpty(building.ward)} ? 'Chưa cập nhật' : ${building.ward}">
                     </div>
                 </div>
-            </div>
-
-            <!-- Giá và phí -->
-            <div class="info-card">
-                <div class="info-card-header">
-                    <i class="bi bi-cash-stack"></i>
-                    <h3>Giá và phí (VNĐ)</h3>
-                </div>
-                <div class="info-row">
-                    <div class="info-item">
-                        <span class="info-label">Giá thuê</span>
-                        <div class="info-value">
-                            <span class="badge-custom badge-price" th:if="${building.rentPrice}"
-                                th:text="${#numbers.formatDecimal(building.rentPrice, 0, 'COMMA', 0, 'POINT')}">15,000,000</span>
-                            <span th:unless="${building.rentPrice}" class="empty">Chưa cập nhật</span>
-                        </div>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Phí dịch vụ</span>
-                        <div class="info-value"
-                            th:text="${building.serviceFee != null ? #numbers.formatDecimal(building.serviceFee, 0, 'COMMA', 0, 'POINT') : 'Chưa cập nhật'}"
-                            th:classappend="${building.serviceFee == null} ? 'empty'">500,000
-                        </div>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Phí xe ô tô</span>
-                        <div class="info-value"
-                            th:text="${building.carFee != null ? #numbers.formatDecimal(building.carFee, 0, 'COMMA', 0, 'POINT') : 'Chưa cập nhật'}"
-                            th:classappend="${building.carFee == null} ? 'empty'">200,000
-                        </div>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Phí xe máy</span>
-                        <div class="info-value"
-                            th:text="${building.motorbikeFee != null ? #numbers.formatDecimal(building.motorbikeFee, 0, 'COMMA', 0, 'POINT') : 'Chưa cập nhật'}"
-                            th:classappend="${building.motorbikeFee == null} ? 'empty'">50,000
-                        </div>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Phí nước</span>
-                        <div class="info-value"
-                            th:text="${building.waterFee != null ? #numbers.formatDecimal(building.waterFee, 0, 'COMMA', 0, 'POINT') : 'Chưa cập nhật'}"
-                            th:classappend="${building.waterFee == null} ? 'empty'">100,000
-                        </div>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Phí điện</span>
-                        <div class="info-value"
-                            th:text="${building.electricityFee != null ? #numbers.formatDecimal(building.electricityFee, 0, 'COMMA', 0, 'POINT') : 'Chưa cập nhật'}"
-                            th:classappend="${building.electricityFee == null} ? 'empty'">3,500
-                        </div>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Đặt cọc</span>
-                        <div class="info-value"
-                            th:text="${building.deposit != null ? #numbers.formatDecimal(building.deposit, 0, 'COMMA', 0, 'POINT') : 'Chưa cập nhật'}"
-                            th:classappend="${building.deposit == null} ? 'empty'">30,000,000
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Diện tích cho thuê -->
-            <div class="info-card">
-                <div class="info-card-header">
-                    <i class="bi bi-rulers"></i>
-                    <h3>Diện tích cho thuê (m²)</h3>
-                </div>
-                <div th:if="${not #strings.isEmpty(building.rentAreaValues)}">
-                    <div class="rent-areas">
-                        <span class="rent-area-tag"
-                            th:each="area : ${#strings.arraySplit(building.rentAreaValues, ',')}"
-                            th:text="${area} + ' m²'">100 m²</span>
-                    </div>
-                </div>
-                <div th:unless="${not #strings.isEmpty(building.rentAreaValues)}" class="info-value empty">
-                    Chưa cập nhật diện tích cho thuê
-                </div>
-            </div>
-
-            <!-- Nhân viên quản lý -->
-            <div class="info-card">
-                <div class="info-card-header">
-                    <i class="bi bi-people-fill"></i>
-                    <h3>Nhân viên quản lý</h3>
-                </div>
-                <div th:if="${not #lists.isEmpty(building.staffs)}">
-                    <div class="manager-list">
-                        <div class="manager-item" th:each="manager : ${building.staffs}">
-                            <i class="bi bi-person-circle"></i>
-                            <span class="manager-name" th:text="${manager}"></span>
-                        </div>
-                    </div>
-                </div>
-                <div th:unless="${not #lists.isEmpty(building.staffs)}" class="info-value empty">
-                    Chưa có nhân viên quản lý
-                </div>
-            </div>
-
-            <!-- Hình ảnh và Link -->
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="info-card">
-                        <div class="info-card-header">
-                            <i class="bi bi-image-fill"></i>
-                            <h3>Hình ảnh</h3>
-                        </div>
-                        <div th:if="${not #strings.isEmpty(building.image)}">
-                            <img th:src="${building.image}" alt="Building Image" class="building-image">
-                        </div>
-                        <div th:unless="${not #strings.isEmpty(building.image)}" class="building-image empty">
-                            <i class="bi bi-image"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="info-card">
-                        <div class="info-card-header">
-                            <i class="bi bi-link-45deg"></i>
-                            <h3>Link tòa nhà</h3>
-                        </div>
-                        <div th:if="${not #strings.isEmpty(building.linkOfBuilding)}">
-                            <a th:href="${building.linkOfBuilding}" target="_blank" class="building-link">
-                                <i class="bi bi-box-arrow-up-right"></i>
-                                <span th:text="${building.linkOfBuilding}">https://example.com</span>
-                            </a>
-                        </div>
-                        <div th:unless="${not #strings.isEmpty(building.linkOfBuilding)}" class="info-value empty">
-                            Chưa có link
-                        </div>
+                <div class="info-item">
+                    <span class="info-label">Đường</span>
+                    <div class="info-value" th:classappend="${#strings.isEmpty(building.street)} ? 'empty'"
+                         th:text="${#strings.isEmpty(building.street)} ? 'Chưa cập nhật' : ${building.street}">
                     </div>
                 </div>
             </div>
         </div>
-    </main>
 
-    <!--Bootstrap-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- CDN SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!--JQuery-->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- Đặc điểm tòa nhà -->
+        <div class="info-card">
+            <div class="info-card-header">
+                <i class="bi bi-building-fill"></i>
+                <h3>Đặc điểm tòa nhà</h3>
+            </div>
+            <div class="info-row">
+                <div class="info-item">
+                    <span class="info-label">Số tầng</span>
+                    <div class="info-value" th:text="${building.numberOfFloor}">20</div>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Số tầng hầm</span>
+                    <div class="info-value" th:text="${building.numberOfBasement}">2</div>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Diện tích sàn (m²)</span>
+                    <div class="info-value" th:text="${building.floorArea}">5000</div>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Hướng</span>
+                    <div class="info-value">
+                        <span class="badge-custom badge-direction" th:text="${building.direction}"></span>
+                        <span th:unless="${building.direction}" class="empty">Chưa cập nhật</span>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Hạng</span>
+                    <div class="info-value">
+                        <span class="badge-custom badge-level" th:text="${building.level}"></span>
+                        <span th:unless="${building.level}" class="empty">Chưa cập nhật</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <script>
-        // Ajax xóa tòa nhà
-        $(document).on("click", ".btn-delete", function (e) {
-            e.preventDefault();
+        <!-- Giá và phí -->
+        <div class="info-card">
+            <div class="info-card-header">
+                <i class="bi bi-cash-stack"></i>
+                <h3>Giá và phí (VNĐ)</h3>
+            </div>
+            <div class="info-row">
+                <div class="info-item">
+                    <span class="info-label">Giá thuê</span>
+                    <div class="info-value">
+                            <span class="badge-custom badge-price" th:if="${building.rentPrice}"
+                                  th:text="${#numbers.formatDecimal(building.rentPrice, 0, 'COMMA', 0, 'POINT')}">15,000,000</span>
+                        <span th:unless="${building.rentPrice}" class="empty">Chưa cập nhật</span>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Phí dịch vụ</span>
+                    <div class="info-value"
+                         th:text="${building.serviceFee != null ? #numbers.formatDecimal(building.serviceFee, 0, 'COMMA', 0, 'POINT') : 'Chưa cập nhật'}"
+                         th:classappend="${building.serviceFee == null} ? 'empty'">500,000
+                    </div>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Phí xe ô tô</span>
+                    <div class="info-value"
+                         th:text="${building.carFee != null ? #numbers.formatDecimal(building.carFee, 0, 'COMMA', 0, 'POINT') : 'Chưa cập nhật'}"
+                         th:classappend="${building.carFee == null} ? 'empty'">200,000
+                    </div>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Phí xe máy</span>
+                    <div class="info-value"
+                         th:text="${building.motorbikeFee != null ? #numbers.formatDecimal(building.motorbikeFee, 0, 'COMMA', 0, 'POINT') : 'Chưa cập nhật'}"
+                         th:classappend="${building.motorbikeFee == null} ? 'empty'">50,000
+                    </div>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Phí nước</span>
+                    <div class="info-value"
+                         th:text="${building.waterFee != null ? #numbers.formatDecimal(building.waterFee, 0, 'COMMA', 0, 'POINT') : 'Chưa cập nhật'}"
+                         th:classappend="${building.waterFee == null} ? 'empty'">100,000
+                    </div>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Phí điện</span>
+                    <div class="info-value"
+                         th:text="${building.electricityFee != null ? #numbers.formatDecimal(building.electricityFee, 0, 'COMMA', 0, 'POINT') : 'Chưa cập nhật'}"
+                         th:classappend="${building.electricityFee == null} ? 'empty'">3,500
+                    </div>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Đặt cọc</span>
+                    <div class="info-value"
+                         th:text="${building.deposit != null ? #numbers.formatDecimal(building.deposit, 0, 'COMMA', 0, 'POINT') : 'Chưa cập nhật'}"
+                         th:classappend="${building.deposit == null} ? 'empty'">30,000,000
+                    </div>
+                </div>
+            </div>
+        </div>
 
-            let id = $(e.target).closest(".btn-delete").data("id");
+        <!-- Diện tích cho thuê -->
+        <div class="info-card">
+            <div class="info-card-header">
+                <i class="bi bi-rulers"></i>
+                <h3>Diện tích cho thuê (m²)</h3>
+            </div>
+            <div th:if="${not #strings.isEmpty(building.rentAreaValues)}">
+                <div class="rent-areas">
+                        <span class="rent-area-tag"
+                              th:each="area : ${#strings.arraySplit(building.rentAreaValues, ',')}"
+                              th:text="${area} + ' m²'">100 m²</span>
+                </div>
+            </div>
+            <div th:unless="${not #strings.isEmpty(building.rentAreaValues)}" class="info-value empty">
+                Chưa cập nhật diện tích cho thuê
+            </div>
+        </div>
 
-            if (!confirm("Bạn có chắc muốn xóa tòa nhà này?")) return;
+        <!-- Nhân viên quản lý -->
+        <div class="info-card">
+            <div class="info-card-header">
+                <i class="bi bi-people-fill"></i>
+                <h3>Nhân viên quản lý</h3>
+            </div>
+            <div th:if="${not #lists.isEmpty(building.staffs)}">
+                <div class="manager-list">
+                    <div class="manager-item"
+                         th:each="entry : ${building.staffs.entrySet()}"
+                         th:onclick="|window.location='/admin/staff/' + ${entry.value}|"
+                         style="cursor: pointer;">
 
-            $.ajax({
-                url: "/admin/building/delete/" + id,
-                type: "DELETE",
-                success: function () {
+                        <i class="bi bi-person-circle"></i>
+                        <span class="manager-name" th:text="${entry.key}"></span>
+                    </div>
+                </div>
+            </div>
+            <div th:unless="${not #lists.isEmpty(building.staffs)}" class="info-value empty">
+                Chưa có nhân viên quản lý
+            </div>
+        </div>
+
+        <!-- Hình ảnh và Link -->
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <i class="bi bi-image-fill"></i>
+                        <h3>Hình ảnh</h3>
+                    </div>
+                    <div th:if="${not #strings.isEmpty(building.image)}">
+                        <img th:src="${building.image}" alt="Building Image" class="building-image">
+                    </div>
+                    <div th:unless="${not #strings.isEmpty(building.image)}" class="building-image empty">
+                        <i class="bi bi-image"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <i class="bi bi-link-45deg"></i>
+                        <h3>Link tòa nhà</h3>
+                    </div>
+                    <div th:if="${not #strings.isEmpty(building.linkOfBuilding)}">
+                        <a th:href="${building.linkOfBuilding}" target="_blank" class="building-link">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                            <span th:text="${building.linkOfBuilding}">https://example.com</span>
+                        </a>
+                    </div>
+                    <div th:unless="${not #strings.isEmpty(building.linkOfBuilding)}" class="info-value empty">
+                        Chưa có link
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!--Bootstrap-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- CDN SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!--JQuery-->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    // Ajax xóa tòa nhà
+    $(document).on("click", ".btn-delete", function (e) {
+        e.preventDefault();
+
+        let id = $(e.target).closest(".btn-delete").data("id");
+
+        if (!confirm("Bạn có chắc muốn xóa tòa nhà này?")) return;
+
+        $.ajax({
+            url: "/admin/building/delete/" + id,
+            type: "DELETE",
+            success: function () {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công',
+                    text: 'Xóa tòa nhà thành công!',
+                    timer: 1500,       // tự động đóng sau 1.5s
+                    showConfirmButton: false
+                }).then(() => {
+                    loadBuildings(currentPage);
+                });
+            },
+            error: function (xhr) {
+                const err = xhr.responseJSON;
+                if (err && err.message) {
                     Swal.fire({
-                        icon: 'success',
-                        title: 'Thành công',
-                        text: 'Xóa tòa nhà thành công!',
-                        timer: 1500,       // tự động đóng sau 1.5s
-                        showConfirmButton: false
-                    }).then(() => {
-                        loadBuildings(currentPage);
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: err.message
                     });
-                },
-                error: function (xhr) {
-                    const err = xhr.responseJSON;
-                    if (err && err.message) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Lỗi',
-                            text: err.message
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Lỗi',
-                            text: 'Xóa thất bại!'
-                        });
-                    }
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: 'Xóa thất bại!'
+                    });
                 }
-            });
+            }
         });
-    </script>
+    });
+</script>
 </body>
 
 </html>

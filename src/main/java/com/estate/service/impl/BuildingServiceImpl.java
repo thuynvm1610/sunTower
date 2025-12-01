@@ -71,11 +71,7 @@ public class BuildingServiceImpl implements BuildingService {
             String staffNamesStr = String.join(" - ", staffNames);
 
             // Map sang DTO
-            BuildingListDTO dto = new BuildingListDTO();
-            dto.setName(b.getName());
-            dto.setManagerName(staffNamesStr);
-
-            result.add(dto);
+            result.add(buildingListConverter.toDto(b, staffNamesStr));
         }
 
         return result;

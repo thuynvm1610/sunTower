@@ -25,9 +25,12 @@ public class CustomerDetailConverter {
 
         if (entity.getStaffs_customers() != null && !entity.getStaffs_customers().isEmpty()) {
             dto.setStaffs(
-                    entity.getStaffs_customers().stream()
-                            .map(s -> s.getFullName())
-                            .collect(Collectors.toList())
+                    entity.getStaffs_customers()
+                            .stream()
+                            .collect(Collectors.toMap(
+                                    s -> s.getFullName(),   // key
+                                    s -> s.getId()          // value
+                            ))
             );
         }
 

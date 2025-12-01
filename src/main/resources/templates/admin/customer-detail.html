@@ -319,6 +319,12 @@
                 min-width: 800px;
             }
         }
+
+        .manager-item:hover {
+            background: #f3f4f6;
+            border-radius: 6px;
+            transition: 0.2s;
+        }
     </style>
 </head>
 
@@ -372,7 +378,7 @@
                     <div class="info-value" th:text="${customer.password}"></div>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">Họ và tên</span>
+                    <span class="info-label">Tên khách hàng</span>
                     <div class="info-value" th:text="${customer.fullName}"></div>
                 </div>
             </div>
@@ -408,9 +414,12 @@
             </div>
             <div th:if="${not #lists.isEmpty(customer.staffs)}">
                 <div class="manager-list">
-                    <div class="manager-item" th:each="staff : ${customer.staffs}">
+                    <div class="manager-item"
+                         th:each="entry : ${customer.staffs.entrySet()}"
+                         th:onclick="|window.location='/admin/staff/' + ${entry.value}|"
+                         style="cursor: pointer;">
                         <i class="bi bi-person-badge"></i>
-                        <span class="manager-name" th:text="${staff}"></span>
+                        <span class="manager-name" th:text="${entry.key}"></span>
                     </div>
                 </div>
             </div>
@@ -440,7 +449,9 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="contract : ${customer.customerContracts}">
+                        <tr th:each="contract : ${customer.customerContracts}"
+                            th:onclick="|window.location='/admin/contract/' + ${contract.id}|"
+                            style="cursor: pointer;">
                             <td th:text="${contract.id}">1</td>
                             <td th:text="${contract.building}">SunTower A</td>
                             <td th:text="${contract.staff}">Nguyễn Văn A</td>

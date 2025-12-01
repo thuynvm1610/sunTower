@@ -37,9 +37,12 @@ public class BuildingDetailConverter {
 
         if (entity.getStaffs_buildings() != null && !entity.getStaffs_buildings().isEmpty()) {
             dto.setStaffs(
-                    entity.getStaffs_buildings().stream()
-                            .map(s -> s.getFullName())
-                            .collect(Collectors.toList())
+                    entity.getStaffs_buildings()
+                            .stream()
+                            .collect(Collectors.toMap(
+                                    s -> s.getFullName(),   // key
+                                    s -> s.getId()          // value
+                            ))
             );
         }
         return dto;

@@ -7,7 +7,9 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -34,5 +36,5 @@ public class BuildingDetailDTO {
     private String linkOfBuilding;
     private String image;
     private String rentAreaValues;
-    private List<String> staffs = new ArrayList<>();
+    private Map<String, Long> staffs = new HashMap<>();
 }

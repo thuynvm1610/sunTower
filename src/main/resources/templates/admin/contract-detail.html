@@ -503,7 +503,9 @@
                         <i class="bi bi-person-circle"></i>
                         <h4>Khách hàng</h4>
                     </div>
-                    <div class="entity-detail" th:if="${contract.customer != null}">
+                    <div class="entity-detail" th:if="${contract.customer != null}"
+                         th:onclick="|window.location='/admin/customer/' + ${contract.customer.id}|"
+                         style="cursor: pointer;">
                         <div class="entity-row">
                             <i class="bi bi-person-fill"></i>
                             <span><strong th:text="${contract.customer.fullName}">Nguyễn Văn A</strong></span>
@@ -534,7 +536,9 @@
                         <i class="bi bi-building"></i>
                         <h4>Tòa nhà</h4>
                     </div>
-                    <div class="entity-detail" th:if="${contract.building != null}">
+                    <div class="entity-detail" th:if="${contract.building != null}"
+                         th:onclick="|window.location='/admin/building/' + ${contract.building.id}|"
+                         style="cursor: pointer;">
                         <div class="entity-row">
                             <i class="bi bi-building-fill"></i>
                             <span><strong th:text="${contract.building.name}">SunTower A</strong></span>
@@ -565,7 +569,9 @@
                         <i class="bi bi-person-badge"></i>
                         <h4>Nhân viên phụ trách</h4>
                     </div>
-                    <div class="entity-detail" th:if="${contract.staff != null}">
+                    <div class="entity-detail" th:if="${contract.staff != null}"
+                         th:onclick="|window.location='/admin/staff/' + ${contract.staff.id}|"
+                         style="cursor: pointer;">
                         <div class="entity-row">
                             <i class="bi bi-person-fill"></i>
                             <span><strong th:text="${contract.staff.fullName}">Trần Thị B</strong></span>
