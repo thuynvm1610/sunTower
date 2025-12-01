@@ -20,6 +20,7 @@ public class ContractFormDTO {
     private Long staffId;
     @DecimalMin(value = "0.0", inclusive = true, message = "Giá thuê phải >= 0")
     private BigDecimal rentPrice;
+    private Integer rentArea;
     private LocalDate startDate;
     private LocalDate endDate;
     private String status;

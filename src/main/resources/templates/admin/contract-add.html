@@ -143,6 +143,13 @@
             color: #9ca3af;
         }
 
+        .form-control:disabled,
+        .form-select:disabled {
+            background-color: #f3f4f6;
+            color: #9ca3af;
+            cursor: not-allowed;
+        }
+
         /* Highlight khi có giá trị */
         .form-control.has-value,
         .form-select.has-value {
@@ -176,6 +183,11 @@
             font-size: 0.8125rem;
             color: #6b7280;
             margin-top: 0.375rem;
+        }
+
+        .form-text.info {
+            color: #3b82f6;
+            font-weight: 500;
         }
 
         /* Form actions */
@@ -380,14 +392,29 @@
                         <span class="input-group-text">
                             <i class="bi bi-building"></i>
                         </span>
-                        <select class="form-select" name="buildingId" required>
+                        <select class="form-select" name="buildingId" id="buildingSelect" required>
                             <option value="">-- Chọn tòa nhà --</option>
-                            <!-- Thymeleaf sẽ render danh sách tòa nhà -->
                             <option th:each="building : ${buildings}"
                                     th:value="${building.value}"
                                     th:text="${building.key}"></option>
                         </select>
                     </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">
+                        Diện tích thuê (m²)
+                        <span class="required">*</span>
+                    </label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="bi bi-rulers"></i>
+                        </span>
+                        <select class="form-select" name="rentArea" id="rentAreaSelect" required disabled>
+                            <option value="">-- Chọn tòa nhà trước --</option>
+                        </select>
+                    </div>
+                    <small class="form-text info" id="rentAreaInfo"></small>
                 </div>
 
                 <div class="col-md-6">
@@ -401,7 +428,6 @@
                         </span>
                         <select class="form-select" name="customerId" required>
                             <option value="">-- Chọn khách hàng --</option>
-                            <!-- Thymeleaf sẽ render danh sách khách hàng -->
                             <option th:each="customer : ${customers}"
                                     th:value="${customer.value}"
                                     th:text="${customer.key}"></option>
@@ -420,7 +446,6 @@
                         </span>
                         <select class="form-select" name="staffId" required>
                             <option value="">-- Chọn nhân viên --</option>
-                            <!-- Thymeleaf sẽ render danh sách nhân viên -->
                             <option th:each="staff : ${staffs}"
                                     th:value="${staff.id}"
                                     th:text="${staff.fullName}"></option>
@@ -529,12 +554,70 @@
 <!--JQuery-->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<script th:inline="javascript">
+    // Lấy dữ liệu rentAreas từ Thymeleaf
+    const rentAreasData = /*[[${rentAreas}]]*/ {};
+
+    // Xử lý thay đổi tòa nhà
+    $(document).ready(function() {
+        $('#buildingSelect').on('change', function() {
+            const buildingId = $(this).val();
+            const $rentAreaSelect = $('#rentAreaSelect');
+            const $rentAreaInfo = $('#rentAreaInfo');
+
+            // Reset dropdown diện tích
+            $rentAreaSelect.empty();
+            $rentAreaInfo.text('');
+
+            if (!buildingId) {
+                $rentAreaSelect.append('<option value="">-- Chọn tòa nhà trước --</option>');
+                $rentAreaSelect.prop('disabled', true);
+                $rentAreaSelect.removeClass('has-value');
+                return;
+            }
+
+            // Lấy danh sách diện tích của tòa nhà
+            const areas = rentAreasData[buildingId];
+
+            if (!areas || areas.length === 0) {
+                $rentAreaSelect.append('<option value="">-- Không có diện tích khả dụng --</option>');
+                $rentAreaSelect.prop('disabled', true);
+                $rentAreaInfo.text('Tòa nhà này chưa có diện tích nào khả dụng');
+                return;
+            }
+
+            // Thêm options
+            $rentAreaSelect.append('<option value="">-- Chọn diện tích --</option>');
+            areas.forEach(function(area) {
+                $rentAreaSelect.append(`<option value="${area}">${area} m²</option>`);
+            });
+
+            $rentAreaSelect.prop('disabled', false);
+            $rentAreaInfo.text(`Có ${areas.length} diện tích khả dụng cho tòa nhà này`);
+        });
+
+        // Trigger highlight khi chọn diện tích
+        $('#rentAreaSelect').on('change', function() {
+            if ($(this).val()) {
+                $(this).addClass('has-value');
+            } else {
+                $(this).removeClass('has-value');
+            }
+        });
+    });
+</script>
+
 <script>
     // Date validation
     function validateDateRange() {
         const startDate = document.getElementById('startDateInput').value;
         const endDate = document.getElementById('endDateInput').value;
         const validation = document.getElementById('dateValidation');
+
+        if (!startDate || !endDate) {
+            validation.textContent = '';
+            return true;
+        }
 
         const start = new Date(startDate);
         const end = new Date(endDate);
@@ -581,6 +664,12 @@
         const validation = document.getElementById('dateValidation');
         validation.textContent = '';
 
+        // Reset rent area
+        const $rentAreaSelect = $('#rentAreaSelect');
+        $rentAreaSelect.empty().append('<option value="">-- Chọn tòa nhà trước --</option>');
+        $rentAreaSelect.prop('disabled', true);
+        $('#rentAreaInfo').text('');
+
         // Reset status selection visual
         setTimeout(() => {
             const checkedRadio = document.querySelector('input[name="status"]:checked');
@@ -610,6 +699,7 @@
             buildingId: $("[name='buildingId']").val(),
             customerId: $("[name='customerId']").val(),
             staffId: $("[name='staffId']").val(),
+            rentArea: $("[name='rentArea']").val(),
             rentPrice: $("[name='rentPrice']").val(),
             startDate: $("[name='startDate']").val(),
             endDate: $("[name='endDate']").val(),

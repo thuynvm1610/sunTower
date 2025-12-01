@@ -3,16 +3,17 @@ package com.estate.controller.admin;
 import com.estate.dto.ContractDetailDTO;
 import com.estate.dto.ContractFilterDTO;
 import com.estate.dto.ContractFormDTO;
-import com.estate.service.BuildingService;
-import com.estate.service.ContractService;
-import com.estate.service.CustomerService;
-import com.estate.service.StaffService;
+import com.estate.repository.RentAreaRepository;
+import com.estate.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/admin/contract")
@@ -28,6 +29,9 @@ public class ContractController {
 
     @Autowired
     ContractService contractService;
+
+    @Autowired
+    RentAreaService rentAreaService;
 
     @GetMapping("/list")
     public String listContracts(Model model) {
@@ -60,6 +64,9 @@ public class ContractController {
         model.addAttribute("buildings", buildingService.getBuildingsName());
         model.addAttribute("customers", customerService.getCustomersName());
 
+        Map<Long, List<Integer>> rentAreas = rentAreaService.getAllRentAreas();
+        model.addAttribute("rentAreas", rentAreas);
+
         model.addAttribute("page", "contract");
 
         return "admin/contract-add";
@@ -89,12 +96,7 @@ public class ContractController {
     ) {
         ContractDetailDTO contract = contractService.viewById(id);
         model.addAttribute("contract", contract);
-
         model.addAttribute("page", "contract");
-
-        System.out.println("DTO startDate = " + contract.getStartDate());
-        System.out.println("DTO endDate = " + contract.getEndDate());
-
         return "admin/contract-detail";
     }
 }
