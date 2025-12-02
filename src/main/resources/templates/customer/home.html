@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Estate - Home</title>
+
+    <!-- Bootstrap CDN (hoặc bạn có thể dùng file local) -->
+    <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css}" rel="stylesheet"/>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/}">Estate</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <!-- Link chung cho mọi user đã auth -->
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/profile}">Hồ sơ</a>
+                </li>
+
+                <!-- Chỉ admin & staff -->
+                <li class="nav-item" sec:authorize="hasAnyRole('ADMIN','STAFF')">
+                    <a class="nav-link" th:href="@{/admin/dashboard}">Admin Dashboard</a>
+                </li>
+
+                <!-- Chỉ customer -->
+                <li class="nav-item" sec:authorize="hasRole('CUSTOMER')">
+                    <a class="nav-link" th:href="@{/customer/home}">Trang Khách hàng</a>
+                </li>
+            </ul>
+
+            <div class="d-flex align-items-center">
+                <!-- Hiển thị tên user đang đăng nhập -->
+                <span class="text-white me-3">Xin chào,
+                    <strong th:text="${#authentication.name}">User</strong>
+                </span>
+
+                <!-- Hiển thị role(s) -->
+                <div class="me-3">
+                    <span class="badge bg-light text-dark"
+                          sec:authorize="hasRole('ADMIN')">ADMIN</span>
+                    <span class="badge bg-light text-dark"
+                          sec:authorize="hasRole('STAFF')">STAFF</span>
+                    <span class="badge bg-light text-dark"
+                          sec:authorize="hasRole('CUSTOMER')">CUSTOMER</span>
+                </div>
+
+                <!-- Logout (csrf disabled in example config so GET works) -->
+                <a th:href="@{/logout}" class="btn btn-outline-light btn-sm">Đăng xuất</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<main class="container my-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="p-4 bg-white rounded shadow-sm">
+                <h1 class="h4 mb-3">Trang chính</h1>
+                <p>Chào mừng <strong th:text="${#authentication.name}">User</strong> đến với hệ thống quản lý bất động sản.</p>
+
+                <!-- Nội dung cho admin/staff -->
+                <div sec:authorize="hasAnyRole('ADMIN','STAFF')" class="mb-3">
+                    <h5>Quản trị viên / Nhân viên</h5>
+                    <p>
+                        Truy cập nhanh:
+                        <a th:href="@{/admin/staff}" class="btn btn-sm btn-primary">Nhân viên</a>
+                        <a th:href="@{/admin/building}" class="btn btn-sm btn-secondary">Tòa nhà</a>
+                    </p>
+                </div>
+
+                <!-- Nội dung cho customer -->
+                <div sec:authorize="hasRole('CUSTOMER')" class="mb-3">
+                    <h5>Khách hàng</h5>
+                    <p>
+                        Xem hợp đồng và dịch vụ của bạn:
+                        <a th:href="@{/customer/contracts}" class="btn btn-sm btn-success">Hợp đồng của tôi</a>
+                        <a th:href="@{/customer/profile}" class="btn btn-sm btn-outline-success">Sửa hồ sơ</a>
+                    </p>
+                </div>
+
+                <hr/>
+
+                <div>
+                    <h6>Thông tin nhanh</h6>
+                    <ul>
+                        <li>Ngày giờ hiện tại: <span th:text="${today}"></span></li>
+                        <li>IP client: <span th:text="${clientIp}">--</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Bootstrap JS (Popper + Bundle) -->
+<script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

@@ -45,40 +45,6 @@
 
         <div class="sidebar-divider"></div>
 
-        <!-- Phần quản lý bổ sung -->
-        <div class="nav-section-title">
-            <span>Tiện ích</span>
-        </div>
-
-        <a href="/admin/reports" th:classappend="${page == 'reports'} ? 'active'" class="nav-link">
-            <div class="nav-icon">
-                <i class="bi bi-bar-chart-line"></i>
-            </div>
-            <span class="nav-text">Báo cáo</span>
-            <div class="nav-indicator"></div>
-        </a>
-
-        <a href="/admin/notifications" th:classappend="${page == 'notifications'} ? 'active'" class="nav-link">
-            <div class="nav-icon">
-                <i class="bi bi-bell"></i>
-            </div>
-            <span class="nav-text">Thông báo</span>
-            <div class="nav-indicator"></div>
-            <span class="nav-badge badge-notification" th:if="${unreadNotifications != null and unreadNotifications > 0}">
-                <span th:text="${unreadNotifications}">5</span>
-            </span>
-        </a>
-
-        <a href="/admin/settings" th:classappend="${page == 'settings'} ? 'active'" class="nav-link">
-            <div class="nav-icon">
-                <i class="bi bi-gear"></i>
-            </div>
-            <span class="nav-text">Cài đặt</span>
-            <div class="nav-indicator"></div>
-        </a>
-
-        <div class="sidebar-divider"></div>
-
         <a href="/logout" class="nav-link logout-link">
             <div class="nav-icon">
                 <i class="bi bi-box-arrow-right"></i>

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/admin/customer")
-public class CustomerController {
+public class AdminCustomerController {
     @Autowired
     private StaffService staffService;
 

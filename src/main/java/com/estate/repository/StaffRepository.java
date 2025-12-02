@@ -60,4 +60,5 @@ public interface StaffRepository extends JpaRepository<StaffEntity, Long> {
     boolean existsByStaffIdAndCustomerId(@Param("staffId") Long staffId,
                                          @Param("customerId") Long customerId);
 
+    StaffEntity findByUsername(String username);
 }

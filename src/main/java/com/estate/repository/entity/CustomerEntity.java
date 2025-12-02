@@ -36,6 +36,9 @@ public class CustomerEntity {
     @Column
     private String email;
 
+    @Column
+    private String role; // CUSTOMER
+
     @Column(name = "created_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
