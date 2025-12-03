@@ -3,7 +3,6 @@ package com.estate.controller.admin;
 import com.estate.dto.ContractDetailDTO;
 import com.estate.dto.ContractFilterDTO;
 import com.estate.dto.ContractFormDTO;
-import com.estate.repository.RentAreaRepository;
 import com.estate.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +16,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/admin/contract")
-public class ContractController {
+public class AdminContractController {
     @Autowired
     CustomerService customerService;
 

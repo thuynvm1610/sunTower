@@ -30,6 +30,14 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
 
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(
+                                "/suntower",
+                                "/suntower/**",
+                                "/css/**",
+                                "/images/**",
+                                "/js/**"
+                        ).permitAll()
+
                         .requestMatchers("/login", "/css/**", "/images/**")
                         .permitAll()
 

@@ -19,7 +19,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/admin")
-public class DashboardController {
+public class AdminDashboardController {
     @Autowired
     private BuildingService buildingService;
 

@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 
 @Controller
 @RequestMapping("/customer")
-public class CustomerController {
+public class CustomerHomeController {
 
     @GetMapping("/home")
     public String home(

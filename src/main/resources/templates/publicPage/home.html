@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SunTower - Trang chủ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: linear-gradient(135deg, #2d3e8f 0%, #4a5fc1 100%);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: white;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 35px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:not(.login-btn):hover {
+            color: #e0e7ff;
+        }
+
+        .nav-links a:not(.login-btn)::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s;
+        }
+
+        .nav-links a:not(.login-btn):hover::after {
+            width: 100%;
+        }
+
+        .login-btn {
+            background: white;
+            color: #4a5fc1 !important;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Banner Section */
+        .banner {
+            background: linear-gradient(135deg, rgba(45, 62, 143, 0.95) 0%, rgba(74, 95, 193, 0.95) 100%),
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%234a5fc1" width="1200" height="600"/><g fill="%23ffffff" opacity="0.05"><circle cx="200" cy="150" r="100"/><circle cx="800" cy="400" r="150"/><circle cx="1000" cy="200" r="80"/></g></svg>');
+            background-size: cover;
+            background-position: center;
+            padding: 120px 20px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .banner::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -5%;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .banner-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .banner h1 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .banner p {
+            font-size: 22px;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        .banner-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #4a5fc1;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #4a5fc1;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 20px;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 42px;
+            color: #2d3e8f;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .section-title p {
+            font-size: 18px;
+            color: #666;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            margin: 0 auto 25px;
+        }
+
+        .feature-card h3 {
+            font-size: 22px;
+            color: #2d3e8f;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.7;
+        }
+
+        /* Stats Section */
+        .stats {
+            background: linear-gradient(135deg, #2d3e8f 0%, #4a5fc1 100%);
+            padding: 80px 20px;
+            color: white;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .stat-item p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a2e;
+            color: white;
+            padding: 60px 20px 30px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: #aaa;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #fff;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #333;
+            color: #aaa;
+        }
+
+        /* Mobile Menu */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: #2d3e8f;
+                flex-direction: column;
+                padding: 20px;
+                gap: 20px;
+                display: none;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .banner h1 {
+                font-size: 36px;
+            }
+
+            .banner p {
+                font-size: 18px;
+            }
+
+            .section-title h2 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav>
+        <a href="/suntower" class="logo">SunTower</a>
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+        <div class="nav-links" id="navLinks">
+            <a href="/suntower">Trang chủ</a>
+            <a href="/suntower/gioi-thieu">Giới thiệu</a>
+            <a href="/suntower/toa-nha">Tòa nhà</a>
+            <a href="/suntower/lien-he">Liên hệ</a>
+            <a href="/login" class="login-btn">Đăng nhập</a>
+        </div>
+    </nav>
+</header>
+
+<section class="banner">
+    <div class="banner-content">
+        <h1>Chào mừng đến với SunTower</h1>
+        <p>Hệ thống quản lý bất động sản chuyên nghiệp và hiện đại</p>
+        <div class="banner-buttons">
+            <a href="/suntower/toa-nha" class="btn btn-primary">Xem tòa nhà</a>
+            <a href="/suntower/gioi-thieu" class="btn btn-secondary">Tìm hiểu thêm</a>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <div class="container">
+        <div class="section-title">
+            <h2>Tính năng nổi bật</h2>
+            <p>Những gì chúng tôi mang đến cho bạn</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🏢</div>
+                <h3>Quản lý tòa nhà</h3>
+                <p>Hệ thống quản lý toàn diện cho các tòa nhà, căn hộ và tiện ích đi kèm</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">👥</div>
+                <h3>Quản lý khách hàng</h3>
+                <p>Theo dõi thông tin khách hàng, hợp đồng và lịch sử giao dịch một cách dễ dàng</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Báo cáo chi tiết</h3>
+                <p>Thống kê và phân tích dữ liệu trực quan, hỗ trợ ra quyết định hiệu quả</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <h3>Quản lý tài chính</h3>
+                <p>Theo dõi thu chi, hóa đơn và công nợ một cách chính xác và minh bạch</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Bảo mật cao</h3>
+                <p>Hệ thống bảo mật đa lớp, đảm bảo an toàn tuyệt đối cho dữ liệu của bạn</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Đa nền tảng</h3>
+                <p>Truy cập mọi lúc mọi nơi trên máy tính, điện thoại và máy tính bảng</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="stats">
+    <div class="container">
+        <div class="section-title">
+            <h2 style="color: white;">Con số ấn tượng</h2>
+            <p style="color: rgba(255,255,255,0.9);">Thành tựu của chúng tôi</p>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <h3>12+</h3>
+                <p>Tòa nhà được quản lý</p>
+            </div>
+            <div class="stat-item">
+                <h3>500+</h3>
+                <p>Khách hàng tin tưởng</p>
+            </div>
+            <div class="stat-item">
+                <h3>10+</h3>
+                <p>Nhân viên chuyên nghiệp</p>
+            </div>
+            <div class="stat-item">
+                <h3>99%</h3>
+                <p>Khách hàng hài lòng</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>SunTower</h3>
+            <p>Hệ thống quản lý bất động sản chuyên nghiệp, mang đến giải pháp tối ưu cho doanh nghiệp của bạn.</p>
+        </div>
+        <div class="footer-section">
+            <h3>Liên kết nhanh</h3>
+            <a href="/suntower">Trang chủ</a>
+            <a href="/suntower/gioi-thieu">Giới thiệu</a>
+            <a href="/suntower/toa-nha">Tòa nhà</a>
+            <a href="/suntower/lien-he">Liên hệ</a>
+        </div>
+        <div class="footer-section">
+            <h3>Liên hệ</h3>
+            <p>Email: contact@suntower.vn</p>
+            <p>Hotline: 1900 xxxx</p>
+            <p>Địa chỉ: Hà Nội, Việt Nam</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2025 SunTower. All rights reserved.</p>
+    </div>
+</footer>
+
+<script>
+    function toggleMenu() {
+        const navLinks = document.getElementById('navLinks');
+        navLinks.classList.toggle('active');
+    }
+</script>
+
+</body>
+</html>

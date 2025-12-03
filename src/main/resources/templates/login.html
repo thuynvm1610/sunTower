@@ -1,22 +1,382 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SunTower - Đăng nhập</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            width: 100%;
+            max-width: 1000px;
+            display: flex;
+            min-height: 600px;
+        }
+
+        .login-left {
+            flex: 1;
+            background: linear-gradient(135deg, #2d3e8f 0%, #4a5fc1 100%);
+            padding: 60px 40px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-left::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: -100px;
+            right: -100px;
+        }
+
+        .login-left::after {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            bottom: -50px;
+            left: -50px;
+        }
+
+        .logo-section {
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff 0%, #e0e7ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .welcome-text {
+            font-size: 24px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .description {
+            font-size: 16px;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .user-types {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .user-types-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            opacity: 0.9;
+        }
+
+        .user-type-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .user-type-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            opacity: 0.85;
+        }
+
+        .user-type-dot {
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .features {
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .login-right {
+            flex: 1;
+            padding: 60px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .login-header {
+            margin-bottom: 40px;
+        }
+
+        .login-header h2 {
+            font-size: 32px;
+            color: #2d3e8f;
+            margin-bottom: 10px;
+        }
+
+        .login-header p {
+            color: #666;
+            font-size: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: #4a5fc1;
+            box-shadow: 0 0 0 3px rgba(74, 95, 193, 0.1);
+        }
+
+        .alert {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert-error {
+            background: #fee;
+            color: #c33;
+            border: 1px solid #fcc;
+        }
+
+        .alert-success {
+            background: #efe;
+            color: #3c3;
+            border: 1px solid #cfc;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .login-button:active {
+            transform: translateY(0);
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .forgot-password a {
+            color: #4a5fc1;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column;
+            }
+
+            .login-left {
+                padding: 40px 30px;
+            }
+
+            .login-right {
+                padding: 40px 30px;
+            }
+
+            .features {
+                margin-top: 20px;
+            }
+
+            .user-types {
+                margin-top: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<form th:action="@{/doLogin}" method="post">
-    <input type="text" name="username" placeholder="Username">
-    <input type="password" name="password" placeholder="Password">
-    <button type="submit">Login</button>
-</form>
+<div class="login-container">
+    <div class="login-left">
+        <div class="logo-section">
+            <div class="logo">SunTower</div>
+            <div class="welcome-text">Chào mừng bạn!</div>
+            <p class="description">
+                Hệ thống quản lý bất động sản tích hợp. Đăng nhập để truy cập vào các chức năng dành cho bạn.
+            </p>
 
-<div th:if="${param.error}">
-    Sai tài khoản hoặc mật khẩu
-</div>
+            <div class="user-types">
+                <div class="user-types-title">Dành cho:</div>
+                <div class="user-type-list">
+                    <div class="user-type-item">
+                        <div class="user-type-dot"></div>
+                        <span>Khách hàng - Xem và quản lý hợp đồng</span>
+                    </div>
+                    <div class="user-type-item">
+                        <div class="user-type-dot"></div>
+                        <span>Nhân viên - Quản lý nghiệp vụ</span>
+                    </div>
+                    <div class="user-type-item">
+                        <div class="user-type-dot"></div>
+                        <span>Quản trị viên - Toàn quyền hệ thống</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<div th:if="${param.logout}">
-    Đã đăng xuất
+        <div class="features">
+            <div class="feature-item">
+                <div class="feature-icon">🏘️</div>
+                <div>Quản lý tòa nhà hiệu quả</div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">👥</div>
+                <div>Quản lý khách hàng toàn diện</div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">📊</div>
+                <div>Báo cáo và thống kê chi tiết</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="login-right">
+        <div class="login-header">
+            <h2>Đăng nhập</h2>
+            <p>Nhập thông tin đăng nhập của bạn để tiếp tục</p>
+        </div>
+
+        <div th:if="${param.error}" class="alert alert-error">
+            <span>⚠️</span>
+            <span>Sai tài khoản hoặc mật khẩu. Vui lòng thử lại.</span>
+        </div>
+
+        <div th:if="${param.logout}" class="alert alert-success">
+            <span>✓</span>
+            <span>Đã đăng xuất thành công.</span>
+        </div>
+
+        <form th:action="@{/doLogin}" method="post">
+            <div class="form-group">
+                <label for="username">Tên đăng nhập</label>
+                <div class="input-wrapper">
+                    <input type="text" id="username" name="username" placeholder="Nhập tên đăng nhập" required autofocus>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Mật khẩu</label>
+                <div class="input-wrapper">
+                    <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" required>
+                </div>
+            </div>
+
+            <button type="submit" class="login-button">Đăng nhập</button>
+        </form>
+
+        <div class="forgot-password">
+            <a href="#">Quên mật khẩu?</a>
+        </div>
+    </div>
 </div>
 
 </body>

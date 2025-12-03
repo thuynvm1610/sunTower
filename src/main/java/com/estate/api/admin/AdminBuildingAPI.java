@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admin/building")
-public class BuildingAPI {
+public class AdminBuildingAPI {
     @Autowired
     private BuildingService buildingService;
 

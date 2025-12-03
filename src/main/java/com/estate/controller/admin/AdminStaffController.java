@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/admin/staff")
-public class StaffController {
+public class AdminStaffController {
     @Autowired
     StaffService staffService;
 

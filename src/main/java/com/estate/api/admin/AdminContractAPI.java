@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admin/contract")
-public class ContractAPI {
+public class AdminContractAPI {
     @Autowired
     ContractService contractService;
 

@@ -1,9 +1,9 @@
 package com.estate.api.admin;
 
-import com.estate.dto.StaffFormDTO;
-import com.estate.dto.StaffListDTO;
+import com.estate.dto.CustomerFormDTO;
+import com.estate.dto.CustomerListDTO;
 import com.estate.exception.InputValidationException;
-import com.estate.service.StaffService;
+import com.estate.service.CustomerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,35 +11,31 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 @RestController
-@RequestMapping("/admin/staff")
-public class StaffAPI {
+@RequestMapping("/admin/customer")
+public class AdminCustomerAPI {
     @Autowired
-    StaffService staffService;
+    CustomerService customerService;
 
     @GetMapping("/list/page")
-    public Page<StaffListDTO> getCustomersPage(
+    public Page<CustomerListDTO> getCustomersPage(
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "5") int size,
-            @RequestParam(required = false) String role
-    ) {
-        return staffService.getStaffs(page - 1, size, role);
+            @RequestParam(defaultValue = "5") int size) {
+        return customerService.getCustomers(page - 1, size);
     }
 
     @GetMapping("/search/page")
-    public Page<StaffListDTO> getStaffsSearchPage(
+    public Page<CustomerListDTO> getCustomersSearchPage(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "5") int size,
-            @RequestParam Map<String, String> filter
+            @RequestParam(required = false) String fullName
     ) {
-        Page<StaffListDTO> result = staffService.search(filter, page - 1, size);
+        Page<CustomerListDTO> result = customerService.search(fullName, page - 1, size);
         return result;
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addStaff(@Valid @RequestBody StaffFormDTO dto,
+    public ResponseEntity<?> addCustomer(@Valid @RequestBody CustomerFormDTO dto,
                                          BindingResult result) {
         if (result.hasErrors()) {
             String message;
@@ -53,13 +49,13 @@ public class StaffAPI {
             throw new InputValidationException(message);
         }
 
-        staffService.save(dto);
-        return ResponseEntity.ok("Thêm nhân viên thành công");
+        customerService.save(dto);
+        return ResponseEntity.ok("Thêm khách hàng thành công");
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteStaff(@PathVariable Long id) {
-        staffService.delete(id);
+    public ResponseEntity<?> deleteCustomer(@PathVariable Long id) {
+        customerService.delete(id);
         return ResponseEntity.ok().build();
     }
 }
