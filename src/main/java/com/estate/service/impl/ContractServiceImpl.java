@@ -102,7 +102,7 @@ public class ContractServiceImpl implements ContractService {
             LocalDateTime start = c.getStartDate();
             LocalDateTime end   = c.getEndDate();
 
-            BigDecimal monthlyPrice = c.getRentPrice();
+            BigDecimal monthlyPrice = c.getRentPrice().multiply(BigDecimal.valueOf(c.getRentArea()));
 
             // Xác định tháng bắt đầu trong năm
             int startMonth = Math.max(1,
