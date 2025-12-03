@@ -20,4 +20,5 @@ public interface ContractService {
     void delete(Long id);
     ContractFormDTO findById(Long id);
     ContractDetailDTO viewById(Long id);
+    Long getContractCountByCustomer(Long id);
 }

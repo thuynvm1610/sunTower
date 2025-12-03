@@ -25,6 +25,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         StaffEntity staff = staffRepository.findByUsername(username);
         if (staff != null) {
             return new CustomUserDetails(
+                    staff.getId(),
                     staff.getUsername(),
                     staff.getPassword(),
                     staff.getRole()
@@ -35,6 +36,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         CustomerEntity customer = customerRepository.findByUsername(username);
         if (customer != null) {
             return new CustomUserDetails(
+                    customer.getId(),
                     customer.getUsername(),
                     customer.getPassword(),
                     "CUSTOMER"

@@ -287,4 +287,9 @@ public class ContractServiceImpl implements ContractService {
         ContractDetailDTO contractDetailDTO = contractDetailConverter.toDto(contractEntity);
         return contractDetailDTO;
     }
+
+    @Override
+    public Long getContractCountByCustomer(Long id) {
+        return contractRepository.countByCustomerId(id);
+    }
 }

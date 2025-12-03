@@ -71,6 +71,14 @@
             font-size: 16px;
         }
 
+        .badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
         .logout-btn {
             background: white;
             color: #4a5fc1;
@@ -136,6 +144,10 @@
             right: 0;
             height: 3px;
             background: white;
+        }
+
+        .nav-icon {
+            font-size: 18px;
         }
 
         /* Mobile Menu Toggle */
@@ -431,6 +443,69 @@
             color: #333;
         }
 
+        /* Activity Item */
+        .activity-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .activity-item:hover {
+            background: #e9ecef;
+        }
+
+        .activity-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .activity-content h4 {
+            font-size: 15px;
+            color: #2d3e8f;
+            margin-bottom: 5px;
+        }
+
+        .activity-content p {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .activity-time {
+            font-size: 12px;
+            color: #999;
+        }
+
+        /* Bill Card */
+        .bill-card {
+            border: 2px solid #f0f0f0;
+            border-radius: 10px;
+            padding: 20px;
+            background: white;
+        }
+
+        /* Service Item */
+        .service-item {
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .service-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
         /* Responsive */
         @media (max-width: 1024px) {
             .content-grid {
@@ -513,6 +588,7 @@
                     <span>Xin chào,</span>
                     <strong th:text="${#authentication.name}">Nguyễn Văn A</strong>
                 </div>
+                <span class="badge">KHÁCH HÀNG</span>
             </div>
             <a th:href="@{/logout}" class="logout-btn">Đăng xuất</a>
         </div>
@@ -532,6 +608,16 @@
             <li>
                 <a th:href="@{/customer/payments}">
                     <span>Thanh toán</span>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/customer/buildings}">
+                    <span>Danh sách tòa nhà</span>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/customer/contact}">
+                    <span>Liên hệ</span>
                 </a>
             </li>
             <li>
@@ -556,37 +642,64 @@
         <div class="stat-card">
             <div class="stat-icon blue">📄</div>
             <div class="stat-info">
-                <h3 th:text="${totalContracts != null ? totalContracts : '2'}">2</h3>
+                <h3 th:text="${totalContracts}">2</h3>
                 <p>Hợp đồng đang có</p>
-            </div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon green">✓</div>
-            <div class="stat-info">
-                <h3 th:text="${activeContracts != null ? activeContracts : '1'}">1</h3>
-                <p>Hợp đồng đang hoạt động</p>
             </div>
         </div>
         <div class="stat-card">
             <div class="stat-icon orange">💰</div>
             <div class="stat-info">
                 <h3 th:text="${totalPayment != null ? totalPayment : '15,000,000'}">15,000,000</h3>
-                <p>Tổng thanh toán (VNĐ)</p>
+                <p>Tổng tiền đã thanh toán (VNĐ)</p>
             </div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon purple">🏢</div>
+            <div class="stat-icon purple">⏰</div>
             <div class="stat-info">
-                <h3 th:text="${buildingName != null ? buildingName : 'A1-501'}">A1-501</h3>
-                <p>Căn hộ hiện tại</p>
+                <h3 th:text="${pendingBills != null ? pendingBills : '1'}">1</h3>
+                <p>Hóa đơn chờ thanh toán</p>
             </div>
         </div>
     </div>
 
     <!-- Content Grid -->
     <div class="content-grid">
-        <!-- Left Column - Contracts -->
+        <!-- Left Column - Contracts & Notifications -->
         <div>
+            <!-- Recent Activities -->
+            <div class="section" style="margin-bottom: 30px;">
+                <div class="section-header">
+                    <h2>Hoạt động gần đây</h2>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 15px;">
+                    <div class="activity-item">
+                        <div class="activity-icon" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">✓</div>
+                        <div class="activity-content">
+                            <h4>Thanh toán thành công</h4>
+                            <p>Hóa đơn tháng 11/2024 - 15,000,000 VNĐ</p>
+                            <span class="activity-time">2 giờ trước</span>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">📋</div>
+                        <div class="activity-content">
+                            <h4>Hợp đồng được gia hạn</h4>
+                            <p>HĐ-2024001 gia hạn đến 31/12/2025</p>
+                            <span class="activity-time">1 ngày trước</span>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">🔔</div>
+                        <div class="activity-content">
+                            <h4>Thông báo bảo trì</h4>
+                            <p>Bảo trì thang máy tòa A1 vào 15/12/2025</p>
+                            <span class="activity-time">3 ngày trước</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contracts Section -->
             <div class="section">
                 <div class="section-header">
                     <h2>Hợp đồng của tôi</h2>
@@ -663,42 +776,93 @@
             </div>
         </div>
 
-        <!-- Right Column - Quick Actions & Info -->
+        <!-- Right Column - Bills & Services -->
         <div>
-            <!-- Quick Actions -->
+            <!-- Pending Bills -->
+            <div class="section" style="margin-bottom: 30px;">
+                <div class="section-header">
+                    <h2>Hóa đơn chờ thanh toán</h2>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 15px;">
+                    <div class="bill-card">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+                            <div>
+                                <h4 style="color: #2d3e8f; margin-bottom: 5px;">Hóa đơn tháng 12/2024</h4>
+                                <p style="font-size: 13px; color: #666;">Hạn thanh toán: 05/12/2025</p>
+                            </div>
+                            <span class="status-badge pending">Chờ thanh toán</span>
+                        </div>
+                        <div style="display: grid; gap: 8px; font-size: 14px; margin-bottom: 15px;">
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: #666;">Tiền thuê:</span>
+                                <span style="font-weight: 600;">15,000,000 VNĐ</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: #666;">Tiền điện:</span>
+                                <span style="font-weight: 600;">450,000 VNĐ</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: #666;">Tiền nước:</span>
+                                <span style="font-weight: 600;">120,000 VNĐ</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: #666;">Phí gửi xe:</span>
+                                <span style="font-weight: 600;">200,000 VNĐ</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding-top: 8px; border-top: 2px solid #f0f0f0;">
+                                <span style="font-weight: 600; color: #2d3e8f;">Tổng cộng:</span>
+                                <span style="font-weight: 700; color: #f5576c; font-size: 16px;">15,770,000 VNĐ</span>
+                            </div>
+                        </div>
+                        <a th:href="@{/customer/payments}" style="display: block; text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s;">
+                            Thanh toán ngay
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Services & Amenities -->
             <div class="section">
                 <div class="section-header">
-                    <h2>Thao tác nhanh</h2>
+                    <h2>Tiện ích & Dịch vụ</h2>
                 </div>
-                <div class="quick-actions">
-                    <a th:href="@{/customer/profile}" class="action-btn">
-                        <div class="action-icon">👤</div>
-                        <div class="action-content">
-                            <h3>Hồ sơ cá nhân</h3>
-                            <p>Xem và chỉnh sửa thông tin</p>
+                <div style="display: grid; gap: 12px;">
+                    <div class="service-item">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px;">🏊</div>
+                            <div>
+                                <h4 style="font-size: 15px; color: #2d3e8f; margin-bottom: 3px;">Hồ bơi</h4>
+                                <p style="font-size: 12px; color: #666;">Mở cửa: 6:00 - 22:00</p>
+                            </div>
                         </div>
-                    </a>
-                    <a th:href="@{/customer/contracts}" class="action-btn">
-                        <div class="action-icon">📋</div>
-                        <div class="action-content">
-                            <h3>Hợp đồng</h3>
-                            <p>Quản lý hợp đồng thuê</p>
+                    </div>
+                    <div class="service-item">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px;">💪</div>
+                            <div>
+                                <h4 style="font-size: 15px; color: #2d3e8f; margin-bottom: 3px;">Phòng gym</h4>
+                                <p style="font-size: 12px; color: #666;">Mở cửa: 5:00 - 23:00</p>
+                            </div>
                         </div>
-                    </a>
-                    <a th:href="@{/customer/payments}" class="action-btn">
-                        <div class="action-icon">💳</div>
-                        <div class="action-content">
-                            <h3>Thanh toán</h3>
-                            <p>Điện, nước, gửi xe hàng tháng</p>
+                    </div>
+                    <div class="service-item">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px;">🅿️</div>
+                            <div>
+                                <h4 style="font-size: 15px; color: #2d3e8f; margin-bottom: 3px;">Bãi đỗ xe</h4>
+                                <p style="font-size: 12px; color: #666;">Xe máy: B1, Ô tô: B2-B3</p>
+                            </div>
                         </div>
-                    </a>
-                    <a th:href="@{/customer/support}" class="action-btn">
-                        <div class="action-icon">💬</div>
-                        <div class="action-content">
-                            <h3>Hỗ trợ</h3>
-                            <p>Liên hệ chúng tôi</p>
+                    </div>
+                    <div class="service-item">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px;">🛡️</div>
+                            <div>
+                                <h4 style="font-size: 15px; color: #2d3e8f; margin-bottom: 3px;">An ninh 24/7</h4>
+                                <p style="font-size: 12px; color: #666;">Hotline: 1900 xxxx</p>
+                            </div>
                         </div>
-                    </a>
+                    </div>
                 </div>
             </div>
 
@@ -707,7 +871,7 @@
                 <h3>Thông tin hệ thống</h3>
                 <div class="info-item">
                     <span class="info-label">Ngày giờ:</span>
-                    <span class="info-value" th:text="${today != null ? today : '03/12/2025'}">03/12/2025</span>
+                    <span class="info-value" th:text="${today != null ? today : '03/12/2025 10:41'}">03/12/2025 10:41</span>
                 </div>
                 <div class="info-item">
                     <span class="info-label">IP:</span>

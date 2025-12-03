@@ -9,14 +9,20 @@ import java.util.List;
 
 public class CustomUserDetails implements UserDetails {
 
+    private Long customerId;
     private String username;
     private String password;
     private String role;
 
-    public CustomUserDetails(String username, String password, String role) {
+    public CustomUserDetails(Long customerId, String username, String password, String role) {
+        this.customerId = customerId;
         this.username = username;
         this.password = password;
         this.role = role;
+    }
+
+    public Long getCustomerId() {
+        return customerId;
     }
 
     @Override
