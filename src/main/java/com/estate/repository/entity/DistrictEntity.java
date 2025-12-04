@@ -23,6 +23,8 @@ public class DistrictEntity {
     @Column
     private String name;
 
+    // =================== RELATIONSHIPS ===================
+
     @OneToMany(mappedBy = "district")
     private List<BuildingEntity> buildings = new ArrayList<>();;
 }

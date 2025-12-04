@@ -59,6 +59,8 @@ public class StaffEntity {
         modifiedDate = new Date();
     }
 
+    // =================== RELATIONSHIPS ===================
+
     @ManyToMany(mappedBy = "staffs_buildings")
     private List<BuildingEntity> buildings = new ArrayList<>();
 

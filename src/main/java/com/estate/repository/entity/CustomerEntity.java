@@ -59,6 +59,8 @@ public class CustomerEntity {
         modifiedDate = new Date();
     }
 
+    // =================== RELATIONSHIPS ===================
+
     @ManyToMany
     @JoinTable(
             name = "assignment_customer",

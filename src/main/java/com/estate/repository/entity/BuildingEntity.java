@@ -95,6 +95,8 @@ public class BuildingEntity {
         modifiedDate = new Date();
     }
 
+    // =================== RELATIONSHIPS ===================
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "district_id")
     private DistrictEntity district;

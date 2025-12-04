@@ -42,6 +42,8 @@ public class RentAreaEntity {
         modifiedDate = new Date();
     }
 
+    // =================== RELATIONSHIPS ===================
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "building_id")
     private BuildingEntity building;
