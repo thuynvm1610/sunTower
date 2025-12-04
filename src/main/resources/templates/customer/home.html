@@ -5,355 +5,197 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>SunTower - Trang khách hàng</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --primary-color: #2d3e8f;
+            --primary-light: #4a5fc1;
+            --secondary-color: #f5f7fa;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f7fa;
-            color: #333;
+            background: var(--secondary-color);
         }
 
         /* Header */
         .header {
-            background: linear-gradient(135deg, #2d3e8f 0%, #4a5fc1 100%);
+            background: var(--primary-color);
             color: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
         }
 
         .header-top {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .logo {
             font-size: 24px;
-            font-weight: 800;
-            letter-spacing: 1px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
-        .user-section {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .user-name {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-        }
-
-        .user-name span {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-
-        .user-name strong {
-            font-size: 16px;
-        }
-
-        .badge {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
+        .badge-custom {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
             font-weight: 600;
         }
 
-        .logout-btn {
+        .btn-logout {
             background: white;
-            color: #4a5fc1;
+            color: var(--primary-color);
             border: none;
-            padding: 8px 20px;
-            border-radius: 20px;
+            padding: 8px 18px;
+            border-radius: 6px;
             font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s;
+            font-size: 14px;
+            transition: all 0.2s;
         }
 
-        .logout-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+        .btn-logout:hover {
+            background: #f0f0f0;
+            color: var(--primary-color);
         }
 
-        /* Navigation Bar */
-        .navbar {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 30px;
+        /* Navigation */
+        .nav-custom {
+            background: var(--primary-color);
         }
 
-        .nav-menu {
-            display: flex;
-            gap: 5px;
-            list-style: none;
-        }
-
-        .nav-menu li {
-            position: relative;
-        }
-
-        .nav-menu a {
-            color: white;
-            text-decoration: none;
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .nav-custom .nav-link {
+            color: white !important;
             font-weight: 500;
-            font-size: 15px;
-            transition: all 0.3s;
-            border-radius: 8px 8px 0 0;
+            font-size: 14px;
+            padding: 14px 18px;
+            border-radius: 6px 6px 0 0;
+            transition: all 0.2s;
         }
 
-        .nav-menu a:hover {
+        .nav-custom .nav-link:hover {
             background: rgba(255, 255, 255, 0.1);
         }
 
-        .nav-menu a.active {
-            background: rgba(255, 255, 255, 0.2);
+        .nav-custom .nav-link.active {
+            background: rgba(255, 255, 255, 0.15);
             font-weight: 600;
         }
 
-        .nav-menu a.active::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
+        /* Dropdown Menu */
+        .dropdown-menu-custom {
             background: white;
-        }
-
-        .nav-icon {
-            font-size: 18px;
-        }
-
-        /* Mobile Menu Toggle */
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-            padding: 5px;
-        }
-
-        /* Main Container */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 30px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            ...
         }
 
         /* Welcome Section */
         .welcome-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+            background: white;
+            border-left: 4px solid var(--primary-color);
         }
 
         .welcome-section h1 {
-            font-size: 32px;
-            margin-bottom: 10px;
+            color: var(--primary-color);
         }
 
-        .welcome-section p {
-            font-size: 16px;
-            opacity: 0.9;
-        }
-
-        /* Stats Cards */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
+        /* Stats Card */
         .stat-card {
             background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            transition: all 0.3s;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            transition: all 0.2s;
         }
 
         .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .stat-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-        }
-
-        .stat-icon.blue {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-
-        .stat-icon.green {
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-        }
-
-        .stat-icon.orange {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        }
-
-        .stat-icon.purple {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            width: 55px;
+            height: 55px;
+            border-radius: 10px;
+            background: #f0f4ff;
+            color: var(--primary-color);
+            font-size: 24px;
         }
 
         .stat-info h3 {
-            font-size: 28px;
-            color: #2d3e8f;
+            color: var(--primary-color);
             margin-bottom: 5px;
         }
 
-        .stat-info p {
-            color: #666;
-            font-size: 14px;
-        }
-
-        /* Main Content Grid */
-        .content-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 30px;
-        }
-
-        /* Contract Section */
-        .section {
+        /* Section */
+        .section-card {
             background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
         }
 
         .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
+            padding-bottom: 12px;
             border-bottom: 2px solid #f0f0f0;
         }
 
         .section-header h2 {
-            font-size: 22px;
-            color: #2d3e8f;
+            font-size: 18px;
+            color: var(--primary-color);
+            font-weight: 600;
+            margin: 0;
         }
 
         .view-all {
-            color: #4a5fc1;
+            color: var(--primary-color);
             text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            transition: color 0.3s;
+            font-weight: 500;
+            font-size: 13px;
+            transition: color 0.2s;
         }
 
         .view-all:hover {
-            color: #667eea;
+            color: var(--primary-light);
         }
 
         /* Contract Card */
         .contract-card {
-            border: 2px solid #f0f0f0;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 15px;
-            transition: all 0.3s;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            transition: all 0.2s;
         }
 
         .contract-card:hover {
-            border-color: #667eea;
-            box-shadow: 0 3px 15px rgba(102, 126, 234, 0.1);
-        }
-
-        .contract-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
+            border-color: var(--primary-color);
+            box-shadow: 0 2px 10px rgba(45, 62, 143, 0.08);
         }
 
         .contract-id {
             font-weight: 600;
-            color: #2d3e8f;
-            font-size: 16px;
+            color: var(--primary-color);
+            font-size: 15px;
         }
 
-        .status-badge {
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
+        .badge-active {
+            background: #e8f5e9;
+            color: #2e7d32;
         }
 
-        .status-badge.active {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .status-badge.pending {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .status-badge.expired {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .contract-details {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            font-size: 14px;
-        }
-
-        .detail-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .badge-expired {
+            background: #ffebee;
+            color: #c62828;
         }
 
         .detail-label {
-            color: #666;
+            color: #999;
+            font-size: 12px;
         }
 
         .detail-value {
@@ -361,96 +203,11 @@
             color: #333;
         }
 
-        /* Quick Actions */
-        .quick-actions {
-            display: grid;
-            gap: 15px;
-        }
-
-        .action-btn {
-            background: white;
-            border: 2px solid #e0e0e0;
-            padding: 20px;
-            border-radius: 10px;
-            text-decoration: none;
-            color: #333;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            transition: all 0.3s;
-        }
-
-        .action-btn:hover {
-            border-color: #667eea;
-            transform: translateX(5px);
-            box-shadow: 0 3px 15px rgba(102, 126, 234, 0.1);
-        }
-
-        .action-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-        }
-
-        .action-content h3 {
-            font-size: 16px;
-            margin-bottom: 5px;
-            color: #2d3e8f;
-        }
-
-        .action-content p {
-            font-size: 13px;
-            color: #666;
-        }
-
-        /* Info Box */
-        .info-box {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-
-        .info-box h3 {
-            font-size: 16px;
-            color: #2d3e8f;
-            margin-bottom: 15px;
-        }
-
-        .info-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #e0e0e0;
-            font-size: 14px;
-        }
-
-        .info-item:last-child {
-            border-bottom: none;
-        }
-
-        .info-label {
-            color: #666;
-        }
-
-        .info-value {
-            font-weight: 600;
-            color: #333;
-        }
-
         /* Activity Item */
         .activity-item {
-            display: flex;
-            gap: 15px;
-            padding: 15px;
             background: #f8f9fa;
-            border-radius: 10px;
-            transition: all 0.3s;
+            border-radius: 8px;
+            transition: all 0.2s;
         }
 
         .activity-item:hover {
@@ -458,120 +215,61 @@
         }
 
         .activity-icon {
-            width: 45px;
-            height: 45px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: #f0f4ff;
+            color: var(--primary-color);
+            font-size: 18px;
         }
 
         .activity-content h4 {
-            font-size: 15px;
-            color: #2d3e8f;
-            margin-bottom: 5px;
-        }
-
-        .activity-content p {
-            font-size: 13px;
-            color: #666;
-            margin-bottom: 5px;
+            font-size: 14px;
+            color: var(--primary-color);
+            font-weight: 600;
         }
 
         .activity-time {
-            font-size: 12px;
+            font-size: 11px;
             color: #999;
-        }
-
-        /* Bill Card */
-        .bill-card {
-            border: 2px solid #f0f0f0;
-            border-radius: 10px;
-            padding: 20px;
-            background: white;
         }
 
         /* Service Item */
         .service-item {
-            padding: 12px;
             background: #f8f9fa;
             border-radius: 8px;
-            transition: all 0.3s;
+            transition: all 0.2s;
         }
 
         .service-item:hover {
             background: #e9ecef;
-            transform: translateX(5px);
         }
 
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .content-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .nav-menu {
-                flex-wrap: wrap;
-            }
+        .service-item h5 {
+            font-size: 14px;
+            color: var(--primary-color);
+            font-weight: 600;
         }
 
-        @media (max-width: 768px) {
-            .header-top {
-                flex-wrap: wrap;
-                gap: 15px;
-            }
+        /* Info Box */
+        .info-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
 
-            .menu-toggle {
-                display: block;
-            }
+        .info-box h5 {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
 
-            .navbar {
-                padding: 0;
-            }
+        .info-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 13px;
+        }
 
-            .nav-menu {
-                display: none;
-                flex-direction: column;
-                width: 100%;
-                gap: 0;
-            }
-
-            .nav-menu.active {
-                display: flex;
-            }
-
-            .nav-menu a {
-                border-radius: 0;
-                padding: 15px 30px;
-            }
-
-            .user-section {
-                order: -1;
-                width: 100%;
-                justify-content: space-between;
-            }
-
-            .container {
-                padding: 20px;
-            }
-
-            .welcome-section {
-                padding: 25px;
-            }
-
-            .welcome-section h1 {
-                font-size: 24px;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .contract-details {
-                grid-template-columns: 1fr;
-            }
+        .info-item:last-child {
+            border-bottom: none;
         }
     </style>
 </head>
@@ -579,120 +277,177 @@
 
 <!-- Header -->
 <div class="header">
-    <div class="header-top">
-        <div class="logo">SunTower</div>
-        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
-        <div class="user-section">
-            <div class="user-info">
-                <div class="user-name">
-                    <span>Xin chào,</span>
-                    <strong th:text="${#authentication.name}">Nguyễn Văn A</strong>
+    <div class="header-top py-3">
+        <div class="container-fluid px-4">
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+                <div class="logo">SunTower</div>
+                <button class="navbar-toggler d-lg-none text-white" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarNav">
+                    <i class="bi bi-list fs-3"></i>
+                </button>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="text-end">
+                            <small class="d-block opacity-85">Xin chào,</small>
+                            <strong th:text="${#authentication.name}">Nguyễn Văn A</strong>
+                        </div>
+                        <span class="badge-custom">KHÁCH HÀNG</span>
+                    </div>
+                    <a th:href="@{/logout}" class="btn btn-logout">Đăng xuất</a>
                 </div>
-                <span class="badge">KHÁCH HÀNG</span>
             </div>
-            <a th:href="@{/logout}" class="logout-btn">Đăng xuất</a>
         </div>
     </div>
-    <nav class="navbar">
-        <ul class="nav-menu" id="navMenu">
-            <li>
-                <a href="/customer/home" class="active">
-                    <span>Trang chủ</span>
-                </a>
-            </li>
-            <li>
-                <a th:href="@{/customer/contracts}">
-                    <span>Hợp đồng</span>
-                </a>
-            </li>
-            <li>
-                <a th:href="@{/customer/payments}">
-                    <span>Thanh toán</span>
-                </a>
-            </li>
-            <li>
-                <a th:href="@{/customer/buildings}">
-                    <span>Danh sách tòa nhà</span>
-                </a>
-            </li>
-            <li>
-                <a th:href="@{/customer/contact}">
-                    <span>Liên hệ</span>
-                </a>
-            </li>
-            <li>
-                <a th:href="@{/customer/profile}">
-                    <span>Thông tin cá nhân</span>
-                </a>
-            </li>
-        </ul>
+
+    <!-- Navigation -->
+    <nav class="nav-custom">
+        <div class="container-fluid px-4">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link active" th:href="@{/customer/home}">
+                        <i class="bi bi-house-door me-1"></i>Trang chủ
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/customer/contracts}">
+                        <i class="bi bi-file-text me-1"></i>Hợp đồng
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/customer/payments}">
+                        <i class="bi bi-credit-card me-1"></i>Thanh toán
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/customer/buildings}">
+                        <i class="bi bi-building me-1"></i>Tòa nhà
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-grid-3x3-gap me-1"></i>Tiện ích
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-custom">
+                        <li>
+                            <a class="dropdown-item" th:href="@{/customer/transaction-history}">
+                                <i class="bi bi-clock-history me-2"></i>Lịch sử giao dịch
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" th:href="@{/customer/services}">
+                                <i class="bi bi-clipboard-check me-2"></i>Dịch vụ
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <a class="dropdown-item" th:href="@{/customer/utilities}">
+                                <i class="bi bi-star me-2"></i>Tiện ích tòa nhà
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" th:href="@{/customer/maintenance}">
+                                <i class="bi bi-tools me-2"></i>Yêu cầu bảo trì
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" th:href="@{/customer/notifications}">
+                                <i class="bi bi-bell me-2"></i>Thông báo
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/customer/profile}">
+                        <i class="bi bi-person-circle me-1"></i>Tài khoản
+                    </a>
+                </li>
+            </ul>
+        </div>
     </nav>
 </div>
 
 <!-- Main Container -->
-<div class="container">
+<div class="container-fluid px-4 py-4">
     <!-- Welcome Section -->
-    <div class="welcome-section">
-        <h1>Chào mừng trở lại!</h1>
-        <p>Quản lý hợp đồng thuê và thông tin cá nhân của bạn một cách dễ dàng</p>
+    <div class="welcome-section p-4 rounded mb-4">
+        <h1 class="h3 mb-2">Chào mừng trở lại!</h1>
+        <p class="text-muted mb-0">Quản lý hợp đồng thuê và thông tin cá nhân của bạn một cách dễ dàng</p>
     </div>
 
     <!-- Stats Grid -->
-    <div class="stats-grid">
-        <div class="stat-card">
-            <div class="stat-icon blue">📄</div>
-            <div class="stat-info">
-                <h3 th:text="${totalContracts}">2</h3>
-                <p>Hợp đồng đang có</p>
+    <div class="row g-3 mb-4">
+        <div class="col-md-6 col-lg-6">
+            <div class="stat-card p-4">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="stat-icon d-flex align-items-center justify-content-center flex-shrink-0">
+                        <i class="bi bi-file-text"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 class="h4" th:text="${totalContracts}">2</h3>
+                        <p class="text-muted mb-0 small">Hợp đồng đang có</p>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="stat-card">
-            <div class="stat-icon orange">💰</div>
-            <div class="stat-info">
-                <h3 th:text="${totalPayment}">15,000,000</h3>
-                <p>Tổng tiền đã thanh toán (VNĐ)</p>
-            </div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon purple">⏰</div>
-            <div class="stat-info">
-                <h3 th:text="${pendingBills != null ? pendingBills : '1'}">1</h3>
-                <p>Hóa đơn chờ thanh toán</p>
+        <div class="col-md-6 col-lg-6">
+            <div class="stat-card p-4">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="stat-icon d-flex align-items-center justify-content-center flex-shrink-0">
+                        <i class="bi bi-cash-coin"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 class="h4" th:text="${totalPayment}">15,000,000</h3>
+                        <p class="text-muted mb-0 small">Tổng tiền đã thanh toán (VNĐ)</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Content Grid -->
-    <div class="content-grid">
-        <!-- Left Column - Contracts & Notifications -->
-        <div>
+    <div class="row g-4">
+        <!-- Left Column -->
+        <div class="col-lg-8">
             <!-- Recent Activities -->
-            <div class="section" style="margin-bottom: 30px;">
-                <div class="section-header">
+            <div class="section-card p-4 mb-4">
+                <div class="section-header mb-3">
                     <h2>Hoạt động gần đây</h2>
                 </div>
-                <div style="display: flex; flex-direction: column; gap: 15px;">
-                    <div class="activity-item">
-                        <div class="activity-icon" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">✓</div>
+
+                <div class="activity-item p-3 mb-3">
+                    <div class="d-flex gap-3">
+                        <div class="activity-icon d-flex align-items-center justify-content-center flex-shrink-0">
+                            <i class="bi bi-check-lg"></i>
+                        </div>
                         <div class="activity-content">
-                            <h4>Thanh toán thành công</h4>
-                            <p>Hóa đơn tháng 11/2024 - 15,000,000 VNĐ</p>
+                            <h4 class="mb-1">Thanh toán thành công</h4>
+                            <p class="text-muted mb-1 small">Hóa đơn tháng 11/2024 - 15,000,000 VNĐ</p>
                             <span class="activity-time">2 giờ trước</span>
                         </div>
                     </div>
-                    <div class="activity-item">
-                        <div class="activity-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">📋</div>
+                </div>
+
+                <div class="activity-item p-3 mb-3">
+                    <div class="d-flex gap-3">
+                        <div class="activity-icon d-flex align-items-center justify-content-center flex-shrink-0">
+                            <i class="bi bi-file-earmark-text"></i>
+                        </div>
                         <div class="activity-content">
-                            <h4>Hợp đồng được gia hạn</h4>
-                            <p>HĐ-2024001 gia hạn đến 31/12/2025</p>
+                            <h4 class="mb-1">Hợp đồng được gia hạn</h4>
+                            <p class="text-muted mb-1 small">HĐ-2024001 gia hạn đến 31/12/2025</p>
                             <span class="activity-time">1 ngày trước</span>
                         </div>
                     </div>
-                    <div class="activity-item">
-                        <div class="activity-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">🔔</div>
+                </div>
+
+                <div class="activity-item p-3">
+                    <div class="d-flex gap-3">
+                        <div class="activity-icon d-flex align-items-center justify-content-center flex-shrink-0">
+                            <i class="bi bi-bell"></i>
+                        </div>
                         <div class="activity-content">
-                            <h4>Thông báo bảo trì</h4>
-                            <p>Bảo trì thang máy tòa A1 vào 15/12/2025</p>
+                            <h4 class="mb-1">Thông báo bảo trì</h4>
+                            <p class="text-muted mb-1 small">Bảo trì thang máy tòa A1 vào 15/12/2025</p>
                             <span class="activity-time">3 ngày trước</span>
                         </div>
                     </div>
@@ -700,202 +455,196 @@
             </div>
 
             <!-- Contracts Section -->
-            <div class="section">
-                <div class="section-header">
+            <div class="section-card p-4">
+                <div class="section-header mb-3 d-flex justify-content-between align-items-center">
                     <h2>Hợp đồng của tôi</h2>
-                    <a th:href="@{/customer/contracts}" class="view-all">Xem tất cả →</a>
+                    <a th:href="@{/customer/contracts}" class="view-all">
+                        Xem tất cả <i class="bi bi-arrow-right"></i>
+                    </a>
                 </div>
 
                 <!-- Contract Card 1 -->
-                <div class="contract-card">
-                    <div class="contract-header">
+                <div class="contract-card p-3 mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
                         <span class="contract-id">HĐ-2024001</span>
-                        <span class="status-badge active">Đang hoạt động</span>
+                        <span class="badge badge-active rounded-pill px-3 py-2">Đang hoạt động</span>
                     </div>
-                    <div class="contract-details">
-                        <div class="detail-item">
-                            <span class="detail-label">Tòa nhà:</span>
-                            <span class="detail-value">SunTower A1</span>
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="detail-label">Tòa nhà</div>
+                            <div class="detail-value">SunTower A1</div>
                         </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Căn hộ:</span>
-                            <span class="detail-value">501</span>
+                        <div class="col-6">
+                            <div class="detail-label">Căn hộ</div>
+                            <div class="detail-value">501</div>
                         </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Giá thuê:</span>
-                            <span class="detail-value">15,000,000 VNĐ/tháng</span>
+                        <div class="col-6">
+                            <div class="detail-label">Giá thuê</div>
+                            <div class="detail-value">15,000,000 VNĐ/tháng</div>
                         </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Ngày bắt đầu:</span>
-                            <span class="detail-value">01/01/2024</span>
+                        <div class="col-6">
+                            <div class="detail-label">Diện tích</div>
+                            <div class="detail-value">85 m²</div>
                         </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Ngày kết thúc:</span>
-                            <span class="detail-value">31/12/2024</span>
+                        <div class="col-6">
+                            <div class="detail-label">Ngày bắt đầu</div>
+                            <div class="detail-value">01/01/2024</div>
                         </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Diện tích:</span>
-                            <span class="detail-value">85 m²</span>
+                        <div class="col-6">
+                            <div class="detail-label">Ngày kết thúc</div>
+                            <div class="detail-value">31/12/2024</div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Contract Card 2 -->
-                <div class="contract-card">
-                    <div class="contract-header">
+                <div class="contract-card p-3">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
                         <span class="contract-id">HĐ-2023045</span>
-                        <span class="status-badge expired">Đã hết hạn</span>
+                        <span class="badge badge-expired rounded-pill px-3 py-2">Đã hết hạn</span>
                     </div>
-                    <div class="contract-details">
-                        <div class="detail-item">
-                            <span class="detail-label">Tòa nhà:</span>
-                            <span class="detail-value">SunTower B2</span>
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="detail-label">Tòa nhà</div>
+                            <div class="detail-value">SunTower B2</div>
                         </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Căn hộ:</span>
-                            <span class="detail-value">302</span>
+                        <div class="col-6">
+                            <div class="detail-label">Căn hộ</div>
+                            <div class="detail-value">302</div>
                         </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Giá thuê:</span>
-                            <span class="detail-value">12,000,000 VNĐ/tháng</span>
+                        <div class="col-6">
+                            <div class="detail-label">Giá thuê</div>
+                            <div class="detail-value">12,000,000 VNĐ/tháng</div>
                         </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Ngày bắt đầu:</span>
-                            <span class="detail-value">01/01/2023</span>
+                        <div class="col-6">
+                            <div class="detail-label">Diện tích</div>
+                            <div class="detail-value">70 m²</div>
                         </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Ngày kết thúc:</span>
-                            <span class="detail-value">31/12/2023</span>
+                        <div class="col-6">
+                            <div class="detail-label">Ngày bắt đầu</div>
+                            <div class="detail-value">01/01/2023</div>
                         </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Diện tích:</span>
-                            <span class="detail-value">70 m²</span>
+                        <div class="col-6">
+                            <div class="detail-label">Ngày kết thúc</div>
+                            <div class="detail-value">31/12/2023</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Right Column - Bills & Services -->
-        <div>
+        <!-- Right Column -->
+        <div class="col-lg-4">
             <!-- Pending Bills -->
-            <div class="section" style="margin-bottom: 30px;">
-                <div class="section-header">
+            <div class="section-card p-4 mb-4">
+                <div class="section-header mb-3">
                     <h2>Hóa đơn chờ thanh toán</h2>
                 </div>
-                <div style="display: flex; flex-direction: column; gap: 15px;">
-                    <div class="bill-card">
-                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+
+                <!-- Bill Card -->
+                <div class="card border-0 bg-light mb-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
                             <div>
-                                <h4 style="color: #2d3e8f; margin-bottom: 5px;">Hóa đơn tháng 12/2024</h4>
-                                <p style="font-size: 13px; color: #666;">Hạn thanh toán: 05/12/2025</p>
+                                <h5 class="mb-1"
+                                    style="color: var(--primary-color); font-size: 15px; font-weight: 600;">
+                                    Hóa đơn tháng 12/2024
+                                </h5>
+                                <p class="text-muted mb-0 small">Hạn thanh toán: 05/12/2025</p>
                             </div>
-                            <span class="status-badge pending">Chờ thanh toán</span>
+                            <span class="badge bg-warning text-dark rounded-pill px-3 py-2" style="font-size: 11px;">
+                                Chờ thanh toán
+                            </span>
                         </div>
-                        <div style="display: grid; gap: 8px; font-size: 14px; margin-bottom: 15px;">
-                            <div style="display: flex; justify-content: space-between;">
-                                <span style="color: #666;">Tiền thuê:</span>
-                                <span style="font-weight: 600;">15,000,000 VNĐ</span>
+
+                        <div class="border-top pt-3 mb-3">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted small">Tiền thuê:</span>
+                                <span class="fw-semibold small">15,000,000 VNĐ</span>
                             </div>
-                            <div style="display: flex; justify-content: space-between;">
-                                <span style="color: #666;">Tiền điện:</span>
-                                <span style="font-weight: 600;">450,000 VNĐ</span>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted small">Dịch vụ khác:</span>
+                                <span class="fw-semibold small">770,000 VNĐ</span>
                             </div>
-                            <div style="display: flex; justify-content: space-between;">
-                                <span style="color: #666;">Tiền nước:</span>
-                                <span style="font-weight: 600;">120,000 VNĐ</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between;">
-                                <span style="color: #666;">Phí gửi xe:</span>
-                                <span style="font-weight: 600;">200,000 VNĐ</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; padding-top: 8px; border-top: 2px solid #f0f0f0;">
-                                <span style="font-weight: 600; color: #2d3e8f;">Tổng cộng:</span>
-                                <span style="font-weight: 700; color: #f5576c; font-size: 16px;">15,770,000 VNĐ</span>
+                            <div class="border-top pt-2 mt-2">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="fw-bold" style="color: var(--primary-color);">Tổng cộng:</span>
+                                    <span class="fw-bold fs-5" style="color: #dc3545;">15,770,000 VNĐ</span>
+                                </div>
                             </div>
                         </div>
-                        <a th:href="@{/customer/payments}" style="display: block; text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s;">
-                            Thanh toán ngay
+
+                        <a th:href="@{/customer/payments}" class="btn w-100"
+                           style="background: var(--primary-color); color: white; font-weight: 600;">
+                            <i class="bi bi-credit-card me-2"></i>Thanh toán ngay
                         </a>
                     </div>
+                </div>
+
+                <div class="text-center">
+                    <a th:href="@{/customer/payments}" class="view-all">
+                        Xem tất cả hóa đơn <i class="bi bi-arrow-right"></i>
+                    </a>
                 </div>
             </div>
 
             <!-- Services & Amenities -->
-            <div class="section">
-                <div class="section-header">
+            <div class="section-card p-4 mb-4">
+                <div class="section-header mb-3">
                     <h2>Tiện ích & Dịch vụ</h2>
                 </div>
-                <div style="display: grid; gap: 12px;">
-                    <div class="service-item">
-                        <div style="display: flex; align-items: center; gap: 12px;">
-                            <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px;">🏊</div>
-                            <div>
-                                <h4 style="font-size: 15px; color: #2d3e8f; margin-bottom: 3px;">Hồ bơi</h4>
-                                <p style="font-size: 12px; color: #666;">Mở cửa: 6:00 - 22:00</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="service-item">
-                        <div style="display: flex; align-items: center; gap: 12px;">
-                            <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px;">💪</div>
-                            <div>
-                                <h4 style="font-size: 15px; color: #2d3e8f; margin-bottom: 3px;">Phòng gym</h4>
-                                <p style="font-size: 12px; color: #666;">Mở cửa: 5:00 - 23:00</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="service-item">
-                        <div style="display: flex; align-items: center; gap: 12px;">
-                            <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px;">🅿️</div>
-                            <div>
-                                <h4 style="font-size: 15px; color: #2d3e8f; margin-bottom: 3px;">Bãi đỗ xe</h4>
-                                <p style="font-size: 12px; color: #666;">Xe máy: B1, Ô tô: B2-B3</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="service-item">
-                        <div style="display: flex; align-items: center; gap: 12px;">
-                            <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px;">🛡️</div>
-                            <div>
-                                <h4 style="font-size: 15px; color: #2d3e8f; margin-bottom: 3px;">An ninh 24/7</h4>
-                                <p style="font-size: 12px; color: #666;">Hotline: 1900 xxxx</p>
-                            </div>
-                        </div>
-                    </div>
+
+                <div class="service-item p-3 mb-2">
+                    <h5 class="mb-1"><i class="bi bi-water me-2"></i>Hồ bơi</h5>
+                    <p class="text-muted mb-0 small">Mở cửa: 6:00 - 22:00</p>
+                </div>
+
+                <div class="service-item p-3 mb-2">
+                    <h5 class="mb-1"><i class="bi bi-heart-pulse me-2"></i>Phòng gym</h5>
+                    <p class="text-muted mb-0 small">Mở cửa: 5:00 - 23:00</p>
+                </div>
+
+                <div class="service-item p-3 mb-2">
+                    <h5 class="mb-1"><i class="bi bi-p-square me-2"></i>Bãi đỗ xe</h5>
+                    <p class="text-muted mb-0 small">Xe máy: B1, Ô tô: B2-B3</p>
+                </div>
+
+                <div class="service-item p-3">
+                    <h5 class="mb-1"><i class="bi bi-shield-check me-2"></i>An ninh 24/7</h5>
+                    <p class="text-muted mb-0 small">Hotline: 1900 xxxx</p>
                 </div>
             </div>
 
             <!-- Info Box -->
-            <div class="info-box">
-                <h3>Thông tin hệ thống</h3>
-                <div class="info-item">
-                    <span class="info-label">Ngày giờ:</span>
-                    <span class="info-value" th:text="${today != null ? today : '03/12/2025 10:41'}">03/12/2025 10:41</span>
+            <div class="info-box p-3">
+                <h5 class="mb-3">Thông tin hệ thống</h5>
+                <div class="info-item d-flex justify-content-between">
+                    <span class="text-muted">Ngày giờ:</span>
+                    <span class="fw-semibold"
+                          th:text="${today != null ? today : '04/12/2025 14:30'}">04/12/2025 14:30</span>
                 </div>
-                <div class="info-item">
-                    <span class="info-label">IP:</span>
-                    <span class="info-value" th:text="${clientIp != null ? clientIp : '192.168.1.1'}">192.168.1.1</span>
+                <div class="info-item d-flex justify-content-between">
+                    <span class="text-muted">IP:</span>
+                    <span class="fw-semibold"
+                          th:text="${clientIp != null ? clientIp : '192.168.1.1'}">192.168.1.1</span>
                 </div>
-                <div class="info-item">
-                    <span class="info-label">Trạng thái:</span>
-                    <span class="info-value" style="color: #28a745;">Đã kích hoạt</span>
+                <div class="info-item d-flex justify-content-between">
+                    <span class="text-muted">Trạng thái:</span>
+                    <span class="fw-semibold text-success">Đã kích hoạt</span>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<script>
-    function toggleMenu() {
-        const navMenu = document.getElementById('navMenu');
-        navMenu.classList.toggle('active');
-    }
+<!-- Bootstrap 5 JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+<script>
     // Highlight active menu based on current URL
     document.addEventListener('DOMContentLoaded', function() {
         const currentPath = window.location.pathname;
-        const menuLinks = document.querySelectorAll('.nav-menu a');
+        const menuLinks = document.querySelectorAll('.nav-link');
 
         menuLinks.forEach(link => {
             link.classList.remove('active');
