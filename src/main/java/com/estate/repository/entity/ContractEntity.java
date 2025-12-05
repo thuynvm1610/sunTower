@@ -9,6 +9,7 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "contract")
@@ -67,4 +68,10 @@ public class ContractEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "staff_id")
     private StaffEntity staff;
+
+    @OneToMany(mappedBy = "contract", cascade = CascadeType.ALL)
+    private List<InvoiceEntity> invoices;
+
+    @OneToMany(mappedBy = "contract", cascade = CascadeType.ALL)
+    private List<UtilityMeterEntity> utilityMeters;
 }

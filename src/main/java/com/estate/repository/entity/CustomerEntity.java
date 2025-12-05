@@ -71,4 +71,7 @@ public class CustomerEntity {
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<ContractEntity> contracts = new ArrayList<>();;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private List<InvoiceEntity> invoices;
 }

@@ -24,11 +24,6 @@ public class UtilityMeterEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Hợp đồng liên quan
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "contract_id", nullable = false)
-    private ContractEntity contract;
-
     @Column(nullable = false)
     private Integer month;
 
@@ -49,4 +44,9 @@ public class UtilityMeterEntity {
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
+
+    // Hợp đồng liên quan
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "contract_id", nullable = false)
+    private ContractEntity contract;
 }

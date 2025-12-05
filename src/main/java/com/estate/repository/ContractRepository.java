@@ -38,21 +38,19 @@ public interface ContractRepository extends JpaRepository<ContractEntity, Long>,
     long countByCustomerId(Long customerId);
 
     @Query("""
-        SELECT c
+        SELECT DISTINCT c
         FROM ContractEntity c
         JOIN c.customer cus
-        LEFT JOIN InvoiceEntity i 
-            ON i.contract = c 
-           AND i.month = :month 
-           AND i.year = :year
+        JOIN c.invoices i
         WHERE cus.id = :customerId
-          AND (i IS NULL OR i.status != 'PAID')
-    """)
+          AND i.month = :month
+          AND i.year = :year
+          AND i.status != 'PAID'
+        """)
     List<ContractEntity> getHaveNotPaidContracts(
             @Param("customerId") Long customerId,
             @Param("month") Integer month,
             @Param("year") Integer year
     );
-
 
 }
