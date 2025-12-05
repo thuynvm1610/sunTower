@@ -1,7 +1,10 @@
 package com.estate.controller.customer;
 
+import com.estate.dto.InvoiceDetailDTO;
+import com.estate.repository.entity.InvoiceDetailEntity;
 import com.estate.security.CustomUserDetails;
 import com.estate.service.ContractService;
+import com.estate.service.CustomerService;
 import com.estate.service.InvoiceService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -24,6 +27,9 @@ public class CustomerHomeController {
 
     @Autowired
     InvoiceService invoiceService;
+
+    @Autowired
+    CustomerService customerService;
 
     @GetMapping("/home")
     public String home(
@@ -47,6 +53,11 @@ public class CustomerHomeController {
 
         String totalPayment = invoiceService.findTotalAmountByCustomerId(customerId);
         model.addAttribute("totalPayment", totalPayment);
+
+        int currentMonth = LocalDate.now().getMonthValue();
+        int currentYear  = LocalDate.now().getYear();
+        InvoiceDetailDTO detailInvoice = customerService.getDetailInvoice(customerId, currentMonth, currentYear);
+        model.addAttribute("detailInvoice", detailInvoice);
 
         return "customer/home";
     }

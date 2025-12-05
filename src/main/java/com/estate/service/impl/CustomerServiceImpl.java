@@ -3,14 +3,16 @@ package com.estate.service.impl;
 import com.estate.converter.CustomerDetailConverter;
 import com.estate.converter.CustomerFormConverter;
 import com.estate.converter.CustomerListConverter;
+import com.estate.converter.InvoiceDetailConverter;
 import com.estate.dto.*;
 import com.estate.exception.BusinessException;
 import com.estate.repository.ContractRepository;
 import com.estate.repository.CustomerRepository;
+import com.estate.repository.InvoiceRepository;
 import com.estate.repository.StaffRepository;
-import com.estate.repository.entity.CustomerEntity;
-import com.estate.repository.entity.StaffEntity;
+import com.estate.repository.entity.*;
 import com.estate.service.CustomerService;
+import com.estate.service.UtilityMeterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -29,22 +31,31 @@ import java.util.stream.Collectors;
 @Transactional
 public class CustomerServiceImpl implements CustomerService {
     @Autowired
-    private CustomerRepository customerRepository;
+    CustomerRepository customerRepository;
 
     @Autowired
-    private CustomerListConverter customerListConverter;
+    CustomerListConverter customerListConverter;
 
     @Autowired
-    private CustomerFormConverter customerFormConverter;
+    CustomerFormConverter customerFormConverter;
 
     @Autowired
-    private StaffRepository staffRepository;
+    StaffRepository staffRepository;
 
     @Autowired
-    private ContractRepository contractRepository;
+    ContractRepository contractRepository;
 
     @Autowired
-    private CustomerDetailConverter customerDetailConverter;
+    CustomerDetailConverter customerDetailConverter;
+
+    @Autowired
+    InvoiceRepository invoiceRepository;
+
+    @Autowired
+    UtilityMeterService utilityMeterService;
+
+    @Autowired
+    InvoiceDetailConverter invoiceDetailConverter;
 
     @Override
     public long countAll() {
@@ -179,4 +190,31 @@ public class CustomerServiceImpl implements CustomerService {
         }
         return result;
     }
+
+    @Override
+    public InvoiceDetailDTO getDetailInvoice(Long customerId, int currentMonth, int currentYear) {
+
+        int month = (currentMonth == 1 ? 12 : currentMonth - 1);
+        int year  = (currentMonth == 1 ? currentYear - 1 : currentYear);
+
+        List<ContractEntity> haveNotPaidContracts =
+                contractRepository.getHaveNotPaidContracts(customerId, month, year);
+
+        if (haveNotPaidContracts.isEmpty()) {
+            return null;
+        }
+
+        ContractEntity contract = haveNotPaidContracts.get(0);
+
+        InvoiceEntity invoice = invoiceRepository.getPreMonthInvoice(
+                contract.getId(), customerId, month, year);
+
+        UtilityMeterEntity utilityMeter = utilityMeterService.getByContractIdAndMonthAndYear(
+                contract.getId(), month, year);
+
+        if (invoice == null || utilityMeter == null) return null;
+
+        return invoiceDetailConverter.toDTO(invoice, utilityMeter);
+    }
+
 }

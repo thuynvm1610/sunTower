@@ -2,8 +2,10 @@ package com.estate.config;
 
 import com.estate.dto.BuildingFormDTO;
 import com.estate.dto.ContractFormDTO;
+import com.estate.dto.InvoiceDetailDTO;
 import com.estate.repository.entity.BuildingEntity;
 import com.estate.repository.entity.ContractEntity;
+import com.estate.repository.entity.InvoiceEntity;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -55,6 +57,14 @@ public class ModelMapperConfig {
                     m.skip(ContractEntity::setBuilding);
                     m.skip(ContractEntity::setCustomer);
                     m.skip(ContractEntity::setStaff);
+                });
+
+        // Mapping Invoice
+        mapper.typeMap(InvoiceDetailDTO.class, InvoiceEntity.class)
+                .addMappings(m -> {
+                    m.skip(InvoiceEntity::setContract);
+                    m.skip(InvoiceEntity::setCustomer);
+                    m.skip(InvoiceEntity::setDetails);
                 });
 
         return mapper;

@@ -7,7 +7,7 @@ import lombok.Setter;
 import java.math.BigDecimal;
 
 @Entity
-@Table
+@Table(name = "invoice_detail")
 @Getter
 @Setter
 public class InvoiceDetailEntity {

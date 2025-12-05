@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -324,7 +323,8 @@
                     </a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
                         <i class="bi bi-grid-3x3-gap me-1"></i>Tiện ích
                     </a>
                     <ul class="dropdown-menu dropdown-menu-custom">
@@ -338,7 +338,9 @@
                                 <i class="bi bi-clipboard-check me-2"></i>Dịch vụ
                             </a>
                         </li>
-                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
                         <li>
                             <a class="dropdown-item" th:href="@{/customer/utilities}">
                                 <i class="bi bi-star me-2"></i>Tiện ích tòa nhà
@@ -543,14 +545,23 @@
 
                 <!-- Bill Card -->
                 <div class="card border-0 bg-light mb-3">
-                    <div class="card-body">
+                    <!-- Nếu không có hóa đơn -->
+                    <div th:if="${detailInvoice == null}" class="card-body text-center py-4">
+                        <p class="text-muted mb-0">Chưa có hóa đơn nào</p>
+                    </div>
+                    <!-- Nếu có hóa đơn -->
+                    <div th:if="${detailInvoice != null}" class="card-body">
                         <div class="d-flex justify-content-between align-items-start mb-3">
                             <div>
                                 <h5 class="mb-1"
-                                    style="color: var(--primary-color); font-size: 15px; font-weight: 600;">
+                                    style="color: var(--primary-color); font-size: 15px; font-weight: 600;"
+                                    th:text="'Hóa đơn tháng ' + ${detailInvoice.month} + '/' + ${detailInvoice.year}">
                                     Hóa đơn tháng 12/2024
                                 </h5>
-                                <p class="text-muted mb-0 small">Hạn thanh toán: 05/12/2025</p>
+                                <p class="text-muted mb-0 small"
+                                   th:text="'Hạn thanh toán: ' + ${detailInvoice.dueDate}">
+                                    Hạn thanh toán: 05/12/2025
+                                </p>
                             </div>
                             <span class="badge bg-warning text-dark rounded-pill px-3 py-2" style="font-size: 11px;">
                                 Chờ thanh toán
@@ -559,17 +570,27 @@
 
                         <div class="border-top pt-3 mb-3">
                             <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted small">Tiền thuê:</span>
-                                <span class="fw-semibold small">15,000,000 VNĐ</span>
+                                <span class="text-muted small">
+                                    Tiền thuê:
+                                </span>
+                                <span class="fw-semibold small"
+                                      th:text="${#numbers.formatDecimal(detailInvoice.contract.rentPrice, 0, 'COMMA', 0, 'POINT')}">
+                                    15,000,000 VNĐ
+                                </span>
                             </div>
                             <div class="d-flex justify-content-between mb-2">
                                 <span class="text-muted small">Dịch vụ khác:</span>
-                                <span class="fw-semibold small">770,000 VNĐ</span>
+                                <span class="fw-semibold small"
+                                      th:text="${#numbers.formatDecimal(detailInvoice.totalServiceFeeAmount, 0, 'COMMA', 0, 'POINT')}">
+                                </span>
                             </div>
                             <div class="border-top pt-2 mt-2">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span class="fw-bold" style="color: var(--primary-color);">Tổng cộng:</span>
-                                    <span class="fw-bold fs-5" style="color: #dc3545;">15,770,000 VNĐ</span>
+                                    <span class="fw-bold fs-5" style="color: #dc3545;"
+                                          th:text="${#numbers.formatDecimal(detailInvoice.totalAmount, 0, 'COMMA', 0, 'POINT')}">
+                                        15,770,000 VNĐ
+                                    </span>
                                 </div>
                             </div>
                         </div>

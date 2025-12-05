@@ -20,7 +20,6 @@ import java.time.LocalDateTime;
     }
 )
 public class UtilityMeterEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
