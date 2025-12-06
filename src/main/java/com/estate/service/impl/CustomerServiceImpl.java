@@ -12,6 +12,7 @@ import com.estate.repository.InvoiceRepository;
 import com.estate.repository.StaffRepository;
 import com.estate.repository.entity.*;
 import com.estate.service.CustomerService;
+import com.estate.service.InvoiceService;
 import com.estate.service.UtilityMeterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -47,6 +48,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     CustomerDetailConverter customerDetailConverter;
+
+    @Autowired
+    InvoiceService invoiceService;
 
     @Autowired
     InvoiceRepository invoiceRepository;
@@ -192,33 +196,17 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public InvoiceDetailDTO getDetailInvoice(Long customerId, int currentMonth, int currentYear) {
+    public InvoiceDetailDTO getDetailInvoice(Long customerId) {
 
-        int month = (currentMonth == 1 ? 12 : currentMonth - 1);
-        int year  = (currentMonth == 1 ? currentYear - 1 : currentYear);
-
-//        List<ContractEntity> haveNotPaidContracts =
-//                contractRepository.getHaveNotPaidContracts(customerId, month, year);
-//
-//        if (haveNotPaidContracts.isEmpty()) {
-//            return null;
-//        }
-
-        ContractEntity contract =
-                contractRepository.getHaveNotPaidContract(customerId, month, year, PageRequest.of(0, 1))
-                        .stream().findFirst().orElse(null);;
-
-        if (contract == null) {
+        Long unpaidInvoices = invoiceService.getTotalUnpaidInvoices(customerId);
+        if (unpaidInvoices == 0) {
             return null;
         }
 
-        InvoiceEntity invoice = invoiceRepository.getPreMonthInvoice(
-                contract.getId(), customerId, month, year);
+        InvoiceEntity invoice = invoiceRepository.getFirstByCustomerIdAndStatus(customerId, "PENDING");
 
         UtilityMeterEntity utilityMeter = utilityMeterService.getByContractIdAndMonthAndYear(
-                contract.getId(), month, year);
-
-        if (invoice == null || utilityMeter == null) return null;
+                invoice.getId(), invoice.getMonth(), invoice.getYear());
 
         return invoiceDetailConverter.toDTO(invoice, utilityMeter);
     }

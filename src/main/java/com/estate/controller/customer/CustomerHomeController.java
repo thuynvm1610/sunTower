@@ -1,7 +1,6 @@
 package com.estate.controller.customer;
 
 import com.estate.dto.InvoiceDetailDTO;
-import com.estate.repository.entity.InvoiceDetailEntity;
 import com.estate.security.CustomUserDetails;
 import com.estate.service.ContractService;
 import com.estate.service.CustomerService;
@@ -54,10 +53,11 @@ public class CustomerHomeController {
         String totalPayment = invoiceService.findTotalAmountByCustomerId(customerId);
         model.addAttribute("totalPayment", totalPayment);
 
-        int currentMonth = LocalDate.now().getMonthValue();
-        int currentYear  = LocalDate.now().getYear();
-        InvoiceDetailDTO detailInvoice = customerService.getDetailInvoice(customerId, currentMonth, currentYear);
+        InvoiceDetailDTO detailInvoice = customerService.getDetailInvoice(customerId);
         model.addAttribute("detailInvoice", detailInvoice);
+
+        Long totalUnpaidInvoices = invoiceService.getTotalUnpaidInvoices(customerId);
+        model.addAttribute("totalUnpaidInvoices", totalUnpaidInvoices);
 
         return "customer/home";
     }

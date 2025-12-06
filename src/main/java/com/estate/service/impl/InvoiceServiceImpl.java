@@ -35,4 +35,9 @@ public class InvoiceServiceImpl implements InvoiceService {
             }
         }
     }
+
+    @Override
+    public Long getTotalUnpaidInvoices(Long customerId) {
+        return invoiceRepository.countByCustomerIdAndStatus(customerId, "PENDING");
+    }
 }

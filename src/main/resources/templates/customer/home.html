@@ -540,7 +540,11 @@
             <!-- Pending Bills -->
             <div class="section-card p-4 mb-4">
                 <div class="section-header mb-3">
-                    <h2>Hóa đơn chờ thanh toán</h2>
+                    <h2 th:text="'Hóa đơn chờ thanh toán ' +
+                     '(' + ${totalUnpaidInvoices} + ')'"
+                    >
+                        Hóa đơn chờ thanh toán: 2
+                    </h2>
                 </div>
 
                 <!-- Bill Card -->
