@@ -1,5 +1,6 @@
 package com.estate.controller.customer;
 
+import com.estate.dto.ContractDetailDTO;
 import com.estate.dto.InvoiceDetailDTO;
 import com.estate.security.CustomUserDetails;
 import com.estate.service.ContractService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Controller
 @RequestMapping("/customer")
@@ -58,6 +60,9 @@ public class CustomerHomeController {
 
         Long totalUnpaidInvoices = invoiceService.getTotalUnpaidInvoices(customerId);
         model.addAttribute("totalUnpaidInvoices", totalUnpaidInvoices);
+
+        List<ContractDetailDTO> contracts = customerService.getCustomerContracts(customerId);
+        model.addAttribute("contracts", contracts);
 
         return "customer/home";
     }

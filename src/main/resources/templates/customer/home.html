@@ -93,7 +93,6 @@
         .dropdown-menu-custom {
             background: white;
             border: 1px solid rgba(0, 0, 0, 0.1);
-            ...
         }
 
         /* Welcome Section */
@@ -202,54 +201,6 @@
             color: #333;
         }
 
-        /* Activity Item */
-        .activity-item {
-            background: #f8f9fa;
-            border-radius: 8px;
-            transition: all 0.2s;
-        }
-
-        .activity-item:hover {
-            background: #e9ecef;
-        }
-
-        .activity-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            background: #f0f4ff;
-            color: var(--primary-color);
-            font-size: 18px;
-        }
-
-        .activity-content h4 {
-            font-size: 14px;
-            color: var(--primary-color);
-            font-weight: 600;
-        }
-
-        .activity-time {
-            font-size: 11px;
-            color: #999;
-        }
-
-        /* Service Item */
-        .service-item {
-            background: #f8f9fa;
-            border-radius: 8px;
-            transition: all 0.2s;
-        }
-
-        .service-item:hover {
-            background: #e9ecef;
-        }
-
-        .service-item h5 {
-            font-size: 14px;
-            color: var(--primary-color);
-            font-weight: 600;
-        }
-
         /* Info Box */
         .info-box {
             background: #f8f9fa;
@@ -338,24 +289,6 @@
                                 <i class="bi bi-clipboard-check me-2"></i>Dịch vụ
                             </a>
                         </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li>
-                            <a class="dropdown-item" th:href="@{/customer/utilities}">
-                                <i class="bi bi-star me-2"></i>Tiện ích tòa nhà
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" th:href="@{/customer/maintenance}">
-                                <i class="bi bi-tools me-2"></i>Yêu cầu bảo trì
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" th:href="@{/customer/notifications}">
-                                <i class="bi bi-bell me-2"></i>Thông báo
-                            </a>
-                        </li>
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -410,52 +343,6 @@
     <div class="row g-4">
         <!-- Left Column -->
         <div class="col-lg-8">
-            <!-- Recent Activities -->
-            <div class="section-card p-4 mb-4">
-                <div class="section-header mb-3">
-                    <h2>Hoạt động gần đây</h2>
-                </div>
-
-                <div class="activity-item p-3 mb-3">
-                    <div class="d-flex gap-3">
-                        <div class="activity-icon d-flex align-items-center justify-content-center flex-shrink-0">
-                            <i class="bi bi-check-lg"></i>
-                        </div>
-                        <div class="activity-content">
-                            <h4 class="mb-1">Thanh toán thành công</h4>
-                            <p class="text-muted mb-1 small">Hóa đơn tháng 11/2024 - 15,000,000 VNĐ</p>
-                            <span class="activity-time">2 giờ trước</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="activity-item p-3 mb-3">
-                    <div class="d-flex gap-3">
-                        <div class="activity-icon d-flex align-items-center justify-content-center flex-shrink-0">
-                            <i class="bi bi-file-earmark-text"></i>
-                        </div>
-                        <div class="activity-content">
-                            <h4 class="mb-1">Hợp đồng được gia hạn</h4>
-                            <p class="text-muted mb-1 small">HĐ-2024001 gia hạn đến 31/12/2025</p>
-                            <span class="activity-time">1 ngày trước</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="activity-item p-3">
-                    <div class="d-flex gap-3">
-                        <div class="activity-icon d-flex align-items-center justify-content-center flex-shrink-0">
-                            <i class="bi bi-bell"></i>
-                        </div>
-                        <div class="activity-content">
-                            <h4 class="mb-1">Thông báo bảo trì</h4>
-                            <p class="text-muted mb-1 small">Bảo trì thang máy tòa A1 vào 15/12/2025</p>
-                            <span class="activity-time">3 ngày trước</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <!-- Contracts Section -->
             <div class="section-card p-4">
                 <div class="section-header mb-3 d-flex justify-content-between align-items-center">
@@ -465,70 +352,35 @@
                     </a>
                 </div>
 
-                <!-- Contract Card 1 -->
-                <div class="contract-card p-3 mb-3">
+                <!-- Contracts Card -->
+                <div class="contract-card p-3 mb-3" th:each="contract : ${contracts}">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="contract-id">HĐ-2024001</span>
-                        <span class="badge badge-active rounded-pill px-3 py-2">Đang hoạt động</span>
+                        <span class="contract-id" th:text="'Mã hợp đồng: ' + ${contract.id}">HĐ-2024001</span>
+                        <span class="badge badge-active rounded-pill px-3 py-2"
+                        th:text="${contract.status}">
+                            Đang hoạt động
+                        </span>
                     </div>
                     <div class="row g-3">
                         <div class="col-6">
                             <div class="detail-label">Tòa nhà</div>
-                            <div class="detail-value">SunTower A1</div>
-                        </div>
-                        <div class="col-6">
-                            <div class="detail-label">Căn hộ</div>
-                            <div class="detail-value">501</div>
+                            <div class="detail-value" th:text="${contract.building.name}">SunTower A1</div>
                         </div>
                         <div class="col-6">
                             <div class="detail-label">Giá thuê</div>
-                            <div class="detail-value">15,000,000 VNĐ/tháng</div>
+                            <div class="detail-value" th:text="${contract.rentPrice}">15,000,000 VNĐ/tháng</div>
                         </div>
                         <div class="col-6">
                             <div class="detail-label">Diện tích</div>
-                            <div class="detail-value">85 m²</div>
+                            <div class="detail-value" th:text="${contract.rentArea}">85 m²</div>
                         </div>
                         <div class="col-6">
                             <div class="detail-label">Ngày bắt đầu</div>
-                            <div class="detail-value">01/01/2024</div>
+                            <div class="detail-value" th:text="${contract.startDate}">01/01/2024</div>
                         </div>
                         <div class="col-6">
                             <div class="detail-label">Ngày kết thúc</div>
-                            <div class="detail-value">31/12/2024</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Contract Card 2 -->
-                <div class="contract-card p-3">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="contract-id">HĐ-2023045</span>
-                        <span class="badge badge-expired rounded-pill px-3 py-2">Đã hết hạn</span>
-                    </div>
-                    <div class="row g-3">
-                        <div class="col-6">
-                            <div class="detail-label">Tòa nhà</div>
-                            <div class="detail-value">SunTower B2</div>
-                        </div>
-                        <div class="col-6">
-                            <div class="detail-label">Căn hộ</div>
-                            <div class="detail-value">302</div>
-                        </div>
-                        <div class="col-6">
-                            <div class="detail-label">Giá thuê</div>
-                            <div class="detail-value">12,000,000 VNĐ/tháng</div>
-                        </div>
-                        <div class="col-6">
-                            <div class="detail-label">Diện tích</div>
-                            <div class="detail-value">70 m²</div>
-                        </div>
-                        <div class="col-6">
-                            <div class="detail-label">Ngày bắt đầu</div>
-                            <div class="detail-value">01/01/2023</div>
-                        </div>
-                        <div class="col-6">
-                            <div class="detail-label">Ngày kết thúc</div>
-                            <div class="detail-value">31/12/2023</div>
+                            <div class="detail-value" th:text="${contract.endDate}">31/12/2024</div>
                         </div>
                     </div>
                 </div>
@@ -615,33 +467,6 @@
                     <a th:href="@{/customer/payments}" class="view-all">
                         Xem tất cả hóa đơn <i class="bi bi-arrow-right"></i>
                     </a>
-                </div>
-            </div>
-
-            <!-- Services & Amenities -->
-            <div class="section-card p-4 mb-4">
-                <div class="section-header mb-3">
-                    <h2>Tiện ích & Dịch vụ</h2>
-                </div>
-
-                <div class="service-item p-3 mb-2">
-                    <h5 class="mb-1"><i class="bi bi-water me-2"></i>Hồ bơi</h5>
-                    <p class="text-muted mb-0 small">Mở cửa: 6:00 - 22:00</p>
-                </div>
-
-                <div class="service-item p-3 mb-2">
-                    <h5 class="mb-1"><i class="bi bi-heart-pulse me-2"></i>Phòng gym</h5>
-                    <p class="text-muted mb-0 small">Mở cửa: 5:00 - 23:00</p>
-                </div>
-
-                <div class="service-item p-3 mb-2">
-                    <h5 class="mb-1"><i class="bi bi-p-square me-2"></i>Bãi đỗ xe</h5>
-                    <p class="text-muted mb-0 small">Xe máy: B1, Ô tô: B2-B3</p>
-                </div>
-
-                <div class="service-item p-3">
-                    <h5 class="mb-1"><i class="bi bi-shield-check me-2"></i>An ninh 24/7</h5>
-                    <p class="text-muted mb-0 small">Hotline: 1900 xxxx</p>
                 </div>
             </div>
 

@@ -1,9 +1,6 @@
 package com.estate.service.impl;
 
-import com.estate.converter.CustomerDetailConverter;
-import com.estate.converter.CustomerFormConverter;
-import com.estate.converter.CustomerListConverter;
-import com.estate.converter.InvoiceDetailConverter;
+import com.estate.converter.*;
 import com.estate.dto.*;
 import com.estate.exception.BusinessException;
 import com.estate.repository.ContractRepository;
@@ -60,6 +57,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     InvoiceDetailConverter invoiceDetailConverter;
+
+    @Autowired
+    ContractDetailConverter contractDetailConverter;
 
     @Override
     public long countAll() {
@@ -209,6 +209,22 @@ public class CustomerServiceImpl implements CustomerService {
                 invoice.getId(), invoice.getMonth(), invoice.getYear());
 
         return invoiceDetailConverter.toDTO(invoice, utilityMeter);
+    }
+
+    @Override
+    public List<ContractDetailDTO> getCustomerContracts(Long customerId) {
+        List<ContractEntity> contractEntities = contractRepository.findByCustomerId(customerId);
+        List<ContractDetailDTO> result = new ArrayList<>();
+        int cnt = 1;
+        for (ContractEntity c : contractEntities) {
+            if (cnt == 3) break;
+            else {
+                result.add(contractDetailConverter.toDto(c));
+                cnt++;
+            }
+        }
+
+        return result;
     }
 
 }
