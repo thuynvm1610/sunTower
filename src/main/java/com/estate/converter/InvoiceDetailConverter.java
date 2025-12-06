@@ -19,10 +19,13 @@ public class InvoiceDetailConverter {
     public InvoiceDetailDTO toDTO(InvoiceEntity entity, UtilityMeterEntity utilityMeter) {
         InvoiceDetailDTO dto = modelMapper.map(entity, InvoiceDetailDTO.class);
 
-        String formattedDate = entity.getDueDate()
+        String formattedDueDate = entity.getDueDate()
                 .format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
+        dto.setDueDate(formattedDueDate);
 
-        dto.setDueDate(formattedDate);
+        String formattedCreatedDate = entity.getCreatedDate()
+                .format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
+        dto.setCreatedDate(formattedCreatedDate);
 
         BigDecimal totalServiceFeeAmount = entity.getDetails().stream()
                 .filter(d -> !d.getDescription().toLowerCase().contains("thuê"))

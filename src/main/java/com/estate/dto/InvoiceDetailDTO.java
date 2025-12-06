@@ -23,6 +23,7 @@ public class InvoiceDetailDTO {
     private BigDecimal totalAmount;
     private BigDecimal totalServiceFeeAmount;
     private String status; // PENDING, PAID, OVERDUE
+    private String createdDate;
     private String dueDate;
     private ContractEntity contract;
     private CustomerEntity customer;

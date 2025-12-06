@@ -12,7 +12,7 @@ public class UtilityMeterServiceImpl implements UtilityMeterService {
     UtilityMeterRepository utilityMeterRepository;
 
     @Override
-    public UtilityMeterEntity getByContractIdAndMonthAndYear(Long contractId, Integer month, Integer year) {
+    public UtilityMeterEntity findByContractIdAndMonthAndYear(Long contractId, Integer month, Integer year) {
         return utilityMeterRepository.getByContractIdAndMonthAndYear(contractId, month, year);
     }
 }

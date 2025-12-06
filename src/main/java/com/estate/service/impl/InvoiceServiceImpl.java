@@ -1,7 +1,12 @@
 package com.estate.service.impl;
 
+import com.estate.converter.InvoiceDetailConverter;
+import com.estate.dto.InvoiceDetailDTO;
 import com.estate.repository.InvoiceRepository;
+import com.estate.repository.entity.InvoiceEntity;
+import com.estate.repository.entity.UtilityMeterEntity;
 import com.estate.service.InvoiceService;
+import com.estate.service.UtilityMeterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +16,12 @@ import java.math.BigDecimal;
 public class InvoiceServiceImpl implements InvoiceService {
     @Autowired
     InvoiceRepository invoiceRepository;
+
+    @Autowired
+    UtilityMeterService utilityMeterService;
+
+    @Autowired
+    InvoiceDetailConverter invoiceDetailConverter;
 
     @Override
     public String findTotalAmountByCustomerId(Long id) {
@@ -39,5 +50,21 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Override
     public Long getTotalUnpaidInvoices(Long customerId) {
         return invoiceRepository.countByCustomerIdAndStatus(customerId, "PENDING");
+    }
+
+    @Override
+    public InvoiceDetailDTO getDetailInvoice(Long customerId) {
+
+        Long unpaidInvoices = this.getTotalUnpaidInvoices(customerId);
+        if (unpaidInvoices == 0) {
+            return null;
+        }
+
+        InvoiceEntity invoice = invoiceRepository.getFirstByCustomerIdAndStatus(customerId, "PENDING");
+
+        UtilityMeterEntity utilityMeter = utilityMeterService.findByContractIdAndMonthAndYear(
+                invoice.getContract().getId(), invoice.getMonth(), invoice.getYear());
+
+        return invoiceDetailConverter.toDTO(invoice, utilityMeter);
     }
 }

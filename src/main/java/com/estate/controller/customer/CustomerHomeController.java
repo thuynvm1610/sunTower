@@ -55,7 +55,7 @@ public class CustomerHomeController {
         String totalPayment = invoiceService.findTotalAmountByCustomerId(customerId);
         model.addAttribute("totalPayment", totalPayment);
 
-        InvoiceDetailDTO detailInvoice = customerService.getDetailInvoice(customerId);
+        InvoiceDetailDTO detailInvoice = invoiceService.getDetailInvoice(customerId);
         model.addAttribute("detailInvoice", detailInvoice);
 
         Long totalUnpaidInvoices = invoiceService.getTotalUnpaidInvoices(customerId);

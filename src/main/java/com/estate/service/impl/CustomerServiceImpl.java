@@ -7,7 +7,9 @@ import com.estate.repository.ContractRepository;
 import com.estate.repository.CustomerRepository;
 import com.estate.repository.InvoiceRepository;
 import com.estate.repository.StaffRepository;
-import com.estate.repository.entity.*;
+import com.estate.repository.entity.ContractEntity;
+import com.estate.repository.entity.CustomerEntity;
+import com.estate.repository.entity.StaffEntity;
 import com.estate.service.CustomerService;
 import com.estate.service.InvoiceService;
 import com.estate.service.UtilityMeterService;
@@ -181,8 +183,7 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDetailDTO viewById(Long id) {
         CustomerEntity customerEntity = customerRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("Không tìm thấy khách hàng"));
-        CustomerDetailDTO customerDetailDTO = customerDetailConverter.toDTO(customerEntity);
-        return customerDetailDTO;
+        return customerDetailConverter.toDTO(customerEntity);
     }
 
     @Override
@@ -193,22 +194,6 @@ public class CustomerServiceImpl implements CustomerService {
             result.put(c.getFullName(), c.getId());
         }
         return result;
-    }
-
-    @Override
-    public InvoiceDetailDTO getDetailInvoice(Long customerId) {
-
-        Long unpaidInvoices = invoiceService.getTotalUnpaidInvoices(customerId);
-        if (unpaidInvoices == 0) {
-            return null;
-        }
-
-        InvoiceEntity invoice = invoiceRepository.getFirstByCustomerIdAndStatus(customerId, "PENDING");
-
-        UtilityMeterEntity utilityMeter = utilityMeterService.getByContractIdAndMonthAndYear(
-                invoice.getId(), invoice.getMonth(), invoice.getYear());
-
-        return invoiceDetailConverter.toDTO(invoice, utilityMeter);
     }
 
     @Override

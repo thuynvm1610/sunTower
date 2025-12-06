@@ -15,6 +15,5 @@ public interface CustomerService {
     void delete(Long id);
     CustomerDetailDTO viewById(Long id);
     Map<String, Long> getCustomersName();
-    InvoiceDetailDTO getDetailInvoice(Long customerId);
     List<ContractDetailDTO> getCustomerContracts(Long customerId);
 }
