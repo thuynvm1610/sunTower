@@ -197,14 +197,20 @@ public class CustomerServiceImpl implements CustomerService {
         int month = (currentMonth == 1 ? 12 : currentMonth - 1);
         int year  = (currentMonth == 1 ? currentYear - 1 : currentYear);
 
-        List<ContractEntity> haveNotPaidContracts =
-                contractRepository.getHaveNotPaidContracts(customerId, month, year);
+//        List<ContractEntity> haveNotPaidContracts =
+//                contractRepository.getHaveNotPaidContracts(customerId, month, year);
+//
+//        if (haveNotPaidContracts.isEmpty()) {
+//            return null;
+//        }
 
-        if (haveNotPaidContracts.isEmpty()) {
+        ContractEntity contract =
+                contractRepository.getHaveNotPaidContract(customerId, month, year, PageRequest.of(0, 1))
+                        .stream().findFirst().orElse(null);;
+
+        if (contract == null) {
             return null;
         }
-
-        ContractEntity contract = haveNotPaidContracts.get(0);
 
         InvoiceEntity invoice = invoiceRepository.getPreMonthInvoice(
                 contract.getId(), customerId, month, year);

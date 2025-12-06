@@ -562,6 +562,11 @@
                                    th:text="'Hạn thanh toán: ' + ${detailInvoice.dueDate}">
                                     Hạn thanh toán: 05/12/2025
                                 </p>
+                                <p class="text-muted mb-0 small"
+                                   th:text="'Tòa ' + ${detailInvoice.contract.building.name} +
+                                    ' - Thuê ' + ${detailInvoice.contract.rentArea} + 'm²'">
+                                    Duy Tân Tower
+                                </p>
                             </div>
                             <span class="badge bg-warning text-dark rounded-pill px-3 py-2" style="font-size: 11px;">
                                 Chờ thanh toán
