@@ -20,6 +20,8 @@ public class ContractDetailDTO {
     private Integer rentArea;
     private LocalDate startDate;
     private LocalDate endDate;
+    private String formattedStartDate;
+    private String formattedEndDate;
     private String status;
     private CustomerEntity customer;
     private BuildingListDTO building;
