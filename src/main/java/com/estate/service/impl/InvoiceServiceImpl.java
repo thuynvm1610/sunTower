@@ -9,10 +9,14 @@ import com.estate.service.InvoiceService;
 import com.estate.service.UtilityMeterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
+@Transactional
 public class InvoiceServiceImpl implements InvoiceService {
     @Autowired
     InvoiceRepository invoiceRepository;
@@ -54,7 +58,6 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public InvoiceDetailDTO getDetailInvoice(Long customerId) {
-
         Long unpaidInvoices = this.getTotalUnpaidInvoices(customerId);
         if (unpaidInvoices == 0) {
             return null;
@@ -67,4 +70,37 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         return invoiceDetailConverter.toDTO(invoice, utilityMeter);
     }
+
+    @Override
+    public InvoiceEntity findById(Long invoiceId) {
+        return invoiceRepository.findById(invoiceId).orElse(null);
+    }
+
+    @Override
+    public List<InvoiceDetailDTO> getDetailInvoices(Long customerId) {
+        Long unpaidInvoices = this.getTotalUnpaidInvoices(customerId);
+        if (unpaidInvoices == 0) {
+            return null;
+        }
+
+        List<InvoiceEntity> invoices = invoiceRepository.findAllByCustomerIdAndStatus(customerId, "PENDING");
+
+        List<InvoiceDetailDTO> res = new ArrayList<>();
+        for (InvoiceEntity i : invoices) {
+            UtilityMeterEntity utilityMeter = utilityMeterService.findByContractIdAndMonthAndYear(
+                    i.getContract().getId(), i.getMonth(), i.getYear());
+            res.add(invoiceDetailConverter.toDTO(i, utilityMeter));
+        }
+
+        return res;
+    }
+
+    @Override
+    public BigDecimal getTotalAmountPayable(Long customerId) {
+        return invoiceRepository.findAllByCustomerIdAndStatus(customerId, "PENDING")
+                .stream()
+                .map(InvoiceEntity::getTotalAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
 }

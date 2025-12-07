@@ -1,12 +1,13 @@
 package com.estate.repository;
 
 import com.estate.repository.entity.InvoiceEntity;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Long> {
     @Query("SELECT SUM(i.totalAmount) FROM InvoiceEntity i WHERE i.customer.id = :customerId")
@@ -15,5 +16,7 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Long> {
     InvoiceEntity getFirstByCustomerIdAndStatus(Long customerId, String status);
 
     Long countByCustomerIdAndStatus(Long customerId, String status);
+
+    List<InvoiceEntity> findAllByCustomerIdAndStatus(Long customerId, String status);
 
 }

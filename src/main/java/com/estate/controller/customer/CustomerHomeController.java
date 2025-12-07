@@ -20,7 +20,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
-@RequestMapping("/customer")
+@RequestMapping("/customer/home")
 public class CustomerHomeController {
 
     @Autowired
@@ -32,7 +32,7 @@ public class CustomerHomeController {
     @Autowired
     CustomerService customerService;
 
-    @GetMapping("/home")
+    @GetMapping("")
     public String home(
             Model model,
             HttpServletRequest request,

@@ -486,7 +486,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/customer/payments}">
+                    <a class="nav-link" th:href="@{/customer/invoice/list}">
                         <i class="bi bi-credit-card me-1"></i>Thanh toán
                     </a>
                 </li>
@@ -525,6 +525,19 @@
 
 <!-- Main Container -->
 <div class="container-fluid px-4 py-4">
+    <!-- Alert Message -->
+    <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle me-2"></i>
+        <span th:text="${successMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-x-circle me-2"></i>
+        <span th:text="${errorMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
     <!-- Welcome Section -->
     <div class="welcome-section p-4 rounded mb-4">
         <h1 class="h3 mb-2">Chào mừng trở lại!</h1>
@@ -678,8 +691,9 @@
                             </div>
                         </div>
 
-                        <div class="container mt-5">
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#paymentModal">
+                        <div class="container mt-5 d-flex justify-content-center align-items-center">
+                            <button type="button" class="btn btn-primary d-flex justify-content-center align-items-center"
+                                    data-bs-toggle="modal" data-bs-target="#paymentModal">
                                 <i class="bi bi-credit-card me-2"></i>Thanh toán ngay
                             </button>
                         </div>
@@ -687,7 +701,7 @@
                 </div>
 
                 <div class="text-center">
-                    <a th:href="@{/customer/payments}" class="view-all">
+                    <a th:href="@{/customer/invoice/list}" class="view-all">
                         Xem tất cả hóa đơn <i class="bi bi-arrow-right"></i>
                     </a>
                 </div>
@@ -879,12 +893,32 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     <i class="bi bi-x-circle me-2"></i>Đóng
                 </button>
-                <button type="button" class="btn btn-payment">
-                    <i class="bi bi-credit-card me-2"></i>Xác Nhận Thanh Toán
+                <button type="button" class="btn btn-payment"
+                        onclick="payInvoice(invoiceId)">
+                    <i class="bi bi-credit-card me-2"></i> Xác Nhận Thanh Toán
                 </button>
             </div>
         </div>
     </div>
 </div>
+
+<script th:inline="javascript">
+    let invoiceId = /*[[${detailInvoice.id}]]*/ 0;
+
+    function payInvoice(id) {
+        fetch(`/payment/create/${id}`)
+            .then(res => res.text())
+            .then(url => window.location.href = url);
+    }
+</script>
+
+<script>
+    setTimeout(function() {
+        document.querySelectorAll('.alert').forEach(alert => {
+            alert.classList.remove('show');
+        });
+    }, 5000);
+</script>
+
 </body>
 </html>
