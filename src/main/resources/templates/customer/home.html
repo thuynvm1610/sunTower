@@ -587,7 +587,7 @@
                     </a>
                 </div>
 
-                <!-- Nếu không có hợp đồn nào -->
+                <!-- Nếu không có hợp đồng nào -->
                 <div th:if="${contracts.isEmpty()}" class="contract-card p-3 mb-3">
                     <p class="text-muted mb-0">Chưa có hợp đồng nào</p>
                 </div>
@@ -788,6 +788,13 @@
                     <div class="info-row">
                         <span class="info-label">Hạn thanh toán</span>
                         <span class="info-value text-danger" th:text="${detailInvoice.dueDate}">05/12/2024</span>
+                    </div>
+                    <div class="info-row">
+                        <p class="text-muted mb-0 small"
+                           th:text="'Tòa ' + ${detailInvoice.contract.building.name} +
+                                    ' - Thuê ' + ${detailInvoice.contract.rentArea} + 'm²'">
+                            Duy Tân Tower
+                        </p>
                     </div>
                     <div class="info-row">
                         <span class="info-label">Trạng thái</span>

@@ -737,7 +737,7 @@
         <p class="empty-state-text">Chưa có hóa đơn nào</p>
     </div>
     <!-- Nếu có hóa đơn -->
-    <!-- Phần Invoice List - Sửa lại -->
+    <!-- Phần Invoice List -->
     <div th:if="${detailInvoices != null}" id="invoiceList">
         <div th:each="invoice, iterStat : ${detailInvoices}" class="invoice-card">
             <div class="invoice-summary" data-bs-toggle="collapse"
@@ -844,6 +844,13 @@
                                 <div class="info-row">
                                     <span class="info-label">Hạn thanh toán</span>
                                     <span class="info-value text-danger" th:text="${invoice.dueDate}">05/12/2024</span>
+                                </div>
+                                <div class="info-row">
+                                    <p class="text-muted mb-0 small"
+                                       th:text="'Tòa ' + ${invoice.contract.building.name} +
+                                    ' - Thuê ' + ${invoice.contract.rentArea} + 'm²'">
+                                        Duy Tân Tower
+                                    </p>
                                 </div>
                                 <div class="info-row">
                                     <span class="info-label">Trạng thái</span>
