@@ -292,4 +292,14 @@ public class ContractServiceImpl implements ContractService {
     public Long getContractCountByCustomer(Long id) {
         return contractRepository.countByCustomerId(id);
     }
+
+    @Override
+    public Long getActiveContractsCount(Long customerId) {
+        return contractRepository.countByStatus("Đang hiệu lực");
+    }
+
+    @Override
+    public Long getExpiredContractsCount(Long customerId) {
+        return contractRepository.countByStatus("Hết hạn");
+    }
 }

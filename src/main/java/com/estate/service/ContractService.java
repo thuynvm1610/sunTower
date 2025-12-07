@@ -21,4 +21,6 @@ public interface ContractService {
     ContractFormDTO findById(Long id);
     ContractDetailDTO viewById(Long id);
     Long getContractCountByCustomer(Long id);
+    Long getActiveContractsCount(Long customerId);
+    Long getExpiredContractsCount(Long customerId);
 }

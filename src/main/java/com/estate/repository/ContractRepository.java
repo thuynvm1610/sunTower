@@ -39,4 +39,5 @@ public interface ContractRepository extends JpaRepository<ContractEntity, Long>,
 
     List<ContractEntity> findByCustomerId(Long customerId);
 
+    Long countByStatus(String status);
 }
