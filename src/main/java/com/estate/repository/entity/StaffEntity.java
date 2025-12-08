@@ -61,6 +61,9 @@ public class StaffEntity {
 
     // =================== RELATIONSHIPS ===================
 
+    @OneToMany(mappedBy = "staff", cascade = CascadeType.ALL)
+    private List<ContractEntity> contracts;
+
     @ManyToMany(mappedBy = "staffs_buildings")
     private List<BuildingEntity> buildings = new ArrayList<>();
 

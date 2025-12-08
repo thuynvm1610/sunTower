@@ -702,8 +702,6 @@
                 staffIds: staffIds // MANY TO MANY — chọn nhiều nhân viên
             };
 
-            console.log("Dữ liệu gửi lên BE:", data);
-
             $.ajax({
                 url: "/admin/building/add",
                 type: "POST",

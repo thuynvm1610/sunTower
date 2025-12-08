@@ -3,6 +3,8 @@ package com.estate.converter;
 
 import com.estate.dto.BuildingListDTO;
 import com.estate.dto.ContractDetailDTO;
+import com.estate.dto.CustomerListDTO;
+import com.estate.dto.StaffListDTO;
 import com.estate.repository.entity.ContractEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +20,14 @@ public class ContractDetailConverter {
     @Autowired
     private BuildingListConverter buildingListConverter;
 
+    @Autowired
+    private StaffListConverter staffListConverter;
+
+    @Autowired
+    private CustomerListConverter customerListConverter;
+
     public ContractDetailDTO toDto(ContractEntity entity) {
         ContractDetailDTO dto = modelMapper.map(entity, ContractDetailDTO.class);
-        BuildingListDTO buildingDto = buildingListConverter.toDto(entity.getBuilding(), "");
 
         String formattedStartDate = entity.getStartDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         dto.setFormattedStartDate(formattedStartDate);
@@ -28,9 +35,14 @@ public class ContractDetailConverter {
         String formattedEndDate = entity.getEndDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         dto.setFormattedEndDate(formattedEndDate);
 
+        BuildingListDTO buildingDto = buildingListConverter.toDto(entity.getBuilding(), "");
         dto.setBuilding(buildingDto);
-        dto.setStaff(entity.getStaff());
-        dto.setCustomer(entity.getCustomer());
+
+        StaffListDTO staffDto = staffListConverter.toDto(entity.getStaff());
+        dto.setStaff(staffDto);
+
+        CustomerListDTO customerDto = customerListConverter.toDto(entity.getCustomer());
+        dto.setCustomer(customerDto);
 
         return dto;
     }

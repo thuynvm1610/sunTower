@@ -1,5 +1,6 @@
 package com.estate.repository;
 
+import com.estate.dto.ContractDetailDTO;
 import com.estate.repository.custom.ContractRepositoryCustom;
 import com.estate.repository.entity.ContractEntity;
 import org.springframework.data.domain.Pageable;
@@ -39,5 +40,14 @@ public interface ContractRepository extends JpaRepository<ContractEntity, Long>,
 
     List<ContractEntity> findByCustomerId(Long customerId);
 
-    Long countByStatus(String status);
+    Long countByCustomerIdAndStatus(Long customerId, String status);
+
+    @Query("""
+        SELECT c FROM ContractEntity c
+        WHERE c.customer.id = :customerId
+          AND (:buildingId IS NULL OR c.building.id = :buildingId)
+          AND (:status = '' OR c.status = :status)
+    """)
+    List<ContractEntity> searchContracts(Long customerId, Long buildingId, String status);
+
 }

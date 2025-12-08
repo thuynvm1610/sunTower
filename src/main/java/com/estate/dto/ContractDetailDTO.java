@@ -1,7 +1,5 @@
 package com.estate.dto;
 
-import com.estate.repository.entity.CustomerEntity;
-import com.estate.repository.entity.StaffEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +21,7 @@ public class ContractDetailDTO {
     private String formattedStartDate;
     private String formattedEndDate;
     private String status;
-    private CustomerEntity customer;
+    private CustomerListDTO customer;
     private BuildingListDTO building;
-    private StaffEntity staff;
+    private StaffListDTO staff;
 }

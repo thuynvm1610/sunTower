@@ -276,16 +276,14 @@ public class ContractServiceImpl implements ContractService {
     public ContractFormDTO findById(Long id) {
         ContractEntity contractEntity = contractRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("Không tìm thấy hợp đồng"));
-        ContractFormDTO contractFormDTO = contractFormConverter.toDTO(contractEntity);
-        return contractFormDTO;
+        return contractFormConverter.toDTO(contractEntity);
     }
 
     @Override
     public ContractDetailDTO viewById(Long id) {
         ContractEntity contractEntity = contractRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("Không tìm thấy hợp đồng"));
-        ContractDetailDTO contractDetailDTO = contractDetailConverter.toDto(contractEntity);
-        return contractDetailDTO;
+        return contractDetailConverter.toDto(contractEntity);
     }
 
     @Override
@@ -295,11 +293,23 @@ public class ContractServiceImpl implements ContractService {
 
     @Override
     public Long getActiveContractsCount(Long customerId) {
-        return contractRepository.countByStatus("Đang hiệu lực");
+        return contractRepository.countByCustomerIdAndStatus(customerId, "Đang hiệu lực");
     }
 
     @Override
     public Long getExpiredContractsCount(Long customerId) {
-        return contractRepository.countByStatus("Hết hạn");
+        return contractRepository.countByCustomerIdAndStatus(customerId, "Hết hạn");
+    }
+
+    @Override
+    public List<ContractDetailDTO> getContractsByFilter(Long customerId, Long buildingId, String status) {
+        List<ContractEntity> contracts = contractRepository.searchContracts(customerId, buildingId, status);
+
+        List<ContractDetailDTO> res = new ArrayList<>();
+        for (ContractEntity c : contracts) {
+            res.add(contractDetailConverter.toDto(c));
+        }
+
+        return res;
     }
 }

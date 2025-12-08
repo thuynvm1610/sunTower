@@ -2,6 +2,7 @@ package com.estate.controller.customer;
 
 import com.estate.dto.ContractDetailDTO;
 import com.estate.security.CustomUserDetails;
+import com.estate.service.BuildingService;
 import com.estate.service.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -19,6 +20,9 @@ public class CustomerContractController {
     @Autowired
     ContractService contractService;
 
+    @Autowired
+    BuildingService buildingService;
+
     @GetMapping("/list")
     public String listContracts (
             Model model,
@@ -35,8 +39,7 @@ public class CustomerContractController {
         Long expiredContracts = contractService.getExpiredContractsCount(customerId);
         model.addAttribute("expiredContracts", expiredContracts);
 
-        List<ContractDetailDTO> contracts = new ArrayList<>();
-        model.addAttribute("contracts", contracts);
+        model.addAttribute("buildings", buildingService.getBuildingsName());
 
         return "customer/contract-list";
     }
