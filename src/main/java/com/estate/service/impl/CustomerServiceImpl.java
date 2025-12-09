@@ -18,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,19 +50,10 @@ public class CustomerServiceImpl implements CustomerService {
     CustomerDetailConverter customerDetailConverter;
 
     @Autowired
-    InvoiceService invoiceService;
-
-    @Autowired
-    InvoiceRepository invoiceRepository;
-
-    @Autowired
-    UtilityMeterService utilityMeterService;
-
-    @Autowired
-    InvoiceDetailConverter invoiceDetailConverter;
-
-    @Autowired
     ContractDetailConverter contractDetailConverter;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Override
     public long countAll() {
@@ -138,15 +130,15 @@ public class CustomerServiceImpl implements CustomerService {
     public void save(CustomerFormDTO dto) {
         CustomerEntity entity;
 
-        if (customerRepository.existsByUsername(dto.getUsername())) {
-            throw new BusinessException("Username đã tồn tại");
+        if (customerRepository.existsByUsername(dto.getUsername()) || staffRepository.existsByUsername(dto.getUsername())) {
+            throw new BusinessException("Tên đăng nhập đã tồn tại");
         }
 
-        if (customerRepository.existsByEmail(dto.getEmail())) {
+        if (customerRepository.existsByEmail(dto.getEmail()) || staffRepository.existsByEmail(dto.getEmail())) {
             throw new BusinessException("Email đã tồn tại");
         }
 
-        if (customerRepository.existsByPhone(dto.getPhone())) {
+        if (customerRepository.existsByPhone(dto.getPhone()) || staffRepository.existsByPhone(dto.getPhone())) {
             throw new BusinessException("Số điện thoại đã tồn tại");
         }
 
@@ -159,12 +151,15 @@ public class CustomerServiceImpl implements CustomerService {
             entity = customerFormConverter.toEntity(dto);
         }
 
+        // Mã hóa dữ liệu
+        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
+
         // Lưu danh sách nhân viên quản lý
         List<StaffEntity> staffs = staffRepository.findAllById(dto.getStaffIds());
         entity.setStaffs_customers(staffs);
 
         // Lưu khách hàng
-        CustomerEntity saved = customerRepository.save(entity);
+        customerRepository.save(entity);
     }
 
     @Override

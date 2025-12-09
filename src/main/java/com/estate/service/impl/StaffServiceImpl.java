@@ -5,6 +5,7 @@ import com.estate.converter.StaffFormConverter;
 import com.estate.converter.StaffListConverter;
 import com.estate.dto.*;
 import com.estate.exception.BusinessException;
+import com.estate.repository.CustomerRepository;
 import com.estate.repository.StaffRepository;
 import com.estate.repository.entity.CustomerEntity;
 import com.estate.repository.entity.StaffEntity;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +37,12 @@ public class StaffServiceImpl implements StaffService {
 
     @Autowired
     private StaffDetailConverter staffDetailConverter;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+    @Autowired
+    CustomerRepository customerRepository;
 
     @Override
     public Long countAllStaffs() {
@@ -112,15 +120,15 @@ public class StaffServiceImpl implements StaffService {
     public void save(StaffFormDTO dto) {
         StaffEntity entity;
 
-        if (staffRepository.existsByUsername(dto.getUsername())) {
-            throw new BusinessException("Username đã tồn tại");
+        if (staffRepository.existsByUsername(dto.getUsername()) || customerRepository.existsByUsername(dto.getUsername())) {
+            throw new BusinessException("Tên đăng nhập đã tồn tại");
         }
 
-        if (staffRepository.existsByEmail(dto.getEmail())) {
+        if (staffRepository.existsByEmail(dto.getEmail()) || customerRepository.existsByEmail(dto.getEmail())) {
             throw new BusinessException("Email đã tồn tại");
         }
 
-        if (staffRepository.existsByPhone(dto.getPhone())) {
+        if (staffRepository.existsByPhone(dto.getPhone()) || customerRepository.existsByPhone(dto.getPhone())) {
             throw new BusinessException("Số điện thoại đã tồn tại");
         }
 
@@ -132,6 +140,9 @@ public class StaffServiceImpl implements StaffService {
             // Thêm mới
             entity = staffFormConverter.toEntity(dto);
         }
+
+        // Mã hóa dữ liệu
+        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
 
         // Lưu nhân viên
         StaffEntity saved = staffRepository.save(entity);
