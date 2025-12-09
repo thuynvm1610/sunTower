@@ -1,9 +1,5 @@
 package com.estate.dto;
 
-import com.estate.repository.entity.ContractEntity;
-import com.estate.repository.entity.CustomerEntity;
-import com.estate.repository.entity.InvoiceDetailEntity;
-import com.estate.repository.entity.UtilityMeterEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,8 +21,8 @@ public class InvoiceDetailDTO {
     private String status; // PENDING, PAID, OVERDUE
     private String createdDate;
     private String dueDate;
-    private ContractEntity contract;
-    private CustomerEntity customer;
-    private List<InvoiceDetailEntity> details;
-    private UtilityMeterEntity utilityMeter;
+    private ContractDetailDTO contract;
+    private CustomerDetailDTO customer;
+    private List<InvoiceDetailDetailDTO> details;
+    private UtilityMeterDetailDTO utilityMeter;
 }

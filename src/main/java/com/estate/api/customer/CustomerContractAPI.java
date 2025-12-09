@@ -26,12 +26,6 @@ public class CustomerContractAPI {
     ) {
         Long customerId = user.getCustomerId();
 
-        List<ContractDetailDTO> res = contractService.getContractsByFilter(customerId, buildingId, status);
-
-        System.out.println("Số phần tử: " + res.size());
-        System.out.println("Mã tòa nhà: " + buildingId);
-        System.out.println("Trạng thái: " + status);
-
-        return res;
+        return contractService.getContractsByFilter(customerId, buildingId, status);
     }
 }

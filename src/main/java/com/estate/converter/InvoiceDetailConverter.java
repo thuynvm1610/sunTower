@@ -1,6 +1,6 @@
 package com.estate.converter;
 
-import com.estate.dto.InvoiceDetailDTO;
+import com.estate.dto.*;
 import com.estate.repository.entity.InvoiceDetailEntity;
 import com.estate.repository.entity.InvoiceEntity;
 import com.estate.repository.entity.UtilityMeterEntity;
@@ -10,13 +10,28 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class InvoiceDetailConverter {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private ContractDetailConverter contractDetailConverter;
+
+    @Autowired
+    private CustomerDetailConverter customerDetailConverter;
+
+    @Autowired
+    private InvoiceDetailDetailConverter invoiceDetailDetailConverter;
+
+    @Autowired
+    private UtilityMeterDetailConverter utilityMeterDetailConverter;
+
     public InvoiceDetailDTO toDTO(InvoiceEntity entity, UtilityMeterEntity utilityMeter) {
+        System.out.println("0000000000000000000");
         InvoiceDetailDTO dto = modelMapper.map(entity, InvoiceDetailDTO.class);
 
         String formattedDueDate = entity.getDueDate()
@@ -34,11 +49,25 @@ public class InvoiceDetailConverter {
 
         dto.setTotalServiceFeeAmount(totalServiceFeeAmount);
 
-        dto.setContract(entity.getContract());
-        dto.setCustomer(entity.getCustomer());
-        dto.setDetails(entity.getDetails());
+        ContractDetailDTO contractDTO = contractDetailConverter.toDto(entity.getContract());
+        dto.setContract(contractDTO);
+        System.out.println("11111111111111111");
 
-        dto.setUtilityMeter(utilityMeter);
+        CustomerDetailDTO customerDTO = customerDetailConverter.toDTO(entity.getCustomer());
+        dto.setCustomer(customerDTO);
+        System.out.println("22222222222222222");
+
+        List<InvoiceDetailEntity> detailsEntities = entity.getDetails();
+        List<InvoiceDetailDetailDTO> detailsList = new ArrayList<>();
+        for (InvoiceDetailEntity details : detailsEntities) {
+            detailsList.add(invoiceDetailDetailConverter.toDTO(details));
+        }
+        dto.setDetails(detailsList);
+        System.out.println("3333333333333333");
+
+        UtilityMeterDetailDTO utilityMeterDTO = utilityMeterDetailConverter.toDTO(utilityMeter);
+        dto.setUtilityMeter(utilityMeterDTO);
+        System.out.println("4444444444444444");
 
         return dto;
     }
