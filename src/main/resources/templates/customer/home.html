@@ -111,6 +111,7 @@
             border-radius: 10px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
             transition: all 0.2s;
+            cursor: pointer;
         }
 
         .stat-card:hover {
@@ -547,7 +548,7 @@
     <!-- Stats Grid -->
     <div class="row g-3 mb-4">
         <div class="col-md-6 col-lg-6">
-            <div class="stat-card p-4">
+            <div class="stat-card p-4" onclick="window.location='/customer/contract/list'">
                 <div class="d-flex align-items-center gap-3">
                     <div class="stat-icon d-flex align-items-center justify-content-center flex-shrink-0">
                         <i class="bi bi-file-text"></i>
@@ -582,7 +583,7 @@
             <div class="section-card p-4">
                 <div class="section-header mb-3 d-flex justify-content-between align-items-center">
                     <h2>Hợp đồng của tôi</h2>
-                    <a th:href="@{/customer/contracts}" class="view-all">
+                    <a th:href="@{/customer/contract/list}" class="view-all">
                         Xem tất cả <i class="bi bi-arrow-right"></i>
                     </a>
                 </div>
