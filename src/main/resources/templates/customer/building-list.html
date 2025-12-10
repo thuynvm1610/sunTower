@@ -729,7 +729,7 @@
                 <div class="filter-actions mt-4">
                     <button type="button" class="btn-filter btn-reset" onclick="resetFilter()">
                         <i class="bi bi-arrow-clockwise"></i>
-                        Reset
+                        Đặt lại
                     </button>
                     <button type="submit" class="btn-filter btn-search">
                         <i class="bi bi-search"></i>
@@ -1016,6 +1016,10 @@
             document.querySelectorAll('.form-control, .form-select').forEach(input => {
                 input.value = '';
             });
+
+            setTimeout(function () {
+                $('.filter-body .form-control').removeClass('has-value');
+            }, 10);
         }
 
         // Lắng nghe sự kiện input/change để highlight real-time
@@ -1026,13 +1030,6 @@
             } else {
                 $this.removeClass('has-value');
             }
-        });
-
-        // Reset highlight filter khi reset form
-        $('.btn-filter.btn-reset').on('click', function () {
-            setTimeout(function () {
-                $('.filter-body .form-control').removeClass('has-value');
-            }, 10);
         });
     </script>
 

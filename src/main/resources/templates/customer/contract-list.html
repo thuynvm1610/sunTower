@@ -370,6 +370,12 @@
             color: #c62828;
         }
 
+        /* Highlight khi có giá trị */
+        .filter-section .form-select.has-value {
+            background-color: #E8F0FE;
+            border-color: #3b82f6;
+            font-weight: 600;
+        }
     </style>
 </head>
 
@@ -503,10 +509,10 @@
                                 <i class="bi bi-search me-2"></i>
                                 Tìm kiếm
                             </button>
-                            <a type="reset" class="btn btn-reset">
+                            <button type="button" class="btn-filter btn-reset" onclick="resetFilter()">
                                 <i class="bi bi-arrow-counterclockwise me-2"></i>
                                 Đặt lại
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -673,6 +679,30 @@
         $("#filterForm").on("submit", function (e) {
             e.preventDefault();
             loadContracts(); // Gọi khi lọc
+        });
+    </script>
+
+    <script>
+        // Reset input filter
+        function resetFilter() {
+            document.querySelectorAll('.form-select').forEach(input => {
+                input.value = '';
+            });
+
+            // Reset highlight filter khi reset form
+            setTimeout(function () {
+                $('.filter-section .form-select').removeClass('has-value');
+            }, 10);
+        }
+
+        // Lắng nghe sự kiện input/change để highlight real-time
+        $('.filter-section .form-select').on('input change', function () {
+            const $this = $(this);
+            if ($this.val() && $this.val().trim() !== '') {
+                $this.addClass('has-value');
+            } else {
+                $this.removeClass('has-value');
+            }
         });
     </script>
 
