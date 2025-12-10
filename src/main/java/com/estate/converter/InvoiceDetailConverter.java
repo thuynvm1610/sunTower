@@ -31,7 +31,6 @@ public class InvoiceDetailConverter {
     private UtilityMeterDetailConverter utilityMeterDetailConverter;
 
     public InvoiceDetailDTO toDTO(InvoiceEntity entity, UtilityMeterEntity utilityMeter) {
-        System.out.println("0000000000000000000");
         InvoiceDetailDTO dto = modelMapper.map(entity, InvoiceDetailDTO.class);
 
         String formattedDueDate = entity.getDueDate()
@@ -51,11 +50,9 @@ public class InvoiceDetailConverter {
 
         ContractDetailDTO contractDTO = contractDetailConverter.toDto(entity.getContract());
         dto.setContract(contractDTO);
-        System.out.println("11111111111111111");
 
         CustomerDetailDTO customerDTO = customerDetailConverter.toDTO(entity.getCustomer());
         dto.setCustomer(customerDTO);
-        System.out.println("22222222222222222");
 
         List<InvoiceDetailEntity> detailsEntities = entity.getDetails();
         List<InvoiceDetailDetailDTO> detailsList = new ArrayList<>();
@@ -63,11 +60,9 @@ public class InvoiceDetailConverter {
             detailsList.add(invoiceDetailDetailConverter.toDTO(details));
         }
         dto.setDetails(detailsList);
-        System.out.println("3333333333333333");
 
         UtilityMeterDetailDTO utilityMeterDTO = utilityMeterDetailConverter.toDTO(utilityMeter);
         dto.setUtilityMeter(utilityMeterDTO);
-        System.out.println("4444444444444444");
 
         return dto;
     }

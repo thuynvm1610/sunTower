@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SunTower - Tòa Nhà</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --primary-color: #2d3e8f;
+            --primary-light: #4a5fc1;
+            --secondary-color: #f5f7fa;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--secondary-color);
+        }
+
+        /* Header */
+        .header {
+            background: var(--primary-color);
+            color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-top {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-custom {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .btn-logout {
+            background: white;
+            color: var(--primary-color);
+            border: none;
+            padding: 8px 18px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .btn-logout:hover {
+            background: #f0f0f0;
+            color: var(--primary-color);
+        }
+
+        /* Navigation */
+        .nav-custom {
+            background: var(--primary-color);
+        }
+
+        .nav-custom .nav-link {
+            color: white !important;
+            font-weight: 500;
+            font-size: 14px;
+            padding: 14px 18px;
+            border-radius: 6px 6px 0 0;
+            transition: all 0.2s;
+        }
+
+        .nav-custom .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-custom .nav-link.active {
+            background: rgba(255, 255, 255, 0.15);
+            font-weight: 600;
+        }
+
+        /* Dropdown Menu */
+        .dropdown-menu-custom {
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        /* Welcome Section */
+        .welcome-section {
+            background: white;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .welcome-section h1 {
+            color: var(--primary-color);
+        }
+
+        /* Building Card */
+        .building-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .building-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(45, 62, 143, 0.15);
+        }
+
+        .building-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 48px;
+        }
+
+        .building-body {
+            padding: 1.25rem;
+        }
+
+        .building-name {
+            color: var(--primary-color);
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .building-address {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .building-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e5e5e5;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .stat-label {
+            color: #999;
+            font-size: 12px;
+        }
+
+        .stat-value {
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* Modal */
+        .modal-header {
+            background: var(--primary-color);
+            color: white;
+            border-radius: 0.5rem 0.5rem 0 0;
+        }
+
+        .modal-header .btn-close {
+            filter: brightness(0) invert(1);
+        }
+
+        .building-detail-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+            color: white;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .building-detail-name {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .building-detail-address {
+            font-size: 1rem;
+            opacity: 0.95;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-section {
+            background: #f8f9fa;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-section-title {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .info-value {
+            font-weight: 600;
+            color: #333;
+            text-align: right;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin-top: 0.75rem;
+        }
+
+        .feature-item {
+            background: white;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            border: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            background: #f0f4ff;
+            border-radius: 0.375rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 20px;
+        }
+
+        .feature-text {
+            flex: 1;
+        }
+
+        .feature-label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 0.125rem;
+        }
+
+        .feature-value {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.9rem;
+        }
+
+        .badge-status {
+            padding: 0.5rem 1rem;
+            border-radius: 1.5rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .badge-available {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .badge-full {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            background: white;
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .search-input {
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            font-size: 14px;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(45, 62, 143, 0.1);
+        }
+
+        /* Filter Styles */
+        .filter-header {
+            margin-bottom: 0;
+        }
+
+        .filter-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-toggle-filter {
+            background: transparent;
+            border: none;
+            color: var(--primary-color);
+            font-size: 20px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .btn-toggle-filter:hover {
+            color: var(--primary-light);
+        }
+
+        .btn-toggle-filter.collapsed i {
+            transform: rotate(180deg);
+        }
+
+        .filter-body {
+            transition: all 0.3s ease;
+        }
+
+        .filter-section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary-color);
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-label {
+            font-size: 13px;
+            color: #666;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control,
+        .form-select {
+            font-size: 14px;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(45, 62, 143, 0.1);
+        }
+
+        .range-inputs {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .range-inputs .form-control {
+            flex: 1;
+        }
+
+        .range-separator {
+            color: #999;
+            font-weight: 500;
+        }
+
+        .filter-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .btn-filter {
+            padding: 0.6rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-reset {
+            background: #f5f7fa;
+            color: #666;
+        }
+
+        .btn-reset:hover {
+            background: #e8ebef;
+            color: #333;
+        }
+
+        .btn-search {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-search:hover {
+            background: var(--primary-light);
+        }
+
+        /* Highlight khi có giá trị */
+        .filter-body .form-control.has-value {
+            background-color: #E8F0FE;
+            border-color: #3b82f6;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="header-top py-3">
+            <div class="container-fluid px-4">
+                <div class="d-flex justify-content-between align-items-center flex-wrap">
+                    <div class="logo">SunTower</div>
+                    <button class="navbar-toggler d-lg-none text-white" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarNav">
+                        <i class="bi bi-list fs-3"></i>
+                    </button>
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="text-end">
+                                <small class="d-block opacity-85">Xin chào,</small>
+                                <strong th:text="${#authentication.name}">Nguyễn Văn A</strong>
+                            </div>
+                            <span class="badge-custom">KHÁCH HÀNG</span>
+                        </div>
+                        <a th:href="@{/logout}" class="btn btn-logout">Đăng xuất</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="nav-custom">
+            <div class="container-fluid px-4">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/customer/home}">
+                            <i class="bi bi-house-door me-1"></i>Trang chủ
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/customer/contract/list}">
+                            <i class="bi bi-file-text me-1"></i>Hợp đồng
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/customer/invoice/list}">
+                            <i class="bi bi-credit-card me-1"></i>Thanh toán
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" th:href="@{/customer/buildings}">
+                            <i class="bi bi-building me-1"></i>Tòa nhà
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <i class="bi bi-grid-3x3-gap me-1"></i>Tiện ích
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-custom">
+                            <li>
+                                <a class="dropdown-item" th:href="@{/customer/transaction-history}">
+                                    <i class="bi bi-clock-history me-2"></i>Lịch sử giao dịch
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" th:href="@{/customer/services}">
+                                    <i class="bi bi-clipboard-check me-2"></i>Dịch vụ
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/customer/profile}">
+                            <i class="bi bi-person-circle me-1"></i>Tài khoản
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container-fluid px-4 py-4">
+        <!-- Welcome Section -->
+        <div class="welcome-section p-4 rounded mb-4">
+            <h1 class="h3 mb-2">Danh Sách Tòa Nhà</h1>
+            <p class="text-muted mb-0">Xem thông tin chi tiết các tòa nhà trong hệ thống</p>
+        </div>
+
+        <!-- Filter Section -->
+        <form class="filter-section" id="filterForm">
+            <div class="filter-header mb-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="filter-title">
+                        <i class="bi bi-funnel"></i>
+                        Bộ lọc tìm kiếm
+                    </div>
+                    <button type="button" class="btn-toggle-filter" onclick="toggleFilter()">
+                        <i class="bi bi-chevron-up" id="toggleIcon"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="filter-body" id="filterBody">
+                <!-- Thông tin cơ bản -->
+                <div class="filter-section-title mb-2">
+                    <i class="bi bi-info-circle"></i> Thông tin cơ bản
+                </div>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3">
+                        <label class="form-label">Tên tòa nhà</label>
+                        <input type="text" class="form-control" name="name" placeholder="VD: Sun Tower">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Quận</label>
+                        <select class="form-control" name="districtId">
+                            <option value="">-- Chọn quận --</option>
+                            <option th:each="d : ${districts}" th:value="${d.getValue()}" th:text="${d.getKey()}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Phường</label>
+                        <select class="form-control" name="ward">
+                            <option value="">-- Chọn phường --</option>
+                            <option th:each="w : ${wards}" th:value="${w}" th:text="${w}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Phố</label>
+                        <select class="form-control" name="street">
+                            <option value="">-- Chọn phố --</option>
+                            <option th:each="s : ${streets}" th:value="${s}" th:text="${s}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Đặc điểm tòa nhà -->
+                <div class="filter-section-title mb-2">
+                    <i class="bi bi-building"></i> Đặc điểm tòa nhà
+                </div>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3">
+                        <label class="form-label">Số tầng</label>
+                        <div class="range-inputs">
+                            <input type="number" class="form-control" name="numberOfFloorFrom" placeholder="Từ" min="0">
+                            <span class="range-separator">-</span>
+                            <input type="number" class="form-control" name="numberOfFloorTo" placeholder="Đến" min="0">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Số tầng hầm</label>
+                        <div class="range-inputs">
+                            <input type="number" class="form-control" name="numberOfBasementFrom" placeholder="Từ"
+                                min="0">
+                            <span class="range-separator">-</span>
+                            <input type="number" class="form-control" name="numberOfBasementTo" placeholder="Đến"
+                                min="0">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Diện tích sàn (m²)</label>
+                        <div class="range-inputs">
+                            <input type="number" class="form-control" name="floorAreaFrom" placeholder="Từ" min="0">
+                            <span class="range-separator">-</span>
+                            <input type="number" class="form-control" name="floorAreaTo" placeholder="Đến" min="0">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Diện tích thuê (m²)</label>
+                        <div class="range-inputs">
+                            <input type="number" class="form-control" name="rentAreaFrom" placeholder="Từ" min="0">
+                            <span class="range-separator">-</span>
+                            <input type="number" class="form-control" name="rentAreaTo" placeholder="Đến" min="0">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Hướng</label>
+                        <select class="form-control" name="direction">
+                            <option value="">-- Chọn hướng --</option>
+                            <option th:each="d : ${directions}" th:value="${d.name()}" th:text="${d.label}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Hạng</label>
+                        <select class="form-control" name="level">
+                            <option value="">-- Chọn hạng --</option>
+                            <option th:each="l : ${levels}" th:value="${l.name()}" th:text="${l.label}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Giá và phí -->
+                <div class="filter-section-title mb-2">
+                    <i class="bi bi-cash-stack"></i> Giá và phí (VNĐ)
+                </div>
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label">Giá thuê</label>
+                        <div class="range-inputs">
+                            <input type="number" class="form-control" name="rentPriceFrom" placeholder="Từ" min="0">
+                            <span class="range-separator">-</span>
+                            <input type="number" class="form-control" name="rentPriceTo" placeholder="Đến" min="0">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Phí dịch vụ</label>
+                        <div class="range-inputs">
+                            <input type="number" class="form-control" name="serviceFeeFrom" placeholder="Từ" min="0">
+                            <span class="range-separator">-</span>
+                            <input type="number" class="form-control" name="serviceFeeTo" placeholder="Đến" min="0">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Phí xe ô tô</label>
+                        <div class="range-inputs">
+                            <input type="number" class="form-control" name="carFeeFrom" placeholder="Từ" min="0">
+                            <span class="range-separator">-</span>
+                            <input type="number" class="form-control" name="carFeeTo" placeholder="Đến" min="0">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Phí xe máy</label>
+                        <div class="range-inputs">
+                            <input type="number" class="form-control" name="motorbikeFeeFrom" placeholder="Từ" min="0">
+                            <span class="range-separator">-</span>
+                            <input type="number" class="form-control" name="motorbikeFeeTo" placeholder="Đến" min="0">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Phí nước</label>
+                        <div class="range-inputs">
+                            <input type="number" class="form-control" name="waterFeeFrom" placeholder="Từ" min="0">
+                            <span class="range-separator">-</span>
+                            <input type="number" class="form-control" name="waterFeeTo" placeholder="Đến" min="0">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Phí điện</label>
+                        <div class="range-inputs">
+                            <input type="number" class="form-control" name="electricityFeeFrom" placeholder="Từ"
+                                min="0">
+                            <span class="range-separator">-</span>
+                            <input type="number" class="form-control" name="electricityFeeTo" placeholder="Đến" min="0">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-actions mt-4">
+                    <button type="button" class="btn-filter btn-reset" onclick="resetFilter()">
+                        <i class="bi bi-arrow-clockwise"></i>
+                        Reset
+                    </button>
+                    <button type="submit" class="btn-filter btn-search">
+                        <i class="bi bi-search"></i>
+                        Tìm kiếm
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Buildings Grid -->
+        <div class="row g-4">
+            <!-- Building Card 1 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="building-card" data-bs-toggle="modal" data-bs-target="#buildingModal">
+                    <div class="building-image">
+                        <i class="bi bi-building"></i>
+                    </div>
+                    <div class="building-body">
+                        <h3 class="building-name">SunTower A1</h3>
+                        <div class="building-address">
+                            <i class="bi bi-geo-alt"></i>
+                            <span>123 Đường Lê Lợi, Quận 1, TP.HCM</span>
+                        </div>
+                        <div class="building-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Tổng diện tích</span>
+                                <span class="stat-value">2,500 m²</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Số tầng</span>
+                                <span class="stat-value">15 tầng</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Đã cho thuê</span>
+                                <span class="stat-value">85%</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Trạng thái</span>
+                                <span class="badge badge-available">Còn trống</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Chi Tiết Tòa Nhà 1 -->
+    <div class="modal fade" id="buildingModal" tabindex="-1" aria-labelledby="buildingModalLabel1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="buildingModalLabel1">
+                        <i class="bi bi-building me-2"></i>Thông Tin Tòa Nhà
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Building Header -->
+                    <div class="building-detail-header">
+                        <div class="building-detail-name">
+                            <i class="bi bi-building me-2"></i>
+                            SunTower A1
+                        </div>
+                        <div class="building-detail-address">
+                            <i class="bi bi-geo-alt me-1"></i>
+                            123 Đường Lê Lợi, Quận 1, TP.HCM
+                        </div>
+                    </div>
+
+                    <!-- Thông tin chung -->
+                    <div class="info-section">
+                        <div class="info-section-title">
+                            <i class="bi bi-info-circle me-2"></i>Thông Tin Chung
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Tên tòa nhà</span>
+                            <span class="info-value">SunTower A1</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Địa chỉ</span>
+                            <span class="info-value">123 Đường Lê Lợi, Quận 1, TP.HCM</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Khu vực</span>
+                            <span class="info-value">Quận 1 - TP. Hồ Chí Minh</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Trạng thái</span>
+                            <span class="badge badge-status badge-available">Còn trống</span>
+                        </div>
+                    </div>
+
+                    <!-- Đặc điểm tòa nhà -->
+                    <div class="info-section">
+                        <div class="info-section-title">
+                            <i class="bi bi-rulers me-2"></i>Đặc Điểm Tòa Nhà
+                        </div>
+                        <div class="feature-grid">
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="bi bi-arrows-fullscreen"></i>
+                                </div>
+                                <div class="feature-text">
+                                    <div class="feature-label">Tổng diện tích</div>
+                                    <div class="feature-value">2,500 m²</div>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="bi bi-layers"></i>
+                                </div>
+                                <div class="feature-text">
+                                    <div class="feature-label">Số tầng</div>
+                                    <div class="feature-value">15 tầng</div>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="bi bi-door-open"></i>
+                                </div>
+                                <div class="feature-text">
+                                    <div class="feature-label">Số phòng</div>
+                                    <div class="feature-value">45 phòng</div>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="bi bi-percent"></i>
+                                </div>
+                                <div class="feature-text">
+                                    <div class="feature-label">Tỷ lệ lấp đầy</div>
+                                    <div class="feature-value">85%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tiện ích -->
+                    <div class="info-section">
+                        <div class="info-section-title">
+                            <i class="bi bi-stars me-2"></i>Tiện Ích
+                        </div>
+                        <div class="feature-grid">
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="bi bi-car-front"></i>
+                                </div>
+                                <div class="feature-text">
+                                    <div class="feature-label">Bãi đỗ xe</div>
+                                    <div class="feature-value">200 chỗ</div>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="bi bi-shield-check"></i>
+                                </div>
+                                <div class="feature-text">
+                                    <div class="feature-label">An ninh</div>
+                                    <div class="feature-value">24/7</div>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="bi bi-wifi"></i>
+                                </div>
+                                <div class="feature-text">
+                                    <div class="feature-label">Internet</div>
+                                    <div class="feature-value">Tốc độ cao</div>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="bi bi-snow"></i>
+                                </div>
+                                <div class="feature-text">
+                                    <div class="feature-label">Điều hòa</div>
+                                    <div class="feature-value">Trung tâm</div>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="bi bi-elevator"></i>
+                                </div>
+                                <div class="feature-text">
+                                    <div class="feature-label">Thang máy</div>
+                                    <div class="feature-value">4 chiếc</div>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="bi bi-fire"></i>
+                                </div>
+                                <div class="feature-text">
+                                    <div class="feature-label">Phòng cháy</div>
+                                    <div class="feature-value">Đầy đủ</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Giá thuê -->
+                    <div class="info-section">
+                        <div class="info-section-title">
+                            <i class="bi bi-cash-stack me-2"></i>Giá Thuê Tham Khảo
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Giá thuê trung bình</span>
+                            <span class="info-value">450,000 VNĐ/m²/tháng</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Phí dịch vụ</span>
+                            <span class="info-value">50,000 VNĐ/m²/tháng</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Phí gửi xe ô tô</span>
+                            <span class="info-value">1,500,000 VNĐ/tháng</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Phí gửi xe máy</span>
+                            <span class="info-value">100,000 VNĐ/tháng</span>
+                        </div>
+                    </div>
+
+                    <!-- Mô tả -->
+                    <div class="info-section">
+                        <div class="info-section-title">
+                            <i class="bi bi-file-text me-2"></i>Mô Tả
+                        </div>
+                        <p class="mb-0" style="color: #666; line-height: 1.6;">
+                            SunTower A1 là tòa nhà văn phòng cao cấp nằm tại vị trí đắc địa ngay trung tâm Quận 1.
+                            Với thiết kế hiện đại, đầy đủ tiện nghi và hệ thống an ninh 24/7, đây là lựa chọn
+                            lý tưởng cho các doanh nghiệp muốn tìm kiếm không gian làm việc chuyên nghiệp.
+                            Giao thông thuận tiện, dễ dàng di chuyển đến các khu vực trung tâm.
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-2"></i>Đóng
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!--JQuery-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        // Highlight active menu
+        document.addEventListener('DOMContentLoaded', function () {
+            const currentPath = window.location.pathname;
+            const menuLinks = document.querySelectorAll('.nav-link');
+
+            menuLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Toggle filter
+        function toggleFilter() {
+            const filterBody = document.getElementById('filterBody');
+            const toggleIcon = document.getElementById('toggleIcon');
+
+            if (filterBody.style.display === 'none') {
+                filterBody.style.display = 'block';
+                toggleIcon.classList.remove('bi-chevron-down');
+                toggleIcon.classList.add('bi-chevron-up');
+            } else {
+                filterBody.style.display = 'none';
+                toggleIcon.classList.remove('bi-chevron-up');
+                toggleIcon.classList.add('bi-chevron-down');
+            }
+        }
+
+        // Reset input filter
+        function resetFilter() {
+            document.querySelectorAll('.form-control, .form-select').forEach(input => {
+                input.value = '';
+            });
+        }
+
+        // Lắng nghe sự kiện input/change để highlight real-time
+        $('.filter-body .form-control').on('input change', function () {
+            const $this = $(this);
+            if ($this.val() && $this.val().trim() !== '') {
+                $this.addClass('has-value');
+            } else {
+                $this.removeClass('has-value');
+            }
+        });
+
+        // Reset highlight filter khi reset form
+        $('.btn-filter.btn-reset').on('click', function () {
+            setTimeout(function () {
+                $('.filter-body .form-control').removeClass('has-value');
+            }, 10);
+        });
+    </script>
+
+</body>
+
+</html>
