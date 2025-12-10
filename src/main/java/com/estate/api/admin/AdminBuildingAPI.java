@@ -32,8 +32,7 @@ public class AdminBuildingAPI {
             @RequestParam(defaultValue = "5") int size,
             BuildingFilterDTO filter
     ) {
-        Page<BuildingListDTO> result = buildingService.search(filter, page - 1, size);
-        return result;
+        return buildingService.search(filter, page - 1, size);
     }
 
     @PostMapping("/add")

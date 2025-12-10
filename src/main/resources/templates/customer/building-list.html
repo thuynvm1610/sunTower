@@ -124,13 +124,19 @@
         .building-image {
             width: 100%;
             height: 200px;
-            object-fit: cover;
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 48px;
+            overflow: hidden;  /* rất quan trọng */
+            border-radius: 8px; /* nếu cần */
+        }
+
+        .building-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;   /* giúp ảnh lấp đầy khung */
+            display: block;
         }
 
         .building-body {
@@ -305,6 +311,7 @@
         .badge-available {
             background: #e8f5e9;
             color: #2e7d32;
+            width: fit-content;
         }
 
         .badge-full {
@@ -460,6 +467,45 @@
             background-color: #E8F0FE;
             border-color: #3b82f6;
             font-weight: 600;
+        }
+
+        /* Empty state */
+        .empty-state {
+            padding: 3rem;
+            text-align: center;
+            color: #9ca3af;
+            min-height: 420px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: #d1d5db;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state p {
+            margin: 0;
+            font-size: 0.875rem;
+        }
+
+        /* Thông báo số tòa nhà */
+        .total-building {
+            background: #f8f9fa;
+            padding: 12px 20px;
+            border-radius: 8px;
+            border-left: 4px solid #0d6efd;
+            font-size: 15px;
+            color: #495057;
+        }
+
+        .total-building strong {
+            color: #0d6efd;
+            font-size: 18px;
+            margin-left: 4px;
         }
     </style>
 </head>
@@ -740,40 +786,9 @@
         </form>
 
         <!-- Buildings Grid -->
-        <div class="row g-4">
-            <!-- Building Card 1 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="building-card" data-bs-toggle="modal" data-bs-target="#buildingModal">
-                    <div class="building-image">
-                        <i class="bi bi-building"></i>
-                    </div>
-                    <div class="building-body">
-                        <h3 class="building-name">SunTower A1</h3>
-                        <div class="building-address">
-                            <i class="bi bi-geo-alt"></i>
-                            <span>123 Đường Lê Lợi, Quận 1, TP.HCM</span>
-                        </div>
-                        <div class="building-stats">
-                            <div class="stat-item">
-                                <span class="stat-label">Tổng diện tích</span>
-                                <span class="stat-value">2,500 m²</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Số tầng</span>
-                                <span class="stat-value">15 tầng</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Đã cho thuê</span>
-                                <span class="stat-value">85%</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Trạng thái</span>
-                                <span class="badge badge-available">Còn trống</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div id="totalBuilding" class="mb-3"></div>
+        <div class="row g-4" id="buildingList">
+            <!-- Ajax tải dữ liệu -->
         </div>
     </div>
 
@@ -982,19 +997,123 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-        // Highlight active menu
-        document.addEventListener('DOMContentLoaded', function () {
-            const currentPath = window.location.pathname;
-            const menuLinks = document.querySelectorAll('.nav-link');
+        function loadBuildings() {
+            $.ajax({
+                url: "/customer/building/search",
+                type: "GET",
+                data: {
+                    name: $("[name='name']").val(),
+                    districtId: $("[name='districtId']").val(),
+                    ward: $("[name='ward']").val(),
+                    street: $("[name='street']").val(),
 
-            menuLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === currentPath) {
-                    link.classList.add('active');
+                    numberOfFloorFrom: $("[name='numberOfFloorFrom']").val(),
+                    numberOfFloorTo: $("[name='numberOfFloorTo']").val(),
+                    numberOfBasementFrom: $("[name='numberOfBasementFrom']").val(),
+                    numberOfBasementTo: $("[name='numberOfBasementTo']").val(),
+                    floorAreaFrom: $("[name='floorAreaFrom']").val(),
+                    floorAreaTo: $("[name='floorAreaTo']").val(),
+                    rentAreaFrom: $("[name='rentAreaFrom']").val(),
+                    rentAreaTo: $("[name='rentAreaTo']").val(),
+
+                    direction: $("[name='direction']").val(),
+                    level: $("[name='level']").val(),
+
+                    rentPriceFrom: $("[name='rentPriceFrom']").val(),
+                    rentPriceTo: $("[name='rentPriceTo']").val(),
+                    serviceFeeFrom: $("[name='serviceFeeFrom']").val(),
+                    serviceFeeTo: $("[name='serviceFeeTo']").val(),
+                    carFeeFrom: $("[name='carFeeFrom']").val(),
+                    carFeeTo: $("[name='carFeeTo']").val(),
+                    motorbikeFeeFrom: $("[name='motorbikeFeeFrom']").val(),
+                    motorbikeFeeTo: $("[name='motorbikeFeeTo']").val(),
+                    waterFeeFrom: $("[name='waterFeeFrom']").val(),
+                    waterFeeTo: $("[name='waterFeeTo']").val(),
+                    electricityFeeFrom: $("[name='electricityFeeFrom']").val(),
+                    electricityFeeTo: $("[name='electricityFeeTo']").val(),
+                },
+                success: function (data) {
+                    const body = $("#buildingList");
+                    body.empty();
+
+                    if (data.length === 0) {
+                        body.append(`
+                            <div class="empty-state">
+                                <i class="bi bi-file-earmark-text"></i>
+                                <h3>Không có tòa nhà nào</h3>
+                            </div>
+                        `);
+                        $("#totalBuilding").html(`
+                            <div class="total-building">
+                                Tổng số tòa nhà: <strong>0</strong>
+                            </div>
+                        `);
+                        return;
+                    }
+
+                    let total = data.length;
+                    $("#totalBuilding").html(`
+                        <div class="total-building">
+                            Tổng số tòa nhà: <strong>${total}</strong>
+                        </div>
+                    `);
+
+                    $.each(data, function (i, b) {
+                        let address = b.street + ', ' + b.ward + ', ' + b.district;
+
+                        body.append(`
+                            <div class="col-md-6 col-lg-4">
+                                <div class="building-card" data-bs-toggle="modal" data-bs-target="#buildingModal">
+                                    <div class="building-image">
+                                        <img src="${b.image}" alt="BuildingImage"/>
+                                    </div>
+                                    <div class="building-body">
+                                        <h3 class="building-name">${b.name}</h3>
+                                        <div class="building-address">
+                                            <i class="bi bi-geo-alt"></i>
+                                            <span>${address}</span>
+                                        </div>
+                                        <div class="building-stats">
+                                            <div class="stat-item">
+                                                <span class="stat-label">Diện tích sàn</span>
+                                                <span class="stat-value">${b.floorArea}</span>
+                                            </div>
+                                            <div class="stat-item">
+                                                <span class="stat-label">Số tầng</span>
+                                                <span class="stat-value">${b.numberOfFloor}</span>
+                                            </div>
+                                            <div class="stat-item">
+                                                <span class="stat-label">Giá thuê/m²</span>
+                                                <span class="stat-value">${b.rentPrice}</span>
+                                            </div>
+                                            <div class="stat-item">
+                                                <span class="stat-label">Hạng</span>
+                                                <span class="badge badge-available">${b.level}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `);
+                    });
+                },
+                error: function () {
+                    alert("Không tải được dữ liệu!");
                 }
             });
+        };
+
+        $(document).ready(function () {
+            loadBuildings(); // Gọi ngay khi load trang
         });
 
+        $("#filterForm").on("submit", function (e) {
+            e.preventDefault();
+            loadBuildings(); // Gọi khi lọc
+        });
+    </script>
+
+    <script>
         // Toggle filter
         function toggleFilter() {
             const filterBody = document.getElementById('filterBody');
