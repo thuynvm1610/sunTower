@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/customer/building")
@@ -25,7 +26,8 @@ public class CustomerBuildingController {
 
     @GetMapping("/list")
     public String listBuildings (
-            Model model
+            Model model,
+            @RequestParam(required = false) String buildingName
     ) {
         model.addAttribute("managers", staffService.getStaffsName());
         model.addAttribute("wards", buildingService.getWardName());
@@ -33,6 +35,8 @@ public class CustomerBuildingController {
         model.addAttribute("directions", Direction.values());
         model.addAttribute("levels", Level.values());
         model.addAttribute("districts", districtService.findAll());
+
+        model.addAttribute("buildingName", buildingName == null ? "" : buildingName);
 
         return "customer/building-list";
     }

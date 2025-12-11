@@ -996,6 +996,10 @@
     <!--JQuery-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <script th:inline="javascript">
+        const buildingName = /*[[${buildingName}]]*/ "";
+    </script>
+
     <script>
         function loadBuildings() {
             $.ajax({
@@ -1036,6 +1040,7 @@
                     const body = $("#buildingList");
                     body.empty();
 
+                    // Kiểm tra không có dữ liệu
                     if (data.length === 0) {
                         body.append(`
                             <div class="empty-state">
@@ -1051,6 +1056,7 @@
                         return;
                     }
 
+                    // Lấy tổng
                     let total = data.length;
                     $("#totalBuilding").html(`
                         <div class="total-building">
@@ -1058,6 +1064,7 @@
                         </div>
                     `);
 
+                    // Render danh sách
                     $.each(data, function (i, b) {
                         let address = b.street + ', ' + b.ward + ', ' + b.district;
 
@@ -1104,6 +1111,10 @@
         };
 
         $(document).ready(function () {
+            if (buildingName !== "") {
+                $("[name='name']").val(buildingName);
+            }
+
             loadBuildings(); // Gọi ngay khi load trang
         });
 
