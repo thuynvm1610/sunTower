@@ -13,53 +13,63 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            background: url('https://icdn.dantri.com.vn/2019/09/29/toa-nha-cao-oc-ha-noi-1-1569773870176.jpg?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') no-repeat center center fixed;
+            background-size: cover;
+            height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.3);
+            z-index: 0;
         }
 
         .login-container {
             background: white;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
             overflow: hidden;
             width: 100%;
-            max-width: 1000px;
-            display: flex;
-            min-height: 600px;
+            max-width: 450px;
+            position: relative;
+            z-index: 1;
         }
 
-        .login-left {
-            flex: 1;
+        .login-header-section {
             background: linear-gradient(135deg, #2d3e8f 0%, #4a5fc1 100%);
-            padding: 60px 40px;
+            padding: 20px 30px 30px 30px;
+            text-align: center;
             color: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
             position: relative;
             overflow: hidden;
         }
 
-        .login-left::before {
-            content: '';
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            top: -100px;
-            right: -100px;
-        }
-
-        .login-left::after {
+        .login-header-section::before {
             content: '';
             position: absolute;
             width: 200px;
             height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: -80px;
+            right: -80px;
+        }
+
+        .login-header-section::after {
+            content: '';
+            position: absolute;
+            width: 150px;
+            height: 150px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
             bottom: -50px;
@@ -72,100 +82,42 @@
         }
 
         .logo {
-            font-size: 48px;
+            font-size: 42px;
             font-weight: 800;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #fff 0%, #e0e7ff 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            margin-bottom: 15px;
+            color: white;
             letter-spacing: 2px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .welcome-text {
-            font-size: 24px;
-            margin-bottom: 15px;
+            font-size: 20px;
+            margin-bottom: 10px;
             font-weight: 600;
         }
 
         .description {
-            font-size: 16px;
+            font-size: 14px;
             line-height: 1.6;
             opacity: 0.9;
         }
 
-        .user-types {
-            margin-top: 30px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            backdrop-filter: blur(10px);
-        }
-
-        .user-types-title {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            opacity: 0.9;
-        }
-
-        .user-type-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .user-type-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            opacity: 0.85;
-        }
-
-        .user-type-dot {
-            width: 6px;
-            height: 6px;
-            background: white;
-            border-radius: 50%;
-        }
-
-        .features {
-            margin-top: 40px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .feature-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            font-size: 15px;
-        }
-
-        .login-right {
-            flex: 1;
-            padding: 60px 50px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+        .login-form-section {
+            padding: 30px;
         }
 
         .login-header {
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
 
         .login-header h2 {
-            font-size: 32px;
+            font-size: 28px;
             color: #2d3e8f;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .login-header p {
             color: #666;
-            font-size: 15px;
+            font-size: 14px;
         }
 
         .form-group {
@@ -221,7 +173,7 @@
         .login-button {
             width: 100%;
             padding: 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #2d3e8f;
             color: white;
             border: none;
             border-radius: 10px;
@@ -256,74 +208,22 @@
         .forgot-password a:hover {
             text-decoration: underline;
         }
-
-        @media (max-width: 768px) {
-            .login-container {
-                flex-direction: column;
-            }
-
-            .login-left {
-                padding: 40px 30px;
-            }
-
-            .login-right {
-                padding: 40px 30px;
-            }
-
-            .features {
-                margin-top: 20px;
-            }
-
-            .user-types {
-                margin-top: 20px;
-            }
-        }
     </style>
 </head>
 <body>
 
 <div class="login-container">
-    <div class="login-left">
+    <div class="login-header-section">
         <div class="logo-section">
             <div class="logo">SunTower</div>
             <div class="welcome-text">Chào mừng bạn!</div>
             <p class="description">
                 Hệ thống quản lý bất động sản tích hợp. Đăng nhập để truy cập vào các chức năng dành cho bạn.
             </p>
-
-            <div class="user-types">
-                <div class="user-types-title">Dành cho:</div>
-                <div class="user-type-list">
-                    <div class="user-type-item">
-                        <div class="user-type-dot"></div>
-                        <span>Khách hàng - Xem và quản lý hợp đồng</span>
-                    </div>
-                    <div class="user-type-item">
-                        <div class="user-type-dot"></div>
-                        <span>Nhân viên - Quản lý nghiệp vụ</span>
-                    </div>
-                    <div class="user-type-item">
-                        <div class="user-type-dot"></div>
-                        <span>Quản trị viên - Toàn quyền hệ thống</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="features">
-            <div class="feature-item">
-                <div>Quản lý tòa nhà hiệu quả</div>
-            </div>
-            <div class="feature-item">
-                <div>Quản lý khách hàng toàn diện</div>
-            </div>
-            <div class="feature-item">
-                <div>Báo cáo và thống kê chi tiết</div>
-            </div>
         </div>
     </div>
 
-    <div class="login-right">
+    <div class="login-form-section">
         <div class="login-header">
             <h2>Đăng nhập</h2>
             <p>Nhập thông tin đăng nhập của bạn để tiếp tục</p>
