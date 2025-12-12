@@ -640,7 +640,7 @@
                     <div class="d-flex align-items-center gap-3">
                         <div class="text-end">
                             <small class="d-block opacity-85">Xin chào,</small>
-                            <strong>Nguyễn Văn A</strong>
+                            <strong th:text="${#authentication.name}">Nguyễn Văn A</strong>
                         </div>
                         <span class="badge-custom">KHÁCH HÀNG</span>
                     </div>
@@ -686,7 +686,7 @@
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item" th:href="@{/customer/services}">
+                            <a class="dropdown-item" th:href="@{/customer/service}">
                                 <i class="bi bi-clipboard-check me-2"></i>Dịch vụ
                             </a>
                         </li>
