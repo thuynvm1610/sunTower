@@ -188,25 +188,60 @@
         .modal-header {
             background: var(--primary-color);
             color: white;
-            border-radius: 0.5rem 0.5rem 0 0;
+            border-radius: 0;
+            border-bottom: none;
         }
 
         .modal-header .btn-close {
             filter: brightness(0) invert(1);
+            opacity: 1;
         }
 
+        .modal-header .btn-close:hover {
+            opacity: 0.8;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            border-top: 1px solid #e0e0e0;
+            padding: 1rem 1.5rem;
+        }
+
+        .modal-footer .btn {
+            padding: 0.5rem 1.5rem;
+            font-weight: 600;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Building Detail Header */
         .building-detail-header {
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
             color: white;
-            border-radius: 0.5rem;
+            border-radius: 8px;
             padding: 1.5rem;
             margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(45, 62, 143, 0.15);
         }
 
         .building-detail-name {
             font-size: 1.75rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
         }
 
         .building-detail-address {
@@ -217,95 +252,144 @@
             gap: 0.5rem;
         }
 
+        /* Info Section */
         .info-section {
             background: #f8f9fa;
-            border-radius: 0.5rem;
-            padding: 1rem;
-            margin-bottom: 1rem;
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-bottom: 1.25rem;
+            border: 1px solid #e9ecef;
+        }
+
+        .info-section:last-of-type {
+            margin-bottom: 0;
         }
 
         .info-section-title {
             color: var(--primary-color);
             font-weight: 600;
-            font-size: 0.95rem;
-            margin-bottom: 0.75rem;
-            padding-bottom: 0.5rem;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
             border-bottom: 2px solid var(--primary-color);
+            display: flex;
+            align-items: center;
         }
 
         .info-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.5rem 0;
+            padding: 0.75rem 0;
             border-bottom: 1px solid #e0e0e0;
         }
 
         .info-row:last-child {
             border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .info-row:first-child {
+            padding-top: 0;
         }
 
         .info-label {
             color: #666;
             font-size: 0.9rem;
+            font-weight: 500;
         }
 
         .info-value {
             font-weight: 600;
             color: #333;
             text-align: right;
+            font-size: 0.95rem;
         }
 
+        /* Feature Grid */
         .feature-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 0.75rem;
-            margin-top: 0.75rem;
+            gap: 1rem;
         }
 
         .feature-item {
             background: white;
-            padding: 0.75rem;
-            border-radius: 0.375rem;
+            padding: 1rem;
+            border-radius: 8px;
             border: 1px solid #e0e0e0;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
+            transition: all 0.2s;
+        }
+
+        .feature-item:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 2px 8px rgba(45, 62, 143, 0.1);
         }
 
         .feature-icon {
-            width: 40px;
-            height: 40px;
-            background: #f0f4ff;
-            border-radius: 0.375rem;
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 100%);
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--primary-color);
-            font-size: 20px;
+            font-size: 22px;
+            flex-shrink: 0;
         }
 
         .feature-text {
             flex: 1;
+            min-width: 0;
         }
 
         .feature-label {
             font-size: 0.8rem;
-            color: #666;
-            margin-bottom: 0.125rem;
+            color: #999;
+            margin-bottom: 0.25rem;
+            font-weight: 500;
         }
 
         .feature-value {
             font-weight: 600;
             color: #333;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            word-wrap: break-word;
         }
 
+        /* Rent Area List */
+        .rent-area-list {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .rent-area-list .info-row {
+            background: white;
+            padding: 0.75rem;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+            margin: 0;
+            cursor: default;
+        }
+
+        .rent-area-list .info-row:hover {
+            border-color: var(--primary-color);
+            background: #f8f9ff;
+        }
+
+        /* Badge Status */
         .badge-status {
             padding: 0.5rem 1rem;
-            border-radius: 1.5rem;
+            border-radius: 20px;
             font-weight: 600;
             font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .badge-available {
@@ -558,7 +642,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" th:href="@{/customer/buildings}">
+                        <a class="nav-link active" th:href="@{/customer/building/list}">
                             <i class="bi bi-building me-1"></i>Tòa nhà
                         </a>
                     </li>
@@ -878,6 +962,21 @@
                     $.each(data, function (i, b) {
                         let address = b.street + ', ' + b.ward + ', ' + b.district;
 
+                        let rentAreaHtml = "";
+                        if (b.rentAreaValues) {
+                            rentAreaHtml = b.rentAreaValues
+                                .split(",")
+                                .map(v => `<span class="info-row">${v.trim()} m²</span>`)
+                                .join("");
+                        }
+
+                        let rentPrice = Number(b.rentPrice).toLocaleString("vi-VN").replace(/\./g, ",");
+                        let serviceFee = Number(b.serviceFee).toLocaleString("vi-VN").replace(/\./g, ",");
+                        let carFee = Number(b.carFee).toLocaleString("vi-VN").replace(/\./g, ",");
+                        let motorbikeFee = Number(b.motorbikeFee).toLocaleString("vi-VN").replace(/\./g, ",");
+                        let waterFee = Number(b.waterFee).toLocaleString("vi-VN").replace(/\./g, ",");
+                        let electricityFee = Number(b.electricityFee).toLocaleString("vi-VN").replace(/\./g, ",");
+
                         body.append(`
                             <div class="col-md-6 col-lg-4">
                                 <div class="building-card" data-bs-toggle="modal" data-bs-target="#buildingModal-${i}">
@@ -892,8 +991,8 @@
                                         </div>
                                         <div class="building-stats">
                                             <div class="stat-item">
-                                                <span class="stat-label">Diện tích sàn</span>
-                                                <span class="stat-value">${b.floorArea}</span>
+                                                <span class="stat-label">Diện tích sàn </span>
+                                                <span class="stat-value">${b.floorArea} m²</span>
                                             </div>
                                             <div class="stat-item">
                                                 <span class="stat-label">Số tầng</span>
@@ -901,7 +1000,7 @@
                                             </div>
                                             <div class="stat-item">
                                                 <span class="stat-label">Giá thuê/m²</span>
-                                                <span class="stat-value">${b.rentPrice}</span>
+                                                <span class="stat-value">${rentPrice} VNĐ</span>
                                             </div>
                                             <div class="stat-item">
                                                 <span class="stat-label">Hạng</span>
@@ -963,7 +1062,7 @@
                                                         </div>
                                                         <div class="feature-text">
                                                             <div class="feature-label">Diện tích sàn</div>
-                                                            <div class="feature-value">${b.floorArea}</div>
+                                                            <div class="feature-value">${b.floorArea} m²</div>
                                                         </div>
                                                     </div>
                                                     <div class="feature-item">
@@ -992,7 +1091,7 @@
                                                 <div class="info-section-title">
                                                     <i class="bi bi-grid me-2"></i>Diện Tích Thuê Khả Dụng
                                                 </div>
-                                                <div class="rent-area-list">${b.rentAreaValues}</div>
+                                                <div class="rent-area-list">${rentAreaHtml}</div>
                                             </div>
 
                                             <!-- Giá thuê -->
@@ -1002,27 +1101,27 @@
                                                 </div>
                                                 <div class="info-row">
                                                     <span class="info-label">Giá thuê</span>
-                                                    <span class="info-value">${b.rentPrice}</span>
+                                                    <span class="info-value">${rentPrice} VNĐ</span>
                                                 </div>
                                                 <div class="info-row">
                                                     <span class="info-label">Phí dịch vụ</span>
-                                                    <span class="info-value">${b.serviceFee}</span>
+                                                    <span class="info-value">${serviceFee} VNĐ</span>
                                                 </div>
                                                 <div class="info-row">
                                                     <span class="info-label">Phí gửi xe ô tô</span>
-                                                    <span class="info-value">${b.carFee}</span>
+                                                    <span class="info-value">${carFee} VNĐ</span>
                                                 </div>
                                                 <div class="info-row">
                                                     <span class="info-label">Phí gửi xe máy</span>
-                                                    <span class="info-value">${b.motorbikeFee}</span>
+                                                    <span class="info-value">${motorbikeFee} VNĐ</span>
                                                 </div>
                                                 <div class="info-row">
                                                     <span class="info-label">Phí nước</span>
-                                                    <span class="info-value">${b.waterFee}</span>
+                                                    <span class="info-value">${waterFee} VNĐ</span>
                                                 </div>
                                                 <div class="info-row">
                                                     <span class="info-label">Phí điện</span>
-                                                    <span class="info-value">${b.electricityFee}</span>
+                                                    <span class="info-value">${electricityFee} VNĐ</span>
                                                 </div>
                                             </div>
                                         </div>
