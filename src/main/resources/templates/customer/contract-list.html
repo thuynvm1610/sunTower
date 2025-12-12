@@ -168,19 +168,6 @@
         }
 
         /* Contract Card */
-        .contract-card {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-            transition: all 0.3s;
-            overflow: hidden;
-        }
-
-        .contract-card:hover {
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-            transform: translateY(-2px);
-        }
-
         .contract-header {
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
             color: white;
@@ -392,6 +379,19 @@
             font-size: 18px;
             margin-left: 4px;
         }
+
+        /* Contract container */
+        .contract-container {
+            transition: all 0.3s;
+            overflow: hidden;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        .contract-container:hover {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 
@@ -602,92 +602,94 @@
                         const statusClass = c.status === "Đang hiệu lực" ? "badge-active" : "badge-expired";
 
                         body.append(`
-                            <!-- Contract Header -->
-                            <div class="contract-header">
-                                <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
-                                    <div>
-                                        <div class="contract-id">
-                                            <i class="bi bi-file-text-fill me-2"></i>
-                                            <span>Mã hợp đồng: ${c.id}</span>
+                            <div class="contract-container">
+                                <!-- Contract Header -->
+                                <div class="contract-header">
+                                    <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+                                        <div>
+                                            <div class="contract-id">
+                                                <i class="bi bi-file-text-fill me-2"></i>
+                                                <span>Mã hợp đồng: ${c.id}</span>
+                                            </div>
+                                            <div class="text-white-50" style="font-size: 13px;">
+                                                <i class="bi bi-calendar-check me-1"></i>
+                                                <span>
+                                                    ${c.formattedStartDate} - ${c.formattedEndDate}
+                                                </span>
+                                            </div>
                                         </div>
-                                        <div class="text-white-50" style="font-size: 13px;">
-                                            <i class="bi bi-calendar-check me-1"></i>
-                                            <span>
-                                                ${c.formattedStartDate} - ${c.formattedEndDate}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <span class="contract-status ${statusClass}">
-                                        <i class="bi bi-check-circle-fill"></i>
-                                        ${c.status}
-                                    </span>
-                                </div>
-                            </div>
-
-                            <!-- Contract Body -->
-                            <div class="contract-body">
-                                <div class="info-grid">
-                                    <!-- Tòa nhà -->
-                                    <div class="info-item">
-                                        <div class="info-label">
-                                            <i class="bi bi-building"></i>
-                                            Tòa nhà
-                                        </div>
-                                        <div class="info-value">
-                                            <a href="/customer/building/list?buildingName=${c.building.name}" class="building-link">
-                                                ${c.building.name}
-                                                <i class="bi bi-box-arrow-up-right" style="font-size: 12px;"></i>
-                                            </a>
-                                        </div>
-                                        <div style="font-size: 12px; color: #999; margin-top: 2px;">
-                                            <i class="bi bi-geo-alt"></i>
-                                            <span>${c.building.address}</span>
-                                        </div>
-                                    </div>
-
-                                    <!-- Diện tích thuê -->
-                                    <div class="info-item">
-                                        <div class="info-label">
-                                            <i class="bi bi-rulers"></i>
-                                            Diện tích thuê
-                                        </div>
-                                        <div class="info-value">
-                                            <span>${c.rentArea} m²</span>
-                                        </div>
-                                    </div>
-
-                                    <!-- Giá thuê/m² -->
-                                    <div class="info-item">
-                                        <div class="info-label">
-                                            <i class="bi bi-tag"></i>
-                                            Giá thuê/m²
-                                        </div>
-                                        <div class="info-value">
-                                            <span>
-                                                ${c.rentPrice} VNĐ
-                                            </span>
-                                        </div>
+                                        <span class="contract-status ${statusClass}">
+                                            <i class="bi bi-check-circle-fill"></i>
+                                            ${c.status}
+                                        </span>
                                     </div>
                                 </div>
-                            </div>
 
-                            <!-- Contract Footer - Staff Info -->
-                            <div class="contract-footer">
-                                <div class="staff-info">
-                                    <div class="staff-details">
-                                        <div class="staff-name">
-                                            <i class="bi bi-person-badge me-1"></i>
-                                            Nhân viên quản lý: <span>${c.staff.fullName}</span>
+                                <!-- Contract Body -->
+                                <div class="contract-body">
+                                    <div class="info-grid">
+                                        <!-- Tòa nhà -->
+                                        <div class="info-item">
+                                            <div class="info-label">
+                                                <i class="bi bi-building"></i>
+                                                Tòa nhà
+                                            </div>
+                                            <div class="info-value">
+                                                <a href="/customer/building/list?buildingName=${c.building.name}" class="building-link">
+                                                    ${c.building.name}
+                                                    <i class="bi bi-box-arrow-up-right" style="font-size: 12px;"></i>
+                                                </a>
+                                            </div>
+                                            <div style="font-size: 12px; color: #999; margin-top: 2px;">
+                                                <i class="bi bi-geo-alt"></i>
+                                                <span>${c.building.address}</span>
+                                            </div>
                                         </div>
-                                        <div class="staff-contact">
-                                            <a href="tel:${c.staff.phone}">
-                                                <i class="bi bi-telephone-fill"></i>
-                                                <span>${c.staff.phone}</span>
-                                            </a>
-                                            <a href="mailto:${c.staff.email}">
-                                                <i class="bi bi-envelope-fill"></i>
-                                                <span>${c.staff.email}</span>
-                                            </a>
+
+                                        <!-- Diện tích thuê -->
+                                        <div class="info-item">
+                                            <div class="info-label">
+                                                <i class="bi bi-rulers"></i>
+                                                Diện tích thuê
+                                            </div>
+                                            <div class="info-value">
+                                                <span>${c.rentArea} m²</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Giá thuê/m² -->
+                                        <div class="info-item">
+                                            <div class="info-label">
+                                                <i class="bi bi-tag"></i>
+                                                Giá thuê/m²
+                                            </div>
+                                            <div class="info-value">
+                                                <span>
+                                                    ${c.rentPrice} VNĐ
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Contract Footer - Staff Info -->
+                                <div class="contract-footer">
+                                    <div class="staff-info">
+                                        <div class="staff-details">
+                                            <div class="staff-name">
+                                                <i class="bi bi-person-badge me-1"></i>
+                                                Nhân viên quản lý: <span>${c.staff.fullName}</span>
+                                            </div>
+                                            <div class="staff-contact">
+                                                <a href="tel:${c.staff.phone}">
+                                                    <i class="bi bi-telephone-fill"></i>
+                                                    <span>${c.staff.phone}</span>
+                                                </a>
+                                                <a href="mailto:${c.staff.email}">
+                                                    <i class="bi bi-envelope-fill"></i>
+                                                    <span>${c.staff.email}</span>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
