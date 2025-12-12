@@ -296,24 +296,27 @@
 
         /* Empty State */
         .empty-state {
-            background: white;
-            border-radius: 10px;
-            padding: 60px 20px;
+            padding: 3rem;
             text-align: center;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            color: #9ca3af;
         }
 
         .empty-state i {
-            font-size: 64px;
-            color: #ddd;
-            margin-bottom: 20px;
+            font-size: 3rem;
+            color: #d1d5db;
+            margin-bottom: 1rem;
         }
 
         .empty-state h3 {
             color: #666;
             font-size: 18px;
             font-weight: 600;
-            margin-bottom: 10px;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state p {
+            margin: 0;
+            font-size: 14px;
         }
 
         /* Statistics */
@@ -364,18 +367,21 @@
             font-weight: 600;
         }
 
-        /* Thông báo số hợp đồng */
-        .total-contract {
-            background: #f8f9fa;
-            padding: 12px 20px;
+        /* Thông báo số tòa hợp đồng tìm kiếm*/
+        .total-contract-search {
+            background: linear-gradient(135deg, #e8f0fe 0%, #f0f7ff 100%);
+            padding: 14px 20px;
             border-radius: 8px;
-            border-left: 4px solid #0d6efd;
+            border-left: 4px solid var(--primary-color);
             font-size: 15px;
             color: #495057;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+            display: none;
         }
 
-        .total-contract strong {
-            color: #0d6efd;
+        .total-contract-search strong {
+            color: var(--primary-color);
             font-size: 18px;
             margin-left: 4px;
         }
@@ -574,7 +580,7 @@
         </div>
 
         <!-- Contract Cards -->
-        <div id="totalContract" class="mb-3"></div>
+        <div id="totalContract" class="total-contract-search"></div>
         <div class="contract-card" id="contractList">
             <!-- Ajax load dữ liệu -->
         </div>
@@ -598,27 +604,21 @@
                     const body = $("#contractList");
                     body.empty();
 
+                    const searchResult = $("#totalContract");
+
                     if (data.length === 0) {
                         body.append(`
                             <div class="empty-state">
-                                <i class="bi bi-file-earmark-text"></i>
+                                <i class="bi bi-inbox"></i>
                                 <h3>Không có hợp đồng nào</h3>
+                                <p>Chưa có hợp đồng theo điều kiện tìm kiếm</p>
                             </div>
                         `);
-                        $("#totalContract").html(`
-                            <div class="total-contract">
-                                Kết quả tìm kiếm: <strong>0</strong>
-                            </div>
-                        `);
+                        searchResult.hide();
                         return;
                     }
 
-                    let total = data.length;
-                    $("#totalContract").html(`
-                        <div class="total-contract">
-                            Kết quả tìm kiếm: <strong>${total}</strong>
-                        </div>
-                    `);
+                    searchResult.html(`Kết quả tìm kiếm: <strong>${data.length}</strong> hợp đồng`).show();
 
                     $.each(data, function (i, c) {
                         const statusClass = c.status === "Đang hiệu lực" ? "badge-active" : "badge-expired";
