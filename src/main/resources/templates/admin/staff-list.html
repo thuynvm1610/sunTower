@@ -738,7 +738,12 @@
         `;
 
             // Các trang số
-            for (let i = 1; i <= totalPages; i++) {
+            const blockSize = 5;
+            const blockStart = Math.floor((current - 1) / blockSize) * blockSize + 1;
+            let blockEnd = blockStart + blockSize - 1;
+            if (blockEnd > totalPages) blockEnd = totalPages;
+
+            for (let i = blockStart; i <= blockEnd; i++) {
                 html += `
                 <li class="page-item ${i === current ? 'active' : ''}">
                     <a href="#" class="page-link" onclick="${loadFunction}(${i}, event)">${i}</a>

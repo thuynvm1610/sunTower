@@ -30,7 +30,7 @@ public class AdminStaffController {
     ) {
         model.addAttribute("role", role);
         model.addAttribute("fullName", fullName);
-        model.addAttribute("page", "customer");
+        model.addAttribute("page", "staff");
         return "admin/staff-search";
     }
 
