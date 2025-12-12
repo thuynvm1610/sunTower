@@ -556,16 +556,11 @@
             font-weight: 600;
         }
 
-        /* Empty state */
+        /* Empty State */
         .empty-state {
             padding: 3rem;
             text-align: center;
             color: #9ca3af;
-            min-height: 420px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
         }
 
         .empty-state i {
@@ -574,23 +569,33 @@
             margin-bottom: 1rem;
         }
 
+        .empty-state h3 {
+            color: #666;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
         .empty-state p {
             margin: 0;
-            font-size: 0.875rem;
+            font-size: 14px;
         }
 
-        /* Thông báo số tòa nhà */
-        .total-building {
-            background: #f8f9fa;
-            padding: 12px 20px;
+        /* Thông báo số tòa nhà tìm kiếm*/
+        .total-building-search {
+            background: linear-gradient(135deg, #e8f0fe 0%, #f0f7ff 100%);
+            padding: 14px 20px;
             border-radius: 8px;
-            border-left: 4px solid #0d6efd;
+            border-left: 4px solid var(--primary-color);
             font-size: 15px;
             color: #495057;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+            display: none;
         }
 
-        .total-building strong {
-            color: #0d6efd;
+        .total-building-search strong {
+            color: var(--primary-color);
             font-size: 18px;
             margin-left: 4px;
         }
@@ -873,7 +878,7 @@
         </form>
 
         <!-- Buildings Grid -->
-        <div id="totalBuilding" class="mb-3"></div>
+        <div id="totalBuilding" class="total-building-search"></div>
         <div class="row g-4" id="buildingList">
             <!-- Ajax tải dữ liệu -->
         </div>
@@ -933,31 +938,23 @@
                     const body = $("#buildingList");
                     body.empty();
 
+                    const searchResult = $("#totalBuilding");
                     const modalContainer = $("#modalContainer");
 
                     // Kiểm tra không có dữ liệu
                     if (data.length === 0) {
                         body.append(`
                             <div class="empty-state">
-                                <i class="bi bi-file-earmark-text"></i>
+                                <i class="bi bi-inbox"></i>
                                 <h3>Không có tòa nhà nào</h3>
+                                <p>Chưa có tòa nhà theo điều kiện tìm kiếm</p>
                             </div>
                         `);
-                        $("#totalBuilding").html(`
-                            <div class="total-building">
-                                Kết quả tìm kiếm: <strong>0</strong>
-                            </div>
-                        `);
+                        searchResult.hide();
                         return;
                     }
 
-                    // Lấy tổng
-                    let total = data.length;
-                    $("#totalBuilding").html(`
-                        <div class="total-building">
-                            Kết quả tìm kiếm: <strong>${total}</strong>
-                        </div>
-                    `);
+                    searchResult.html(`Kết quả tìm kiếm: <strong>${data.length}</strong> tòa nhà`).show();
 
                     // Render danh sách
                     $.each(data, function (i, b) {
