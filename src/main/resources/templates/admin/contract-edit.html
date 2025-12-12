@@ -296,333 +296,321 @@
 
 <body>
 
-<!-- HEADER + SIDEBAR -->
-<div th:replace="~{layout/header :: header}"></div>
-<div th:replace="~{layout/sidebar :: sidebar}"></div>
+    <!-- HEADER + SIDEBAR -->
+    <div th:replace="~{layout/header :: header}"></div>
+    <div th:replace="~{layout/sidebar :: sidebar}"></div>
 
-<main class="content">
-    <div class="container-fluid">
-        <!-- Page Header -->
-        <div class="page-header">
-            <h2>
-                <i class="bi bi-pencil-square"></i>
-                Sửa thông tin hợp đồng
-            </h2>
-            <a th:href="@{/admin/contract/list}" class="btn-back">
-                <i class="bi bi-arrow-left"></i>
-                Quay lại danh sách
-            </a>
-        </div>
-
-        <!-- Info Box -->
-        <div class="info-box">
-            <i class="bi bi-info-circle"></i>
-            <div class="info-box-content">
-                Vui lòng điền đầy đủ thông tin bắt buộc để cập nhật thông tin mới của hợp đồng.
+    <main class="content">
+        <div class="container-fluid">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h2>
+                    <i class="bi bi-pencil-square"></i>
+                    Sửa thông tin hợp đồng
+                </h2>
+                <a th:href="@{/admin/contract/list}" class="btn-back">
+                    <i class="bi bi-arrow-left"></i>
+                    Quay lại danh sách
+                </a>
             </div>
-        </div>
 
-        <!-- Form Card -->
-        <form class="form-card" id="contractForm">
-            <div class="form-header">
-                <div class="form-title">
-                    <i class="bi bi-file-text"></i>
-                    Thông tin hợp đồng
+            <!-- Info Box -->
+            <div class="info-box">
+                <i class="bi bi-info-circle"></i>
+                <div class="info-box-content">
+                    Vui lòng điền đầy đủ thông tin bắt buộc để cập nhật thông tin mới của hợp đồng.
                 </div>
-                <div th:if="${contract.status}">
-                        <span class="status-badge"
-                              th:classappend="${contract.status == 'ACTIVE' ? 'active' :
+            </div>
+
+            <!-- Form Card -->
+            <form class="form-card" id="contractForm">
+                <div class="form-header">
+                    <div class="form-title">
+                        <i class="bi bi-file-text"></i>
+                        Thông tin hợp đồng
+                    </div>
+                    <div th:if="${contract.status}">
+                        <span class="status-badge" th:classappend="${contract.status == 'ACTIVE' ? 'active' :
                                              contract.status == 'PENDING' ? 'pending' :
                                              contract.status == 'EXPIRED' ? 'expired' : 'cancelled'}"
-                              th:text="${contract.status}">
+                            th:text="${contract.status}">
                         </span>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Thông tin cơ bản -->
-            <div class="form-section-title">
-                <i class="bi bi-info-circle"></i> Thông tin cơ bản
-            </div>
-            <div class="row g-3 mb-4">
-                <input type="hidden" name="id" th:value="${contract.id}">
+                <!-- Thông tin cơ bản -->
+                <div class="form-section-title">
+                    <i class="bi bi-info-circle"></i> Thông tin cơ bản
+                </div>
+                <div class="row g-3 mb-4">
+                    <input type="hidden" name="id" th:value="${contract.id}">
 
-                <div class="col-md-4">
-                    <label class="form-label">
-                        Tòa nhà
-                        <span class="required">*</span>
-                    </label>
-                    <select class="form-control" name="buildingId" th:value="${contract.buildingId}" required>
-                        <option value="">-- Chọn tòa nhà --</option>
-                        <option th:each="b : ${buildings}"
-                                th:value="${b.value}"
-                                th:text="${b.key}"
+                    <div class="col-md-4">
+                        <label class="form-label">
+                            Tòa nhà
+                            <span class="required">*</span>
+                        </label>
+                        <select class="form-control" name="buildingId" th:value="${contract.buildingId}" required>
+                            <option value="">-- Chọn tòa nhà --</option>
+                            <option th:each="b : ${buildings}" th:value="${b.value}" th:text="${b.key}"
                                 th:selected="${b.value == contract.buildingId}">
-                        </option>
-                    </select>
-                    <small class="form-text">Chọn tòa nhà cho thuê</small>
-                </div>
+                            </option>
+                        </select>
+                        <small class="form-text">Chọn tòa nhà cho thuê</small>
+                    </div>
 
-                <div class="col-md-4">
-                    <label class="form-label">
-                        Khách hàng
-                        <span class="required">*</span>
-                    </label>
-                    <select class="form-control" name="customerId" th:value="${contract.customerId}" required>
-                        <option value="">-- Chọn khách hàng --</option>
-                        <option th:each="c : ${customers}"
-                                th:value="${c.value}"
-                                th:text="${c.key}"
+                    <div class="col-md-4">
+                        <label class="form-label">
+                            Khách hàng
+                            <span class="required">*</span>
+                        </label>
+                        <select class="form-control" name="customerId" th:value="${contract.customerId}" required>
+                            <option value="">-- Chọn khách hàng --</option>
+                            <option th:each="c : ${customers}" th:value="${c.value}" th:text="${c.key}"
                                 th:selected="${c.value == contract.customerId}">
-                        </option>
-                    </select>
-                    <small class="form-text">Chọn khách hàng thuê</small>
-                </div>
+                            </option>
+                        </select>
+                        <small class="form-text">Chọn khách hàng thuê</small>
+                    </div>
 
-                <div class="col-md-4">
-                    <label class="form-label">
-                        Nhân viên phụ trách
-                        <span class="required">*</span>
-                    </label>
-                    <select class="form-control" name="staffId" required>
-                        <option value="">-- Chọn nhân viên --</option>
-                        <option th:each="s : ${staffs}"
-                                th:value="${s.id}"
-                                th:text="${s.fullName}"
+                    <div class="col-md-4">
+                        <label class="form-label">
+                            Nhân viên phụ trách
+                            <span class="required">*</span>
+                        </label>
+                        <select class="form-control" name="staffId" required>
+                            <option value="">-- Chọn nhân viên --</option>
+                            <option th:each="s : ${staffs}" th:value="${s.id}" th:text="${s.fullName}"
                                 th:selected="${s.id == contract.staffId}">
-                        </option>
-                    </select>
-                    <small class="form-text">Nhân viên quản lý hợp đồng</small>
-                </div>
-            </div>
-
-            <!-- Thời gian và giá -->
-            <div class="form-section-title">
-                <i class="bi bi-calendar-range"></i> Thời gian và giá thuê
-            </div>
-            <div class="row g-3 mb-4">
-                <div class="col-md-4">
-                    <label class="form-label">
-                        Ngày bắt đầu
-                        <span class="required">*</span>
-                    </label>
-                    <div class="input-group">
-                        <span class="input-group-text">
-                            <i class="bi bi-calendar-check"></i>
-                        </span>
-                        <input type="date" class="form-control" name="startDate"
-                               required th:value="${contract.startDate}" id="startDateInput">
+                            </option>
+                        </select>
+                        <small class="form-text">Nhân viên quản lý hợp đồng</small>
                     </div>
                 </div>
 
-                <div class="col-md-4">
-                    <label class="form-label">
-                        Ngày kết thúc
-                        <span class="required">*</span>
-                    </label>
-                    <div class="input-group">
-                        <span class="input-group-text">
-                            <i class="bi bi-calendar-x"></i>
-                        </span>
-                        <input type="date" class="form-control" name="endDate"
-                               required th:value="${contract.endDate}" id="endDateInput">
+                <!-- Thời gian và giá -->
+                <div class="form-section-title">
+                    <i class="bi bi-calendar-range"></i> Thời gian và giá thuê
+                </div>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <label class="form-label">
+                            Ngày bắt đầu
+                            <span class="required">*</span>
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-calendar-check"></i>
+                            </span>
+                            <input type="date" class="form-control" name="startDate" required
+                                th:value="${contract.startDate}" id="startDateInput">
+                        </div>
                     </div>
-                    <small class="date-validation" id="dateValidation"></small>
+
+                    <div class="col-md-4">
+                        <label class="form-label">
+                            Ngày kết thúc
+                            <span class="required">*</span>
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-calendar-x"></i>
+                            </span>
+                            <input type="date" class="form-control" name="endDate" required
+                                th:value="${contract.endDate}" id="endDateInput">
+                        </div>
+                        <small class="date-validation" id="dateValidation"></small>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">
+                            Giá thuê (VNĐ/tháng)
+                            <span class="required">*</span>
+                        </label>
+                        <input type="number" step="0.01" class="form-control" name="rentPrice"
+                            placeholder="VD: 50000000" th:value="${contract.rentPrice}" required>
+                        <small class="form-text">Giá thuê hàng tháng</small>
+                    </div>
                 </div>
 
-                <div class="col-md-4">
-                    <label class="form-label">
-                        Giá thuê (VNĐ/tháng)
-                        <span class="required">*</span>
-                    </label>
-                    <input type="number"
-                           step="0.01"
-                           class="form-control"
-                           name="rentPrice"
-                           placeholder="VD: 50000000"
-                           th:value="${contract.rentPrice}"
-                           required>
-                    <small class="form-text">Giá thuê hàng tháng</small>
+                <!-- Trạng thái -->
+                <div class="form-section-title">
+                    <i class="bi bi-flag"></i> Trạng thái hợp đồng
                 </div>
-            </div>
-
-            <!-- Trạng thái -->
-            <div class="form-section-title">
-                <i class="bi bi-flag"></i> Trạng thái hợp đồng
-            </div>
-            <div class="row g-3 mb-4">
-                <div class="col-md-12">
-                    <label class="form-label">
-                        Trạng thái
-                        <span class="required">*</span>
-                    </label>
-                    <select class="form-control" name="status" th:value="${contract.status}" required>
-                        <option value="">-- Chọn trạng thái --</option>
-                        <option value="Đang hiệu lực" th:selected="${contract.status == 'Đang hiệu lực'}">Đang hiệu
-                            lực
-                        </option>
-                        <option value="Hết hạn" th:selected="${contract.status == 'Hết hạn'}">Hết hạn</option>
-                    </select>
-                    <small class="form-text">Trạng thái hiện tại của hợp đồng</small>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-12">
+                        <label class="form-label">
+                            Trạng thái
+                            <span class="required">*</span>
+                        </label>
+                        <select class="form-control" name="status" th:value="${contract.status}" required>
+                            <option value="">-- Chọn trạng thái --</option>
+                            <option value="Đang hiệu lực" th:selected="${contract.status == 'Đang hiệu lực'}">Đang hiệu
+                                lực
+                            </option>
+                            <option value="Hết hạn" th:selected="${contract.status == 'Hết hạn'}">Hết hạn</option>
+                        </select>
+                        <small class="form-text">Trạng thái hiện tại của hợp đồng</small>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Form Actions -->
-            <div class="form-actions">
-                <button type="button" class="btn-action btn-reset" onclick="resetInputData()">
-                    <i class="bi bi-arrow-clockwise"></i>
-                    Reset
-                </button>
-                <button type="submit" class="btn-action btn-submit">
-                    <i class="bi bi-check-circle"></i>
-                    Lưu hợp đồng
-                </button>
-            </div>
-        </form>
-    </div>
-</main>
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <button type="button" class="btn-action btn-reset" onclick="resetInputData()">
+                        <i class="bi bi-arrow-clockwise"></i>
+                        Reset
+                    </button>
+                    <button type="submit" class="btn-action btn-submit">
+                        <i class="bi bi-check-circle"></i>
+                        Lưu hợp đồng
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
 
-<!--Bootstrap-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- CDN SweetAlert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<!--JQuery-->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!--Bootstrap-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- CDN SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!--JQuery-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script>
-    // Date validation
-    function validateDateRange() {
-        const startDate = document.getElementById('startDateInput').value;
-        const endDate = document.getElementById('endDateInput').value;
-        const validation = document.getElementById('dateValidation');
+    <script>
+        // Date validation
+        function validateDateRange() {
+            const startDate = document.getElementById('startDateInput').value;
+            const endDate = document.getElementById('endDateInput').value;
+            const validation = document.getElementById('dateValidation');
 
-        const start = new Date(startDate);
-        const end = new Date(endDate);
+            const start = new Date(startDate);
+            const end = new Date(endDate);
 
-        if (end <= start) {
-            validation.className = 'date-validation invalid';
-            validation.textContent = 'Ngày kết thúc phải sau ngày bắt đầu';
-            return false;
-        } else {
-            const diffTime = Math.abs(end - start);
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            validation.className = 'date-validation valid';
-            validation.textContent = `Thời hạn hợp đồng: ${diffDays} ngày`;
-            return true;
-        }
-    }
-
-    document.getElementById('startDateInput').addEventListener('change', validateDateRange);
-    document.getElementById('endDateInput').addEventListener('change', validateDateRange);
-</script>
-
-<script>
-    function resetInputData() {
-        document.querySelectorAll('.form-card input, .form-card select')
-            .forEach(e => {
-                if (e.type === "checkbox" || e.type === "radio") {
-                    e.checked = false;
-                } else if (e.type !== "hidden") {
-                    e.value = "";
-                }
-            });
-    }
-</script>
-
-<script>
-    $("#contractForm").on("submit", function (e) {
-        e.preventDefault();
-
-        // Validate date range
-        if (!validateDateRange()) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Cảnh báo',
-                text: 'Ngày kết thúc phải sau ngày bắt đầu!'
-            });
-            return;
-        }
-
-        const data = {
-            id: $("[name='id']").val() ? Number($("[name='id']").val()) : null,
-            buildingId: $("[name='buildingId']").val() ? Number($("[name='buildingId']").val()) : null,
-            customerId: $("[name='customerId']").val() ? Number($("[name='customerId']").val()) : null,
-            staffId: $("[name='staffId']").val() ? Number($("[name='staffId']").val()) : null,
-            rentPrice: $("[name='rentPrice']").val(),
-            startDate: $("[name='startDate']").val(),
-            endDate: $("[name='endDate']").val(),
-            status: $("[name='status']").val()
-        };
-
-        $.ajax({
-            url: "/admin/contract/edit",
-            type: "PUT",
-            contentType: "application/json",
-            data: JSON.stringify(data),
-
-            success: function () {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Thành công',
-                    text: 'Sửa thông tin hợp đồng thành công!',
-                    timer: 1500,
-                    showConfirmButton: false
-                }).then(() => {
-                    window.location.href = "/admin/contract/list";
-                });
-            },
-            error: function (xhr) {
-                const err = xhr.responseJSON;
-                if (err && err.message) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Lỗi',
-                        text: err.message
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Lỗi',
-                        text: 'Sửa thông tin hợp đồng thất bại!'
-                    });
-                }
-            }
-        });
-    });
-
-    $(document).ready(function () {
-        // Hàm highlight trường có giá trị
-        function highlightFilledInputs() {
-            $('.form-control, .form-select').each(function () {
-                const $input = $(this);
-                if ($input.val() && $input.val().trim() !== '') {
-                    $input.addClass('has-value');
-                } else {
-                    $input.removeClass('has-value');
-                }
-            });
-        }
-
-        // Highlight các trường đã có giá trị khi load trang
-        highlightFilledInputs();
-
-        // Lắng nghe sự kiện input/change để highlight real-time
-        $('.form-control, .form-select').on('input change', function () {
-            const $this = $(this);
-            if ($this.val() && $this.val().trim() !== '') {
-                $this.addClass('has-value');
+            if (end <= start) {
+                validation.className = 'date-validation invalid';
+                validation.textContent = 'Ngày kết thúc phải sau ngày bắt đầu';
+                return false;
             } else {
-                $this.removeClass('has-value');
+                const diffTime = Math.abs(end - start);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                validation.className = 'date-validation valid';
+                validation.textContent = `Thời hạn hợp đồng: ${diffDays} ngày`;
+                return true;
             }
+        }
+
+        document.getElementById('startDateInput').addEventListener('change', validateDateRange);
+        document.getElementById('endDateInput').addEventListener('change', validateDateRange);
+    </script>
+
+    <script>
+        function resetInputData() {
+            document.querySelectorAll('.form-card input, .form-card select')
+                .forEach(e => {
+                    if (e.type === "checkbox" || e.type === "radio") {
+                        e.checked = false;
+                    } else if (e.type !== "hidden") {
+                        e.value = "";
+                    }
+                });
+        }
+    </script>
+
+    <script>
+        $("#contractForm").on("submit", function (e) {
+            e.preventDefault();
+
+            // Validate date range
+            if (!validateDateRange()) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Cảnh báo',
+                    text: 'Ngày kết thúc phải sau ngày bắt đầu!'
+                });
+                return;
+            }
+
+            const data = {
+                id: $("[name='id']").val() ? Number($("[name='id']").val()) : null,
+                buildingId: $("[name='buildingId']").val() ? Number($("[name='buildingId']").val()) : null,
+                customerId: $("[name='customerId']").val() ? Number($("[name='customerId']").val()) : null,
+                staffId: $("[name='staffId']").val() ? Number($("[name='staffId']").val()) : null,
+                rentPrice: $("[name='rentPrice']").val(),
+                startDate: $("[name='startDate']").val(),
+                endDate: $("[name='endDate']").val(),
+                status: $("[name='status']").val()
+            };
+
+            $.ajax({
+                url: "/admin/contract/edit",
+                type: "PUT",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+
+                success: function () {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Thành công',
+                        text: 'Sửa thông tin hợp đồng thành công!',
+                        timer: 1500,
+                        showConfirmButton: false
+                    }).then(() => {
+                        window.location.href = "/admin/contract/list";
+                    });
+                },
+                error: function (xhr) {
+                    const err = xhr.responseJSON;
+                    if (err && err.message) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: err.message
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: 'Sửa thông tin hợp đồng thất bại!'
+                        });
+                    }
+                }
+            });
         });
 
-        // Reset highlight khi reset form
-        $('.btn-reset').on('click', function () {
-            setTimeout(function () {
-                $('.form-control, .form-select').removeClass('has-value');
-            }, 10);
+        $(document).ready(function () {
+            // Hàm highlight trường có giá trị
+            function highlightFilledInputs() {
+                $('.form-control, .form-select').each(function () {
+                    const $input = $(this);
+                    if ($input.val() && $input.val().trim() !== '') {
+                        $input.addClass('has-value');
+                    } else {
+                        $input.removeClass('has-value');
+                    }
+                });
+            }
+
+            // Highlight các trường đã có giá trị khi load trang
+            highlightFilledInputs();
+
+            // Lắng nghe sự kiện input/change để highlight real-time
+            $('.form-control, .form-select').on('input change', function () {
+                const $this = $(this);
+                if ($this.val() && $this.val().trim() !== '') {
+                    $this.addClass('has-value');
+                } else {
+                    $this.removeClass('has-value');
+                }
+            });
+
+            // Reset highlight khi reset form
+            $('.btn-reset').on('click', function () {
+                setTimeout(function () {
+                    $('.form-control, .form-select').removeClass('has-value');
+                }, 10);
+            });
         });
-    });
-</script>
+    </script>
 </body>
 
 </html>

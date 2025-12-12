@@ -426,140 +426,140 @@
 
 <body>
 
-<!-- HEADER + SIDEBAR -->
-<div th:replace="~{layout/header :: header}"></div>
-<div th:replace="~{layout/sidebar :: sidebar}"></div>
+    <!-- HEADER + SIDEBAR -->
+    <div th:replace="~{layout/header :: header}"></div>
+    <div th:replace="~{layout/sidebar :: sidebar}"></div>
 
-<main class="content">
-    <div class="container-fluid">
-        <!-- Page Header -->
-        <div class="page-header">
-            <h2>
-                <i class="bi bi-person-badge"></i>
-                Quản lý Nhân viên
-            </h2>
-            <a th:href="@{/admin/staff/add}" class="btn-add">
-                <i class="bi bi-plus-circle"></i>
-                Thêm nhân viên
-            </a>
-        </div>
+    <main class="content">
+        <div class="container-fluid">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h2>
+                    <i class="bi bi-person-badge"></i>
+                    Quản lý Nhân viên
+                </h2>
+                <a th:href="@{/admin/staff/add}" class="btn-add">
+                    <i class="bi bi-plus-circle"></i>
+                    Thêm nhân viên
+                </a>
+            </div>
 
-        <!-- Filter Card -->
-        <form class="filter-card" th:action="@{/admin/staff/search}" method="get">
-            <div class="row g-3">
-                <div class="col-md-5">
-                    <label class="form-label">Tên nhân viên</label>
-                    <input type="text" class="form-control" name="fullName"
-                           placeholder="Nhập tên nhân viên cần tìm...">
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">Vai trò</label>
-                    <select class="form-select" name="role">
-                        <option value="">Tất cả</option>
-                        <option value="ADMIN">Admin</option>
-                        <option value="STAFF">Nhân viên</option>
-                    </select>
-                </div>
-                <div class="col-md-4 d-flex align-items-end">
-                    <div class="filter-actions w-100">
-                        <button type="reset" class="btn-filter btn-reset">
-                            <i class="bi bi-arrow-clockwise"></i>
-                            Reset
-                        </button>
-                        <button type="submit" class="btn-filter btn-search">
-                            <i class="bi bi-search"></i>
-                            Tìm kiếm
-                        </button>
+            <!-- Filter Card -->
+            <form class="filter-card" th:action="@{/admin/staff/search}" method="get">
+                <div class="row g-3">
+                    <div class="col-md-5">
+                        <label class="form-label">Tên nhân viên</label>
+                        <input type="text" class="form-control" name="fullName"
+                            placeholder="Nhập tên nhân viên cần tìm...">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Vai trò</label>
+                        <select class="form-select" name="role">
+                            <option value="">Tất cả</option>
+                            <option value="ADMIN">Admin</option>
+                            <option value="STAFF">Nhân viên</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <div class="filter-actions w-100">
+                            <button type="reset" class="btn-filter btn-reset">
+                                <i class="bi bi-arrow-clockwise"></i>
+                                Reset
+                            </button>
+                            <button type="submit" class="btn-filter btn-search">
+                                <i class="bi bi-search"></i>
+                                Tìm kiếm
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
 
-        <!-- Admin Table Card -->
-        <div class="table-card">
-            <div class="table-header admin-header">
-                <i class="bi bi-shield-check"></i>
-                Quản trị viên
+            <!-- Admin Table Card -->
+            <div class="table-card">
+                <div class="table-header admin-header">
+                    <i class="bi bi-shield-check"></i>
+                    Quản trị viên
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table modern-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 11%;">Mã NV</th>
+                                <th style="width: 28%;">Tên nhân viên</th>
+                                <th style="width: 21%;">Điện thoại</th>
+                                <th style="width: 25%;">Email</th>
+                                <th style="width: 15%; text-align: center;">Hành động</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="adminTableBody">
+                            <!-- Dữ liệu Admin sẽ được Ajax thêm vào -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
-            <div class="table-responsive">
-                <table class="table modern-table">
-                    <thead>
-                    <tr>
-                        <th style="width: 11%;">Mã NV</th>
-                        <th style="width: 28%;">Tên nhân viên</th>
-                        <th style="width: 21%;">Điện thoại</th>
-                        <th style="width: 25%;">Email</th>
-                        <th style="width: 15%; text-align: center;">Hành động</th>
-                    </tr>
-                    </thead>
+            <!-- Staff Table Card -->
+            <div class="table-card">
+                <div class="table-header staff-header">
+                    <i class="bi bi-people"></i>
+                    Nhân viên
+                </div>
 
-                    <tbody id="adminTableBody">
-                    <!-- Dữ liệu Admin sẽ được Ajax thêm vào -->
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table modern-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 11%;">Mã NV</th>
+                                <th style="width: 21%;">Tên nhân viên</th>
+                                <th style="width: 28%;">Điện thoại</th>
+                                <th style="width: 25%;">Email</th>
+                                <th style="width: 15%; text-align: center;">Hành động</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="staffTableBody">
+                            <!-- Dữ liệu Staff sẽ được Ajax thêm vào -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
+
+            <!-- Pagination -->
+            <div id="paginationAdmin"></div>
+            <div id="paginationStaff"></div>
         </div>
+    </main>
 
-        <!-- Staff Table Card -->
-        <div class="table-card">
-            <div class="table-header staff-header">
-                <i class="bi bi-people"></i>
-                Nhân viên
-            </div>
+    <!--Bootstrap-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- CDN SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!--JQuery-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-            <div class="table-responsive">
-                <table class="table modern-table">
-                    <thead>
-                    <tr>
-                        <th style="width: 11%;">Mã NV</th>
-                        <th style="width: 21%;">Tên nhân viên</th>
-                        <th style="width: 28%;">Điện thoại</th>
-                        <th style="width: 25%;">Email</th>
-                        <th style="width: 15%; text-align: center;">Hành động</th>
-                    </tr>
-                    </thead>
+    <script>
+        let currentAdminPage = 1;
+        let currentStaffPage = 1;
+        const pageSize = 5;
 
-                    <tbody id="staffTableBody">
-                    <!-- Dữ liệu Staff sẽ được Ajax thêm vào -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        // Hàm load dữ liệu Admin
+        function loadAdmins(page, event) {
+            if (event) event.preventDefault();
 
-        <!-- Pagination -->
-        <div id="paginationAdmin"></div>
-        <div id="paginationStaff"></div>
-    </div>
-</main>
+            $.ajax({
+                url: "/admin/staff/list/page",
+                type: "GET",
+                data: { page: page, size: pageSize, role: "ADMIN" },
+                success: function (data) {
+                    currentAdminPage = page;
+                    const tbody = $("#adminTableBody");
+                    tbody.empty();
 
-<!--Bootstrap-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- CDN SweetAlert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<!--JQuery-->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<script>
-    let currentAdminPage = 1;
-    let currentStaffPage = 1;
-    const pageSize = 5;
-
-    // Hàm load dữ liệu Admin
-    function loadAdmins(page, event) {
-        if (event) event.preventDefault();
-
-        $.ajax({
-            url: "/admin/staff/list/page",
-            type: "GET",
-            data: { page: page, size: pageSize, role: "ADMIN" },
-            success: function (data) {
-                currentAdminPage = page;
-                const tbody = $("#adminTableBody");
-                tbody.empty();
-
-                if (data.content.length === 0) {
-                    tbody.append(`
+                    if (data.content.length === 0) {
+                        tbody.append(`
                         <tr>
                             <td colspan="6">
                                 <div class="empty-state">
@@ -569,12 +569,12 @@
                             </td>
                         </tr>
                     `);
-                    $("#paginationAdmin").empty();
-                    return;
-                }
+                        $("#paginationAdmin").empty();
+                        return;
+                    }
 
-                $.each(data.content, function (i, staff) {
-                    tbody.append(`
+                    $.each(data.content, function (i, staff) {
+                        tbody.append(`
                         <tr>
                             <td><span class="staff-id">${staff.id}</span></td>
                             <td><span class="staff-name">${staff.fullName || ''}</span></td>
@@ -612,35 +612,35 @@
                             </td>
                         </tr>
                     `);
-                });
+                    });
 
-                renderPagination(data.totalPages, page, 'Admin');
-            },
-            error: function () {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Lỗi',
-                    text: 'Không tải được dữ liệu Admin!'
-                });
-            }
-        });
-    }
+                    renderPagination(data.totalPages, page, 'Admin');
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: 'Không tải được dữ liệu Admin!'
+                    });
+                }
+            });
+        }
 
-    // Hàm load dữ liệu Staff
-    function loadStaffs(page, event) {
-        if (event) event.preventDefault();
+        // Hàm load dữ liệu Staff
+        function loadStaffs(page, event) {
+            if (event) event.preventDefault();
 
-        $.ajax({
-            url: "/admin/staff/list/page",
-            type: "GET",
-            data: { page: page, size: pageSize, role: "STAFF" },
-            success: function (data) {
-                currentStaffPage = page;
-                const tbody = $("#staffTableBody");
-                tbody.empty();
+            $.ajax({
+                url: "/admin/staff/list/page",
+                type: "GET",
+                data: { page: page, size: pageSize, role: "STAFF" },
+                success: function (data) {
+                    currentStaffPage = page;
+                    const tbody = $("#staffTableBody");
+                    tbody.empty();
 
-                if (data.content.length === 0) {
-                    tbody.append(`
+                    if (data.content.length === 0) {
+                        tbody.append(`
                         <tr>
                             <td colspan="6">
                                 <div class="empty-state">
@@ -650,12 +650,12 @@
                             </td>
                         </tr>
                     `);
-                    $("#paginationStaff").empty();
-                    return;
-                }
+                        $("#paginationStaff").empty();
+                        return;
+                    }
 
-                $.each(data.content, function (i, staff) {
-                    tbody.append(`
+                    $.each(data.content, function (i, staff) {
+                        tbody.append(`
                         <tr>
                             <td><span class="staff-id">${staff.id}</span></td>
                             <td><span class="staff-name">${staff.fullName || ''}</span></td>
@@ -693,43 +693,43 @@
                             </td>
                         </tr>
                     `);
-                });
+                    });
 
-                renderPagination(data.totalPages, page, 'Staff');
-            },
-            error: function () {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Lỗi',
-                    text: 'Không tải được dữ liệu nhân viên!'
-                });
-            }
-        });
-    }
+                    renderPagination(data.totalPages, page, 'Staff');
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: 'Không tải được dữ liệu nhân viên!'
+                    });
+                }
+            });
+        }
 
-    // Hàm render phân trang
-    function renderPagination(totalPages, current, type) {
-        const pagination = type === 'Admin' ? $("#paginationAdmin") : $("#paginationStaff");
-        const loadFunction = type === 'Admin' ? 'loadAdmins' : 'loadStaffs';
+        // Hàm render phân trang
+        function renderPagination(totalPages, current, type) {
+            const pagination = type === 'Admin' ? $("#paginationAdmin") : $("#paginationStaff");
+            const loadFunction = type === 'Admin' ? 'loadAdmins' : 'loadStaffs';
 
-        pagination.empty();
+            pagination.empty();
 
-        if (totalPages <= 1) return;
+            if (totalPages <= 1) return;
 
-        let html = `
+            let html = `
             <nav class="pagination-wrapper mt-3">
                 <ul class="pagination justify-content-center">
         `;
 
-        // Nút "First"
-        html += `
+            // Nút "First"
+            html += `
             <li class="page-item ${current === 1 ? 'disabled' : ''}">
                 <a href="#" class="page-link" onclick="${loadFunction}(1, event)">First</a>
             </li>
         `;
 
-        // Nút "Previous"
-        html += `
+            // Nút "Previous"
+            html += `
             <li class="page-item ${current === 1 ? 'disabled' : ''}">
                 <a href="#" class="page-link" onclick="${loadFunction}(${current - 1}, event)">
                     <i class="bi bi-chevron-left"></i>
@@ -737,17 +737,17 @@
             </li>
         `;
 
-        // Các trang số
-        for (let i = 1; i <= totalPages; i++) {
-            html += `
+            // Các trang số
+            for (let i = 1; i <= totalPages; i++) {
+                html += `
                 <li class="page-item ${i === current ? 'active' : ''}">
                     <a href="#" class="page-link" onclick="${loadFunction}(${i}, event)">${i}</a>
                 </li>
             `;
-        }
+            }
 
-        // Nút "Next"
-        html += `
+            // Nút "Next"
+            html += `
             <li class="page-item ${current === totalPages ? 'disabled' : ''}">
                 <a href="#" class="page-link" onclick="${loadFunction}(${current + 1}, event)">
                     <i class="bi bi-chevron-right"></i>
@@ -755,111 +755,111 @@
             </li>
         `;
 
-        // Nút "Last"
-        html += `
+            // Nút "Last"
+            html += `
             <li class="page-item ${current === totalPages ? 'disabled' : ''}">
                 <a href="#" class="page-link" onclick="${loadFunction}(${totalPages}, event)">Last</a>
             </li>
         `;
 
-        html += `
+            html += `
                 </ul>
             </nav>
         `;
 
-        pagination.html(html);
-    }
-
-    // Khi trang load, gọi Ajax lần đầu
-    $(document).ready(function () {
-        loadAdmins(1);
-        loadStaffs(1);
-
-        // Hàm highlight trường có giá trị
-        function highlightFilledInputs() {
-            $('.filter-card .form-control, .filter-card .form-select').each(function () {
-                const $input = $(this);
-                if ($input.val() && $input.val().trim() !== '') {
-                    $input.addClass('has-value');
-                } else {
-                    $input.removeClass('has-value');
-                }
-            });
+            pagination.html(html);
         }
 
-        // Highlight các trường đã có giá trị khi load trang
-        highlightFilledInputs();
+        // Khi trang load, gọi Ajax lần đầu
+        $(document).ready(function () {
+            loadAdmins(1);
+            loadStaffs(1);
 
-        // Lắng nghe sự kiện input/change để highlight real-time
-        $('.filter-card .form-control, .filter-card .form-select').on('input change', function () {
-            const $this = $(this);
-            if ($this.val() && $this.val().trim() !== '') {
-                $this.addClass('has-value');
-            } else {
-                $this.removeClass('has-value');
-            }
-        });
-
-        // Reset highlight khi reset form
-        $('.btn-filter.btn-reset').on('click', function () {
-            setTimeout(function () {
-                $('.filter-card .form-control, .filter-card .form-select').removeClass('has-value');
-            }, 10);
-        });
-    });
-
-    // Ajax xóa nhân viên
-    $(document).on("click", ".btn-delete", function (e) {
-        e.preventDefault();
-
-        let id = $(this).data("id");
-
-        Swal.fire({
-            title: 'Xác nhận xóa',
-            text: "Bạn có chắc muốn xóa nhân viên này?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#dc2626',
-            cancelButtonColor: '#6b7280',
-            confirmButtonText: 'Xóa',
-            cancelButtonText: 'Hủy'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: "/admin/staff/delete/" + id,
-                    type: "DELETE",
-                    success: function () {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Thành công',
-                            text: 'Xóa nhân viên thành công!',
-                            timer: 1500,
-                            showConfirmButton: false
-                        }).then(() => {
-                            window.location.href = "/admin/staff/list";
-                        });
-                    },
-                    error: function (xhr) {
-                        const err = xhr.responseJSON;
-                        if (err && err.message) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Lỗi',
-                                text: err.message
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Lỗi',
-                                text: 'Xóa thất bại!'
-                            });
-                        }
+            // Hàm highlight trường có giá trị
+            function highlightFilledInputs() {
+                $('.filter-card .form-control, .filter-card .form-select').each(function () {
+                    const $input = $(this);
+                    if ($input.val() && $input.val().trim() !== '') {
+                        $input.addClass('has-value');
+                    } else {
+                        $input.removeClass('has-value');
                     }
                 });
             }
+
+            // Highlight các trường đã có giá trị khi load trang
+            highlightFilledInputs();
+
+            // Lắng nghe sự kiện input/change để highlight real-time
+            $('.filter-card .form-control, .filter-card .form-select').on('input change', function () {
+                const $this = $(this);
+                if ($this.val() && $this.val().trim() !== '') {
+                    $this.addClass('has-value');
+                } else {
+                    $this.removeClass('has-value');
+                }
+            });
+
+            // Reset highlight khi reset form
+            $('.btn-filter.btn-reset').on('click', function () {
+                setTimeout(function () {
+                    $('.filter-card .form-control, .filter-card .form-select').removeClass('has-value');
+                }, 10);
+            });
         });
-    });
-</script>
+
+        // Ajax xóa nhân viên
+        $(document).on("click", ".btn-delete", function (e) {
+            e.preventDefault();
+
+            let id = $(this).data("id");
+
+            Swal.fire({
+                title: 'Xác nhận xóa',
+                text: "Bạn có chắc muốn xóa nhân viên này?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc2626',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "/admin/staff/delete/" + id,
+                        type: "DELETE",
+                        success: function () {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Thành công',
+                                text: 'Xóa nhân viên thành công!',
+                                timer: 1500,
+                                showConfirmButton: false
+                            }).then(() => {
+                                window.location.href = "/admin/staff/list";
+                            });
+                        },
+                        error: function (xhr) {
+                            const err = xhr.responseJSON;
+                            if (err && err.message) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Lỗi',
+                                    text: err.message
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Lỗi',
+                                    text: 'Xóa thất bại!'
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

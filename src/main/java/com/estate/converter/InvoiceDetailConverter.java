@@ -41,6 +41,13 @@ public class InvoiceDetailConverter {
                 .format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
         dto.setCreatedDate(formattedCreatedDate);
 
+        if (entity.getPaidDate() != null) {
+            String formattedPaidDate = entity.getPaidDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
+            dto.setPaidDate(formattedPaidDate); // <-- sửa gán ở đây
+        } else {
+            dto.setPaidDate(null);
+        }
+
         BigDecimal totalServiceFeeAmount = entity.getDetails().stream()
                 .filter(d -> !d.getDescription().toLowerCase().contains("thuê"))
                 .map(InvoiceDetailEntity::getAmount)

@@ -128,14 +128,17 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;  /* rất quan trọng */
-            border-radius: 8px; /* nếu cần */
+            overflow: hidden;
+            /* rất quan trọng */
+            border-radius: 8px;
+            /* nếu cần */
         }
 
         .building-image img {
             width: 100%;
             height: 100%;
-            object-fit: cover;   /* giúp ảnh lấp đầy khung */
+            object-fit: cover;
+            /* giúp ảnh lấp đầy khung */
             display: block;
         }
 
@@ -591,8 +594,6 @@
             font-size: 18px;
             margin-left: 4px;
         }
-
-
     </style>
 </head>
 
@@ -653,7 +654,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-custom">
                             <li>
-                                <a class="dropdown-item" th:href="@{/customer/transaction-history}">
+                                <a class="dropdown-item" th:href="@{/customer/transaction/history}">
                                     <i class="bi bi-clock-history me-2"></i>Lịch sử giao dịch
                                 </a>
                             </li>

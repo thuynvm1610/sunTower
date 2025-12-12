@@ -8,6 +8,9 @@ import com.estate.repository.entity.UtilityMeterEntity;
 import com.estate.service.InvoiceService;
 import com.estate.service.UtilityMeterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -101,6 +104,43 @@ public class InvoiceServiceImpl implements InvoiceService {
                 .stream()
                 .map(InvoiceEntity::getTotalAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    @Override
+    public Long getTotalPaidInvoice(Long customerId) {
+        return invoiceRepository.countByCustomerIdAndStatus(customerId, "PAID");
+    }
+
+    @Override
+    public Page<InvoiceDetailDTO> getInvoices(int page, int size, Integer month, Integer year, Long customerId) {
+        Page<InvoiceEntity> invoicePage = invoiceRepository.search(
+                month,
+                year,
+                customerId,
+                "PAID",
+                PageRequest.of(page, size)
+        );
+
+        // Tạo list chứa DTO
+        List<InvoiceDetailDTO> dtoList = new ArrayList<>();
+
+        // Duyệt qua từng InvoiceEntity
+        for (InvoiceEntity i : invoicePage) {
+            UtilityMeterEntity utilityMeter = utilityMeterService.findByContractIdAndMonthAndYear(
+                    i.getContract().getId(), i.getMonth(), i.getYear());
+            InvoiceDetailDTO dto = invoiceDetailConverter.toDTO(i, utilityMeter);
+
+            dtoList.add(dto);
+        }
+
+        // Tạo PageImpl giữ nguyên thông tin phân trang gốc
+        Page<InvoiceDetailDTO> result = new PageImpl<>(
+                dtoList,
+                invoicePage.getPageable(),
+                invoicePage.getTotalElements()
+        );
+
+        return result;
     }
 
 }

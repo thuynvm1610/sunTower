@@ -14,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -33,7 +32,7 @@ public class CustomerHomeController {
     CustomerService customerService;
 
     @GetMapping("")
-    public String home(
+    public String homePage(
             Model model,
             HttpServletRequest request,
             @AuthenticationPrincipal CustomUserDetails user

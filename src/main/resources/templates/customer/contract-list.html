@@ -386,11 +386,25 @@
             overflow: hidden;
             margin-bottom: 20px;
             border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
         }
 
         .contract-container:hover {
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
             transform: translateY(-2px);
+        }
+
+        .filter-header {
+            margin-bottom: 0;
+        }
+
+        .filter-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
     </style>
 </head>
@@ -452,7 +466,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-custom">
                             <li>
-                                <a class="dropdown-item" th:href="@{/customer/transaction-history}">
+                                <a class="dropdown-item" th:href="@{/customer/transaction/history}">
                                     <i class="bi bi-clock-history me-2"></i>Lịch sử giao dịch
                                 </a>
                             </li>
@@ -491,6 +505,14 @@
         <!-- Filter Section -->
         <div class="filter-section">
             <form id="filterForm">
+                <div class="filter-header mb-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="filter-title">
+                            <i class="bi bi-funnel"></i>
+                            Bộ lọc tìm kiếm
+                        </div>
+                    </div>
+                </div>
                 <div class="row g-3 align-items-end">
                     <div class="col-md-4">
                         <label class="form-label">

@@ -20,7 +20,7 @@ public class CustomerInvoiceController {
     InvoiceService invoiceService;
 
     @GetMapping("list")
-    public String home(
+    public String invoiceList(
             Model model,
             @AuthenticationPrincipal CustomUserDetails user
     ) {

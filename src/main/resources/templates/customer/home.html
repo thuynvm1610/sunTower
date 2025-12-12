@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>SunTower - Trang khách hàng</title>
 
     <!-- Bootstrap 5 CSS -->
@@ -388,7 +389,7 @@
         .total-row:last-child {
             margin-bottom: 0;
             padding-top: 0.75rem;
-            border-top: 2px solid rgba(0,0,0,0.1);
+            border-top: 2px solid rgba(0, 0, 0, 0.1);
         }
 
         .total-label {
@@ -446,510 +447,515 @@
         }
     </style>
 </head>
+
 <body>
 
-<!-- Header -->
-<div class="header">
-    <div class="header-top py-3">
-        <div class="container-fluid px-4">
-            <div class="d-flex justify-content-between align-items-center flex-wrap">
-                <div class="logo">SunTower</div>
-                <button class="navbar-toggler d-lg-none text-white" type="button" data-bs-toggle="collapse"
+    <!-- Header -->
+    <div class="header">
+        <div class="header-top py-3">
+            <div class="container-fluid px-4">
+                <div class="d-flex justify-content-between align-items-center flex-wrap">
+                    <div class="logo">SunTower</div>
+                    <button class="navbar-toggler d-lg-none text-white" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarNav">
-                    <i class="bi bi-list fs-3"></i>
-                </button>
-                <div class="d-flex align-items-center gap-3">
+                        <i class="bi bi-list fs-3"></i>
+                    </button>
                     <div class="d-flex align-items-center gap-3">
-                        <div class="text-end">
-                            <small class="d-block opacity-85">Xin chào,</small>
-                            <strong th:text="${#authentication.name}">Nguyễn Văn A</strong>
-                        </div>
-                        <span class="badge-custom">KHÁCH HÀNG</span>
-                    </div>
-                    <a th:href="@{/logout}" class="btn btn-logout">Đăng xuất</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Navigation -->
-    <nav class="nav-custom">
-        <div class="container-fluid px-4">
-            <ul class="nav">
-                <li class="nav-item">
-                    <a class="nav-link active" th:href="@{/customer/home}">
-                        <i class="bi bi-house-door me-1"></i>Trang chủ
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/customer/contract/list}">
-                        <i class="bi bi-file-text me-1"></i>Hợp đồng
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/customer/invoice/list}">
-                        <i class="bi bi-credit-card me-1"></i>Thanh toán
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/customer/building/list}">
-                        <i class="bi bi-building me-1"></i>Tòa nhà
-                    </a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                       aria-expanded="false">
-                        <i class="bi bi-grid-3x3-gap me-1"></i>Tiện ích
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-custom">
-                        <li>
-                            <a class="dropdown-item" th:href="@{/customer/transaction-history}">
-                                <i class="bi bi-clock-history me-2"></i>Lịch sử giao dịch
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" th:href="@{/customer/service}">
-                                <i class="bi bi-clipboard-check me-2"></i>Dịch vụ
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/customer/profile}">
-                        <i class="bi bi-person-circle me-1"></i>Tài khoản
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-</div>
-
-<!-- Main Container -->
-<div class="container-fluid px-4 py-4">
-    <!-- Alert Message -->
-    <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
-        <i class="bi bi-check-circle me-2"></i>
-        <span th:text="${successMessage}"></span>
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-
-    <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
-        <i class="bi bi-x-circle me-2"></i>
-        <span th:text="${errorMessage}"></span>
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-
-    <!-- Welcome Section -->
-    <div class="welcome-section p-4 rounded mb-4">
-        <h1 class="h3 mb-2">Chào mừng trở lại!</h1>
-        <p class="text-muted mb-0">Quản lý hợp đồng thuê và thông tin cá nhân của bạn một cách dễ dàng</p>
-    </div>
-
-    <!-- Stats Grid -->
-    <div class="row g-3 mb-4">
-        <div class="col-md-6 col-lg-6">
-            <div class="stat-card p-4" onclick="window.location='/customer/contract/list'">
-                <div class="d-flex align-items-center gap-3">
-                    <div class="stat-icon d-flex align-items-center justify-content-center flex-shrink-0">
-                        <i class="bi bi-file-text"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 class="h4" th:text="${totalContracts}">2</h3>
-                        <p class="text-muted mb-0 small">Hợp đồng đang có</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 col-lg-6">
-            <div class="stat-card p-4">
-                <div class="d-flex align-items-center gap-3">
-                    <div class="stat-icon d-flex align-items-center justify-content-center flex-shrink-0">
-                        <i class="bi bi-cash-coin"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 class="h4" th:text="${totalPayment}">15,000,000</h3>
-                        <p class="text-muted mb-0 small">Tổng tiền đã thanh toán (VNĐ)</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Content Grid -->
-    <div class="row g-4">
-        <!-- Left Column -->
-        <div class="col-lg-8">
-            <!-- Contracts Section -->
-            <div class="section-card p-4">
-                <div class="section-header mb-3 d-flex justify-content-between align-items-center">
-                    <h2>Hợp đồng của tôi</h2>
-                    <a th:href="@{/customer/contract/list}" class="view-all">
-                        Xem tất cả <i class="bi bi-arrow-right"></i>
-                    </a>
-                </div>
-
-                <!-- Nếu không có hợp đồng nào -->
-                <div th:if="${contracts.isEmpty()}" class="contract-card p-3 mb-3">
-                    <p class="text-muted mb-0">Chưa có hợp đồng nào</p>
-                </div>
-                <!-- Contracts Card, có hợp đồng -->
-                <div class="contract-card p-3 mb-3" th:each="contract : ${contracts}">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="contract-id" th:text="'Mã hợp đồng: ' + ${contract.id}">HĐ-2024001</span>
-                        <span class="badge badge-active rounded-pill px-3 py-2"
-                              th:classappend="${contract.status == 'Đang hiệu lực'} ? 'badge-active' : 'badge-expired'"
-                              th:text="${contract.status}">
-                            Đang hoạt động
-                        </span>
-                    </div>
-                    <div class="row g-3">
-                        <div class="col-6">
-                            <div class="detail-label">Tòa nhà</div>
-                            <div class="detail-value" th:text="${contract.building.name}">SunTower A1</div>
-                        </div>
-                        <div class="col-6">
-                            <div class="detail-label">Ngày bắt đầu</div>
-                            <div class="detail-value" th:text="${contract.formattedStartDate}">01/01/2024</div>
-                        </div>
-                        <div class="col-6">
-                            <div class="detail-label">Diện tích</div>
-                            <div class="detail-value" th:text="${contract.rentArea}">85 m²</div>
-                        </div>
-                        <div class="col-6">
-                            <div class="detail-label">Ngày kết thúc</div>
-                            <div class="detail-value" th:text="${contract.formattedEndDate}">31/12/2024</div>
-                        </div>
-                        <div class="col-6">
-                            <div class="detail-label">Giá thuê</div>
-                            <div class="detail-value" th:text="${contract.rentPrice}">15,000,000 VNĐ/tháng</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Right Column -->
-        <div class="col-lg-4">
-            <!-- Pending Bills -->
-            <div class="section-card p-4 mb-4">
-                <div class="section-header mb-3">
-                    <h2 th:text="'Hóa đơn chờ thanh toán ' +
-                     '(' + ${totalUnpaidInvoices} + ')'"
-                    >
-                        Hóa đơn chờ thanh toán: 2
-                    </h2>
-                </div>
-
-                <!-- Bill Card -->
-                <div class="card border-0 bg-light mb-3">
-                    <!-- Nếu không có hóa đơn -->
-                    <div th:if="${detailInvoice == null}" class="card-body text-center py-4">
-                        <p class="text-muted mb-0">Chưa có hóa đơn nào</p>
-                    </div>
-                    <!-- Nếu có hóa đơn -->
-                    <div th:if="${detailInvoice != null}" class="card-body">
-                        <div class="d-flex justify-content-between align-items-start mb-3">
-                            <div>
-                                <h5 class="mb-1"
-                                    style="color: var(--primary-color); font-size: 15px; font-weight: 600;"
-                                    th:text="'Hóa đơn tháng ' + ${detailInvoice.month} + '/' + ${detailInvoice.year}">
-                                    Hóa đơn tháng 12/2024
-                                </h5>
-                                <p class="text-muted mb-0 small"
-                                   th:text="'Hạn thanh toán: ' + ${detailInvoice.dueDate}">
-                                    Hạn thanh toán: 05/12/2025
-                                </p>
-                                <p class="text-muted mb-0 small"
-                                   th:text="'Tòa ' + ${detailInvoice.contract.building.name} +
-                                    ' - Thuê ' + ${detailInvoice.contract.rentArea} + 'm²'">
-                                    Duy Tân Tower
-                                </p>
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="text-end">
+                                <small class="d-block opacity-85">Xin chào,</small>
+                                <strong th:text="${#authentication.name}">Nguyễn Văn A</strong>
                             </div>
-                            <span class="badge bg-warning text-dark rounded-pill px-3 py-2" style="font-size: 11px;">
-                                Chờ thanh toán
+                            <span class="badge-custom">KHÁCH HÀNG</span>
+                        </div>
+                        <a th:href="@{/logout}" class="btn btn-logout">Đăng xuất</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="nav-custom">
+            <div class="container-fluid px-4">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" th:href="@{/customer/home}">
+                            <i class="bi bi-house-door me-1"></i>Trang chủ
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/customer/contract/list}">
+                            <i class="bi bi-file-text me-1"></i>Hợp đồng
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/customer/invoice/list}">
+                            <i class="bi bi-credit-card me-1"></i>Thanh toán
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/customer/building/list}">
+                            <i class="bi bi-building me-1"></i>Tòa nhà
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <i class="bi bi-grid-3x3-gap me-1"></i>Tiện ích
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-custom">
+                            <li>
+                                <a class="dropdown-item" th:href="@{/customer/transaction/history}">
+                                    <i class="bi bi-clock-history me-2"></i>Lịch sử giao dịch
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" th:href="@{/customer/service}">
+                                    <i class="bi bi-clipboard-check me-2"></i>Dịch vụ
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/customer/profile}">
+                            <i class="bi bi-person-circle me-1"></i>Tài khoản
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container-fluid px-4 py-4">
+        <!-- Alert Message -->
+        <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle me-2"></i>
+            <span th:text="${successMessage}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-x-circle me-2"></i>
+            <span th:text="${errorMessage}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <!-- Welcome Section -->
+        <div class="welcome-section p-4 rounded mb-4">
+            <h1 class="h3 mb-2">Chào mừng trở lại!</h1>
+            <p class="text-muted mb-0">Quản lý hợp đồng thuê và thông tin cá nhân của bạn một cách dễ dàng</p>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-6 col-lg-6">
+                <div class="stat-card p-4" onclick="window.location='/customer/contract/list'">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="stat-icon d-flex align-items-center justify-content-center flex-shrink-0">
+                            <i class="bi bi-file-text"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 class="h4" th:text="${totalContracts}">2</h3>
+                            <p class="text-muted mb-0 small">Hợp đồng đang có</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+                <div class="stat-card p-4">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="stat-icon d-flex align-items-center justify-content-center flex-shrink-0">
+                            <i class="bi bi-cash-coin"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 class="h4" th:text="${totalPayment}">15,000,000</h3>
+                            <p class="text-muted mb-0 small">Tổng tiền đã thanh toán (VNĐ)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="row g-4">
+            <!-- Left Column -->
+            <div class="col-lg-8">
+                <!-- Contracts Section -->
+                <div class="section-card p-4">
+                    <div class="section-header mb-3 d-flex justify-content-between align-items-center">
+                        <h2>Hợp đồng của tôi</h2>
+                        <a th:href="@{/customer/contract/list}" class="view-all">
+                            Xem tất cả <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+
+                    <!-- Nếu không có hợp đồng nào -->
+                    <div th:if="${contracts.isEmpty()}" class="contract-card p-3 mb-3">
+                        <p class="text-muted mb-0">Chưa có hợp đồng nào</p>
+                    </div>
+                    <!-- Contracts Card, có hợp đồng -->
+                    <div class="contract-card p-3 mb-3" th:each="contract : ${contracts}">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="contract-id" th:text="'Mã hợp đồng: ' + ${contract.id}">HĐ-2024001</span>
+                            <span class="badge badge-active rounded-pill px-3 py-2"
+                                th:classappend="${contract.status == 'Đang hiệu lực'} ? 'badge-active' : 'badge-expired'"
+                                th:text="${contract.status}">
+                                Đang hoạt động
                             </span>
                         </div>
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <div class="detail-label">Tòa nhà</div>
+                                <div class="detail-value" th:text="${contract.building.name}">SunTower A1</div>
+                            </div>
+                            <div class="col-6">
+                                <div class="detail-label">Ngày bắt đầu</div>
+                                <div class="detail-value" th:text="${contract.formattedStartDate}">01/01/2024</div>
+                            </div>
+                            <div class="col-6">
+                                <div class="detail-label">Diện tích</div>
+                                <div class="detail-value" th:text="${contract.rentArea}">85 m²</div>
+                            </div>
+                            <div class="col-6">
+                                <div class="detail-label">Ngày kết thúc</div>
+                                <div class="detail-value" th:text="${contract.formattedEndDate}">31/12/2024</div>
+                            </div>
+                            <div class="col-6">
+                                <div class="detail-label">Giá thuê</div>
+                                <div class="detail-value" th:text="${contract.rentPrice}">15,000,000 VNĐ/tháng</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                        <div class="border-top pt-3 mb-3">
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted small">
-                                    Tiền thuê mặt bằng:
-                                </span>
-                                <span class="fw-semibold small"
-                                      th:text="${#numbers.formatDecimal(detailInvoice.contract.rentPrice, 0, 'COMMA', 0, 'POINT')}">
-                                    15,000,000 VNĐ
+            <!-- Right Column -->
+            <div class="col-lg-4">
+                <!-- Pending Bills -->
+                <div class="section-card p-4 mb-4">
+                    <div class="section-header mb-3">
+                        <h2 th:text="'Hóa đơn chờ thanh toán ' +
+                     '(' + ${totalUnpaidInvoices} + ')'">
+                            Hóa đơn chờ thanh toán: 2
+                        </h2>
+                    </div>
+
+                    <!-- Bill Card -->
+                    <div class="card border-0 bg-light mb-3">
+                        <!-- Nếu không có hóa đơn -->
+                        <div th:if="${detailInvoice == null}" class="card-body text-center py-4">
+                            <p class="text-muted mb-0">Chưa có hóa đơn nào</p>
+                        </div>
+                        <!-- Nếu có hóa đơn -->
+                        <div th:if="${detailInvoice != null}" class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="mb-1"
+                                        style="color: var(--primary-color); font-size: 15px; font-weight: 600;"
+                                        th:text="'Hóa đơn tháng ' + ${detailInvoice.month} + '/' + ${detailInvoice.year}">
+                                        Hóa đơn tháng 12/2024
+                                    </h5>
+                                    <p class="text-muted mb-0 small"
+                                        th:text="'Hạn thanh toán: ' + ${detailInvoice.dueDate}">
+                                        Hạn thanh toán: 05/12/2025
+                                    </p>
+                                    <p class="text-muted mb-0 small" th:text="'Tòa ' + ${detailInvoice.contract.building.name} +
+                                    ' - Thuê ' + ${detailInvoice.contract.rentArea} + 'm²'">
+                                        Duy Tân Tower
+                                    </p>
+                                </div>
+                                <span class="badge bg-warning text-dark rounded-pill px-3 py-2"
+                                    style="font-size: 11px;">
+                                    Chờ thanh toán
                                 </span>
                             </div>
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted small">Dịch vụ khác:</span>
-                                <span class="fw-semibold small"
-                                      th:text="${#numbers.formatDecimal(detailInvoice.totalServiceFeeAmount, 0, 'COMMA', 0, 'POINT')}">
-                                </span>
-                            </div>
-                            <div class="border-top pt-2 mt-2">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <span class="fw-bold" style="color: var(--primary-color);">Tổng cộng:</span>
-                                    <span class="fw-bold fs-5" style="color: #dc3545;"
-                                          th:text="${#numbers.formatDecimal(detailInvoice.totalAmount, 0, 'COMMA', 0, 'POINT')}">
-                                        15,770,000 VNĐ
+
+                            <div class="border-top pt-3 mb-3">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="text-muted small">
+                                        Tiền thuê mặt bằng:
                                     </span>
+                                    <span class="fw-semibold small"
+                                        th:text="${#numbers.formatDecimal(detailInvoice.contract.rentPrice, 0, 'COMMA', 0, 'POINT')}">
+                                        15,000,000 VNĐ
+                                    </span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="text-muted small">Dịch vụ khác:</span>
+                                    <span class="fw-semibold small"
+                                        th:text="${#numbers.formatDecimal(detailInvoice.totalServiceFeeAmount, 0, 'COMMA', 0, 'POINT')}">
+                                    </span>
+                                </div>
+                                <div class="border-top pt-2 mt-2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="fw-bold" style="color: var(--primary-color);">Tổng cộng:</span>
+                                        <span class="fw-bold fs-5" style="color: #dc3545;"
+                                            th:text="${#numbers.formatDecimal(detailInvoice.totalAmount, 0, 'COMMA', 0, 'POINT')}">
+                                            15,770,000 VNĐ
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="container mt-5 d-flex justify-content-center align-items-center">
+                                <button type="button"
+                                    class="btn btn-primary d-flex justify-content-center align-items-center"
+                                    data-bs-toggle="modal" data-bs-target="#paymentModal">
+                                    <i class="bi bi-credit-card me-2"></i>Thanh toán ngay
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <a th:href="@{/customer/invoice/list}" class="view-all">
+                            Xem tất cả hóa đơn <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Info Box -->
+                <div class="info-box p-3">
+                    <h5 class="mb-3">Thông tin hệ thống</h5>
+                    <div class="info-item d-flex justify-content-between">
+                        <span class="text-muted">Ngày giờ:</span>
+                        <span class="fw-semibold" th:text="${today != null ? today : '04/12/2025 14:30'}">04/12/2025
+                            14:30</span>
+                    </div>
+                    <div class="info-item d-flex justify-content-between">
+                        <span class="text-muted">IP:</span>
+                        <span class="fw-semibold"
+                            th:text="${clientIp != null ? clientIp : '192.168.1.1'}">192.168.1.1</span>
+                    </div>
+                    <div class="info-item d-flex justify-content-between align-items-center">
+                        <span class="text-muted">Trạng thái:</span>
+                        <span class="fw-semibold text-success">Đã kích hoạt</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Highlight active menu based on current URL
+        document.addEventListener('DOMContentLoaded', function () {
+            const currentPath = window.location.pathname;
+            const menuLinks = document.querySelectorAll('.nav-link');
+
+            menuLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+
+    <!-- Modal Thanh Toán -->
+    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="paymentModalLabel">
+                        <i class="bi bi-file-earmark-text me-2"></i>Chi Tiết Hóa Đơn
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Invoice Header -->
+                    <div class="invoice-header">
+                        <div class="invoice-id">
+                            <i class="bi bi-receipt me-2"></i>
+                            <span th:text="'Mã hóa đơn: ' + ${detailInvoice.id}">HĐ-2024001</span>
+                        </div>
+                        <div class="invoice-period">
+                            <i class="bi bi-calendar-month me-2"></i>
+                            <span th:text="'Tháng ' + ${detailInvoice.month} + '/' + ${detailInvoice.year}">Tháng
+                                12/2024</span>
+                        </div>
+                    </div>
+
+                    <!-- Thông tin chung -->
+                    <div class="info-section">
+                        <div class="info-section-title">
+                            <i class="bi bi-info-circle me-2"></i>Thông Tin Chung
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Ngày tạo hóa đơn</span>
+                            <span class="info-value" th:text="${detailInvoice.createdDate}">01/12/2024</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Hạn thanh toán</span>
+                            <span class="info-value text-danger" th:text="${detailInvoice.dueDate}">05/12/2024</span>
+                        </div>
+                        <div class="info-row">
+                            <p class="text-muted mb-0 small" th:text="'Tòa ' + ${detailInvoice.contract.building.name} +
+                                    ' - Thuê ' + ${detailInvoice.contract.rentArea} + 'm²'">
+                                Duy Tân Tower
+                            </p>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Trạng thái</span>
+                            <span class="status-badge status-unpaid">
+                                <i class="bi bi-exclamation-circle"></i>
+                                Chưa thanh toán
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Chi phí cố định -->
+                    <div class="info-section">
+                        <div class="info-section-title">
+                            <i class="bi bi-cash-stack me-2"></i>Chi Phí Cố Định
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Tiền thuê mặt bằng</span>
+                            <span class="info-value"
+                                th:text="${#numbers.formatDecimal(detailInvoice.contract.rentPrice, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">15,000,000
+                                VNĐ</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Phí dịch vụ</span>
+                            <span class="info-value"
+                                th:text="${#numbers.formatDecimal(detailInvoice.details.get(1).amount, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">500,000
+                                VNĐ</span>
+                        </div>
+                    </div>
+
+                    <!-- Chi phí phương tiện -->
+                    <div class="info-section">
+                        <div class="info-section-title">
+                            <i class="bi bi-car-front me-2"></i>Phí Gửi Xe
+                        </div>
+                        <div class="utility-grid">
+                            <div class="utility-item">
+                                <div class="utility-label">
+                                    <i class="bi bi-car-front-fill me-1"></i>Ô tô
+                                </div>
+                                <div class="utility-value"
+                                    th:text="${#numbers.formatDecimal(detailInvoice.details.get(2).amount, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">
+                                    500,000 VNĐ
+                                </div>
+                            </div>
+                            <div class="utility-item">
+                                <div class="utility-label">
+                                    <i class="bi bi-bicycle me-1"></i>Xe máy
+                                </div>
+                                <div class="utility-value"
+                                    th:text="${#numbers.formatDecimal(detailInvoice.details.get(3).amount, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">
+                                    100,000 VNĐ
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tiện ích (Điện & Nước) -->
+                    <div class="info-section">
+                        <div class="info-section-title">
+                            <i class="bi bi-lightning-charge me-2"></i>Sinh hoạt
+                        </div>
+
+                        <!-- Điện -->
+                        <div class="meter-reading">
+                            <div class="meter-info">
+                                <div class="meter-icon">
+                                    <i class="bi bi-lightning-charge-fill"></i>
+                                </div>
+                                <div class="meter-details">
+                                    <span class="meter-label">Điện</span>
+                                    <span class="meter-values">
+                                        <span th:text="${detailInvoice.utilityMeter.electricityOld}">1000</span> →
+                                        <span th:text="${detailInvoice.utilityMeter.electricityNew}">1150</span> kWh
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <div class="usage-badge">
+                                    <span
+                                        th:text="${detailInvoice.utilityMeter.electricityNew - detailInvoice.utilityMeter.electricityOld}">150</span>
+                                    kWh
+                                </div>
+                                <div class="info-value mt-1"
+                                    th:text="${#numbers.formatDecimal(detailInvoice.details.get(4).amount, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">
+                                    450,000 VNĐ
                                 </div>
                             </div>
                         </div>
 
-                        <div class="container mt-5 d-flex justify-content-center align-items-center">
-                            <button type="button"
-                                    class="btn btn-primary d-flex justify-content-center align-items-center"
-                                    data-bs-toggle="modal" data-bs-target="#paymentModal">
-                                <i class="bi bi-credit-card me-2"></i>Thanh toán ngay
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="text-center">
-                    <a th:href="@{/customer/invoice/list}" class="view-all">
-                        Xem tất cả hóa đơn <i class="bi bi-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Info Box -->
-            <div class="info-box p-3">
-                <h5 class="mb-3">Thông tin hệ thống</h5>
-                <div class="info-item d-flex justify-content-between">
-                    <span class="text-muted">Ngày giờ:</span>
-                    <span class="fw-semibold"
-                          th:text="${today != null ? today : '04/12/2025 14:30'}">04/12/2025 14:30</span>
-                </div>
-                <div class="info-item d-flex justify-content-between">
-                    <span class="text-muted">IP:</span>
-                    <span class="fw-semibold"
-                          th:text="${clientIp != null ? clientIp : '192.168.1.1'}">192.168.1.1</span>
-                </div>
-                <div class="info-item d-flex justify-content-between align-items-center">
-                    <span class="text-muted">Trạng thái:</span>
-                    <span class="fw-semibold text-success">Đã kích hoạt</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Bootstrap 5 JS Bundle -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-<script>
-    // Highlight active menu based on current URL
-    document.addEventListener('DOMContentLoaded', function() {
-        const currentPath = window.location.pathname;
-        const menuLinks = document.querySelectorAll('.nav-link');
-
-        menuLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === currentPath) {
-                link.classList.add('active');
-            }
-        });
-    });
-</script>
-
-<!-- Modal Thanh Toán -->
-<div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="paymentModalLabel">
-                    <i class="bi bi-file-earmark-text me-2"></i>Chi Tiết Hóa Đơn
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <!-- Invoice Header -->
-                <div class="invoice-header">
-                    <div class="invoice-id">
-                        <i class="bi bi-receipt me-2"></i>
-                        <span th:text="'Mã hóa đơn: ' + ${detailInvoice.id}">HĐ-2024001</span>
-                    </div>
-                    <div class="invoice-period">
-                        <i class="bi bi-calendar-month me-2"></i>
-                        <span th:text="'Tháng ' + ${detailInvoice.month} + '/' + ${detailInvoice.year}">Tháng 12/2024</span>
-                    </div>
-                </div>
-
-                <!-- Thông tin chung -->
-                <div class="info-section">
-                    <div class="info-section-title">
-                        <i class="bi bi-info-circle me-2"></i>Thông Tin Chung
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Ngày tạo hóa đơn</span>
-                        <span class="info-value" th:text="${detailInvoice.createdDate}">01/12/2024</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Hạn thanh toán</span>
-                        <span class="info-value text-danger" th:text="${detailInvoice.dueDate}">05/12/2024</span>
-                    </div>
-                    <div class="info-row">
-                        <p class="text-muted mb-0 small"
-                           th:text="'Tòa ' + ${detailInvoice.contract.building.name} +
-                                    ' - Thuê ' + ${detailInvoice.contract.rentArea} + 'm²'">
-                            Duy Tân Tower
-                        </p>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Trạng thái</span>
-                        <span class="status-badge status-unpaid">
-                            <i class="bi bi-exclamation-circle"></i>
-                            Chưa thanh toán
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Chi phí cố định -->
-                <div class="info-section">
-                    <div class="info-section-title">
-                        <i class="bi bi-cash-stack me-2"></i>Chi Phí Cố Định
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Tiền thuê mặt bằng</span>
-                        <span class="info-value"
-                              th:text="${#numbers.formatDecimal(detailInvoice.contract.rentPrice, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">15,000,000 VNĐ</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Phí dịch vụ</span>
-                        <span class="info-value"
-                              th:text="${#numbers.formatDecimal(detailInvoice.details.get(1).amount, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">500,000 VNĐ</span>
-                    </div>
-                </div>
-
-                <!-- Chi phí phương tiện -->
-                <div class="info-section">
-                    <div class="info-section-title">
-                        <i class="bi bi-car-front me-2"></i>Phí Gửi Xe
-                    </div>
-                    <div class="utility-grid">
-                        <div class="utility-item">
-                            <div class="utility-label">
-                                <i class="bi bi-car-front-fill me-1"></i>Ô tô
+                        <!-- Nước -->
+                        <div class="meter-reading">
+                            <div class="meter-info">
+                                <div class="meter-icon">
+                                    <i class="bi bi-droplet-fill"></i>
+                                </div>
+                                <div class="meter-details">
+                                    <span class="meter-label">Nước</span>
+                                    <span class="meter-values">
+                                        <span th:text="${detailInvoice.utilityMeter.waterOld}">50</span> →
+                                        <span th:text="${detailInvoice.utilityMeter.waterNew}">65</span> m³
+                                    </span>
+                                </div>
                             </div>
-                            <div class="utility-value"
-                                 th:text="${#numbers.formatDecimal(detailInvoice.details.get(2).amount, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">
-                                500,000 VNĐ
-                            </div>
-                        </div>
-                        <div class="utility-item">
-                            <div class="utility-label">
-                                <i class="bi bi-bicycle me-1"></i>Xe máy
-                            </div>
-                            <div class="utility-value"
-                                 th:text="${#numbers.formatDecimal(detailInvoice.details.get(3).amount, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">
-                                100,000 VNĐ
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tiện ích (Điện & Nước) -->
-                <div class="info-section">
-                    <div class="info-section-title">
-                        <i class="bi bi-lightning-charge me-2"></i>Sinh hoạt
-                    </div>
-
-                    <!-- Điện -->
-                    <div class="meter-reading">
-                        <div class="meter-info">
-                            <div class="meter-icon">
-                                <i class="bi bi-lightning-charge-fill"></i>
-                            </div>
-                            <div class="meter-details">
-                                <span class="meter-label">Điện</span>
-                                <span class="meter-values">
-                                    <span th:text="${detailInvoice.utilityMeter.electricityOld}">1000</span> →
-                                    <span th:text="${detailInvoice.utilityMeter.electricityNew}">1150</span> kWh
-                                </span>
-                            </div>
-                        </div>
-                        <div class="text-end">
-                            <div class="usage-badge">
-                                <span th:text="${detailInvoice.utilityMeter.electricityNew - detailInvoice.utilityMeter.electricityOld}">150</span>
-                                kWh
-                            </div>
-                            <div class="info-value mt-1"
-                                 th:text="${#numbers.formatDecimal(detailInvoice.details.get(4).amount, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">
-                                450,000 VNĐ
+                            <div class="text-end">
+                                <div class="usage-badge">
+                                    <span
+                                        th:text="${detailInvoice.utilityMeter.waterNew - detailInvoice.utilityMeter.waterOld}">15</span>
+                                    m³
+                                </div>
+                                <div class="info-value mt-1"
+                                    th:text="${#numbers.formatDecimal(detailInvoice.details.get(5).amount, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">
+                                    220,000 VNĐ
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Nước -->
-                    <div class="meter-reading">
-                        <div class="meter-info">
-                            <div class="meter-icon">
-                                <i class="bi bi-droplet-fill"></i>
-                            </div>
-                            <div class="meter-details">
-                                <span class="meter-label">Nước</span>
-                                <span class="meter-values">
-                                    <span th:text="${detailInvoice.utilityMeter.waterOld}">50</span> →
-                                    <span th:text="${detailInvoice.utilityMeter.waterNew}">65</span> m³
-                                </span>
-                            </div>
-                        </div>
-                        <div class="text-end">
-                            <div class="usage-badge">
-                                <span th:text="${detailInvoice.utilityMeter.waterNew - detailInvoice.utilityMeter.waterOld}">15</span>
-                                m³
-                            </div>
-                            <div class="info-value mt-1"
-                                 th:text="${#numbers.formatDecimal(detailInvoice.details.get(5).amount, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">
-                                220,000 VNĐ
-                            </div>
+                    <!-- Tổng cộng -->
+                    <div class="total-section">
+                        <div class="total-row">
+                            <span class="total-label">
+                                <i class="bi bi-cash-coin me-2"></i>TỔNG CỘNG
+                            </span>
+                            <span class="total-amount"
+                                th:text="${#numbers.formatDecimal(detailInvoice.totalAmount, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">16,770,000
+                                VNĐ</span>
                         </div>
                     </div>
                 </div>
-
-                <!-- Tổng cộng -->
-                <div class="total-section">
-                    <div class="total-row">
-                        <span class="total-label">
-                            <i class="bi bi-cash-coin me-2"></i>TỔNG CỘNG
-                        </span>
-                        <span class="total-amount"
-                              th:text="${#numbers.formatDecimal(detailInvoice.totalAmount, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">16,770,000 VNĐ</span>
-                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-2"></i>Đóng
+                    </button>
+                    <button type="button" class="btn btn-payment" onclick="payInvoice(invoiceId)">
+                        <i class="bi bi-credit-card me-2"></i> Xác Nhận Thanh Toán
+                    </button>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    <i class="bi bi-x-circle me-2"></i>Đóng
-                </button>
-                <button type="button" class="btn btn-payment"
-                        onclick="payInvoice(invoiceId)">
-                    <i class="bi bi-credit-card me-2"></i> Xác Nhận Thanh Toán
-                </button>
             </div>
         </div>
     </div>
-</div>
 
-<script th:inline="javascript">
-    let invoiceId = /*[[${detailInvoice.id}]]*/ 0;
+    <script th:inline="javascript">
+        let invoiceId = /*[[${detailInvoice.id}]]*/ 0;
 
-    function payInvoice(id) {
-        fetch(`/payment/create/${id}`)
-            .then(res => res.text())
-            .then(url => window.location.href = url);
-    }
-</script>
+        function payInvoice(id) {
+            fetch(`/payment/create/${id}`)
+                .then(res => res.text())
+                .then(url => window.location.href = url);
+        }
+    </script>
 
-<script>
-    setTimeout(function() {
-        document.querySelectorAll('.alert').forEach(alert => {
-            alert.classList.remove('show');
-        });
-    }, 5000);
-</script>
+    <script>
+        setTimeout(function () {
+            document.querySelectorAll('.alert').forEach(alert => {
+                alert.classList.remove('show');
+            });
+        }, 5000);
+    </script>
 
 </body>
+
 </html>

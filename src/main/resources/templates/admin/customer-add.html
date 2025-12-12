@@ -424,357 +424,356 @@
 
 <body>
 
-<!-- HEADER + SIDEBAR -->
-<div th:replace="~{layout/header :: header}"></div>
-<div th:replace="~{layout/sidebar :: sidebar}"></div>
+    <!-- HEADER + SIDEBAR -->
+    <div th:replace="~{layout/header :: header}"></div>
+    <div th:replace="~{layout/sidebar :: sidebar}"></div>
 
-<main class="content">
-    <div class="container-fluid">
-        <!-- Page Header -->
-        <div class="page-header">
-            <h2>
-                <i class="bi bi-person-plus"></i>
-                Thêm khách hàng mới
-            </h2>
-            <a th:href="@{/admin/customer/list}" class="btn-back">
-                <i class="bi bi-arrow-left"></i>
-                Quay lại danh sách
-            </a>
-        </div>
-
-        <!-- Info Box -->
-        <div class="info-box">
-            <i class="bi bi-info-circle"></i>
-            <div class="info-box-content">
-                Vui lòng điền đầy đủ thông tin bắt buộc để thêm khách hàng mới vào hệ thống.
+    <main class="content">
+        <div class="container-fluid">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h2>
+                    <i class="bi bi-person-plus"></i>
+                    Thêm khách hàng mới
+                </h2>
+                <a th:href="@{/admin/customer/list}" class="btn-back">
+                    <i class="bi bi-arrow-left"></i>
+                    Quay lại danh sách
+                </a>
             </div>
-        </div>
 
-        <!-- Form Card -->
-        <form class="form-card" id="customerForm">
-            <div class="form-header">
-                <div class="form-title">
-                    <i class="bi bi-people"></i>
-                    Thông tin khách hàng
+            <!-- Info Box -->
+            <div class="info-box">
+                <i class="bi bi-info-circle"></i>
+                <div class="info-box-content">
+                    Vui lòng điền đầy đủ thông tin bắt buộc để thêm khách hàng mới vào hệ thống.
                 </div>
             </div>
 
-            <!-- Thông tin tài khoản -->
-            <div class="form-section-title">
-                <i class="bi bi-person-circle"></i> Thông tin tài khoản
-            </div>
-            <div class="row g-3 mb-4">
-                <div class="col-md-6">
-                    <label class="form-label">
-                        Tên đăng nhập
-                        <span class="required">*</span>
-                    </label>
-                    <div class="input-group">
+            <!-- Form Card -->
+            <form class="form-card" id="customerForm">
+                <div class="form-header">
+                    <div class="form-title">
+                        <i class="bi bi-people"></i>
+                        Thông tin khách hàng
+                    </div>
+                </div>
+
+                <!-- Thông tin tài khoản -->
+                <div class="form-section-title">
+                    <i class="bi bi-person-circle"></i> Thông tin tài khoản
+                </div>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label">
+                            Tên đăng nhập
+                            <span class="required">*</span>
+                        </label>
+                        <div class="input-group">
                             <span class="input-group-text">
                                 <i class="bi bi-person"></i>
                             </span>
-                        <input type="text" class="form-control" name="username"
-                               placeholder="VD: customer01" required>
+                            <input type="text" class="form-control" name="username" placeholder="VD: customer01"
+                                required>
+                        </div>
+                        <small class="form-text">Tên đăng nhập phải là duy nhất trong hệ thống</small>
                     </div>
-                    <small class="form-text">Tên đăng nhập phải là duy nhất trong hệ thống</small>
-                </div>
 
-                <div class="col-md-6">
-                    <label class="form-label">
-                        Mật khẩu
-                        <span class="required">*</span>
-                    </label>
-                    <div class="input-group">
+                    <div class="col-md-6">
+                        <label class="form-label">
+                            Mật khẩu
+                            <span class="required">*</span>
+                        </label>
+                        <div class="input-group">
                             <span class="input-group-text">
                                 <i class="bi bi-lock"></i>
                             </span>
-                        <input type="password" class="form-control" name="password"
-                               placeholder="Nhập mật khẩu" required id="passwordInput">
+                            <input type="password" class="form-control" name="password" placeholder="Nhập mật khẩu"
+                                required id="passwordInput">
+                        </div>
+                        <div class="password-strength">
+                            <div class="password-strength-bar" id="strengthBar"></div>
+                        </div>
+                        <small class="password-strength-text" id="strengthText"></small>
                     </div>
-                    <div class="password-strength">
-                        <div class="password-strength-bar" id="strengthBar"></div>
-                    </div>
-                    <small class="password-strength-text" id="strengthText"></small>
                 </div>
-            </div>
 
-            <!-- Thông tin cá nhân -->
-            <div class="form-section-title">
-                <i class="bi bi-info-circle"></i> Thông tin cá nhân
-            </div>
-            <div class="row g-3 mb-4">
-                <div class="col-md-12">
-                    <label class="form-label">
-                        Tên khách hàng
-                        <span class="required">*</span>
-                    </label>
-                    <div class="input-group">
+                <!-- Thông tin cá nhân -->
+                <div class="form-section-title">
+                    <i class="bi bi-info-circle"></i> Thông tin cá nhân
+                </div>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-12">
+                        <label class="form-label">
+                            Tên khách hàng
+                            <span class="required">*</span>
+                        </label>
+                        <div class="input-group">
                             <span class="input-group-text">
                                 <i class="bi bi-person-badge"></i>
                             </span>
-                        <input type="text" class="form-control" name="fullName"
-                               placeholder="VD: Công ty TNHH ABC" required>
+                            <input type="text" class="form-control" name="fullName" placeholder="VD: Công ty TNHH ABC"
+                                required>
+                        </div>
                     </div>
-                </div>
 
-                <div class="col-md-6">
-                    <label class="form-label">
-                        Số điện thoại
-                        <span class="required">*</span>
-                    </label>
-                    <div class="input-group">
+                    <div class="col-md-6">
+                        <label class="form-label">
+                            Số điện thoại
+                            <span class="required">*</span>
+                        </label>
+                        <div class="input-group">
                             <span class="input-group-text">
                                 <i class="bi bi-telephone"></i>
                             </span>
-                        <input type="tel" class="form-control" name="phone"
-                               placeholder="VD: 0912345678" required>
+                            <input type="tel" class="form-control" name="phone" placeholder="VD: 0912345678" required>
+                        </div>
+                        <small class="form-text">Nhập số điện thoại 10 chữ số</small>
                     </div>
-                    <small class="form-text">Nhập số điện thoại 10 chữ số</small>
-                </div>
 
-                <div class="col-md-6">
-                    <label class="form-label">
-                        Email
-                        <span class="required">*</span>
-                    </label>
-                    <div class="input-group">
+                    <div class="col-md-6">
+                        <label class="form-label">
+                            Email
+                            <span class="required">*</span>
+                        </label>
+                        <div class="input-group">
                             <span class="input-group-text">
                                 <i class="bi bi-envelope"></i>
                             </span>
-                        <input type="email" class="form-control" name="email"
-                               placeholder="VD: customer@example.com" required>
+                            <input type="email" class="form-control" name="email" placeholder="VD: customer@example.com"
+                                required>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Phân công nhân viên chăm sóc -->
-            <div class="form-section-title">
-                <i class="bi bi-person-badge"></i> Phân công nhân viên chăm sóc
-            </div>
-            <div class="row g-3 mb-4">
-                <div class="col-md-12">
-                    <label class="form-label">
-                        Nhân viên chăm sóc
-                        <span class="required">*</span>
-                    </label>
-                    <div class="staff-selection-container">
-                        <div class="staff-selection-header">
-                            <span>Chọn nhân viên</span>
-                            <span class="selected-count">(<span id="selectedCount">0</span> đã chọn)</span>
-                        </div>
-                        <div th:if="${staffs != null and !staffs.isEmpty()}">
-                            <div class="staff-item" th:each="s : ${staffs}">
-                                <input type="checkbox" class="staff-checkbox" name="staffIds" th:value="${s.id}"
-                                       th:id="'staff_' + ${s.id}" onchange="updateSelectedCount()">
-                                <label class="staff-label" th:for="'staff_' + ${s.id}"
-                                       th:text="${s.fullName}"></label>
+                <!-- Phân công nhân viên chăm sóc -->
+                <div class="form-section-title">
+                    <i class="bi bi-person-badge"></i> Phân công nhân viên chăm sóc
+                </div>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-12">
+                        <label class="form-label">
+                            Nhân viên chăm sóc
+                            <span class="required">*</span>
+                        </label>
+                        <div class="staff-selection-container">
+                            <div class="staff-selection-header">
+                                <span>Chọn nhân viên</span>
+                                <span class="selected-count">(<span id="selectedCount">0</span> đã chọn)</span>
+                            </div>
+                            <div th:if="${staffs != null and !staffs.isEmpty()}">
+                                <div class="staff-item" th:each="s : ${staffs}">
+                                    <input type="checkbox" class="staff-checkbox" name="staffIds" th:value="${s.id}"
+                                        th:id="'staff_' + ${s.id}" onchange="updateSelectedCount()">
+                                    <label class="staff-label" th:for="'staff_' + ${s.id}"
+                                        th:text="${s.fullName}"></label>
+                                </div>
+                            </div>
+                            <div th:if="${staffs == null or staffs.isEmpty()}" class="empty-state">
+                                <i class="bi bi-inbox"></i>
+                                <div>Không có nhân viên nào</div>
                             </div>
                         </div>
-                        <div th:if="${staffs == null or staffs.isEmpty()}" class="empty-state">
-                            <i class="bi bi-inbox"></i>
-                            <div>Không có nhân viên nào</div>
-                        </div>
+                        <small class="form-text">Chọn một hoặc nhiều nhân viên để chăm sóc khách hàng này</small>
                     </div>
-                    <small class="form-text">Chọn một hoặc nhiều nhân viên để chăm sóc khách hàng này</small>
                 </div>
-            </div>
 
-            <!-- Form Actions -->
-            <div class="form-actions">
-                <button type="reset" class="btn-action btn-reset" onclick="resetForm()">
-                    <i class="bi bi-arrow-clockwise"></i>
-                    Reset
-                </button>
-                <button type="submit" class="btn-action btn-submit">
-                    <i class="bi bi-check-circle"></i>
-                    Lưu khách hàng
-                </button>
-            </div>
-        </form>
-    </div>
-</main>
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <button type="reset" class="btn-action btn-reset" onclick="resetForm()">
+                        <i class="bi bi-arrow-clockwise"></i>
+                        Reset
+                    </button>
+                    <button type="submit" class="btn-action btn-submit">
+                        <i class="bi bi-check-circle"></i>
+                        Lưu khách hàng
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
 
-<!--Bootstrap-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- CDN SweetAlert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<!--JQuery-->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!--Bootstrap-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- CDN SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!--JQuery-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script>
-    // Password strength checker
-    function checkPasswordStrength(password) {
-        const strengthBar = document.getElementById('strengthBar');
-        const strengthText = document.getElementById('strengthText');
+    <script>
+        // Password strength checker
+        function checkPasswordStrength(password) {
+            const strengthBar = document.getElementById('strengthBar');
+            const strengthText = document.getElementById('strengthText');
 
-        if (!password) {
+            if (!password) {
+                strengthBar.className = 'password-strength-bar';
+                strengthText.textContent = '';
+                return;
+            }
+
+            let strength = 0;
+            if (password.length >= 8) strength++;
+            if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
+            if (password.match(/[0-9]/)) strength++;
+            if (password.match(/[^a-zA-Z0-9]/)) strength++;
+
+            strengthBar.className = 'password-strength-bar';
+            strengthText.className = 'password-strength-text';
+
+            if (strength <= 1) {
+                strengthBar.classList.add('weak');
+                strengthText.classList.add('weak');
+                strengthText.textContent = 'Mật khẩu yếu';
+            } else if (strength <= 2) {
+                strengthBar.classList.add('medium');
+                strengthText.classList.add('medium');
+                strengthText.textContent = 'Mật khẩu trung bình';
+            } else {
+                strengthBar.classList.add('strong');
+                strengthText.classList.add('strong');
+                strengthText.textContent = 'Mật khẩu mạnh';
+            }
+        }
+
+        document.getElementById('passwordInput').addEventListener('input', function (e) {
+            checkPasswordStrength(e.target.value);
+        });
+
+        function updateSelectedCount() {
+            const checkboxes = document.querySelectorAll('input[name="staffIds"]:checked');
+            document.getElementById('selectedCount').textContent = checkboxes.length;
+
+            // Update visual state
+            document.querySelectorAll('.staff-item').forEach(item => {
+                const checkbox = item.querySelector('.staff-checkbox');
+                if (checkbox.checked) {
+                    item.classList.add('selected');
+                } else {
+                    item.classList.remove('selected');
+                }
+            });
+        }
+
+        function resetForm() {
+            document.querySelectorAll('input[name="staffIds"]').forEach(cb => {
+                cb.checked = false;
+            });
+            updateSelectedCount();
+
+            // Reset password strength
+            const strengthBar = document.getElementById('strengthBar');
+            const strengthText = document.getElementById('strengthText');
             strengthBar.className = 'password-strength-bar';
             strengthText.textContent = '';
-            return;
         }
 
-        let strength = 0;
-        if (password.length >= 8) strength++;
-        if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
-        if (password.match(/[0-9]/)) strength++;
-        if (password.match(/[^a-zA-Z0-9]/)) strength++;
-
-        strengthBar.className = 'password-strength-bar';
-        strengthText.className = 'password-strength-text';
-
-        if (strength <= 1) {
-            strengthBar.classList.add('weak');
-            strengthText.classList.add('weak');
-            strengthText.textContent = 'Mật khẩu yếu';
-        } else if (strength <= 2) {
-            strengthBar.classList.add('medium');
-            strengthText.classList.add('medium');
-            strengthText.textContent = 'Mật khẩu trung bình';
-        } else {
-            strengthBar.classList.add('strong');
-            strengthText.classList.add('strong');
-            strengthText.textContent = 'Mật khẩu mạnh';
-        }
-    }
-
-    document.getElementById('passwordInput').addEventListener('input', function(e) {
-        checkPasswordStrength(e.target.value);
-    });
-
-    function updateSelectedCount() {
-        const checkboxes = document.querySelectorAll('input[name="staffIds"]:checked');
-        document.getElementById('selectedCount').textContent = checkboxes.length;
-
-        // Update visual state
-        document.querySelectorAll('.staff-item').forEach(item => {
-            const checkbox = item.querySelector('.staff-checkbox');
-            if (checkbox.checked) {
-                item.classList.add('selected');
-            } else {
-                item.classList.remove('selected');
-            }
-        });
-    }
-
-    function resetForm() {
-        document.querySelectorAll('input[name="staffIds"]').forEach(cb => {
-            cb.checked = false;
-        });
-        updateSelectedCount();
-
-        // Reset password strength
-        const strengthBar = document.getElementById('strengthBar');
-        const strengthText = document.getElementById('strengthText');
-        strengthBar.className = 'password-strength-bar';
-        strengthText.textContent = '';
-    }
-
-    // Enable clicking on staff item to toggle checkbox
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('.staff-item').forEach(item => {
-            item.addEventListener('click', function (e) {
-                if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'LABEL') {
-                    const checkbox = this.querySelector('.staff-checkbox');
-                    checkbox.checked = !checkbox.checked;
-                    updateSelectedCount();
-                }
-            });
-        });
-
-        updateSelectedCount();
-    });
-</script>
-
-<script>
-    $("#customerForm").on("submit", function (e) {
-        e.preventDefault();
-
-        // Lấy danh sách nhân viên chăm sóc (multiple)
-        let staffIds = $("input[name='staffIds']:checked")
-            .map(function () {
-                return Number($(this).val());
-            })
-            .get();
-
-        const data = {
-            username: $("[name='username']").val(),
-            password: $("[name='password']").val(),
-            fullName: $("[name='fullName']").val(),
-            phone: $("[name='phone']").val(),
-            email: $("[name='email']").val(),
-            staffIds: staffIds // Danh sách nhân viên chăm sóc
-        };
-
-        $.ajax({
-            url: "/admin/customer/add",
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(data),
-
-            success: function () {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Thành công',
-                    text: 'Thêm khách hàng thành công!',
-                    timer: 1500,
-                    showConfirmButton: false
-                }).then(() => {
-                    window.location.href = "/admin/customer/list";
+        // Enable clicking on staff item to toggle checkbox
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.staff-item').forEach(item => {
+                item.addEventListener('click', function (e) {
+                    if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'LABEL') {
+                        const checkbox = this.querySelector('.staff-checkbox');
+                        checkbox.checked = !checkbox.checked;
+                        updateSelectedCount();
+                    }
                 });
-            },
-            error: function (xhr) {
-                const err = xhr.responseJSON;
-                if (err && err.message) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Lỗi',
-                        text: err.message
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Lỗi',
-                        text: 'Thêm thất bại!'
-                    });
-                }
-            }
-        });
-    });
+            });
 
-    $(document).ready(function () {
-        // Hàm highlight trường có giá trị
-        function highlightFilledInputs() {
-            $('.form-control').each(function () {
-                const $input = $(this);
-                if ($input.val() && $input.val().trim() !== '') {
-                    $input.addClass('has-value');
-                } else {
-                    $input.removeClass('has-value');
+            updateSelectedCount();
+        });
+    </script>
+
+    <script>
+        $("#customerForm").on("submit", function (e) {
+            e.preventDefault();
+
+            // Lấy danh sách nhân viên chăm sóc (multiple)
+            let staffIds = $("input[name='staffIds']:checked")
+                .map(function () {
+                    return Number($(this).val());
+                })
+                .get();
+
+            const data = {
+                username: $("[name='username']").val(),
+                password: $("[name='password']").val(),
+                fullName: $("[name='fullName']").val(),
+                phone: $("[name='phone']").val(),
+                email: $("[name='email']").val(),
+                staffIds: staffIds // Danh sách nhân viên chăm sóc
+            };
+
+            $.ajax({
+                url: "/admin/customer/add",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+
+                success: function () {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Thành công',
+                        text: 'Thêm khách hàng thành công!',
+                        timer: 1500,
+                        showConfirmButton: false
+                    }).then(() => {
+                        window.location.href = "/admin/customer/list";
+                    });
+                },
+                error: function (xhr) {
+                    const err = xhr.responseJSON;
+                    if (err && err.message) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: err.message
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: 'Thêm thất bại!'
+                        });
+                    }
                 }
             });
-        }
+        });
 
-        // Highlight các trường đã có giá trị khi load trang
-        highlightFilledInputs();
-
-        // Lắng nghe sự kiện input/change để highlight real-time
-        $('.form-control').on('input change', function () {
-            const $this = $(this);
-            if ($this.val() && $this.val().trim() !== '') {
-                $this.addClass('has-value');
-            } else {
-                $this.removeClass('has-value');
+        $(document).ready(function () {
+            // Hàm highlight trường có giá trị
+            function highlightFilledInputs() {
+                $('.form-control').each(function () {
+                    const $input = $(this);
+                    if ($input.val() && $input.val().trim() !== '') {
+                        $input.addClass('has-value');
+                    } else {
+                        $input.removeClass('has-value');
+                    }
+                });
             }
-        });
 
-        // Reset highlight khi reset form
-        $('.btn-reset').on('click', function () {
-            setTimeout(function () {
-                $('.form-control').removeClass('has-value');
-            }, 10);
+            // Highlight các trường đã có giá trị khi load trang
+            highlightFilledInputs();
+
+            // Lắng nghe sự kiện input/change để highlight real-time
+            $('.form-control').on('input change', function () {
+                const $this = $(this);
+                if ($this.val() && $this.val().trim() !== '') {
+                    $this.addClass('has-value');
+                } else {
+                    $this.removeClass('has-value');
+                }
+            });
+
+            // Reset highlight khi reset form
+            $('.btn-reset').on('click', function () {
+                setTimeout(function () {
+                    $('.form-control').removeClass('has-value');
+                }, 10);
+            });
         });
-    });
-</script>
+    </script>
 </body>
 
 </html>

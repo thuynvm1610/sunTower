@@ -382,422 +382,421 @@
 
 <body>
 
-<!-- HEADER + SIDEBAR -->
-<div th:replace="~{layout/header :: header}"></div>
-<div th:replace="~{layout/sidebar :: sidebar}"></div>
+    <!-- HEADER + SIDEBAR -->
+    <div th:replace="~{layout/header :: header}"></div>
+    <div th:replace="~{layout/sidebar :: sidebar}"></div>
 
-<main class="content">
-    <div class="container-fluid">
-        <!-- Page Header -->
-        <div class="page-header">
-            <h2>Dashboard</h2>
-            <div class="update-time">
-                Cập nhật lần cuối: <span th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy HH:mm')}"></span>
-            </div>
-        </div>
-
-        <!-- Stats Overview -->
-        <div class="row g-4 mb-4">
-            <div class="col-lg-3 col-md-6">
-                <div class="stat-card primary" onclick="window.location='/admin/building/list'">
-                    <div class="icon-wrapper"><i class="bi bi-building"></i></div>
-                    <div class="stat-label">Tòa nhà</div>
-                    <div class="stat-value" th:text="${totalBuildings}"></div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="stat-card success" onclick="window.location='/admin/customer/list'">
-                    <div class="icon-wrapper"><i class="bi bi-people"></i></div>
-                    <div class="stat-label">Khách hàng</div>
-                    <div class="stat-value" th:text="${totalCustomers}"></div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="stat-card warning" onclick="window.location='/admin/staff/list'">
-                    <div class="icon-wrapper"><i class="bi bi-person-badge"></i></div>
-                    <div class="stat-label">Nhân viên</div>
-                    <div class="stat-value" th:text="${totalStaffs}"></div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="stat-card danger" onclick="window.location='/admin/contract/list'">
-                    <div class="icon-wrapper"><i class="bi bi-file-earmark-text"></i></div>
-                    <div class="stat-label">Hợp đồng</div>
-                    <div class="stat-value" th:text="${totalContracts}"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Charts Row 1 -->
-        <div class="row g-4 mb-4">
-            <div class="col-lg-8">
-                <div class="chart-card">
-                    <div class="chart-title">
-                        <i class="bi bi-graph-up"></i>
-                        Doanh thu theo tháng (<span th:text="${currentYear}"></span>)
-                    </div>
-                    <div style="position: relative; height: 300px;">
-                        <canvas id="revenueChart"></canvas>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="chart-card">
-                    <div class="chart-title">
-                        <i class="bi bi-pie-chart"></i>
-                        Tòa nhà theo quận
-                    </div>
-                    <div style="position: relative; height: 300px;">
-                        <canvas id="districtChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Charts Row 2 -->
-        <div class="row g-4 mb-4">
-            <div class="col-lg-4">
-                <div class="chart-card">
-                    <div class="chart-title">
-                        <i class="bi bi-bar-chart"></i>
-                        Doanh thu 3 năm
-                    </div>
-                    <div style="position: relative; height: 250px;">
-                        <canvas id="revenue3YearChart"></canvas>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="chart-card">
-                    <div class="chart-title">
-                        <i class="bi bi-buildings"></i>
-                        Hợp đồng theo tòa nhà
-                    </div>
-                    <div style="position: relative; height: 250px;">
-                        <canvas id="contractsByBuildingChart"></canvas>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="chart-card">
-                    <div class="chart-title">
-                        <i class="bi bi-calendar3"></i>
-                        Hợp đồng theo năm
-                    </div>
-                    <div style="position: relative; height: 250px;">
-                        <canvas id="contract3YearChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Data Tables Row -->
-        <div class="row g-4 mb-4">
-            <!-- Recent Buildings -->
-            <div class="col-lg-6">
-                <div class="recent-list">
-                    <div class="list-header">Tòa nhà thêm gần đây</div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item" th:each="building : ${recentBuildings}"
-                            th:onclick="|window.location='/admin/building/' + ${building.id}|"
-                            style="cursor: pointer;">
-                            <strong th:text="${building.name}"></strong>
-                            <div style="font-size: 0.875rem; color: #6b7280; margin-top: 0.25rem;">
-                                Quản lý: <span th:text="${building.managerName}"></span>
-                            </div>
-                        </li>
-                        <li class="list-group-item text-center" style="color: #9ca3af;"
-                            th:if="${#lists.isEmpty(recentBuildings)}">
-                            Không có dữ liệu gần đây
-                        </li>
-                    </ul>
+    <main class="content">
+        <div class="container-fluid">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h2>Dashboard</h2>
+                <div class="update-time">
+                    Cập nhật lần cuối: <span th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy HH:mm')}"></span>
                 </div>
             </div>
 
-            <!-- Top Customers -->
-            <div class="col-lg-6">
-                <div class="minimal-table">
-                    <div class="table-header">Top khách hàng</div>
-                    <table class="table mb-0">
-                        <thead>
+            <!-- Stats Overview -->
+            <div class="row g-4 mb-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card primary" onclick="window.location='/admin/building/list'">
+                        <div class="icon-wrapper"><i class="bi bi-building"></i></div>
+                        <div class="stat-label">Tòa nhà</div>
+                        <div class="stat-value" th:text="${totalBuildings}"></div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card success" onclick="window.location='/admin/customer/list'">
+                        <div class="icon-wrapper"><i class="bi bi-people"></i></div>
+                        <div class="stat-label">Khách hàng</div>
+                        <div class="stat-value" th:text="${totalCustomers}"></div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card warning" onclick="window.location='/admin/staff/list'">
+                        <div class="icon-wrapper"><i class="bi bi-person-badge"></i></div>
+                        <div class="stat-label">Nhân viên</div>
+                        <div class="stat-value" th:text="${totalStaffs}"></div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card danger" onclick="window.location='/admin/contract/list'">
+                        <div class="icon-wrapper"><i class="bi bi-file-earmark-text"></i></div>
+                        <div class="stat-label">Hợp đồng</div>
+                        <div class="stat-value" th:text="${totalContracts}"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Row 1 -->
+            <div class="row g-4 mb-4">
+                <div class="col-lg-8">
+                    <div class="chart-card">
+                        <div class="chart-title">
+                            <i class="bi bi-graph-up"></i>
+                            Doanh thu theo tháng (<span th:text="${currentYear}"></span>)
+                        </div>
+                        <div style="position: relative; height: 300px;">
+                            <canvas id="revenueChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="chart-card">
+                        <div class="chart-title">
+                            <i class="bi bi-pie-chart"></i>
+                            Tòa nhà theo quận
+                        </div>
+                        <div style="position: relative; height: 300px;">
+                            <canvas id="districtChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Row 2 -->
+            <div class="row g-4 mb-4">
+                <div class="col-lg-4">
+                    <div class="chart-card">
+                        <div class="chart-title">
+                            <i class="bi bi-bar-chart"></i>
+                            Doanh thu 3 năm
+                        </div>
+                        <div style="position: relative; height: 250px;">
+                            <canvas id="revenue3YearChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="chart-card">
+                        <div class="chart-title">
+                            <i class="bi bi-buildings"></i>
+                            Hợp đồng theo tòa nhà
+                        </div>
+                        <div style="position: relative; height: 250px;">
+                            <canvas id="contractsByBuildingChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="chart-card">
+                        <div class="chart-title">
+                            <i class="bi bi-calendar3"></i>
+                            Hợp đồng theo năm
+                        </div>
+                        <div style="position: relative; height: 250px;">
+                            <canvas id="contract3YearChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Tables Row -->
+            <div class="row g-4 mb-4">
+                <!-- Recent Buildings -->
+                <div class="col-lg-6">
+                    <div class="recent-list">
+                        <div class="list-header">Tòa nhà thêm gần đây</div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item" th:each="building : ${recentBuildings}"
+                                th:onclick="|window.location='/admin/building/' + ${building.id}|"
+                                style="cursor: pointer;">
+                                <strong th:text="${building.name}"></strong>
+                                <div style="font-size: 0.875rem; color: #6b7280; margin-top: 0.25rem;">
+                                    Quản lý: <span th:text="${building.managerName}"></span>
+                                </div>
+                            </li>
+                            <li class="list-group-item text-center" style="color: #9ca3af;"
+                                th:if="${#lists.isEmpty(recentBuildings)}">
+                                Không có dữ liệu gần đây
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Top Customers -->
+                <div class="col-lg-6">
+                    <div class="minimal-table">
+                        <div class="table-header">Top khách hàng</div>
+                        <table class="table mb-0">
+                            <thead>
+                                <tr>
+                                    <th style="width: 60px;">Top</th>
+                                    <th>Mã KH</th>
+                                    <th>Tên khách hàng</th>
+                                    <th style="text-align: right;">Hợp đồng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="customer, iter : ${potentialCustomers}"
+                                    th:onclick="|window.location='/admin/customer/' + ${customer.customerId}|"
+                                    style="cursor: pointer;">
+                                    <td>
+                                        <span class="rank-badge"
+                                            th:classappend="${iter.index == 0 ? 'rank-1' : iter.index == 1 ? 'rank-2' : iter.index == 2 ? 'rank-3' : ''}"
+                                            th:text="${iter.index + 1}">
+                                        </span>
+                                    </td>
+                                    <td th:text="${customer.customerId}"></td>
+                                    <td th:text="${customer.fullName}"></td>
+                                    <td style="text-align: right;">
+                                        <span class="badge bg-primary badge-minimal"
+                                            th:text="${customer.contractCount}"></span>
+                                    </td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(potentialCustomers)}">
+                                    <td colspan="4" class="text-center" style="color: #9ca3af;">Không có dữ liệu</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Staff Table -->
+            <div class="minimal-table">
+                <div class="table-header">Top 5 nhân viên hiệu suất cao</div>
+                <table class="table mb-0">
+                    <thead>
                         <tr>
                             <th style="width: 60px;">Top</th>
-                            <th>Mã KH</th>
-                            <th>Tên khách hàng</th>
-                            <th style="text-align: right;">Hợp đồng</th>
+                            <th>Mã NV</th>
+                            <th>Tên nhân viên</th>
+                            <th style="text-align: center;">Hợp đồng</th>
+                            <th style="width: 200px;">Tỷ lệ đóng góp</th>
                         </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="customer, iter : ${potentialCustomers}"
-                            th:onclick="|window.location='/admin/customer/' + ${customer.customerId}|"
-                            style="cursor: pointer;">
+                    </thead>
+                    <tbody>
+                        <tr th:each="staff, iter : ${topStaffs}"
+                            th:onclick="|window.location='/admin/staff/' + ${staff.staffId}|" style="cursor: pointer;">
                             <td>
-                                        <span class="rank-badge"
-                                              th:classappend="${iter.index == 0 ? 'rank-1' : iter.index == 1 ? 'rank-2' : iter.index == 2 ? 'rank-3' : ''}"
-                                              th:text="${iter.index + 1}">
-                                        </span>
-                            </td>
-                            <td th:text="${customer.customerId}"></td>
-                            <td th:text="${customer.fullName}"></td>
-                            <td style="text-align: right;">
-                                        <span class="badge bg-primary badge-minimal"
-                                              th:text="${customer.contractCount}"></span>
-                            </td>
-                        </tr>
-                        <tr th:if="${#lists.isEmpty(potentialCustomers)}">
-                            <td colspan="4" class="text-center" style="color: #9ca3af;">Không có dữ liệu</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- Top Staff Table -->
-        <div class="minimal-table">
-            <div class="table-header">Top 5 nhân viên hiệu suất cao</div>
-            <table class="table mb-0">
-                <thead>
-                <tr>
-                    <th style="width: 60px;">Top</th>
-                    <th>Mã NV</th>
-                    <th>Tên nhân viên</th>
-                    <th style="text-align: center;">Hợp đồng</th>
-                    <th style="width: 200px;">Tỷ lệ đóng góp</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="staff, iter : ${topStaffs}"
-                    th:onclick="|window.location='/admin/staff/' + ${staff.staffId}|"
-                    style="cursor: pointer;">
-                    <td>
                                 <span class="rank-badge"
-                                      th:classappend="${iter.index == 0 ? 'rank-1' : iter.index == 1 ? 'rank-2' : iter.index == 2 ? 'rank-3' : ''}"
-                                      th:text="${iter.index + 1}">
+                                    th:classappend="${iter.index == 0 ? 'rank-1' : iter.index == 1 ? 'rank-2' : iter.index == 2 ? 'rank-3' : ''}"
+                                    th:text="${iter.index + 1}">
                                 </span>
-                    </td>
-                    <td th:text="${staff.staffId}"></td>
-                    <td th:text="${staff.fullName}"></td>
-                    <td style="text-align: center;" th:text="${staff.contractCount}"></td>
-                    <td>
-                        <div class="d-flex align-items-center gap-2">
-                            <div class="bg-success" th:style="'width:' + ${staff.performancePercent} + '%'">
-                            </div>
-                        </div>
-                        <small style="font-weight: 600; color: #6b7280; min-width: 40px;"
-                               th:text="${staff.performancePercent + '%'}"></small>
+                            </td>
+                            <td th:text="${staff.staffId}"></td>
+                            <td th:text="${staff.fullName}"></td>
+                            <td style="text-align: center;" th:text="${staff.contractCount}"></td>
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="bg-success" th:style="'width:' + ${staff.performancePercent} + '%'">
+                                    </div>
+                                </div>
+                                <small style="font-weight: 600; color: #6b7280; min-width: 40px;"
+                                    th:text="${staff.performancePercent + '%'}"></small>
+            </div>
+            </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(topStaffs)}">
+                <td colspan="5" class="text-center" style="color: #9ca3af;">Chưa có dữ liệu hiệu suất</td>
+            </tr>
+            </tbody>
+            </table>
         </div>
-        </td>
-        </tr>
-        <tr th:if="${#lists.isEmpty(topStaffs)}">
-            <td colspan="5" class="text-center" style="color: #9ca3af;">Chưa có dữ liệu hiệu suất</td>
-        </tr>
-        </tbody>
-        </table>
-    </div>
-    </div>
-</main>
+        </div>
+    </main>
 
-<!-- Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<!-- Boostrap -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Boostrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-<script th:inline="javascript">
-    // Chart default config
-    Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
-    Chart.defaults.color = '#6b7280';
+    <script th:inline="javascript">
+        // Chart default config
+        Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+        Chart.defaults.color = '#6b7280';
 
-    // Revenue Chart - Monthly
-    const revenueData = /*[[${monthlyRevenue}]]*/[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    new Chart(document.getElementById('revenueChart'), {
-        type: 'line',
-        data: {
-            labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'],
-            datasets: [{
-                label: 'Doanh thu (tỷ VNĐ)',
-                data: revenueData.map(v => v / 1_000_000_000),
-                borderColor: '#3b82f6',
-                backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                fill: true,
-                tension: 0.4,
-                borderWidth: 2,
-                pointRadius: 3,
-                pointHoverRadius: 5
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { display: false },
-                tooltip: {
-                    backgroundColor: 'rgba(17, 24, 39, 0.95)',
-                    padding: 12,
-                    borderColor: '#e5e7eb',
-                    borderWidth: 1
-                }
+        // Revenue Chart - Monthly
+        const revenueData = /*[[${monthlyRevenue}]]*/[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        new Chart(document.getElementById('revenueChart'), {
+            type: 'line',
+            data: {
+                labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'],
+                datasets: [{
+                    label: 'Doanh thu (tỷ VNĐ)',
+                    data: revenueData.map(v => v / 1_000_000_000),
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    borderWidth: 2,
+                    pointRadius: 3,
+                    pointHoverRadius: 5
+                }]
             },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    grid: { color: '#f3f4f6' },
-                    border: { display: false }
-                },
-                x: {
-                    grid: { display: false },
-                    border: { display: false }
-                }
-            }
-        }
-    });
-
-    // District Chart
-    const districtNames = /*[[${districtNames}]]*/[];
-    const districtCounts = /*[[${districtCounts}]]*/[];
-    new Chart(document.getElementById('districtChart'), {
-        type: 'doughnut',
-        data: {
-            labels: districtNames,
-            datasets: [{
-                data: districtCounts,
-                backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'],
-                borderWidth: 0
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                    labels: {
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(17, 24, 39, 0.95)',
                         padding: 12,
-                        usePointStyle: true,
-                        pointStyle: 'circle'
+                        borderColor: '#e5e7eb',
+                        borderWidth: 1
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: '#f3f4f6' },
+                        border: { display: false }
+                    },
+                    x: {
+                        grid: { display: false },
+                        border: { display: false }
                     }
                 }
             }
-        }
-    });
+        });
 
-    // 3 Year Revenue Chart
-    const revenue3YearLabels = [
+        // District Chart
+        const districtNames = /*[[${districtNames}]]*/[];
+        const districtCounts = /*[[${districtCounts}]]*/[];
+        new Chart(document.getElementById('districtChart'), {
+            type: 'doughnut',
+            data: {
+                labels: districtNames,
+                datasets: [{
+                    data: districtCounts,
+                    backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 12,
+                            usePointStyle: true,
+                            pointStyle: 'circle'
+                        }
+                    }
+                }
+            }
+        });
+
+        // 3 Year Revenue Chart
+        const revenue3YearLabels = [
     /*[[${yearBeforeLast}]]*/ 2022,
     /*[[${lastYear}]]*/ 2023,
     /*[[${currentYear}]]*/ 2024
-    ];
-    const revenue3YearValues = /*[[${yearlyRevenue}]]*/[0, 0, 0];
-    new Chart(document.getElementById('revenue3YearChart'), {
-        type: 'bar',
-        data: {
-            labels: revenue3YearLabels,
-            datasets: [{
-                label: 'Doanh thu (tỷ VNĐ)',
-                data: revenue3YearValues.map(v => v / 1_000_000_000),
-                backgroundColor: '#3b82f6',
-                borderRadius: 6
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    grid: { color: '#f3f4f6' },
-                    border: { display: false }
-                },
-                x: {
-                    grid: { display: false },
-                    border: { display: false }
-                }
-            }
-        }
-    });
-
-    // 3 Year Contracts Chart
-    const contractYearLabels = /*[[${contractYearLabels}]]*/[];
-    const contractYearCounts = /*[[${contractYearCounts}]]*/[];
-    new Chart(document.getElementById('contract3YearChart'), {
-        type: 'line',
-        data: {
-            labels: contractYearLabels,
-            datasets: [{
-                label: 'Số hợp đồng',
-                data: contractYearCounts,
-                borderColor: '#f59e0b',
-                backgroundColor: 'rgba(245, 158, 11, 0.1)',
-                fill: true,
-                tension: 0.4,
-                borderWidth: 2,
-                pointRadius: 3,
-                pointHoverRadius: 5
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    grid: { color: '#f3f4f6' },
-                    border: { display: false },
-                    ticks: {
-                        stepSize: 1,
-                    }
-                },
-                x: {
-                    grid: { display: false },
-                    border: { display: false }
-                }
-            }
-        }
-    });
-
-    // Contracts by Building Chart
-    const buildingNames = /*[[${buildingNames}]]*/[];
-    const buildingContractCounts = /*[[${buildingContractCounts}]]*/[];
-    new Chart(document.getElementById('contractsByBuildingChart'), {
-        type: 'bar',
-        data: {
-            labels: buildingNames,
-            datasets: [{
-                label: 'Số hợp đồng',
-                data: buildingContractCounts,
-                backgroundColor: '#3b82f6',
-                borderRadius: 6
-            }]
-        },
-        options: {
-            indexAxis: 'y',
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { display: false },
-                tooltip: {
-                    callbacks: {
-                        label: (item) => `${item.raw} hợp đồng`
-                    }
-                }
+        ];
+        const revenue3YearValues = /*[[${yearlyRevenue}]]*/[0, 0, 0];
+        new Chart(document.getElementById('revenue3YearChart'), {
+            type: 'bar',
+            data: {
+                labels: revenue3YearLabels,
+                datasets: [{
+                    label: 'Doanh thu (tỷ VNĐ)',
+                    data: revenue3YearValues.map(v => v / 1_000_000_000),
+                    backgroundColor: '#3b82f6',
+                    borderRadius: 6
+                }]
             },
-            scales: {
-                x: {
-                    beginAtZero: true,
-                    grid: { color: '#f3f4f6' },
-                    border: { display: false },
-                    ticks: { precision: 0 }
-                },
-                y: {
-                    grid: { display: false },
-                    border: { display: false }
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: '#f3f4f6' },
+                        border: { display: false }
+                    },
+                    x: {
+                        grid: { display: false },
+                        border: { display: false }
+                    }
                 }
             }
-        }
-    });
-</script>
+        });
+
+        // 3 Year Contracts Chart
+        const contractYearLabels = /*[[${contractYearLabels}]]*/[];
+        const contractYearCounts = /*[[${contractYearCounts}]]*/[];
+        new Chart(document.getElementById('contract3YearChart'), {
+            type: 'line',
+            data: {
+                labels: contractYearLabels,
+                datasets: [{
+                    label: 'Số hợp đồng',
+                    data: contractYearCounts,
+                    borderColor: '#f59e0b',
+                    backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    borderWidth: 2,
+                    pointRadius: 3,
+                    pointHoverRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: '#f3f4f6' },
+                        border: { display: false },
+                        ticks: {
+                            stepSize: 1,
+                        }
+                    },
+                    x: {
+                        grid: { display: false },
+                        border: { display: false }
+                    }
+                }
+            }
+        });
+
+        // Contracts by Building Chart
+        const buildingNames = /*[[${buildingNames}]]*/[];
+        const buildingContractCounts = /*[[${buildingContractCounts}]]*/[];
+        new Chart(document.getElementById('contractsByBuildingChart'), {
+            type: 'bar',
+            data: {
+                labels: buildingNames,
+                datasets: [{
+                    label: 'Số hợp đồng',
+                    data: buildingContractCounts,
+                    backgroundColor: '#3b82f6',
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: (item) => `${item.raw} hợp đồng`
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        grid: { color: '#f3f4f6' },
+                        border: { display: false },
+                        ticks: { precision: 0 }
+                    },
+                    y: {
+                        grid: { display: false },
+                        border: { display: false }
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>

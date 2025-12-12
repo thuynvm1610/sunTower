@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SunTower - Lịch Sử Giao Dịch</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --primary-color: #2d3e8f;
+            --primary-light: #4a5fc1;
+            --secondary-color: #f5f7fa;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--secondary-color);
+        }
+
+        /* Header */
+        .header {
+            background: var(--primary-color);
+            color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-top {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-custom {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .btn-logout {
+            background: white;
+            color: var(--primary-color);
+            border: none;
+            padding: 8px 18px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .btn-logout:hover {
+            background: #f0f0f0;
+            color: var(--primary-color);
+        }
+
+        /* Navigation */
+        .nav-custom {
+            background: var(--primary-color);
+        }
+
+        .nav-custom .nav-link {
+            color: white !important;
+            font-weight: 500;
+            font-size: 14px;
+            padding: 14px 18px;
+            border-radius: 6px 6px 0 0;
+            transition: all 0.2s;
+        }
+
+        .nav-custom .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-custom .nav-link.active {
+            background: rgba(255, 255, 255, 0.15);
+            font-weight: 600;
+        }
+
+        /* Dropdown Menu */
+        .dropdown-menu-custom {
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        /* Welcome Section */
+        .welcome-section {
+            background: white;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .welcome-section h1 {
+            color: var(--primary-color);
+        }
+
+        /* Filter Section */
+        .filter-section {
+            background: white;
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .filter-header {
+            margin-bottom: 0;
+        }
+
+        .filter-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-label {
+            font-size: 13px;
+            color: #666;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control,
+        .form-select {
+            font-size: 14px;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(45, 62, 143, 0.1);
+        }
+
+        .btn-filter {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-filter:hover {
+            background: var(--primary-light);
+            color: white;
+        }
+
+        .btn-reset {
+            background: white;
+            color: #666;
+            border: 1px solid #ddd;
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-reset:hover {
+            background: #f5f5f5;
+            border-color: #ccc;
+        }
+
+        /* Statistics Bar */
+        .stats-bar {
+            background: white;
+            border-radius: 10px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 0.75rem;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .stat-item:hover {
+            background: #f8f9fa;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* Thông báo số hóa đơn tìm kiếm */
+        .total-transaction-search {
+            background: linear-gradient(135deg, #e8f0fe 0%, #f0f7ff 100%);
+            padding: 14px 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+            font-size: 15px;
+            color: #495057;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+            display: none;
+        }
+
+        .total-transaction-search strong {
+            color: var(--primary-color);
+            font-size: 18px;
+            margin-left: 4px;
+        }
+
+        /* Table Container */
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Table Styles */
+        .table-custom {
+            margin: 0;
+            width: 100%;
+        }
+
+        .table-custom thead {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+            color: white;
+        }
+
+        .table-custom thead th {
+            font-weight: 600;
+            font-size: 14px;
+            padding: 1rem 1.25rem;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+        }
+
+        .table-custom tbody tr {
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.2s;
+        }
+
+        .table-custom tbody tr:hover {
+            background: #f8f9fa;
+            transform: scale(1.002);
+        }
+
+        .table-custom tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        .table-custom tbody td {
+            padding: 1rem 1.25rem;
+            font-size: 14px;
+            color: #333;
+            vertical-align: middle;
+        }
+
+        .table-custom tbody td:first-child {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .table-custom tbody td:last-child {
+            font-weight: 700;
+            color: #059669;
+            font-size: 15px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            padding: 3rem;
+            text-align: center;
+            color: #9ca3af;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: #d1d5db;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            color: #666;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        /* Pagination Styles */
+        .pagination-container {
+            background: white;
+            border-radius: 10px;
+            padding: 1.25rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .pagination {
+            margin: 0;
+            gap: 0.5rem;
+        }
+
+        .pagination .page-item {
+            margin: 0;
+        }
+
+        .pagination .page-link {
+            border: 1px solid #e0e0e0;
+            color: #666;
+            padding: 0.5rem 0.85rem;
+            font-weight: 500;
+            font-size: 14px;
+            border-radius: 6px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 38px;
+        }
+
+        .pagination .page-link:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(45, 62, 143, 0.2);
+        }
+
+        .pagination .page-item.active .page-link {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 8px rgba(45, 62, 143, 0.3);
+        }
+
+        .pagination .page-item.disabled .page-link {
+            background: #f5f5f5;
+            border-color: #e0e0e0;
+            color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .pagination .page-item.disabled .page-link:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .pagination .page-link i {
+            font-size: 12px;
+        }
+
+        /* Responsive Table */
+        @media (max-width: 768px) {
+            .table-container {
+                overflow-x: auto;
+            }
+
+            .table-custom {
+                min-width: 800px;
+            }
+
+            .pagination {
+                flex-wrap: wrap;
+            }
+        }
+
+        /* Building Link */
+        .building-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .building-link:hover {
+            color: var(--primary-light);
+            text-decoration: underline;
+        }
+
+        /* Badge for Month/Year */
+        .month-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #e8f0fe 0%, #f0f7ff 100%);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        /* Area Badge */
+        .area-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            color: #666;
+        }
+
+        .area-badge i {
+            color: var(--primary-color);
+            font-size: 12px;
+        }
+
+        /* Date Badge */
+        .date-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            color: #666;
+        }
+
+        .date-badge i {
+            color: #10b981;
+            font-size: 12px;
+        }
+
+        /* Amount Badge */
+        .amount-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .amount-badge i {
+            color: #059669;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Header -->
+<div class="header">
+    <div class="header-top py-3">
+        <div class="container-fluid px-4">
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+                <div class="logo">SunTower</div>
+                <button class="navbar-toggler d-lg-none text-white" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarNav">
+                    <i class="bi bi-list fs-3"></i>
+                </button>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="text-end">
+                            <small class="d-block opacity-85">Xin chào,</small>
+                            <strong th:text="${#authentication.name}">Nguyễn Văn A</strong>
+                        </div>
+                        <span class="badge-custom">KHÁCH HÀNG</span>
+                    </div>
+                    <a th:href="@{/logout}" class="btn btn-logout">Đăng xuất</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav-custom">
+        <div class="container-fluid px-4">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/customer/home}">
+                        <i class="bi bi-house-door me-1"></i>Trang chủ
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/customer/contract/list}">
+                        <i class="bi bi-file-text me-1"></i>Hợp đồng
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/customer/invoice/list}">
+                        <i class="bi bi-credit-card me-1"></i>Thanh toán
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/customer/building/list}">
+                        <i class="bi bi-building me-1"></i>Tòa nhà
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        <i class="bi bi-grid-3x3-gap me-1"></i>Tiện ích
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-custom">
+                        <li>
+                            <a class="dropdown-item" th:href="@{/customer/transaction/history}">
+                                <i class="bi bi-clock-history me-2"></i>Lịch sử giao dịch
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" th:href="@{/customer/service}">
+                                <i class="bi bi-clipboard-check me-2"></i>Dịch vụ
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/customer/profile}">
+                        <i class="bi bi-person-circle me-1"></i>Tài khoản
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<!-- Main Container -->
+<div class="container-fluid px-4 py-4">
+    <!-- Welcome Section -->
+    <div class="welcome-section p-4 rounded mb-4">
+        <h1 class="h3 mb-2">
+            <i class="bi bi-clock-history me-2"></i>
+            Lịch Sử Giao Dịch
+        </h1>
+        <p class="text-muted mb-0">Xem lại toàn bộ lịch sử thanh toán hóa đơn của bạn</p>
+    </div>
+
+    <!-- Statistics Bar -->
+    <div class="stats-bar">
+        <div class="stat-item">
+            <div class="stat-number">
+                    <span th:text="${totalTransaction}">
+                        0
+                    </span>
+            </div>
+            <div class="stat-label">Tổng giao dịch</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">
+                    <span th:text="${totalPaidAmount} + ' VNĐ'">
+                        0 VNĐ
+                    </span>
+            </div>
+            <div class="stat-label">Tổng số tiền</div>
+        </div>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="filter-section">
+        <form id="filterForm">
+            <div class="filter-header mb-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="filter-title">
+                        <i class="bi bi-funnel"></i>
+                        Bộ lọc tìm kiếm
+                    </div>
+                </div>
+            </div>
+            <div class="row g-3 align-items-end">
+                <div class="col-md-4">
+                    <label class="form-label">Tháng</label>
+                    <select class="form-select" name="month">
+                        <option value="">-- Chọn tháng --</option>
+                        <option value="1">Tháng 1</option>
+                        <option value="2">Tháng 2</option>
+                        <option value="3">Tháng 3</option>
+                        <option value="4">Tháng 4</option>
+                        <option value="5">Tháng 5</option>
+                        <option value="6">Tháng 6</option>
+                        <option value="7">Tháng 7</option>
+                        <option value="8">Tháng 8</option>
+                        <option value="9">Tháng 9</option>
+                        <option value="10">Tháng 10</option>
+                        <option value="11">Tháng 11</option>
+                        <option value="12">Tháng 12</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Năm</label>
+                    <select class="form-select" name="year">
+                        <option value="">-- Chọn năm --</option>
+                        <!-- Động từ server hoặc JS -->
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-filter flex-grow-1">
+                            <i class="bi bi-search"></i>
+                            Tìm kiếm
+                        </button>
+                        <button type="button" class="btn-reset" onclick="resetFilter()">
+                            <i class="bi bi-arrow-counterclockwise"></i>
+                            Đặt lại
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Search Result Count -->
+    <div id="totalTransactionSearch" class="total-transaction-search"></div>
+
+    <!-- Table Container -->
+    <div class="table-container">
+        <table class="table table-custom">
+            <thead>
+            <tr>
+                <th><i class="bi bi-calendar-check me-2"></i>Hóa đơn tháng</th>
+                <th><i class="bi bi-building me-2"></i>Tòa nhà</th>
+                <th><i class="bi bi-rulers me-2"></i>Diện tích thuê</th>
+                <th><i class="bi bi-clock me-2"></i>Ngày thanh toán</th>
+                <th><i class="bi bi-currency-dollar me-2"></i>Tổng thanh toán</th>
+            </tr>
+            </thead>
+            <tbody id="transactionTableBody">
+            <!-- Data will be loaded here -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    <div id="transactionPagination"></div>
+</div>
+
+<!-- Bootstrap 5 JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!--JQuery-->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    // Khởi tạo danh sách năm
+    function initYearSelect() {
+        const currentYear = new Date().getFullYear();
+        const yearSelect = $("[name='year']");
+
+        for (let year = currentYear; year >= currentYear - 10; year--) {
+            yearSelect.append(`<option value="${year}">${year}</option>`);
+        }
+    }
+
+    // Format số tiền
+    function formatCurrency(amount) {
+        return new Intl.NumberFormat('vi-VN').format(amount);
+    }
+
+    function loadTransactions(page = 1, event) {
+        if (event) event.preventDefault();
+
+        $.ajax({
+            url: "/customer/transaction/list/page",
+            type: "GET",
+            data: {
+                month: $("[name='month']").val(),
+                year: $("[name='year']").val(),
+                page: page,
+                size: 5
+            },
+            success: function (data) {
+                const tbody = $("#transactionTableBody");
+                tbody.empty();
+
+                const searchResult = $("#totalTransactionSearch");
+
+                if (data.content.length === 0) {
+                    tbody.append(`
+                        <tr>
+                            <td colspan="5">
+                                <div class="empty-state">
+                                    <i class="bi bi-inbox"></i>
+                                    <h3>Không có giao dịch nào</h3>
+                                    <p>Chưa có lịch sử giao dịch theo điều kiện tìm kiếm</p>
+                                </div>
+                            </td>
+                        </tr>
+                    `);
+                    $("#transactionPagination").empty();
+                    searchResult.hide();
+                    return;
+                }
+
+                searchResult.html(`Kết quả tìm kiếm: <strong>${data.totalElements}</strong> giao dịch`).show();
+
+                $.each(data.content, function (i, t) {
+                    const totalPaidAmount = Number(t.totalAmount) + Number(t.totalServiceFeeAmount);
+
+                    tbody.append(`
+                        <tr>
+                            <td>
+                                <span class="month-badge">
+                                    ${t.month}/${t.year}
+                                </span>
+                            </td>
+                            <td>
+                                <a href="#" class="building-link">
+                                    ${t.contract.building.name}
+                                </a>
+                            </td>
+                            <td>
+                                <span class="area-badge">
+                                    ${t.contract.rentArea} m²
+                                </span>
+                            </td>
+                            <td>
+                                <span class="date-badge">
+                                    ${t.paidDate}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="amount-badge">
+                                    ${formatCurrency(totalPaidAmount)} đ
+                                </span>
+                            </td>
+                        </tr>
+                    `);
+                });
+
+                renderTransactionPagination(data.totalPages, page);
+            },
+            error: function () {
+                alert("Không tải được dữ liệu!");
+            }
+        });
+    }
+
+    function renderTransactionPagination(totalPages, current) {
+        const pagination = $("#transactionPagination");
+        pagination.empty();
+        if (totalPages <= 1) return;
+
+        let html = `
+        <div class="pagination-container">
+            <nav>
+                <ul class="pagination justify-content-center">
+        `;
+
+        // --- First ---
+        html += `
+            <li class="page-item ${current === 1 ? 'disabled' : ''}">
+                <a href="#" class="page-link" onclick="loadTransactions(1, event)" title="Trang đầu">
+                    <i class="bi bi-chevron-bar-left"></i>
+                </a>
+            </li>
+        `;
+
+        // --- Prev ---
+        html += `
+            <li class="page-item ${current === 1 ? 'disabled' : ''}">
+                <a href="#" class="page-link" onclick="loadTransactions(${current - 1}, event)" title="Trang trước">
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+            </li>
+        `;
+
+        // --- BLOCK 5 PAGE ---
+        const blockSize = 5;
+        const blockStart = Math.floor((current - 1) / blockSize) * blockSize + 1;
+        let blockEnd = blockStart + blockSize - 1;
+        if (blockEnd > totalPages) blockEnd = totalPages;
+
+        for (let i = blockStart; i <= blockEnd; i++) {
+            html += `
+                <li class="page-item ${i === current ? 'active' : ''}">
+                    <a href="#" class="page-link" onclick="loadTransactions(${i}, event)">${i}</a>
+                </li>
+            `;
+        }
+
+        // --- Next ---
+        html += `
+            <li class="page-item ${current === totalPages ? 'disabled' : ''}">
+                <a href="#" class="page-link" onclick="loadTransactions(${current + 1}, event)" title="Trang sau">
+                    <i class="bi bi-chevron-right"></i>
+                </a>
+            </li>
+        `;
+
+        // --- Last ---
+        html += `
+            <li class="page-item ${current === totalPages ? 'disabled' : ''}">
+                <a href="#" class="page-link" onclick="loadTransactions(${totalPages}, event)" title="Trang cuối">
+                    <i class="bi bi-chevron-bar-right"></i>
+                </a>
+            </li>
+        `;
+
+        html += `
+                </ul>
+            </nav>
+        </div>
+        `;
+
+        pagination.html(html);
+    }
+
+    function resetFilter() {
+        $("[name='month']").val("");
+        $("[name='year']").val("");
+        loadTransactions();
+    }
+
+    // Khởi tạo filter
+    $(document).ready(function () {
+        initYearSelect();
+        loadTransactions();
+    });
+
+    $("#filterForm").on("submit", function (e) {
+        e.preventDefault();
+        loadTransactions();
+    });
+</script>
+</body>
+
+</html>
