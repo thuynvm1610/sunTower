@@ -26,3 +26,6 @@
 *** URL ***
 - Trang đăng nhập: /login
 - Trang public: /suntower
+
+*** Tạo cơ sở dữ liệu ***
+Mở folder "estate_db_generator"
