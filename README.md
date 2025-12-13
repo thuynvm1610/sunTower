@@ -54,9 +54,9 @@ invoices, and transactions with role-based access control.
 ![Staff detail](screenshots/staff_detail.png)
 
 ![Customer home](screenshots/customer_home.png)
-![Customer building view](screenshots/customer_buildingView.png)
 ![Customer contract](screenshots/customer_contract.png)
 ![Customer payment](screenshots/customer_payment.png)
+![Customer building view](screenshots/customer_buildingView.png)
 ![Customer transaction history](screenshots/customer_transaction_history.png)
 
 ![Public page](screenshots/public_page.png)
