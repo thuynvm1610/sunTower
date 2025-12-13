@@ -28,7 +28,19 @@ invoices, and transactions with role-based access control.
 ![ERD](screenshots/estate_erd.png)
 
 ## Screenshots
-(Add 3–5 UI screenshots)
+![Building add](building_manage.png)
+![Building add](building_manage.png)
+![Building add](building_manage.png)
+![Building add](building_manage.png)
+![Building add](building_manage.png)
+![Building add](building_manage.png)
+![Building add](building_manage.png)
+![Building add](building_manage.png)
+![Building add](building_manage.png)
+![Building add](building_manage.png)
+![Building add](building_manage.png)
+![Building add](building_manage.png)
+
 
 ## How to Run
 1. Clone repository
