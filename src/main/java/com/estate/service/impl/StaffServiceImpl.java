@@ -82,19 +82,10 @@ public class StaffServiceImpl implements StaffService {
     public Page<StaffListDTO> search(Map<String, String> filter, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
 
-        Page<StaffEntity> staffPage;
-
         String fullName = filter.get("fullName");
         String role = filter.get("role");
 
-        if (role == null || role.isEmpty()) {
-            staffPage = staffRepository.findByFullNameContainingIgnoreCase(fullName, pageable);
-        }
-        else if (fullName == null || fullName.isEmpty()) {
-            staffPage = staffRepository.findByRole(pageable, role);
-        } else {
-            staffPage = staffRepository.findByFullNameContainingIgnoreCaseAndRole(fullName, role, pageable);
-        }
+        Page<StaffEntity> staffPage = staffRepository.search(fullName, role, pageable);
 
         // Tạo list chứa DTO
         List<StaffListDTO> dtoList = new ArrayList<>();

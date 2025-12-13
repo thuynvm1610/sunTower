@@ -1,5 +1,6 @@
 package com.estate.repository;
 
+import com.estate.repository.entity.InvoiceEntity;
 import com.estate.repository.entity.StaffEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,11 +22,14 @@ public interface StaffRepository extends JpaRepository<StaffEntity, Long> {
 
     Page<StaffEntity> findByRole(Pageable pageable, String role);
 
-    Page<StaffEntity> findByFullNameContainingIgnoreCase(String fullName, Pageable pageable);
-
-    Page<StaffEntity> findByFullNameContainingIgnoreCaseAndRole(
-            String fullName,
-            String role,
+    @Query("""
+            SELECT s FROM StaffEntity s
+            WHERE (:fullName = '' OR s.fullName = :fullName)
+            AND (:role = '' OR s.role = :role)
+            """)
+    Page<StaffEntity> search(
+            @Param("fullName") String fullName,
+            @Param("role") String role,
             Pageable pageable
     );
 
