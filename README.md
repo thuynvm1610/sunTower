@@ -28,19 +28,38 @@ invoices, and transactions with role-based access control.
 ![ERD](screenshots/estate_erd.png)
 
 ## Screenshots
-![Building add](building_manage.png)
-![Building add](building_manage.png)
-![Building add](building_manage.png)
-![Building add](building_manage.png)
-![Building add](building_manage.png)
-![Building add](building_manage.png)
-![Building add](building_manage.png)
-![Building add](building_manage.png)
-![Building add](building_manage.png)
-![Building add](building_manage.png)
-![Building add](building_manage.png)
-![Building add](building_manage.png)
+![Login page](login.png)
 
+![Dashboard](dashboard.png)
+
+![Building manage](building_manage.png)
+![Building filter](building_filter.png)
+![Building add](building_add.png)
+![Building update](building_update.png)
+![Building detail](building_detail.png)
+
+![Contract manage](contract_manage.png)
+![Contract add](contract_add.png)
+![Contract update](contract_update.png)
+![Contract detail](contract_detail.png)
+
+
+![Customer manage](customer_manage.png)
+![Customer add](customer_add.png)
+![Customer detail](customer_detail.png)
+
+![Staff manage 1](staff_manage_1.png)
+![Staff manage 2](staff_manage_2.png)
+![Staff add](staff_add.png)
+![Staff detail](staff_detail.png)
+
+![Customer home](customer_home.png)
+![Customer building view](customer_buildingView.png)
+![Customer contract](customer_contract.png)
+![Customer payment](customer_payment.png)
+![Customer transaction history](customer_transaction_history.png)
+
+![Public page](public_page.png)
 
 ## How to Run
 1. Clone repository
