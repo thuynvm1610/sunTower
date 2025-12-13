@@ -27,6 +27,17 @@
             </span>
         </a>
 
+        <a href="/admin/invoice/list" th:classappend="${page == 'invoice'} ? 'active'" class="nav-link">
+            <div class="nav-icon">
+                <i class="bi bi-receipt"></i>
+            </div>
+            <span class="nav-text">Quản lý hóa đơn</span>
+            <div class="nav-indicator"></div>
+            <span class="nav-badge badge-notification" th:if="${pendingInvoicesCount != null and pendingInvoicesCount > 0}">
+                <span th:text="${pendingInvoicesCount}">5</span>
+            </span>
+        </a>
+
         <a href="/admin/customer/list" th:classappend="${page == 'customer'} ? 'active'" class="nav-link">
             <div class="nav-icon">
                 <i class="bi bi-people"></i>
