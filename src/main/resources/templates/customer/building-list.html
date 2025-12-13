@@ -429,7 +429,12 @@
 
         /* Filter Styles */
         .filter-header {
-            margin-bottom: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e5e7eb;
         }
 
         .filter-title {
@@ -442,16 +447,24 @@
         }
 
         .btn-toggle-filter {
-            background: transparent;
+            background: #f3f4f6;
             border: none;
-            color: var(--primary-color);
-            font-size: 20px;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
-            transition: transform 0.3s;
+            transition: all 0.2s ease;
         }
 
         .btn-toggle-filter:hover {
-            color: var(--primary-light);
+            background: #e5e7eb;
+        }
+
+        .btn-toggle-filter i {
+            transition: transform 0.3s ease;
         }
 
         .btn-toggle-filter.collapsed i {
@@ -459,7 +472,15 @@
         }
 
         .filter-body {
-            transition: all 0.3s ease;
+            max-height: 1000px;
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            opacity: 1;
+        }
+
+        .filter-body.collapsed {
+            max-height: 0;
+            opacity: 0;
         }
 
         .filter-section-title {
@@ -518,26 +539,43 @@
         }
 
         .btn-filter {
-            padding: 0.6rem 1.5rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 24px;
             border-radius: 6px;
             font-weight: 600;
             font-size: 14px;
-            border: none;
-            cursor: pointer;
             transition: all 0.2s;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 0.5rem;
         }
 
+        .btn-filter:hover {
+            background: var(--primary-light);
+            color: white;
+        }
+
         .btn-reset {
-            background: #f5f7fa;
+            background: white;
             color: #666;
+            border: 1px solid #ddd;
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
 
         .btn-reset:hover {
-            background: #e8ebef;
-            color: #333;
+            background: #f5f7fa;
+            color: #666;
         }
 
         .btn-search {
@@ -690,16 +728,14 @@
 
         <!-- Filter Section -->
         <form class="filter-section" id="filterForm">
-            <div class="filter-header mb-3">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="filter-title">
-                        <i class="bi bi-funnel"></i>
-                        Bộ lọc tìm kiếm
-                    </div>
-                    <button type="button" class="btn-toggle-filter" onclick="toggleFilter()">
-                        <i class="bi bi-chevron-up" id="toggleIcon"></i>
-                    </button>
+            <div class="filter-header">
+                <div class="filter-title">
+                    <i class="bi bi-funnel"></i>
+                    Bộ lọc tìm kiếm
                 </div>
+                <button type="button" class="btn-toggle-filter" onclick="toggleFilter()">
+                    <i class="bi bi-chevron-up" id="toggleIcon"></i>
+                </button>
             </div>
 
             <div class="filter-body" id="filterBody">
@@ -865,13 +901,13 @@
                 </div>
 
                 <div class="filter-actions mt-4">
-                    <button type="button" class="btn-filter btn-reset" onclick="resetFilter()">
-                        <i class="bi bi-arrow-clockwise"></i>
-                        Đặt lại
-                    </button>
                     <button type="submit" class="btn-filter btn-search">
                         <i class="bi bi-search"></i>
                         Tìm kiếm
+                    </button>
+                    <button type="button" class="btn-reset" onclick="resetFilter()">
+                        <i class="bi bi-arrow-clockwise"></i>
+                        Đặt lại
                     </button>
                 </div>
             </div>
@@ -1158,18 +1194,28 @@
         // Toggle filter
         function toggleFilter() {
             const filterBody = document.getElementById('filterBody');
+            const toggleBtn = document.querySelector('.btn-toggle-filter');
             const toggleIcon = document.getElementById('toggleIcon');
 
-            if (filterBody.style.display === 'none') {
-                filterBody.style.display = 'block';
-                toggleIcon.classList.remove('bi-chevron-down');
-                toggleIcon.classList.add('bi-chevron-up');
-            } else {
-                filterBody.style.display = 'none';
-                toggleIcon.classList.remove('bi-chevron-up');
-                toggleIcon.classList.add('bi-chevron-down');
-            }
+            filterBody.classList.toggle('collapsed');
+            toggleBtn.classList.toggle('collapsed');
+
+            // Lưu trạng thái vào localStorage
+            const isCollapsed = filterBody.classList.contains('collapsed');
+            localStorage.setItem('filterCollapsed', isCollapsed);
         }
+
+        // Khôi phục trạng thái khi tải trang
+        document.addEventListener('DOMContentLoaded', function () {
+            const filterBody = document.getElementById('filterBody');
+            const toggleBtn = document.querySelector('.btn-toggle-filter');
+            const isCollapsed = localStorage.getItem('filterCollapsed') === 'true';
+
+            if (isCollapsed) {
+                filterBody.classList.add('collapsed');
+                toggleBtn.classList.add('collapsed');
+            }
+        });
 
         // Reset input filter
         function resetFilter() {

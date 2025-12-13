@@ -185,8 +185,8 @@
         }
 
         .btn-reset:hover {
-            background: #f5f5f5;
-            border-color: #ccc;
+            background: #f5f7fa;
+            color: #666;
         }
 
         /* Statistics Bar */
@@ -472,6 +472,13 @@
             color: #059669;
             font-size: 14px;
         }
+
+        /* Highlight khi có giá trị */
+        .filter-section .form-select.has-value {
+            background-color: #E8F0FE;
+            border-color: #3b82f6;
+            font-weight: 600;
+        }
     </style>
 </head>
 
@@ -678,11 +685,6 @@
             }
         }
 
-        // Format số tiền
-        function formatCurrency(amount) {
-            return new Intl.NumberFormat('vi-VN').format(amount);
-        }
-
         function loadTransactions(page = 1, event) {
             if (event) event.preventDefault();
 
@@ -721,7 +723,8 @@
                     searchResult.html(`Kết quả tìm kiếm: <strong>${data.totalElements}</strong> giao dịch`).show();
 
                     $.each(data.content, function (i, t) {
-                        const totalPaidAmount = Number(t.totalAmount) + Number(t.totalServiceFeeAmount);
+                        const totalPaidAmount = (Number(t.totalAmount) + Number(t.totalServiceFeeAmount))
+                                                .toLocaleString("vi-VN").replace(/\./g, ",");
 
                         tbody.append(`
                         <tr>
@@ -747,7 +750,7 @@
                             </td>
                             <td>
                                 <span class="amount-badge">
-                                    ${formatCurrency(totalPaidAmount)} đ
+                                    ${totalPaidAmount} đ
                                 </span>
                             </td>
                         </tr>
@@ -832,13 +835,27 @@
             pagination.html(html);
         }
 
+        // Reset input filter
         function resetFilter() {
-            $("[name='month']").val("");
-            $("[name='year']").val("");
-            loadTransactions();
+            document.querySelectorAll('.form-select').forEach(input => {
+                input.value = '';
+            });
+
+            setTimeout(function () {
+                $('.filter-section .form-select').removeClass('has-value');
+            }, 10);
         }
 
-        // Khởi tạo filter
+        // Lắng nghe sự kiện input/change để highlight real-time
+        $('.filter-section .form-select').on('input change', function () {
+            const $this = $(this);
+            if ($this.val() && $this.val().trim() !== '') {
+                $this.addClass('has-value');
+            } else {
+                $this.removeClass('has-value');
+            }
+        });
+
         $(document).ready(function () {
             initYearSelect();
             loadTransactions();
