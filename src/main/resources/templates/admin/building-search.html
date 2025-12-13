@@ -265,7 +265,6 @@
 
         /* Modern table */
         .modern-table {
-            margin: 0;
             min-height: 480px;
         }
 
@@ -427,11 +426,10 @@
         /* Pagination */
         .pagination-wrapper {
             min-height: auto;
-            margin-top: 1.5rem;
         }
 
         .pagination {
-            gap: 0.5rem;
+            margin-bottom: 28px;
         }
 
         .pagination .page-item {
@@ -506,6 +504,10 @@
                 flex-wrap: wrap;
             }
         }
+
+        .separator {
+            height: 12px;
+        }
     </style>
 </head>
 
@@ -561,6 +563,7 @@
                     </table>
                 </div>
             </div>
+            <div class="separator"></div>
 
             <!-- Pagination -->
             <div id="pagination"></div>
