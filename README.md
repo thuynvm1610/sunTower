@@ -25,7 +25,7 @@ invoices, and transactions with role-based access control.
 - VNPay sandbox integration (mock payment)
 
 ## Database Design
-
+![ERD](screenshots/estate_erd.png)
 
 ## Screenshots
 (Add 3–5 UI screenshots)
