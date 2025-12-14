@@ -479,6 +479,274 @@
             border-color: #3b82f6;
             font-weight: 600;
         }
+
+        /* Invoice modal */
+        .modal-header {
+            background: var(--primary-color);
+            color: white;
+            border-radius: 0.5rem 0.5rem 0 0;
+        }
+
+        .modal-header .btn-close {
+            filter: brightness(0) invert(1);
+        }
+
+        .invoice-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+            color: white;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .invoice-id {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .invoice-period {
+            font-size: 1rem;
+            opacity: 0.95;
+        }
+
+        .info-section {
+            background: #f8f9fa;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-section-title {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .info-value {
+            font-weight: 600;
+            color: #333;
+            text-align: right;
+        }
+
+        .utility-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-top: 0.75rem;
+        }
+
+        .utility-item {
+            background: white;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            border: 1px solid #e0e0e0;
+        }
+
+        .utility-label {
+            color: #666;
+            font-size: 0.85rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .utility-value {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.95rem;
+        }
+
+        .meter-reading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            margin-bottom: 0.5rem;
+            border: 1px solid #e0e0e0;
+        }
+
+        .meter-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .meter-icon {
+            width: 40px;
+            height: 40px;
+            background: #f0f4ff;
+            border-radius: 0.375rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+        }
+
+        .meter-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .meter-label {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .meter-values {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .usage-badge {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 0.375rem 0.75rem;
+            border-radius: 1rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+            width: fit-content;
+            margin-left: auto;
+        }
+
+        .total-section {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            border-radius: 0.5rem;
+            padding: 1.25rem;
+            margin-top: 1.5rem;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .total-row:last-child {
+            margin-bottom: 0;
+            padding-top: 0.75rem;
+            border-top: 2px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .total-label {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .total-amount {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #d32f2f;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.5rem 1rem;
+            border-radius: 1.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .status-unpaid {
+            background: #fff3e0;
+            color: #f57c00;
+            border: 2px solid #ffb74d;
+        }
+
+        .btn-payment {
+            background: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .btn-payment:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(45, 62, 143, 0.3);
+        }
+
+        .icon-circle {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.5rem;
+        }
+
+        /* Base table styles */
+        #transactionTableBody tr {
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        /* Simple hover effect */
+        #transactionTableBody tr:hover {
+            background-color: #f5f7fa;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Badge base styles */
+        .month-badge,
+        .amount-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .month-badge {
+            background-color: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .amount-badge {
+            background-color: #e8f5e9;
+            color: #388e3c;
+            font-weight: 600;
+        }
+
+        .building-link {
+            color: #1976d2;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .building-link:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 
@@ -667,44 +935,48 @@
 
         <!-- Pagination -->
         <div id="transactionPagination"></div>
-    </div>
 
-    <!-- Bootstrap 5 JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!--JQuery-->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- Modal Chi Tiết Hóa Đơn -->
+        <div id="modalContainer">
+        </div>
 
-    <script>
-        // Khởi tạo danh sách năm
-        function initYearSelect() {
-            const currentYear = new Date().getFullYear();
-            const yearSelect = $("[name='year']");
+        <!-- Bootstrap 5 JS Bundle -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <!--JQuery-->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-            for (let year = currentYear; year >= currentYear - 10; year--) {
-                yearSelect.append(`<option value="${year}">${year}</option>`);
+        <script>
+            // Khởi tạo danh sách năm
+            function initYearSelect() {
+                const currentYear = new Date().getFullYear();
+                const yearSelect = $("[name='year']");
+
+                for (let year = currentYear; year >= currentYear - 10; year--) {
+                    yearSelect.append(`<option value="${year}">${year}</option>`);
+                }
             }
-        }
 
-        function loadTransactions(page = 1, event) {
-            if (event) event.preventDefault();
+            function loadTransactions(page = 1, event) {
+                if (event) event.preventDefault();
 
-            $.ajax({
-                url: "/customer/transaction/list/page",
-                type: "GET",
-                data: {
-                    month: $("[name='month']").val(),
-                    year: $("[name='year']").val(),
-                    page: page,
-                    size: 5
-                },
-                success: function (data) {
-                    const tbody = $("#transactionTableBody");
-                    tbody.empty();
+                $.ajax({
+                    url: "/customer/transaction/list/page",
+                    type: "GET",
+                    data: {
+                        month: $("[name='month']").val(),
+                        year: $("[name='year']").val(),
+                        page: page,
+                        size: 5
+                    },
+                    success: function (data) {
+                        const tbody = $("#transactionTableBody");
+                        tbody.empty();
+                        const modalContainer = $("#modalContainer");
 
-                    const searchResult = $("#totalTransactionSearch");
+                        const searchResult = $("#totalTransactionSearch");
 
-                    if (data.content.length === 0) {
-                        tbody.append(`
+                        if (data.content.length === 0) {
+                            tbody.append(`
                         <tr>
                             <td colspan="5">
                                 <div class="empty-state">
@@ -715,69 +987,248 @@
                             </td>
                         </tr>
                     `);
-                        $("#transactionPagination").empty();
-                        searchResult.hide();
-                        return;
+                            $("#transactionPagination").empty();
+                            searchResult.hide();
+                            return;
+                        }
+
+                        searchResult.html(`Kết quả tìm kiếm: <strong>${data.totalElements}</strong> giao dịch`).show();
+
+                        $.each(data.content, function (i, t) {
+                            const totalPaidAmount = (Number(t.totalAmount) + Number(t.totalServiceFeeAmount))
+                                .toLocaleString("vi-VN").replace(/\./g, ",");
+
+                            tbody.append(`
+                            <tr data-bs-toggle="modal" data-bs-target="#invoiceModal-${i}">
+                                <td>
+                                    <span class="month-badge">
+                                        ${t.month}/${t.year}
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="/customer/building/list?buildingName=${t.contract.building.name}" class="building-link">
+                                        ${t.contract.building.name}
+                                    </a>
+                                </td>
+                                <td>
+                                    <span class="area-badge">
+                                        ${t.contract.rentArea} m²
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="date-badge">
+                                        ${t.paidDate}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="amount-badge">
+                                        ${totalPaidAmount} đ
+                                    </span>
+                                </td>
+                            </tr>
+                        `);
+
+                            modalContainer.append(`
+                            <div class="modal fade" id="invoiceModal-${i}" tabindex="-1" aria-labelledby="invoiceModalLabel-${i}" aria-hidden="true">
+                                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="invoiceModalLabel-${i}">
+                                                <i class="bi bi-file-earmark-text me-2"></i>Chi Tiết Hóa Đơn
+                                            </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!-- Invoice Header -->
+                                            <div class="invoice-header">
+                                                <div class="invoice-id">
+                                                    <i class="bi bi-receipt me-2"></i>
+                                                    <span>Mã hóa đơn: ${t.id}</span>
+                                                </div>
+                                                <div class="invoice-period">
+                                                    <i class="bi bi-calendar-month me-2"></i>
+                                                    <span>
+                                                        Tháng ${t.month}/${t.year}
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <!-- Thông tin chung -->
+                                            <div class="info-section">
+                                                <div class="info-section-title">
+                                                    <i class="bi bi-info-circle me-2"></i>Thông Tin Chung
+                                                </div>
+                                                <div class="info-row">
+                                                    <span class="info-label">Ngày tạo hóa đơn</span>
+                                                    <span class="info-value">${t.createdDate}</span>
+                                                </div>
+                                                <div class="info-row">
+                                                    <span class="info-label">Hạn thanh toán</span>
+                                                    <span class="info-value text-danger">${t.dueDate}</span>
+                                                </div>
+                                                <div class="info-row">
+                                                    <p class="text-muted mb-0 small">
+                                                        Tòa ${t.contract.building.name} - Thuê ${t.contract.rentArea} m²
+                                                    </p>
+                                                </div>
+                                                <div class="info-row">
+                                                    <span class="info-label">Trạng thái</span>
+                                                    <span class="status-badge status-unpaid">
+                                                        <i class="bi bi-exclamation-circle"></i>
+                                                        Chưa thanh toán
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <!-- Chi phí cố định -->
+                                            <div class="info-section">
+                                                <div class="info-section-title">
+                                                    <i class="bi bi-cash-stack me-2"></i>Chi Phí Cố Định
+                                                </div>
+                                                <div class="info-row">
+                                                    <span class="info-label">Tiền thuê mặt bằng</span>
+                                                    <span class="info-value">
+                                                        ${Number(t.contract.rentPrice).toLocaleString("vi-VN").replace(/\./g, ",")} VNĐ
+                                                        </span>
+                                                </div>
+                                                <div class="info-row">
+                                                    <span class="info-label">Phí dịch vụ</span>
+                                                    <span class="info-value" >
+                                                        ${Number(t.details[1].amount).toLocaleString("vi-VN").replace(/\./g, ",")} VNĐ
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <!-- Chi phí phương tiện -->
+                                            <div class="info-section">
+                                                <div class="info-section-title">
+                                                    <i class="bi bi-car-front me-2"></i>Phí Gửi Xe
+                                                </div>
+                                                <div class="utility-grid">
+                                                    <div class="utility-item">
+                                                        <div class="utility-label">
+                                                            <i class="bi bi-car-front-fill me-1"></i>Ô tô
+                                                        </div>
+                                                        <div class="utility-value">
+                                                            ${Number(t.details[2].amount).toLocaleString("vi-VN").replace(/\./g, ",")} VNĐ
+                                                        </div>
+                                                    </div>
+                                                    <div class="utility-item">
+                                                        <div class="utility-label">
+                                                            <i class="bi bi-bicycle me-1"></i>Xe máy
+                                                        </div>
+                                                        <div class="utility-value">
+                                                            ${Number(t.details[3].amount).toLocaleString("vi-VN").replace(/\./g, ",")} VNĐ
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Tiện ích (Điện & Nước) -->
+                                            <div class="info-section">
+                                                <div class="info-section-title">
+                                                    <i class="bi bi-lightning-charge me-2"></i>Sinh hoạt
+                                                </div>
+
+                                                <!-- Điện -->
+                                                <div class="meter-reading">
+                                                    <div class="meter-info">
+                                                        <div class="meter-icon">
+                                                            <i class="bi bi-lightning-charge-fill"></i>
+                                                        </div>
+                                                        <div class="meter-details">
+                                                            <span class="meter-label">Điện</span>
+                                                            <span class="meter-values">
+                                                                <span>${t.utilityMeter.electricityOld}</span> →
+                                                                <span>${t.utilityMeter.electricityNew}</span> kWh
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-end">
+                                                        <div class="usage-badge">
+                                                            <span>${t.utilityMeter.electricityNew - t.utilityMeter.electricityOld}</span>
+                                                            kWh
+                                                        </div>
+                                                        <div class="info-value mt-1">
+                                                            ${Number(t.details[4].amount).toLocaleString("vi-VN").replace(/\./g, ",")} VNĐ
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Nước -->
+                                                <div class="meter-reading">
+                                                    <div class="meter-info">
+                                                        <div class="meter-icon">
+                                                            <i class="bi bi-droplet-fill"></i>
+                                                        </div>
+                                                        <div class="meter-details">
+                                                            <span class="meter-label">Nước</span>
+                                                            <span class="meter-values">
+                                                                <span>${t.utilityMeter.waterOld}</span> →
+                                                                <span>${t.utilityMeter.waterNew}</span> m³
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-end">
+                                                        <div class="usage-badge">
+                                                            <span>${t.utilityMeter.waterNew - t.utilityMeter.waterOld}</span>
+                                                            m³
+                                                        </div>
+                                                        <div class="info-value mt-1">
+                                                            ${Number(t.details[5].amount).toLocaleString("vi-VN").replace(/\./g, ",")} VNĐ
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Tổng cộng -->
+                                            <div class="total-section">
+                                                <div class="total-row">
+                                                    <span class="total-label">
+                                                        <i class="bi bi-cash-coin me-2"></i>TỔNG CỘNG
+                                                    </span>
+                                                    <span class="total-amount">
+                                                        ${Number(t.totalAmount).toLocaleString("vi-VN").replace(/\./g, ",")} VNĐ
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                <i class="bi bi-x-circle me-2"></i>Đóng
+                                            </button>
+                                            <button type="button" class="btn btn-payment"
+                                                onclick="payInvoice(${t.id})">
+                                                <i class="bi bi-credit-card me-2"></i> Xác Nhận Thanh Toán
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `);
+                        });
+
+                        renderTransactionPagination(data.totalPages, page);
+                    },
+                    error: function () {
+                        alert("Không tải được dữ liệu!");
                     }
+                });
+            }
 
-                    searchResult.html(`Kết quả tìm kiếm: <strong>${data.totalElements}</strong> giao dịch`).show();
+            function renderTransactionPagination(totalPages, current) {
+                const pagination = $("#transactionPagination");
+                pagination.empty();
+                if (totalPages <= 1) return;
 
-                    $.each(data.content, function (i, t) {
-                        const totalPaidAmount = (Number(t.totalAmount) + Number(t.totalServiceFeeAmount))
-                                                .toLocaleString("vi-VN").replace(/\./g, ",");
-
-                        tbody.append(`
-                        <tr>
-                            <td>
-                                <span class="month-badge">
-                                    ${t.month}/${t.year}
-                                </span>
-                            </td>
-                            <td>
-                                <a href="/customer/building/list?buildingName=${t.contract.building.name}" class="building-link">
-                                    ${t.contract.building.name}
-                                </a>
-                            </td>
-                            <td>
-                                <span class="area-badge">
-                                    ${t.contract.rentArea} m²
-                                </span>
-                            </td>
-                            <td>
-                                <span class="date-badge">
-                                    ${t.paidDate}
-                                </span>
-                            </td>
-                            <td>
-                                <span class="amount-badge">
-                                    ${totalPaidAmount} đ
-                                </span>
-                            </td>
-                        </tr>
-                    `);
-                    });
-
-                    renderTransactionPagination(data.totalPages, page);
-                },
-                error: function () {
-                    alert("Không tải được dữ liệu!");
-                }
-            });
-        }
-
-        function renderTransactionPagination(totalPages, current) {
-            const pagination = $("#transactionPagination");
-            pagination.empty();
-            if (totalPages <= 1) return;
-
-            let html = `
+                let html = `
         <div class="pagination-container">
             <nav>
                 <ul class="pagination justify-content-center">
         `;
 
-            // --- First ---
-            html += `
+                // --- First ---
+                html += `
             <li class="page-item ${current === 1 ? 'disabled' : ''}">
                 <a href="#" class="page-link" onclick="loadTransactions(1, event)" title="Trang đầu">
                     <i class="bi bi-chevron-bar-left"></i>
@@ -785,8 +1236,8 @@
             </li>
         `;
 
-            // --- Prev ---
-            html += `
+                // --- Prev ---
+                html += `
             <li class="page-item ${current === 1 ? 'disabled' : ''}">
                 <a href="#" class="page-link" onclick="loadTransactions(${current - 1}, event)" title="Trang trước">
                     <i class="bi bi-chevron-left"></i>
@@ -794,22 +1245,22 @@
             </li>
         `;
 
-            // --- BLOCK 5 PAGE ---
-            const blockSize = 5;
-            const blockStart = Math.floor((current - 1) / blockSize) * blockSize + 1;
-            let blockEnd = blockStart + blockSize - 1;
-            if (blockEnd > totalPages) blockEnd = totalPages;
+                // --- BLOCK 5 PAGE ---
+                const blockSize = 5;
+                const blockStart = Math.floor((current - 1) / blockSize) * blockSize + 1;
+                let blockEnd = blockStart + blockSize - 1;
+                if (blockEnd > totalPages) blockEnd = totalPages;
 
-            for (let i = blockStart; i <= blockEnd; i++) {
-                html += `
+                for (let i = blockStart; i <= blockEnd; i++) {
+                    html += `
                 <li class="page-item ${i === current ? 'active' : ''}">
                     <a href="#" class="page-link" onclick="loadTransactions(${i}, event)">${i}</a>
                 </li>
             `;
-            }
+                }
 
-            // --- Next ---
-            html += `
+                // --- Next ---
+                html += `
             <li class="page-item ${current === totalPages ? 'disabled' : ''}">
                 <a href="#" class="page-link" onclick="loadTransactions(${current + 1}, event)" title="Trang sau">
                     <i class="bi bi-chevron-right"></i>
@@ -817,8 +1268,8 @@
             </li>
         `;
 
-            // --- Last ---
-            html += `
+                // --- Last ---
+                html += `
             <li class="page-item ${current === totalPages ? 'disabled' : ''}">
                 <a href="#" class="page-link" onclick="loadTransactions(${totalPages}, event)" title="Trang cuối">
                     <i class="bi bi-chevron-bar-right"></i>
@@ -826,46 +1277,47 @@
             </li>
         `;
 
-            html += `
+                html += `
                 </ul>
             </nav>
         </div>
         `;
 
-            pagination.html(html);
-        }
+                pagination.html(html);
+            }
 
-        // Reset input filter
-        function resetFilter() {
-            document.querySelectorAll('.form-select').forEach(input => {
-                input.value = '';
+            // Reset input filter
+            function resetFilter() {
+                document.querySelectorAll('.form-select').forEach(input => {
+                    input.value = '';
+                });
+
+                setTimeout(function () {
+                    $('.filter-section .form-select').removeClass('has-value');
+                }, 10);
+            }
+
+            // Lắng nghe sự kiện input/change để highlight real-time
+            $('.filter-section .form-select').on('input change', function () {
+                const $this = $(this);
+                if ($this.val() && $this.val().trim() !== '') {
+                    $this.addClass('has-value');
+                } else {
+                    $this.removeClass('has-value');
+                }
             });
 
-            setTimeout(function () {
-                $('.filter-section .form-select').removeClass('has-value');
-            }, 10);
-        }
+            $(document).ready(function () {
+                initYearSelect();
+                loadTransactions();
+            });
 
-        // Lắng nghe sự kiện input/change để highlight real-time
-        $('.filter-section .form-select').on('input change', function () {
-            const $this = $(this);
-            if ($this.val() && $this.val().trim() !== '') {
-                $this.addClass('has-value');
-            } else {
-                $this.removeClass('has-value');
-            }
-        });
-
-        $(document).ready(function () {
-            initYearSelect();
-            loadTransactions();
-        });
-
-        $("#filterForm").on("submit", function (e) {
-            e.preventDefault();
-            loadTransactions();
-        });
-    </script>
+            $("#filterForm").on("submit", function (e) {
+                e.preventDefault();
+                loadTransactions();
+            });
+        </script>
+    </div>
 </body>
 
 </html>
