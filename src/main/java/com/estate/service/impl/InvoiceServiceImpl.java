@@ -1,8 +1,12 @@
 package com.estate.service.impl;
 
 import com.estate.converter.InvoiceDetailConverter;
+import com.estate.converter.InvoiceListDTOConverter;
+import com.estate.dto.BuildingListDTO;
 import com.estate.dto.InvoiceDetailDTO;
+import com.estate.dto.InvoiceListDTO;
 import com.estate.repository.InvoiceRepository;
+import com.estate.repository.entity.BuildingEntity;
 import com.estate.repository.entity.InvoiceEntity;
 import com.estate.repository.entity.UtilityMeterEntity;
 import com.estate.service.InvoiceService;
@@ -29,6 +33,9 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Autowired
     InvoiceDetailConverter invoiceDetailConverter;
+
+    @Autowired
+    InvoiceListDTOConverter invoiceListDTOConverter;
 
     @Override
     public String findTotalAmountByCustomerId(Long id) {
@@ -135,6 +142,31 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         // Tạo PageImpl giữ nguyên thông tin phân trang gốc
         Page<InvoiceDetailDTO> result = new PageImpl<>(
+                dtoList,
+                invoicePage.getPageable(),
+                invoicePage.getTotalElements()
+        );
+
+        return result;
+    }
+
+    @Override
+    public Page<InvoiceListDTO> getInvoices(int page, int size) {
+        Page<InvoiceEntity> invoicePage = invoiceRepository.findAll(PageRequest.of(page, size));
+
+        // Tạo list chứa DTO
+        List<InvoiceListDTO> dtoList = new ArrayList<>();
+
+        // Duyệt qua từng InvoiceEntity
+        for (InvoiceEntity i : invoicePage) {
+            // Convert entity sang DTO
+            InvoiceListDTO dto = invoiceListDTOConverter.toDTO(i);
+
+            dtoList.add(dto);
+        }
+
+        // Tạo PageImpl giữ nguyên thông tin phân trang gốc
+        Page<InvoiceListDTO> result = new PageImpl<>(
                 dtoList,
                 invoicePage.getPageable(),
                 invoicePage.getTotalElements()

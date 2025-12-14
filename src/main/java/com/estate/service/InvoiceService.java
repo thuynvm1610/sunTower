@@ -1,6 +1,7 @@
 package com.estate.service;
 
 import com.estate.dto.InvoiceDetailDTO;
+import com.estate.dto.InvoiceListDTO;
 import com.estate.repository.entity.InvoiceEntity;
 import org.springframework.data.domain.Page;
 
@@ -16,4 +17,5 @@ public interface InvoiceService {
     BigDecimal getTotalAmountPayable(Long customerId);
     Long getTotalPaidInvoice(Long customerId);
     Page<InvoiceDetailDTO> getInvoices(int page, int size, Integer  month, Integer  year, Long customerId);
+    Page<InvoiceListDTO> getInvoices(int page, int size);
 }

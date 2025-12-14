@@ -331,14 +331,8 @@
         }
 
         .area-badge {
-            display: inline-block;
-            padding: 0.375rem 0.75rem;
-            border-radius: 6px;
             font-weight: 600;
             font-size: 0.875rem;
-            white-space: nowrap;
-            background: #f3e8ff;
-            color: #7c3aed;
         }
 
         .price-badge {
@@ -366,14 +360,14 @@
             color: #16a34a;
         }
 
-        .status-badge.unpaid {
-            background: #fee2e2;
-            color: #dc2626;
-        }
-
         .status-badge.pending {
             background: #fef3c7;
             color: #d97706;
+        }
+
+        .status-badge.expired {
+            background: #fee2e2;
+            color: #dc2626;
         }
 
         /* Action buttons */
@@ -744,9 +738,9 @@
         // Hàm lấy badge status
         function getStatusBadge(status) {
             const statusMap = {
-                'Đã thanh toán': { class: 'paid', text: 'Đã thanh toán' },
-                'Chưa thanh toán': { class: 'unpaid', text: 'Chưa thanh toán' },
-                'Đang chờ': { class: 'pending', text: 'Đang chờ' },
+                'PAID': { class: 'paid', text: 'Đã thanh toán' },
+                'PENDING': { class: 'pending', text: 'Chưa thanh toán' },
+                'EXPIRED': { class: 'expired', text: 'Quá hạn' },
             };
             const s = statusMap[status] || { class: 'pending', text: status };
             return `<span class="status-badge ${s.class}">${s.text}</span>`;
@@ -785,9 +779,9 @@
                     <tr>
                         <td><span class="invoice-id">${inv.id}</span></td>
                         <td><span class="month-badge">${formatMonth(inv.month, inv.year)}</span></td>
-                        <td><span class="customer-name">${inv.customer || ''}</span></td>
-                        <td><span class="building-name">${inv.building || ''}</span></td>
-                        <td><span class="area-badge">${formatArea(inv.rentArea)}</span></td>
+                        <td><span class="customer-name">${inv.customer.fullName || ''}</span></td>
+                        <td><span class="building-name">${inv.contract.building.name || ''}</span></td>
+                        <td><span class="area-badge">${formatArea(inv.contract.rentArea)}</span></td>
                         <td><span class="price-badge">${formatPrice(inv.totalAmount)}</span></td>
                         <td>${getStatusBadge(inv.status)}</td>
                         <td>
