@@ -33,9 +33,7 @@ public class AdminBuildingController {
         model.addAttribute("managers", staffService.getStaffsName());
         model.addAttribute("wards", buildingService.getWardName());
         model.addAttribute("streets", buildingService.getStreetName());
-//        model.addAttribute("directions", buildingService.getDirectionName());
         model.addAttribute("directions", Direction.values());
-//        model.addAttribute("levels", buildingService.getLevelName());
         model.addAttribute("levels", Level.values());
         model.addAttribute("districts", districtService.findAll());
         model.addAttribute("page", "building");
@@ -52,9 +50,7 @@ public class AdminBuildingController {
         model.addAttribute("managers", staffService.getStaffsName());
         model.addAttribute("wards", buildingService.getWardName());
         model.addAttribute("streets", buildingService.getStreetName());
-//        model.addAttribute("directions", buildingService.getDirectionName());
         model.addAttribute("directions", Direction.values());
-//        model.addAttribute("levels", buildingService.getLevelName());
         model.addAttribute("levels", Level.values());
         model.addAttribute("districts", districtService.findAll());
         model.addAttribute("page", "building");
