@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>SunTower | Chi tiết Hóa đơn</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap + Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link th:href="@{/css/admin.css}" rel="stylesheet">
+
+    <style>
+        body {
+            background: #fafbfc;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            overflow-x: hidden;
+        }
+
+        main.content {
+            margin-left: 250px;
+            padding: 2.5rem 3rem;
+            margin-top: 70px;
+        }
+
+        /* Page header */
+        .page-header {
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-header h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #111827;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .page-header h2 i {
+            color: #3b82f6;
+        }
+
+        /* Action buttons */
+        .header-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn-action-header {
+            padding: 0.625rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .btn-back {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .btn-back:hover {
+            background: #e5e7eb;
+            color: #111827;
+        }
+
+        .btn-print {
+            background: #8b5cf6;
+            color: white;
+        }
+
+        .btn-print:hover {
+            background: #7c3aed;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn-pay {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-pay:hover {
+            background: #059669;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-edit {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background: #d97706;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-delete {
+            background: #dc2626;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #b91c1c;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+        }
+
+        /* Info cards */
+        .info-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .info-card-header i {
+            font-size: 1.25rem;
+            color: #3b82f6;
+        }
+
+        .info-card-header h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #111827;
+            margin: 0;
+        }
+
+        /* Info row */
+        .info-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .info-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+
+        .info-value {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #111827;
+            padding: 0.625rem 0.875rem;
+            background: #f9fafb;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            min-height: 42px;
+            display: flex;
+            align-items: center;
+        }
+
+        .info-value.empty {
+            color: #9ca3af;
+            font-style: italic;
+        }
+
+        .info-value.price {
+            color: #059669;
+            font-weight: 600;
+            font-size: 1.125rem;
+        }
+
+        .info-value.total-price {
+            color: #dc2626;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        /* Status badges */
+        .badge-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+            width: fit-content;
+        }
+
+        .badge-paid {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-overdue {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* Invoice ID badge */
+        .invoice-id-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .invoice-id-badge i {
+            font-size: 1.5rem;
+        }
+
+        /* Entity info cards */
+        .entity-card {
+            background: linear-gradient(135deg, #f9fafb 0%, #ffffff 100%);
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1.25rem;
+            transition: all 0.3s ease;
+        }
+
+        .entity-card:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .entity-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .entity-header i {
+            font-size: 1.5rem;
+            color: #3b82f6;
+        }
+
+        .entity-header h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #111827;
+            margin: 0;
+        }
+
+        .entity-detail {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .entity-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            font-size: 0.9375rem;
+        }
+
+        .entity-row i {
+            color: #6b7280;
+            margin-top: 0.125rem;
+            font-size: 0.875rem;
+        }
+
+        .entity-row span {
+            color: #374151;
+        }
+
+        .entity-row strong {
+            color: #111827;
+            font-weight: 600;
+        }
+
+        /* Table */
+        .detail-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .detail-table thead {
+            background: #f9fafb;
+        }
+
+        .detail-table th {
+            padding: 1rem;
+            text-align: left;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .detail-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #f3f4f6;
+            color: #374151;
+            font-size: 0.9375rem;
+        }
+
+        .detail-table tbody tr:hover {
+            background: #f9fafb;
+        }
+
+        .detail-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .text-price {
+            color: #059669;
+            font-weight: 600;
+        }
+
+        /* Summary section */
+        .summary-section {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 2px solid #93c5fd;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #bfdbfe;
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+            padding-top: 1rem;
+            margin-top: 0.5rem;
+            border-top: 2px solid #93c5fd;
+        }
+
+        .summary-label {
+            font-size: 1rem;
+            color: #374151;
+            font-weight: 500;
+        }
+
+        .summary-value {
+            font-size: 1.125rem;
+            color: #059669;
+            font-weight: 600;
+        }
+
+        .summary-row:last-child .summary-label {
+            font-size: 1.25rem;
+            color: #111827;
+            font-weight: 700;
+        }
+
+        .summary-row:last-child .summary-value {
+            font-size: 1.75rem;
+            color: #dc2626;
+            font-weight: 700;
+        }
+
+        /* Utility Meter Card */
+        .meter-card {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 2px solid #fbbf24;
+            border-radius: 12px;
+            padding: 1.25rem;
+        }
+
+        .meter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .meter-item {
+            background: white;
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid #fbbf24;
+        }
+
+        .meter-label {
+            font-size: 0.75rem;
+            color: #92400e;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+        }
+
+        .meter-value {
+            font-size: 1.125rem;
+            color: #111827;
+            font-weight: 700;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            main.content {
+                margin-left: 0;
+                padding: 1.5rem;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .header-actions {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+
+            .btn-action-header {
+                flex: 1;
+                min-width: 120px;
+                justify-content: center;
+            }
+
+            .info-row {
+                grid-template-columns: 1fr;
+            }
+
+            .detail-table {
+                font-size: 0.875rem;
+            }
+
+            .detail-table th,
+            .detail-table td {
+                padding: 0.75rem 0.5rem;
+            }
+
+            .meter-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- HEADER + SIDEBAR -->
+<div th:replace="~{layout/header :: header}"></div>
+<div th:replace="~{layout/sidebar :: sidebar}"></div>
+
+<main class="content">
+    <div class="container-fluid">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h2>
+                <i class="bi bi-receipt-cutoff"></i>
+                Chi tiết Hóa đơn
+            </h2>
+            <div class="header-actions">
+                <a th:href="@{/admin/invoice/list}" class="btn-action-header btn-back">
+                    <i class="bi bi-arrow-left"></i>
+                    Quay lại
+                </a>
+                <button class="btn-action-header btn-print">
+                    <i class="bi bi-printer"></i>
+                    In hóa đơn
+                </button>
+                <button class="btn-action-header btn-pay" th:if="${invoice.status == 'PENDING'}"
+                        th:data-id="${invoice.id}">
+                    <i class="bi bi-check-circle"></i>
+                    Xác nhận thanh toán
+                </button>
+                <a th:href="@{'/admin/invoice/edit/' + ${invoice.id}}" class="btn-action-header btn-edit">
+                    <i class="bi bi-pencil"></i>
+                    Chỉnh sửa
+                </a>
+                <button class="btn-action-header btn-delete" th:data-id="${invoice.id}">
+                    <i class="bi bi-trash"></i>
+                    Xóa
+                </button>
+            </div>
+        </div>
+
+        <!-- Invoice ID Badge -->
+        <div class="invoice-id-badge">
+            <i class="bi bi-hash"></i>
+            <span>Hóa đơn số: <span th:text="${invoice.id}"></span></span>
+        </div>
+
+        <!-- Thông tin hóa đơn -->
+        <div class="info-card">
+            <div class="info-card-header">
+                <i class="bi bi-receipt"></i>
+                <h3>Thông tin hóa đơn</h3>
+            </div>
+
+            <div class="info-row">
+                <div class="info-item">
+                    <span class="info-label">Kỳ hóa đơn</span>
+                    <div class="info-value">
+                        <i class="bi bi-calendar-month me-2"></i>
+                        <span th:text="'Tháng ' + ${invoice.month} + '/' + ${invoice.year}">Tháng 12/2024</span>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Ngày tạo</span>
+                    <div class="info-value">
+                        <i class="bi bi-calendar-check me-2"></i>
+                        <span th:text="${invoice.createdDate}">01/12/2024</span>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Hạn thanh toán</span>
+                    <div class="info-value">
+                        <i class="bi bi-calendar-event me-2"></i>
+                        <span th:text="${invoice.dueDate}">10/12/2024</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-item">
+                    <span class="info-label">Ngày thanh toán</span>
+                    <div class="info-value" th:if="${invoice.paidDate != null}">
+                        <i class="bi bi-check-circle me-2"></i>
+                        <span th:text="${invoice.paidDate}">05/12/2024</span>
+                    </div>
+                    <div class="info-value empty" th:unless="${invoice.paidDate != null}">
+                        Chưa thanh toán
+                    </div>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Trạng thái</span>
+                    <div class="info-value">
+                            <span class="badge-status"
+                                  th:classappend="${invoice.status == 'PAID'} ? 'badge-paid' : (${invoice.status == 'OVERDUE'} ? 'badge-overdue' : 'badge-pending')"
+                                  th:text="${invoice.status == 'PAID' ? 'Đã thanh toán' : (invoice.status == 'OVERDUE' ? 'Quá hạn' : 'Chờ thanh toán')}">
+                                Chờ thanh toán
+                            </span>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Tổng tiền</span>
+                    <div class="info-value total-price">
+                        <i class="bi bi-cash-stack me-2"></i>
+                        <span th:text="${#numbers.formatDecimal(invoice.totalAmount, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">
+                                25,500,000 VNĐ
+                            </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Thông tin các bên liên quan -->
+        <div class="row">
+            <!-- Khách hàng -->
+            <div class="col-md-6 mb-3">
+                <div class="entity-card">
+                    <div class="entity-header">
+                        <i class="bi bi-person-circle"></i>
+                        <h4>Khách hàng</h4>
+                    </div>
+                    <div class="entity-detail" th:if="${invoice.customer != null}"
+                         th:onclick="|window.location='/admin/customer/' + ${invoice.customer.id}|"
+                         style="cursor: pointer;">
+                        <div class="entity-row">
+                            <i class="bi bi-person-fill"></i>
+                            <span><strong th:text="${invoice.customer.fullName}">Nguyễn Văn A</strong></span>
+                        </div>
+                        <div class="entity-row" th:if="${invoice.customer.phone != null}">
+                            <i class="bi bi-telephone-fill"></i>
+                            <span th:text="${invoice.customer.phone}">0123456789</span>
+                        </div>
+                        <div class="entity-row" th:if="${invoice.customer.email != null}">
+                            <i class="bi bi-envelope-fill"></i>
+                            <span th:text="${invoice.customer.email}">customer@email.com</span>
+                        </div>
+                        <div class="entity-row">
+                            <i class="bi bi-hash"></i>
+                            <span>Mã KH: <strong th:text="${invoice.customer.id}">1</strong></span>
+                        </div>
+                    </div>
+                    <div class="info-value empty" th:unless="${invoice.customer != null}">
+                        Chưa có thông tin khách hàng
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hợp đồng -->
+            <div class="col-md-6 mb-3">
+                <div class="entity-card">
+                    <div class="entity-header">
+                        <i class="bi bi-file-text"></i>
+                        <h4>Hợp đồng</h4>
+                    </div>
+                    <div class="entity-detail" th:if="${invoice.contract != null}"
+                         th:onclick="|window.location='/admin/contract/' + ${invoice.contract.id}|"
+                         style="cursor: pointer;">
+                        <div class="entity-row">
+                            <i class="bi bi-file-earmark-text-fill"></i>
+                            <span>Mã HĐ: <strong th:text="${invoice.contract.id}">HD-001</strong></span>
+                        </div>
+                        <div class="entity-row" th:if="${invoice.contract.building != null}">
+                            <i class="bi bi-building-fill"></i>
+                            <span th:text="${invoice.contract.building.name}">SunTower A</span>
+                        </div>
+                        <div class="entity-row">
+                            <i class="bi bi-rulers"></i>
+                            <span th:text="${invoice.contract.rentArea} + ' m²'">100 m²</span>
+                        </div>
+                        <div class="entity-row">
+                            <i class="bi bi-cash"></i>
+                            <span th:text="${#numbers.formatDecimal(invoice.contract.rentPrice, 0, 'COMMA', 0, 'POINT')} + ' VNĐ/m²'">
+                                    150,000 VNĐ/m²
+                                </span>
+                        </div>
+                    </div>
+                    <div class="info-value empty" th:unless="${invoice.contract != null}">
+                        Chưa có thông tin hợp đồng
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chi tiết hóa đơn -->
+        <div class="info-card">
+            <div class="info-card-header">
+                <i class="bi bi-list-check"></i>
+                <h3>Chi tiết các khoản phí</h3>
+            </div>
+
+            <table class="detail-table">
+                <thead>
+                <tr>
+                    <th>Tên dịch vụ</th>
+                    <th class="text-center">Đơn giá</th>
+                    <th class="text-center">Đơn vị</th>
+                    <th class="text-center">Thành tiền</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="detail : ${invoice.details}">
+                    <td>
+                        <i class="bi bi-dot"></i>
+                        <strong th:text="${detail.description}">Tiền thuê mặt bằng</strong>
+                    </td>
+                    <td class="text-center text-price"
+                        th:text="
+                            ${detail.description.contains('thuê')
+                                or detail.description.contains('dịch vụ')
+                                or detail.description.contains('gửi ô tô')
+                                or detail.description.contains('gửi xe máy')}
+                                ? ${#numbers.formatDecimal(detail.amount, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'
+                                : (${detail.description.contains('nước')}
+                                ? ${#numbers.formatDecimal(invoice.contract.building.waterFee, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'
+                                : (${detail.description.contains('điện')}
+                                ? ${#numbers.formatDecimal(invoice.contract.building.electricityFee, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'
+                                : ''))
+                                ">
+                        15,000,000 VNĐ
+                    </td>
+                    <td class="text-center"
+                        th:text="
+                            ${detail.description.contains('thuê')
+                            or detail.description.contains('dịch vụ')
+                            or detail.description.contains('gửi ô tô')
+                            or detail.description.contains('gửi xe máy')}
+                            ? 'Tháng'
+                            : (${detail.description.contains('điện')}
+                                ? 'Số'
+                                : (${detail.description.contains('nước')}
+                                    ? 'm3'
+                                    : ''))
+                        ">
+                        Tháng
+                    </td>
+                    <td class="text-center text-price"
+                        th:text="${#numbers.formatDecimal(detail.amount, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">
+                        15,000,000 VNĐ
+                    </td>
+                </tbody>
+            </table>
+
+            <!-- Summary -->
+            <div class="summary-section">
+                <div class="summary-row">
+                    <span class="summary-label">Tổng phí dịch vụ</span>
+                    <span class="summary-value"
+                          th:text="${#numbers.formatDecimal(invoice.totalServiceFeeAmount, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">
+                            10,500,000 VNĐ
+                        </span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">TỔNG CỘNG</span>
+                    <span class="summary-value"
+                          th:text="${#numbers.formatDecimal(invoice.totalAmount, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">
+                            25,500,000 VNĐ
+                        </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Thông tin đồng hồ điện nước (nếu có) -->
+        <div class="info-card" th:if="${invoice.utilityMeter != null}">
+            <div class="info-card-header">
+                <i class="bi bi-speedometer2"></i>
+                <h3>Thông tin đồng hồ tiện ích</h3>
+            </div>
+
+            <div class="meter-card">
+                <div class="meter-grid">
+                    <div class="meter-item">
+                        <div class="meter-label">
+                            <i class="bi bi-lightning-charge"></i> Điện đầu kỳ
+                        </div>
+                        <div class="meter-value" th:text="${invoice.utilityMeter.electricityOld} + ' kWh'">
+                            1000 kWh
+                        </div>
+                    </div>
+                    <div class="meter-item">
+                        <div class="meter-label">
+                            <i class="bi bi-lightning-charge-fill"></i> Điện cuối kỳ
+                        </div>
+                        <div class="meter-value" th:text="${invoice.utilityMeter.electricityNew} + ' kWh'">
+                            1500 kWh
+                        </div>
+                    </div>
+                    <div class="meter-item">
+                        <div class="meter-label">
+                            <i class="bi bi-calculator"></i> Tiêu thụ điện
+                        </div>
+                        <div class="meter-value"
+                             th:text="${invoice.utilityMeter.electricityNew - invoice.utilityMeter.electricityOld} + ' kWh'">
+                            500 kWh
+                        </div>
+                    </div>
+                    <div class="meter-item">
+                        <div class="meter-label">
+                            <i class="bi bi-droplet"></i> Nước đầu kỳ
+                        </div>
+                        <div class="meter-value" th:text="${invoice.utilityMeter.waterOld} + ' m³'">
+                            50 m³
+                        </div>
+                    </div>
+                    <div class="meter-item">
+                        <div class="meter-label">
+                            <i class="bi bi-droplet-fill"></i> Nước cuối kỳ
+                        </div>
+                        <div class="meter-value" th:text="${invoice.utilityMeter.waterNew} + ' m³'">
+                            80 m³
+                        </div>
+                    </div>
+                    <div class="meter-item">
+                        <div class="meter-label">
+                            <i class="bi bi-calculator"></i> Tiêu thụ nước
+                        </div>
+                        <div class="meter-value"
+                             th:text="${invoice.utilityMeter.waterNew - invoice.utilityMeter.waterOld} + ' m³'">
+                            30 m³
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<!--Bootstrap-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- CDN SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!--JQuery-->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    // In hóa đơn
+    $(document).on("click", ".btn-print", function () {
+        window.print();
+    });
+
+    // Xác nhận thanh toán
+    $(document).on("click", ".btn-pay", function (e) {
+        e.preventDefault();
+
+        let id = $(this).data("id");
+
+        Swal.fire({
+            title: 'Xác nhận thanh toán',
+            text: "Xác nhận hóa đơn này đã được thanh toán?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#10b981',
+            cancelButtonColor: '#6b7280',
+            confirmButtonText: 'Xác nhận',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/admin/invoice/pay/" + id,
+                    type: "POST",
+                    success: function () {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công',
+                            text: 'Đã xác nhận thanh toán!',
+                            timer: 1500,
+                            showConfirmButton: false
+                        }).then(() => {
+                            location.reload();
+                        });
+                    },
+                    error: function (xhr) {
+                        const err = xhr.responseJSON;
+                        if (err && err.message) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi',
+                                text: err.message
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi',
+                                text: 'Xác nhận thất bại!'
+                            });
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+    // Xóa hóa đơn
+    $(document).on("click", ".btn-delete", function (e) {
+        e.preventDefault();
+
+        let id = $(this).data("id");
+
+        Swal.fire({
+            title: 'Xác nhận xóa',
+            text: "Bạn có chắc muốn xóa hóa đơn này?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc2626',
+            cancelButtonColor: '#6b7280',
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/admin/invoice/delete/" + id,
+                    type: "DELETE",
+                    success: function () {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công',
+                            text: 'Xóa hóa đơn thành công!',
+                            timer: 1500,
+                            showConfirmButton: false
+                        }).then(() => {
+                            window.location.href = "/admin/invoice/list";
+                        });
+                    },
+                    error: function (xhr) {
+                        const err = xhr.responseJSON;
+                        if (err && err.message) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi',
+                                text: err.message
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi',
+                                text: 'Xóa thất bại!'
+                            });
+                        }
+                    }
+                });
+            }
+        });
+    });
+</script>
+</body>
+
+</html>

@@ -21,4 +21,5 @@ public interface InvoiceService {
     Page<InvoiceListDTO> getInvoices(int page, int size);
     Page<InvoiceListDTO> search(InvoiceFilterDTO filter, int page, int size);
     void delete(Long id);
+    InvoiceDetailDTO viewById(Long invoiceId);
 }

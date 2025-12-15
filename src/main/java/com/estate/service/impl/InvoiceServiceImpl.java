@@ -2,10 +2,7 @@ package com.estate.service.impl;
 
 import com.estate.converter.InvoiceDetailConverter;
 import com.estate.converter.InvoiceListDTOConverter;
-import com.estate.dto.BuildingListDTO;
-import com.estate.dto.InvoiceDetailDTO;
-import com.estate.dto.InvoiceFilterDTO;
-import com.estate.dto.InvoiceListDTO;
+import com.estate.dto.*;
 import com.estate.exception.BusinessException;
 import com.estate.repository.InvoiceRepository;
 import com.estate.repository.entity.BuildingEntity;
@@ -209,6 +206,17 @@ public class InvoiceServiceImpl implements InvoiceService {
             throw new BusinessException("Không tìm thấy hóa đơn để xóa");
         }
         invoiceRepository.deleteById(id);
+    }
+
+    @Override
+    public InvoiceDetailDTO viewById(Long invoiceId) {
+        InvoiceEntity invoiceEntity = invoiceRepository.findById(invoiceId)
+                .orElseThrow(() -> new BusinessException("Không tìm thấy hóa đơn"));
+
+        UtilityMeterEntity utilityMeter = utilityMeterService.findByContractIdAndMonthAndYear(
+                invoiceEntity.getContract().getId(), invoiceEntity.getMonth(), invoiceEntity.getYear());
+        InvoiceDetailDTO invoiceDetailDTO = invoiceDetailConverter.toDTO(invoiceEntity, utilityMeter);
+        return invoiceDetailDTO;
     }
 
 }
