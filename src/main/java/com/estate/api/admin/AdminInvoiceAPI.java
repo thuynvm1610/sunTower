@@ -1,5 +1,8 @@
 package com.estate.api.admin;
 
+import com.estate.dto.ContractFilterDTO;
+import com.estate.dto.ContractListDTO;
+import com.estate.dto.InvoiceFilterDTO;
 import com.estate.dto.InvoiceListDTO;
 import com.estate.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +17,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminInvoiceAPI {
     @Autowired
     private InvoiceService invoiceService;
+
     @GetMapping("/list/page")
     public Page<InvoiceListDTO> getInvoicesPage(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "5") int size) {
 
         return invoiceService.getInvoices(page - 1, size);
+    }
+
+    @GetMapping("/search/page")
+    public Page<InvoiceListDTO> getInvoicesSearchPage(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "5") int size,
+            InvoiceFilterDTO filter
+    ) {
+        return invoiceService.search(filter, page - 1, size);
     }
 }

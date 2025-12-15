@@ -545,7 +545,7 @@
                         <i class="bi bi-info-circle"></i> Thông tin cơ bản
                     </div>
                     <div class="row g-3 mb-4">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label class="form-label">Tháng</label>
                             <select class="form-control" name="month">
                                 <option value="">-- Chọn tháng --</option>
@@ -564,27 +564,18 @@
                             </select>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label class="form-label">Năm</label>
                             <select class="form-control" name="year" id="yearSelect">
                                 <option value="">-- Chọn năm --</option>
                             </select>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label class="form-label">Tên khách hàng</label>
                             <select class="form-control" name="customerId">
                                 <option value="">-- Chọn khách hàng --</option>
                                 <option th:each="c : ${customers}" th:value="${c.value}" th:text="${c.key}">
-                                </option>
-                            </select>
-                        </div>
-
-                        <div class="col-md-3">
-                            <label class="form-label">Tên tòa nhà</label>
-                            <select class="form-control" name="buildingId">
-                                <option value="">-- Chọn tòa nhà --</option>
-                                <option th:each="b : ${buildings}" th:value="${b.value}" th:text="${b.key}">
                                 </option>
                             </select>
                         </div>

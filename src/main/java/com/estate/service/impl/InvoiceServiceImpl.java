@@ -4,6 +4,7 @@ import com.estate.converter.InvoiceDetailConverter;
 import com.estate.converter.InvoiceListDTOConverter;
 import com.estate.dto.BuildingListDTO;
 import com.estate.dto.InvoiceDetailDTO;
+import com.estate.dto.InvoiceFilterDTO;
 import com.estate.dto.InvoiceListDTO;
 import com.estate.repository.InvoiceRepository;
 import com.estate.repository.entity.BuildingEntity;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -160,6 +162,31 @@ public class InvoiceServiceImpl implements InvoiceService {
         // Duyệt qua từng InvoiceEntity
         for (InvoiceEntity i : invoicePage) {
             // Convert entity sang DTO
+            InvoiceListDTO dto = invoiceListDTOConverter.toDTO(i);
+
+            dtoList.add(dto);
+        }
+
+        // Tạo PageImpl giữ nguyên thông tin phân trang gốc
+        Page<InvoiceListDTO> result = new PageImpl<>(
+                dtoList,
+                invoicePage.getPageable(),
+                invoicePage.getTotalElements()
+        );
+
+        return result;
+    }
+
+    @Override
+    public Page<InvoiceListDTO> search(InvoiceFilterDTO filter, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<InvoiceEntity> invoicePage = invoiceRepository.searchInvoices(filter, pageable);
+
+        // Tạo list chứa DTO
+        List<InvoiceListDTO> dtoList = new ArrayList<>();
+
+        // Duyệt qua từng InvoiceEntity
+        for (InvoiceEntity i : invoicePage) {
             InvoiceListDTO dto = invoiceListDTOConverter.toDTO(i);
 
             dtoList.add(dto);

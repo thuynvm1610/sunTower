@@ -1,5 +1,6 @@
 package com.estate.repository;
 
+import com.estate.repository.custom.InvoiceRepositoryCustom;
 import com.estate.repository.entity.InvoiceEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 import java.math.BigDecimal;
 import java.util.List;
 
-public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Long> {
+public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Long>, InvoiceRepositoryCustom {
     @Query("SELECT SUM(i.totalAmount) FROM InvoiceEntity i WHERE i.customer.id = :customerId")
     BigDecimal findTotalAmountByCustomerId(@Param("customerId") Long customerId);
 
