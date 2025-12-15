@@ -6,6 +6,7 @@ import com.estate.dto.BuildingListDTO;
 import com.estate.dto.InvoiceDetailDTO;
 import com.estate.dto.InvoiceFilterDTO;
 import com.estate.dto.InvoiceListDTO;
+import com.estate.exception.BusinessException;
 import com.estate.repository.InvoiceRepository;
 import com.estate.repository.entity.BuildingEntity;
 import com.estate.repository.entity.InvoiceEntity;
@@ -200,6 +201,14 @@ public class InvoiceServiceImpl implements InvoiceService {
         );
 
         return result;
+    }
+
+    @Override
+    public void delete(Long id) {
+        if (!invoiceRepository.existsById(id)) {
+            throw new BusinessException("Không tìm thấy hóa đơn để xóa");
+        }
+        invoiceRepository.deleteById(id);
     }
 
 }

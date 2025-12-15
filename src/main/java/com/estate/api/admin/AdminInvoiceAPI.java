@@ -1,16 +1,12 @@
 package com.estate.api.admin;
 
-import com.estate.dto.ContractFilterDTO;
-import com.estate.dto.ContractListDTO;
 import com.estate.dto.InvoiceFilterDTO;
 import com.estate.dto.InvoiceListDTO;
 import com.estate.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admin/invoice")
@@ -33,5 +29,11 @@ public class AdminInvoiceAPI {
             InvoiceFilterDTO filter
     ) {
         return invoiceService.search(filter, page - 1, size);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteInvoice(@PathVariable Long id) {
+        invoiceService.delete(id);
+        return ResponseEntity.ok().build();
     }
 }
