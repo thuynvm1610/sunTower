@@ -5,6 +5,7 @@ import com.estate.repository.entity.InvoiceEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -22,13 +23,13 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Long>, I
     List<InvoiceEntity> findAllByCustomerIdAndStatus(Long customerId, String status);
 
     @Query("""
-        SELECT i FROM InvoiceEntity i
-        JOIN i.customer c
-        WHERE c.id = :customerId
-          AND i.status = :status
-          AND (:month IS NULL OR i.month = :month)
-          AND (:year IS NULL OR i.year = :year)
-        """)
+            SELECT i FROM InvoiceEntity i
+            JOIN i.customer c
+            WHERE c.id = :customerId
+              AND i.status = :status
+              AND (:month IS NULL OR i.month = :month)
+              AND (:year IS NULL OR i.year = :year)
+            """)
     Page<InvoiceEntity> search(
             @Param("month") Integer month,
             @Param("year") Integer year,
@@ -36,4 +37,14 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Long>, I
             @Param("status") String status,
             Pageable pageable
     );
+
+    @Modifying
+    @Query("""
+                UPDATE InvoiceEntity i
+                SET i.status = 'PAID',
+                    i.paidDate = CURRENT_TIMESTAMP
+                WHERE i.id = :id
+                  AND i.status = 'PENDING'
+            """)
+    int confirmInvoice(@Param("id") Long id);
 }

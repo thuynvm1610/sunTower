@@ -215,8 +215,19 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         UtilityMeterEntity utilityMeter = utilityMeterService.findByContractIdAndMonthAndYear(
                 invoiceEntity.getContract().getId(), invoiceEntity.getMonth(), invoiceEntity.getYear());
-        InvoiceDetailDTO invoiceDetailDTO = invoiceDetailConverter.toDTO(invoiceEntity, utilityMeter);
-        return invoiceDetailDTO;
+        return invoiceDetailConverter.toDTO(invoiceEntity, utilityMeter);
+    }
+
+    @Override
+    public void invoiceConfirm(Long id) {
+
+        int updated = invoiceRepository.confirmInvoice(id);
+
+        if (updated == 0) {
+            throw new BusinessException(
+                    "Không tìm thấy hóa đơn hoặc hóa đơn"
+            );
+        }
     }
 
 }

@@ -36,4 +36,10 @@ public class AdminInvoiceAPI {
         invoiceService.delete(id);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping ("/confirm/{id}")
+    public ResponseEntity<?> invoicePay(@PathVariable Long id) {
+        invoiceService.invoiceConfirm(id);
+        return ResponseEntity.ok("Xác nhận thanh toán thành công!");
+    }
 }
