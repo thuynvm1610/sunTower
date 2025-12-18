@@ -479,8 +479,8 @@
                         <span class="info-label">Trạng thái</span>
                         <div class="info-value">
                             <span class="badge-status"
-                                th:classappend="${contract.status == 'Đang hiệu lực'} ? 'badge-active' : (${contract.status == 'Hết hạn'} ? 'badge-expired' : 'badge-pending')"
-                                th:text="${contract.status == 'Đang hiệu lực' ? 'Đang hoạt động' : 'Hết hạn'}">
+                                th:classappend="${contract.status == 'ACTIVE'} ? 'badge-active' : (${contract.status == 'EXPIRED'} ? 'badge-expired' : 'badge-pending')"
+                                th:text="${contract.status == 'ACTIVE' ? 'Đang hoạt động' : 'Hết hạn'}">
                                 Đang hoạt động
                             </span>
                         </div>

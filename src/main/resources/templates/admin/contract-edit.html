@@ -445,10 +445,10 @@
                         </label>
                         <select class="form-control" name="status" th:value="${contract.status}" required>
                             <option value="">-- Chọn trạng thái --</option>
-                            <option value="Đang hiệu lực" th:selected="${contract.status == 'Đang hiệu lực'}">Đang hiệu
+                            <option value="ACTIVE" th:selected="${contract.status == 'ACTIVE'}">Đang hiệu
                                 lực
                             </option>
-                            <option value="Hết hạn" th:selected="${contract.status == 'Hết hạn'}">Hết hạn</option>
+                            <option value="EXPIRED" th:selected="${contract.status == ''}">Hết hạn</option>
                         </select>
                         <small class="form-text">Trạng thái hiện tại của hợp đồng</small>
                     </div>

@@ -24,4 +24,6 @@ public interface ContractService {
     Long getActiveContractsCount(Long customerId);
     Long getExpiredContractsCount(Long customerId);
     List<ContractDetailDTO> getContractsByFilter(Long customerId, Long buildingId, String status);
+    Map<Long, List<Long>> getActiveContracts();
+    Map<Long, ContractFeeDTO> getContractsFees();
 }

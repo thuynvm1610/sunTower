@@ -590,8 +590,8 @@
                             <label class="form-label">Trạng thái</label>
                             <select class="form-control" name="status">
                                 <option value="">-- Tất cả trạng thái --</option>
-                                <option value="Đang hiệu lực">Đang hiệu lực</option>
-                                <option value="Hết hạn">Hết hạn</option>
+                                <option value="ACTIVE">Đang hiệu lực</option>
+                                <option value="EXPIRED">Hết hạn</option>
                             </select>
                         </div>
                     </div>
@@ -698,8 +698,8 @@
         // Hàm lấy badge status
         function getStatusBadge(status) {
             const statusMap = {
-                'Đang hiệu lực': { class: 'active', text: 'Hiệu lực' },
-                'Hết hạn': { class: 'expired', text: 'Hết hạn' },
+                'ACTIVE': { class: 'active', text: 'Hiệu lực' },
+                'EXPIRED': { class: 'expired', text: 'Hết hạn' },
             };
             const s = statusMap[status] || { class: 'pending', text: status };
             return `<span class="status-badge ${s.class}">${s.text}</span>`;

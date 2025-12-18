@@ -87,20 +87,20 @@ public class ContractServiceImpl implements ContractService {
     public List<BigDecimal> getMonthlyRevenue(int year) {
 
         LocalDateTime startOfYear = LocalDateTime.of(year, 1, 1, 0, 0);
-        LocalDateTime endOfYear   = LocalDateTime.of(year, 12, 31, 23, 59);
+        LocalDateTime endOfYear = LocalDateTime.of(year, 12, 31, 23, 59);
 
         List<ContractEntity> contracts = contractRepository
                 .findByStartDateLessThanEqualAndEndDateGreaterThanEqual(endOfYear, startOfYear);
 
         List<BigDecimal> revenue = new ArrayList<>(Collections.nCopies(12, BigDecimal.ZERO));
 
-        int currentYear  = LocalDate.now().getYear();
+        int currentYear = LocalDate.now().getYear();
         int currentMonth = LocalDate.now().getMonthValue();
 
         for (ContractEntity c : contracts) {
 
             LocalDateTime start = c.getStartDate();
-            LocalDateTime end   = c.getEndDate();
+            LocalDateTime end = c.getEndDate();
 
             BigDecimal monthlyPrice = c.getRentPrice().multiply(BigDecimal.valueOf(c.getRentArea()));
 
@@ -159,7 +159,7 @@ public class ContractServiceImpl implements ContractService {
 
     @Override
     public Map<String, Long> getContractCountByBuilding() {
-        List<Object[]> result = contractRepository.countContractsByBuilding((Pageable)PageRequest.of(0, 5));
+        List<Object[]> result = contractRepository.countContractsByBuilding((Pageable) PageRequest.of(0, 5));
         Map<String, Long> map = new LinkedHashMap<>();
         for (Object[] row : result) {
             map.put((String) row[0], (Long) row[1]);
@@ -293,12 +293,12 @@ public class ContractServiceImpl implements ContractService {
 
     @Override
     public Long getActiveContractsCount(Long customerId) {
-        return contractRepository.countByCustomerIdAndStatus(customerId, "Đang hiệu lực");
+        return contractRepository.countByCustomerIdAndStatus(customerId, "ACTIVE");
     }
 
     @Override
     public Long getExpiredContractsCount(Long customerId) {
-        return contractRepository.countByCustomerIdAndStatus(customerId, "Hết hạn");
+        return contractRepository.countByCustomerIdAndStatus(customerId, "EXPIRED");
     }
 
     @Override
@@ -312,4 +312,37 @@ public class ContractServiceImpl implements ContractService {
 
         return res;
     }
+
+    @Override
+    public Map<Long, List<Long>> getActiveContracts() {
+        List<Long[]> activeContracts = contractRepository.getActiveContracts();
+
+        Map<Long, List<Long>> result = new HashMap<>();
+
+        for (Long[] row : activeContracts) {
+            Long customerId = row[0];
+            Long contractId = row[1];
+
+            result.computeIfAbsent(customerId, k -> new ArrayList<>()).add(contractId);
+        }
+
+        return result;
+    }
+
+    @Override
+    public Map<Long, ContractFeeDTO> getContractsFees() {
+        List<Object[]> data = contractRepository.getContractsFees();
+
+        Map<Long, ContractFeeDTO> result = new HashMap<>();
+
+        for (Object[] row : data) {
+            Long contractId = (Long) row[0];
+            ContractFeeDTO fees = (ContractFeeDTO) row[1];
+
+            result.put(contractId, fees);
+        }
+
+        return result;
+    }
+
 }

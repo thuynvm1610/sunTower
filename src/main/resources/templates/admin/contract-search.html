@@ -648,10 +648,10 @@
                             <label class="form-label">Trạng thái</label>
                             <select class="form-control" name="status" th:value="${filter.status}">
                                 <option value="">-- Tất cả trạng thái --</option>
-                                <option value="Đang hiệu lực" th:selected="${filter.status == 'Đang hiệu lực'}">Đang
+                                <option value="ACTIVE" th:selected="${filter.status == 'ACTIVE'}">Đang
                                     hiệu lực
                                 </option>
-                                <option value="Hết hạn" th:selected="${filter.status == 'Hết hạn'}">Hết hạn</option>
+                                <option value="EXPIRED" th:selected="${filter.status == ''}">Hết hạn</option>
                             </select>
                         </div>
                     </div>
@@ -741,8 +741,8 @@
         // Hàm lấy badge status
         function getStatusBadge(status) {
             const statusMap = {
-                'Đang hiệu lực': { class: 'active', text: 'Hiệu lực' },
-                'Hết hạn': { class: 'expired', text: 'Hết hạn' },
+                'ACTIVE': { class: 'active', text: 'Hiệu lực' },
+                'EXPIRED': { class: 'expired', text: 'EXPIRED' },
             };
             const s = statusMap[status] || { class: 'pending', text: status };
             return `<span class="status-badge ${s.class}">${s.text}</span>`;

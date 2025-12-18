@@ -456,7 +456,7 @@
                                     <td th:text="${#temporals.format(contract.endDate, 'dd/MM/yyyy')}">31/12/2024</td>
                                     <td>
                                         <span class="badge-status"
-                                            th:classappend="${contract.status == 'Đang hiệu lực'} ? 'badge-active' : (${contract.status == 'Hết hạn'} ? 'badge-expired' : 'badge-pending')"
+                                            th:classappend="${contract.status == 'ACTIVE'} ? 'badge-active' : (${contract.status == 'EXPIRED'} ? 'badge-expired' : 'badge-pending')"
                                             th:text="${contract.status}">
                                             Đang hiệu lực
                                         </span>

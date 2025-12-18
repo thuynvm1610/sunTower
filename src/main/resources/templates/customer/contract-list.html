@@ -547,10 +547,10 @@
                         </label>
                         <select class="form-select" name="status">
                             <option value="">-- Chọn trạng thái --</option>
-                            <option value="Đang hiệu lực">
-                                Đang hiệu lực
+                            <option value="ACTIVE">
+                                ACTIVE
                             </option>
-                            <option value="Hết hạn">
+                            <option value="EXPIRED">
                                 Hết hạn
                             </option>
                         </select>
@@ -629,7 +629,7 @@
                     searchResult.html(`Kết quả tìm kiếm: <strong>${data.length}</strong> hợp đồng`).show();
 
                     $.each(data, function (i, c) {
-                        const statusClass = c.status === "Đang hiệu lực" ? "badge-active" : "badge-expired";
+                        const statusClass = c.status === "ACTIVE" ? "badge-active" : "badge-expired";
 
                         body.append(`
                             <div class="contract-container">

@@ -1,8 +1,10 @@
 package com.estate.controller.admin;
 
+import com.estate.dto.ContractFeeDTO;
 import com.estate.dto.InvoiceDetailDTO;
 import com.estate.dto.InvoiceFilterDTO;
 import com.estate.service.BuildingService;
+import com.estate.service.ContractService;
 import com.estate.service.CustomerService;
 import com.estate.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/admin/invoice")
@@ -23,6 +28,9 @@ public class AdminInvoiceController {
 
     @Autowired
     InvoiceService invoiceService;
+
+    @Autowired
+    ContractService contractService;
 
     @GetMapping("/list")
     public String listInvoices(Model model) {
@@ -50,6 +58,12 @@ public class AdminInvoiceController {
     @GetMapping("/add")
     public String addInvoiceForm(Model model) {
         model.addAttribute("customers", customerService.getCustomersName());
+
+        Map<Long, List<Long>> contracts = contractService.getActiveContracts();
+        model.addAttribute("contracts", contracts);
+
+        Map<Long, ContractFeeDTO> contractFees = contractService.getContractsFees();
+        model.addAttribute("contractFees", contractFees);
 
         model.addAttribute("page", "invoice");
 

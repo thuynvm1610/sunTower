@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -43,11 +44,35 @@ public interface ContractRepository extends JpaRepository<ContractEntity, Long>,
     Long countByCustomerIdAndStatus(Long customerId, String status);
 
     @Query("""
-        SELECT c FROM ContractEntity c
-        WHERE c.customer.id = :customerId
-          AND (:buildingId IS NULL OR c.building.id = :buildingId)
-          AND (:status = '' OR c.status = :status)
-    """)
+                SELECT c FROM ContractEntity c
+                WHERE c.customer.id = :customerId
+                  AND (:buildingId IS NULL OR c.building.id = :buildingId)
+                  AND (:status = '' OR c.status = :status)
+            """)
     List<ContractEntity> searchContracts(Long customerId, Long buildingId, String status);
+
+    @Query("""
+            SELECT cu.id, c.id
+            FROM ContractEntity c
+            JOIN c.customer cu
+            WHERE c.status = 'ACTIVE'
+            """)
+    List<Long[]> getActiveContracts();
+
+    @Query("""
+                SELECT c.id,
+                       new com.estate.dto.ContractFeeDTO(
+                           b.rentPrice,
+                           b.serviceFee,
+                           b.carFee,
+                           b.motorbikeFee,
+                           b.waterFee,
+                           b.electricityFee
+                       )
+                FROM ContractEntity c
+                JOIN c.building b
+                WHERE c.status = 'ACTIVE'
+            """)
+    List<Object[]> getContractsFees();
 
 }

@@ -448,9 +448,9 @@
                         <span class="required">*</span>
                     </label>
                     <div class="input-group">
-                            <span class="input-group-text">
-                                <i class="bi bi-person"></i>
-                            </span>
+                        <span class="input-group-text">
+                            <i class="bi bi-person"></i>
+                        </span>
                         <select class="form-select" name="customerId" id="customerSelect" required>
                             <option value="">-- Chọn khách hàng --</option>
                             <option th:each="customer : ${customers}" th:value="${customer.value}"
@@ -465,9 +465,9 @@
                         <span class="required">*</span>
                     </label>
                     <div class="input-group">
-                            <span class="input-group-text">
-                                <i class="bi bi-file-earmark-text"></i>
-                            </span>
+                        <span class="input-group-text">
+                            <i class="bi bi-file-earmark-text"></i>
+                        </span>
                         <select class="form-select" name="contractId" id="contractSelect" required disabled>
                             <option value="">-- Chọn khách hàng trước --</option>
                         </select>
@@ -484,7 +484,7 @@
                 <div class="meter-info-box">
                     <i class="bi bi-info-circle-fill"></i>
                     <div class="meter-info-content">
-                        Các khoản phí dưới đây được lấy từ thông tin hợp đồng và tòa nhà đã chọn
+                        Các khoản phí dưới đây được lấy từ thông tin hợp đồng
                     </div>
                 </div>
                 <div class="row g-3 mb-4">
@@ -492,7 +492,7 @@
                         <div class="fee-item">
                             <div class="fee-label">
                                 <i class="bi bi-building"></i>
-                                Tiền thuê mặt bằng
+                                Tiền thuê mặt bằng/tháng
                             </div>
                             <div class="input-group">
                                 <span class="input-group-text">VNĐ</span>
@@ -505,7 +505,7 @@
                         <div class="fee-item">
                             <div class="fee-label">
                                 <i class="bi bi-gear"></i>
-                                Phí dịch vụ
+                                Phí dịch vụ/tháng
                             </div>
                             <div class="input-group">
                                 <span class="input-group-text">VNĐ</span>
@@ -518,7 +518,7 @@
                         <div class="fee-item">
                             <div class="fee-label">
                                 <i class="bi bi-car-front"></i>
-                                Phí gửi ô tô
+                                Phí gửi ô tô/tháng
                             </div>
                             <div class="input-group">
                                 <span class="input-group-text">VNĐ</span>
@@ -531,7 +531,7 @@
                         <div class="fee-item">
                             <div class="fee-label">
                                 <i class="bi bi-scooter"></i>
-                                Phí gửi xe máy
+                                Phí gửi xe máy/tháng
                             </div>
                             <div class="input-group">
                                 <span class="input-group-text">VNĐ</span>
@@ -569,167 +569,173 @@
             </div>
 
             <!-- Thông tin kỳ hóa đơn -->
-            <label class="form-label">
-                Tháng
-                <span class="required">*</span>
-            </label>
-            <div class="input-group">
-                            <span class="input-group-text">
-                                <i class="bi bi-calendar-month"></i>
-                            </span>
-                <select class="form-select" name="month" required>
-                    <option value="">-- Chọn tháng --</option>
-                    <option value="1">Tháng 1</option>
-                    <option value="2">Tháng 2</option>
-                    <option value="3">Tháng 3</option>
-                    <option value="4">Tháng 4</option>
-                    <option value="5">Tháng 5</option>
-                    <option value="6">Tháng 6</option>
-                    <option value="7">Tháng 7</option>
-                    <option value="8">Tháng 8</option>
-                    <option value="9">Tháng 9</option>
-                    <option value="10">Tháng 10</option>
-                    <option value="11">Tháng 11</option>
-                    <option value="12">Tháng 12</option>
-                </select>
+            <div class="form-section-title mt-4">
+                <i class="bi bi-calendar"></i> Thông tin kỳ hóa đơn
             </div>
-    </div>
-
-    <div class="col-md-4">
-        <label class="form-label">
-            Năm
-            <span class="required">*</span>
-        </label>
-        <div class="input-group">
-                            <span class="input-group-text">
-                                <i class="bi bi-calendar"></i>
-                            </span>
-            <input type="number" class="form-control" name="year" placeholder="VD: 2024"
-                   required min="2020" max="2100">
-        </div>
-    </div>
-
-    <div class="col-md-4">
-        <label class="form-label">
-            Hạn thanh toán
-            <span class="required">*</span>
-        </label>
-        <div class="input-group">
-                            <span class="input-group-text">
-                                <i class="bi bi-calendar-check"></i>
-                            </span>
-            <input type="date" class="form-control" name="dueDate" required id="dueDateInput">
-        </div>
-    </div>
-    </div>
-
-    <!-- Chi phí điện nước -->
-    <div class="form-section-title">
-        <i class="bi bi-speedometer"></i> Chỉ số điện nước
-    </div>
-
-    <div class="row g-3 mb-4">
-        <div class="col-md-6">
-            <label class="form-label">
-                Số điện sử dụng (kWh)
-                <span class="required">*</span>
-            </label>
-            <div class="input-group">
-                            <span class="input-group-text">
-                                <i class="bi bi-lightning-charge"></i>
-                            </span>
-                <input type="number" class="form-control" name="electricityUsage"
-                       placeholder="VD: 150" step="1" min="0" required>
-                <span class="input-group-text">kWh</span>
-            </div>
-            <small class="form-text">Nhập số điện tiêu thụ trong tháng</small>
-        </div>
-
-        <div class="col-md-6">
-            <label class="form-label">
-                Số nước sử dụng (m³)
-                <span class="required">*</span>
-            </label>
-            <div class="input-group">
-                            <span class="input-group-text">
-                                <i class="bi bi-droplet"></i>
-                            </span>
-                <input type="number" class="form-control" name="waterUsage"
-                       placeholder="VD: 20" step="1" min="0" required>
-                <span class="input-group-text">m³</span>
-            </div>
-            <small class="form-text">Nhập số nước tiêu thụ trong tháng</small>
-        </div>
-    </div>
-
-    <!-- Thông tin tổng tiền -->
-    <div class="form-section-title">
-        <i class="bi bi-calculator"></i> Tổng tiền
-    </div>
-    <div class="row g-3 mb-4">
-        <div class="col-12">
-            <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 1.25rem;">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-size: 0.9375rem; font-weight: 600; color: #374151;">Tổng tiền hóa đơn:</span>
-                    <span style="font-size: 1.5rem; font-weight: 700; color: #111827;" id="totalAmount">0 VNĐ</span>
+            <div class="row g-3 mb-4">
+                <div class="col-md-4">
+                    <label class="form-label">
+                        Tháng
+                        <span class="required">*</span>
+                    </label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="bi bi-calendar-month"></i>
+                        </span>
+                        <select class="form-select" name="month" required>
+                            <option value="">-- Chọn tháng --</option>
+                            <option value="1">Tháng 1</option>
+                            <option value="2">Tháng 2</option>
+                            <option value="3">Tháng 3</option>
+                            <option value="4">Tháng 4</option>
+                            <option value="5">Tháng 5</option>
+                            <option value="6">Tháng 6</option>
+                            <option value="7">Tháng 7</option>
+                            <option value="8">Tháng 8</option>
+                            <option value="9">Tháng 9</option>
+                            <option value="10">Tháng 10</option>
+                            <option value="11">Tháng 11</option>
+                            <option value="12">Tháng 12</option>
+                        </select>
+                    </div>
                 </div>
-                <small class="form-text" style="margin-top: 0.5rem; display: block;">
-                    Bao gồm: Tiền thuê mặt bằng + Phí dịch vụ + Phí gửi xe + Phí điện + Phí nước
-                </small>
-            </div>
-        </div>
-    </div>
 
-    <!-- Trạng thái -->
-    <div class="form-section-title mt-4">
-        <i class="bi bi-toggle-on"></i> Trạng thái thanh toán
-        <span class="required">*</span>
-    </div>
-    <div class="row g-3 mb-4">
-        <div class="col-md-4">
-            <label style="min-height: 150px; min-width: 100%;" class="status-card" for="statusPending">
-                <input type="radio" name="status" value="PENDING" id="statusPending" checked>
-                <div class="status-icon">
-                    <i class="bi bi-clock-history"></i>
+                <div class="col-md-4">
+                    <label class="form-label">
+                        Năm
+                        <span class="required">*</span>
+                    </label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="bi bi-calendar"></i>
+                        </span>
+                        <input type="number" class="form-control" name="year" placeholder="VD: 2024"
+                               required min="2020" max="2100">
+                    </div>
                 </div>
-                <div class="status-title">Chờ thanh toán</div>
-                <div class="status-desc">Hóa đơn chưa được thanh toán</div>
-            </label>
-        </div>
-        <div class="col-md-4">
-            <label style="min-height: 150px; min-width: 100%;" class="status-card" for="statusPaid">
-                <input type="radio" name="status" value="PAID" id="statusPaid">
-                <div class="status-icon">
+
+                <div class="col-md-4">
+                    <label class="form-label">
+                        Hạn thanh toán
+                        <span class="required">*</span>
+                    </label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="bi bi-calendar-check"></i>
+                        </span>
+                        <input type="date" class="form-control" name="dueDate" required id="dueDateInput">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chi phí điện nước -->
+            <div class="form-section-title">
+                <i class="bi bi-speedometer"></i> Chỉ số điện nước
+            </div>
+
+            <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                    <label class="form-label">
+                        Số điện sử dụng (kWh)
+                        <span class="required">*</span>
+                    </label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="bi bi-lightning-charge"></i>
+                        </span>
+                        <input type="number" class="form-control" name="electricityUsage"
+                               placeholder="VD: 150" step="1" min="0" required>
+                        <span class="input-group-text">kWh</span>
+                    </div>
+                    <small class="form-text">Nhập số điện tiêu thụ trong tháng</small>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">
+                        Số nước sử dụng (m³)
+                        <span class="required">*</span>
+                    </label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="bi bi-droplet"></i>
+                        </span>
+                        <input type="number" class="form-control" name="waterUsage"
+                               placeholder="VD: 20" step="1" min="0" required>
+                        <span class="input-group-text">m³</span>
+                    </div>
+                    <small class="form-text">Nhập số nước tiêu thụ trong tháng</small>
+                </div>
+            </div>
+
+            <!-- Thông tin tổng tiền -->
+            <div class="form-section-title">
+                <i class="bi bi-calculator"></i> Tổng tiền
+            </div>
+            <div class="row g-3 mb-4">
+                <div class="col-12">
+                    <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 1.25rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-size: 0.9375rem; font-weight: 600; color: #374151;">Tổng tiền hóa đơn:</span>
+                            <span style="font-size: 1.5rem; font-weight: 700; color: #111827;"
+                                  id="totalAmount">0 VNĐ</span>
+                        </div>
+                        <small class="form-text" style="margin-top: 0.5rem; display: block;">
+                            Bao gồm: Tiền thuê mặt bằng + Phí dịch vụ + Phí gửi xe + Phí điện + Phí nước
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trạng thái -->
+            <div class="form-section-title mt-4">
+                <i class="bi bi-toggle-on"></i> Trạng thái thanh toán
+                <span class="required">*</span>
+            </div>
+            <div class="row g-3 mb-4">
+                <div class="col-md-4">
+                    <label style="min-height: 150px; min-width: 100%;" class="status-card" for="statusPending">
+                        <input type="radio" name="status" value="PENDING" id="statusPending" checked>
+                        <div class="status-icon">
+                            <i class="bi bi-clock-history"></i>
+                        </div>
+                        <div class="status-title">Chờ thanh toán</div>
+                        <div class="status-desc">Hóa đơn chưa được thanh toán</div>
+                    </label>
+                </div>
+                <div class="col-md-4">
+                    <label style="min-height: 150px; min-width: 100%;" class="status-card" for="statusPaid">
+                        <input type="radio" name="status" value="PAID" id="statusPaid">
+                        <div class="status-icon">
+                            <i class="bi bi-check-circle"></i>
+                        </div>
+                        <div class="status-title">Đã thanh toán</div>
+                        <div class="status-desc">Hóa đơn đã được thanh toán</div>
+                    </label>
+                </div>
+                <div class="col-md-4">
+                    <label style="min-height: 150px; min-width: 100%;" class="status-card" for="statusOverdue">
+                        <input type="radio" name="status" value="OVERDUE" id="statusOverdue">
+                        <div class="status-icon">
+                            <i class="bi bi-exclamation-triangle"></i>
+                        </div>
+                        <div class="status-title">Quá hạn</div>
+                        <div class="status-desc">Hóa đơn đã quá hạn thanh toán</div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+                <button type="reset" class="btn-action btn-reset" onclick="resetForm()">
+                    <i class="bi bi-arrow-clockwise"></i>
+                    Reset
+                </button>
+                <button type="submit" class="btn-action btn-submit">
                     <i class="bi bi-check-circle"></i>
-                </div>
-                <div class="status-title">Đã thanh toán</div>
-                <div class="status-desc">Hóa đơn đã được thanh toán</div>
-            </label>
-        </div>
-        <div class="col-md-4">
-            <label style="min-height: 150px; min-width: 100%;" class="status-card" for="statusOverdue">
-                <input type="radio" name="status" value="OVERDUE" id="statusOverdue">
-                <div class="status-icon">
-                    <i class="bi bi-exclamation-triangle"></i>
-                </div>
-                <div class="status-title">Quá hạn</div>
-                <div class="status-desc">Hóa đơn đã quá hạn thanh toán</div>
-            </label>
-        </div>
-    </div>
-
-    <!-- Form Actions -->
-    <div class="form-actions">
-        <button type="reset" class="btn-action btn-reset" onclick="resetForm()">
-            <i class="bi bi-arrow-clockwise"></i>
-            Reset
-        </button>
-        <button type="submit" class="btn-action btn-submit">
-            <i class="bi bi-check-circle"></i>
-            Lưu hóa đơn
-        </button>
-    </div>
-    </form>
+                    Lưu hóa đơn
+                </button>
+            </div>
+        </form>
     </div>
 </main>
 
@@ -741,84 +747,78 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script th:inline="javascript">
-    // Lấy dữ liệu contracts theo customer từ Thymeleaf
     const contractsData = /*[[${contracts}]]*/ {};
-    // Lấy dữ liệu phí từ hợp đồng
     const contractFeesData = /*[[${contractFees}]]*/ {};
 
-    // Xử lý thay đổi khách hàng
     $(document).ready(function () {
+
+        // Khi đổi khách hàng
         $('#customerSelect').on('change', function () {
-            const customerId = $(this).val();
+            const customerId = String($(this).val());
             const $contractSelect = $('#contractSelect');
             const $contractInfo = $('#contractInfo');
 
-            // Reset dropdown hợp đồng
+            // Reset
             $contractSelect.empty();
             $contractInfo.text('');
-
-            // Ẩn khu vực hiển thị phí
             $('#feeDisplayArea').hide();
 
             if (!customerId) {
-                $contractSelect.append('<option value="">-- Chọn khách hàng trước --</option>');
-                $contractSelect.prop('disabled', true);
-                $contractSelect.removeClass('has-value');
+                $contractSelect
+                    .append('<option value="">-- Chọn khách hàng trước --</option>')
+                    .prop('disabled', true)
+                    .removeClass('has-value');
                 return;
             }
 
-            // Lấy danh sách hợp đồng của khách hàng
             const contracts = contractsData[customerId];
 
             if (!contracts || contracts.length === 0) {
-                $contractSelect.append('<option value="">-- Không có hợp đồng khả dụng --</option>');
-                $contractSelect.prop('disabled', true);
+                $contractSelect
+                    .append('<option value="">-- Không có hợp đồng khả dụng --</option>')
+                    .prop('disabled', true);
+
                 $contractInfo.text('Khách hàng này chưa có hợp đồng nào');
                 return;
             }
 
-            // Thêm options
+            // Render hợp đồng
             $contractSelect.append('<option value="">-- Chọn hợp đồng --</option>');
-            contracts.forEach(function (contract) {
-                $contractSelect.append(`<option value="${contract.id}">${contract.info}</option>`);
+            contracts.forEach(contractId => {
+                $contractSelect.append(
+                    `<option value="${contractId}">Hợp đồng #${contractId}</option>`
+                );
             });
 
             $contractSelect.prop('disabled', false);
-            $contractInfo.text(`Có ${contracts.length} hợp đồng khả dụng cho khách hàng này`);
+            $contractInfo.text(`Có ${contracts.length} hợp đồng khả dụng`);
         });
 
-        // Xử lý khi chọn hợp đồng
+        // Khi đổi hợp đồng
         $('#contractSelect').on('change', function () {
-            const contractId = $(this).val();
+            const contractId = String($(this).val());
 
-            if ($(this).val()) {
-                $(this).addClass('has-value');
-            } else {
-                $(this).removeClass('has-value');
-            }
+            $(this).toggleClass('has-value', !!contractId);
 
             if (!contractId) {
                 $('#feeDisplayArea').hide();
                 return;
             }
 
-            // Lấy thông tin phí từ hợp đồng
             const fees = contractFeesData[contractId];
-
-            if (fees) {
-                // Hiển thị các khoản phí
-                $('#displayRentPrice').val(formatNumber(fees.rentPrice));
-                $('#displayServiceFee').val(formatNumber(fees.serviceFee));
-                $('#displayCarFee').val(formatNumber(fees.carFee));
-                $('#displayMotorbikeFee').val(formatNumber(fees.motorbikeFee));
-                $('#displayElectricityPrice').val(formatNumber(fees.electricityPrice));
-                $('#displayWaterPrice').val(formatNumber(fees.waterPrice));
-
-                // Hiển thị khu vực phí
-                $('#feeDisplayArea').slideDown(300);
-            } else {
+            if (!fees) {
                 $('#feeDisplayArea').hide();
+                return;
             }
+
+            $('#displayRentPrice').val(formatNumber(fees.rentPrice));
+            $('#displayServiceFee').val(formatNumber(fees.serviceFee));
+            $('#displayCarFee').val(formatNumber(fees.carFee));
+            $('#displayMotorbikeFee').val(formatNumber(fees.motorbikeFee));
+            $('#displayElectricityPrice').val(formatNumber(fees.electricityFee));
+            $('#displayWaterPrice').val(formatNumber(fees.waterFee));
+
+            $('#feeDisplayArea').slideDown(300);
         });
     });
 
