@@ -747,6 +747,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script th:inline="javascript">
+    let currentFees = null;
+
     const contractsData = /*[[${contracts}]]*/ {};
     const contractFeesData = /*[[${contractFees}]]*/ {};
 
@@ -762,6 +764,13 @@
             $contractSelect.empty();
             $contractInfo.text('');
             $('#feeDisplayArea').hide();
+            currentFees = null;
+            $('#totalAmount').text('0 VND');
+            $('[name="electricityUsage"]').val('');
+            $('[name="waterUsage"]').val('');
+            $('[name="electricityUsage"], [name="waterUsage"], #contractSelect')
+            .val('')
+            .trigger('change');
 
             if (!customerId) {
                 $contractSelect
@@ -797,11 +806,12 @@
         // Khi đổi hợp đồng
         $('#contractSelect').on('change', function () {
             const contractId = String($(this).val());
-
             $(this).toggleClass('has-value', !!contractId);
 
             if (!contractId) {
                 $('#feeDisplayArea').hide();
+                currentFees = null;
+                $('#totalAmount').text('0 VND');
                 return;
             }
 
@@ -811,6 +821,8 @@
                 return;
             }
 
+            currentFees = fees;
+
             $('#displayRentPrice').val(formatNumber(fees.rentPrice));
             $('#displayServiceFee').val(formatNumber(fees.serviceFee));
             $('#displayCarFee').val(formatNumber(fees.carFee));
@@ -819,6 +831,8 @@
             $('#displayWaterPrice').val(formatNumber(fees.waterFee));
 
             $('#feeDisplayArea').slideDown(300);
+
+            calculateTotal();
         });
     });
 
@@ -827,26 +841,34 @@
         if (!number) return '0';
         return Number(number).toLocaleString('vi-VN');
     }
-</script>
 
-<script>
     // Tính tổng tiền (sẽ được tính từ backend, đây chỉ là hiển thị tạm)
     function calculateTotal() {
-        // Backend sẽ tính:
-        // - Lấy giá thuê, phí dịch vụ, phí xe từ building
-        // - Tính phí điện = electricityUsage * đơn giá điện
-        // - Tính phí nước = waterUsage * đơn giá nước
-        // Frontend chỉ hiển thị placeholder
-        $('#totalAmount').text('Sẽ được tính tự động');
+        if (!currentFees) return;
+
+        const electricityUsage = Number($('[name="electricityUsage"]').val()) || 0;
+        const waterUsage = Number($('[name="waterUsage"]').val()) || 0;
+
+        const total =
+            Number(currentFees.rentPrice || 0) +
+            Number(currentFees.serviceFee || 0) +
+            Number(currentFees.carFee || 0) +
+            Number(currentFees.motorbikeFee || 0) +
+            electricityUsage * Number(currentFees.electricityFee || 0) +
+            waterUsage * Number(currentFees.waterFee || 0);
+
+        $('#totalAmount').text(formatNumber(total) + ' đ');
     }
 
     // Lắng nghe thay đổi các trường
     $(document).ready(function() {
-        $('[name="electricityUsage"], [name="waterUsage"]').on('input', function() {
+        $('[name="electricityUsage"], [name="waterUsage"]').on('input', function () {
             calculateTotal();
         });
     });
+</script>
 
+<script>
     // Status card selection
     document.addEventListener('DOMContentLoaded', function () {
         const statusCards = document.querySelectorAll('.status-card');
