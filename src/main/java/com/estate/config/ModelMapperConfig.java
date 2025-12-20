@@ -1,11 +1,7 @@
 package com.estate.config;
 
-import com.estate.dto.BuildingFormDTO;
-import com.estate.dto.ContractFormDTO;
-import com.estate.dto.InvoiceDetailDTO;
-import com.estate.repository.entity.BuildingEntity;
-import com.estate.repository.entity.ContractEntity;
-import com.estate.repository.entity.InvoiceEntity;
+import com.estate.dto.*;
+import com.estate.repository.entity.*;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
@@ -69,6 +65,38 @@ public class ModelMapperConfig {
         });
 
         contractMap.implicitMappings();
+
+        /** -------------------- INVOICE -------------------- **/
+        TypeMap<InvoiceFormDTO, InvoiceEntity> invoiceMap =
+                mapper.createTypeMap(InvoiceFormDTO.class, InvoiceEntity.class);
+
+        invoiceMap.addMappings(m -> {
+            m.skip(InvoiceEntity::setContract);
+            m.skip(InvoiceEntity::setCustomer);
+            m.skip(InvoiceEntity::setDetails);
+        });
+
+        invoiceMap.implicitMappings();
+
+        /** -------------------- INVOICE DETAIL -------------------- **/
+        TypeMap<InvoiceDetailDetailDTO, InvoiceDetailEntity> invoiceDetailMap =
+                mapper.createTypeMap(InvoiceDetailDetailDTO.class, InvoiceDetailEntity.class);
+
+        invoiceDetailMap.addMappings(m -> {
+            m.skip(InvoiceDetailEntity::setInvoice);
+        });
+
+        invoiceDetailMap.implicitMappings();
+
+        /** -------------------- UTILITY METER -------------------- **/
+        TypeMap<UtilityMeterDetailDTO, UtilityMeterEntity> utilityMeterMap =
+                mapper.createTypeMap(UtilityMeterDetailDTO.class, UtilityMeterEntity.class);
+
+        utilityMeterMap.addMappings(m -> {
+            m.skip(UtilityMeterEntity::setContract);
+        });
+
+        utilityMeterMap.implicitMappings();
 
         return mapper;
     }

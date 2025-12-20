@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -76,23 +77,20 @@ public class BuildingEntity {
     private String image;
 
     @Column(name = "created_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
     @PrePersist
     protected void onCreate() {
-        Date now = new Date();
-        createdDate = now;
-        modifiedDate = now;
+        this.createdDate = LocalDateTime.now();
+        this.modifiedDate = LocalDateTime.now();
     }
 
     @Column(name = "modified_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date modifiedDate;
+    private LocalDateTime modifiedDate;
 
     @PreUpdate
     protected void onUpdate() {
-        modifiedDate = new Date();
+        modifiedDate = LocalDateTime.now();
     }
 
     // =================== RELATIONSHIPS ===================

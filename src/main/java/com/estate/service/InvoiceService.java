@@ -2,6 +2,7 @@ package com.estate.service;
 
 import com.estate.dto.InvoiceDetailDTO;
 import com.estate.dto.InvoiceFilterDTO;
+import com.estate.dto.InvoiceFormDTO;
 import com.estate.dto.InvoiceListDTO;
 import com.estate.repository.entity.InvoiceEntity;
 import org.springframework.data.domain.Page;
@@ -23,4 +24,5 @@ public interface InvoiceService {
     void delete(Long id);
     InvoiceDetailDTO viewById(Long invoiceId);
     void invoiceConfirm(Long id);
+    void save(InvoiceFormDTO dto);
 }

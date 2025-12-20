@@ -842,7 +842,7 @@
         return Number(number).toLocaleString('vi-VN');
     }
 
-    // Tính tổng tiền (sẽ được tính từ backend, đây chỉ là hiển thị tạm)
+    // Tính tổng tiền
     function calculateTotal() {
         if (!currentFees) return;
 
@@ -918,15 +918,49 @@
     $("#invoiceForm").on("submit", function (e) {
         e.preventDefault();
 
+        const electricityUsage = Number($("[name='electricityUsage']").val()) || 0;
+        const waterUsage = Number($("[name='waterUsage']").val()) || 0;
+
+        const details = [
+            {
+                description: "Tiền thuê mặt bằng",
+                amount: currentFees.rentPrice
+            },
+            {
+                description: "Phí dịch vụ",
+                amount: currentFees.serviceFee
+            },
+            {
+                description: "Phí gửi ô tô",
+                amount: currentFees.carFee
+            },
+            {
+                description: "Phí gửi xe máy",
+                amount: currentFees.motorbikeFee
+            },
+            {
+                description: "Phí điện",
+                amount: electricityUsage * currentFees.electricityFee
+            },
+            {
+                description: "Phí nước",
+                amount: waterUsage * currentFees.waterFee
+            }
+        ];
+
+        const totalAmount = details.reduce((sum, d) => sum + Number(d.amount || 0), 0);
+
         const data = {
-            customerId: $("[name='customerId']").val(),
-            contractId: $("[name='contractId']").val(),
-            month: $("[name='month']").val(),
-            year: $("[name='year']").val(),
-            dueDate: $("[name='dueDate']").val(),
+            contractId: Number($("[name='contractId']").val()),
+            customerId: Number($("[name='customerId']").val()),
+            month: Number($("[name='month']").val()),
+            year: Number($("[name='year']").val()),
             status: $("[name='status']:checked").val(),
-            electricityUsage: $("[name='electricityUsage']").val(),
-            waterUsage: $("[name='waterUsage']").val()
+            dueDate: $("[name='dueDate']").val(),
+            totalAmount: Number(totalAmount),
+            details: details,
+            electricityUsage: electricityUsage,
+            waterUsage: waterUsage
         };
 
         $.ajax({

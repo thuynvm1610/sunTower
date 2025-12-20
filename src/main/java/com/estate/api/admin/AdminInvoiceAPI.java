@@ -1,6 +1,7 @@
 package com.estate.api.admin;
 
 import com.estate.dto.InvoiceFilterDTO;
+import com.estate.dto.InvoiceFormDTO;
 import com.estate.dto.InvoiceListDTO;
 import com.estate.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,12 @@ public class AdminInvoiceAPI {
             InvoiceFilterDTO filter
     ) {
         return invoiceService.search(filter, page - 1, size);
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<?> addInvoice(@RequestBody InvoiceFormDTO dto) {
+        invoiceService.save(dto);
+        return ResponseEntity.ok("Thêm hóa đơn thành công");
     }
 
     @DeleteMapping("/delete/{id}")

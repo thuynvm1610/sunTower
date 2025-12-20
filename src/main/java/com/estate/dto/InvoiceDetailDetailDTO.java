@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class InvoiceDetailDetailDTO {
     private Long id;
+    private Long invoiceId;
     private String description;
     private BigDecimal amount;
 }

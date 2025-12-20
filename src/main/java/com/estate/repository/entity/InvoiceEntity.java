@@ -6,6 +6,8 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -32,6 +34,10 @@ public class InvoiceEntity {
     @Column(name = "created_date", nullable = false)
     private LocalDateTime createdDate;
 
+    @PrePersist
+    protected void onCreate() {
+        this.createdDate = LocalDateTime.now();    }
+
     @Column(name = "due_date", nullable = false)
     private LocalDateTime dueDate;
 
@@ -49,5 +55,5 @@ public class InvoiceEntity {
     private CustomerEntity customer;
 
     @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL)
-    private List<InvoiceDetailEntity> details;
+    private List<InvoiceDetailEntity> details = new ArrayList<>();
 }

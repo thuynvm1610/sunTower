@@ -47,4 +47,8 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Long>, I
                   AND i.status = 'PENDING'
             """)
     int confirmInvoice(@Param("id") Long id);
+
+    boolean existsByContractIdAndCustomerIdAndMonthAndYear(
+            Long contractId, Long customerId, Integer month, Integer year
+    );
 }

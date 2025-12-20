@@ -38,21 +38,20 @@ public class ContractEntity {
     private String status;
 
     @Column(name = "created_date")
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
     @PrePersist
     protected void onCreate() {
-        Date now = new Date();
-        createdDate = now;
-        modifiedDate = now;
+        this.createdDate = LocalDateTime.now();
+        this.modifiedDate = LocalDateTime.now();
     }
 
     @Column(name = "modified_date")
-    private Date modifiedDate;
+    private LocalDateTime modifiedDate;
 
     @PreUpdate
     protected void onUpdate() {
-        modifiedDate = new Date();
+        modifiedDate = LocalDateTime.now();
     }
 
     // =================== RELATIONSHIPS ===================

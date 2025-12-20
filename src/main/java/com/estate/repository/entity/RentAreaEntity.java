@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -23,23 +24,20 @@ public class RentAreaEntity {
     private Integer value;
 
     @Column(name = "created_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
     @PrePersist
     protected void onCreate() {
-        Date now = new Date();
-        createdDate = now;
-        modifiedDate = now;
+        this.createdDate = LocalDateTime.now();
+        this.modifiedDate = LocalDateTime.now();
     }
 
     @Column(name = "modified_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date modifiedDate;
+    private LocalDateTime modifiedDate;
 
     @PreUpdate
     protected void onUpdate() {
-        modifiedDate = new Date();
+        modifiedDate = LocalDateTime.now();
     }
 
     // =================== RELATIONSHIPS ===================

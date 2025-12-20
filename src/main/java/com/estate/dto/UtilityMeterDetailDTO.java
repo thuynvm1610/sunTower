@@ -11,6 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UtilityMeterDetailDTO {
     private Long id;
+    private Long contractId;
     private Integer month;
     private Integer year;
     private Integer electricityOld;

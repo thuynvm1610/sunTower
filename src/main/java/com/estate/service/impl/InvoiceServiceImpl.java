@@ -1,11 +1,11 @@
 package com.estate.service.impl;
 
-import com.estate.converter.InvoiceDetailConverter;
-import com.estate.converter.InvoiceListDTOConverter;
+import com.estate.converter.*;
 import com.estate.dto.*;
 import com.estate.exception.BusinessException;
 import com.estate.repository.InvoiceRepository;
-import com.estate.repository.entity.BuildingEntity;
+import com.estate.repository.UtilityMeterRepository;
+import com.estate.repository.entity.InvoiceDetailEntity;
 import com.estate.repository.entity.InvoiceEntity;
 import com.estate.repository.entity.UtilityMeterEntity;
 import com.estate.service.InvoiceService;
@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +37,18 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Autowired
     InvoiceListDTOConverter invoiceListDTOConverter;
+
+    @Autowired
+    InvoiceFormConverter invoiceFormConverter;
+
+    @Autowired
+    InvoiceDetailDetailConverter invoiceDetailDetailConverter;
+
+    @Autowired
+    UtilityMeterDetailConverter utilityMeterDetailConverter;
+
+    @Autowired
+    UtilityMeterRepository utilityMeterRepository;
 
     @Override
     public String findTotalAmountByCustomerId(Long id) {
@@ -228,6 +241,44 @@ public class InvoiceServiceImpl implements InvoiceService {
                     "Không tìm thấy hóa đơn hoặc hóa đơn"
             );
         }
+    }
+
+    @Override
+    public void save(InvoiceFormDTO dto) {
+        if (invoiceRepository.existsByContractIdAndCustomerIdAndMonthAndYear(
+                dto.getContractId(), dto.getCustomerId(), dto.getMonth(), dto.getYear()
+        )) {
+            throw new BusinessException("Hóa đơn này đã tồn tại, vui lòng nhập chỉ số Tháng - Năm khác");
+        }
+
+        LocalDate dueDate = dto.getDueDate();
+        if (dueDate.getMonthValue() != dto.getMonth() || dueDate.getYear() != dto.getYear()) {
+            throw new BusinessException("Vui lòng nhập tháng và năm của hạn trả trùng với tháng và năm của của hóa đơn");
+        }
+
+        // =================== INVOICE ===================
+        InvoiceEntity invoice = (dto.getId() == null)
+                ? new InvoiceEntity()
+                : invoiceRepository.findById(dto.getId())
+                .orElseThrow(() -> new BusinessException("Không tìm thấy hóa đơn"));
+
+        invoiceFormConverter.toEntity(invoice, dto);
+
+        // =================== DETAILS ===================
+        invoice.getDetails().clear();
+
+        for (InvoiceDetailDetailDTO d : dto.getDetails()) {
+            InvoiceDetailEntity detail = new InvoiceDetailEntity();
+            detail.setDescription(d.getDescription());
+            detail.setAmount(d.getAmount());
+            detail.setInvoice(invoice);
+            invoice.getDetails().add(detail);
+        }
+
+        invoiceRepository.save(invoice);
+
+        // =================== UTILITY ===================
+        utilityMeterService.save(invoice, dto);
     }
 
 }
