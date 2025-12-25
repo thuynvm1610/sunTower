@@ -4,7 +4,6 @@ import com.estate.dto.InvoiceDetailDTO;
 import com.estate.dto.InvoiceFilterDTO;
 import com.estate.dto.InvoiceFormDTO;
 import com.estate.dto.InvoiceListDTO;
-import com.estate.repository.entity.InvoiceEntity;
 import org.springframework.data.domain.Page;
 
 import java.math.BigDecimal;
@@ -14,7 +13,7 @@ public interface InvoiceService {
     String findTotalAmountByCustomerId(Long id);
     Long getTotalUnpaidInvoices(Long customerId);
     InvoiceDetailDTO getDetailInvoice(Long customerId);
-    InvoiceEntity findById(Long invoiceId);
+    InvoiceFormDTO findById(Long invoiceId);
     List<InvoiceDetailDTO> getDetailInvoices(Long customerId);
     BigDecimal getTotalAmountPayable(Long customerId);
     Long getTotalPaidInvoice(Long customerId);

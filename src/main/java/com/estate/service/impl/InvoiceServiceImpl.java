@@ -95,8 +95,12 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public InvoiceEntity findById(Long invoiceId) {
-        return invoiceRepository.findById(invoiceId).orElse(null);
+    public InvoiceFormDTO findById(Long invoiceId) {
+        InvoiceEntity invoiceEntity = invoiceRepository.findById(invoiceId)
+                .orElseThrow(() -> new BusinessException("Không tìm thấy hóa đơn"));
+        InvoiceFormDTO dto = new InvoiceFormDTO();
+        invoiceFormConverter.toDTO(invoiceEntity, dto);
+        return dto;
     }
 
     @Override
@@ -245,28 +249,59 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public void save(InvoiceFormDTO dto) {
-        if (invoiceRepository.existsByContractIdAndCustomerIdAndMonthAndYear(
-                dto.getContractId(), dto.getCustomerId(), dto.getMonth(), dto.getYear()
-        )) {
-            throw new BusinessException("Hóa đơn này đã tồn tại, vui lòng nhập chỉ số Tháng - Năm khác");
+
+        int invoiceMonth = dto.getMonth();
+        int invoiceYear  = dto.getYear();
+
+        LocalDate now = LocalDate.now();
+        int currentMonth = now.getMonthValue();
+        int currentYear  = now.getYear();
+
+        // ========= VALIDATE THÊM =========
+        if (dto.getId() == null) {
+
+            // trùng hóa đơn
+            if (invoiceRepository.existsByContractIdAndCustomerIdAndMonthAndYear(
+                    dto.getContractId(), dto.getCustomerId(), invoiceMonth, invoiceYear)) {
+                throw new BusinessException("Hóa đơn này đã tồn tại, vui lòng chọn Tháng - Năm khác");
+            }
+
+            // chỉ cho phép thêm hóa đơn của tháng trước
+            if (!(invoiceYear == currentYear && invoiceMonth == currentMonth - 1)) {
+                throw new BusinessException("Chỉ được phép thêm hóa đơn của THÁNG TRƯỚC");
+            }
         }
 
-        LocalDate dueDate = dto.getDueDate();
-        if (dueDate.getMonthValue() != dto.getMonth() || dueDate.getYear() != dto.getYear()) {
-            throw new BusinessException("Vui lòng nhập tháng và năm của hạn trả trùng với tháng và năm của của hóa đơn");
-        }
-
-        // =================== INVOICE ===================
+        // ========= VALIDATE SỬA =========
         InvoiceEntity invoice = (dto.getId() == null)
                 ? new InvoiceEntity()
                 : invoiceRepository.findById(dto.getId())
                 .orElseThrow(() -> new BusinessException("Không tìm thấy hóa đơn"));
 
+        if (dto.getId() != null) {
+
+            if ("PAID".equals(dto.getStatus())) {
+                throw new BusinessException("Chỉ được phép sửa hóa đơn CHƯA thanh toán");
+            }
+
+            if (!(invoiceYear == currentYear && invoiceMonth == currentMonth - 1)) {
+                throw new BusinessException("Chỉ được phép sửa hóa đơn của THÁNG TRƯỚC");
+            }
+        }
+
+        // ========= VALIDATE HẠN TRẢ =========
+        LocalDate dueDate = dto.getDueDate();
+        LocalDate endOfInvoiceMonth = LocalDate.of(invoiceYear, invoiceMonth, 1)
+                .withDayOfMonth(LocalDate.of(invoiceYear, invoiceMonth, 1).lengthOfMonth());
+
+        if (!dueDate.isAfter(endOfInvoiceMonth)) {
+            throw new BusinessException("Hạn trả phải nằm SAU tháng của hóa đơn");
+        }
+
+        // ========= MAP =========
         invoiceFormConverter.toEntity(invoice, dto);
 
-        // =================== DETAILS ===================
         invoice.getDetails().clear();
-
         for (InvoiceDetailDetailDTO d : dto.getDetails()) {
             InvoiceDetailEntity detail = new InvoiceDetailEntity();
             detail.setDescription(d.getDescription());
@@ -277,7 +312,6 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         invoiceRepository.save(invoice);
 
-        // =================== UTILITY ===================
         utilityMeterService.save(invoice, dto);
     }
 

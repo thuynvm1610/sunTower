@@ -3,7 +3,7 @@ package com.estate.controller.admin;
 import com.estate.dto.ContractFeeDTO;
 import com.estate.dto.InvoiceDetailDTO;
 import com.estate.dto.InvoiceFilterDTO;
-import com.estate.service.BuildingService;
+import com.estate.dto.InvoiceFormDTO;
 import com.estate.service.ContractService;
 import com.estate.service.CustomerService;
 import com.estate.service.InvoiceService;
@@ -22,9 +22,6 @@ import java.util.Map;
 public class AdminInvoiceController {
     @Autowired
     CustomerService customerService;
-
-    @Autowired
-    BuildingService buildingService;
 
     @Autowired
     InvoiceService invoiceService;
@@ -81,5 +78,20 @@ public class AdminInvoiceController {
         model.addAttribute("page", "invoice");
 
         return "admin/invoice-detail";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editInvoice(
+            @PathVariable("id") Long id,
+            Model model
+    ) {
+        InvoiceFormDTO invoice = invoiceService.findById(id);
+        model.addAttribute("invoice", invoice);
+
+        model.addAttribute("customers", customerService.getCustomersName());
+
+        model.addAttribute("page", "invoice");
+
+        return "admin/invoice-edit";
     }
 }

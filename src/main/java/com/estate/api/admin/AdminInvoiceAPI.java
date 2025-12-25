@@ -38,6 +38,12 @@ public class AdminInvoiceAPI {
         return ResponseEntity.ok("Thêm hóa đơn thành công");
     }
 
+    @PutMapping ("/edit")
+    public ResponseEntity<?> editInvoice(@RequestBody InvoiceFormDTO dto) {
+        invoiceService.save(dto);
+        return ResponseEntity.ok("Sửa hóa đơn thành công");
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteInvoice(@PathVariable Long id) {
         invoiceService.delete(id);
