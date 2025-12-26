@@ -26,4 +26,6 @@ public interface UtilityMeterRepository extends JpaRepository<UtilityMeterEntity
          AND u.year = :year
        """)
     Integer getWaterUsage(Long contractId, Integer month, Integer year);
+
+    void deleteByContractIdAndMonthAndYear(Long contractId, Integer month, Integer year);
 }

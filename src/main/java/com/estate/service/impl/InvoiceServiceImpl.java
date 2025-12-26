@@ -219,9 +219,17 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public void delete(Long id) {
-        if (!invoiceRepository.existsById(id)) {
-            throw new BusinessException("Không tìm thấy hóa đơn để xóa");
-        }
+        InvoiceEntity invoice = invoiceRepository.findById(id)
+                .orElseThrow(() -> new BusinessException("Không tìm thấy hóa đơn để xóa"));
+        invoiceRepository.deleteById(id);
+
+        // Xóa utility meter tương ứng
+        utilityMeterRepository.deleteByContractIdAndMonthAndYear(
+                invoice.getContract().getId(),
+                invoice.getMonth(),
+                invoice.getYear()
+        );
+
         invoiceRepository.deleteById(id);
     }
 
