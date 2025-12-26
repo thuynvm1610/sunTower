@@ -225,7 +225,7 @@
             color: #92400e;
         }
 
-        .badge-expired {
+        .badge-overdue {
             background: #fee2e2;
             color: #991b1b;
         }
@@ -578,8 +578,8 @@
                     <span class="info-label">Trạng thái</span>
                     <div class="info-value">
                             <span class="badge-status"
-                                  th:classappend="${invoice.status == 'PAID'} ? 'badge-paid' : (${invoice.status == 'EXPIRED'} ? 'badge-expired' : 'badge-pending')"
-                                  th:text="${invoice.status == 'PAID' ? 'Đã thanh toán' : (invoice.status == 'EXPIRED' ? 'Quá hạn' : 'Chờ thanh toán')}">
+                                  th:classappend="${invoice.status == 'PAID'} ? 'badge-paid' : (${invoice.status == 'OVERDUE'} ? 'badge-overdue' : 'badge-pending')"
+                                  th:text="${invoice.status == 'PAID' ? 'Đã thanh toán' : (invoice.status == 'OVERDUE' ? 'Quá hạn' : 'Chờ thanh toán')}">
                                 Chờ thanh toán
                             </span>
                     </div>

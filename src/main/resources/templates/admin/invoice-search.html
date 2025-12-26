@@ -377,7 +377,7 @@
             color: #d97706;
         }
 
-        .status-badge.expired {
+        .status-badge.overdue {
             background: #fee2e2;
             color: #dc2626;
         }
@@ -658,7 +658,7 @@
                             <option value="PAID" th:selected="${filter.status == 'PAID'}">Đã thanh toán</option>
                             <option value="PENDING" th:selected="${filter.status == 'PENDING'}">Chưa thanh toán
                             </option>
-                            <option value="EXPIRED" th:selected="${filter.status == 'EXPIRED'}">Quá hạn</option>
+                            <option value="OVERDUE" th:selected="${filter.status == 'OVERDUE'}">Quá hạn</option>
                         </select>
                     </div>
                 </div>
@@ -775,7 +775,7 @@
         const statusMap = {
             'PAID': { class: 'paid', text: 'Đã thanh toán' },
             'PENDING': { class: 'pending', text: 'Chưa thanh toán' },
-            'EXPIRED': { class: 'expired', text: 'Quá hạn' },
+            'OVERDUE': { class: 'overdue', text: 'Quá hạn' },
         };
         const s = statusMap[status] || { class: 'pending', text: status };
         return `<span class="status-badge ${s.class}">${s.text}</span>`;

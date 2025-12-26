@@ -256,6 +256,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
+    @Transactional
     public void save(InvoiceFormDTO dto) {
 
         int invoiceMonth = dto.getMonth();
@@ -265,17 +266,20 @@ public class InvoiceServiceImpl implements InvoiceService {
         int currentMonth = now.getMonthValue();
         int currentYear  = now.getYear();
 
+        // === TÍNH THÁNG TRƯỚC (kể cả khi đang là THÁNG 1) ===
+        boolean isLastMonth =
+                (invoiceYear == currentYear && invoiceMonth == currentMonth - 1)
+                        || (currentMonth == 1 && invoiceYear == currentYear - 1 && invoiceMonth == 12);
+
         // ========= VALIDATE THÊM =========
         if (dto.getId() == null) {
 
-            // trùng hóa đơn
             if (invoiceRepository.existsByContractIdAndCustomerIdAndMonthAndYear(
                     dto.getContractId(), dto.getCustomerId(), invoiceMonth, invoiceYear)) {
                 throw new BusinessException("Hóa đơn này đã tồn tại, vui lòng chọn Tháng - Năm khác");
             }
 
-            // chỉ cho phép thêm hóa đơn của tháng trước
-            if (!(invoiceYear == currentYear && invoiceMonth == currentMonth - 1)) {
+            if (!isLastMonth) {
                 throw new BusinessException("Chỉ được phép thêm hóa đơn của THÁNG TRƯỚC");
             }
         }
@@ -288,11 +292,11 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         if (dto.getId() != null) {
 
-            if ("PAID".equals(dto.getStatus())) {
+            if (!"PENDING".equals(invoice.getStatus())) {
                 throw new BusinessException("Chỉ được phép sửa hóa đơn CHƯA thanh toán");
             }
 
-            if (!(invoiceYear == currentYear && invoiceMonth == currentMonth - 1)) {
+            if (!isLastMonth) {
                 throw new BusinessException("Chỉ được phép sửa hóa đơn của THÁNG TRƯỚC");
             }
         }

@@ -857,8 +857,8 @@
                 dueDate: $("[name='dueDate']").val(),
                 totalAmount: Number(totalAmount),
                 details: details,
-                electricityUsage: electricityUsage,
-                waterUsage: waterUsage
+                electricityUsage: Number($('[name="electricityUsage"]').val()) || 0,
+                waterUsage: Number($('[name="waterUsage"]').val()) || 0
             };
 
             $.ajax({

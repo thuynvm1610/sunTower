@@ -54,6 +54,6 @@ public class InvoiceEntity {
     @JoinColumn(name = "customer_id", nullable = false)
     private CustomerEntity customer;
 
-    @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<InvoiceDetailEntity> details = new ArrayList<>();
 }
