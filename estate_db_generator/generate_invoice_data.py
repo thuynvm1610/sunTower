@@ -179,4 +179,4 @@ for c in contracts:
 cursor.close()
 db.close()
 
-print("=== DONE: OPTION B (Older months = PAID, Last month = PENDING) ===")
+print("=== DONE: Older months = PAID, Last month = PENDING ===")
