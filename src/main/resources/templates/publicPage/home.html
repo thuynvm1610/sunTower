@@ -235,15 +235,24 @@
         }
 
         .feature-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            background: #f0f2f5;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 36px;
             margin: 0 auto 25px;
+        }
+
+        .feature-icon svg {
+            width: 36px;
+            height: 36px;
+            stroke: #4a5fc1;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
         }
 
         .feature-card h3 {
@@ -407,32 +416,65 @@
         </div>
         <div class="features-grid">
             <div class="feature-card">
-                <div class="feature-icon">🏢</div>
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                </div>
                 <h3>Quản lý tòa nhà</h3>
                 <p>Hệ thống quản lý toàn diện cho các tòa nhà, căn hộ và tiện ích đi kèm</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">👥</div>
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                </div>
                 <h3>Quản lý khách hàng</h3>
                 <p>Theo dõi thông tin khách hàng, hợp đồng và lịch sử giao dịch một cách dễ dàng</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">📊</div>
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24">
+                        <line x1="12" y1="20" x2="12" y2="10"></line>
+                        <line x1="18" y1="20" x2="18" y2="4"></line>
+                        <line x1="6" y1="20" x2="6" y2="16"></line>
+                    </svg>
+                </div>
                 <h3>Báo cáo chi tiết</h3>
                 <p>Thống kê và phân tích dữ liệu trực quan, hỗ trợ ra quyết định hiệu quả</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">💰</div>
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24">
+                        <line x1="12" y1="1" x2="12" y2="23"></line>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                    </svg>
+                </div>
                 <h3>Quản lý tài chính</h3>
                 <p>Theo dõi thu chi, hóa đơn và công nợ một cách chính xác và minh bạch</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">🔒</div>
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                </div>
                 <h3>Bảo mật cao</h3>
                 <p>Hệ thống bảo mật đa lớp, đảm bảo an toàn tuyệt đối cho dữ liệu của bạn</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">📱</div>
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                        <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                    </svg>
+                </div>
                 <h3>Đa nền tảng</h3>
                 <p>Truy cập mọi lúc mọi nơi trên máy tính, điện thoại và máy tính bảng</p>
             </div>
