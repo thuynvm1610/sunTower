@@ -40,7 +40,7 @@ CREATE TABLE staff (
 );
 
 INSERT INTO staff (username, password, full_name, phone, email, role, created_date, modified_date) VALUES
-('nvmt1610', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Nguyễn Văn Minh Thủy', '0375577856', 'thuy.nvm@estate.vn', 'ADMIN', '2018-01-05', '2018-01-05'),
+('nvmt1610', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Nguyễn Văn Minh Thủy', '0375577856', 'thuy.nvm@gmail.com', 'ADMIN', '2018-01-05', '2018-01-05'),
 ('tmq0102', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Trần Minh Quân', '0902000001', 'quan.tm@gmail.com', 'STAFF', '2019-02-15', '2024-04-12'),
 ('lth2105', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Lê Thị Hồng', '0902000002', 'hong.lt@gmail.com', 'STAFF', '2019-05-10', '2024-03-18'),
 ('pvd1208', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Phạm Văn Dũng', '0902000003', 'dung.pv@gmail.com', 'STAFF', '2020-01-08', '2024-05-09'),
