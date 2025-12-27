@@ -19,7 +19,7 @@
 
         /* Header & Navigation */
         header {
-            background: linear-gradient(135deg, #2d3e8f 0%, #4a5fc1 100%);
+            background: #2d3e8f;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             position: sticky;
             top: 0;
@@ -78,10 +78,6 @@
             width: 100%;
         }
 
-        .nav-links a.active::after {
-            width: 100%;
-        }
-
         .login-btn {
             background: white;
             color: #4a5fc1 !important;
@@ -98,10 +94,10 @@
 
         /* Page Header */
         .page-header {
-            background: linear-gradient(135deg, #2d3e8f 0%, #4a5fc1 100%);
+            background: #4a5fc1;
+            color: white;
             padding: 80px 20px;
             text-align: center;
-            color: white;
         }
 
         .page-header h1 {
@@ -123,9 +119,8 @@
         }
 
         /* About Section */
-        .about-intro {
+        .about-section {
             padding: 80px 20px;
-            background: white;
         }
 
         .about-content {
@@ -133,43 +128,45 @@
             grid-template-columns: 1fr 1fr;
             gap: 60px;
             align-items: center;
+            margin-bottom: 80px;
         }
 
         .about-text h2 {
             font-size: 36px;
             color: #2d3e8f;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             font-weight: 700;
         }
 
         .about-text p {
-            font-size: 18px;
-            color: #666;
+            font-size: 17px;
+            color: #555;
             margin-bottom: 20px;
             line-height: 1.8;
         }
 
         .about-image {
-            background: #4a5fc1;
-            height: 400px;
+            background: #f0f2f5;
             border-radius: 15px;
+            height: 400px;
             display: flex;
             align-items: center;
             justify-content: center;
+            color: #999;
+            font-size: 18px;
+            overflow: hidden;
         }
 
-        .about-image svg {
-            width: 200px;
-            height: 200px;
-            stroke: white;
-            fill: none;
-            stroke-width: 1.5;
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         /* Mission Vision Section */
         .mission-vision {
-            padding: 80px 20px;
             background: #f8f9fa;
+            padding: 80px 20px;
         }
 
         .mv-grid {
@@ -180,9 +177,9 @@
 
         .mv-card {
             background: white;
-            padding: 40px;
+            padding: 50px 40px;
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
         }
 
         .mv-card h3 {
@@ -190,29 +187,17 @@
             color: #2d3e8f;
             margin-bottom: 20px;
             font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .mv-card svg {
-            width: 40px;
-            height: 40px;
-            stroke: #4a5fc1;
-            fill: none;
-            stroke-width: 2;
         }
 
         .mv-card p {
             font-size: 17px;
-            color: #666;
+            color: #555;
             line-height: 1.8;
         }
 
         /* Values Section */
-        .values {
+        .values-section {
             padding: 80px 20px;
-            background: white;
         }
 
         .section-title {
@@ -239,27 +224,29 @@
         }
 
         .value-card {
-            background: #f8f9fa;
-            padding: 35px 30px;
+            background: white;
+            padding: 40px 30px;
             border-radius: 15px;
             text-align: center;
+            border: 2px solid #f0f2f5;
             transition: all 0.3s;
         }
 
         .value-card:hover {
+            border-color: #4a5fc1;
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(74, 95, 193, 0.1);
         }
 
         .value-icon {
             width: 70px;
             height: 70px;
-            background: white;
+            background: #f0f2f5;
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 20px;
+            margin: 0 auto 25px;
         }
 
         .value-icon svg {
@@ -272,74 +259,74 @@
             stroke-linejoin: round;
         }
 
-        .value-card h4 {
-            font-size: 20px;
+        .value-card h3 {
+            font-size: 22px;
             color: #2d3e8f;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
             font-weight: 600;
         }
 
         .value-card p {
             color: #666;
             line-height: 1.7;
-            font-size: 15px;
         }
 
         /* Team Section */
-        .team {
-            padding: 80px 20px;
+        .team-section {
             background: #f8f9fa;
+            padding: 80px 20px;
         }
 
         .team-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
+            gap: 40px;
         }
 
-        .team-card {
+        .team-member {
             background: white;
-            padding: 30px;
             border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
             transition: all 0.3s;
         }
 
-        .team-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
         }
 
-        .team-avatar {
-            width: 100px;
-            height: 100px;
-            background: #4a5fc1;
-            border-radius: 50%;
-            margin: 0 auto 20px;
+        .team-image {
+            background: #f0f2f5;
+            height: 280px;
             display: flex;
             align-items: center;
             justify-content: center;
+            color: #999;
+            overflow: hidden;
         }
 
-        .team-avatar svg {
-            width: 50px;
-            height: 50px;
-            stroke: white;
-            fill: none;
-            stroke-width: 2;
+        .team-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
-        .team-card h4 {
-            font-size: 20px;
+        .team-info {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .team-info h3 {
+            font-size: 22px;
             color: #2d3e8f;
             margin-bottom: 8px;
             font-weight: 600;
         }
 
-        .team-card p {
+        .team-info p {
             color: #666;
-            font-size: 15px;
+            font-size: 16px;
         }
 
         /* Footer */
@@ -423,7 +410,6 @@
 
             .about-content {
                 grid-template-columns: 1fr;
-                gap: 40px;
             }
 
             .mv-grid {
@@ -448,33 +434,30 @@
         <button class="menu-toggle" onclick="toggleMenu()">☰</button>
         <div class="nav-links" id="navLinks">
             <a href="/suntower">Trang chủ</a>
-            <a href="/suntower/gioi-thieu" class="active">Giới thiệu</a>
-            <a href="/suntower/toa-nha">Tòa nhà</a>
-            <a href="/suntower/lien-he">Liên hệ</a>
+            <a href="/suntower/introduce">Giới thiệu</a>
+            <a href="/suntower/building">Tòa nhà</a>
+            <a href="/suntower/contact">Liên hệ</a>
             <a href="/login" class="login-btn">Đăng nhập</a>
         </div>
     </nav>
 </header>
 
-<section class="page-header">
+<div class="page-header">
     <h1>Giới thiệu về SunTower</h1>
     <p>Đối tác tin cậy trong quản lý bất động sản</p>
-</section>
+</div>
 
-<section class="about-intro">
+<section class="about-section">
     <div class="container">
         <div class="about-content">
             <div class="about-text">
                 <h2>Về chúng tôi</h2>
-                <p>SunTower là hệ thống quản lý bất động sản hàng đầu tại Việt Nam, được phát triển với sứ mệnh mang đến giải pháp quản lý toàn diện và hiện đại cho các doanh nghiệp trong lĩnh vực bất động sản.</p>
-                <p>Với đội ngũ chuyên gia giàu kinh nghiệm và công nghệ tiên tiến, chúng tôi cam kết cung cấp những công cụ quản lý hiệu quả nhất, giúp tối ưu hóa quy trình vận hành và nâng cao trải nghiệm khách hàng.</p>
-                <p>Hệ thống của chúng tôi đã được tin dùng bởi hơn 500 khách hàng trên toàn quốc, quản lý hàng trăm tòa nhà và hàng nghìn căn hộ.</p>
+                <p>SunTower là hệ thống quản lý bất động sản hàng đầu tại Việt Nam, được thiết kế để đáp ứng mọi nhu cầu quản lý tòa nhà, căn hộ và khách hàng một cách chuyên nghiệp và hiệu quả.</p>
+                <p>Với đội ngũ chuyên gia giàu kinh nghiệm và công nghệ tiên tiến, chúng tôi cam kết mang đến giải pháp tối ưu nhất cho doanh nghiệp của bạn.</p>
+                <p>Chúng tôi không ngừng đổi mới và cải tiến để đảm bảo khách hàng luôn có trải nghiệm tốt nhất khi sử dụng dịch vụ của chúng tôi.</p>
             </div>
             <div class="about-image">
-                <svg viewBox="0 0 24 24">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                </svg>
+                <img src="/images/building_img/fpt-tower.jpg" alt="SunTower Building"/>
             </div>
         </div>
     </div>
@@ -484,30 +467,18 @@
     <div class="container">
         <div class="mv-grid">
             <div class="mv-card">
-                <h3>
-                    <svg viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <polyline points="12 6 12 12 16 14"></polyline>
-                    </svg>
-                    Sứ mệnh
-                </h3>
-                <p>Cung cấp giải pháp công nghệ quản lý bất động sản toàn diện, hiện đại và dễ sử dụng, giúp các doanh nghiệp tối ưu hóa hiệu quả vận hành và nâng cao chất lượng dịch vụ khách hàng.</p>
+                <h3>Sứ mệnh</h3>
+                <p>Cung cấp giải pháp quản lý bất động sản toàn diện, giúp doanh nghiệp tối ưu hóa quy trình vận hành, nâng cao hiệu quả kinh doanh và mang đến trải nghiệm dịch vụ tuyệt vời cho khách hàng.</p>
             </div>
             <div class="mv-card">
-                <h3>
-                    <svg viewBox="0 0 24 24">
-                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                        <circle cx="12" cy="12" r="3"></circle>
-                    </svg>
-                    Tầm nhìn
-                </h3>
-                <p>Trở thành nền tảng quản lý bất động sản số 1 tại Việt Nam, đồng hành cùng sự phát triển bền vững của ngành bất động sản thông qua việc ứng dụng công nghệ tiên tiến và dịch vụ xuất sắc.</p>
+                <h3>Tầm nhìn</h3>
+                <p>Trở thành nền tảng quản lý bất động sản hàng đầu tại Việt Nam và khu vực Đông Nam Á, được tin dùng bởi hàng nghìn doanh nghiệp và đóng góp vào sự phát triển bền vững của ngành bất động sản.</p>
             </div>
         </div>
     </div>
 </section>
 
-<section class="values">
+<section class="values-section">
     <div class="container">
         <div class="section-title">
             <h2>Giá trị cốt lõi</h2>
@@ -521,8 +492,18 @@
                         <polyline points="22 4 12 14.01 9 11.01"></polyline>
                     </svg>
                 </div>
-                <h4>Chất lượng</h4>
-                <p>Cam kết mang đến sản phẩm và dịch vụ chất lượng cao nhất</p>
+                <h3>Chất lượng</h3>
+                <p>Cam kết cung cấp sản phẩm và dịch vụ chất lượng cao nhất, đáp ứng vượt mong đợi của khách hàng.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                </div>
+                <h3>Hiệu quả</h3>
+                <p>Tối ưu hóa mọi quy trình để mang lại hiệu quả cao nhất trong quản lý và vận hành.</p>
             </div>
             <div class="value-card">
                 <div class="value-icon">
@@ -530,78 +511,66 @@
                         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                     </svg>
                 </div>
-                <h4>Tin cậy</h4>
-                <p>Xây dựng niềm tin thông qua sự minh bạch và bảo mật</p>
+                <h3>Tin cậy</h3>
+                <p>Xây dựng lòng tin thông qua sự minh bạch, trung thực và trách nhiệm trong mọi giao dịch.</p>
             </div>
             <div class="value-card">
                 <div class="value-icon">
                     <svg viewBox="0 0 24 24">
-                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                        <polyline points="2 17 12 22 22 17"></polyline>
+                        <polyline points="2 12 12 17 22 12"></polyline>
                     </svg>
                 </div>
-                <h4>Đổi mới</h4>
-                <p>Không ngừng cải tiến và ứng dụng công nghệ mới</p>
-            </div>
-            <div class="value-card">
-                <div class="value-icon">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="12" cy="7" r="4"></circle>
-                    </svg>
-                </div>
-                <h4>Khách hàng là trung tâm</h4>
-                <p>Lắng nghe và đáp ứng nhu cầu của khách hàng</p>
+                <h3>Đổi mới</h3>
+                <p>Không ngừng đổi mới và áp dụng công nghệ tiên tiến để cải thiện trải nghiệm người dùng.</p>
             </div>
         </div>
     </div>
 </section>
 
-<section class="team">
+<section class="team-section">
     <div class="container">
         <div class="section-title">
-            <h2>Đội ngũ lãnh đạo</h2>
-            <p>Những người dẫn dắt SunTower phát triển</p>
+            <h2>Đội ngũ của chúng tôi</h2>
+            <p>Những con người tài năng đằng sau thành công</p>
         </div>
         <div class="team-grid">
-            <div class="team-card">
-                <div class="team-avatar">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="12" cy="7" r="4"></circle>
-                    </svg>
+            <div class="team-member">
+                <div class="team-image">
+                    <img src="/images/staff_img/ceo.jpg" alt="CEO"/>
                 </div>
-                <h4>Nguyễn Văn A</h4>
-                <p>Giám đốc điều hành (CEO)</p>
+                <div class="team-info">
+                    <h3>Nguyễn Bình Minh</h3>
+                    <p>Giám đốc điều hành</p>
+                </div>
             </div>
-            <div class="team-card">
-                <div class="team-avatar">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="12" cy="7" r="4"></circle>
-                    </svg>
+            <div class="team-member">
+                <div class="team-image">
+                    <img src="/images/staff_img/cto.jpg" alt="CTO"/>
                 </div>
-                <h4>Trần Thị B</h4>
-                <p>Giám đốc công nghệ (CTO)</p>
+                <div class="team-info">
+                    <h3>Phạm Ngọc Anh</h3>
+                    <p>Giám đốc công nghệ</p>
+                </div>
             </div>
-            <div class="team-card">
-                <div class="team-avatar">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="12" cy="7" r="4"></circle>
-                    </svg>
+            <div class="team-member">
+                <div class="team-image">
+                    <img src="/images/staff_img/sm.jpg" alt="Sales Manager"/>
                 </div>
-                <h4>Lê Văn C</h4>
-                <p>Giám đốc vận hành (COO)</p>
+                <div class="team-info">
+                    <h3>Trần Anh Tuấn</h3>
+                    <p>Trưởng phòng kinh doanh</p>
+                </div>
             </div>
-            <div class="team-card">
-                <div class="team-avatar">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="12" cy="7" r="4"></circle>
-                    </svg>
+            <div class="team-member">
+                <div class="team-image">
+                    <img src="/images/staff_img/csm.jpg" alt="Customer Support Manager"/>
                 </div>
-                <h4>Phạm Thị D</h4>
-                <p>Giám đốc marketing (CMO)</p>
+                <div class="team-info">
+                    <h3>Lê Thị Thu Trang</h3>
+                    <p>Trưởng phòng hỗ trợ khách hàng</p>
+                </div>
             </div>
         </div>
     </div>
@@ -616,9 +585,9 @@
         <div class="footer-section">
             <h3>Liên kết nhanh</h3>
             <a href="/suntower">Trang chủ</a>
-            <a href="/suntower/gioi-thieu">Giới thiệu</a>
-            <a href="/suntower/toa-nha">Tòa nhà</a>
-            <a href="/suntower/lien-he">Liên hệ</a>
+            <a href="/suntower/introduce">Giới thiệu</a>
+            <a href="/suntower/building">Tòa nhà</a>
+            <a href="/suntower/contact">Liên hệ</a>
         </div>
         <div class="footer-section">
             <h3>Liên hệ</h3>
