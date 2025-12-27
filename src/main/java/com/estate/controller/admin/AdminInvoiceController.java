@@ -88,6 +88,9 @@ public class AdminInvoiceController {
         InvoiceFormDTO invoice = invoiceService.findById(id);
         model.addAttribute("invoice", invoice);
 
+        Integer rentArea = invoiceService.getRentArea(id);
+        model.addAttribute("rentArea", rentArea);
+
         model.addAttribute("customers", customerService.getCustomersName());
 
         model.addAttribute("page", "invoice");

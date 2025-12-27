@@ -793,6 +793,13 @@
             C: "C"
         };
 
+        function formatPrice(price) {
+            if (price == null) return '';
+            return new Intl.NumberFormat('vi-VN')
+                .format(price)
+                .replaceAll('.', ',') + ' đ';
+        }
+
         // Hàm load dữ liệu bảng tòa nhà bằng Ajax
         function loadBuildings(page, event) {
             if (event) event.preventDefault();
@@ -819,7 +826,7 @@
                             <td><span class="building-name">${b.name}</span></td>
                             <td>${b.address}</td>
                             <td><span class="level-badge">${levelLabels[b.level] || ''}</span></td>
-                            <td><span class="price-badge">${b.rentPrice || ''} đ</span></td>
+                            <td><span class="price-badge">${formatPrice(b.rentPrice)}</span></td>
                             <td>${b.managerName || ''}</td>
                             <td>
                                 <div class="action-buttons">

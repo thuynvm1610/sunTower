@@ -24,4 +24,5 @@ public interface InvoiceService {
     InvoiceDetailDTO viewById(Long invoiceId);
     void invoiceConfirm(Long id);
     void save(InvoiceFormDTO dto);
+    Integer getRentArea(Long id);
 }

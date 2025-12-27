@@ -134,7 +134,9 @@ for c in contracts:
         last_elec = elec_new
         last_water = water_new
 
-        # Fees
+        # ==============================
+        # FEES (đơn giá — dùng cho invoice_detail, giữ nguyên)
+        # ==============================
         rent_fee = float(c["rent_price"])
         service_fee = float(building["service_fee"])
         car_fee = float(building["car_fee"])
@@ -151,7 +153,24 @@ for c in contracts:
             ("Phí nước", water_fee),
         ]
 
-        total_amount = sum(a for _, a in line_items)
+        # ==============================
+        # TOTAL AMOUNT (CÔNG THỨC YÊU CẦU)
+        # ==============================
+        rent_total = float(c["rent_price"]) * int(c["rent_area"])
+        service_total = float(building["service_fee"])
+        car_total = float(building["car_fee"])
+        motorbike_total = float(building["motorbike_fee"])
+        electricity_total = elec_used * float(building["electricity_fee"])
+        water_total = water_used * float(building["water_fee"])
+
+        total_amount = (
+            rent_total
+            + service_total
+            + car_total
+            + motorbike_total
+            + electricity_total
+            + water_total
+        )
 
         cursor.execute("""
             INSERT INTO invoice (

@@ -3,8 +3,10 @@ package com.estate.service.impl;
 import com.estate.converter.*;
 import com.estate.dto.*;
 import com.estate.exception.BusinessException;
+import com.estate.repository.ContractRepository;
 import com.estate.repository.InvoiceRepository;
 import com.estate.repository.UtilityMeterRepository;
+import com.estate.repository.entity.ContractEntity;
 import com.estate.repository.entity.InvoiceDetailEntity;
 import com.estate.repository.entity.InvoiceEntity;
 import com.estate.repository.entity.UtilityMeterEntity;
@@ -49,6 +51,9 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Autowired
     UtilityMeterRepository utilityMeterRepository;
+
+    @Autowired
+    ContractRepository contractRepository;
 
     @Override
     public String findTotalAmountByCustomerId(Long id) {
@@ -325,6 +330,17 @@ public class InvoiceServiceImpl implements InvoiceService {
         invoiceRepository.save(invoice);
 
         utilityMeterService.save(invoice, dto);
+    }
+
+    @Override
+    public Integer getRentArea(Long id) {
+        InvoiceEntity invoice = invoiceRepository.findById(id)
+                .orElseThrow(() -> new BusinessException("Không tìm thấy hóa đơn"));
+
+        ContractEntity contract = contractRepository.findById(invoice.getContract().getId())
+                .orElseThrow(() -> new BusinessException("Không tìm thấy hợp đồng"));
+
+        return contract.getRentArea();
     }
 
 }

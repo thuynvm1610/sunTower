@@ -706,8 +706,7 @@
                     </td>
                     <td class="text-center"
                         th:text="
-                            ${detail.description.contains('thuê')
-                            or detail.description.contains('dịch vụ')
+                            ${detail.description.contains('dịch vụ')
                             or detail.description.contains('gửi ô tô')
                             or detail.description.contains('gửi xe máy')}
                             ? 'Tháng'
@@ -715,7 +714,8 @@
                                 ? 'Số'
                                 : (${detail.description.contains('nước')}
                                     ? 'm3'
-                                    : ''))
+                                    : (${detail.description.contains('thuê')}
+                                        ? 'm2' : '')))
                         ">
                         Tháng
                     </td>

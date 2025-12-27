@@ -467,6 +467,7 @@
                                 <i class="bi bi-file-earmark-text"></i>
                             </span>
                             <input type="text" class="form-control" name="contractId" th:value="${invoice.contractId}" disabled>
+                            <input type="hidden" name="rentArea" th:value="${rentArea}">
                         </div>
                     </div>
                 </div>
@@ -768,13 +769,15 @@
             return Number(number).toLocaleString('vi-VN');
         }
 
+        const rentArea = Number($('[name="rentArea"]').val()) || 0;
+
         // Tính tổng tiền
         function calculateTotal() {
             const electricityUsage = Number($('[name="electricityUsage"]').val()) || 0;
             const waterUsage = Number($('[name="waterUsage"]').val()) || 0;
 
             const total =
-                Number(contractData.rentPrice || 0) +
+                Number(contractData.rentPrice || 0) * rentArea +
                 Number(contractData.serviceFee || 0) +
                 Number(contractData.carFee || 0) +
                 Number(contractData.motorbikeFee || 0) +
@@ -845,7 +848,8 @@
                 }
             ];
 
-            const totalAmount = details.reduce((sum, d) => sum + Number(d.amount || 0), 0);
+            const totalAmount = details.reduce((sum, d) => sum + Number(d.amount || 0), 0) +
+                                (rentArea - 1) * details[0].amount;
 
             const data = {
                 id: Number($('#invoiceId').val()),
