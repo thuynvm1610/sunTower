@@ -513,7 +513,9 @@
                             <h3>Hình ảnh</h3>
                         </div>
                         <div th:if="${not #strings.isEmpty(building.image)}">
-                            <img th:src="${building.image}" alt="Building Image" class="building-image">
+                            <img th:src="@{/images/building_img/{img}(img=${building.image})}"
+                                 alt="Building Image"
+                                 class="building-image"/>
                         </div>
                         <div th:unless="${not #strings.isEmpty(building.image)}" class="building-image empty">
                             <i class="bi bi-image"></i>

@@ -548,7 +548,7 @@
                         <select class="form-select" name="status">
                             <option value="">-- Chọn trạng thái --</option>
                             <option value="ACTIVE">
-                                ACTIVE
+                                Hiệu lực
                             </option>
                             <option value="EXPIRED">
                                 Hết hạn
@@ -649,7 +649,7 @@
                                             </div>
                                         </div>
                                         <span class="contract-status ${statusClass}">
-                                            <i class="bi bi-check-circle-fill"></i>
+                                            <i class="bi ${c.status === 'ACTIVE' ? 'bi-check-circle-fill' : 'bi-x-circle-fill'}"></i>
                                             ${c.status}
                                         </span>
                                     </div>

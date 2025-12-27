@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SunTower - Giới thiệu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: linear-gradient(135deg, #2d3e8f 0%, #4a5fc1 100%);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: white;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 35px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:not(.login-btn):hover {
+            color: #e0e7ff;
+        }
+
+        .nav-links a:not(.login-btn)::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s;
+        }
+
+        .nav-links a:not(.login-btn):hover::after {
+            width: 100%;
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .login-btn {
+            background: white;
+            color: #4a5fc1 !important;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, #2d3e8f 0%, #4a5fc1 100%);
+            padding: 80px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .page-header h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .page-header p {
+            font-size: 20px;
+            opacity: 0.9;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* About Section */
+        .about-intro {
+            padding: 80px 20px;
+            background: white;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-size: 36px;
+            color: #2d3e8f;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .about-text p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .about-image {
+            background: #4a5fc1;
+            height: 400px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .about-image svg {
+            width: 200px;
+            height: 200px;
+            stroke: white;
+            fill: none;
+            stroke-width: 1.5;
+        }
+
+        /* Mission Vision Section */
+        .mission-vision {
+            padding: 80px 20px;
+            background: #f8f9fa;
+        }
+
+        .mv-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .mv-card {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .mv-card h3 {
+            font-size: 28px;
+            color: #2d3e8f;
+            margin-bottom: 20px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .mv-card svg {
+            width: 40px;
+            height: 40px;
+            stroke: #4a5fc1;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .mv-card p {
+            font-size: 17px;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* Values Section */
+        .values {
+            padding: 80px 20px;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 42px;
+            color: #2d3e8f;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .section-title p {
+            font-size: 18px;
+            color: #666;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .value-card {
+            background: #f8f9fa;
+            padding: 35px 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .value-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .value-icon {
+            width: 70px;
+            height: 70px;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .value-icon svg {
+            width: 36px;
+            height: 36px;
+            stroke: #4a5fc1;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .value-card h4 {
+            font-size: 20px;
+            color: #2d3e8f;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .value-card p {
+            color: #666;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        /* Team Section */
+        .team {
+            padding: 80px 20px;
+            background: #f8f9fa;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .team-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+        }
+
+        .team-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .team-avatar {
+            width: 100px;
+            height: 100px;
+            background: #4a5fc1;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .team-avatar svg {
+            width: 50px;
+            height: 50px;
+            stroke: white;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .team-card h4 {
+            font-size: 20px;
+            color: #2d3e8f;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .team-card p {
+            color: #666;
+            font-size: 15px;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a2e;
+            color: white;
+            padding: 60px 20px 30px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: #aaa;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #fff;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #333;
+            color: #aaa;
+        }
+
+        /* Mobile Menu */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: #2d3e8f;
+                flex-direction: column;
+                padding: 20px;
+                gap: 20px;
+                display: none;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .page-header h1 {
+                font-size: 36px;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .mv-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-text h2 {
+                font-size: 28px;
+            }
+
+            .section-title h2 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav>
+        <a href="/suntower" class="logo">SunTower</a>
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+        <div class="nav-links" id="navLinks">
+            <a href="/suntower">Trang chủ</a>
+            <a href="/suntower/gioi-thieu" class="active">Giới thiệu</a>
+            <a href="/suntower/toa-nha">Tòa nhà</a>
+            <a href="/suntower/lien-he">Liên hệ</a>
+            <a href="/login" class="login-btn">Đăng nhập</a>
+        </div>
+    </nav>
+</header>
+
+<section class="page-header">
+    <h1>Giới thiệu về SunTower</h1>
+    <p>Đối tác tin cậy trong quản lý bất động sản</p>
+</section>
+
+<section class="about-intro">
+    <div class="container">
+        <div class="about-content">
+            <div class="about-text">
+                <h2>Về chúng tôi</h2>
+                <p>SunTower là hệ thống quản lý bất động sản hàng đầu tại Việt Nam, được phát triển với sứ mệnh mang đến giải pháp quản lý toàn diện và hiện đại cho các doanh nghiệp trong lĩnh vực bất động sản.</p>
+                <p>Với đội ngũ chuyên gia giàu kinh nghiệm và công nghệ tiên tiến, chúng tôi cam kết cung cấp những công cụ quản lý hiệu quả nhất, giúp tối ưu hóa quy trình vận hành và nâng cao trải nghiệm khách hàng.</p>
+                <p>Hệ thống của chúng tôi đã được tin dùng bởi hơn 500 khách hàng trên toàn quốc, quản lý hàng trăm tòa nhà và hàng nghìn căn hộ.</p>
+            </div>
+            <div class="about-image">
+                <svg viewBox="0 0 24 24">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="mission-vision">
+    <div class="container">
+        <div class="mv-grid">
+            <div class="mv-card">
+                <h3>
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    Sứ mệnh
+                </h3>
+                <p>Cung cấp giải pháp công nghệ quản lý bất động sản toàn diện, hiện đại và dễ sử dụng, giúp các doanh nghiệp tối ưu hóa hiệu quả vận hành và nâng cao chất lượng dịch vụ khách hàng.</p>
+            </div>
+            <div class="mv-card">
+                <h3>
+                    <svg viewBox="0 0 24 24">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                    Tầm nhìn
+                </h3>
+                <p>Trở thành nền tảng quản lý bất động sản số 1 tại Việt Nam, đồng hành cùng sự phát triển bền vững của ngành bất động sản thông qua việc ứng dụng công nghệ tiên tiến và dịch vụ xuất sắc.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="values">
+    <div class="container">
+        <div class="section-title">
+            <h2>Giá trị cốt lõi</h2>
+            <p>Những nguyên tắc định hướng hoạt động của chúng tôi</p>
+        </div>
+        <div class="values-grid">
+            <div class="value-card">
+                <div class="value-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                </div>
+                <h4>Chất lượng</h4>
+                <p>Cam kết mang đến sản phẩm và dịch vụ chất lượng cao nhất</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                </div>
+                <h4>Tin cậy</h4>
+                <p>Xây dựng niềm tin thông qua sự minh bạch và bảo mật</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">
+                    <svg viewBox="0 0 24 24">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                    </svg>
+                </div>
+                <h4>Đổi mới</h4>
+                <p>Không ngừng cải tiến và ứng dụng công nghệ mới</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </div>
+                <h4>Khách hàng là trung tâm</h4>
+                <p>Lắng nghe và đáp ứng nhu cầu của khách hàng</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="team">
+    <div class="container">
+        <div class="section-title">
+            <h2>Đội ngũ lãnh đạo</h2>
+            <p>Những người dẫn dắt SunTower phát triển</p>
+        </div>
+        <div class="team-grid">
+            <div class="team-card">
+                <div class="team-avatar">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </div>
+                <h4>Nguyễn Văn A</h4>
+                <p>Giám đốc điều hành (CEO)</p>
+            </div>
+            <div class="team-card">
+                <div class="team-avatar">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </div>
+                <h4>Trần Thị B</h4>
+                <p>Giám đốc công nghệ (CTO)</p>
+            </div>
+            <div class="team-card">
+                <div class="team-avatar">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </div>
+                <h4>Lê Văn C</h4>
+                <p>Giám đốc vận hành (COO)</p>
+            </div>
+            <div class="team-card">
+                <div class="team-avatar">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </div>
+                <h4>Phạm Thị D</h4>
+                <p>Giám đốc marketing (CMO)</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>SunTower</h3>
+            <p>Hệ thống quản lý bất động sản chuyên nghiệp, mang đến giải pháp tối ưu cho doanh nghiệp của bạn.</p>
+        </div>
+        <div class="footer-section">
+            <h3>Liên kết nhanh</h3>
+            <a href="/suntower">Trang chủ</a>
+            <a href="/suntower/gioi-thieu">Giới thiệu</a>
+            <a href="/suntower/toa-nha">Tòa nhà</a>
+            <a href="/suntower/lien-he">Liên hệ</a>
+        </div>
+        <div class="footer-section">
+            <h3>Liên hệ</h3>
+            <p>Email: contact@suntower.vn</p>
+            <p>Hotline: 1900 xxxx</p>
+            <p>Địa chỉ: Hà Nội, Việt Nam</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2025 SunTower. All rights reserved.</p>
+    </div>
+</footer>
+
+<script>
+    function toggleMenu() {
+        const navLinks = document.getElementById('navLinks');
+        navLinks.classList.toggle('active');
+    }
+</script>
+
+</body>
+</html>

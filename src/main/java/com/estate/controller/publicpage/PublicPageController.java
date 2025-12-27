@@ -12,18 +12,18 @@ public class PublicPageController {
         return "publicPage/home";
     }
 
-    @GetMapping("/gioi-thieu")
+    @GetMapping("/introduce")
     public String about() {
-        return "publicPage/gioi-thieu";
+        return "publicPage/introduce";
     }
 
-    @GetMapping("/toa-nha")
+    @GetMapping("/building")
     public String buildings() {
-        return "publicPage/toa-nha";
+        return "publicPage/building";
     }
 
-    @GetMapping("/lien-he")
+    @GetMapping("/contact")
     public String contact() {
-        return "publicPage/lien-he";
+        return "publicPage/contact";
     }
 }
