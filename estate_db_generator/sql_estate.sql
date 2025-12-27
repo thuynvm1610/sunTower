@@ -41,17 +41,16 @@ CREATE TABLE staff (
 
 INSERT INTO staff (username, password, full_name, phone, email, role, created_date, modified_date) VALUES
 ('nvmt1610', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Nguyễn Văn Minh Thủy', '0375577856', 'thuy.nvm@estate.vn', 'ADMIN', '2018-01-05', '2018-01-05'),
-
-('tmq0102', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Trần Minh Quân', '0902000001', 'quan.tm@estate.vn', 'STAFF', '2019-02-15', '2024-04-12'),
-('lth2105', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Lê Thị Hồng', '0902000002', 'hong.lt@estate.vn', 'STAFF', '2019-05-10', '2024-03-18'),
-('pvd1208', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Phạm Văn Dũng', '0902000003', 'dung.pv@estate.vn', 'STAFF', '2020-01-08', '2024-05-09'),
-('nha0401', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Nguyễn Hoàng Anh', '0902000004', 'anh.nh@estate.vn', 'STAFF', '2020-07-20', '2024-04-28'),
-('vnb2511', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Vũ Ngọc Bích', '0902000005', 'bich.vn@estate.vn', 'STAFF', '2021-02-11', '2025-03-15'),
-('dhc2307', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Đặng Hữu Cường', '0902000006', 'cuong.dh@estate.vn', 'STAFF', '2021-09-03', '2024-06-10'),
-('ltm1905', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Lương Thị Mai', '0902000007', 'mai.lt@estate.vn', 'STAFF', '2022-03-25', '2025-02-02'),
-('nta1212', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Ngô Tuấn Anh', '0902000008', 'anhtn@estate.vn', 'STAFF', '2022-06-11', '2024-12-30'),
-('hdk1311', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Hoàng Đức Khánh', '0902000009', 'khanh.hd@estate.vn', 'STAFF', '2023-01-05', '2025-01-16'),
-('ttt1612', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Trịnh Thu Trang', '0902000010', 'trang.tt@estate.vn', 'STAFF', '2023-03-12', '2025-02-25');
+('tmq0102', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Trần Minh Quân', '0902000001', 'quan.tm@gmail.com', 'STAFF', '2019-02-15', '2024-04-12'),
+('lth2105', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Lê Thị Hồng', '0902000002', 'hong.lt@gmail.com', 'STAFF', '2019-05-10', '2024-03-18'),
+('pvd1208', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Phạm Văn Dũng', '0902000003', 'dung.pv@gmail.com', 'STAFF', '2020-01-08', '2024-05-09'),
+('nha0401', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Nguyễn Hoàng Anh', '0902000004', 'anh.nh@gmail.com', 'STAFF', '2020-07-20', '2024-04-28'),
+('vnb2511', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Vũ Ngọc Bích', '0902000005', 'bich.vn@gmail.com', 'STAFF', '2021-02-11', '2025-03-15'),
+('dhc2307', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Đặng Hữu Cường', '0902000006', 'cuong.dh@gmail.com', 'STAFF', '2021-09-03', '2024-06-10'),
+('ltm1905', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Lương Thị Mai', '0902000007', 'mai.lt@gmail.com', 'STAFF', '2022-03-25', '2025-02-02'),
+('nta1212', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Ngô Tuấn Anh', '0902000008', 'anhtn@gmail.com', 'STAFF', '2022-06-11', '2024-12-30'),
+('hdk1311', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Hoàng Đức Khánh', '0902000009', 'khanh.hd@gmail.com', 'STAFF', '2023-01-05', '2025-01-16'),
+('ttt1612', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Trịnh Thu Trang', '0902000010', 'trang.tt@gmail.com', 'STAFF', '2023-03-12', '2025-02-25');
 
 -- =============================
 -- BẢNG TÒA NHÀ / BUILDING
