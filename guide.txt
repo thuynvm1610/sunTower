@@ -24,8 +24,8 @@
 - Mật khẩu: 123456
 
 *** URL ***
-- Trang đăng nhập: /login
-- Trang public: /suntower
+- Trang đăng nhập: http://localhost:8080/login
+- Trang public: http://localhost:8080/suntower
 
 *** Tạo cơ sở dữ liệu ***
 Mở folder "estate_db_generator"
