@@ -62,6 +62,9 @@ public class AdminInvoiceController {
         Map<Long, ContractFeeDTO> contractFees = contractService.getContractsFees();
         model.addAttribute("contractFees", contractFees);
 
+        Map<Long, Integer> rentAreas = invoiceService.getRentAreaByContract();
+        model.addAttribute("rentAreas", rentAreas);
+
         model.addAttribute("page", "invoice");
 
         return "admin/invoice-add";

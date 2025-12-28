@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 public interface InvoiceService {
     String findTotalAmountByCustomerId(Long id);
@@ -25,4 +26,5 @@ public interface InvoiceService {
     void invoiceConfirm(Long id);
     void save(InvoiceFormDTO dto);
     Integer getRentArea(Long id);
+    Map<Long, Integer> getRentAreaByContract();
 }

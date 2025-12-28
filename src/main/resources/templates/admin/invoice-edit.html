@@ -484,7 +484,8 @@
                         <div class="fee-item">
                             <div class="fee-label">
                                 <i class="bi bi-building"></i>
-                                Tiền thuê mặt bằng/tháng
+                                Tiền thuê mặt bằng/m² -
+                                <span th:text="'Thuê ' + ${rentArea} + 'm²'"></span>
                             </div>
                             <div class="input-group">
                                 <span class="input-group-text">VNĐ</span>
@@ -819,6 +820,9 @@
         // Submit form
         $("#invoiceEditForm").on("submit", function (e) {
             e.preventDefault();
+
+            const electricityUsage = Number($('[name="electricityUsage"]').val()) || 0;
+            const waterUsage = Number($('[name="waterUsage"]').val()) || 0;
 
             // Tính lại details
             const details = [

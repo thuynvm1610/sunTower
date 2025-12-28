@@ -1,6 +1,7 @@
 package com.estate.repository;
 
 import com.estate.dto.ContractDetailDTO;
+import com.estate.dto.ContractRentAreaView;
 import com.estate.repository.custom.ContractRepositoryCustom;
 import com.estate.repository.entity.ContractEntity;
 import org.springframework.data.domain.Pageable;
@@ -74,5 +75,14 @@ public interface ContractRepository extends JpaRepository<ContractEntity, Long>,
                 WHERE c.status = 'ACTIVE'
             """)
     List<Object[]> getContractsFees();
+
+    @Query("""
+       SELECT new com.estate.dto.ContractRentAreaView(
+           c.id,
+           c.rentArea
+       )
+       FROM ContractEntity c
+       """)
+    List<ContractRentAreaView> findAllIdAndRentArea();
 
 }

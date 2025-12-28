@@ -402,637 +402,649 @@
 
 <body>
 
-<!-- HEADER + SIDEBAR -->
-<div th:replace="~{layout/header :: header}"></div>
-<div th:replace="~{layout/sidebar :: sidebar}"></div>
+    <!-- HEADER + SIDEBAR -->
+    <div th:replace="~{layout/header :: header}"></div>
+    <div th:replace="~{layout/sidebar :: sidebar}"></div>
 
-<main class="content">
-    <div class="container-fluid">
-        <!-- Page Header -->
-        <div class="page-header">
-            <h2>
-                <i class="bi bi-receipt"></i>
-                Thêm hóa đơn mới
-            </h2>
-            <a th:href="@{/admin/invoice/list}" class="btn-back">
-                <i class="bi bi-arrow-left"></i>
-                Quay lại danh sách
-            </a>
-        </div>
-
-        <!-- Info Box -->
-        <div class="info-box">
-            <i class="bi bi-info-circle"></i>
-            <div class="info-box-content">
-                Vui lòng điền đầy đủ thông tin bắt buộc để thêm hóa đơn mới vào hệ thống.
-            </div>
-        </div>
-
-        <!-- Form Card -->
-        <form class="form-card" id="invoiceForm">
-            <div class="form-header">
-                <div class="form-title">
+    <main class="content">
+        <div class="container-fluid">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h2>
                     <i class="bi bi-receipt"></i>
-                    Thông tin hóa đơn
+                    Thêm hóa đơn mới
+                </h2>
+                <a th:href="@{/admin/invoice/list}" class="btn-back">
+                    <i class="bi bi-arrow-left"></i>
+                    Quay lại danh sách
+                </a>
+            </div>
+
+            <!-- Info Box -->
+            <div class="info-box">
+                <i class="bi bi-info-circle"></i>
+                <div class="info-box-content">
+                    Vui lòng điền đầy đủ thông tin bắt buộc để thêm hóa đơn mới vào hệ thống.
                 </div>
             </div>
 
-            <!-- Thông tin cơ bản -->
-            <div class="form-section-title">
-                <i class="bi bi-file-text"></i> Thông tin cơ bản
-            </div>
-            <div class="row g-3 mb-4">
-                <div class="col-md-6">
-                    <label class="form-label">
-                        Khách hàng
-                        <span class="required">*</span>
-                    </label>
-                    <div class="input-group">
-                        <span class="input-group-text">
-                            <i class="bi bi-person"></i>
-                        </span>
-                        <select class="form-select" name="customerId" id="customerSelect" required>
-                            <option value="">-- Chọn khách hàng --</option>
-                            <option th:each="customer : ${customers}" th:value="${customer.value}"
+            <!-- Form Card -->
+            <form class="form-card" id="invoiceForm">
+                <div class="form-header">
+                    <div class="form-title">
+                        <i class="bi bi-receipt"></i>
+                        Thông tin hóa đơn
+                    </div>
+                </div>
+
+                <!-- Thông tin cơ bản -->
+                <div class="form-section-title">
+                    <i class="bi bi-file-text"></i> Thông tin cơ bản
+                </div>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label">
+                            Khách hàng
+                            <span class="required">*</span>
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-person"></i>
+                            </span>
+                            <select class="form-select" name="customerId" id="customerSelect" required>
+                                <option value="">-- Chọn khách hàng --</option>
+                                <option th:each="customer : ${customers}" th:value="${customer.value}"
                                     th:text="${customer.key}"></option>
-                        </select>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">
+                            Hợp đồng
+                            <span class="required">*</span>
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-file-earmark-text"></i>
+                            </span>
+                            <select class="form-select" name="contractId" id="contractSelect" required disabled>
+                                <option value="">-- Chọn khách hàng trước --</option>
+                            </select>
+                        </div>
+                        <small class="form-text info" id="contractInfo"></small>
                     </div>
                 </div>
 
-                <div class="col-md-6">
-                    <label class="form-label">
-                        Hợp đồng
-                        <span class="required">*</span>
-                    </label>
-                    <div class="input-group">
-                        <span class="input-group-text">
-                            <i class="bi bi-file-earmark-text"></i>
-                        </span>
-                        <select class="form-select" name="contractId" id="contractSelect" required disabled>
-                            <option value="">-- Chọn khách hàng trước --</option>
-                        </select>
+                <!-- Khu vực hiển thị chi phí từ hợp đồng -->
+                <div id="feeDisplayArea" style="display: none;">
+                    <div class="form-section-title mt-4">
+                        <i class="bi bi-cash-coin"></i> Chi phí theo hợp đồng
                     </div>
-                    <small class="form-text info" id="contractInfo"></small>
-                </div>
-            </div>
+                    <div class="meter-info-box">
+                        <i class="bi bi-info-circle-fill"></i>
+                        <div class="meter-info-content">
+                            Các khoản phí dưới đây được lấy từ thông tin hợp đồng
+                        </div>
+                    </div>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <div class="fee-item">
+                                <div class="fee-label">
+                                    <i class="bi bi-building"></i>
+                                    Tiền thuê mặt bằng/m² - Thuê
+                                    <span id="rentAreaValue"></span>
+                                    <span> m²</span>
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-text">VNĐ</span>
+                                    <input type="text" class="form-control" id="displayRentPrice" readonly>
+                                </div>
+                            </div>
+                        </div>
 
-            <!-- Khu vực hiển thị chi phí từ hợp đồng -->
-            <div id="feeDisplayArea" style="display: none;">
+                        <div class="col-md-4">
+                            <div class="fee-item">
+                                <div class="fee-label">
+                                    <i class="bi bi-gear"></i>
+                                    Phí dịch vụ/tháng
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-text">VNĐ</span>
+                                    <input type="text" class="form-control" id="displayServiceFee" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="fee-item">
+                                <div class="fee-label">
+                                    <i class="bi bi-car-front"></i>
+                                    Phí gửi ô tô/tháng
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-text">VNĐ</span>
+                                    <input type="text" class="form-control" id="displayCarFee" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="fee-item">
+                                <div class="fee-label">
+                                    <i class="bi bi-scooter"></i>
+                                    Phí gửi xe máy/tháng
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-text">VNĐ</span>
+                                    <input type="text" class="form-control" id="displayMotorbikeFee" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="fee-item">
+                                <div class="fee-label">
+                                    <i class="bi bi-lightning-charge"></i>
+                                    Đơn giá điện
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-text">VNĐ/kWh</span>
+                                    <input type="text" class="form-control" id="displayElectricityPrice" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="fee-item">
+                                <div class="fee-label">
+                                    <i class="bi bi-droplet"></i>
+                                    Đơn giá nước
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-text">VNĐ/m³</span>
+                                    <input type="text" class="form-control" id="displayWaterPrice" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Thông tin kỳ hóa đơn -->
                 <div class="form-section-title mt-4">
-                    <i class="bi bi-cash-coin"></i> Chi phí theo hợp đồng
-                </div>
-                <div class="meter-info-box">
-                    <i class="bi bi-info-circle-fill"></i>
-                    <div class="meter-info-content">
-                        Các khoản phí dưới đây được lấy từ thông tin hợp đồng
-                    </div>
+                    <i class="bi bi-calendar"></i> Thông tin kỳ hóa đơn
                 </div>
                 <div class="row g-3 mb-4">
                     <div class="col-md-4">
-                        <div class="fee-item">
-                            <div class="fee-label">
-                                <i class="bi bi-building"></i>
-                                Tiền thuê mặt bằng/tháng
-                            </div>
-                            <div class="input-group">
-                                <span class="input-group-text">VNĐ</span>
-                                <input type="text" class="form-control" id="displayRentPrice" readonly>
-                            </div>
+                        <label class="form-label">
+                            Tháng
+                            <span class="required">*</span>
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-calendar-month"></i>
+                            </span>
+                            <select class="form-select" name="month" required>
+                                <option value="">-- Chọn tháng --</option>
+                                <option value="1">Tháng 1</option>
+                                <option value="2">Tháng 2</option>
+                                <option value="3">Tháng 3</option>
+                                <option value="4">Tháng 4</option>
+                                <option value="5">Tháng 5</option>
+                                <option value="6">Tháng 6</option>
+                                <option value="7">Tháng 7</option>
+                                <option value="8">Tháng 8</option>
+                                <option value="9">Tháng 9</option>
+                                <option value="10">Tháng 10</option>
+                                <option value="11">Tháng 11</option>
+                                <option value="12">Tháng 12</option>
+                            </select>
                         </div>
                     </div>
 
                     <div class="col-md-4">
-                        <div class="fee-item">
-                            <div class="fee-label">
-                                <i class="bi bi-gear"></i>
-                                Phí dịch vụ/tháng
-                            </div>
-                            <div class="input-group">
-                                <span class="input-group-text">VNĐ</span>
-                                <input type="text" class="form-control" id="displayServiceFee" readonly>
-                            </div>
+                        <label class="form-label">
+                            Năm
+                            <span class="required">*</span>
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-calendar"></i>
+                            </span>
+                            <input type="number" class="form-control" name="year" placeholder="VD: 2024" required
+                                min="2020" max="2100">
                         </div>
                     </div>
 
                     <div class="col-md-4">
-                        <div class="fee-item">
-                            <div class="fee-label">
-                                <i class="bi bi-car-front"></i>
-                                Phí gửi ô tô/tháng
-                            </div>
-                            <div class="input-group">
-                                <span class="input-group-text">VNĐ</span>
-                                <input type="text" class="form-control" id="displayCarFee" readonly>
-                            </div>
+                        <label class="form-label">
+                            Hạn thanh toán
+                            <span class="required">*</span>
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-calendar-check"></i>
+                            </span>
+                            <input type="date" class="form-control" name="dueDate" required id="dueDateInput">
                         </div>
                     </div>
+                </div>
 
-                    <div class="col-md-4">
-                        <div class="fee-item">
-                            <div class="fee-label">
-                                <i class="bi bi-scooter"></i>
-                                Phí gửi xe máy/tháng
-                            </div>
-                            <div class="input-group">
-                                <span class="input-group-text">VNĐ</span>
-                                <input type="text" class="form-control" id="displayMotorbikeFee" readonly>
-                            </div>
-                        </div>
-                    </div>
+                <!-- Chi phí điện nước -->
+                <div class="form-section-title">
+                    <i class="bi bi-speedometer"></i> Chỉ số điện nước
+                </div>
 
-                    <div class="col-md-4">
-                        <div class="fee-item">
-                            <div class="fee-label">
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label">
+                            Số điện sử dụng (kWh)
+                            <span class="required">*</span>
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text">
                                 <i class="bi bi-lightning-charge"></i>
-                                Đơn giá điện
-                            </div>
-                            <div class="input-group">
-                                <span class="input-group-text">VNĐ/kWh</span>
-                                <input type="text" class="form-control" id="displayElectricityPrice" readonly>
-                            </div>
+                            </span>
+                            <input type="number" class="form-control" name="electricityUsage" placeholder="VD: 150"
+                                step="1" min="0" required>
+                            <span class="input-group-text">kWh</span>
                         </div>
+                        <small class="form-text">Nhập số điện tiêu thụ trong tháng</small>
                     </div>
 
-                    <div class="col-md-4">
-                        <div class="fee-item">
-                            <div class="fee-label">
+                    <div class="col-md-6">
+                        <label class="form-label">
+                            Số nước sử dụng (m³)
+                            <span class="required">*</span>
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text">
                                 <i class="bi bi-droplet"></i>
-                                Đơn giá nước
+                            </span>
+                            <input type="number" class="form-control" name="waterUsage" placeholder="VD: 20" step="1"
+                                min="0" required>
+                            <span class="input-group-text">m³</span>
+                        </div>
+                        <small class="form-text">Nhập số nước tiêu thụ trong tháng</small>
+                    </div>
+                </div>
+
+                <!-- Thông tin tổng tiền -->
+                <div class="form-section-title">
+                    <i class="bi bi-calculator"></i> Tổng tiền
+                </div>
+                <div class="row g-3 mb-4">
+                    <div class="col-12">
+                        <div
+                            style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 1.25rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span style="font-size: 0.9375rem; font-weight: 600; color: #374151;">Tổng tiền hóa
+                                    đơn:</span>
+                                <span style="font-size: 1.5rem; font-weight: 700; color: #111827;" id="totalAmount">0
+                                    VNĐ</span>
                             </div>
-                            <div class="input-group">
-                                <span class="input-group-text">VNĐ/m³</span>
-                                <input type="text" class="form-control" id="displayWaterPrice" readonly>
+                            <small class="form-text" style="margin-top: 0.5rem; display: block;">
+                                Bao gồm: Tiền thuê mặt bằng + Phí dịch vụ + Phí gửi xe + Phí điện + Phí nước
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trạng thái -->
+                <div class="form-section-title mt-4">
+                    <i class="bi bi-toggle-on"></i> Trạng thái thanh toán
+                    <span class="required">*</span>
+                </div>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <label style="min-height: 150px; min-width: 100%;" class="status-card" for="statusPending">
+                            <input type="radio" name="status" value="PENDING" id="statusPending" checked>
+                            <div class="status-icon">
+                                <i class="bi bi-clock-history"></i>
                             </div>
-                        </div>
+                            <div class="status-title">Chờ thanh toán</div>
+                            <div class="status-desc">Hóa đơn chưa được thanh toán</div>
+                        </label>
                     </div>
-                </div>
-            </div>
-
-            <!-- Thông tin kỳ hóa đơn -->
-            <div class="form-section-title mt-4">
-                <i class="bi bi-calendar"></i> Thông tin kỳ hóa đơn
-            </div>
-            <div class="row g-3 mb-4">
-                <div class="col-md-4">
-                    <label class="form-label">
-                        Tháng
-                        <span class="required">*</span>
-                    </label>
-                    <div class="input-group">
-                        <span class="input-group-text">
-                            <i class="bi bi-calendar-month"></i>
-                        </span>
-                        <select class="form-select" name="month" required>
-                            <option value="">-- Chọn tháng --</option>
-                            <option value="1">Tháng 1</option>
-                            <option value="2">Tháng 2</option>
-                            <option value="3">Tháng 3</option>
-                            <option value="4">Tháng 4</option>
-                            <option value="5">Tháng 5</option>
-                            <option value="6">Tháng 6</option>
-                            <option value="7">Tháng 7</option>
-                            <option value="8">Tháng 8</option>
-                            <option value="9">Tháng 9</option>
-                            <option value="10">Tháng 10</option>
-                            <option value="11">Tháng 11</option>
-                            <option value="12">Tháng 12</option>
-                        </select>
+                    <div class="col-md-4">
+                        <label style="min-height: 150px; min-width: 100%;" class="status-card" for="statusPaid">
+                            <input type="radio" name="status" value="PAID" id="statusPaid">
+                            <div class="status-icon">
+                                <i class="bi bi-check-circle"></i>
+                            </div>
+                            <div class="status-title">Đã thanh toán</div>
+                            <div class="status-desc">Hóa đơn đã được thanh toán</div>
+                        </label>
+                    </div>
+                    <div class="col-md-4">
+                        <label style="min-height: 150px; min-width: 100%;" class="status-card" for="statusOverdue">
+                            <input type="radio" name="status" value="OVERDUE" id="statusOverdue">
+                            <div class="status-icon">
+                                <i class="bi bi-exclamation-triangle"></i>
+                            </div>
+                            <div class="status-title">Quá hạn</div>
+                            <div class="status-desc">Hóa đơn đã quá hạn thanh toán</div>
+                        </label>
                     </div>
                 </div>
 
-                <div class="col-md-4">
-                    <label class="form-label">
-                        Năm
-                        <span class="required">*</span>
-                    </label>
-                    <div class="input-group">
-                        <span class="input-group-text">
-                            <i class="bi bi-calendar"></i>
-                        </span>
-                        <input type="number" class="form-control" name="year" placeholder="VD: 2024"
-                               required min="2020" max="2100">
-                    </div>
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <button type="reset" class="btn-action btn-reset" onclick="resetForm()">
+                        <i class="bi bi-arrow-clockwise"></i>
+                        Reset
+                    </button>
+                    <button type="submit" class="btn-action btn-submit">
+                        <i class="bi bi-check-circle"></i>
+                        Lưu hóa đơn
+                    </button>
                 </div>
+            </form>
+        </div>
+    </main>
 
-                <div class="col-md-4">
-                    <label class="form-label">
-                        Hạn thanh toán
-                        <span class="required">*</span>
-                    </label>
-                    <div class="input-group">
-                        <span class="input-group-text">
-                            <i class="bi bi-calendar-check"></i>
-                        </span>
-                        <input type="date" class="form-control" name="dueDate" required id="dueDateInput">
-                    </div>
-                </div>
-            </div>
+    <!--Bootstrap-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- CDN SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!--JQuery-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-            <!-- Chi phí điện nước -->
-            <div class="form-section-title">
-                <i class="bi bi-speedometer"></i> Chỉ số điện nước
-            </div>
+    <script th:inline="javascript">
+        let currentFees = null;
+        let currentRentArea = 0;   // <<< thêm biến lưu diện tích thuê
 
-            <div class="row g-3 mb-4">
-                <div class="col-md-6">
-                    <label class="form-label">
-                        Số điện sử dụng (kWh)
-                        <span class="required">*</span>
-                    </label>
-                    <div class="input-group">
-                        <span class="input-group-text">
-                            <i class="bi bi-lightning-charge"></i>
-                        </span>
-                        <input type="number" class="form-control" name="electricityUsage"
-                               placeholder="VD: 150" step="1" min="0" required>
-                        <span class="input-group-text">kWh</span>
-                    </div>
-                    <small class="form-text">Nhập số điện tiêu thụ trong tháng</small>
-                </div>
+        const contractsData = /*[[${contracts}]]*/ {};
+        const contractFeesData = /*[[${contractFees}]]*/ {};
+        const rentAreasData = /*[[${rentAreas}]]*/ {}; // <<< map: contractId -> rentArea
 
-                <div class="col-md-6">
-                    <label class="form-label">
-                        Số nước sử dụng (m³)
-                        <span class="required">*</span>
-                    </label>
-                    <div class="input-group">
-                        <span class="input-group-text">
-                            <i class="bi bi-droplet"></i>
-                        </span>
-                        <input type="number" class="form-control" name="waterUsage"
-                               placeholder="VD: 20" step="1" min="0" required>
-                        <span class="input-group-text">m³</span>
-                    </div>
-                    <small class="form-text">Nhập số nước tiêu thụ trong tháng</small>
-                </div>
-            </div>
+        $(document).ready(function () {
 
-            <!-- Thông tin tổng tiền -->
-            <div class="form-section-title">
-                <i class="bi bi-calculator"></i> Tổng tiền
-            </div>
-            <div class="row g-3 mb-4">
-                <div class="col-12">
-                    <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 1.25rem;">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <span style="font-size: 0.9375rem; font-weight: 600; color: #374151;">Tổng tiền hóa đơn:</span>
-                            <span style="font-size: 1.5rem; font-weight: 700; color: #111827;"
-                                  id="totalAmount">0 VNĐ</span>
-                        </div>
-                        <small class="form-text" style="margin-top: 0.5rem; display: block;">
-                            Bao gồm: Tiền thuê mặt bằng + Phí dịch vụ + Phí gửi xe + Phí điện + Phí nước
-                        </small>
-                    </div>
-                </div>
-            </div>
+            // Khi đổi khách hàng
+            $('#customerSelect').on('change', function () {
+                const customerId = String($(this).val());
+                const $contractSelect = $('#contractSelect');
+                const $contractInfo = $('#contractInfo');
 
-            <!-- Trạng thái -->
-            <div class="form-section-title mt-4">
-                <i class="bi bi-toggle-on"></i> Trạng thái thanh toán
-                <span class="required">*</span>
-            </div>
-            <div class="row g-3 mb-4">
-                <div class="col-md-4">
-                    <label style="min-height: 150px; min-width: 100%;" class="status-card" for="statusPending">
-                        <input type="radio" name="status" value="PENDING" id="statusPending" checked>
-                        <div class="status-icon">
-                            <i class="bi bi-clock-history"></i>
-                        </div>
-                        <div class="status-title">Chờ thanh toán</div>
-                        <div class="status-desc">Hóa đơn chưa được thanh toán</div>
-                    </label>
-                </div>
-                <div class="col-md-4">
-                    <label style="min-height: 150px; min-width: 100%;" class="status-card" for="statusPaid">
-                        <input type="radio" name="status" value="PAID" id="statusPaid">
-                        <div class="status-icon">
-                            <i class="bi bi-check-circle"></i>
-                        </div>
-                        <div class="status-title">Đã thanh toán</div>
-                        <div class="status-desc">Hóa đơn đã được thanh toán</div>
-                    </label>
-                </div>
-                <div class="col-md-4">
-                    <label style="min-height: 150px; min-width: 100%;" class="status-card" for="statusOverdue">
-                        <input type="radio" name="status" value="OVERDUE" id="statusOverdue">
-                        <div class="status-icon">
-                            <i class="bi bi-exclamation-triangle"></i>
-                        </div>
-                        <div class="status-title">Quá hạn</div>
-                        <div class="status-desc">Hóa đơn đã quá hạn thanh toán</div>
-                    </label>
-                </div>
-            </div>
-
-            <!-- Form Actions -->
-            <div class="form-actions">
-                <button type="reset" class="btn-action btn-reset" onclick="resetForm()">
-                    <i class="bi bi-arrow-clockwise"></i>
-                    Reset
-                </button>
-                <button type="submit" class="btn-action btn-submit">
-                    <i class="bi bi-check-circle"></i>
-                    Lưu hóa đơn
-                </button>
-            </div>
-        </form>
-    </div>
-</main>
-
-<!--Bootstrap-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- CDN SweetAlert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<!--JQuery-->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<script th:inline="javascript">
-    let currentFees = null;
-
-    const contractsData = /*[[${contracts}]]*/ {};
-    const contractFeesData = /*[[${contractFees}]]*/ {};
-
-    $(document).ready(function () {
-
-        // Khi đổi khách hàng
-        $('#customerSelect').on('change', function () {
-            const customerId = String($(this).val());
-            const $contractSelect = $('#contractSelect');
-            const $contractInfo = $('#contractInfo');
-
-            // Reset
-            $contractSelect.empty();
-            $contractInfo.text('');
-            $('#feeDisplayArea').hide();
-            currentFees = null;
-            $('#totalAmount').text('0 VND');
-            $('[name="electricityUsage"]').val('');
-            $('[name="waterUsage"]').val('');
-            $('[name="electricityUsage"], [name="waterUsage"], #contractSelect')
-            .val('')
-            .trigger('change');
-
-            if (!customerId) {
-                $contractSelect
-                    .append('<option value="">-- Chọn khách hàng trước --</option>')
-                    .prop('disabled', true)
-                    .removeClass('has-value');
-                return;
-            }
-
-            const contracts = contractsData[customerId];
-
-            if (!contracts || contracts.length === 0) {
-                $contractSelect
-                    .append('<option value="">-- Không có hợp đồng khả dụng --</option>')
-                    .prop('disabled', true);
-
-                $contractInfo.text('Khách hàng này chưa có hợp đồng nào');
-                return;
-            }
-
-            // Render hợp đồng
-            $contractSelect.append('<option value="">-- Chọn hợp đồng --</option>');
-            contracts.forEach(contractId => {
-                $contractSelect.append(
-                    `<option value="${contractId}">Hợp đồng #${contractId}</option>`
-                );
-            });
-
-            $contractSelect.prop('disabled', false);
-            $contractInfo.text(`Có ${contracts.length} hợp đồng khả dụng`);
-        });
-
-        // Khi đổi hợp đồng
-        $('#contractSelect').on('change', function () {
-            const contractId = String($(this).val());
-            $(this).toggleClass('has-value', !!contractId);
-
-            if (!contractId) {
+                // Reset
+                $contractSelect.empty();
+                $contractInfo.text('');
                 $('#feeDisplayArea').hide();
                 currentFees = null;
+                currentRentArea = 0;
                 $('#totalAmount').text('0 VND');
-                return;
-            }
+                $('[name="electricityUsage"], [name="waterUsage"], #contractSelect')
+                    .val('')
+                    .trigger('change');
 
+                if (!customerId) {
+                    $contractSelect
+                        .append('<option value="">-- Chọn khách hàng trước --</option>')
+                        .prop('disabled', true)
+                        .removeClass('has-value');
+                    return;
+                }
+
+                const contracts = contractsData[customerId];
+
+                if (!contracts || contracts.length === 0) {
+                    $contractSelect
+                        .append('<option value="">-- Không có hợp đồng khả dụng --</option>')
+                        .prop('disabled', true);
+
+                    $contractInfo.text('Khách hàng này chưa có hợp đồng nào');
+                    return;
+                }
+
+                // Render hợp đồng
+                $contractSelect.append('<option value="">-- Chọn hợp đồng --</option>');
+                contracts.forEach(contractId => {
+                    $contractSelect.append(
+                        `<option value="${contractId}">Hợp đồng #${contractId}</option>`
+                    );
+                });
+
+                $contractSelect.prop('disabled', false);
+                $contractInfo.text(`Có ${contracts.length} hợp đồng khả dụng`);
+            });
+
+            // Khi đổi hợp đồng
+            $('#contractSelect').on('change', function () {
+                const contractId = String($(this).val());
+                $(this).toggleClass('has-value', !!contractId);
+
+                if (!contractId) {
+                    $('#feeDisplayArea').hide();
+                    currentFees = null;
+                    currentRentArea = 0;
+                    $('#totalAmount').text('0 VND');
+                    return;
+                }
+
+                const fees = contractFeesData[contractId];
+                currentRentArea = Number(rentAreasData[contractId]) || 0;   // <<< lấy rent area
+                $('#rentAreaValue').text(currentRentArea);
+
+                if (!fees) {
+                    $('#feeDisplayArea').hide();
+                    return;
+                }
+
+                currentFees = fees;
+
+                $('#displayRentPrice').val(formatNumber(fees.rentPrice));
+                $('#displayServiceFee').val(formatNumber(fees.serviceFee));
+                $('#displayCarFee').val(formatNumber(fees.carFee));
+                $('#displayMotorbikeFee').val(formatNumber(fees.motorbikeFee));
+                $('#displayElectricityPrice').val(formatNumber(fees.electricityFee));
+                $('#displayWaterPrice').val(formatNumber(fees.waterFee));
+
+                $('#feeDisplayArea').slideDown(300);
+
+                calculateTotal();
+            });
+
+            // Lắng nghe thay đổi chỉ số điện nước
+            $('[name="electricityUsage"], [name="waterUsage"]').on('input', function () {
+                calculateTotal();
+            });
+        });
+
+        // Format số
+        function formatNumber(number) {
+            if (!number) return '0';
+            return Number(number).toLocaleString('vi-VN');
+        }
+
+        // Tính tổng tiền
+        function calculateTotal() {
+            if (!currentFees) return;
+
+            const electricityUsage = Number($('[name="electricityUsage"]').val()) || 0;
+            const waterUsage = Number($('[name="waterUsage"]').val()) || 0;
+
+            const total =
+                (Number(currentFees.rentPrice || 0) * currentRentArea) +   // <<< nhân diện tích
+                Number(currentFees.serviceFee || 0) +
+                Number(currentFees.carFee || 0) +
+                Number(currentFees.motorbikeFee || 0) +
+                (electricityUsage * Number(currentFees.electricityFee || 0)) +
+                (waterUsage * Number(currentFees.waterFee || 0));
+
+            $('#totalAmount').text(formatNumber(total) + ' đ');
+        }
+    </script>
+
+    <script>
+        $("#invoiceForm").on("submit", function (e) {
+            e.preventDefault();
+
+            const contractId = Number($("[name='contractId']").val());
             const fees = contractFeesData[contractId];
-            if (!fees) {
-                $('#feeDisplayArea').hide();
-                return;
-            }
+            const electricityFee = Number(fees.electricityFee);
+            const waterFee = Number(fees.waterFee);
 
-            currentFees = fees;
+            const electricityUsage = Number($("[name='electricityUsage']").val()) || 0;
+            const waterUsage = Number($("[name='waterUsage']").val()) || 0;
 
-            $('#displayRentPrice').val(formatNumber(fees.rentPrice));
-            $('#displayServiceFee').val(formatNumber(fees.serviceFee));
-            $('#displayCarFee').val(formatNumber(fees.carFee));
-            $('#displayMotorbikeFee').val(formatNumber(fees.motorbikeFee));
-            $('#displayElectricityPrice').val(formatNumber(fees.electricityFee));
-            $('#displayWaterPrice').val(formatNumber(fees.waterFee));
+            const details = [
+                {
+                    description: "Tiền thuê mặt bằng",
+                    amount: Number(currentFees.rentPrice || 0) * Number(currentRentArea || 0)   // <<< đã nhân diện tích
+                },
+                {
+                    description: "Phí dịch vụ",
+                    amount: currentFees.serviceFee
+                },
+                {
+                    description: "Phí gửi ô tô",
+                    amount: currentFees.carFee
+                },
+                {
+                    description: "Phí gửi xe máy",
+                    amount: currentFees.motorbikeFee
+                },
+                {
+                    description: "Phí điện",
+                    amount: electricityUsage * electricityFee
+                },
+                {
+                    description: "Phí nước",
+                    amount: waterUsage * waterFee
+                }
+            ];
 
-            $('#feeDisplayArea').slideDown(300);
+            const totalAmount = details.reduce((sum, d) => sum + Number(d.amount || 0), 0);
 
-            calculateTotal();
-        });
-    });
+            const data = {
+                contractId: Number($("[name='contractId']").val()),
+                customerId: Number($("[name='customerId']").val()),
+                month: Number($("[name='month']").val()),
+                year: Number($("[name='year']").val()),
+                status: $("[name='status']:checked").val(),
+                dueDate: $("[name='dueDate']").val(),
+                totalAmount: Number(totalAmount),
+                details: details,
+                electricityUsage: electricityUsage,
+                waterUsage: waterUsage
+            };
 
-    // Hàm format số với dấu phẩy
-    function formatNumber(number) {
-        if (!number) return '0';
-        return Number(number).toLocaleString('vi-VN');
-    }
+            $.ajax({
+                url: "/admin/invoice/add",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(data),
 
-    // Tính tổng tiền
-    function calculateTotal() {
-        if (!currentFees) return;
-
-        const electricityUsage = Number($('[name="electricityUsage"]').val()) || 0;
-        const waterUsage = Number($('[name="waterUsage"]').val()) || 0;
-
-        const total =
-            Number(currentFees.rentPrice || 0) +
-            Number(currentFees.serviceFee || 0) +
-            Number(currentFees.carFee || 0) +
-            Number(currentFees.motorbikeFee || 0) +
-            electricityUsage * Number(currentFees.electricityFee || 0) +
-            waterUsage * Number(currentFees.waterFee || 0);
-
-        $('#totalAmount').text(formatNumber(total) + ' đ');
-    }
-
-    // Lắng nghe thay đổi các trường
-    $(document).ready(function() {
-        $('[name="electricityUsage"], [name="waterUsage"]').on('input', function () {
-            calculateTotal();
-        });
-    });
-</script>
-
-<script>
-    // Status card selection
-    document.addEventListener('DOMContentLoaded', function () {
-        const statusCards = document.querySelectorAll('.status-card');
-        const statusRadios = document.querySelectorAll('input[name="status"]');
-
-        statusRadios.forEach(radio => {
-            radio.addEventListener('change', function () {
-                statusCards.forEach(card => card.classList.remove('selected'));
-                if (this.checked) {
-                    this.closest('.status-card').classList.add('selected');
+                success: function () {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Thành công',
+                        text: 'Thêm hóa đơn thành công!',
+                        timer: 1500,
+                        showConfirmButton: false
+                    }).then(() => {
+                        window.location.href = "/admin/invoice/list";
+                    });
+                },
+                error: function (xhr) {
+                    const err = xhr.responseJSON;
+                    if (err && err.message) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: err.message
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: 'Thêm thất bại!'
+                        });
+                    }
                 }
             });
         });
 
-        // Set initial selected state
-        const checkedRadio = document.querySelector('input[name="status"]:checked');
-        if (checkedRadio) {
-            checkedRadio.closest('.status-card').classList.add('selected');
-        }
-    });
+        $(document).ready(function () {
+            // Hàm highlight trường có giá trị
+            function highlightFilledInputs() {
+                $('.form-control, .form-select').each(function () {
+                    const $input = $(this);
+                    if ($input.val() && $input.val().trim() !== '') {
+                        $input.addClass('has-value');
+                    } else {
+                        $input.removeClass('has-value');
+                    }
+                });
+            }
 
-    function resetForm() {
-        // Reset contract dropdown
-        const $contractSelect = $('#contractSelect');
-        $contractSelect.empty().append('<option value="">-- Chọn khách hàng trước --</option>');
-        $contractSelect.prop('disabled', true);
-        $('#contractInfo').text('');
+            // Highlight các trường đã có giá trị khi load trang
+            highlightFilledInputs();
 
-        // Reset total amount
-        $('#totalAmount').text('Sẽ được tính tự động');
+            // Lắng nghe sự kiện input/change để highlight real-time
+            $('.form-control, .form-select').on('input change', function () {
+                const $this = $(this);
+                if ($this.val() && $this.val().trim() !== '') {
+                    $this.addClass('has-value');
+                } else {
+                    $this.removeClass('has-value');
+                }
+            });
 
-        // Ẩn khu vực hiển thị phí
-        $('#feeDisplayArea').hide();
+            // Reset highlight khi reset form
+            $('.btn-reset').on('click', function () {
+                setTimeout(function () {
+                    $('.form-control, .form-select').removeClass('has-value');
+                }, 10);
+            });
+        });
+    </script>
 
-        // Reset status selection visual
-        setTimeout(() => {
+    <script>
+        // Status card selection
+        document.addEventListener('DOMContentLoaded', function () {
+            const statusCards = document.querySelectorAll('.status-card');
+            const statusRadios = document.querySelectorAll('input[name="status"]');
+
+            statusRadios.forEach(radio => {
+                radio.addEventListener('change', function () {
+                    statusCards.forEach(card => card.classList.remove('selected'));
+                    if (this.checked) {
+                        this.closest('.status-card').classList.add('selected');
+                    }
+                });
+            });
+
+            // Set initial selected state
             const checkedRadio = document.querySelector('input[name="status"]:checked');
-            document.querySelectorAll('.status-card').forEach(card => card.classList.remove('selected'));
             if (checkedRadio) {
                 checkedRadio.closest('.status-card').classList.add('selected');
             }
-        }, 10);
-    }
-</script>
-
-<script>
-    $("#invoiceForm").on("submit", function (e) {
-        e.preventDefault();
-
-        const electricityUsage = Number($("[name='electricityUsage']").val()) || 0;
-        const waterUsage = Number($("[name='waterUsage']").val()) || 0;
-
-        const details = [
-            {
-                description: "Tiền thuê mặt bằng",
-                amount: currentFees.rentPrice
-            },
-            {
-                description: "Phí dịch vụ",
-                amount: currentFees.serviceFee
-            },
-            {
-                description: "Phí gửi ô tô",
-                amount: currentFees.carFee
-            },
-            {
-                description: "Phí gửi xe máy",
-                amount: currentFees.motorbikeFee
-            },
-            {
-                description: "Phí điện",
-                amount: electricityUsage * currentFees.electricityFee
-            },
-            {
-                description: "Phí nước",
-                amount: waterUsage * currentFees.waterFee
-            }
-        ];
-
-        const totalAmount = details.reduce((sum, d) => sum + Number(d.amount || 0), 0);
-
-        const data = {
-            contractId: Number($("[name='contractId']").val()),
-            customerId: Number($("[name='customerId']").val()),
-            month: Number($("[name='month']").val()),
-            year: Number($("[name='year']").val()),
-            status: $("[name='status']:checked").val(),
-            dueDate: $("[name='dueDate']").val(),
-            totalAmount: Number(totalAmount),
-            details: details,
-            electricityUsage: electricityUsage,
-            waterUsage: waterUsage
-        };
-
-        $.ajax({
-            url: "/admin/invoice/add",
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(data),
-
-            success: function () {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Thành công',
-                    text: 'Thêm hóa đơn thành công!',
-                    timer: 1500,
-                    showConfirmButton: false
-                }).then(() => {
-                    window.location.href = "/admin/invoice/list";
-                });
-            },
-            error: function (xhr) {
-                const err = xhr.responseJSON;
-                if (err && err.message) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Lỗi',
-                        text: err.message
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Lỗi',
-                        text: 'Thêm thất bại!'
-                    });
-                }
-            }
-        });
-    });
-
-    $(document).ready(function () {
-        // Hàm highlight trường có giá trị
-        function highlightFilledInputs() {
-            $('.form-control, .form-select').each(function () {
-                const $input = $(this);
-                if ($input.val() && $input.val().trim() !== '') {
-                    $input.addClass('has-value');
-                } else {
-                    $input.removeClass('has-value');
-                }
-            });
-        }
-
-        // Highlight các trường đã có giá trị khi load trang
-        highlightFilledInputs();
-
-        // Lắng nghe sự kiện input/change để highlight real-time
-        $('.form-control, .form-select').on('input change', function () {
-            const $this = $(this);
-            if ($this.val() && $this.val().trim() !== '') {
-                $this.addClass('has-value');
-            } else {
-                $this.removeClass('has-value');
-            }
         });
 
-        // Reset highlight khi reset form
-        $('.btn-reset').on('click', function () {
-            setTimeout(function () {
-                $('.form-control, .form-select').removeClass('has-value');
+        function resetForm() {
+            // Reset contract dropdown
+            const $contractSelect = $('#contractSelect');
+            $contractSelect.empty().append('<option value="">-- Chọn khách hàng trước --</option>');
+            $contractSelect.prop('disabled', true);
+            $('#contractInfo').text('');
+
+            // Reset total amount
+            $('#totalAmount').text('Sẽ được tính tự động');
+
+            // Ẩn khu vực hiển thị phí
+            $('#feeDisplayArea').hide();
+
+            // Reset status selection visual
+            setTimeout(() => {
+                const checkedRadio = document.querySelector('input[name="status"]:checked');
+                document.querySelectorAll('.status-card').forEach(card => card.classList.remove('selected'));
+                if (checkedRadio) {
+                    checkedRadio.closest('.status-card').classList.add('selected');
+                }
             }, 10);
-        });
-    });
-</script>
+        }
+    </script>
 </body>
 
 </html>
