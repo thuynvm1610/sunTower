@@ -995,7 +995,7 @@
                         searchResult.html(`Kết quả tìm kiếm: <strong>${data.totalElements}</strong> giao dịch`).show();
 
                         $.each(data.content, function (i, t) {
-                            const totalPaidAmount = (Number(t.totalAmount) + Number(t.totalServiceFeeAmount))
+                            const totalPaidAmount = (Number(t.totalAmount))
                                 .toLocaleString("vi-VN").replace(/\./g, ",");
 
                             tbody.append(`
@@ -1124,10 +1124,35 @@
                                                 </div>
                                             </div>
 
+                                            <!-- Chi phí sinh hoạt -->
+                                            <div class="info-section">
+                                                <div class="info-section-title">
+                                                    <i class="bi bi-house"></i> Phí sinh hoạt
+                                                </div>
+                                                <div class="utility-grid">
+                                                    <div class="utility-item">
+                                                        <div class="utility-label">
+                                                            <i class="bi bi-lightning-charge"></i> Điện
+                                                        </div>
+                                                        <div class="utility-value">
+                                                            ${Number(t.contract.building.electricityFee).toLocaleString("vi-VN").replace(/\./g, ",")} VNĐ
+                                                        </div>
+                                                    </div>
+                                                    <div class="utility-item">
+                                                        <div class="utility-label">
+                                                            <i class="bi bi-droplet"></i> Nước
+                                                        </div>
+                                                        <div class="utility-value">
+                                                            ${Number(t.contract.building.waterFee).toLocaleString("vi-VN").replace(/\./g, ",")} VNĐ
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                             <!-- Tiện ích (Điện & Nước) -->
                                             <div class="info-section">
                                                 <div class="info-section-title">
-                                                    <i class="bi bi-lightning-charge me-2"></i>Sinh hoạt
+                                                    <i class="bi bi-house"></i> Sinh hoạt
                                                 </div>
 
                                                 <!-- Điện -->
