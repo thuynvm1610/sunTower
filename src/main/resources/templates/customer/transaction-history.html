@@ -956,7 +956,8 @@
                 }
             }
 
-            function loadTransactions(page = 1, event) {
+
+            function loadTransactions(page, event) {
                 if (event) event.preventDefault();
 
                 $.ajax({
@@ -972,6 +973,7 @@
                         const tbody = $("#transactionTableBody");
                         tbody.empty();
                         const modalContainer = $("#modalContainer");
+                        modalContainer.empty();
 
                         const searchResult = $("#totalTransactionSearch");
 
@@ -999,7 +1001,7 @@
                                 .toLocaleString("vi-VN").replace(/\./g, ",");
 
                             tbody.append(`
-                            <tr data-bs-toggle="modal" data-bs-target="#invoiceModal-${i}">
+                            <tr data-bs-toggle="modal" data-bs-target="#invoiceModal-${t.id}">
                                 <td>
                                     <span class="month-badge">
                                         ${t.month}/${t.year}
@@ -1029,7 +1031,7 @@
                         `);
 
                             modalContainer.append(`
-                            <div class="modal fade" id="invoiceModal-${i}" tabindex="-1" aria-labelledby="invoiceModalLabel-${i}" aria-hidden="true">
+                            <div class="modal fade" id="invoiceModal-${t.id}" tabindex="-1" aria-labelledby="invoiceModalLabel-${i}" aria-hidden="true">
                                 <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -1334,12 +1336,12 @@
 
             $(document).ready(function () {
                 initYearSelect();
-                loadTransactions();
+                loadTransactions(1);
             });
 
             $("#filterForm").on("submit", function (e) {
                 e.preventDefault();
-                loadTransactions();
+                loadTransactions(1);
             });
         </script>
     </div>
