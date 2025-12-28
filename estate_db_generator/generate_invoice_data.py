@@ -137,7 +137,7 @@ for c in contracts:
         # ==============================
         # FEES (đơn giá — dùng cho invoice_detail, giữ nguyên)
         # ==============================
-        rent_fee = float(c["rent_price"])
+        rent_total = float(c["rent_price"]) * int(c["rent_area"])
         service_fee = float(building["service_fee"])
         car_fee = float(building["car_fee"])
         motorbike_fee = float(building["motorbike_fee"])
@@ -145,7 +145,7 @@ for c in contracts:
         water_fee = water_used * float(building["water_fee"])
 
         line_items = [
-            ("Tiền thuê mặt bằng", rent_fee),
+            ("Tiền thuê mặt bằng", rent_total),
             ("Phí dịch vụ", service_fee),
             ("Phí gửi ô tô", car_fee),
             ("Phí gửi xe máy", motorbike_fee),
