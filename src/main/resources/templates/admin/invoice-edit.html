@@ -545,7 +545,7 @@
                         <div class="fee-item">
                             <div class="fee-label">
                                 <i class="bi bi-lightning-charge"></i>
-                                Đơn giá điện
+                                Đơn giá điện/số
                             </div>
                             <div class="input-group">
                                 <span class="input-group-text">VNĐ/kWh</span>
@@ -561,7 +561,7 @@
                         <div class="fee-item">
                             <div class="fee-label">
                                 <i class="bi bi-droplet"></i>
-                                Đơn giá nước
+                                Đơn giá nước/m³
                             </div>
                             <div class="input-group">
                                 <span class="input-group-text">VNĐ/m³</span>
@@ -778,7 +778,7 @@
             const waterUsage = Number($('[name="waterUsage"]').val()) || 0;
 
             const total =
-                Number(contractData.rentPrice || 0) * rentArea +
+                Number(contractData.rentPrice || 0) +
                 Number(contractData.serviceFee || 0) +
                 Number(contractData.carFee || 0) +
                 Number(contractData.motorbikeFee || 0) +
@@ -852,8 +852,7 @@
                 }
             ];
 
-            const totalAmount = details.reduce((sum, d) => sum + Number(d.amount || 0), 0) +
-                                (rentArea - 1) * details[0].amount;
+            const totalAmount = details.reduce((sum, d) => sum + Number(d.amount || 0), 0)
 
             const data = {
                 id: Number($('#invoiceId').val()),
