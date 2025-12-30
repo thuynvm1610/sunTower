@@ -77,4 +77,10 @@ public class AdminContractAPI {
         contractService.delete(id);
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/status")
+    public ResponseEntity<?> statusUpdate(){
+        contractService.statusUpdate();
+        return ResponseEntity.ok("Cập nhật trạng thái hợp đồng thành công");
+    }
 }

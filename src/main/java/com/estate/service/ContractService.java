@@ -26,4 +26,5 @@ public interface ContractService {
     List<ContractDetailDTO> getContractsByFilter(Long customerId, Long buildingId, String status);
     Map<Long, List<Long>> getActiveContracts();
     Map<Long, ContractFeeDTO> getContractsFees();
+    void statusUpdate();
 }

@@ -345,4 +345,9 @@ public class ContractServiceImpl implements ContractService {
         return result;
     }
 
+    @Override
+    public void statusUpdate() {
+        contractRepository.statusUpdate();
+    }
+
 }

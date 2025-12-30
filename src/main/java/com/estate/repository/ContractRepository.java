@@ -6,6 +6,7 @@ import com.estate.repository.custom.ContractRepositoryCustom;
 import com.estate.repository.entity.ContractEntity;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -84,5 +85,14 @@ public interface ContractRepository extends JpaRepository<ContractEntity, Long>,
        FROM ContractEntity c
        """)
     List<ContractRentAreaView> findAllIdAndRentArea();
+
+    @Modifying
+    @Query("""
+            UPDATE ContractEntity c
+            SET c.status = "EXPIRED"
+            WHERE c.status = "ACTIVE"
+            AND c.endDate < CURRENT_DATE
+            """)
+    void statusUpdate();
 
 }
