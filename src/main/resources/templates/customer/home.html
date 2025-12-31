@@ -625,7 +625,7 @@
                             </div>
                             <div class="col-6">
                                 <div class="detail-label">Giá thuê</div>
-                                <div class="detail-value" th:text="${contract.rentPrice}">15,000,000 VNĐ/tháng</div>
+                                <div class="detail-value" th:text="${#numbers.formatDecimal(contract.rentPrice, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">15,000,000 VNĐ/tháng</div>
                             </div>
                         </div>
                     </div>

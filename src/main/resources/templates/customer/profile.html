@@ -249,6 +249,7 @@
             font-size: 24px;
         }
 
+        /* Dropdown Menu */
         .dropdown-menu-custom {
             background: white;
             border: 1px solid rgba(0, 0, 0, 0.1);
@@ -307,10 +308,12 @@
                         </a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-grid-3x3-gap me-1"></i>Tiện ích
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-custom">
+
+                        <ul class="dropdown-menu">
                             <li>
                                 <a class="dropdown-item" th:href="@{/customer/transaction/history}">
                                     <i class="bi bi-clock-history me-2"></i>Lịch sử giao dịch
@@ -528,7 +531,7 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label class="form-label">Số điện thoại hiện tại</label>
-                            <input type="text" class="form-control" th:value="${customer.phoneNumber}" disabled>
+                            <input type="text" class="form-control" th:value="${customer.phone}" disabled>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Số điện thoại mới</label>
