@@ -21,4 +21,5 @@ public interface CustomerService {
     void usernameUpdate(UsernameChangeDTO dto, Long customerId);
     void emailUpdate(EmailChangeDTO dto, Long customerId);
     void phoneNumberUpdate(PhoneNumberChangeDTO dto, Long customerId);
+    void passwordUpdate(PasswordChangeDTO dto, Long customerId);
 }

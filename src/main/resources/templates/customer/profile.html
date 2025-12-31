@@ -632,7 +632,7 @@
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form th:action="@{/customer/profile/change-password}" method="post">
+            <form id="passwordForm">
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">Mật khẩu hiện tại</label>
@@ -825,6 +825,53 @@
 
         $.ajax({
             url: "/customer/profile/phoneNumber",
+            type: "PUT",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+
+            success: function () {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công',
+                    text: 'Cập nhật số điện thoại thành công!',
+                    timer: 1500,       // tự động đóng sau 1.5s
+                    showConfirmButton: false
+                }).then(() => {
+                    window.location.href = "/customer/profile";
+                });
+            },
+            error: function (xhr) {
+                const err = xhr.responseJSON;
+                if (err && err.message) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: err.message
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: 'Cập nhật thất bại!'
+                    });
+                }
+            }
+        });
+    });
+</script>
+
+<script>
+    $("#passwordForm").on("submit", function (e) {
+        e.preventDefault(); // Ngăn form submit mặc định
+
+        const data = {
+            currentPassword: $("#currentPassword").val(),
+            newPassword: $("#newPassword").val()
+            confirmPassword: $("#confirmPassword").val()
+        };
+
+        $.ajax({
+            url: "/customer/profile/password",
             type: "PUT",
             contentType: "application/json",
             data: JSON.stringify(data),

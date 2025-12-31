@@ -59,4 +59,12 @@ public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> 
     void phoneNumberUpdate(@Param("phone") String phone,
                      @Param("customerId") Long customerId);
 
+    @Modifying
+    @Query("""
+            UPDATE CustomerEntity c
+            SET c.password = :password
+            WHERE c.id = :customerId
+            """)
+    void passwordUpdate(@Param("password") String password,
+                           @Param("customerId") Long customerId);
 }

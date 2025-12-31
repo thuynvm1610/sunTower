@@ -1,9 +1,9 @@
 package com.estate.api.customer;
 
 import com.estate.dto.EmailChangeDTO;
+import com.estate.dto.PasswordChangeDTO;
 import com.estate.dto.PhoneNumberChangeDTO;
 import com.estate.dto.UsernameChangeDTO;
-import com.estate.repository.CustomerRepository;
 import com.estate.security.CustomUserDetails;
 import com.estate.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +47,16 @@ public class CustomerProfileAPI {
     ) {
         Long customerId = user.getCustomerId();
         customerService.phoneNumberUpdate(dto, customerId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/password")
+    public ResponseEntity<?> passwordUpdate(
+            @RequestBody PasswordChangeDTO dto,
+            @AuthenticationPrincipal CustomUserDetails user
+    ) {
+        Long customerId = user.getCustomerId();
+        customerService.passwordUpdate(dto, customerId);
         return ResponseEntity.ok().build();
     }
 }

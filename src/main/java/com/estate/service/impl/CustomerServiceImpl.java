@@ -270,4 +270,25 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.phoneNumberUpdate(dto.getNewPhoneNumber(), customerId);
     }
 
+    @Override
+    public void passwordUpdate(PasswordChangeDTO dto, Long customerId) {
+        CustomerEntity customer = this.findById(customerId);
+
+        boolean isCorrect = passwordEncoder.matches(
+                dto.getCurrentPassword(),
+                customer.getPassword()
+        );
+
+        if (!isCorrect) {
+            throw new BusinessException("Mật khẩu hiện tại không đúng");
+        }
+
+        if (!dto.getConfirmPassword().equals(dto.getNewPassword())) {
+            throw new BusinessException("Mật khẩu xác nhận sai");
+        }
+
+        String encodedPassword = passwordEncoder.encode(dto.getNewPassword());
+        customerRepository.passwordUpdate(encodedPassword, customerId);
+    }
+
 }
