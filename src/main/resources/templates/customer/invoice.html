@@ -909,10 +909,37 @@
                                     </div>
                                 </div>
 
+                                <!-- Chi phí sinh hoạt -->
+                                <div class="info-section">
+                                    <div class="info-section-title">
+                                        <i class="bi bi-house"></i> Phí sinh hoạt
+                                    </div>
+                                    <div class="utility-grid">
+                                        <div class="utility-item">
+                                            <div class="utility-label">
+                                                <i class="bi bi-lightning-charge"></i> Phí điện
+                                            </div>
+                                            <div class="utility-value"
+                                                 th:text="${#numbers.formatDecimal(invoice.contract.building.electricityFee, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">
+                                                500,000 VNĐ
+                                            </div>
+                                        </div>
+                                        <div class="utility-item">
+                                            <div class="utility-label">
+                                                <i class="bi bi-droplet"></i> Phí nước
+                                            </div>
+                                            <div class="utility-value"
+                                                 th:text="${#numbers.formatDecimal(invoice.contract.building.waterFee, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">
+                                                100,000 VNĐ
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <!-- Tiện ích (Điện & Nước) -->
                                 <div class="info-section">
                                     <div class="info-section-title">
-                                        <i class="bi bi-lightning-charge me-2"></i>Sinh hoạt
+                                        <i class="bi bi-house"></i> Sinh hoạt
                                     </div>
 
                                     <!-- Điện -->
