@@ -19,4 +19,5 @@ public interface CustomerService {
     List<ContractDetailDTO> getCustomerContracts(Long customerId);
     CustomerEntity findById(Long customerId);
     void usernameUpdate(UsernameChangeDTO dto, Long customerId);
+    void emailUpdate(EmailChangeDTO dto, Long customerId);
 }

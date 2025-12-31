@@ -1,5 +1,6 @@
 package com.estate.api.customer;
 
+import com.estate.dto.EmailChangeDTO;
 import com.estate.dto.UsernameChangeDTO;
 import com.estate.repository.CustomerRepository;
 import com.estate.security.CustomUserDetails;
@@ -28,4 +29,13 @@ public class CustomerProfileAPI {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping("/email")
+    public ResponseEntity<?> emailUpdate(
+            @RequestBody EmailChangeDTO dto,
+            @AuthenticationPrincipal CustomUserDetails user
+    ) {
+        Long customerId = user.getCustomerId();
+        customerService.emailUpdate(dto, customerId);
+        return ResponseEntity.ok().build();
+    }
 }
