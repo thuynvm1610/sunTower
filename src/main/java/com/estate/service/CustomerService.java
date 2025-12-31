@@ -20,4 +20,5 @@ public interface CustomerService {
     CustomerEntity findById(Long customerId);
     void usernameUpdate(UsernameChangeDTO dto, Long customerId);
     void emailUpdate(EmailChangeDTO dto, Long customerId);
+    void phoneNumberUpdate(PhoneNumberChangeDTO dto, Long customerId);
 }

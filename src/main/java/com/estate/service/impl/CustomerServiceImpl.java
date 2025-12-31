@@ -248,4 +248,26 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.emailUpdate(dto.getNewEmail(), customerId);
     }
 
+    @Override
+    public void phoneNumberUpdate(PhoneNumberChangeDTO dto, Long customerId) {
+        CustomerEntity customer = this.findById(customerId);
+
+        boolean isCorrect = passwordEncoder.matches(
+                dto.getPassword(),
+                customer.getPassword()
+        );
+
+        if (!isCorrect) {
+            throw new BusinessException("Mật khẩu sai");
+        }
+
+        if (customerRepository.existsByPhoneAndIdNot(dto.getNewPhoneNumber(), customerId) ||
+                staffRepository.existsByPhone(dto.getNewPhoneNumber())
+        ) {
+            throw new BusinessException("Số điện thoại này đã được sử dụng");
+        }
+
+        customerRepository.phoneNumberUpdate(dto.getNewPhoneNumber(), customerId);
+    }
+
 }

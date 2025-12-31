@@ -47,4 +47,16 @@ public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> 
                         @Param("customerId") Long customerId);
 
     boolean existsByEmailAndIdNot(String email, Long id);
+
+    boolean existsByPhoneAndIdNot(String phone, Long id);
+
+    @Modifying
+    @Query("""
+            UPDATE CustomerEntity c
+            SET c.phone = :phone
+            WHERE c.id = :customerId
+            """)
+    void phoneNumberUpdate(@Param("phone") String phone,
+                     @Param("customerId") Long customerId);
+
 }
