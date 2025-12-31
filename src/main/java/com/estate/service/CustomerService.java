@@ -1,6 +1,7 @@
 package com.estate.service;
 
 import com.estate.dto.*;
+import com.estate.repository.entity.CustomerEntity;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -16,4 +17,5 @@ public interface CustomerService {
     CustomerDetailDTO viewById(Long id);
     Map<String, Long> getCustomersName();
     List<ContractDetailDTO> getCustomerContracts(Long customerId);
+    CustomerEntity findById(Long customerId);
 }

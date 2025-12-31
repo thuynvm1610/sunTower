@@ -207,4 +207,10 @@ public class CustomerServiceImpl implements CustomerService {
         return result;
     }
 
+    @Override
+    public CustomerEntity findById(Long customerId) {
+        return customerRepository.findById(customerId)
+                .orElseThrow(() -> new BusinessException("Không tìm thấy khách hàng"));
+    }
+
 }
