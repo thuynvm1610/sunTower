@@ -370,6 +370,8 @@
             border-radius: 1rem;
             font-weight: 600;
             font-size: 0.85rem;
+            width: fit-content;
+            margin-left: auto;
         }
 
         .total-section {
@@ -677,21 +679,21 @@
                                         Tiền thuê mặt bằng:
                                     </span>
                                     <span class="fw-semibold small"
-                                        th:text="${#numbers.formatDecimal(detailInvoice.contract.rentPrice, 0, 'COMMA', 0, 'POINT')}">
+                                        th:text="${#numbers.formatDecimal(detailInvoice.contract.rentPrice, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">
                                         15,000,000 VNĐ
                                     </span>
                                 </div>
                                 <div class="d-flex justify-content-between mb-2">
                                     <span class="text-muted small">Dịch vụ khác:</span>
                                     <span class="fw-semibold small"
-                                        th:text="${#numbers.formatDecimal(detailInvoice.totalServiceFeeAmount, 0, 'COMMA', 0, 'POINT')}">
+                                        th:text="${#numbers.formatDecimal(detailInvoice.totalServiceFeeAmount, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">
                                     </span>
                                 </div>
                                 <div class="border-top pt-2 mt-2">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <span class="fw-bold" style="color: var(--primary-color);">Tổng cộng:</span>
                                         <span class="fw-bold fs-5" style="color: #dc3545;"
-                                            th:text="${#numbers.formatDecimal(detailInvoice.totalAmount, 0, 'COMMA', 0, 'POINT')}">
+                                            th:text="${#numbers.formatDecimal(detailInvoice.totalAmount, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">
                                             15,770,000 VNĐ
                                         </span>
                                     </div>
@@ -853,10 +855,37 @@
                         </div>
                     </div>
 
+                    <!-- Chi phí sinh hoạt -->
+                    <div class="info-section">
+                        <div class="info-section-title">
+                            <i class="bi bi-house"></i> Phí sinh hoạt
+                        </div>
+                        <div class="utility-grid">
+                            <div class="utility-item">
+                                <div class="utility-label">
+                                    <i class="bi bi-lightning-charge"></i> Phí điện
+                                </div>
+                                <div class="utility-value"
+                                     th:text="${#numbers.formatDecimal(detailInvoice.contract.building.electricityFee, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">
+                                    500,000 VNĐ
+                                </div>
+                            </div>
+                            <div class="utility-item">
+                                <div class="utility-label">
+                                    <i class="bi bi-droplet"></i> Phí nước
+                                </div>
+                                <div class="utility-value"
+                                     th:text="${#numbers.formatDecimal(detailInvoice.contract.building.waterFee, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">
+                                    100,000 VNĐ
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Tiện ích (Điện & Nước) -->
                     <div class="info-section">
                         <div class="info-section-title">
-                            <i class="bi bi-lightning-charge me-2"></i>Sinh hoạt
+                            <i class="bi bi-house"></i> Sinh hoạt
                         </div>
 
                         <!-- Điện -->
