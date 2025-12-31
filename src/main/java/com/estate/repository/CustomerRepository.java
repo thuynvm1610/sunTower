@@ -1,10 +1,13 @@
 package com.estate.repository;
 
+import com.estate.dto.UsernameChangeDTO;
 import com.estate.repository.entity.CustomerEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -24,4 +27,13 @@ public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> 
     boolean existsByPhone(String phone);
 
     CustomerEntity findByUsername(String username);
+
+    @Modifying
+    @Query("""
+            UPDATE CustomerEntity c
+            SET c.username = :username
+            WHERE c.id = :customerId
+            """)
+    void usernameUpdate(@Param("username") String username,
+                      @Param("customerId") Long customerId);
 }

@@ -5,14 +5,11 @@ import com.estate.dto.*;
 import com.estate.exception.BusinessException;
 import com.estate.repository.ContractRepository;
 import com.estate.repository.CustomerRepository;
-import com.estate.repository.InvoiceRepository;
 import com.estate.repository.StaffRepository;
 import com.estate.repository.entity.ContractEntity;
 import com.estate.repository.entity.CustomerEntity;
 import com.estate.repository.entity.StaffEntity;
 import com.estate.service.CustomerService;
-import com.estate.service.InvoiceService;
-import com.estate.service.UtilityMeterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -211,6 +208,22 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerEntity findById(Long customerId) {
         return customerRepository.findById(customerId)
                 .orElseThrow(() -> new BusinessException("Không tìm thấy khách hàng"));
+    }
+
+    @Override
+    public void usernameUpdate(UsernameChangeDTO dto, Long customerId) {
+        CustomerEntity customer = this.findById(customerId);
+
+        boolean isCorrect = passwordEncoder.matches(
+                dto.getPassword(),
+                customer.getPassword()
+        );
+
+        if (!isCorrect) {
+            throw new BusinessException("Mật khẩu sai");
+        }
+
+        customerRepository.usernameUpdate(dto.getNewUsername(), customerId);
     }
 
 }

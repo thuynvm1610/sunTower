@@ -18,4 +18,5 @@ public interface CustomerService {
     Map<String, Long> getCustomersName();
     List<ContractDetailDTO> getCustomerContracts(Long customerId);
     CustomerEntity findById(Long customerId);
+    void usernameUpdate(UsernameChangeDTO dto, Long customerId);
 }
