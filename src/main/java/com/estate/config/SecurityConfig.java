@@ -38,7 +38,7 @@ public class SecurityConfig {
                                 "/js/**"
                         ).permitAll()
 
-                        .requestMatchers("/login", "/css/**", "/images/**")
+                        .requestMatchers("/login", "/forgot-password", "/css/**", "/images/**")
                         .permitAll()
 
                         .requestMatchers("/admin/**")

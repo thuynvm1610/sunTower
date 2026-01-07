@@ -100,7 +100,7 @@ public class BuildingEntity {
     private DistrictEntity district;
 
     @OneToMany(mappedBy = "building", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<RentAreaEntity> rentAreas = new ArrayList<>();;
+    private List<RentAreaEntity> rentAreas = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
