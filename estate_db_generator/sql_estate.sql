@@ -121,6 +121,24 @@ INSERT INTO customer (username, password, full_name, phone, email, role, created
 ('ThietKeXanh','$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS','Công ty TNHH Thiết kế Xanh', '0903000008', 'contact@thietkexanh.vn', 'CUSTOMER', '2023-02-10', '2024-12-15');
 
 -- =============================
+-- BẢNG PASSWORD_RESET
+-- =============================
+CREATE TABLE password_reset_token (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+
+    token VARCHAR(255) NOT NULL,
+    expires_at DATETIME NOT NULL,
+    used BOOLEAN DEFAULT FALSE,
+
+    user_type VARCHAR(20) NOT NULL,   -- 'STAFF' / 'CUSTOMER'
+    user_id BIGINT NOT NULL,          -- id bên staff / customer
+
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    UNIQUE (token)
+);
+
+-- =============================
 -- BẢNG RENT AREA
 -- =============================
 CREATE TABLE rent_area (
