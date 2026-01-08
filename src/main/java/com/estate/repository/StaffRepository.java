@@ -1,6 +1,5 @@
 package com.estate.repository;
 
-import com.estate.repository.entity.InvoiceEntity;
 import com.estate.repository.entity.StaffEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface StaffRepository extends JpaRepository<StaffEntity, Long> {
     Long countByRole(String role);
@@ -65,4 +65,6 @@ public interface StaffRepository extends JpaRepository<StaffEntity, Long> {
                                          @Param("customerId") Long customerId);
 
     StaffEntity findByUsername(String username);
+
+    Optional<StaffEntity> findByEmail(String email);
 }

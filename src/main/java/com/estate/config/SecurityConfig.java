@@ -35,11 +35,12 @@ public class SecurityConfig {
                                 "/suntower/**",
                                 "/css/**",
                                 "/images/**",
-                                "/js/**"
+                                "/js/**",
+                                "/login",
+                                "/forgot-password",
+                                "/auth/forgot-password",
+                                "/auth/reset-password"
                         ).permitAll()
-
-                        .requestMatchers("/login", "/forgot-password", "/css/**", "/images/**")
-                        .permitAll()
 
                         .requestMatchers("/admin/**")
                         .hasAnyRole("ADMIN", "STAFF")
