@@ -230,15 +230,6 @@
                 <h2>Đăng nhập</h2>
                 <p>Nhập thông tin đăng nhập của bạn để tiếp tục</p>
             </div>
-
-            <div th:if="${param.error}" class="alert alert-error">
-                <span>Sai tài khoản hoặc mật khẩu. Vui lòng thử lại.</span>
-            </div>
-
-            <div th:if="${param.logout}" class="alert alert-success">
-                <span>Đã đăng xuất thành công.</span>
-            </div>
-
             <form th:action="@{/doLogin}" method="post">
                 <div class="form-group">
                     <label for="username">Tên đăng nhập</label>
@@ -265,5 +256,40 @@
     </div>
 
 </body>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    // Sai tài khoản / mật khẩu
+    if ([[${param.error != null}]]) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Đăng nhập thất bại',
+            text: 'Sai tài khoản hoặc mật khẩu. Vui lòng thử lại.'
+        });
+    }
+
+    // Đăng xuất thành công
+    if ([[${param.logout != null}]]) {
+        Swal.fire({
+            icon: 'success',
+            title: 'Đã đăng xuất',
+            text: 'Bạn đã đăng xuất thành công.'
+        });
+    }
+
+    // Reset mật khẩu thành công
+    if ([[${successMessage != null}]]) {
+        Swal.fire({
+            icon: 'success',
+            title: 'Thành công',
+            text: '[[${successMessage}]]'
+        });
+    }
+
+    /*]]>*/
+</script>
 
 </html>

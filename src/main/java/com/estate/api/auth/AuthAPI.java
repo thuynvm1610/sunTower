@@ -25,13 +25,4 @@ public class AuthAPI {
                 Map.of("message", "Nếu email hợp lệ, liên kết đã được gửi.")
         );
     }
-
-    @PostMapping("/reset-password")
-    public String resetPassword(
-            @RequestParam String token,
-            @RequestParam String newPassword) {
-
-        authService.resetPassword(token, newPassword);
-        return "redirect:/login";
-    }
 }
