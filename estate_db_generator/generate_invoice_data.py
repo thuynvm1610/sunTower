@@ -142,17 +142,27 @@ for c in contracts:
             + water_fee
         )
 
+        # tạo payment_method & transaction_code theo status
+        payment_method = None
+        transaction_code = None
+
+        if status == "PAID":
+            payment_method = "VNPAY"
+            transaction_code = f"SEED-{c['id']}-{m}{y}-{random.randint(100000,999999)}"
+
         cursor.execute("""
             INSERT INTO invoice (
                 contract_id, customer_id, month, year,
                 total_amount, status,
-                created_date, due_date, paid_date
-            ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                created_date, due_date, paid_date,
+                payment_method, transaction_code
+            ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
         """, (
             c["id"], c["customer_id"],
             m, y,
             total_amount, status,
-            created_date, due_date, paid_date
+            created_date, due_date, paid_date,
+            payment_method, transaction_code
         ))
 
         invoice_id = cursor.lastrowid
