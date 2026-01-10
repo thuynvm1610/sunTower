@@ -283,6 +283,8 @@ CREATE TABLE invoice (
     created_date DATETIME NOT NULL,
     due_date DATETIME NOT NULL,
     paid_date DATETIME NULL,
+    payment_method VARCHAR(50),
+    transaction_code VARCHAR(100),
 
     CONSTRAINT fk_invoice_contract FOREIGN KEY (contract_id)
         REFERENCES contract(id),
