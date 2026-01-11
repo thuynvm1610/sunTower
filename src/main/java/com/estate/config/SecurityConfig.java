@@ -39,7 +39,8 @@ public class SecurityConfig {
                                 "/login",
                                 "/forgot-password",
                                 "/auth/forgot-password",
-                                "/auth/reset-password"
+                                "/auth/reset-password",
+                                "/payment/**"
                         ).permitAll()
 
                         .requestMatchers("/admin/**")

@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -354,6 +355,21 @@ public class InvoiceServiceImpl implements InvoiceService {
                         ContractRentAreaView::getId,
                         ContractRentAreaView::getRentArea
                 ));
+    }
+
+    @Override
+    public void markPaid(Long invoiceId, String method, String txnRef) {
+        InvoiceEntity invoice = invoiceRepository.findById(invoiceId)
+                .orElseThrow(() -> new RuntimeException("Invoice not found"));
+
+        if ("PAID".equalsIgnoreCase(invoice.getStatus())) return;
+
+        invoice.setStatus("PAID");
+        invoice.setPaidDate(LocalDateTime.now());
+        invoice.setPaymentMethod(method);
+        invoice.setTransactionCode(txnRef);
+
+        invoiceRepository.save(invoice);
     }
 
 }

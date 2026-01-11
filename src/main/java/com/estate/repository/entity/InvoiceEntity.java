@@ -31,6 +31,12 @@ public class InvoiceEntity {
     @Column(name = "status", length = 20, nullable = false)
     private String status; // PENDING, PAID, OVERDUE
 
+    @Column(name = "payment_method")
+    private String paymentMethod;
+
+    @Column(name = "transaction_code")
+    private String transactionCode;
+
     @Column(name = "created_date", nullable = false)
     private LocalDateTime createdDate;
 

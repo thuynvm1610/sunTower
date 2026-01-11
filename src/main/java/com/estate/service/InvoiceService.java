@@ -27,4 +27,5 @@ public interface InvoiceService {
     void save(InvoiceFormDTO dto);
     Integer getRentArea(Long id);
     Map<Long, Integer> getRentAreaByContract();
+    void markPaid(Long invoiceId, String method, String txnRef);
 }
