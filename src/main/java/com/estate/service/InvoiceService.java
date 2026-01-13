@@ -12,7 +12,8 @@ import java.util.Map;
 
 public interface InvoiceService {
     String findTotalAmountByCustomerId(Long id);
-    Long getTotalUnpaidInvoices(Long customerId);
+    Long getTotalUnpaidInvoicesByCustomer(Long customerId);
+    Long getTotalUnpaidInvoices();
     InvoiceDetailDTO getDetailInvoice(Long customerId);
     InvoiceFormDTO findById(Long invoiceId);
     List<InvoiceDetailDTO> getDetailInvoices(Long customerId);

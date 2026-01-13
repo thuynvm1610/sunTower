@@ -51,4 +51,6 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Long>, I
     boolean existsByContractIdAndCustomerIdAndMonthAndYear(
             Long contractId, Long customerId, Integer month, Integer year
     );
+
+    Long countByStatus(String status);
 }

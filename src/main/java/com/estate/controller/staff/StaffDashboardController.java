@@ -1,6 +1,8 @@
 package com.estate.controller.staff;
 
 import com.estate.security.CustomUserDetails;
+import com.estate.service.ContractService;
+import com.estate.service.InvoiceService;
 import com.estate.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,6 +17,12 @@ public class StaffDashboardController {
     @Autowired
     StaffService staffService;
 
+    @Autowired
+    ContractService contractService;
+
+    @Autowired
+    InvoiceService invoiceService;
+
     @GetMapping("/dashboard")
     public String staffDasboard(
             Model model,
@@ -23,6 +31,9 @@ public class StaffDashboardController {
         Long staffID = user.getCustomerId();
 
         model.addAttribute("buildingCnt", staffService.getBuildingCnt(staffID));
+        model.addAttribute("contractCnt", contractService.getContractCnt(staffID));
+        model.addAttribute("customerCnt", staffService.getCustomertCnt(staffID));
+        model.addAttribute("unpaidInvoiceCnt", invoiceService.getTotalUnpaidInvoices());
 
         return "/staff/dashboard";
     }

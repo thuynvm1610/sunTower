@@ -94,4 +94,6 @@ public interface ContractRepository extends JpaRepository<ContractEntity, Long>,
             AND c.endDate < CURRENT_DATE
             """)
     void statusUpdate();
+
+    Long countStaffIdByStaffId(Long staffId);
 }

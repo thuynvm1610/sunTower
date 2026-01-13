@@ -27,4 +27,5 @@ public interface ContractService {
     Map<Long, List<Long>> getActiveContracts();
     Map<Long, ContractFeeDTO> getContractsFees();
     void statusUpdate();
+    Long getContractCnt(Long staffId);
 }

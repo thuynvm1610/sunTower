@@ -26,7 +26,7 @@ public class CustomerInvoiceController {
     ) {
         Long customerId = user.getCustomerId();
 
-        Long totalUnpaidInvoices = invoiceService.getTotalUnpaidInvoices(customerId);
+        Long totalUnpaidInvoices = invoiceService.getTotalUnpaidInvoicesByCustomer(customerId);
         model.addAttribute("totalUnpaidInvoices", totalUnpaidInvoices);
 
         List<InvoiceDetailDTO> detailInvoices = invoiceService.getDetailInvoices(customerId);

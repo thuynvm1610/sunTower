@@ -350,4 +350,9 @@ public class ContractServiceImpl implements ContractService {
         contractRepository.statusUpdate();
     }
 
+    @Override
+    public Long getContractCnt(Long staffId) {
+        return contractRepository.countStaffIdByStaffId(staffId);
+    }
+
 }

@@ -24,7 +24,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -84,13 +83,18 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public Long getTotalUnpaidInvoices(Long customerId) {
+    public Long getTotalUnpaidInvoicesByCustomer(Long customerId) {
         return invoiceRepository.countByCustomerIdAndStatus(customerId, "PENDING");
     }
 
     @Override
+    public Long getTotalUnpaidInvoices() {
+        return invoiceRepository.countByStatus("PENDING");
+    }
+
+    @Override
     public InvoiceDetailDTO getDetailInvoice(Long customerId) {
-        Long unpaidInvoices = this.getTotalUnpaidInvoices(customerId);
+        Long unpaidInvoices = this.getTotalUnpaidInvoicesByCustomer(customerId);
         if (unpaidInvoices == 0) {
             return null;
         }
@@ -114,7 +118,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public List<InvoiceDetailDTO> getDetailInvoices(Long customerId) {
-        Long unpaidInvoices = this.getTotalUnpaidInvoices(customerId);
+        Long unpaidInvoices = this.getTotalUnpaidInvoicesByCustomer(customerId);
         if (unpaidInvoices == 0) {
             return null;
         }

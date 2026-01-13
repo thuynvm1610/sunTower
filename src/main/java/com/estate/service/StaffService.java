@@ -16,4 +16,5 @@ public interface StaffService {
     void delete(Long id);
     StaffDetailDTO viewById(Long id);
     Long getBuildingCnt(Long staffId);
+    Long getCustomertCnt(Long staffId);
 }

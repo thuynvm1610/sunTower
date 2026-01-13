@@ -167,4 +167,9 @@ public class StaffServiceImpl implements StaffService {
     public Long getBuildingCnt(Long staffId) {
         return staffRepository.countBuildingsByStaffId(staffId);
     }
+
+    @Override
+    public Long getCustomertCnt(Long staffId) {
+        return staffRepository.countCustomersByStaffId(staffId);
+    }
 }

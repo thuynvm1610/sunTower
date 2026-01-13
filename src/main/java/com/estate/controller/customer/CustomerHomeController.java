@@ -57,7 +57,7 @@ public class CustomerHomeController {
         InvoiceDetailDTO detailInvoice = invoiceService.getDetailInvoice(customerId);
         model.addAttribute("detailInvoice", detailInvoice);
 
-        Long totalUnpaidInvoices = invoiceService.getTotalUnpaidInvoices(customerId);
+        Long totalUnpaidInvoices = invoiceService.getTotalUnpaidInvoicesByCustomer(customerId);
         model.addAttribute("totalUnpaidInvoices", totalUnpaidInvoices);
 
         List<ContractDetailDTO> contracts = customerService.getCustomerContracts(customerId);
