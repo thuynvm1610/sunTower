@@ -15,4 +15,5 @@ public interface StaffService {
     void save(StaffFormDTO dto);
     void delete(Long id);
     StaffDetailDTO viewById(Long id);
+    Long getBuildingCnt(Long staffId);
 }

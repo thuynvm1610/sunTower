@@ -162,4 +162,9 @@ public class StaffServiceImpl implements StaffService {
         StaffDetailDTO staffDetailDTO = staffDetailConverter.toDTO(staffEntity);
         return staffDetailDTO;
     }
+
+    @Override
+    public Long getBuildingCnt(Long staffId) {
+        return staffRepository.countBuildingsByStaffId(staffId);
+    }
 }
