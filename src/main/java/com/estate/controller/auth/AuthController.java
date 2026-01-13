@@ -27,6 +27,9 @@ public class AuthController {
         return authentication.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_CUSTOMER"))
                 ? "redirect:/customer/home"
+                : authentication.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_STAFF"))
+                ? "redirect:/staff/dashboard"
                 : "redirect:/admin/dashboard";
     }
 
