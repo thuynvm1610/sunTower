@@ -208,6 +208,16 @@
         .info-item:last-child {
             border-bottom: none;
         }
+
+        .viewAllOverdueIvn {
+            color: #2d3e8f;
+            text-decoration: none;
+            font-size: 13px
+        }
+
+        .viewAllOverdueIvn:hover {
+            color: #0d6efd;
+        }
     </style>
 </head>
 
@@ -335,7 +345,7 @@
                     </h2>
 
                     <!-- Chỉ hiện nút khi list có phần tử -->
-                    <a style="color: #2d3e8f; text-decoration: none"
+                    <a class="viewAllOverdueIvn"
                        th:if="${overdueInvoices != null and !#lists.isEmpty(overdueInvoices)}"
                        th:href="@{/admin/invoices/overdue}">
                         Xem tất cả <i class="bi bi-arrow-right"></i>
@@ -353,17 +363,18 @@
                         </thead>
                         <tbody>
                         <!-- Nếu có dữ liệu -->
-                        <tr th:if="${overdueInvoices != null and !#lists.isEmpty(overdueInvoices)}"
-                            th:each="invoice : ${overdueInvoices}">
-                            <td><strong th:text="${invoice.id}">INV-2024120</strong></td>
-                            <td th:text="${invoice.customer.fullName}">Lê Văn C</td>
-                            <td><strong th:text="${invoice.totalAmount}">15,770,000 VNĐ</strong></td>
-                            <td>
-                            <span class="badge-status badge-unpaid"
-                                  th:text="${invoice.dueDate}">05/01/2026
-                            </span>
-                            </td>
-                        </tr>
+                        <th:block th:if="${overdueInvoices != null and !#lists.isEmpty(overdueInvoices)}">
+                            <tr th:each="invoice, stat : ${overdueInvoices}" th:if="${stat.index < 2}">
+                                <td><strong th:text="${invoice.id}">INV-2024120</strong></td>
+                                <td th:text="${invoice.customer.fullName}">Lê Văn C</td>
+                                <td><strong th:text="${invoice.totalAmount}">15,770,000 VNĐ</strong></td>
+                                <td>
+                                    <span class="badge-status badge-unpaid"
+                                          th:text="${invoice.dueDate}">05/01/2026
+                                    </span>
+                                </td>
+                            </tr>
+                        </th:block>
 
                         <!-- Nếu list rỗng -->
                         <tr th:if="${overdueInvoices == null or #lists.isEmpty(overdueInvoices)}">
