@@ -212,263 +212,289 @@
 </head>
 
 <body>
-    <div class="header">
-        <div class="header-top py-3">
-            <div class="container-fluid px-4">
-                <div class="d-flex justify-content-between align-items-center flex-wrap">
-                    <div class="logo">SunTower</div>
+<div class="header">
+    <div class="header-top py-3">
+        <div class="container-fluid px-4">
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+                <div class="logo">SunTower</div>
+                <div class="d-flex align-items-center gap-3">
                     <div class="d-flex align-items-center gap-3">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="text-end">
-                                <small class="d-block opacity-85">Xin chào,</small>
-                                <strong>Nguyễn Văn B</strong>
-                            </div>
-                            <span class="badge-custom">NHÂN VIÊN</span>
+                        <div class="text-end">
+                            <small class="d-block opacity-85">Xin chào,</small>
+                            <strong>Nguyễn Văn B</strong>
                         </div>
-                        <a href="/logout" class="btn btn-logout">Đăng xuất</a>
+                        <span class="badge-custom">NHÂN VIÊN</span>
                     </div>
+                    <a href="/logout" class="btn btn-logout">Đăng xuất</a>
                 </div>
             </div>
         </div>
-
-        <nav class="nav-custom">
-            <div class="container-fluid px-4">
-                <ul class="nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/staff/dashboard">
-                            <i class="bi bi-speedometer2 me-1"></i>Tổng quan
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/staff/buildings">
-                            <i class="bi bi-building me-1"></i>Tòa nhà
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/staff/contracts">
-                            <i class="bi bi-file-text me-1"></i>Hợp đồng
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/staff/customers">
-                            <i class="bi bi-people me-1"></i>Khách hàng
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/staff/invoices">
-                            <i class="bi bi-receipt me-1"></i>Hóa đơn
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
     </div>
 
-    <div class="container-fluid px-4 py-4">
-        <div class="welcome-section p-4 rounded mb-4">
-            <h1 class="h3 mb-2">Dashboard Nhân viên</h1>
-            <p class="text-muted mb-0">Quản lý tòa nhà, hợp đồng, khách hàng và hóa đơn</p>
+    <nav class="nav-custom">
+        <div class="container-fluid px-4">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/staff/dashboard">
+                        <i class="bi bi-speedometer2 me-1"></i>Tổng quan
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/staff/buildings">
+                        <i class="bi bi-building me-1"></i>Tòa nhà
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/staff/contracts">
+                        <i class="bi bi-file-text me-1"></i>Hợp đồng
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/staff/customers">
+                        <i class="bi bi-people me-1"></i>Khách hàng
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/staff/invoices">
+                        <i class="bi bi-receipt me-1"></i>Hóa đơn
+                    </a>
+                </li>
+            </ul>
         </div>
+    </nav>
+</div>
 
-        <div class="row g-3 mb-4">
-            <div class="col-md-3">
-                <div class="stat-card p-4">
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="stat-icon d-flex align-items-center justify-content-center flex-shrink-0">
-                            <i class="bi bi-building"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 class="h4" th:text="${buildingCnt}">8</h3>
-                            <p class="text-muted mb-0 small">Tòa nhà đang quản lý</p>
-                        </div>
+<div class="container-fluid px-4 py-4">
+    <div class="welcome-section p-4 rounded mb-4">
+        <h1 class="h3 mb-2">Dashboard Nhân viên</h1>
+        <p class="text-muted mb-0">Quản lý tòa nhà, hợp đồng, khách hàng và hóa đơn</p>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="stat-card p-4">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="stat-icon d-flex align-items-center justify-content-center flex-shrink-0">
+                        <i class="bi bi-building"></i>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="stat-card p-4">
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="stat-icon d-flex align-items-center justify-content-center flex-shrink-0">
-                            <i class="bi bi-file-text"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 class="h4" th:text="${contractCnt}">45</h3>
-                            <p class="text-muted mb-0 small">Hợp đồng đang quản lý</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="stat-card p-4">
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="stat-icon d-flex align-items-center justify-content-center flex-shrink-0">
-                            <i class="bi bi-people"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 class="h4" th:text="${customerCnt}">32</h3>
-                            <p class="text-muted mb-0 small">Khách hàng đang quản lý</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="stat-card p-4">
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="stat-icon d-flex align-items-center justify-content-center flex-shrink-0">
-                            <i class="bi bi-receipt"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 class="h4"  th:text="${unpaidInvoiceCnt}">12</h3>
-                            <p class="text-muted mb-0 small">Hóa đơn chưa thanh toán</p>
-                        </div>
+                    <div class="stat-info">
+                        <h3 class="h4" th:text="${buildingCnt}">8</h3>
+                        <p class="text-muted mb-0 small">Tòa nhà đang quản lý</p>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="row g-4">
-            <div class="col-lg-6">
-                <div class="section-card p-4">
-                    <div class="section-header mb-3">
-                        <h2><i class="bi bi-exclamation-triangle me-2"></i>Hóa đơn quá hạn</h2>
+        <div class="col-md-3">
+            <div class="stat-card p-4">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="stat-icon d-flex align-items-center justify-content-center flex-shrink-0">
+                        <i class="bi bi-file-text"></i>
                     </div>
-                    <div class="table-responsive">
-                        <table class="table table-custom">
-                            <thead>
-                                <tr>
-                                    <th>MÃ HĐ</th>
-                                    <th>KHÁCH HÀNG</th>
-                                    <th>SỐ TIỀN</th>
-                                    <th>HẠN THANH TOÁN</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>INV-2024120</strong></td>
-                                    <td>Lê Văn C</td>
-                                    <td><strong>15,770,000 VNĐ</strong></td>
-                                    <td><span class="badge-status badge-unpaid">05/01/2026</span></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>INV-2024118</strong></td>
-                                    <td>Phạm Thị D</td>
-                                    <td><strong>12,500,000 VNĐ</strong></td>
-                                    <td><span class="badge-status badge-unpaid">28/12/2025</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-6">
-                <div class="section-card p-4">
-                    <div class="section-header mb-3">
-                        <h2><i class="bi bi-clock-history me-2"></i>Hợp đồng sắp hết hạn</h2>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table table-custom">
-                            <thead>
-                                <tr>
-                                    <th>MÃ HĐ</th>
-                                    <th>KHÁCH HÀNG</th>
-                                    <th>TÒA NHÀ</th>
-                                    <th>NGÀY HẾT HẠN</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>HD-2024001</strong></td>
-                                    <td>Nguyễn Văn A</td>
-                                    <td>SunTower A1</td>
-                                    <td><span class="badge-status badge-expired">15/01/2026</span></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>HD-2024002</strong></td>
-                                    <td>Trần Thị B</td>
-                                    <td>Duy Tân Tower</td>
-                                    <td><span class="badge-status badge-expired">20/01/2026</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="stat-info">
+                        <h3 class="h4" th:text="${contractCnt}">45</h3>
+                        <p class="text-muted mb-0 small">Hợp đồng đang quản lý</p>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="row g-4 mt-2">
-            <div class="col-lg-8">
-                <div class="section-card p-4">
-                    <div class="section-header mb-3">
-                        <h2><i class="bi bi-calendar-event me-2"></i>Hóa đơn sắp hết hạn</h2>
+        <div class="col-md-3">
+            <div class="stat-card p-4">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="stat-icon d-flex align-items-center justify-content-center flex-shrink-0">
+                        <i class="bi bi-people"></i>
                     </div>
-                    <div class="table-responsive">
-                        <table class="table table-custom">
-                            <thead>
-                                <tr>
-                                    <th>MÃ HÓA ĐƠN</th>
-                                    <th>KHÁCH HÀNG</th>
-                                    <th>TÒA NHÀ</th>
-                                    <th>THÁNG/NĂM</th>
-                                    <th>SỐ TIỀN</th>
-                                    <th>HẠN THANH TOÁN</th>
-                                    <th>TRẠNG THÁI</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>INV-2024125</strong></td>
-                                    <td>Nguyễn Văn A</td>
-                                    <td>SunTower A1</td>
-                                    <td>01/2026</td>
-                                    <td><strong>15,000,000 VNĐ</strong></td>
-                                    <td><span class="badge-status badge-unpaid">15/01/2026</span></td>
-                                    <td><span class="badge-status badge-unpaid">Chưa thanh toán</span></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>INV-2024124</strong></td>
-                                    <td>Trần Thị B</td>
-                                    <td>Duy Tân Tower</td>
-                                    <td>01/2026</td>
-                                    <td><strong>18,000,000 VNĐ</strong></td>
-                                    <td><span class="badge-status badge-unpaid">18/01/2026</span></td>
-                                    <td><span class="badge-status badge-unpaid">Chưa thanh toán</span></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>INV-2024123</strong></td>
-                                    <td>Lê Văn C</td>
-                                    <td>Vinhomes Central</td>
-                                    <td>01/2026</td>
-                                    <td><strong>20,000,000 VNĐ</strong></td>
-                                    <td><span class="badge-status badge-unpaid">20/01/2026</span></td>
-                                    <td><span class="badge-status badge-unpaid">Chưa thanh toán</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="stat-info">
+                        <h3 class="h4" th:text="${customerCnt}">32</h3>
+                        <p class="text-muted mb-0 small">Khách hàng đang quản lý</p>
                     </div>
                 </div>
             </div>
-
-            <div class="col-lg-4">
-                <div class="info-box p-3">
-                    <h5 class="mb-3">Thông tin hệ thống</h5>
-                    <div class="info-item d-flex justify-content-between">
-                        <span class="text-muted">Ngày giờ:</span>
-                        <span class="fw-semibold">13/01/2026 10:30</span>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card p-4">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="stat-icon d-flex align-items-center justify-content-center flex-shrink-0">
+                        <i class="bi bi-receipt"></i>
                     </div>
-                    <div class="info-item d-flex justify-content-between">
-                        <span class="text-muted">IP:</span>
-                        <span class="fw-semibold">127.0.0.1</span>
-                    </div>
-                    <div class="info-item d-flex justify-content-between align-items-center">
-                        <span class="text-muted">Trạng thái:</span>
-                        <span class="fw-semibold text-success">Đã kích hoạt</span>
+                    <div class="stat-info">
+                        <h3 class="h4" th:text="${unpaidInvoiceCnt}">12</h3>
+                        <p class="text-muted mb-0 small">Hóa đơn chưa thanh toán</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="section-card p-4">
+                <div class="section-header mb-3 d-flex justify-content-between align-items-center">
+                    <h2 class="mb-0">
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        <span th:text="'Hóa đơn quá hạn (' + ${overdueInvoices == null ? 0 : #lists.size(overdueInvoices)} + ')'"></span>
+                    </h2>
+
+                    <!-- Chỉ hiện nút khi list có phần tử -->
+                    <a style="color: #2d3e8f; text-decoration: none"
+                       th:if="${overdueInvoices != null and !#lists.isEmpty(overdueInvoices)}"
+                       th:href="@{/admin/invoices/overdue}">
+                        Xem tất cả <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-custom">
+                        <thead>
+                        <tr>
+                            <th>MÃ HĐ</th>
+                            <th>KHÁCH HÀNG</th>
+                            <th>SỐ TIỀN</th>
+                            <th>HẠN THANH TOÁN</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- Nếu có dữ liệu -->
+                        <tr th:if="${overdueInvoices != null and !#lists.isEmpty(overdueInvoices)}"
+                            th:each="invoice : ${overdueInvoices}">
+                            <td><strong th:text="${invoice.id}">INV-2024120</strong></td>
+                            <td th:text="${invoice.customer.fullName}">Lê Văn C</td>
+                            <td><strong th:text="${invoice.totalAmount}">15,770,000 VNĐ</strong></td>
+                            <td>
+                            <span class="badge-status badge-unpaid"
+                                  th:text="${invoice.dueDate}">05/01/2026
+                            </span>
+                            </td>
+                        </tr>
+
+                        <!-- Nếu list rỗng -->
+                        <tr th:if="${overdueInvoices == null or #lists.isEmpty(overdueInvoices)}">
+                            <td colspan="4">
+                                <div style="
+                                        height: 66.8px;
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        font-weight: 600;
+                                        color: #777;
+                                    ">
+                                    Hiện không có hóa đơn quá hạn
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="section-card p-4">
+                <div class="section-header mb-3">
+                    <h2><i class="bi bi-clock-history me-2"></i>Hợp đồng sắp hết hạn</h2>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-custom">
+                        <thead>
+                        <tr>
+                            <th>MÃ HĐ</th>
+                            <th>KHÁCH HÀNG</th>
+                            <th>TÒA NHÀ</th>
+                            <th>NGÀY HẾT HẠN</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><strong>HD-2024001</strong></td>
+                            <td>Nguyễn Văn A</td>
+                            <td>SunTower A1</td>
+                            <td><span class="badge-status badge-expired">15/01/2026</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>HD-2024002</strong></td>
+                            <td>Trần Thị B</td>
+                            <td>Duy Tân Tower</td>
+                            <td><span class="badge-status badge-expired">20/01/2026</span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mt-2">
+        <div class="col-lg-8">
+            <div class="section-card p-4">
+                <div class="section-header mb-3">
+                    <h2><i class="bi bi-calendar-event me-2"></i>Hóa đơn sắp hết hạn</h2>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-custom">
+                        <thead>
+                        <tr>
+                            <th>MÃ HÓA ĐƠN</th>
+                            <th>KHÁCH HÀNG</th>
+                            <th>TÒA NHÀ</th>
+                            <th>THÁNG/NĂM</th>
+                            <th>SỐ TIỀN</th>
+                            <th>HẠN THANH TOÁN</th>
+                            <th>TRẠNG THÁI</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><strong>INV-2024125</strong></td>
+                            <td>Nguyễn Văn A</td>
+                            <td>SunTower A1</td>
+                            <td>01/2026</td>
+                            <td><strong>15,000,000 VNĐ</strong></td>
+                            <td><span class="badge-status badge-unpaid">15/01/2026</span></td>
+                            <td><span class="badge-status badge-unpaid">Chưa thanh toán</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>INV-2024124</strong></td>
+                            <td>Trần Thị B</td>
+                            <td>Duy Tân Tower</td>
+                            <td>01/2026</td>
+                            <td><strong>18,000,000 VNĐ</strong></td>
+                            <td><span class="badge-status badge-unpaid">18/01/2026</span></td>
+                            <td><span class="badge-status badge-unpaid">Chưa thanh toán</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>INV-2024123</strong></td>
+                            <td>Lê Văn C</td>
+                            <td>Vinhomes Central</td>
+                            <td>01/2026</td>
+                            <td><strong>20,000,000 VNĐ</strong></td>
+                            <td><span class="badge-status badge-unpaid">20/01/2026</span></td>
+                            <td><span class="badge-status badge-unpaid">Chưa thanh toán</span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="info-box p-3">
+                <h5 class="mb-3">Thông tin hệ thống</h5>
+                <div class="info-item d-flex justify-content-between">
+                    <span class="text-muted">Ngày giờ:</span>
+                    <span class="fw-semibold">13/01/2026 10:30</span>
+                </div>
+                <div class="info-item d-flex justify-content-between">
+                    <span class="text-muted">IP:</span>
+                    <span class="fw-semibold">127.0.0.1</span>
+                </div>
+                <div class="info-item d-flex justify-content-between align-items-center">
+                    <span class="text-muted">Trạng thái:</span>
+                    <span class="fw-semibold text-success">Đã kích hoạt</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

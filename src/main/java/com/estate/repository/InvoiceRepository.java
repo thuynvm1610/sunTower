@@ -53,4 +53,6 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Long>, I
     );
 
     Long countByStatus(String status);
+
+    List<InvoiceEntity> findByStatus(String status);
 }

@@ -1,9 +1,6 @@
 package com.estate.service;
 
-import com.estate.dto.InvoiceDetailDTO;
-import com.estate.dto.InvoiceFilterDTO;
-import com.estate.dto.InvoiceFormDTO;
-import com.estate.dto.InvoiceListDTO;
+import com.estate.dto.*;
 import org.springframework.data.domain.Page;
 
 import java.math.BigDecimal;
@@ -29,4 +26,5 @@ public interface InvoiceService {
     Integer getRentArea(Long id);
     Map<Long, Integer> getRentAreaByContract();
     void markPaid(Long invoiceId, String method, String txnRef);
+    List<OverdueInvoiceListDTO> getOverdueInvoices();
 }

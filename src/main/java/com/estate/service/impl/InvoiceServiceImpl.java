@@ -1,6 +1,9 @@
 package com.estate.service.impl;
 
-import com.estate.converter.*;
+import com.estate.converter.InvoiceDetailConverter;
+import com.estate.converter.InvoiceFormConverter;
+import com.estate.converter.InvoiceListDTOConverter;
+import com.estate.converter.OverdueInvoiceListConverter;
 import com.estate.dto.*;
 import com.estate.exception.BusinessException;
 import com.estate.repository.ContractRepository;
@@ -47,16 +50,13 @@ public class InvoiceServiceImpl implements InvoiceService {
     InvoiceFormConverter invoiceFormConverter;
 
     @Autowired
-    InvoiceDetailDetailConverter invoiceDetailDetailConverter;
-
-    @Autowired
-    UtilityMeterDetailConverter utilityMeterDetailConverter;
-
-    @Autowired
     UtilityMeterRepository utilityMeterRepository;
 
     @Autowired
     ContractRepository contractRepository;
+
+    @Autowired
+    OverdueInvoiceListConverter overdueInvoiceListConverter;
 
     @Override
     public String findTotalAmountByCustomerId(Long id) {
@@ -273,11 +273,11 @@ public class InvoiceServiceImpl implements InvoiceService {
     public void save(InvoiceFormDTO dto) {
 
         int invoiceMonth = dto.getMonth();
-        int invoiceYear  = dto.getYear();
+        int invoiceYear = dto.getYear();
 
         LocalDate now = LocalDate.now();
         int currentMonth = now.getMonthValue();
-        int currentYear  = now.getYear();
+        int currentYear = now.getYear();
 
         // === TÍNH THÁNG TRƯỚC (kể cả khi đang là THÁNG 1) ===
         boolean isLastMonth =
@@ -374,6 +374,17 @@ public class InvoiceServiceImpl implements InvoiceService {
         invoice.setTransactionCode(txnRef);
 
         invoiceRepository.save(invoice);
+    }
+
+    @Override
+    public List<OverdueInvoiceListDTO> getOverdueInvoices() {
+        List<InvoiceEntity> overdueInvoices = invoiceRepository.findByStatus("OVERDUE");
+        return overdueInvoices
+                .stream()
+                .map(
+                        i -> overdueInvoiceListConverter.toDTO(i)
+                )
+                .toList();
     }
 
 }

@@ -35,6 +35,8 @@ public class StaffDashboardController {
         model.addAttribute("customerCnt", staffService.getCustomertCnt(staffID));
         model.addAttribute("unpaidInvoiceCnt", invoiceService.getTotalUnpaidInvoices());
 
+        model.addAttribute("overdueInvoices", invoiceService.getOverdueInvoices());
+
         return "/staff/dashboard";
     }
 }
