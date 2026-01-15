@@ -37,6 +37,8 @@ public class StaffDashboardController {
 
         model.addAttribute("overdueInvoices", invoiceService.getOverdueInvoices());
 
+        model.addAttribute("expiringInvoices", invoiceService.getExpiringInvoices());
+
         model.addAttribute("expiringContracts", contractService.getExpiringContracts());
 
         return "/staff/dashboard";

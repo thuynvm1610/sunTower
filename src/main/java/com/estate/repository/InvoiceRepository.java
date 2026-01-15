@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Long>, InvoiceRepositoryCustom {
@@ -55,4 +56,16 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Long>, I
     Long countByStatus(String status);
 
     List<InvoiceEntity> findByStatus(String status);
+
+    @Query("""
+            SELECT i
+            FROM InvoiceEntity i
+            WHERE CURRENT_TIMESTAMP >= :start
+            AND CURRENT_TIMESTAMP < :end
+            AND i.status = "PENDING"
+            """)
+    List<InvoiceEntity> getExpiringInvoices(
+            @Param("start") LocalDateTime start,
+            @Param("end") LocalDateTime end
+    );
 }

@@ -210,14 +210,16 @@
         }
 
         .viewAllOverdueIvn,
-        .viewAllExpiringContract {
+        .viewAllExpiringContract,
+        .viewAllExpiringInvoice {
             color: #2d3e8f;
             text-decoration: none;
             font-size: 13px
         }
 
         .viewAllOverdueIvn:hover,
-        .viewAllExpiringContract:hover {
+        .viewAllExpiringContract:hover,
+        .viewAllExpiringInvoice:hover {
             color: #0d6efd;
         }
     </style>
@@ -465,10 +467,19 @@
     </div>
 
     <div class="row g-4 mt-2">
-        <div class="col-lg-8">
+        <div class="col-lg-9">
             <div class="section-card p-4">
-                <div class="section-header mb-3">
-                    <h2><i class="bi bi-calendar-event me-2"></i>Hóa đơn sắp hết hạn</h2>
+                <div class="section-header mb-3 d-flex justify-content-between align-items-center">
+                    <h2>
+                        <i class="bi bi-calendar-event me-2"></i>
+                        <span th:text="'Hóa đơn sắp hết hạn (' + ${#lists.size(expiringInvoices)} + ')'"></span>
+                    </h2>
+                    <!-- Chỉ hiện nút khi list có phần tử -->
+                    <a class="viewAllExpiringInvoice"
+                       th:if="${expiringInvoices != null and !#lists.isEmpty(expiringInvoices)}"
+                       th:href="@{/admin/invoices/overdue}">
+                        Xem tất cả <i class="bi bi-arrow-right"></i>
+                    </a>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-custom">
@@ -484,32 +495,42 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td><strong>INV-2024125</strong></td>
-                            <td>Nguyễn Văn A</td>
-                            <td>SunTower A1</td>
-                            <td>01/2026</td>
-                            <td><strong>15,000,000 VNĐ</strong></td>
-                            <td><span class="badge-status badge-unpaid">15/01/2026</span></td>
-                            <td><span class="badge-status badge-unpaid">Chưa thanh toán</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>INV-2024124</strong></td>
-                            <td>Trần Thị B</td>
-                            <td>Duy Tân Tower</td>
-                            <td>01/2026</td>
-                            <td><strong>18,000,000 VNĐ</strong></td>
-                            <td><span class="badge-status badge-unpaid">18/01/2026</span></td>
-                            <td><span class="badge-status badge-unpaid">Chưa thanh toán</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>INV-2024123</strong></td>
-                            <td>Lê Văn C</td>
-                            <td>Vinhomes Central</td>
-                            <td>01/2026</td>
-                            <td><strong>20,000,000 VNĐ</strong></td>
-                            <td><span class="badge-status badge-unpaid">20/01/2026</span></td>
-                            <td><span class="badge-status badge-unpaid">Chưa thanh toán</span></td>
+                        <!-- Nếu có dữ liệu -->
+                        <th:block th:if="${expiringInvoices != null and !#lists.isEmpty(expiringInvoices)}">
+                            <tr th:each="invoice, stat : ${expiringInvoices}" th:if="${stat.index < 3}">
+                                <td><strong th:text="${invoice.id}">INV-2024120</strong></td>
+                                <td th:text="${invoice.customerName}">Lê Văn C</td>
+                                <td th:text="${invoice.customerName}">ABC Tower</td>
+                                <td th:text="${invoice.month} + '/' + ${invoice.year}">ABC Tower</td>
+                                <td th:text="${#numbers.formatDecimal(invoice.totalAmount, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">ABC Tower</td>
+                                <td>
+                                    <span class="badge-status badge-unpaid"
+                                          th:text="${#temporals.format(invoice.dueDate, 'dd/MM/yyyy')}">01/01/2026
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="badge-status badge-unpaid"
+                                          th:text="${invoice.status == 'PENDING' ? 'Chưa thanh toán' : invoice.status}">
+                                        Chưa thanh toán
+                                    </span>
+                                </td>
+                            </tr>
+                        </th:block>
+
+                        <!-- Nếu list rỗng -->
+                        <tr th:if="${expiringInvoices == null or #lists.isEmpty(expiringInvoices)}">
+                            <td colspan="4">
+                                <div style="
+                                        height: 87px;
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        font-weight: 600;
+                                        color: #777;
+                                    ">
+                                    Hiện không có hóa đơn sắp hết hạn
+                                </div>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
@@ -517,7 +538,7 @@
             </div>
         </div>
 
-        <div class="col-lg-4">
+        <div class="col-lg-3">
             <div class="info-box p-3">
                 <h5 class="mb-3">Thông tin hệ thống</h5>
                 <div class="info-item d-flex justify-content-between">

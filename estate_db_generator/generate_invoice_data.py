@@ -4,20 +4,23 @@
 #  - Từ contract.start_date → tháng trước của tháng hiện tại (NOW - 1)
 #  - Tháng trước (gần nhất) -> PENDING, paid_date = NULL
 #  - Các tháng trước nữa -> PAID, paid_date random
-
 import mysql.connector
 from datetime import datetime, timedelta
 import random
 
 db = mysql.connector.connect(
-    host="localhost",
+    host="127.0.0.1",
+    port=3306,
     user="root",
     password="123456",
-    database="estate"
+    database="estate",
+    connection_timeout=5
 )
+
 cursor = db.cursor(dictionary=True)
 
 cursor.execute("SELECT * FROM contract")
+
 contracts = cursor.fetchall()
 
 cursor.execute("SELECT * FROM building")

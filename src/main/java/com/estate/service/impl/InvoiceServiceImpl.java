@@ -1,9 +1,6 @@
 package com.estate.service.impl;
 
-import com.estate.converter.InvoiceDetailConverter;
-import com.estate.converter.InvoiceFormConverter;
-import com.estate.converter.InvoiceListDTOConverter;
-import com.estate.converter.OverdueInvoiceListConverter;
+import com.estate.converter.*;
 import com.estate.dto.*;
 import com.estate.exception.BusinessException;
 import com.estate.repository.ContractRepository;
@@ -57,6 +54,9 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Autowired
     OverdueInvoiceListConverter overdueInvoiceListConverter;
+
+    @Autowired
+    ExpiringInvoiceConverter expiringInvoiceConverter;
 
     @Override
     public String findTotalAmountByCustomerId(Long id) {
@@ -383,6 +383,30 @@ public class InvoiceServiceImpl implements InvoiceService {
                 .stream()
                 .map(
                         i -> overdueInvoiceListConverter.toDTO(i)
+                )
+                .toList();
+    }
+
+    @Override
+    public List<ExpiringInvoiceDTO> getExpiringInvoices() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime start = now
+                .withDayOfMonth(11)
+                .withHour(0)
+                .withMinute(0)
+                .withSecond(0);
+        LocalDateTime end = now
+                .withDayOfMonth(16)
+                .withHour(0)
+                .withMinute(0)
+                .withSecond(0);
+
+        List<InvoiceEntity> invoices = invoiceRepository.getExpiringInvoices(start, end);
+
+        return invoices
+                .stream()
+                .map(
+                        i -> expiringInvoiceConverter.toDto(i)
                 )
                 .toList();
     }
