@@ -370,7 +370,7 @@
                                 <td><strong th:text="${invoice.totalAmount}">15,770,000 VNĐ</strong></td>
                                 <td>
                                     <span class="badge-status badge-unpaid"
-                                          th:text="${invoice.dueDate}">05/01/2026
+                                          th:text="${#temporals.format(invoice.dueDate, 'dd/MM/yyyy')}">05/01/2026
                                     </span>
                                 </td>
                             </tr>
