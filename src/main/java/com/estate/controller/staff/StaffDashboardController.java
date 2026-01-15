@@ -24,7 +24,7 @@ public class StaffDashboardController {
     InvoiceService invoiceService;
 
     @GetMapping("/dashboard")
-    public String staffDasboard(
+    public String staffDashboard(
             Model model,
             @AuthenticationPrincipal CustomUserDetails user
         ) {
@@ -36,6 +36,8 @@ public class StaffDashboardController {
         model.addAttribute("unpaidInvoiceCnt", invoiceService.getTotalUnpaidInvoices());
 
         model.addAttribute("overdueInvoices", invoiceService.getOverdueInvoices());
+
+        model.addAttribute("expiringContracts", contractService.getExpiringContracts());
 
         return "/staff/dashboard";
     }

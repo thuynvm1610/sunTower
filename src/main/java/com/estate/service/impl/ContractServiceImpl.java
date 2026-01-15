@@ -355,4 +355,25 @@ public class ContractServiceImpl implements ContractService {
         return contractRepository.countStaffIdByStaffId(staffId);
     }
 
+    @Override
+    public List<ContractListDTO> getExpiringContracts() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime start = now.withDayOfMonth(1)
+                .withHour(0)
+                .withMinute(0)
+                .withSecond(0);
+        LocalDateTime end = now.plusMonths(1)
+                .withHour(0)
+                .withMinute(0)
+                .withSecond(0);
+        List<ContractEntity> contracts = contractRepository.getExpiringContracts(start, end);
+
+        return contracts
+                .stream()
+                .map(
+                        c -> contractListConverter.toDto(c)
+                )
+                .toList();
+    }
+
 }

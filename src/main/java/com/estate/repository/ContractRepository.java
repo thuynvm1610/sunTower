@@ -1,6 +1,5 @@
 package com.estate.repository;
 
-import com.estate.dto.ContractDetailDTO;
 import com.estate.dto.ContractRentAreaView;
 import com.estate.repository.custom.ContractRepositoryCustom;
 import com.estate.repository.entity.ContractEntity;
@@ -10,7 +9,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -96,4 +94,16 @@ public interface ContractRepository extends JpaRepository<ContractEntity, Long>,
     void statusUpdate();
 
     Long countStaffIdByStaffId(Long staffId);
+
+    @Query("""
+            SELECT c
+            FROM ContractEntity c
+            WHERE c.endDate >= :start
+            AND c.endDate < :end
+            AND c.status = "ACTIVE"
+            """)
+    List<ContractEntity> getExpiringContracts(
+            @Param("start") LocalDateTime start,
+            @Param("end") LocalDateTime end
+    );
 }
