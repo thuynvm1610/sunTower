@@ -1,7 +1,6 @@
 package com.estate.converter;
 
-import com.estate.dto.OverdueInvoiceListDTO;
-import com.estate.repository.entity.CustomerEntity;
+import com.estate.dto.OverdueInvoiceDTO;
 import com.estate.repository.entity.InvoiceEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +14,8 @@ public class OverdueInvoiceListConverter {
     @Autowired
     CustomerListConverter customerListConverter;
 
-    public OverdueInvoiceListDTO toDTO(InvoiceEntity entity) {
-        OverdueInvoiceListDTO dto = new OverdueInvoiceListDTO();
+    public OverdueInvoiceDTO toDTO(InvoiceEntity entity) {
+        OverdueInvoiceDTO dto = new OverdueInvoiceDTO();
         modelMapper.map(entity, dto);
 
         if (entity.getCustomer() != null) {

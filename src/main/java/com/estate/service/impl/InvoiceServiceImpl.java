@@ -377,7 +377,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public List<OverdueInvoiceListDTO> getOverdueInvoices() {
+    public List<OverdueInvoiceDTO> getOverdueInvoices() {
         List<InvoiceEntity> overdueInvoices = invoiceRepository.findByStatus("OVERDUE");
         return overdueInvoices
                 .stream()

@@ -369,7 +369,11 @@
                             <tr th:each="invoice, stat : ${overdueInvoices}" th:if="${stat.index < 2}">
                                 <td><strong th:text="${invoice.id}">INV-2024120</strong></td>
                                 <td th:text="${invoice.customer.fullName}">Lê Văn C</td>
-                                <td><strong th:text="${invoice.totalAmount}">15,770,000 VNĐ</strong></td>
+                                <td>
+                                    <strong th:text="${#numbers.formatDecimal(invoice.totalAmount, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">
+                                        15,770,000 VNĐ
+                                    </strong>
+                                </td>
                                 <td>
                                     <span class="badge-status badge-unpaid"
                                           th:text="${#temporals.format(invoice.dueDate, 'dd/MM/yyyy')}">05/01/2026

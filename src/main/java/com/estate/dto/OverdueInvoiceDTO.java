@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OverdueInvoiceListDTO {
+public class OverdueInvoiceDTO {
     private Long id;
     private CustomerListDTO customer;
     private BigDecimal totalAmount;
