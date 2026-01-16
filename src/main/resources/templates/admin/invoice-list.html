@@ -504,6 +504,33 @@
                 flex-wrap: wrap;
             }
         }
+
+        /* CSS nút cập nhật trạng thái hóa đơn */
+        .btn-update-status {
+            background: #f0fdf4;
+            color: #16a34a;
+            border: 1px solid #bbf7d0;
+            padding: 0.625rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .btn-update-status:hover {
+            background: #dcfce7;
+            border-color: #86efac;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
+        }
+
+        .btn-update-status i {
+            font-size: 1rem;
+        }
     </style>
 </head>
 
@@ -521,10 +548,16 @@
                     <i class="bi bi-receipt"></i>
                     Quản lý Hóa đơn
                 </h2>
-                <a th:href="@{/admin/invoice/add}" class="btn-add">
-                    <i class="bi bi-plus-circle"></i>
-                    Thêm hóa đơn
-                </a>
+                <div style="display: flex; gap: 0.75rem;">
+                    <button onclick="updateInvoiceStatus()" class="btn-update-status">
+                        <i class="bi bi-arrow-clockwise"></i>
+                        Cập nhật trạng thái
+                    </button>
+                    <a th:href="@{/admin/invoice/add}" class="btn-add">
+                        <i class="bi bi-plus-circle"></i>
+                        Thêm hóa đơn
+                    </a>
+                </div>
             </div>
 
             <!-- Filter Card -->
@@ -961,6 +994,48 @@
             });
         });
     </script>
+
+    <script>
+        // Hàm cập nhật trạng thái tất cả hóa đơn
+        function updateInvoiceStatus() {
+            Swal.fire({
+                title: 'Xác nhận cập nhật',
+                text: "Hệ thống sẽ kiểm tra và cập nhật trạng thái tất cả hóa đơn",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#16a34a',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: '<i class="bi bi-check-circle"></i> Cập nhật',
+                cancelButtonText: 'Hủy',
+                showLoaderOnConfirm: true,
+                preConfirm: () => {
+                    return $.ajax({
+                        url: "/admin/invoice/status",
+                        type: "PUT",
+                        timeout: 30000
+                    }).catch(error => {
+                        Swal.showValidationMessage(
+                            `Lỗi: ${error.responseJSON?.message || 'Không thể kết nối đến server'}`
+                        );
+                    });
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Cập nhật thành công!',
+                        text: 'Trạng thái hóa đơn đã được cập nhật',
+                        timer: 2000,
+                        showConfirmButton: false
+                    }).then(() => {
+                        loadContracts(currentPage);
+                    });
+                }
+            });
+        }
+    </script>
+
 </body>
 
 </html>

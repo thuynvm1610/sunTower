@@ -411,4 +411,9 @@ public class InvoiceServiceImpl implements InvoiceService {
                 .toList();
     }
 
+    @Override
+    public void statusUpdate() {
+        invoiceRepository.invoiceStatusUpdate();
+    }
+
 }

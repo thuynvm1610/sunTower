@@ -2,6 +2,7 @@ package com.estate.repository;
 
 import com.estate.repository.custom.InvoiceRepositoryCustom;
 import com.estate.repository.entity.InvoiceEntity;
+import org.springframework.cglib.core.Local;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -68,4 +69,13 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Long>, I
             @Param("start") LocalDateTime start,
             @Param("end") LocalDateTime end
     );
+
+    @Modifying
+    @Query("""
+            UPDATE InvoiceEntity i
+            SET i.status = "OVERDUE"
+            WHERE i.status = "PENDING"
+            AND CURRENT_TIMESTAMP >= i.dueDate
+            """)
+    void invoiceStatusUpdate();
 }

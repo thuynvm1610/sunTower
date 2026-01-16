@@ -55,4 +55,10 @@ public class AdminInvoiceAPI {
         invoiceService.invoiceConfirm(id);
         return ResponseEntity.ok("Xác nhận thanh toán thành công!");
     }
+
+    @PutMapping("/status")
+    public ResponseEntity<?> statusUpdate(){
+        invoiceService.statusUpdate();
+        return ResponseEntity.ok("Cập nhật trạng thái hóa đơn thành công");
+    }
 }

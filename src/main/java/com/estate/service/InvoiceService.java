@@ -28,4 +28,5 @@ public interface InvoiceService {
     void markPaid(Long invoiceId, String method, String txnRef);
     List<OverdueInvoiceDTO> getOverdueInvoices();
     List<ExpiringInvoiceDTO> getExpiringInvoices();
+    void statusUpdate();
 }
