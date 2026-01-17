@@ -1,4 +1,4 @@
-package com.estate.controller.publicpage;
+package com.estate.controller.staff;
 
 import com.estate.enums.Direction;
 import com.estate.enums.Level;
@@ -10,49 +10,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/suntower")
-public class PublicPageController {
-    @Autowired
-    StaffService staffService;
-
+@RequestMapping("/staff")
+public class StaffBuildingController {
     @Autowired
     BuildingService buildingService;
 
     @Autowired
     DistrictService districtService;
 
-    @GetMapping("")
-    public String home() {
-        return "publicPage/home";
-    }
-
-    @GetMapping("/introduce")
-    public String about() {
-        return "publicPage/introduce";
-    }
-
-    @GetMapping("/building")
-    public String buildings (
-            Model model,
-            @RequestParam(required = false) String buildingName
-    ) {
-        model.addAttribute("managers", staffService.getStaffsName());
+    @GetMapping("/buildings")
+    public String building(Model model) {
         model.addAttribute("wards", buildingService.getWardName());
         model.addAttribute("streets", buildingService.getStreetName());
         model.addAttribute("directions", Direction.values());
         model.addAttribute("levels", Level.values());
         model.addAttribute("districts", districtService.findAll());
-
-        model.addAttribute("buildingName", buildingName == null ? "" : buildingName);
-
-        return "publicPage/building-list";
-    }
-
-    @GetMapping("/contact")
-    public String contact() {
-        return "publicPage/contact";
+        return "staff/building-list";
     }
 }
