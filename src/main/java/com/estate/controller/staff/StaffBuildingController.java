@@ -23,15 +23,23 @@ public class StaffBuildingController {
     @Autowired
     DistrictService districtService;
 
+    @Autowired
+    StaffService staffService;
+
     @GetMapping("/buildings")
     public String building(
-            Model model
+            Model model,
+            @AuthenticationPrincipal CustomUserDetails user
         ) {
         model.addAttribute("wards", buildingService.getWardName());
         model.addAttribute("streets", buildingService.getStreetName());
         model.addAttribute("directions", Direction.values());
         model.addAttribute("levels", Level.values());
         model.addAttribute("districts", districtService.findAll());
+
+        String username = staffService.getStaffName(user.getCustomerId());
+        model.addAttribute("username", username);
+
         return "staff/building-list";
     }
 }

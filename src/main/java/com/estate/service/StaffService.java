@@ -17,4 +17,5 @@ public interface StaffService {
     StaffDetailDTO viewById(Long id);
     Long getBuildingCnt(Long staffId);
     Long getCustomertCnt(Long staffId);
+    String getStaffName(Long staffId);
 }

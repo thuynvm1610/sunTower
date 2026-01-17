@@ -172,4 +172,9 @@ public class StaffServiceImpl implements StaffService {
     public Long getCustomertCnt(Long staffId) {
         return staffRepository.countCustomersByStaffId(staffId);
     }
+
+    @Override
+    public String getStaffName(Long staffId) {
+        return staffRepository.findById(staffId).get().getFullName();
+    }
 }
