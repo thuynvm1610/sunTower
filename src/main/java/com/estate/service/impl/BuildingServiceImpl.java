@@ -8,13 +8,9 @@ import com.estate.dto.BuildingFilterDTO;
 import com.estate.dto.BuildingFormDTO;
 import com.estate.dto.BuildingListDTO;
 import com.estate.enums.Direction;
-import com.estate.enums.Level;
 import com.estate.exception.BusinessException;
 import com.estate.repository.*;
 import com.estate.repository.entity.BuildingEntity;
-import com.estate.repository.entity.DistrictEntity;
-import com.estate.repository.entity.RentAreaEntity;
-import com.estate.repository.entity.StaffEntity;
 import com.estate.service.BuildingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -155,23 +151,6 @@ public class BuildingServiceImpl implements BuildingService {
     }
 
     @Override
-    public List<String> getDirectionName() {
-        List<String> directions = buildingRepository.getDirectionName();
-        Map<String, String> enumMap = Arrays.stream(Direction.values())
-                .collect(Collectors.toMap(Direction::name, Direction::getLabel));
-
-        return directions.stream()
-                .map(enumMap::get) // lấy label từ tên enum
-                .filter(Objects::nonNull) // loại bỏ giá trị không khớp
-                .toList();
-    }
-
-    @Override
-    public List<String> getLevelName() {
-        return buildingRepository.getLevelName();
-    }
-
-    @Override
     public void save(BuildingFormDTO dto) {
 
         BuildingEntity entity;
@@ -241,6 +220,33 @@ public class BuildingServiceImpl implements BuildingService {
         }
 
         return dtoList;
+    }
+
+    @Override
+    public Page<BuildingDetailDTO> searchByStaff(BuildingFilterDTO filter, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<BuildingEntity> buildingPage = buildingRepository.searchBuildings(filter, pageable);
+
+        // Tạo list chứa DTO
+        List<BuildingDetailDTO> dtoList = new ArrayList<>();
+
+        // Duyệt qua từng BuildingEntity
+        for (BuildingEntity b : buildingPage) {
+            List<String> managersName = staffRepository.findStaffNamesByBuildingId(b.getId());
+            // Convert entity sang DTO, có thêm managerName
+            BuildingDetailDTO dto = buildingDetailConverter.toDTO(b);
+
+            dtoList.add(dto);
+        }
+
+        // Tạo PageImpl giữ nguyên thông tin phân trang gốc
+        Page<BuildingDetailDTO> result = new PageImpl<>(
+                dtoList,
+                buildingPage.getPageable(),
+                buildingPage.getTotalElements()
+        );
+
+        return result;
     }
 
 }

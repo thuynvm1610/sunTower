@@ -17,12 +17,11 @@ public interface BuildingService {
     Page<BuildingListDTO> search(BuildingFilterDTO filter, int page, int size);
     List<String> getWardName();
     List<String> getStreetName();
-    List<String> getDirectionName();
-    List<String> getLevelName();
     void save(BuildingFormDTO dto);
     BuildingFormDTO findById(Long id);
     void delete(Long id);
     BuildingDetailDTO viewById(Long id);
     Map<String, Long> getBuildingsName();
     List<BuildingDetailDTO> searchByCustomer(BuildingFilterDTO filter);
+    Page<BuildingDetailDTO> searchByStaff(BuildingFilterDTO filter, int page, int size);
 }

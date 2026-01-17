@@ -1,7 +1,7 @@
 package com.estate.api.staff;
 
+import com.estate.dto.BuildingDetailDTO;
 import com.estate.dto.BuildingFilterDTO;
-import com.estate.dto.BuildingListDTO;
 import com.estate.service.BuildingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,11 +17,11 @@ public class StaffBuildingAPI {
     BuildingService buildingService;
 
     @GetMapping("/search")
-    public Page<BuildingListDTO> getBuildingsSearchPage(
+    public Page<BuildingDetailDTO> getBuildingsSearchPage(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "3") int size,
             BuildingFilterDTO filter
     ) {
-        return buildingService.search(filter, page - 1, size);
+        return buildingService.searchByStaff(filter, page - 1, size);
     }
 }
