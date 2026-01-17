@@ -694,10 +694,10 @@
 
                         <div class="col-md-3">
                             <label class="form-label">Nhân viên quản lý</label>
-                            <select class="form-control" name="managerName">
+                            <select class="form-control" name="staffId">
                                 <option value="">-- Chọn quản lý --</option>
-                                <option th:each="m : ${managers}" th:value="${m.fullName}" th:text="${m.fullName}"
-                                    th:selected="${m.fullName == filter.managerName}">
+                                <option th:each="m : ${managers}" th:value="${m.id}" th:text="${m.fullName}"
+                                    th:selected="${m.id == filter.staffId}">
                                 </option>
                             </select>
                         </div>
@@ -885,7 +885,7 @@
                     waterFeeTo: filter.waterFeeTo,
                     electricityFeeFrom: filter.electricityFeeFrom,
                     electricityFeeTo: filter.electricityFeeTo,
-                    managerName: filter.managerName
+                    staffId: filter.staffId
                 },
                 success: function (data) {
                     currentPage = page;
