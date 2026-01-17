@@ -19,7 +19,7 @@ public class StaffBuildingAPI {
     @GetMapping("/search")
     public Page<BuildingListDTO> getBuildingsSearchPage(
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "3") int size,
             BuildingFilterDTO filter
     ) {
         return buildingService.search(filter, page - 1, size);

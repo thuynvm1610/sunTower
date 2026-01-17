@@ -266,124 +266,168 @@
             margin: 0;
         }
 
-        .table-custom {
-            margin: 0;
-            min-height: 480px;
+        .building-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
 
-        .table-custom thead th {
-            background: #f8f9fa;
-            color: #666;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 11px;
-            letter-spacing: 0.5px;
-            border-bottom: 2px solid #dee2e6;
-            padding: 12px;
-            height: 60px;
+        .building-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
         }
 
-        .table-custom tbody tr {
-            transition: all 0.2s;
-            height: 84px;
-            min-height: 84px;
+        .building-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            background: #f0f0f0;
         }
 
-        .table-custom tbody tr:hover {
-            background: #f8f9fa;
-        }
-
-        .table-custom td {
-            padding: 12px;
-            vertical-align: middle;
-            font-size: 14px;
+        .building-body {
+            padding: 1.25rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .building-name {
-            font-weight: 600;
+            font-size: 18px;
+            font-weight: 700;
             color: #111827;
+            margin-bottom: 0.75rem;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
             text-overflow: ellipsis;
+            min-height: 3.6em;
             line-height: 1.4;
-            max-height: 2.8em;
         }
 
-        .building-id {
+        .building-address {
             color: #6b7280;
-            font-weight: 500;
-            white-space: nowrap;
+            font-size: 14px;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            min-height: 2.8em;
+            line-height: 1.4;
         }
 
-        .price-badge,
+        .building-info {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
         .level-badge {
             display: inline-block;
             padding: 6px 12px;
             border-radius: 6px;
             font-weight: 600;
             font-size: 13px;
-            white-space: nowrap;
-        }
-
-        .price-badge {
-            background: #ecfdf5;
-            color: #059669;
-        }
-
-        .level-badge {
             background: #eff6ff;
             color: #2563eb;
         }
 
-        .btn-action {
-            width: 32px;
-            height: 32px;
-            padding: 0;
+        .price-badge {
+            display: inline-block;
+            padding: 6px 12px;
             border-radius: 6px;
-            border: none;
-            display: inline-flex;
+            font-weight: 600;
+            font-size: 13px;
+            background: #ecfdf5;
+            color: #059669;
+        }
+
+        .building-fees {
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .fee-item {
+            display: flex;
             align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
+            gap: 0.5rem;
+            font-size: 13px;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        .fee-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .fee-item i {
+            color: var(--primary-color);
             font-size: 14px;
         }
 
-        .btn-action.btn-view {
-            background: var(--primary-color);
-            color: white;
+        .fee-item span {
+            font-weight: 500;
         }
 
-        .btn-action.btn-view:hover {
+        .building-footer {
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .btn-view-detail {
+            width: 100%;
+            padding: 10px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .btn-view-detail:hover {
             background: var(--primary-light);
+            color: white;
             transform: translateY(-1px);
         }
 
         .empty-state {
-            padding: 3rem;
+            padding: 4rem 2rem;
             text-align: center;
             color: #9ca3af;
-            min-height: 420px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            grid-column: 1 / -1;
         }
 
         .empty-state i {
-            font-size: 3rem;
+            font-size: 4rem;
             color: #d1d5db;
             margin-bottom: 1rem;
         }
 
         .empty-state p {
             margin: 0;
-            font-size: 14px;
+            font-size: 16px;
         }
 
         .pagination-wrapper {
-            margin-top: 1.5rem;
+            margin-top: 2rem;
         }
 
         .pagination {
@@ -675,32 +719,17 @@
         </div>
     </form>
 
-    <!-- Table Card -->
+    <!-- Building Cards Section -->
     <div class="section-card p-4">
-        <div class="section-header mb-3">
+        <div class="section-header mb-4">
             <h2>
                 <i class="bi bi-building me-2"></i>
                 Danh sách tòa nhà
             </h2>
         </div>
 
-        <div class="table-responsive">
-            <table class="table table-custom">
-                <thead>
-                <tr>
-                    <th>MÃ</th>
-                    <th>TÊN TÒA NHÀ</th>
-                    <th>ĐỊA CHỈ</th>
-                    <th>HẠNG</th>
-                    <th>GIÁ THUÊ (M²)</th>
-                    <th style="text-align: center;">HÀNH ĐỘNG</th>
-                </tr>
-                </thead>
-
-                <tbody id="buildingTableBody">
-                <!-- Dữ liệu sẽ được Ajax thêm vào -->
-                </tbody>
-            </table>
+        <div class="row g-4" id="buildingCardsContainer">
+            <!-- Cards sẽ được thêm vào đây bằng JavaScript -->
         </div>
     </div>
 
@@ -742,7 +771,7 @@
 
 <script>
     let currentPage = 1;
-    const pageSize = 5;
+    const pageSize = 3;
     const levelLabels = {
         A_PLUS: "A+",
         A: "A",
@@ -803,38 +832,59 @@
             },
             success: function (data) {
                 currentPage = page;
-                const tbody = $("#buildingTableBody");
-                tbody.empty();
+                const container = $("#buildingCardsContainer");
+                container.empty();
 
                 if (data.content.length === 0) {
-                    tbody.append(`
-                        <tr>
-                            <td colspan="6">
-                                <div class="empty-state">
-                                    <i class="bi bi-building"></i>
-                                    <p>Không có dữ liệu</p>
-                                </div>
-                            </td>
-                        </tr>
+                    container.append(`
+                        <div class="col-12">
+                            <div class="empty-state">
+                                <i class="bi bi-building"></i>
+                                <p>Không có dữ liệu</p>
+                            </div>
+                        </div>
                     `);
                     $("#pagination").empty();
                     return;
                 }
 
                 $.each(data.content, function (i, b) {
-                    tbody.append(`
-                        <tr>
-                            <td><span class="building-id">${b.id}</span></td>
-                            <td><span class="building-name">${b.name}</span></td>
-                            <td>${b.address}</td>
-                            <td><span class="level-badge">${levelLabels[b.level] || ''}</span></td>
-                            <td><span class="price-badge">${formatPrice(b.rentPrice)}</span></td>
-                            <td style="text-align: center;">
-                                <a href="/staff/buildings/${b.id}" class="btn-action btn-view" title="Xem chi tiết">
-                                    <i class="bi bi-eye"></i>
-                                </a>
-                            </td>
-                        </tr>
+                    const imageUrl = b.image
+                        ? `/images/building_img/${b.image}`
+                        : 'https://via.placeholder.com/400x300?text=No+Image';
+
+                    container.append(`
+                        <div class="col-md-4">
+                            <div class="building-card">
+                                <img src="${imageUrl}" alt="${b.name}" class="building-image" onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'">
+                                <div class="building-body">
+                                    <h3 class="building-name">${b.name}</h3>
+                                    <p class="building-address">
+                                        <i class="bi bi-geo-alt me-1"></i>${b.address}
+                                    </p>
+                                    <div class="building-info">
+                                        <span class="level-badge">${levelLabels[b.level] || ''}</span>
+                                        <span class="price-badge">${formatPrice(b.rentPrice)}/m²</span>
+                                    </div>
+                                    <div class="building-fees">
+                                        <div class="fee-item">
+                                            <i class="bi bi-droplet"></i>
+                                            <span>Phí nước: ${formatPrice(b.waterFee)}</span>
+                                        </div>
+                                        <div class="fee-item">
+                                            <i class="bi bi-lightning-charge"></i>
+                                            <span>Phí điện: ${formatPrice(b.electricityFee)}</span>
+                                        </div>
+                                    </div>
+                                    <div class="building-footer">
+                                        <a href="/staff/buildings/${b.id}" class="btn-view-detail">
+                                            <i class="bi bi-eye"></i>
+                                            Xem chi tiết
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     `);
                 });
 
@@ -940,12 +990,11 @@
 
     $("#filterForm").on("submit", function (e) {
         e.preventDefault();
-        loadBuildings(1); // Gọi khi lọc
+        loadBuildings(1);
     });
 </script>
 
 <script>
-    // Reset input filter
     function resetFilter() {
         document.querySelectorAll('.form-control, .form-select').forEach(input => {
             input.value = '';
@@ -956,7 +1005,6 @@
         }, 10);
     }
 
-    // Lắng nghe sự kiện input/change để highlight real-time
     $('.filter-body .form-control').on('input change', function () {
         const $this = $(this);
         if ($this.val() && $this.val().trim() !== '') {

@@ -20,4 +20,5 @@ public class BuildingListDTO {
     private String managerName;
     private BigDecimal waterFee;
     private BigDecimal electricityFee;
+    private String image;
 }
