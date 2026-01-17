@@ -2,10 +2,13 @@ package com.estate.controller.staff;
 
 import com.estate.enums.Direction;
 import com.estate.enums.Level;
+import com.estate.security.CustomUserDetails;
 import com.estate.service.BuildingService;
 import com.estate.service.DistrictService;
 import com.estate.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +24,9 @@ public class StaffBuildingController {
     DistrictService districtService;
 
     @GetMapping("/buildings")
-    public String building(Model model) {
+    public String building(
+            Model model
+        ) {
         model.addAttribute("wards", buildingService.getWardName());
         model.addAttribute("streets", buildingService.getStreetName());
         model.addAttribute("directions", Direction.values());

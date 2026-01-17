@@ -40,5 +40,5 @@ public class BuildingFilterDTO {
     private BigDecimal waterFeeTo;
     private BigDecimal electricityFeeFrom;
     private BigDecimal electricityFeeTo;
-    private String managerName;
+    private Long staffId;
 }

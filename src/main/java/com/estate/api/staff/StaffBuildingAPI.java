@@ -2,9 +2,12 @@ package com.estate.api.staff;
 
 import com.estate.dto.BuildingFilterDTO;
 import com.estate.dto.BuildingListDTO;
+import com.estate.security.CustomUserDetails;
 import com.estate.service.BuildingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

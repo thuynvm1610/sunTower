@@ -39,7 +39,7 @@ public class BuildingRepositoryImpl implements BuildingRepositoryCustom {
             countJpql.append(" LEFT JOIN b.rentAreas ra ");
         }
 
-        if (notEmpty(f.getManagerName())) {
+        if (f.getStaffId() != null) {
             jpql.append(" LEFT JOIN b.staffs_buildings sb");
             countJpql.append(" LEFT JOIN b.staffs_buildings sb ");
         }
@@ -54,13 +54,14 @@ public class BuildingRepositoryImpl implements BuildingRepositoryCustom {
         if (notEmpty(f.getStreet())) {
             where.append(" AND LOWER(b.street) LIKE LOWER(:street) ");
         }
-        if (notEmpty(f.getManagerName())) {
-            where.append(" AND LOWER(sb.fullName) LIKE LOWER(:managerName) ");
-        }
 
         // ========== EQUAL ==========
         if (f.getDistrictId() != null) {
             where.append(" AND d.id = :districtId ");
+        }
+
+        if (f.getStaffId() != null) {
+            where.append(" AND sb.id = :staffId ");
         }
 
         if (f.getDirection() != null) {
@@ -133,9 +134,9 @@ public class BuildingRepositoryImpl implements BuildingRepositoryCustom {
         if (notEmpty(f.getName())) q.setParameter("name", "%" + f.getName() + "%");
         if (notEmpty(f.getWard())) q.setParameter("ward", "%" + f.getWard() + "%");
         if (notEmpty(f.getStreet())) q.setParameter("street", "%" + f.getStreet() + "%");
-        if (notEmpty(f.getManagerName())) q.setParameter("managerName", "%" + f.getManagerName() + "%");
 
         if (f.getDistrictId() != null) q.setParameter("districtId", f.getDistrictId());
+        if (f.getStaffId() != null) q.setParameter("staffId", f.getStaffId());
         if (f.getDirection() != null) {
             if (notEmpty(f.getDirection().toString())) q.setParameter("direction", f.getDirection());
         }
@@ -193,7 +194,7 @@ public class BuildingRepositoryImpl implements BuildingRepositoryCustom {
             jpql.append(" LEFT JOIN b.rentAreas ra ");
         }
 
-        if (notEmpty(f.getManagerName())) {
+        if (f.getStaffId() != null) {
             jpql.append(" LEFT JOIN b.staffs_buildings sb");
         }
 
@@ -207,7 +208,7 @@ public class BuildingRepositoryImpl implements BuildingRepositoryCustom {
         if (notEmpty(f.getStreet())) {
             where.append(" AND LOWER(b.street) LIKE LOWER(:street) ");
         }
-        if (notEmpty(f.getManagerName())) {
+        if (f.getStaffId() != null) {
             where.append(" AND LOWER(sb.fullName) LIKE LOWER(:managerName) ");
         }
 

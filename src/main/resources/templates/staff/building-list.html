@@ -689,7 +689,7 @@
                 <thead>
                 <tr>
                     <th>MÃ</th>
-                    <th>TÊN TÒA</th>
+                    <th>TÊN TÒA NHÀ</th>
                     <th>ĐỊA CHỈ</th>
                     <th>HẠNG</th>
                     <th>GIÁ THUÊ (M²)</th>
@@ -734,6 +734,10 @@
             toggleBtn.classList.add('collapsed');
         }
     });
+</script>
+
+<script th:inline="javascript">
+    const staffId = /*[[${#authentication.principal.customerId}]]*/ null;
 </script>
 
 <script>
@@ -794,6 +798,8 @@
                 waterFeeTo: $("[name='waterFeeTo']").val(),
                 electricityFeeFrom: $("[name='electricityFeeFrom']").val(),
                 electricityFeeTo: $("[name='electricityFeeTo']").val(),
+
+                staffId: staffId
             },
             success: function (data) {
                 currentPage = page;
@@ -930,6 +936,34 @@
                 $('.filter-card .form-control').removeClass('has-value');
             }, 10);
         });
+    });
+
+    $("#filterForm").on("submit", function (e) {
+        e.preventDefault();
+        loadBuildings(1); // Gọi khi lọc
+    });
+</script>
+
+<script>
+    // Reset input filter
+    function resetFilter() {
+        document.querySelectorAll('.form-control, .form-select').forEach(input => {
+            input.value = '';
+        });
+
+        setTimeout(function () {
+            $('.filter-body .form-control').removeClass('has-value');
+        }, 10);
+    }
+
+    // Lắng nghe sự kiện input/change để highlight real-time
+    $('.filter-body .form-control').on('input change', function () {
+        const $this = $(this);
+        if ($this.val() && $this.val().trim() !== '') {
+            $this.addClass('has-value');
+        } else {
+            $this.removeClass('has-value');
+        }
     });
 </script>
 </body>
