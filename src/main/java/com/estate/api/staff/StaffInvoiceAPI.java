@@ -1,7 +1,9 @@
 package com.estate.api.staff;
 
 import com.estate.dto.CustomerDetailDTO;
-import com.estate.service.CustomerService;
+import com.estate.dto.InvoiceDetailDTO;
+import com.estate.dto.InvoiceFilterDTO;
+import com.estate.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,21 +12,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/staff/customers")
-public class StaffCustomerAPI {
+@RequestMapping("/staff/invoices")
+public class StaffInvoiceAPI {
     @Autowired
-    CustomerService customerService;
-
-    public StaffCustomerAPI(CustomerService customerService) {
-        this.customerService = customerService;
-    }
+    InvoiceService invoiceService;
 
     @GetMapping("/search")
-    public Page<CustomerDetailDTO> getContractsSearchPage(
+    public Page<InvoiceDetailDTO> getInvoicesSearchPage(
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "3") int size,
-            @RequestParam(required = false) String fullName
+            @RequestParam(defaultValue = "5") int size,
+            InvoiceFilterDTO filter
     ) {
-        return customerService.searchByStaff(fullName, page - 1, size);
+        return invoiceService.searchByStaff(filter, page - 1, size);
     }
 }

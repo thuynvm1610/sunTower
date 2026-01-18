@@ -231,6 +231,34 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
+    public Page<InvoiceDetailDTO> searchByStaff(InvoiceFilterDTO filter, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<InvoiceEntity> invoicePage = invoiceRepository.searchInvoices(filter, pageable);
+
+        // Tạo list chứa DTO
+        List<InvoiceDetailDTO> dtoList = new ArrayList<>();
+
+        // Duyệt qua từng InvoiceEntity
+        for (InvoiceEntity i : invoicePage) {
+            UtilityMeterEntity utilityMeter = utilityMeterService.findByContractIdAndMonthAndYear(
+                    i.getContract().getId(), i.getMonth(), i.getYear());
+
+            InvoiceDetailDTO dto = invoiceDetailConverter.toDTO(i, utilityMeter);
+
+            dtoList.add(dto);
+        }
+
+        // Tạo PageImpl giữ nguyên thông tin phân trang gốc
+        Page<InvoiceDetailDTO> result = new PageImpl<>(
+                dtoList,
+                invoicePage.getPageable(),
+                invoicePage.getTotalElements()
+        );
+
+        return result;
+    }
+
+    @Override
     public void delete(Long id) {
         InvoiceEntity invoice = invoiceRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("Không tìm thấy hóa đơn để xóa"));

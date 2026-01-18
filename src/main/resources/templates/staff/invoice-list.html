@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SunTower - Quản lý Hóa đơn</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #2d3e8f;
+            --primary-light: #4a5fc1;
+            --secondary-color: #f5f7fa;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--secondary-color);
+        }
+
+        .header {
+            background: var(--primary-color);
+            color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-top {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-custom {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .btn-logout {
+            background: white;
+            color: var(--primary-color);
+            border: none;
+            padding: 8px 18px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .btn-logout:hover {
+            background: #f0f0f0;
+            color: var(--primary-color);
+        }
+
+        .nav-custom {
+            background: var(--primary-color);
+        }
+
+        .nav-custom .nav-link {
+            color: white !important;
+            font-weight: 500;
+            font-size: 14px;
+            padding: 14px 18px;
+            border-radius: 6px 6px 0 0;
+            transition: all 0.2s;
+        }
+
+        .nav-custom .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-custom .nav-link.active {
+            background: rgba(255, 255, 255, 0.15);
+            font-weight: 600;
+        }
+
+        .page-header {
+            background: white;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .page-header h1 {
+            color: var(--primary-color);
+        }
+
+        .filter-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .filter-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-toggle-filter {
+            background: #f3f4f6;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-toggle-filter:hover {
+            background: #e5e7eb;
+        }
+
+        .btn-toggle-filter i {
+            transition: transform 0.3s ease;
+            color: var(--primary-color);
+        }
+
+        .btn-toggle-filter.collapsed i {
+            transform: rotate(180deg);
+        }
+
+        .filter-body {
+            max-height: 1000px;
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            opacity: 1;
+        }
+
+        .filter-body.collapsed {
+            max-height: 0;
+            opacity: 0;
+        }
+
+        .filter-card .form-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 6px;
+        }
+
+        .filter-card .form-control,
+        .filter-card .form-select {
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            font-size: 14px;
+            padding: 8px 12px;
+        }
+
+        .filter-card .form-control:focus,
+        .filter-card .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(45, 62, 143, 0.1);
+        }
+
+        .filter-card .form-control.has-value,
+        .filter-card .form-select.has-value {
+            background-color: #E8F0FE;
+            border-color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .filter-section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .filter-section-title i {
+            color: var(--primary-color);
+        }
+
+        .range-inputs {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .range-inputs .form-control {
+            flex: 1;
+        }
+
+        .range-separator {
+            color: #9ca3af;
+            font-weight: 500;
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: flex-end;
+            margin-top: 1.25rem;
+        }
+
+        .btn-filter {
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-filter.btn-reset {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-filter.btn-reset:hover {
+            background: #5a6268;
+        }
+
+        .btn-filter.btn-search {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-filter.btn-search:hover {
+            background: var(--primary-light);
+        }
+
+        .section-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .section-header {
+            padding-bottom: 12px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .section-header h2 {
+            font-size: 18px;
+            color: var(--primary-color);
+            font-weight: 600;
+            margin: 0;
+        }
+
+        /* Modern table */
+        .modern-table {
+            margin: 0;
+            min-height: 480px;
+        }
+
+        .modern-table thead th {
+            background: #f9fafb;
+            border: none;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 0.875rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+            height: 60px;
+        }
+
+        .modern-table tbody {
+            min-height: 420px;
+            display: table-row-group;
+        }
+
+        .modern-table tbody td {
+            position: relative;
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 0.875rem;
+            color: #374151;
+            vertical-align: middle;
+        }
+
+        .modern-table tbody tr {
+            height: 84px;
+            min-height: 84px;
+        }
+
+        .modern-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .modern-table tbody tr {
+            transition: background 0.15s ease;
+        }
+
+        .modern-table tbody tr:hover {
+            background: #f9fafb;
+        }
+
+        .table-responsive {
+            min-height: 480px;
+        }
+
+        /* Table badges and cells */
+        .invoice-id {
+            font-weight: 600;
+            color: #111827;
+            white-space: nowrap;
+        }
+
+        .customer-name,
+        .building-name {
+            font-weight: 600;
+            color: #111827;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.4;
+            max-height: 2.8em;
+        }
+
+        .month-badge {
+            display: inline-block;
+            padding: 0.375rem 0.75rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            white-space: nowrap;
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .area-badge {
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .price-badge {
+            display: inline-block;
+            padding: 0.375rem 0.75rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            white-space: nowrap;
+            background: #ecfdf5;
+            color: #059669;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.375rem 0.75rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            white-space: nowrap;
+        }
+
+        .status-badge.paid {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .status-badge.pending {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .status-badge.overdue {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        /* Action buttons */
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .btn-action {
+            width: 34px;
+            height: 32px;
+            padding: 0;
+            border-radius: 6px;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            font-size: 0.875rem;
+        }
+
+        .btn-action.btn-view {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .btn-action.btn-view:hover {
+            background: #dbeafe;
+            transform: translateY(-1px);
+        }
+
+        /* Empty state */
+        .empty-state {
+            padding: 3rem;
+            text-align: center;
+            color: #9ca3af;
+            min-height: 420px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: #d1d5db;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state p {
+            margin: 0;
+            font-size: 0.875rem;
+        }
+
+        /* Pagination */
+        .pagination-wrapper {
+            margin-top: 2rem;
+        }
+
+        .pagination {
+            gap: 0.5rem;
+        }
+
+        .pagination .page-link {
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 8px 14px;
+            color: #374151;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .pagination .page-link:hover {
+            background: #f8f9fa;
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .pagination .page-item.active .page-link {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        .pagination .page-item.disabled .page-link {
+            background: #f8f9fa;
+            border-color: #dee2e6;
+            color: #d1d5db;
+        }
+
+        /* Modal styles */
+        .modal-content {
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #2d3e8f 0%, #4a5fc1 100%);
+            color: white;
+            border-radius: 12px 12px 0 0;
+            padding: 1.5rem;
+        }
+
+        .info-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            color: #2d3e8f;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-item {
+            margin-bottom: 1rem;
+        }
+
+        .info-item label {
+            font-size: 0.8rem;
+            color: #6b7280;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .info-item p {
+            font-size: 0.95rem;
+            color: #111827;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .detail-table {
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+
+        .detail-table th {
+            background: #f9fafb;
+            padding: 0.75rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #6b7280;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .detail-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 0.9rem;
+        }
+
+        .detail-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .total-row {
+            background: #f9fafb;
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .container-fluid {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .action-buttons {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="header">
+    <div class="header-top py-3">
+        <div class="container-fluid px-4">
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+                <div class="logo">SunTower</div>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="text-end">
+                            <small class="d-block opacity-85">Xin chào,</small>
+                            <strong th:text="${username}">Nguyễn Văn B</strong>
+                        </div>
+                        <span class="badge-custom">NHÂN VIÊN</span>
+                    </div>
+                    <a href="/logout" class="btn btn-logout">Đăng xuất</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="nav-custom">
+        <div class="container-fluid px-4">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/staff/dashboard">
+                        <i class="bi bi-speedometer2 me-1"></i>Tổng quan
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/staff/buildings">
+                        <i class="bi bi-building me-1"></i>Tòa nhà
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/staff/contracts">
+                        <i class="bi bi-file-text me-1"></i>Hợp đồng
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/staff/customers">
+                        <i class="bi bi-people me-1"></i>Khách hàng
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/staff/invoices">
+                        <i class="bi bi-receipt me-1"></i>Hóa đơn
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<div class="container-fluid px-4 py-4">
+    <div class="page-header p-4 rounded mb-4">
+        <h1 class="h3 mb-2">Quản lý Hóa đơn</h1>
+        <p class="text-muted mb-0">Danh sách các hóa đơn đang được phân công quản lý</p>
+    </div>
+
+    <!-- Filter Card -->
+    <form class="filter-card p-4 mb-4" id="filterForm">
+        <div class="filter-header">
+            <div class="filter-title">
+                <i class="bi bi-funnel"></i>
+                Bộ lọc tìm kiếm
+            </div>
+            <button type="button" class="btn-toggle-filter" onclick="toggleFilter()">
+                <i class="bi bi-chevron-up" id="toggleIcon"></i>
+            </button>
+        </div>
+
+        <div class="filter-body" id="filterBody">
+            <!-- Thông tin cơ bản -->
+            <div class="filter-section-title">
+                <i class="bi bi-info-circle"></i> Thông tin cơ bản
+            </div>
+            <div class="row g-3 mb-4">
+                <div class="col-md-4">
+                    <label class="form-label">Tháng</label>
+                    <select class="form-select" name="month">
+                        <option value="">-- Chọn tháng --</option>
+                        <option value="1">Tháng 1</option>
+                        <option value="2">Tháng 2</option>
+                        <option value="3">Tháng 3</option>
+                        <option value="4">Tháng 4</option>
+                        <option value="5">Tháng 5</option>
+                        <option value="6">Tháng 6</option>
+                        <option value="7">Tháng 7</option>
+                        <option value="8">Tháng 8</option>
+                        <option value="9">Tháng 9</option>
+                        <option value="10">Tháng 10</option>
+                        <option value="11">Tháng 11</option>
+                        <option value="12">Tháng 12</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Năm</label>
+                    <select class="form-select" name="year" id="yearSelect">
+                        <option value="">-- Chọn năm --</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Tên khách hàng</label>
+                    <select class="form-control" name="customerId">
+                        <option value="">-- Chọn khách hàng --</option>
+                        <option th:each="c : ${customers}" th:value="${c.value}" th:text="${c.key}">
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Giá tiền và trạng thái -->
+            <div class="filter-section-title">
+                <i class="bi bi-cash-stack"></i> Tổng tiền và trạng thái
+            </div>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Tổng tiền hóa đơn (VNĐ)</label>
+                    <div class="range-inputs">
+                        <input type="number" class="form-control" name="totalAmountFrom" placeholder="Từ" min="0">
+                        <span class="range-separator">-</span>
+                        <input type="number" class="form-control" name="totalAmountTo" placeholder="Đến" min="0">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Trạng thái</label>
+                    <select class="form-select" name="status">
+                        <option value="">-- Tất cả trạng thái --</option>
+                        <option value="PAID">Đã thanh toán</option>
+                        <option value="PENDING">Chưa thanh toán</option>
+                        <option value="OVERDUE">Quá hạn</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="filter-actions">
+                <button type="button" class="btn-filter btn-reset" onclick="resetFilter()">
+                    <i class="bi bi-arrow-clockwise"></i>
+                    Đặt lại
+                </button>
+                <button type="submit" class="btn-filter btn-search">
+                    <i class="bi bi-search"></i>
+                    Tìm kiếm
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Table Card -->
+    <div class="section-card p-4">
+        <div class="section-header mb-4">
+            <h2>
+                <i class="bi bi-receipt me-2"></i>
+                Danh sách hóa đơn
+            </h2>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table modern-table">
+                <thead>
+                <tr>
+                    <th style="width: 8%;">Mã HĐ</th>
+                    <th style="width: 12%;">Hóa đơn tháng</th>
+                    <th style="width: 18%;">Khách hàng</th>
+                    <th style="width: 18%;">Tòa nhà</th>
+                    <th style="width: 12%;">Diện tích thuê</th>
+                    <th style="width: 14%;">Tổng tiền</th>
+                    <th style="width: 10%;">Trạng thái</th>
+                    <th style="width: 8%; text-align: center;">Hành động</th>
+                </tr>
+                </thead>
+
+                <tbody id="invoiceTableBody">
+                <!-- Dữ liệu sẽ được Ajax thêm vào -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <div id="pagination"></div>
+
+    <!-- Modal Chi Tiết Hóa đơn -->
+    <div id="modalContainer">
+        <!-- Ajax tải dữ liệu -->
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    // Generate year options
+    document.addEventListener('DOMContentLoaded', function () {
+        const yearSelect = document.getElementById('yearSelect');
+        const currentYear = new Date().getFullYear();
+
+        for (let i = 0; i < 10; i++) {
+            const year = currentYear - i;
+            const option = document.createElement('option');
+            option.value = year;
+            option.textContent = 'Năm ' + year;
+            yearSelect.appendChild(option);
+        }
+    });
+
+    function toggleFilter() {
+        const filterBody = document.getElementById('filterBody');
+        const toggleBtn = document.querySelector('.btn-toggle-filter');
+        const toggleIcon = document.getElementById('toggleIcon');
+
+        filterBody.classList.toggle('collapsed');
+        toggleBtn.classList.toggle('collapsed');
+
+        const isCollapsed = filterBody.classList.contains('collapsed');
+        localStorage.setItem('filterCollapsed', isCollapsed);
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const filterBody = document.getElementById('filterBody');
+        const toggleBtn = document.querySelector('.btn-toggle-filter');
+        const isCollapsed = localStorage.getItem('filterCollapsed') === 'true';
+
+        if (isCollapsed) {
+            filterBody.classList.add('collapsed');
+            toggleBtn.classList.add('collapsed');
+        }
+    });
+</script>
+
+<script>
+    let currentPage = 1;
+    const pageSize = 5;
+
+    // Hàm format tháng/năm
+    function formatMonth(month, year) {
+        if (!month || !year) return '';
+        return `Tháng ${month}/${year}`;
+    }
+
+    // Hàm format giá tiền
+    function formatPrice(price) {
+        if (price == null) return '';
+        return new Intl.NumberFormat('vi-VN')
+            .format(price)
+            .replaceAll('.', ',') + ' đ';
+    }
+
+    // Hàm format diện tích
+    function formatArea(area) {
+        if (!area) return '';
+        return new Intl.NumberFormat('vi-VN').format(area) + ' m²';
+    }
+
+    // Hàm format ngày tháng
+    function formatDate(dateString) {
+        if (!dateString) return 'Chưa cập nhật';
+        const date = new Date(dateString);
+        return date.toLocaleDateString('vi-VN');
+    }
+
+    // Hàm lấy badge status
+    function getStatusBadge(status) {
+        const statusMap = {
+            'PAID': { class: 'paid', text: 'Đã thanh toán' },
+            'PENDING': { class: 'pending', text: 'Chưa thanh toán' },
+            'OVERDUE': { class: 'overdue', text: 'Quá hạn' },
+        };
+        const s = statusMap[status] || { class: 'pending', text: status };
+        return `<span class="status-badge ${s.class}">${s.text}</span>`;
+    }
+
+    // Hàm load dữ liệu bảng hóa đơn bằng Ajax
+    function loadInvoices(page, event) {
+        if (event) event.preventDefault();
+
+        const filterData = {
+            page: page,
+            pageSize: pageSize,
+            month: $("[name='month']").val(),
+            year: $("[name='year']").val(),
+            customerId: $("[name='customerId']").val(),
+            totalAmountFrom: $("[name='totalAmountFrom']").val(),
+            totalAmountTo: $("[name='totalAmountTo']").val(),
+            status: $("[name='status']").val()
+        };
+
+        $.ajax({
+            url: "/staff/invoices/search",
+            type: "GET",
+            data: filterData,
+            success: function (data) {
+                currentPage = page;
+                const tbody = $("#invoiceTableBody");
+                tbody.empty();
+                const modalContainer = $("#modalContainer");
+                modalContainer.empty();
+
+                if (data.content.length === 0) {
+                    tbody.append(`
+            <tr>
+              <td colspan="8">
+                <div class="empty-state">
+                  <i class="bi bi-inbox"></i>
+                  <p>Không có dữ liệu hóa đơn</p>
+                </div>
+              </td>
+            </tr>
+          `);
+                    $("#pagination").empty();
+                    return;
+                }
+
+                $.each(data.content, function (i, inv) {
+                    tbody.append(`
+            <tr>
+              <td><span class="invoice-id">${inv.id}</span></td>
+              <td><span class="month-badge">${formatMonth(inv.month, inv.year)}</span></td>
+              <td><span class="customer-name">${inv.customer.fullName || ''}</span></td>
+              <td><span class="building-name">${inv.contract.building.name || ''}</span></td>
+              <td><span class="area-badge">${formatArea(inv.contract.rentArea)}</span></td>
+              <td><span class="price-badge">${formatPrice(inv.totalAmount)}</span></td>
+              <td>${getStatusBadge(inv.status)}</td>
+              <td>
+                <div class="action-buttons">
+                  <button type="button" class="btn-action btn-view" onclick="openModal('invoiceModal-${i}')">
+                    <i class="bi bi-eye"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          `);
+
+                    // Tạo modal chi tiết hóa đơn
+                    let detailsHtml = '';
+                    if (inv.details && inv.details.length > 0) {
+                        inv.details.forEach(detail => {
+                            detailsHtml += `
+                <tr>
+                  <td>${detail.description || ''}</td>
+                  <td class="text-end">${formatPrice(detail.amount)}</td>
+                </tr>
+              `;
+                        });
+                    }
+
+                    // Thông tin điện nước
+                    let utilityHtml = '';
+                    if (inv.utilityMeter) {
+                        const elecUsed = (inv.utilityMeter.electricityNew || 0) - (inv.utilityMeter.electricityOld || 0);
+                        const waterUsed = (inv.utilityMeter.waterNew || 0) - (inv.utilityMeter.waterOld || 0);
+                        utilityHtml = `
+              <div class="info-section">
+                <h6 class="section-title mb-3">
+                  <i class="bi bi-speedometer2 me-2"></i>Thông tin điện nước
+                </h6>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <div class="info-item">
+                      <label>Điện (Cũ → Mới)</label>
+                      <p>${inv.utilityMeter.electricityOld || 0} → ${inv.utilityMeter.electricityNew || 0} (${elecUsed} kWh)</p>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="info-item">
+                      <label>Nước (Cũ → Mới)</label>
+                      <p>${inv.utilityMeter.waterOld || 0} → ${inv.utilityMeter.waterNew || 0} (${waterUsed} m³)</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `;
+                    }
+
+                    modalContainer.append(`
+            <div class="modal fade" id="invoiceModal-${i}" tabindex="-1" aria-labelledby="modalLabel-${i}" aria-hidden="true">
+              <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <div>
+                      <h5 class="modal-title fw-bold mb-1" id="modalLabel-${i}">
+                        <i class="bi bi-receipt me-2"></i>Chi tiết hóa đơn
+                      </h5>
+                      <small style="opacity: 0.9;">Mã hóa đơn: #${inv.id}</small>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+
+                  <!-- Modal Body -->
+                  <div class="modal-body" style="padding: 2rem;">
+
+                    <!-- Thông tin hóa đơn -->
+                    <div class="info-section">
+                      <h6 class="section-title mb-3">
+                        <i class="bi bi-receipt me-2"></i>Thông tin hóa đơn
+                      </h6>
+                      <div class="row g-3">
+                        <div class="col-md-3">
+                          <div class="info-item">
+                            <label>Tháng/Năm</label>
+                            <p>${formatMonth(inv.month, inv.year)}</p>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="info-item">
+                            <label>Trạng thái</label>
+                            <p>${getStatusBadge(inv.status)}</p>
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="info-item">
+                            <label>Ngày tạo</label>
+                            <p>${formatDate(inv.createdDate)}</p>
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="info-item">
+                            <label>Hạn thanh toán</label>
+                            <p>${inv.dueDate}</p>
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="info-item">
+                            <label>Ngày thanh toán</label>
+                            <p>${inv.paidDate}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Thông tin khách hàng -->
+                    <div class="info-section">
+                      <h6 class="section-title mb-3">
+                        <i class="bi bi-person-circle me-2"></i>Thông tin khách hàng
+                      </h6>
+                      <div class="row g-3">
+                        <div class="col-md-4">
+                          <div class="info-item">
+                            <label>Họ và tên</label>
+                            <p>${inv.customer.fullName || 'N/A'}</p>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="info-item">
+                            <label>Số điện thoại</label>
+                            <p><i class="bi bi-telephone me-1" style="color: #2d3e8f;"></i>${inv.customer.phone || 'N/A'}</p>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="info-item">
+                            <label>Email</label>
+                            <p><i class="bi bi-envelope me-1" style="color: #2d3e8f;"></i>${inv.customer.email || 'N/A'}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Thông tin hợp đồng -->
+                    <div class="info-section">
+                      <h6 class="section-title mb-3">
+                        <i class="bi bi-file-text me-2"></i>Thông tin hợp đồng
+                      </h6>
+                      <div class="row g-3">
+                        <div class="col-md-3">
+                          <div class="info-item">
+                            <label>Mã hợp đồng</label>
+                            <p>#${inv.contract.id}</p>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="info-item">
+                            <label>Tòa nhà</label>
+                            <p>${inv.contract.building.name || 'N/A'}</p>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="info-item">
+                            <label>Diện tích thuê</label>
+                            <p>${formatArea(inv.contract.rentArea)}</p>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="info-item">
+                            <label>Giá thuê/tháng</label>
+                            <p>${formatPrice(inv.contract.rentPrice)}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    ${utilityHtml}
+
+                    <!-- Chi tiết hóa đơn -->
+                    <div class="info-section">
+                      <h6 class="section-title mb-3">
+                        <i class="bi bi-list-check me-2"></i>Chi tiết các khoản phí
+                      </h6>
+                      <table class="detail-table">
+                        <thead>
+                          <tr>
+                            <th>Mô tả</th>
+                            <th class="text-end">Số tiền</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          ${detailsHtml}
+                          <tr class="total-row">
+                            <td>TỔNG CỘNG</td>
+                            <td class="text-end">${formatPrice(inv.totalAmount)}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                  </div>
+
+                  <!-- Modal Footer -->
+                  <div class="modal-footer" style="background: #f9fafb; border-top: 1px solid #e5e7eb; padding: 1rem 2rem;">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="padding: 0.5rem 1.5rem; border-radius: 6px; font-weight: 600;">
+                      <i class="bi bi-x-circle me-1"></i>Đóng
+                    </button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          `);
+                });
+
+                renderPagination(data.totalPages, page);
+            },
+            error: function () {
+                alert("Không tải được dữ liệu!");
+            }
+        });
+    }
+
+    // Hàm render phân trang Bootstrap
+    function renderPagination(totalPages, current) {
+        const pagination = $("#pagination");
+        pagination.empty();
+
+        if (totalPages <= 1) return;
+
+        let html = `
+      <nav class="pagination-wrapper">
+        <ul class="pagination justify-content-center">
+    `;
+
+        // Nút "First"
+        html += `
+      <li class="page-item ${current === 1 ? 'disabled' : ''}">
+        <a href="#" class="page-link" onclick="loadInvoices(1, event)">First</a>
+      </li>
+    `;
+
+        // Nút "Previous"
+        html += `
+      <li class="page-item ${current === 1 ? 'disabled' : ''}">
+        <a href="#" class="page-link" onclick="loadInvoices(${current - 1}, event)">
+          <i class="bi bi-chevron-left"></i>
+        </a>
+      </li>
+    `;
+
+        // Các trang số
+        const blockSize = 5;
+        const blockStart = Math.floor((current - 1) / blockSize) * blockSize + 1;
+        let blockEnd = blockStart + blockSize - 1;
+        if (blockEnd > totalPages) blockEnd = totalPages;
+
+        for (let i = blockStart; i <= blockEnd; i++) {
+            html += `
+        <li class="page-item ${i === current ? 'active' : ''}">
+          <a href="#" class="page-link" onclick="loadInvoices(${i}, event)">${i}</a>
+        </li>
+      `;
+        }
+
+        // Nút "Next"
+        html += `
+      <li class="page-item ${current === totalPages ? 'disabled' : ''}">
+        <a href="#" class="page-link" onclick="loadInvoices(${current + 1}, event)">
+          <i class="bi bi-chevron-right"></i>
+        </a>
+      </li>
+    `;
+
+        // Nút "Last"
+        html += `
+      <li class="page-item ${current === totalPages ? 'disabled' : ''}">
+        <a href="#" class="page-link" onclick="loadInvoices(${totalPages}, event)">Last</a>
+      </li>
+    `;
+
+        html += `
+        </ul>
+      </nav>
+    `;
+
+        pagination.html(html);
+    }
+
+    // Khi trang load, gọi Ajax lần đầu
+    $(document).ready(function () {
+        loadInvoices(1);
+
+        // Hàm highlight trường có giá trị
+        function highlightFilledInputs() {
+            $('.filter-card .form-control, .filter-card .form-select').each(function () {
+                const $input = $(this);
+                if ($input.val() && $input.val().trim() !== '') {
+                    $input.addClass('has-value');
+                } else {
+                    $input.removeClass('has-value');
+                }
+            });
+        }
+
+        // Highlight các trường đã có giá trị khi load trang
+        highlightFilledInputs();
+
+        // Lắng nghe sự kiện input/change để highlight real-time
+        $('.filter-card .form-control, .filter-card .form-select').on('input change', function () {
+            const $this = $(this);
+            if ($this.val() && $this.val().trim() !== '') {
+                $this.addClass('has-value');
+            } else {
+                $this.removeClass('has-value');
+            }
+        });
+    });
+
+    // Submit form tìm kiếm
+    $("#filterForm").on("submit", function (e) {
+        e.preventDefault();
+        loadInvoices(1);
+    });
+
+    function resetFilter() {
+        document.querySelectorAll('.form-control, .form-select').forEach(input => {
+            input.value = '';
+        });
+
+        setTimeout(function () {
+            $('.filter-card .form-control, .filter-card .form-select').removeClass('has-value');
+        }, 10);
+
+        loadInvoices(1);
+    }
+
+    // Hàm mở modal
+    function openModal(modalId) {
+        const modalElement = document.getElementById(modalId);
+        if (modalElement) {
+            const modal = new bootstrap.Modal(modalElement);
+            modal.show();
+        }
+    }
+</script>
+</body>
+
+</html>
