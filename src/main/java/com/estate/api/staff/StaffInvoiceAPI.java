@@ -6,10 +6,8 @@ import com.estate.dto.InvoiceFilterDTO;
 import com.estate.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/staff/invoices")
@@ -24,5 +22,11 @@ public class StaffInvoiceAPI {
             InvoiceFilterDTO filter
     ) {
         return invoiceService.searchByStaff(filter, page - 1, size);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteInvoice(@PathVariable Long id) {
+        invoiceService.delete(id);
+        return ResponseEntity.ok().build();
     }
 }
