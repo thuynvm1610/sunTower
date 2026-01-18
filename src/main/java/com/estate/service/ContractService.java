@@ -16,6 +16,7 @@ public interface ContractService {
     Map<Long, Long> getContractCountByYear();
     Page<ContractListDTO> getContracts(int page, int size);
     Page<ContractListDTO> search(ContractFilterDTO filter, int page, int size);
+    Page<ContractDetailDTO> searchByStaff(ContractFilterDTO filter, int page, int size);
     void save(ContractFormDTO dto);
     void delete(Long id);
     ContractFormDTO findById(Long id);

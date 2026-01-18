@@ -228,6 +228,32 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
+    public Page<ContractDetailDTO> searchByStaff(ContractFilterDTO filter, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<ContractEntity> contractPage = contractRepository.searchContracts(filter, pageable);
+
+        // Tạo list chứa DTO
+        List<ContractDetailDTO> dtoList = new ArrayList<>();
+
+        // Duyệt qua từng ContractEntity
+        for (ContractEntity c : contractPage) {
+            // Convert entity sang DTO
+            ContractDetailDTO dto = contractDetailConverter.toDto(c);
+
+            dtoList.add(dto);
+        }
+
+        // Tạo PageImpl giữ nguyên thông tin phân trang gốc
+        Page<ContractDetailDTO> result = new PageImpl<>(
+                dtoList,
+                contractPage.getPageable(),
+                contractPage.getTotalElements()
+        );
+
+        return result;
+    }
+
+    @Override
     public void save(ContractFormDTO dto) {
         ContractEntity entity;
 
