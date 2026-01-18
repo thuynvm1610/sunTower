@@ -12,6 +12,7 @@ public interface CustomerService {
     List<PotentialCustomersDTO>getTopCustomers();
     Page<CustomerListDTO> getCustomers(int page, int size);
     Page<CustomerListDTO> search(String fullName, int page, int size);
+    Page<CustomerDetailDTO> searchByStaff(String fullName, int page, int size);
     void save(CustomerFormDTO dto);
     void delete(Long id);
     CustomerDetailDTO viewById(Long id);

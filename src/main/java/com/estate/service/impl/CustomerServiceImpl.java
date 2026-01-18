@@ -124,6 +124,31 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public Page<CustomerDetailDTO> searchByStaff(String fullName, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<CustomerEntity> customerPage = customerRepository.findByFullNameContainingIgnoreCase(fullName, pageable);
+
+        // Tạo list chứa DTO
+        List<CustomerDetailDTO> dtoList = new ArrayList<>();
+
+        // Duyệt qua từng CustomerEntity
+        for (CustomerEntity c : customerPage) {
+            // Convert entity sang DTO
+            CustomerDetailDTO dto = customerDetailConverter.toDTO(c);
+            dtoList.add(dto);
+        }
+
+        // Tạo PageImpl giữ nguyên thông tin phân trang gốc
+        Page<CustomerDetailDTO> result = new PageImpl<>(
+                dtoList,
+                customerPage.getPageable(),
+                customerPage.getTotalElements()
+        );
+
+        return result;
+    }
+
+    @Override
     public void save(CustomerFormDTO dto) {
         CustomerEntity entity;
 
