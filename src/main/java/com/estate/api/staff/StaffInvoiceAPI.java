@@ -1,8 +1,8 @@
 package com.estate.api.staff;
 
-import com.estate.dto.CustomerDetailDTO;
 import com.estate.dto.InvoiceDetailDTO;
 import com.estate.dto.InvoiceFilterDTO;
+import com.estate.dto.InvoiceFormDTO;
 import com.estate.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,5 +28,11 @@ public class StaffInvoiceAPI {
     public ResponseEntity<?> deleteInvoice(@PathVariable Long id) {
         invoiceService.delete(id);
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping ("/edit")
+    public ResponseEntity<?> editInvoice(@RequestBody InvoiceFormDTO dto) {
+        invoiceService.save(dto);
+        return ResponseEntity.ok("Sửa hóa đơn thành công");
     }
 }

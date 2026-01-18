@@ -581,6 +581,168 @@
             font-weight: 700;
         }
 
+        /* Edit Modal Styles */
+        .info-box {
+            background: #fef3c7;
+            border: 1px solid #fbbf24;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .info-box i {
+            color: #f59e0b;
+            font-size: 1.125rem;
+        }
+
+        .info-box-content {
+            font-size: 0.875rem;
+            color: #78350f;
+            line-height: 1.5;
+        }
+
+        .readonly-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            background: #f3f4f6;
+            color: #6b7280;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            margin-left: 0.5rem;
+        }
+
+        .form-control.editable {
+            background-color: #fffbeb;
+            border-color: #fbbf24;
+        }
+
+        .form-control.editable:focus {
+            background-color: white;
+            border-color: var(--primary-color);
+        }
+
+        .input-group-text {
+            background: #f9fafb;
+            border: 1px solid #dee2e6;
+            color: #6b7280;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .input-group:focus-within .input-group-text {
+            border-color: var(--primary-color);
+            background: #eff6ff;
+            color: var(--primary-color);
+        }
+
+        .status-card {
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .status-card:hover {
+            border-color: var(--primary-color);
+            background: #f0f9ff;
+        }
+
+        .status-card.selected {
+            border-color: var(--primary-color);
+            background: #eff6ff;
+        }
+
+        .status-card input[type="radio"] {
+            display: none;
+        }
+
+        .status-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #6b7280;
+        }
+
+        .status-card.selected .status-icon {
+            color: var(--primary-color);
+        }
+
+        .status-title {
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: #111827;
+            margin-bottom: 0.25rem;
+        }
+
+        .status-desc {
+            font-size: 0.7rem;
+            color: #6b7280;
+        }
+
+        .fee-item {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .fee-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .fee-label i {
+            color: var(--primary-color);
+        }
+
+        .total-amount-box {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .total-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .total-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .total-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .required {
+            color: #ef4444;
+            margin-left: 0.25rem;
+        }
+
         @media (max-width: 768px) {
             .container-fluid {
                 padding-left: 1rem;
@@ -787,10 +949,12 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- CDN SweetAlert2 -->
+<!-- Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- SweetAlert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
     // Generate year options
@@ -931,12 +1095,12 @@
               <td>${getStatusBadge(inv.status)}</td>
               <td>
                 <div class="action-buttons">
-                  <button type="button" class="btn-action btn-view" onclick="openModal('invoiceModal-${i}')" title="Xem chi tiết">
+                  <button type="button" class="btn-action btn-view" onclick="openViewModal('invoiceModal-${i}')" title="Xem chi tiết">
                     <i class="bi bi-eye"></i>
                   </button>
-                  <a href="/staff/invoices/edit/${inv.id}" class="btn-action btn-edit" title="Chỉnh sửa">
+                  <button type="button" class="btn-action btn-edit" onclick="openEditModal('invoiceEditModal-${i}')" title="Chỉnh sửa">
                     <i class="bi bi-pencil"></i>
-                  </a>
+                  </button>
                   <button type="button" class="btn-action btn-delete" onclick="deleteInvoice(${inv.id})" title="Xóa">
                     <i class="bi bi-trash"></i>
                   </button>
@@ -1037,7 +1201,7 @@
                         </div>
                         <div class="col-md-2">
                           <div class="info-item">
-                            <labe>Ngày thanh toán</label>
+                            <label>Ngày thanh toán</label>
                             <p>${inv.paidDate}</p>
                           </div>
                         </div>
@@ -1134,6 +1298,200 @@
                   <div class="modal-footer" style="background: #f9fafb; border-top: 1px solid #e5e7eb; padding: 1rem 2rem;">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="padding: 0.5rem 1.5rem; border-radius: 6px; font-weight: 600;">
                       <i class="bi bi-x-circle me-1"></i>Đóng
+                    </button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          `);
+
+                    // Tạo modal chỉnh sửa hóa đơn
+                    const electricityUsage = inv.utilityMeter ? ((inv.utilityMeter.electricityNew || 0) - (inv.utilityMeter.electricityOld || 0)) : 0;
+                    const waterUsage = inv.utilityMeter ? ((inv.utilityMeter.waterNew || 0) - (inv.utilityMeter.waterOld || 0)) : 0;
+
+                    // Tính đơn giá điện nước
+                    const electricityDetail = inv.details.find(d => d.description.includes('điện')) || {};
+                    const waterDetail = inv.details.find(d => d.description.includes('nước')) || {};
+                    const electricityUnitPrice = electricityUsage > 0 ? (electricityDetail.amount || 0) / electricityUsage : 0;
+                    const waterUnitPrice = waterUsage > 0 ? (waterDetail.amount || 0) / waterUsage : 0;
+
+                    // Lấy các khoản phí
+                    const rentPrice = inv.details.find(d => d.description.includes('thuê'))?.amount || 0;
+                    const serviceFee = inv.details.find(d => d.description.includes('dịch vụ'))?.amount || 0;
+                    const carFee = inv.details.find(d => d.description.includes('ô tô'))?.amount || 0;
+                    const motorbikeFee = inv.details.find(d => d.description.includes('xe máy'))?.amount || 0;
+
+                    const dueDateISO = toISODate(inv.dueDate);
+
+                    const editModalData = {
+                        contractId: inv.contract.id,
+                        customerId: inv.customer.id,
+                        month: inv.month,
+                        year: inv.year,
+                        rentPrice: rentPrice,
+                        serviceFee: serviceFee,
+                        carFee: carFee,
+                        motorbikeFee: motorbikeFee,
+                        electricityUnitPrice: electricityUnitPrice,
+                        waterUnitPrice: waterUnitPrice
+                    };
+
+                    modalContainer.append(`
+            <div class="modal fade" id="invoiceEditModal-${i}" tabindex="-1" aria-labelledby="editModalLabel-${i}" aria-hidden="true" data-invoice-data='${JSON.stringify(editModalData)}'>
+              <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <div>
+                      <h5 class="modal-title fw-bold mb-1" id="editModalLabel-${i}">
+                        <i class="bi bi-pencil-square me-2"></i>Chỉnh sửa hóa đơn
+                      </h5>
+                      <small style="opacity: 0.9;">Mã hóa đơn: #${inv.id}</small>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+
+                  <!-- Modal Body -->
+                  <form id="editForm-${i}" class="modal-body" style="padding: 2rem;">
+
+                    <!-- Info Box -->
+                    <div class="info-box">
+                      <i class="bi bi-exclamation-triangle"></i>
+                      <div class="info-box-content">
+                        <strong>Lưu ý:</strong> Chỉ có thể chỉnh sửa: Số điện, Số nước, Hạn thanh toán và Trạng thái.
+                      </div>
+                    </div>
+
+                    <!-- Thông tin cơ bản (READ-ONLY) -->
+                    <div class="info-section">
+                      <h6 class="section-title mb-3">
+                        <i class="bi bi-file-text me-2"></i>Thông tin cơ bản
+                        <span class="readonly-badge">
+                          <i class="bi bi-lock-fill"></i> Chỉ xem
+                        </span>
+                      </h6>
+                      <div class="row g-3">
+                        <div class="col-md-4">
+                          <label class="form-label">Khách hàng</label>
+                          <input type="text" class="form-control" value="${inv.customer.fullName}" disabled>
+                        </div>
+                        <div class="col-md-4">
+                          <label class="form-label">Tòa nhà</label>
+                          <input type="text" class="form-control" value="${inv.contract.building.name}" disabled>
+                        </div>
+                        <div class="col-md-4">
+                          <label class="form-label">Diện tích thuê</label>
+                          <input type="text" class="form-control" value="${formatArea(inv.contract.rentArea)}" disabled>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Thông tin kỳ hóa đơn -->
+                    <div class="info-section">
+                      <h6 class="section-title mb-3">
+                        <i class="bi bi-calendar me-2"></i>Thông tin kỳ hóa đơn
+                      </h6>
+                      <div class="row g-3">
+                        <div class="col-md-4">
+                          <label class="form-label">Tháng</label>
+                          <input type="text" class="form-control" value="Tháng ${inv.month}" disabled>
+                        </div>
+                        <div class="col-md-4">
+                          <label class="form-label">Năm</label>
+                          <input type="text" class="form-control" value="Năm ${inv.year}" disabled>
+                        </div>
+                        <div class="col-md-4">
+                          <label class="form-label">Hạn thanh toán <span class="required">*</span></label>
+                            <input type="date" class="form-control editable" name="dueDate"
+                                     value="${dueDateISO}" required>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Chỉ số điện nước (EDITABLE) -->
+                    <div class="info-section">
+                      <h6 class="section-title mb-3">
+                        <i class="bi bi-speedometer me-2"></i>Chỉ số điện nước
+                        <span class="required">* Có thể chỉnh sửa</span>
+                      </h6>
+                      <div class="row g-3">
+                        <div class="col-md-6">
+                          <label class="form-label">Số điện sử dụng (kWh) <span class="required">*</span></label>
+                          <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-lightning-charge"></i></span>
+                            <input type="number" class="form-control editable electricity-usage" name="electricityUsage" value="${electricityUsage}" min="0" required>
+                            <span class="input-group-text">kWh</span>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <label class="form-label">Số nước sử dụng (m³) <span class="required">*</span></label>
+                          <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-droplet"></i></span>
+                            <input type="number" class="form-control editable water-usage" name="waterUsage" value="${waterUsage}" min="0" required>
+                            <span class="input-group-text">m³</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Tổng tiền -->
+                    <div class="info-section">
+                      <h6 class="section-title mb-3">
+                        <i class="bi bi-calculator me-2"></i>Tổng tiền
+                      </h6>
+                      <div class="total-amount-box">
+                        <div class="total-display">
+                          <span class="total-label">Tổng tiền hóa đơn:</span>
+                          <span class="total-value total-amount-display">${formatPrice(inv.totalAmount)}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Trạng thái (EDITABLE) -->
+                    <div class="info-section">
+                      <h6 class="section-title mb-3">
+                        <i class="bi bi-toggle-on me-2"></i>Trạng thái thanh toán
+                        <span class="required">*</span>
+                      </h6>
+                      <div class="row g-3">
+                        <div class="col-md-4">
+                          <label class="status-card ${inv.status === 'PENDING' ? 'selected' : ''}" for="statusPending-${i}">
+                            <input type="radio" name="status-${i}" value="PENDING" id="statusPending-${i}" ${inv.status === 'PENDING' ? 'checked' : ''}>
+                            <div class="status-icon"><i class="bi bi-clock-history"></i></div>
+                            <div class="status-title">Chờ thanh toán</div>
+                            <div class="status-desc">Hóa đơn chưa được thanh toán</div>
+                          </label>
+                        </div>
+                        <div class="col-md-4">
+                          <label class="status-card ${inv.status === 'PAID' ? 'selected' : ''}" for="statusPaid-${i}">
+                            <input type="radio" name="status-${i}" value="PAID" id="statusPaid-${i}" ${inv.status === 'PAID' ? 'checked' : ''}>
+                            <div class="status-icon"><i class="bi bi-check-circle"></i></div>
+                            <div class="status-title">Đã thanh toán</div>
+                            <div class="status-desc">Hóa đơn đã được thanh toán</div>
+                          </label>
+                        </div>
+                        <div class="col-md-4">
+                          <label class="status-card ${inv.status === 'OVERDUE' ? 'selected' : ''}" for="statusOverdue-${i}">
+                            <input type="radio" name="status-${i}" value="OVERDUE" id="statusOverdue-${i}" ${inv.status === 'OVERDUE' ? 'checked' : ''}>
+                            <div class="status-icon"><i class="bi bi-exclamation-triangle"></i></div>
+                            <div class="status-title">Quá hạn</div>
+                            <div class="status-desc">Hóa đơn đã quá hạn thanh toán</div>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                  </form>
+
+                  <!-- Modal Footer -->
+                  <div class="modal-footer" style="background: #f9fafb; border-top: 1px solid #e5e7eb; padding: 1rem 2rem;">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="padding: 0.5rem 1.5rem; border-radius: 6px; font-weight: 600;">
+                      <i class="bi bi-x-circle me-1"></i>Hủy
+                    </button>
+                    <button type="button" class="btn" onclick="saveInvoice(${i}, ${inv.id})" style="background: var(--primary-color); color: white; padding: 0.5rem 1.5rem; border-radius: 6px; font-weight: 600;">
+                      <i class="bi bi-check-circle me-1"></i>Lưu thay đổi
                     </button>
                   </div>
 
@@ -1265,13 +1623,176 @@
         loadInvoices(1);
     }
 
-    // Hàm mở modal
-    function openModal(modalId) {
+    // Hàm mở modal xem
+    function openViewModal(modalId) {
         const modalElement = document.getElementById(modalId);
         if (modalElement) {
             const modal = new bootstrap.Modal(modalElement);
             modal.show();
         }
+    }
+
+    function toISODate(dateTimeStr) {
+        if (!dateTimeStr) return "";
+        // "16-10-2019 00:00"
+        const [datePart] = dateTimeStr.split(" "); // "16-10-2019"
+        const [dd, mm, yyyy] = datePart.split("-");
+        return `${yyyy}-${mm.padStart(2, "0")}-${dd.padStart(2, "0")}`;
+    }
+
+    // Hàm mở modal chỉnh sửa
+    function openEditModal(modalId) {
+        const modalElement = document.getElementById(modalId);
+        if (modalElement) {
+            const modal = new bootstrap.Modal(modalElement);
+            modal.show();
+
+            // Khởi tạo sự kiện cho status cards
+            const statusCards = modalElement.querySelectorAll('.status-card');
+            const statusRadios = modalElement.querySelectorAll('input[type="radio"]');
+
+            statusRadios.forEach(radio => {
+                radio.addEventListener('change', function () {
+                    statusCards.forEach(card => card.classList.remove('selected'));
+                    if (this.checked) {
+                        this.closest('.status-card').classList.add('selected');
+                    }
+                });
+            });
+
+            // Khởi tạo tính toán tổng tiền khi thay đổi điện/nước
+            const form = modalElement.querySelector('form');
+            const electricityInput = form.querySelector('.electricity-usage');
+            const waterInput = form.querySelector('.water-usage');
+            const totalDisplay = form.querySelector('.total-amount-display');
+
+            // Lấy thông tin từ data attributes (sẽ được set khi tạo modal)
+            const invoiceData = JSON.parse(modalElement.dataset.invoiceData || '{}');
+
+            function updateTotal() {
+                const elecUsage = Number(electricityInput.value) || 0;
+                const waterUsage = Number(waterInput.value) || 0;
+
+                const total =
+                    (invoiceData.rentPrice || 0) +
+                    (invoiceData.serviceFee || 0) +
+                    (invoiceData.carFee || 0) +
+                    (invoiceData.motorbikeFee || 0) +
+                    elecUsage * (invoiceData.electricityUnitPrice || 0) +
+                    waterUsage * (invoiceData.waterUnitPrice || 0);
+
+                totalDisplay.textContent = formatPrice(total);
+            }
+
+            electricityInput.addEventListener('input', updateTotal);
+            waterInput.addEventListener('input', updateTotal);
+        }
+    }
+
+    // Hàm lưu hóa đơn
+    function saveInvoice(index, invoiceId) {
+        const modalElement = document.getElementById(`invoiceEditModal-${index}`);
+        const form = modalElement.querySelector('form');
+
+        // Validate form
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+
+        const invoiceData = JSON.parse(modalElement.dataset.invoiceData || '{}');
+        const electricityUsage = Number(form.querySelector('[name="electricityUsage"]').value) || 0;
+        const waterUsage = Number(form.querySelector('[name="waterUsage"]').value) || 0;
+
+        // Tính lại details
+        const details = [
+            {
+                description: "Tiền thuê mặt bằng",
+                amount: invoiceData.rentPrice
+            },
+            {
+                description: "Phí dịch vụ",
+                amount: invoiceData.serviceFee
+            },
+            {
+                description: "Phí gửi ô tô",
+                amount: invoiceData.carFee
+            },
+            {
+                description: "Phí gửi xe máy",
+                amount: invoiceData.motorbikeFee
+            },
+            {
+                description: "Phí điện",
+                amount: electricityUsage * invoiceData.electricityUnitPrice
+            },
+            {
+                description: "Phí nước",
+                amount: waterUsage * invoiceData.waterUnitPrice
+            }
+        ];
+
+        const totalAmount = details.reduce((sum, d) => sum + Number(d.amount || 0), 0);
+
+        const data = {
+            id: invoiceId,
+            contractId: invoiceData.contractId,
+            customerId: invoiceData.customerId,
+            month: invoiceData.month,
+            year: invoiceData.year,
+            status: form.querySelector('input[type="radio"]:checked').value,
+            dueDate: form.querySelector('[name="dueDate"]').value,
+            totalAmount: totalAmount,
+            details: details,
+            electricityUsage: electricityUsage,
+            waterUsage: waterUsage
+        };
+
+        // Gửi request
+        Swal.fire({
+            title: 'Đang xử lý...',
+            text: 'Vui lòng đợi',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        $.ajax({
+            url: "/staff/invoices/edit",
+            type: "PUT",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function () {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công',
+                    text: 'Cập nhật hóa đơn thành công!',
+                    timer: 1500,
+                    showConfirmButton: false
+                }).then(() => {
+                    const modal = bootstrap.Modal.getInstance(modalElement);
+                    modal.hide();
+                    loadInvoices(currentPage);
+                });
+            },
+            error: function (xhr) {
+                const err = xhr.responseJSON;
+                if (err && err.message) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: err.message
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: 'Cập nhật thất bại!'
+                    });
+                }
+            }
+        });
     }
 
     // Hàm xóa hóa đơn
