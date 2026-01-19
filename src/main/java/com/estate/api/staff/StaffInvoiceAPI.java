@@ -35,4 +35,10 @@ public class StaffInvoiceAPI {
         invoiceService.save(dto);
         return ResponseEntity.ok("Sửa hóa đơn thành công");
     }
+
+    @PostMapping("/add")
+    public ResponseEntity<?> addInvoice(@RequestBody InvoiceFormDTO dto) {
+        invoiceService.save(dto);
+        return ResponseEntity.ok("Thêm hóa đơn thành công");
+    }
 }

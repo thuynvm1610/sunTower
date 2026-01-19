@@ -1,7 +1,10 @@
 package com.estate.controller.staff;
 
+import com.estate.dto.ContractFeeDTO;
 import com.estate.security.CustomUserDetails;
+import com.estate.service.ContractService;
 import com.estate.service.CustomerService;
+import com.estate.service.InvoiceService;
 import com.estate.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -11,6 +14,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+import java.util.Map;
+
 @Controller
 @RequestMapping("/staff")
 public class StaffInvoiceController {
@@ -19,6 +25,12 @@ public class StaffInvoiceController {
 
     @Autowired
     CustomerService customerService;
+
+    @Autowired
+    ContractService contractService;
+
+    @Autowired
+    InvoiceService invoiceService;
 
     @GetMapping("/invoices")
     public String invoice(
@@ -33,6 +45,17 @@ public class StaffInvoiceController {
         model.addAttribute("staffAvatar", staffService.getStaffAvatar(user.getCustomerId()));
 
         model.addAttribute("status", status);
+
+        model.addAttribute("customers", customerService.getCustomersName());
+
+        Map<Long, List<Long>> contracts = contractService.getActiveContracts();
+        model.addAttribute("contracts", contracts);
+
+        Map<Long, ContractFeeDTO> contractFees = contractService.getContractsFees();
+        model.addAttribute("contractFees", contractFees);
+
+        Map<Long, Integer> rentAreas = invoiceService.getRentAreaByContract();
+        model.addAttribute("rentAreas", rentAreas);
 
         return "staff/invoice-list";
     }
