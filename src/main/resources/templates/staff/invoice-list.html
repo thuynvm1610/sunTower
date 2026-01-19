@@ -909,10 +909,10 @@
                 <div class="col-md-6">
                     <label class="form-label">Trạng thái</label>
                     <select class="form-select" name="status">
-                        <option value="">-- Tất cả trạng thái --</option>
-                        <option value="PAID">Đã thanh toán</option>
-                        <option value="PENDING">Chưa thanh toán</option>
-                        <option value="OVERDUE">Quá hạn</option>
+                        <option value="" th:selected="${status == ''}">-- Tất cả trạng thái --</option>
+                        <option value="PAID" th:selected="${status == 'PAID'}">Đã thanh toán</option>
+                        <option value="PENDING" th:selected="${status == 'PENDING'}">Chưa thanh toán</option>
+                        <option value="OVERDUE" th:selected="${status == 'OVERDUE'}">Quá hạn</option>
                     </select>
                 </div>
             </div>
