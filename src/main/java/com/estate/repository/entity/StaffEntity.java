@@ -40,6 +40,9 @@ public class StaffEntity {
     @Column
     private String role; // ADMIN, STAFF
 
+    @Column
+    private String image;
+
     @Column(name = "created_date")
     private LocalDateTime createdDate;
 

@@ -41,8 +41,9 @@ public class StaffDashboardController {
 
         model.addAttribute("expiringContracts", contractService.getExpiringContracts());
 
-        String username = staffService.getStaffName(user.getCustomerId());
-        model.addAttribute("username", username);
+        model.addAttribute("staffName", staffService.getStaffName(user.getCustomerId()));
+
+        model.addAttribute("staffAvatar", staffService.getStaffAvatar(user.getCustomerId()));
 
         return "/staff/dashboard";
     }

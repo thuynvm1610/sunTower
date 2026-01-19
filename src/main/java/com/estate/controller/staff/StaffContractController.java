@@ -33,8 +33,9 @@ public class StaffContractController {
         model.addAttribute("customers", customerService.getCustomersName());
         model.addAttribute("buildings", buildingService.getBuildingsName());
 
-        String username = staffService.getStaffName(user.getCustomerId());
-        model.addAttribute("username", username);
+        model.addAttribute("staffName", staffService.getStaffName(user.getCustomerId()));
+
+        model.addAttribute("staffAvatar", staffService.getStaffAvatar(user.getCustomerId()));
 
         return "staff/contract-list";
     }

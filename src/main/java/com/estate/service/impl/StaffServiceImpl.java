@@ -177,4 +177,9 @@ public class StaffServiceImpl implements StaffService {
     public String getStaffName(Long staffId) {
         return staffRepository.findById(staffId).get().getFullName();
     }
+
+    @Override
+    public String getStaffAvatar(Long staffId) {
+        return staffRepository.findById(staffId).get().getImage();
+    }
 }

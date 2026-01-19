@@ -18,4 +18,5 @@ public interface StaffService {
     Long getBuildingCnt(Long staffId);
     Long getCustomertCnt(Long staffId);
     String getStaffName(Long staffId);
+    String getStaffAvatar(Long staffId);
 }

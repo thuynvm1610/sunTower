@@ -489,6 +489,23 @@
                 flex-wrap: wrap;
             }
         }
+
+        /* Avatar hover effects */
+        .header-top img.rounded-circle {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        }
+
+        .header-top img.rounded-circle:hover {
+            transform: scale(1.1);
+            border-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
     </style>
 </head>
 
@@ -502,9 +519,13 @@
                     <div class="d-flex align-items-center gap-3">
                         <div class="text-end">
                             <small class="d-block opacity-85">Xin chào,</small>
-                            <strong th:text="${username}">Nguyễn Văn B</strong>
+                            <strong th:text="${staffName}">Nguyễn Văn B</strong>
                         </div>
-                        <span class="badge-custom">NHÂN VIÊN</span>
+                        <!-- Avatar -->
+                        <img th:src="@{'/images/staff_img/' + ${staffAvatar} + '.jpg'}"
+                             alt="Avatar"
+                             class="rounded-circle"
+                             style="width: 40px; height: 40px; object-fit: cover;">
                     </div>
                     <a href="/logout" class="btn btn-logout">Đăng xuất</a>
                 </div>

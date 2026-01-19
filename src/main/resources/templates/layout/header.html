@@ -7,10 +7,11 @@
     <div class="d-flex align-items-center">
         <div class="user-info">
             <span class="user-greeting">Xin chào,</span>
-            <strong class="user-name" th:text="${#authentication.name}">Nguyễn Văn Minh Thủy</strong>
+            <strong class="user-name" th:text="${staffName}">Nguyễn Văn Minh Thủy</strong>
         </div>
         <div class="avatar-wrapper">
-            <img src="/images/05.jpg" alt="Admin Avatar">
+            <img th:src="@{'/images/staff_img/' + ${staffAvatar} + '.jpg'}"
+                 alt="Admin Avatar">
             <span class="status-indicator"></span>
         </div>
     </div>

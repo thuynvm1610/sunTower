@@ -37,8 +37,9 @@ public class StaffBuildingController {
         model.addAttribute("levels", Level.values());
         model.addAttribute("districts", districtService.findAll());
 
-        String username = staffService.getStaffName(user.getCustomerId());
-        model.addAttribute("username", username);
+        model.addAttribute("staffName", staffService.getStaffName(user.getCustomerId()));
+
+        model.addAttribute("staffAvatar", staffService.getStaffAvatar(user.getCustomerId()));
 
         return "staff/building-list";
     }

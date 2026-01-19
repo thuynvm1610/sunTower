@@ -2,11 +2,13 @@ package com.estate.controller.admin;
 
 import com.estate.dto.PotentialCustomersDTO;
 import com.estate.dto.StaffPerformanceDTO;
+import com.estate.security.CustomUserDetails;
 import com.estate.service.BuildingService;
 import com.estate.service.ContractService;
 import com.estate.service.CustomerService;
 import com.estate.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +35,10 @@ public class AdminDashboardController {
     private ContractService contractService;
 
     @GetMapping("/dashboard")
-    public String showDashboard(Model model) {
+    public String showDashboard(
+            Model model,
+            @AuthenticationPrincipal CustomUserDetails user
+            ) {
         model.addAttribute("pageTitle", "Trang quản trị hệ thống SunTower");
         model.addAttribute("totalBuildings", buildingService.countAll());
         model.addAttribute("totalCustomers", customerService.countAll());
@@ -73,6 +78,11 @@ public class AdminDashboardController {
         model.addAttribute("potentialCustomers", potentialCustomers);
 
         model.addAttribute("page", "dashboard");
+
+        model.addAttribute("staffName", staffService.getStaffName(user.getCustomerId()));
+
+        model.addAttribute("staffAvatar", staffService.getStaffAvatar(user.getCustomerId()));
+
         return "admin/dashboard";
     }
 

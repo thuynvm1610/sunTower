@@ -20,8 +20,9 @@ public class StaffCustomerController {
             Model model,
             @AuthenticationPrincipal CustomUserDetails user
     ) {
-        String username = staffService.getStaffName(user.getCustomerId());
-        model.addAttribute("username", username);
+        model.addAttribute("staffName", staffService.getStaffName(user.getCustomerId()));
+
+        model.addAttribute("staffAvatar", staffService.getStaffAvatar(user.getCustomerId()));
 
         return "staff/customer-list";
     }

@@ -26,8 +26,9 @@ public class StaffInvoiceController {
     ) {
         model.addAttribute("customers", customerService.getCustomersName());
 
-        String username = staffService.getStaffName(user.getCustomerId());
-        model.addAttribute("username", username);
+        model.addAttribute("staffName", staffService.getStaffName(user.getCustomerId()));
+
+        model.addAttribute("staffAvatar", staffService.getStaffAvatar(user.getCustomerId()));
 
         return "staff/invoice-list";
     }
