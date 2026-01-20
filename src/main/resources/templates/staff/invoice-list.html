@@ -2328,7 +2328,7 @@
             addCurrentFees = null;
             addCurrentRentArea = 0;
             $('#addTotalAmount').text('0 VNĐ');
-            $('[name="electricityUsage"], [name="waterUsage"]').val('');
+            $('#addInvoiceForm').find('[name="electricityUsage"], [name="waterUsage"]').val('');
 
             if (!customerId) {
                 $contractSelect
@@ -2458,9 +2458,11 @@
                 return;
             }
 
+            const $form = $('#addInvoiceForm');
+
             const contractId = Number($('#addContractSelect').val());
-            const electricityUsage = Number($('[name="electricityUsage"]').val()) || 0;
-            const waterUsage = Number($('[name="waterUsage"]').val()) || 0;
+            const electricityUsage = Number($form.find('[name="electricityUsage"]').val()) || 0;
+            const waterUsage = Number($form.find('[name="waterUsage"]').val()) || 0;
 
             const details = [
                 {
@@ -2494,10 +2496,10 @@
             const data = {
                 contractId: contractId,
                 customerId: Number($('#addCustomerSelect').val()),
-                month: Number($('[name="month"]').val()),
-                year: Number($('[name="year"]').val()),
-                status: $('[name="add-status"]:checked').val(),
-                dueDate: $('[name="dueDate"]').val(),
+                month: Number($form.find('[name="month"]').val()),
+                year: Number($form.find('[name="year"]').val()),
+                status: $form.find('[name="add-status"]:checked').val(),
+                dueDate: $form.find('[name="dueDate"]').val(),
                 totalAmount: Number(totalAmount),
                 details: details,
                 electricityUsage: electricityUsage,
