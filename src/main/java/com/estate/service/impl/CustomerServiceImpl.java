@@ -124,9 +124,13 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Page<CustomerDetailDTO> searchByStaff(String fullName, int page, int size) {
+    public Page<CustomerDetailDTO> searchByStaff(Map<String, String> requestParam, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<CustomerEntity> customerPage = customerRepository.findByFullNameContainingIgnoreCase(fullName, pageable);
+        Page<CustomerEntity> customerPage = customerRepository.findByNameAndStaffID(
+                requestParam.get("fullName"),
+                Long.valueOf(requestParam.get("staffId")),
+                pageable
+        );
 
         // Tạo list chứa DTO
         List<CustomerDetailDTO> dtoList = new ArrayList<>();

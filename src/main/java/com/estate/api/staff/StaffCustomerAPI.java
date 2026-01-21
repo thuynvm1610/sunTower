@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/staff/customers")
 public class StaffCustomerAPI {
@@ -23,8 +25,8 @@ public class StaffCustomerAPI {
     public Page<CustomerDetailDTO> getContractsSearchPage(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "3") int size,
-            @RequestParam(required = false) String fullName
+            @RequestParam Map<String, String> requestParams
     ) {
-        return customerService.searchByStaff(fullName, page - 1, size);
+        return customerService.searchByStaff(requestParams, page - 1, size);
     }
 }

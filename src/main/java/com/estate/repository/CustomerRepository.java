@@ -22,6 +22,20 @@ public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> 
 
     Page<CustomerEntity> findByFullNameContainingIgnoreCase(String fullName, Pageable pageable);
 
+    @Query("""
+            SELECT c
+            FROM CustomerEntity c
+            JOIN c.staffs_customers sc
+            WHERE sc.id = :staffId
+            AND ( :fullName IS NULL OR :fullName = '' 
+                OR LOWER(c.fullName) LIKE LOWER(CONCAT('%', :fullName, '%')) )
+            """)
+    Page<CustomerEntity> findByNameAndStaffID(
+            @Param("fullName") String fullName,
+            @Param("staffId") Long staffId,
+            Pageable pageable
+    );
+
     boolean existsByUsername(String username);
 
     boolean existsByEmail(String email);
@@ -37,7 +51,7 @@ public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> 
             WHERE c.id = :customerId
             """)
     void usernameUpdate(@Param("username") String username,
-                      @Param("customerId") Long customerId);
+                        @Param("customerId") Long customerId);
 
     @Modifying
     @Query("""
@@ -46,7 +60,7 @@ public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> 
             WHERE c.id = :customerId
             """)
     void emailUpdate(@Param("email") String email,
-                        @Param("customerId") Long customerId);
+                     @Param("customerId") Long customerId);
 
     boolean existsByEmailAndIdNot(String email, Long id);
 
@@ -59,7 +73,7 @@ public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> 
             WHERE c.id = :customerId
             """)
     void phoneNumberUpdate(@Param("phone") String phone,
-                     @Param("customerId") Long customerId);
+                           @Param("customerId") Long customerId);
 
     @Modifying
     @Query("""
@@ -68,7 +82,7 @@ public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> 
             WHERE c.id = :customerId
             """)
     void passwordUpdate(@Param("password") String password,
-                           @Param("customerId") Long customerId);
+                        @Param("customerId") Long customerId);
 
     Optional<CustomerEntity> findByEmail(String email);
 }
