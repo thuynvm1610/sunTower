@@ -444,7 +444,7 @@
                     <!-- Chỉ hiện nút khi list có phần tử -->
                     <a class="viewAllExpiringContract"
                        th:if="${expiringContracts != null and !#lists.isEmpty(expiringContracts)}"
-                       th:href="@{/admin/invoices/overdue}">
+                       th:href="@{/staff/contracts(status='ACTIVE')}">
                         Xem tất cả <i class="bi bi-arrow-right"></i>
                     </a>
                 </div>

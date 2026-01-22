@@ -628,7 +628,7 @@
                     <div class="range-inputs">
                         <input type="date" class="form-control" name="startDate">
                         <span class="range-separator">-</span>
-                        <input type="date" class="form-control" name="endDate">
+                        <input type="date" class="form-control" name="endDate" th:value="${endDate}">
                     </div>
                 </div>
 
@@ -636,8 +636,17 @@
                     <label class="form-label">Trạng thái</label>
                     <select class="form-control" name="status">
                         <option value="">-- Tất cả trạng thái --</option>
-                        <option value="ACTIVE">Đang hiệu lực</option>
-                        <option value="EXPIRED">Hết hạn</option>
+
+                        <option value="ACTIVE"
+                                th:selected="${status == 'ACTIVE'}">
+                            Đang hiệu lực
+                        </option>
+
+                        <option value="EXPIRED"
+                                th:selected="${status == 'EXPIRED'}">
+                            Hết hạn
+                        </option>
+
                     </select>
                 </div>
             </div>

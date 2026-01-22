@@ -1,7 +1,5 @@
 package com.estate.controller.staff;
 
-import com.estate.enums.Direction;
-import com.estate.enums.Level;
 import com.estate.security.CustomUserDetails;
 import com.estate.service.BuildingService;
 import com.estate.service.CustomerService;
@@ -12,6 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.time.LocalDate;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/staff")
@@ -28,7 +30,8 @@ public class StaffContractController {
     @GetMapping("/contracts")
     public String contract(
             Model model,
-            @AuthenticationPrincipal CustomUserDetails user
+            @AuthenticationPrincipal CustomUserDetails user,
+            @RequestParam Map<String, String> params
     ) {
         model.addAttribute("customers", customerService.getCustomersName());
         model.addAttribute("buildings", buildingService.getBuildingsName());
@@ -36,6 +39,15 @@ public class StaffContractController {
         model.addAttribute("staffName", staffService.getStaffName(user.getCustomerId()));
 
         model.addAttribute("staffAvatar", staffService.getStaffAvatar(user.getCustomerId()));
+
+        if (params.get("status") != null) {
+            model.addAttribute("status", params.get("status"));
+            LocalDate endDate = LocalDate
+                    .now()
+                    .plusMonths(1)
+                    .withDayOfMonth(1);
+            model.addAttribute("endDate", endDate);
+        }
 
         return "staff/contract-list";
     }
