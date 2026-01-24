@@ -310,10 +310,12 @@
                             <small class="d-block opacity-85">Xin chào,</small>
                             <strong th:text="${staffName}">Nguyễn Văn B</strong>
                         </div>
-                        <img th:src="@{'/images/staff_img/' + ${staffAvatar} + '.jpg'}"
-                             alt="Avatar"
-                             class="rounded-circle"
-                             style="width: 40px; height: 40px; object-fit: cover;">
+                        <a th:href="@{/staff/profile}" class="text-decoration-none text-reset">
+                            <img th:src="@{'/images/staff_img/' + ${staffAvatar} + '.jpg'}"
+                                 alt="Avatar"
+                                 class="rounded-circle"
+                                 style="width: 40px; height: 40px; object-fit: cover;">
+                        </a>
                     </div>
                     <a href="/logout" class="btn btn-logout">Đăng xuất</a>
                 </div>
@@ -778,7 +780,7 @@
         };
 
         $.ajax({
-            url: "/customer/profile/phoneNumber",
+            url: "/staff/profile/phoneNumber",
             type: "PUT",
             contentType: "application/json",
             data: JSON.stringify(data),
@@ -825,7 +827,7 @@
         };
 
         $.ajax({
-            url: "/customer/profile/password",
+            url: "/staff/profile/password",
             type: "PUT",
             contentType: "application/json",
             data: JSON.stringify(data),

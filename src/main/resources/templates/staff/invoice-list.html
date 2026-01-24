@@ -891,10 +891,12 @@
                             <strong th:text="${staffName}">Nguyễn Văn B</strong>
                         </div>
                         <!-- Avatar -->
-                        <img th:src="@{'/images/staff_img/' + ${staffAvatar} + '.jpg'}"
-                             alt="Avatar"
-                             class="rounded-circle"
-                             style="width: 40px; height: 40px; object-fit: cover;">
+                        <a th:href="@{/staff/profile}" class="text-decoration-none text-reset">
+                            <img th:src="@{'/images/staff_img/' + ${staffAvatar} + '.jpg'}"
+                                 alt="Avatar"
+                                 class="rounded-circle"
+                                 style="width: 40px; height: 40px; object-fit: cover;">
+                        </a>
                     </div>
                     <a href="/logout" class="btn btn-logout">Đăng xuất</a>
                 </div>
@@ -930,7 +932,7 @@
                         <i class="bi bi-receipt me-1"></i>Hóa đơn
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item">xi
                     <a class="nav-link" href="/staff/profile">
                         <i class="bi bi-person-circle me-1"></i>Tài khoản
                     </a>
