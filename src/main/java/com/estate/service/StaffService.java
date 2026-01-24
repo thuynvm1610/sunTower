@@ -19,4 +19,9 @@ public interface StaffService {
     Long getCustomertCnt(Long staffId);
     String getStaffName(Long staffId);
     String getStaffAvatar(Long staffId);
+    void usernameUpdate(UsernameChangeDTO dto, Long staffId);
+    void emailUpdate(EmailChangeDTO dto, Long staffId);
+    void phoneNumberUpdate(PhoneNumberChangeDTO dto, Long staffId);
+    void passwordUpdate(PasswordChangeDTO dto, Long staffId);
+    StaffEntity findById(Long staffId);
 }

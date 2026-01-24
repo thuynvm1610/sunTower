@@ -182,4 +182,95 @@ public class StaffServiceImpl implements StaffService {
     public String getStaffAvatar(Long staffId) {
         return staffRepository.findById(staffId).get().getImage();
     }
+
+    @Override
+    public void usernameUpdate(UsernameChangeDTO dto, Long staffId) {
+        StaffEntity staff = staffRepository.findById(staffId)
+                .orElseThrow(() -> new BusinessException("Không tìm thấy nhân viên"));
+
+        boolean isCorrect = passwordEncoder.matches(
+                dto.getPassword(),
+                staff.getPassword()
+        );
+
+        if (!isCorrect) {
+            throw new BusinessException("Mật khẩu sai");
+        }
+
+        staffRepository.usernameUpdate(dto.getNewUsername(), staffId);
+    }
+
+    @Override
+    public void emailUpdate(EmailChangeDTO dto, Long staffId) {
+        StaffEntity staff = staffRepository.findById(staffId)
+                .orElseThrow(() -> new BusinessException("Không tìm thấy nhân viên"));
+
+        boolean isCorrect = passwordEncoder.matches(
+                dto.getPassword(),
+                staff.getPassword()
+        );
+
+        if (!isCorrect) {
+            throw new BusinessException("Mật khẩu sai");
+        }
+
+        if (customerRepository.existsByEmail(dto.getNewEmail()) ||
+                staffRepository.existsByEmailAndIdNot(dto.getNewEmail(), staffId)
+        ) {
+            throw new BusinessException("Email này đã được sử dụng");
+        }
+
+        staffRepository.emailUpdate(dto.getNewEmail(), staffId);
+    }
+
+    @Override
+    public void phoneNumberUpdate(PhoneNumberChangeDTO dto, Long staffId) {
+        StaffEntity staff = staffRepository.findById(staffId)
+                .orElseThrow(() -> new BusinessException("Không tìm thấy nhân viên"));
+
+        boolean isCorrect = passwordEncoder.matches(
+                dto.getPassword(),
+                staff.getPassword()
+        );
+
+        if (!isCorrect) {
+            throw new BusinessException("Mật khẩu sai");
+        }
+
+        if (customerRepository.existsByPhone(dto.getNewPhoneNumber()) ||
+                staffRepository.existsByPhoneAndIdNot(dto.getNewPhoneNumber(), staffId)
+        ) {
+            throw new BusinessException("Số điện thoại này đã được sử dụng");
+        }
+
+        staffRepository.phoneNumberUpdate(dto.getNewPhoneNumber(), staffId);
+    }
+
+    @Override
+    public void passwordUpdate(PasswordChangeDTO dto, Long staffId) {
+        StaffEntity staff = staffRepository.findById(staffId)
+                .orElseThrow(() -> new BusinessException("Không tìm thấy nhân viên"));
+
+        boolean isCorrect = passwordEncoder.matches(
+                dto.getCurrentPassword(),
+                staff.getPassword()
+        );
+
+        if (!isCorrect) {
+            throw new BusinessException("Mật khẩu hiện tại không đúng");
+        }
+
+        if (!dto.getConfirmPassword().equals(dto.getNewPassword())) {
+            throw new BusinessException("Mật khẩu xác nhận sai");
+        }
+
+        String encodedPassword = passwordEncoder.encode(dto.getNewPassword());
+        staffRepository.passwordUpdate(encodedPassword, staffId);
+    }
+
+    @Override
+    public StaffEntity findById(Long staffId) {
+        return staffRepository.findById(staffId)
+                .orElseThrow(() -> new BusinessException("Không tìm thấy nhân viên"));
+    }
 }

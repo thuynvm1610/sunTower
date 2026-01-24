@@ -4,6 +4,7 @@ import com.estate.repository.entity.StaffEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -37,7 +38,11 @@ public interface StaffRepository extends JpaRepository<StaffEntity, Long> {
 
     boolean existsByEmail(String email);
 
+    boolean existsByEmailAndIdNot(String email, Long id);
+
     boolean existsByPhone(String phone);
+
+    boolean existsByPhoneAndIdNot(String phone, Long id);
 
     @Query("select count(b) from StaffEntity s join s.buildings b where s.id = :staffId")
     Long countBuildingsByStaffId(@Param("staffId") Long staffId);
@@ -67,4 +72,40 @@ public interface StaffRepository extends JpaRepository<StaffEntity, Long> {
     StaffEntity findByUsername(String username);
 
     Optional<StaffEntity> findByEmail(String email);
+
+    @Modifying
+    @Query("""
+            UPDATE StaffEntity s
+            SET s.username = :username
+            WHERE s.id = :staffId
+            """)
+    void usernameUpdate(@Param("username") String username,
+                        @Param("staffId") Long staffId);
+
+    @Modifying
+    @Query("""
+            UPDATE StaffEntity s
+            SET s.email = :email
+            WHERE s.id = :staffId
+            """)
+    void emailUpdate(@Param("email") String email,
+                     @Param("staffId") Long staffId);
+
+    @Modifying
+    @Query("""
+            UPDATE StaffEntity s
+            SET s.phone = :phone
+            WHERE s.id = :staffId
+            """)
+    void phoneNumberUpdate(@Param("phone") String phone,
+                           @Param("staffId") Long staffId);
+
+    @Modifying
+    @Query("""
+            UPDATE StaffEntity s
+            SET s.password = :password
+            WHERE s.id = :staffId
+            """)
+    void passwordUpdate(@Param("password") String password,
+                        @Param("staffId") Long staffId);
 }
