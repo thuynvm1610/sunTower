@@ -1,4 +1,4 @@
-package com.estate.controller.staff;
+package com.estate.controller.admin;
 
 import com.estate.repository.entity.StaffEntity;
 import com.estate.security.CustomUserDetails;
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/staff/profile")
-public class StaffProfileController {
+@RequestMapping("/admin/profile")
+public class AdminProfileController {
     @Autowired
     StaffService staffService;
 
@@ -29,6 +29,6 @@ public class StaffProfileController {
 
         model.addAttribute("staffAvatar", staffService.getStaffAvatar(user.getCustomerId()));
 
-        return "staff/profile";
+        return "admin/profile";
     }
 }

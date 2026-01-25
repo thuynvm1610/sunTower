@@ -18,7 +18,7 @@ public class CustomerProfileController {
     CustomerService customerService;
 
     @GetMapping("")
-    public String listBuildings(
+    public String profile(
             Model model,
             @AuthenticationPrincipal CustomUserDetails user
     ) {

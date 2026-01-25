@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SunTower - Thông Tin Cá Nhân</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+    <style>
+        /* Override để ẩn sidebar */
+        .sidebar {
+            display: none !important;
+        }
+
+        .content {
+            margin-left: 0 !important;
+        }
+
+        footer {
+            margin-left: 0 !important;
+        }
+
+        /* Profile Container */
+        .profile-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Back Button */
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: white;
+            color: var(--primary-blue);
+            border: 2px solid var(--primary-blue);
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .back-button:hover {
+            background: var(--primary-blue);
+            color: white;
+            transform: translateX(-5px);
+        }
+
+        /* Profile Card */
+        .profile-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        /* Profile Header */
+        .profile-header {
+            background: var(--primary-blue);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .profile-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.1;
+        }
+
+        .profile-avatar-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-avatar {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            border: 5px solid white;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            object-fit: cover;
+            position: relative;
+            z-index: 1;
+        }
+
+        .avatar-badge {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            background: #10b981;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 4px solid white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+
+        .profile-name {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+
+        .profile-role {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-block;
+            letter-spacing: 0.5px;
+        }
+
+        /* Info Grid */
+        .info-grid {
+            padding: 2.5rem;
+        }
+
+        .section-title {
+            color: var(--text-dark);
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid #f3f4f6;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title i {
+            color: var(--primary-blue);
+            font-size: 24px;
+        }
+
+        .info-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-box {
+            padding: 1.5rem;
+            background: #f8fafc;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .info-box:hover {
+            border-color: var(--primary-blue);
+            background: #eff6ff;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.1);
+        }
+
+        .info-label {
+            color: #6b7280;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-label i {
+            color: var(--primary-blue);
+            font-size: 16px;
+        }
+
+        .info-value {
+            color: var(--text-dark);
+            font-size: 17px;
+            font-weight: 600;
+        }
+
+        /* Security Section */
+        .security-notice {
+            background: #fef3c7;
+            border: 2px solid #fbbf24;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .security-notice i {
+            color: #d97706;
+            font-size: 28px;
+            flex-shrink: 0;
+        }
+
+        .security-content h5 {
+            color: #92400e;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-size: 16px;
+        }
+
+        .security-content p {
+            color: #78350f;
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* Action Buttons */
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+        }
+
+        .action-btn {
+            padding: 1.25rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            border: 2px solid;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .action-btn i {
+            font-size: 20px;
+        }
+
+        .action-btn-primary {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+
+        .action-btn-primary:hover {
+            background: var(--primary-blue-dark);
+            border-color: var(--primary-blue-dark);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(30, 64, 175, 0.3);
+        }
+
+        .action-btn-outline {
+            background: white;
+            color: var(--primary-blue);
+            border-color: var(--primary-blue);
+        }
+
+        .action-btn-outline:hover {
+            background: var(--primary-blue);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(30, 64, 175, 0.3);
+        }
+
+        /* Modal Styles */
+        .modal-header {
+            background: var(--primary-blue);
+            color: white;
+            border-radius: 16px 16px 0 0;
+        }
+
+        .modal-content {
+            border-radius: 16px;
+            border: none;
+        }
+
+        .modal-header .btn-close {
+            filter: brightness(0) invert(1);
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            font-size: 14px;
+        }
+
+        .form-control {
+            padding: 0.875rem 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 4px rgba(30, 64, 175, 0.1);
+        }
+
+        .password-toggle-wrapper {
+            position: relative;
+        }
+
+        .password-toggle-btn {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #6b7280;
+            cursor: pointer;
+            padding: 4px;
+            transition: color 0.2s;
+        }
+
+        .password-toggle-btn:hover {
+            color: var(--primary-blue);
+        }
+
+        .modal-footer .btn {
+            padding: 0.75rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        /* Alert */
+        .alert {
+            border-radius: 12px;
+            border: none;
+            padding: 1rem 1.5rem;
+        }
+
+        .alert-success {
+            background: #ecfdf5;
+            color: #065f46;
+            border-left: 4px solid #10b981;
+        }
+
+        .alert-danger {
+            background: #fef2f2;
+            color: #991b1b;
+            border-left: 4px solid #ef4444;
+        }
+    </style>
+</head>
+
+<body>
+<!-- Header -->
+<div th:replace="~{layout/header :: header}"></div>
+
+<div class="content">
+    <div class="profile-container">
+        <!-- Back Button -->
+        <a href="/admin/dashboard" class="back-button">
+            <i class="bi bi-arrow-left"></i>
+            <span>Quay lại Dashboard</span>
+        </a>
+
+        <!-- Alert Messages -->
+        <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            <span th:text="${successMessage}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-circle-fill me-2"></i>
+            <span th:text="${errorMessage}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <!-- Profile Card -->
+        <div class="profile-card">
+            <!-- Profile Header -->
+            <div class="profile-header">
+                <div class="profile-avatar-wrapper">
+                    <img th:src="@{'/images/staff_img/' + ${staffAvatar} + '.jpg'}"
+                         alt="Avatar"
+                         class="profile-avatar">
+                    <div class="avatar-badge">
+                        <i class="bi bi-shield-check" style="color: white; font-size: 14px;"></i>
+                    </div>
+                </div>
+                <div class="profile-name" th:text="${staffName}">Nguyễn Văn Minh Thủy</div>
+                <div class="profile-role">
+                    <i class="bi bi-star-fill me-1"></i>
+                    QUẢN TRỊ VIÊN
+                </div>
+            </div>
+
+            <!-- Info Section -->
+            <div class="info-grid">
+                <h2 class="section-title">
+                    <i class="bi bi-person-badge"></i>
+                    Thông Tin Tài Khoản
+                </h2>
+
+                <div class="info-row">
+                    <div class="info-box">
+                        <div class="info-label">
+                            <i class="bi bi-person-circle"></i>
+                            Tên đăng nhập
+                        </div>
+                        <div class="info-value" th:text="${staff.username}">adminuser</div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-label">
+                            <i class="bi bi-envelope"></i>
+                            Email
+                        </div>
+                        <div class="info-value" th:text="${staff.email}">admin@suntower.com</div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-label">
+                            <i class="bi bi-telephone"></i>
+                            Số điện thoại
+                        </div>
+                        <div class="info-value" th:text="${staff.phone}">0912345678</div>
+                    </div>
+                </div>
+
+                <!-- Security Notice -->
+                <div class="security-notice">
+                    <i class="bi bi-shield-lock-fill"></i>
+                    <div class="security-content">
+                        <h5>Bảo Mật Tài Khoản</h5>
+                        <p>
+                            Để bảo vệ tài khoản quản trị viên của bạn, hãy thường xuyên cập nhật mật khẩu
+                            và không chia sẻ thông tin đăng nhập với bất kỳ ai. Sử dụng mật khẩu mạnh với
+                            ít nhất 8 ký tự bao gồm chữ hoa, chữ thường và số.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Action Section -->
+                <h2 class="section-title">
+                    <i class="bi bi-gear-fill"></i>
+                    Quản Lý Tài Khoản
+                </h2>
+
+                <div class="action-grid">
+                    <button class="action-btn action-btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#editUsernameModal">
+                        <i class="bi bi-person-check-fill"></i>
+                        Đổi Tên Đăng Nhập
+                    </button>
+
+                    <button class="action-btn action-btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#editEmailModal">
+                        <i class="bi bi-envelope-at-fill"></i>
+                        Đổi Email
+                    </button>
+
+                    <button class="action-btn action-btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#editPhoneModal">
+                        <i class="bi bi-phone-fill"></i>
+                        Đổi Số Điện Thoại
+                    </button>
+
+                    <button class="action-btn action-btn-outline" data-bs-toggle="modal"
+                            data-bs-target="#changePasswordModal">
+                        <i class="bi bi-key-fill"></i>
+                        Đổi Mật Khẩu
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <p class="mb-0">&copy; 2026 SunTower Management System. All rights reserved.</p>
+</footer>
+
+<!-- Modal Đổi Tên Đăng Nhập -->
+<div class="modal fade" id="editUsernameModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="bi bi-person-check-fill me-2"></i>Đổi Tên Đăng Nhập
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="usernameForm">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Tên đăng nhập hiện tại</label>
+                        <input type="text" class="form-control" th:value="${staff.username}" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tên đăng nhập mới</label>
+                        <input type="text" class="form-control" name="newUsername" required
+                               placeholder="Nhập tên đăng nhập mới">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Mật khẩu xác nhận</label>
+                        <div class="password-toggle-wrapper">
+                            <input type="password" class="form-control" name="password" id="usernamePassword" required
+                                   placeholder="Nhập mật khẩu để xác nhận" style="padding-right: 45px;">
+                            <button type="button" class="password-toggle-btn"
+                                    onclick="togglePassword('usernamePassword')">
+                                <i class="bi bi-eye" id="usernamePassword-icon"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Xác Nhận</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Đổi Email -->
+<div class="modal fade" id="editEmailModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="bi bi-envelope-at-fill me-2"></i>Đổi Email
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="emailForm">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Email hiện tại</label>
+                        <input type="email" class="form-control" th:value="${staff.email}" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email mới</label>
+                        <input type="email" class="form-control" name="newEmail" required placeholder="Nhập email mới">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Mật khẩu xác nhận</label>
+                        <div class="password-toggle-wrapper">
+                            <input type="password" class="form-control" name="password" id="emailPassword" required
+                                   placeholder="Nhập mật khẩu để xác nhận" style="padding-right: 45px;">
+                            <button type="button" class="password-toggle-btn" onclick="togglePassword('emailPassword')">
+                                <i class="bi bi-eye" id="emailPassword-icon"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Xác Nhận</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Đổi Số Điện Thoại -->
+<div class="modal fade" id="editPhoneModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="bi bi-phone-fill me-2"></i>Đổi Số Điện Thoại
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="phoneForm">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Số điện thoại hiện tại</label>
+                        <input type="text" class="form-control" th:value="${staff.phone}" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Số điện thoại mới</label>
+                        <input type="tel" class="form-control" name="newPhoneNumber" required
+                               placeholder="Nhập số điện thoại mới">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Mật khẩu xác nhận</label>
+                        <div class="password-toggle-wrapper">
+                            <input type="password" class="form-control" name="password" id="phonePassword" required
+                                   placeholder="Nhập mật khẩu để xác nhận" style="padding-right: 45px;">
+                            <button type="button" class="password-toggle-btn" onclick="togglePassword('phonePassword')">
+                                <i class="bi bi-eye" id="phonePassword-icon"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Xác Nhận</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Đổi Mật Khẩu -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="bi bi-key-fill me-2"></i>Đổi Mật Khẩu
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="passwordForm">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Mật khẩu hiện tại</label>
+                        <div class="password-toggle-wrapper">
+                            <input type="password" class="form-control" name="currentPassword" id="currentPassword"
+                                   required placeholder="Nhập mật khẩu hiện tại" style="padding-right: 45px;">
+                            <button type="button" class="password-toggle-btn"
+                                    onclick="togglePassword('currentPassword')">
+                                <i class="bi bi-eye" id="currentPassword-icon"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Mật khẩu mới</label>
+                        <div class="password-toggle-wrapper">
+                            <input type="password" class="form-control" name="newPassword" id="newPassword" required
+                                   placeholder="Nhập mật khẩu mới" style="padding-right: 45px;">
+                            <button type="button" class="password-toggle-btn" onclick="togglePassword('newPassword')">
+                                <i class="bi bi-eye" id="newPassword-icon"></i>
+                            </button>
+                        </div>
+                        <small class="text-muted">Mật khẩu phải có ít nhất 8 ký tự</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Xác nhận mật khẩu mới</label>
+                        <div class="password-toggle-wrapper">
+                            <input type="password" class="form-control" name="confirmPassword" id="confirmPassword"
+                                   required placeholder="Nhập lại mật khẩu mới" style="padding-right: 45px;">
+                            <button type="button" class="password-toggle-btn"
+                                    onclick="togglePassword('confirmPassword')">
+                                <i class="bi bi-eye" id="confirmPassword-icon"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Xác Nhận</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    // Toggle password visibility
+    function togglePassword(inputId) {
+        const input = document.getElementById(inputId);
+        const icon = document.getElementById(inputId + '-icon');
+
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('bi-eye');
+            icon.classList.add('bi-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('bi-eye-slash');
+            icon.classList.add('bi-eye');
+        }
+    }
+
+    // Auto dismiss alerts
+    setTimeout(function () {
+        document.querySelectorAll('.alert').forEach(alert => {
+            alert.classList.remove('show');
+        });
+    }, 5000);
+
+    // Change Username
+    $("#usernameForm").on("submit", function (e) {
+        e.preventDefault();
+
+        const data = {
+            newUsername: $("[name='newUsername']").val(),
+            password: $("#usernamePassword").val()
+        };
+
+        $.ajax({
+            url: "/admin/profile/username",
+            type: "PUT",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+
+            success: function () {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công',
+                    text: 'Cập nhật tên đăng nhập thành công!',
+                    timer: 1500,
+                    showConfirmButton: false
+                }).then(() => {
+                    window.location.href = "/admin/profile";
+                });
+            },
+            error: function (xhr) {
+                const err = xhr.responseJSON;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi',
+                    text: err && err.message ? err.message : 'Cập nhật thất bại!'
+                });
+            }
+        });
+    });
+
+    // Change Email
+    $("#emailForm").on("submit", function (e) {
+        e.preventDefault();
+
+        const data = {
+            newEmail: $("[name='newEmail']").val(),
+            password: $("#emailPassword").val()
+        };
+
+        $.ajax({
+            url: "/admin/profile/email",
+            type: "PUT",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+
+            success: function () {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công',
+                    text: 'Cập nhật Email thành công!',
+                    timer: 1500,
+                    showConfirmButton: false
+                }).then(() => {
+                    window.location.href = "/admin/profile";
+                });
+            },
+            error: function (xhr) {
+                const err = xhr.responseJSON;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi',
+                    text: err && err.message ? err.message : 'Cập nhật thất bại!'
+                });
+            }
+        });
+    });
+
+    // Change Phone
+    $("#phoneForm").on("submit", function (e) {
+        e.preventDefault();
+
+        const data = {
+            newPhoneNumber: $("[name='newPhoneNumber']").val(),
+            password: $("#phonePassword").val()
+        };
+
+        $.ajax({
+            url: "/admin/profile/phoneNumber",
+            type: "PUT",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+
+            success: function () {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công',
+                    text: 'Cập nhật số điện thoại thành công!',
+                    timer: 1500,
+                    showConfirmButton: false
+                }).then(() => {
+                    window.location.href = "/admin/profile";
+                });
+            },
+            error: function (xhr) {
+                const err = xhr.responseJSON;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi',
+                    text: err && err.message ? err.message : 'Cập nhật thất bại!'
+                });
+            }
+        });
+    });
+
+    // Change Password
+    $("#passwordForm").on("submit", function (e) {
+        e.preventDefault();
+
+        const data = {
+            currentPassword: $("#currentPassword").val(),
+            newPassword: $("#newPassword").val(),
+            confirmPassword: $("#confirmPassword").val()
+        };
+
+        $.ajax({
+            url: "/admin/profile/password",
+            type: "PUT",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+
+            success: function () {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công',
+                    text: 'Cập nhật mật khẩu thành công!',
+                    timer: 1500,
+                    showConfirmButton: false
+                }).then(() => {
+                    window.location.href = "/admin/profile";
+                });
+            },
+            error: function (xhr) {
+                const err = xhr.responseJSON;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi',
+                    text: err && err.message ? err.message : 'Cập nhật thất bại!'
+                });
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
