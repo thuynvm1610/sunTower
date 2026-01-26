@@ -428,16 +428,30 @@
                 </div>
             </div>
 
-            <!-- Charts Row 1 -->
             <div class="row g-4 mb-4">
-                <div class="col-lg-8">
+                <div class="col-lg-12">
                     <div class="chart-card">
                         <div class="chart-title">
                             <i class="bi bi-graph-up"></i>
                             Doanh thu theo tháng của năm <span th:text="${currentYear}"></span>
                         </div>
                         <div style="position: relative; height: 300px;">
-                            <canvas id="revenueChart"></canvas>
+                            <canvas id="revenueChart02"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Row 1 -->
+            <div class="row g-4 mb-4">
+                <div class="col-lg-8">
+                    <div class="chart-card">
+                        <div class="chart-title">
+                            <i class="bi bi-graph-up"></i>
+                            Doanh thu theo tháng của năm <span th:text="${lastYear}"></span>
+                        </div>
+                        <div style="position: relative; height: 300px;">
+                            <canvas id="revenueChart01"></canvas>
                         </div>
                     </div>
                 </div>
@@ -608,14 +622,57 @@
         Chart.defaults.color = '#6b7280';
 
         // Revenue Chart - Monthly
-        const revenueData = /*[[${monthlyRevenue}]]*/[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-        new Chart(document.getElementById('revenueChart'), {
+        const revenueData02 = /*[[${monthlyRevenue}]]*/[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        new Chart(document.getElementById('revenueChart02'), {
             type: 'line',
             data: {
                 labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'],
                 datasets: [{
                     label: 'Doanh thu (tỷ VNĐ)',
-                    data: revenueData.map(v => v / 1_000_000_000),
+                    data: revenueData02.map(v => v / 1_000_000_000),
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    borderWidth: 2,
+                    pointRadius: 3,
+                    pointHoverRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(17, 24, 39, 0.95)',
+                        padding: 12,
+                        borderColor: '#e5e7eb',
+                        borderWidth: 1
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: '#f3f4f6' },
+                        border: { display: false }
+                    },
+                    x: {
+                        grid: { display: false },
+                        border: { display: false }
+                    }
+                }
+            }
+        });
+
+        const revenueData01 = /*[[${monthlyRevenueLastYear}]]*/[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        new Chart(document.getElementById('revenueChart01'), {
+            type: 'line',
+            data: {
+                labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'],
+                datasets: [{
+                    label: 'Doanh thu (tỷ VNĐ)',
+                    data: revenueData01.map(v => v / 1_000_000_000),
                     borderColor: '#3b82f6',
                     backgroundColor: 'rgba(59, 130, 246, 0.1)',
                     fill: true,

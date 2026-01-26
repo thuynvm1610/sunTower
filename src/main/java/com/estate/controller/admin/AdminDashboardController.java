@@ -56,6 +56,11 @@ public class AdminDashboardController {
         model.addAttribute("monthlyRevenue", monthlyRevenue);
         model.addAttribute("currentYear", currentYear);
 
+        int lastYear = LocalDate.now().minusYears(1).getYear();
+        List<BigDecimal> monthlyRevenueLastYear = contractService.getMonthlyRevenue(lastYear);
+        model.addAttribute("monthlyRevenueLastYear", monthlyRevenueLastYear);
+        model.addAttribute("lastYear", lastYear);
+
         List<BigDecimal> yearlyRevenue = contractService.getYearlyRevenue(currentYear-2, currentYear-1, currentYear);
         model.addAttribute("yearlyRevenue", yearlyRevenue);
         model.addAttribute("yearBeforeLast", currentYear-2);
