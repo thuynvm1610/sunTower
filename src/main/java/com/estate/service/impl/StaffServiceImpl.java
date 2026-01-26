@@ -188,6 +188,11 @@ public class StaffServiceImpl implements StaffService {
         StaffEntity staff = staffRepository.findById(staffId)
                 .orElseThrow(() -> new BusinessException("Không tìm thấy nhân viên"));
 
+        if (staffRepository.existsByUsernameAndIdNot(dto.getNewUsername(), staffId)
+        || customerRepository.existsByUsername(dto.getNewUsername())) {
+            throw new BusinessException("Tên đăng nhập đã được sử dụng!");
+        }
+
         boolean isCorrect = passwordEncoder.matches(
                 dto.getPassword(),
                 staff.getPassword()
