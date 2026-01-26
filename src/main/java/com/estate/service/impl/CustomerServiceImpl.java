@@ -243,6 +243,11 @@ public class CustomerServiceImpl implements CustomerService {
     public void usernameUpdate(UsernameChangeDTO dto, Long customerId) {
         CustomerEntity customer = this.findById(customerId);
 
+        if (customerRepository.existsByUsernameAndIdNot(dto.getNewUsername(), customerId)
+        || staffRepository.existsByUsername(dto.getNewUsername())) {
+            throw  new BusinessException("Tên đăng nhập này đã được sử dụng!");
+        }
+
         boolean isCorrect = passwordEncoder.matches(
                 dto.getPassword(),
                 customer.getPassword()

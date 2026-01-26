@@ -42,6 +42,8 @@ public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> 
 
     boolean existsByPhone(String phone);
 
+    boolean existsByUsernameAndIdNot(String username, Long id);
+
     CustomerEntity findByUsername(String username);
 
     @Modifying
