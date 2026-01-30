@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SunTower - Đăng nhập</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -209,6 +210,21 @@
         .forgot-password a:hover {
             text-decoration: underline;
         }
+
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 15px;
+            cursor: pointer;
+            color: #6c757d;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+
+        .toggle-password:hover {
+            color: #495057;
+        }
     </style>
 </head>
 
@@ -242,7 +258,9 @@
                 <div class="form-group">
                     <label for="password">Mật khẩu</label>
                     <div class="input-wrapper">
-                        <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" required>
+                        <input type="password" id="password" name="password"
+                               placeholder="Nhập mật khẩu" required>
+                        <i class="fa-solid fa-eye toggle-password" onclick="togglePassword('password')"></i>
                     </div>
                 </div>
 
@@ -290,6 +308,23 @@
     }
 
     /*]]>*/
+</script>
+
+<script>
+    function togglePassword(fieldId) {
+        const input = document.getElementById(fieldId);
+        const icon = input.nextElementSibling;
+
+        if (input.type === "password") {
+            input.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        } else {
+            input.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        }
+    }
 </script>
 
 </html>
