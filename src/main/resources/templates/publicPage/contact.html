@@ -20,8 +20,15 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --primary-color: #2d3e8f;
+            --primary-light: #4a5fc1;
+            --secondary-color: #f5f7fa;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--secondary-color);
             line-height: 1.6;
             color: #333;
         }
@@ -105,29 +112,39 @@
             box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
         }
 
-        /* Page Header */
-        .page-header {
-            background: linear-gradient(135deg, #2d3e8f 0%, #4a5fc1 100%);
-            padding: 80px 20px 60px;
-            text-align: center;
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
             color: white;
+            font-size: 24px;
+            cursor: pointer;
         }
 
-        .page-header h1 {
-            font-size: 48px;
-            font-weight: 800;
+        /* Welcome Section - giống building */
+        .welcome-section {
+            background: linear-gradient(135deg, rgba(45, 62, 143, 0.95) 0%, rgba(74, 95, 193, 0.95) 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .welcome-section h1 {
+            font-size: 42px;
+            font-weight: 700;
             margin-bottom: 15px;
         }
 
-        .page-header p {
-            font-size: 20px;
+        .welcome-section p {
+            font-size: 18px;
             opacity: 0.95;
         }
 
         /* Contact Section */
         .contact-section {
-            padding: 80px 20px;
-            background: #f8f9fa;
+            padding: 0 20px 40px;
+            background: var(--secondary-color);
         }
 
         .container {
@@ -207,155 +224,111 @@
             color: #2d3e8f;
         }
 
-        /* Contact Form */
-        .contact-form {
+        /* FAQ Section */
+        .faq-section {
             background: white;
             padding: 40px;
             border-radius: 15px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
         }
 
-        .contact-form h2 {
+        .faq-section h2 {
             font-size: 32px;
             color: #2d3e8f;
             margin-bottom: 30px;
             font-weight: 700;
         }
 
-        .form-group {
-            margin-bottom: 25px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #2d3e8f;
-            font-weight: 500;
-            font-size: 15px;
-        }
-
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 12px 15px;
+        .faq-item {
+            margin-bottom: 20px;
             border: 2px solid #e0e7ff;
-            border-radius: 8px;
-            font-size: 15px;
-            font-family: inherit;
+            border-radius: 10px;
+            overflow: hidden;
             transition: all 0.3s;
         }
 
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: none;
+        .faq-item:hover {
             border-color: #4a5fc1;
-            box-shadow: 0 0 0 3px rgba(74, 95, 193, 0.1);
         }
 
-        .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #2d3e8f 0%, #4a5fc1 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
+        .faq-question {
+            background: #f8f9fb;
+            padding: 20px;
             cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #2d3e8f;
             transition: all 0.3s;
         }
 
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(74, 95, 193, 0.3);
+        .faq-question:hover {
+            background: #e0e7ff;
         }
 
-        /* Map Section */
+        .faq-question.active {
+            background: #4a5fc1;
+            color: white;
+        }
+
+        .faq-icon {
+            font-size: 24px;
+            transition: transform 0.3s;
+        }
+
+        .faq-question.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            background: white;
+            padding: 0 20px;
+        }
+
+        .faq-answer.active {
+            max-height: 500px;
+            padding: 20px;
+        }
+
+        .faq-answer p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* Map Section - Thu nhỏ lại */
         .map-section {
-            padding: 0 20px 80px;
-            background: #f8f9fa;
+            padding: 40px 20px;
+            background: white;
         }
 
         .map-container {
             max-width: 1200px;
             margin: 0 auto;
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
         }
 
         .map-container h2 {
             font-size: 32px;
             color: #2d3e8f;
-            margin-bottom: 25px;
-            font-weight: 700;
             text-align: center;
+            margin-bottom: 30px;
+            font-weight: 700;
         }
 
         #map {
-            width: 100%;
-            height: 450px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Custom Leaflet Popup */
-        .leaflet-popup-content-wrapper {
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        .custom-popup {
-            padding: 5px;
-            min-width: 200px;
-        }
-
-        .custom-popup h3 {
-            color: #2d3e8f;
-            margin-bottom: 10px;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .custom-popup p {
-            color: #666;
-            margin: 5px 0;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .custom-popup i {
-            color: #4a5fc1;
-            font-size: 16px;
-        }
-
-        .custom-popup a {
-            color: #4a5fc1;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .custom-popup a:hover {
-            text-decoration: underline;
+            height: 400px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
         }
 
         /* Footer */
         footer {
-            background: #1a1a2e;
+            background: #1A1A2E;
             color: white;
-            padding: 60px 20px 30px;
+            padding: 50px 20px 20px;
         }
 
         .footer-content {
@@ -370,12 +343,12 @@
         .footer-section h3 {
             font-size: 20px;
             margin-bottom: 20px;
-            color: #fff;
+            font-weight: 600;
         }
 
         .footer-section p,
         .footer-section a {
-            color: #aaa;
+            color: rgba(255, 255, 255, 0.8);
             text-decoration: none;
             display: block;
             margin-bottom: 10px;
@@ -383,35 +356,40 @@
         }
 
         .footer-section a:hover {
-            color: #fff;
+            color: white;
         }
 
         .footer-bottom {
-            max-width: 1200px;
-            margin: 0 auto;
             text-align: center;
             padding-top: 30px;
-            border-top: 1px solid #333;
-            color: #aaa;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Mobile Menu */
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
+        /* Custom Popup Styles */
+        .custom-popup h3 {
+            color: #2d3e8f;
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-weight: 600;
         }
 
+        .custom-popup p {
+            margin: 8px 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .custom-popup a {
+            color: #4a5fc1;
+            text-decoration: none;
+        }
+
+        .custom-popup a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
         @media (max-width: 968px) {
-            .contact-wrapper {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
             .menu-toggle {
                 display: block;
             }
@@ -421,10 +399,10 @@
                 top: 70px;
                 left: 0;
                 right: 0;
-                background: #2d3e8f;
+                background: linear-gradient(135deg, #2d3e8f 0%, #4a5fc1 100%);
                 flex-direction: column;
                 padding: 20px;
-                gap: 20px;
+                gap: 15px;
                 display: none;
             }
 
@@ -432,28 +410,26 @@
                 display: flex;
             }
 
-            .page-header h1 {
+            .contact-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .welcome-section h1 {
                 font-size: 36px;
             }
 
-            .page-header p {
-                font-size: 18px;
-            }
-
-            .contact-info,
-            .contact-form,
-            .map-container {
-                padding: 30px 20px;
+            .welcome-section p {
+                font-size: 16px;
             }
 
             .contact-info h2,
-            .contact-form h2,
+            .faq-section h2,
             .map-container h2 {
                 font-size: 28px;
             }
 
             #map {
-                height: 350px;
+                height: 300px;
             }
         }
     </style>
@@ -474,7 +450,7 @@
     </nav>
 </header>
 
-<section class="page-header">
+<section class="welcome-section">
     <h1>Liên hệ với chúng tôi</h1>
     <p>Hãy để chúng tôi giúp bạn quản lý bất động sản hiệu quả hơn</p>
 </section>
@@ -539,42 +515,79 @@
                 </div>
             </div>
 
-            <div class="contact-form">
-                <h2>Gửi tin nhắn</h2>
-                <form id="contactForm">
-                    <div class="form-group">
-                        <label for="name">Họ và tên *</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
+            <div class="faq-section">
+                <h2>Câu hỏi thường gặp</h2>
 
-                    <div class="form-group">
-                        <label for="email">Email *</label>
-                        <input type="email" id="email" name="email" required>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>SunTower có những dịch vụ gì?</span>
+                        <span class="faq-icon">▼</span>
                     </div>
-
-                    <div class="form-group">
-                        <label for="phone">Số điện thoại *</label>
-                        <input type="tel" id="phone" name="phone" required>
+                    <div class="faq-answer">
+                        <p>SunTower cung cấp hệ thống quản lý bất động sản toàn diện bao gồm: quản lý căn hộ, quản lý cư
+                            dân, quản lý dịch vụ, thu chi phí, báo cáo thống kê và nhiều tính năng khác giúp tối ưu hóa
+                            việc vận hành tòa nhà.</p>
                     </div>
+                </div>
 
-                    <div class="form-group">
-                        <label for="subject">Chủ đề</label>
-                        <select id="subject" name="subject">
-                            <option value="">Chọn chủ đề</option>
-                            <option value="inquiry">Tư vấn dịch vụ</option>
-                            <option value="support">Hỗ trợ kỹ thuật</option>
-                            <option value="partnership">Hợp tác kinh doanh</option>
-                            <option value="other">Khác</option>
-                        </select>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Làm thế nào để đăng ký sử dụng hệ thống?</span>
+                        <span class="faq-icon">▼</span>
                     </div>
-
-                    <div class="form-group">
-                        <label for="message">Nội dung *</label>
-                        <textarea id="message" name="message" required></textarea>
+                    <div class="faq-answer">
+                        <p>Bạn có thể liên hệ với chúng tôi qua hotline 0375577856 hoặc email suntower@gmail.com. Đội
+                            ngũ tư vấn của chúng tôi sẽ hỗ trợ bạn trong quá trình đăng ký và triển khai hệ thống phù
+                            hợp với nhu cầu của tòa nhà.</p>
                     </div>
+                </div>
 
-                    <button type="submit" class="submit-btn">Gửi tin nhắn</button>
-                </form>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Chi phí sử dụng dịch vụ như thế nào?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Chi phí sử dụng dịch vụ phụ thuộc vào quy mô tòa nhà, số lượng căn hộ và các tính năng bạn
+                            lựa chọn. Chúng tôi có nhiều gói dịch vụ linh hoạt phù hợp với mọi nhu cầu. Vui lòng liên hệ
+                            để nhận báo giá chi tiết.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Hệ thống có hỗ trợ mobile app không?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Có, hệ thống SunTower hỗ trợ đầy đủ trên cả web và mobile app (iOS & Android). Cư dân có thể
+                            dễ dàng tra cứu thông tin, thanh toán phí và gửi yêu cầu hỗ trợ ngay trên điện thoại di
+                            động.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Thời gian triển khai hệ thống mất bao lâu?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Thời gian triển khai thường từ 2-4 tuần tùy vào quy mô và độ phức tạp của dự án. Chúng tôi sẽ
+                            có kế hoạch triển khai chi tiết và hỗ trợ đào tạo toàn bộ đội ngũ quản lý trong suốt quá
+                            trình.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Dữ liệu có được bảo mật an toàn không?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Chúng tôi cam kết bảo mật tuyệt đối thông tin của khách hàng. Hệ thống sử dụng công nghệ mã
+                            hóa hiện đại, có backup định kỳ và tuân thủ các tiêu chuẩn bảo mật quốc tế.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -602,13 +615,13 @@
         </div>
         <div class="footer-section">
             <h3>Liên hệ</h3>
-            <p>Email: suntower@gmail.com</p>
+            <p>Email: <a href="mailto:suntower@gmail.com">suntower@gmail.com</a></p>
             <p>Hotline: 0375577856</p>
             <p>Địa chỉ: Ng. 158 Đ. Võ Chí Công, Xuân La, Tây Hồ, Hà Nội</p>
         </div>
     </div>
     <div class="footer-bottom">
-        <p>&copy; 2025 SunTower. All rights reserved.</p>
+        <p>&copy; 2026 SunTower. All rights reserved.</p>
     </div>
 </footer>
 
@@ -623,32 +636,38 @@
         navLinks.classList.toggle('active');
     }
 
-    document.getElementById('contactForm').addEventListener('submit', function(e) {
-        e.preventDefault();
+    function toggleFAQ(element) {
+        const answer = element.nextElementSibling;
+        const allQuestions = document.querySelectorAll('.faq-question');
+        const allAnswers = document.querySelectorAll('.faq-answer');
 
-        const formData = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            phone: document.getElementById('phone').value,
-            subject: document.getElementById('subject').value,
-            message: document.getElementById('message').value
-        };
+        // Đóng tất cả các câu hỏi khác
+        allQuestions.forEach(q => {
+            if (q !== element) {
+                q.classList.remove('active');
+            }
+        });
+        allAnswers.forEach(a => {
+            if (a !== answer) {
+                a.classList.remove('active');
+            }
+        });
 
-        alert('Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi trong thời gian sớm nhất.');
-        this.reset();
-    });
+        // Toggle câu hỏi hiện tại
+        element.classList.toggle('active');
+        answer.classList.toggle('active');
+    }
 
     // Khởi tạo bản đồ Leaflet
-    // Tọa độ Hà Nội (có thể thay đổi theo địa chỉ thực tế của bạn)
     const map = L.map('map').setView([21.057466760698002, 105.80536515696299], 13);
 
-    // Thêm tile layer từ OpenStreetMap (hoàn toàn miễn phí)
+    // Thêm tile layer từ OpenStreetMap
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         maxZoom: 19
     }).addTo(map);
 
-    // Tạo custom icon màu xanh
+    // Tạo custom icon
     const customIcon = L.divIcon({
         className: 'custom-marker',
         html: `<div style="
@@ -665,41 +684,22 @@
         popupAnchor: [0, -30]
     });
 
-    // Thêm marker với popup
-    const marker = L.marker([21.057466760698002, 105.80536515696299], { icon: customIcon }).addTo(map);
+    // Thêm marker
+    const marker = L.marker([21.057466760698002, 105.80536515696299], {icon: customIcon}).addTo(map);
 
     marker.bindPopup(`
         <div class="custom-popup">
-            <h3></i> SunTower </h3>
+            <h3>SunTower</h3>
             <p><i class="bi bi-geo-alt-fill"></i> Ng. 158 Đ. Võ Chí Công, Xuân La, Tây Hồ, Hà Nội</p>
             <p><i class="bi bi-telephone-fill"></i> <a href="tel:0375577856">0375577856</a></p>
             <p><i class="bi bi-envelope-fill"></i> <a href="mailto:suntower@gmail.com">suntower@gmail.com</a></p>
         </div>
     `).openPopup();
 
-    // Hiệu ứng bounce khi trang load
+    // Hiệu ứng khi trang load
     setTimeout(() => {
         marker.openPopup();
     }, 500);
-
-    // Optional: Thêm nhiều marker nếu có nhiều chi nhánh
-    /*
-    const locations = [
-        { lat: 21.0285, lng: 105.8542, name: 'SunTower - Hà Nội', address: 'Hà Nội, Việt Nam' },
-        { lat: 21.0245, lng: 105.8412, name: 'Chi nhánh 2', address: 'Địa chỉ chi nhánh 2' }
-    ];
-
-    locations.forEach(loc => {
-        L.marker([loc.lat, loc.lng], { icon: customIcon })
-            .addTo(map)
-            .bindPopup(`
-                <div class="custom-popup">
-                    <h3>${loc.name}</h3>
-                    <p>${loc.address}</p>
-                </div>
-            `);
-    });
-    */
 </script>
 
 </body>
