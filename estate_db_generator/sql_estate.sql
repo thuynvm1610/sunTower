@@ -22,7 +22,11 @@ INSERT INTO district (name) VALUES
 ('Hai Bà Trưng'),
 ('Cầu Giấy'),
 ('Thanh Xuân'),
-('Nam Từ Liêm');
+('Nam Từ Liêm'),
+('Tây Hồ'),
+('Long Biên'),
+('Hà Đông'),
+('Bắc Từ Liêm');
 
 -- =============================
 -- BẢNG NHÂN VIÊN / STAFF
@@ -51,7 +55,15 @@ INSERT INTO staff (username, password, full_name, phone, email, image, role, cre
 ('ltm1905', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Lương Thị Mai', '0902000007', 'mai.lt@gmail.com', 'staff_008', 'STAFF', '2022-03-25', '2025-02-02'),
 ('nta1212', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Ngô Tuấn Anh', '0902000008', 'anhtn@gmail.com', 'staff_009', 'STAFF', '2022-06-11', '2024-12-30'),
 ('hdk1311', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Hoàng Đức Khánh', '0902000009', 'khanh.hd@gmail.com', 'staff_010', 'STAFF', '2023-01-05', '2025-01-16'),
-('ttt1612', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Trịnh Thu Trang', '0902000010', 'trang.tt@gmail.com', 'staff_011', 'STAFF', '2023-03-12', '2025-02-25');
+('ttt1612', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Trịnh Thu Trang', '0902000010', 'trang.tt@gmail.com', 'staff_011', 'STAFF', '2023-03-12', '2025-02-25'),
+('hpt0909', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Hoàng Phúc Thịnh', '0902000011', 'thinh.hp@gmail.com', 'staff_012', 'ADMIN', '2019-09-09', '2024-12-20'),
+('nvt1503', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Nguyễn Văn Tùng', '0902000012', 'tung.nv@gmail.com', 'staff_013', 'STAFF', '2020-03-15', '2024-11-08'),
+('pth2807', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Phạm Thị Hạnh', '0902000013', 'hanh.pt@gmail.com', 'staff_014', 'STAFF', '2020-07-28', '2025-01-05'),
+('tqd0211', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Trần Quang Đức', '0902000014', 'duc.tq@gmail.com', 'staff_015', 'STAFF', '2021-02-11', '2024-10-19'),
+('lmn3006', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Lê Minh Ngọc', '0902000015', 'ngoc.lm@gmail.com', 'staff_016', 'STAFF', '2021-06-30', '2025-02-10'),
+('dth1708', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Đỗ Thị Hương', '0902000016', 'huong.dt@gmail.com', 'staff_017', 'STAFF', '2022-08-17', '2024-12-14'),
+('nqk0404', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Nguyễn Quốc Khánh', '0902000017', 'khanh.nq@gmail.com', 'staff_018', 'STAFF', '2022-04-04', '2025-01-28'),
+('vtl2210', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Vũ Thị Linh', '0902000018', 'linh.vt@gmail.com', 'staff_019', 'STAFF', '2023-10-22', '2025-03-01');
 
 -- =============================
 -- BẢNG TÒA NHÀ / BUILDING
@@ -94,7 +106,25 @@ INSERT INTO building
 ('Handico Tower', 7, 'Mễ Trì', 'Phạm Hùng', 39, 3, 5500, 'TAY', 'C_PLUS', 500000, 2000000, 2500000, 120000, 20000, 5500, 120000000, 'https://handico.vn', 'handico-tower.jpg', '2020-08-10', '2025-03-05'),
 ('Charmvit Tower', 3, 'Trung Hòa', 'Trần Duy Hưng', 27, 3, 4500, 'DONG_NAM', 'A', 900000, 1800000, 2200000, 100000, 18000, 5200, 100000000, 'https://charmvit.vn', 'charmvit-tower.jpg', '2019-03-18', '2024-11-20'),
 ('Thăng Long Tower', 6, 'Hạ Đình', 'Nguyễn Trãi', 20, 2, 3800, 'NAM', 'B_PLUS', 800000, 1000000, 1300000, 70000, 15000, 4700, 60000000, 'https://thanglongtower.vn', 'thang-long-tower.jpg', '2021-04-22', '2024-10-09'),
-('Tràng An Complex', 1, 'Ngọc Khánh', 'Phạm Văn Đồng', 29, 3, 4800, 'DONG_BAC', 'A', 900000, 1400000, 1800000, 90000, 18000, 5000, 90000000, 'https://trangancomplex.vn', 'trang-an-complex.jpg', '2019-08-08', '2025-01-29');
+('Tràng An Complex', 1, 'Ngọc Khánh', 'Phạm Văn Đồng', 29, 3, 4800, 'DONG_BAC', 'A', 900000, 1400000, 1800000, 90000, 18000, 5000, 90000000, 'https://trangancomplex.vn', 'trang-an-complex.jpg', '2019-08-08', '2025-01-29'),
+('Sun Grand City Thụy Khuê', 8, 'Thụy Khuê', 'Thụy Khuê', 25, 3, 4200, 'TAY', 'A_PLUS', 1100000, 2000000, 2200000, 120000, 20000, 5500, 150000000, 'https://sungrandcity.vn', 'sun-grand-city.jpg', '2019-06-12', '2025-02-18'),
+('Watermark Hồ Tây', 8, 'Nhật Tân', 'Âu Cơ', 18, 2, 3600, 'TAY_BAC', 'A', 950000, 1500000, 1800000, 90000, 18000, 5200, 90000000, 'https://watermark.vn', 'watermark-tayho.jpg', '2020-03-25', '2024-12-30'),
+('Mipec Riverside Office', 9, 'Ngọc Lâm', 'Long Biên', 22, 2, 3800, 'DONG_NAM', 'B_PLUS', 650000, 1200000, 1500000, 80000, 16000, 4800, 70000000, 'https://mipecriverside.vn', 'mipec-riverside.jpg', '2020-07-14', '2024-11-05'),
+('Sài Đồng Tower', 9, 'Sài Đồng', 'Nguyễn Văn Linh', 20, 2, 4000, 'NAM', 'B', 600000, 1000000, 1400000, 70000, 15000, 4500, 60000000, 'https://saidongtower.vn', 'sai-dong-tower.jpg', '2021-02-10', '2025-01-12'),
+('Văn Phú Victoria', 10, 'Phú La', 'Lê Trọng Tấn', 30, 3, 5000, 'DONG_BAC', 'A', 750000, 1300000, 1600000, 85000, 17000, 5000, 80000000, 'https://vanphuvictoria.vn', 'van-phu-victoria.jpg', '2019-09-19', '2025-03-01'),
+('The Pride Tower', 10, 'La Khê', 'Tố Hữu', 35, 3, 5200, 'TAY_NAM', 'B_PLUS', 700000, 1200000, 1500000, 80000, 16000, 4800, 75000000, 'https://thepride.vn', 'the-pride-tower.jpg', '2020-05-28', '2024-10-21'),
+('Sunshine City Office', 11, 'Đông Ngạc', 'Phạm Văn Đồng', 32, 3, 5400, 'DONG', 'A', 850000, 1500000, 1800000, 90000, 18000, 5200, 90000000, 'https://sunshinecity.vn', 'sunshine-city-office.jpg', '2020-11-11', '2025-02-08'),
+('EcoHome 3 Tower', 11, 'Cổ Nhuế', 'Tân Xuân', 27, 2, 4100, 'BAC', 'B', 650000, 1000000, 1300000, 70000, 15000, 4500, 60000000, 'https://ecohome.vn', 'ecohome-3.jpg', '2021-03-06', '2024-09-14'),
+('Daewoo Business Center', 1, 'Ngọc Khánh', 'Kim Mã', 15, 2, 3000, 'DONG_NAM', 'B_PLUS', 750000, 1200000, 1500000, 80000, 16000, 4800, 70000000, 'https://daewoo-bc.vn', 'daewoo-bc.jpg', '2020-06-10', '2024-11-12'),
+('Vincom Metropolis Office', 1, 'Ngọc Khánh', 'Liễu Giai', 45, 5, 8000, 'TAY', 'A_PLUS', 1200000, 2800000, 2600000, 150000, 25000, 6000, 220000000, 'https://vincom-metropolis.vn', 'vincom-metropolis.jpg', '2018-10-05', '2025-03-05'),
+('TNR Tower Nguyễn Chí Thanh', 3, 'Láng Thượng', 'Nguyễn Chí Thanh', 29, 4, 5500, 'DONG', 'A_PLUS', 1050000, 2200000, 2400000, 130000, 24000, 5800, 160000000, 'https://tnrtower.vn', 'tnr-nguyen-chi-thanh.jpg', '2018-09-09', '2025-03-01'),
+('Indochina Plaza Hanoi', 5, 'Yên Hòa', 'Xuân Thủy', 39, 3, 6800, 'DONG_BAC', 'A', 950000, 2000000, 2200000, 120000, 22000, 5600, 150000000, 'https://iph.vn', 'iph-office.jpg', '2019-07-15', '2024-11-28'),
+('VNPT Tower', 5, 'Yên Hòa', 'Phạm Hùng', 30, 3, 5000, 'NAM', 'B_PLUS', 780000, 1400000, 1700000, 90000, 18000, 5000, 80000000, 'https://vnpttower.vn', 'vnpt-tower.jpg', '2020-03-04', '2025-01-20'),
+('CTM Complex', 5, 'Trung Hòa', 'Trần Duy Hưng', 21, 2, 4200, 'DONG_NAM', 'B_PLUS', 720000, 1300000, 1600000, 85000, 17000, 4800, 70000000, 'https://ctmcomplex.vn', 'ctm-complex.jpg', '2021-06-22', '2024-10-11'),
+('Handiresco Tower', 6, 'Thanh Xuân Trung', 'Nguyễn Tuân', 18, 2, 3500, 'NAM', 'B', 650000, 1100000, 1400000, 75000, 15000, 4600, 60000000, 'https://handiresco.vn', 'handiresco.jpg', '2021-01-12', '2025-02-15'),
+('CEO Tower', 7, 'Mỹ Đình 1', 'Phạm Hùng', 30, 3, 5200, 'DONG', 'A', 900000, 1700000, 2000000, 100000, 19000, 5400, 100000000, 'https://ceotower.vn', 'ceo-tower.jpg', '2019-03-20', '2025-02-22'),
+('Crown Plaza Office', 7, 'Mỹ Đình 2', 'Lê Đức Thọ', 25, 3, 4800, 'TAY_NAM', 'B_PLUS', 780000, 1400000, 1700000, 90000, 17000, 5000, 80000000, 'https://crownplaza.vn', 'crownplaza.jpg', '2020-06-30', '2024-11-18'),
+('Golden Palace Tower', 7, 'Mễ Trì', 'Mễ Trì', 35, 4, 6500, 'TAY_BAC', 'A', 950000, 2000000, 2300000, 120000, 23000, 5600, 150000000, 'https://goldenpalace.vn', 'golden-palace.jpg', '2018-11-25', '2025-03-03');
 
 -- =============================
 -- BẢNG KHÁCH HÀNG / CUSTOMER
@@ -119,7 +149,15 @@ INSERT INTO customer (username, password, full_name, phone, email, role, created
 ('HoangGiaTM','$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS','Công ty TNHH Thương mại Hoàng Gia', '0903000005', 'sales@hoanggia.vn', 'CUSTOMER', '2021-01-09', '2024-09-18'),
 ('FBViet','$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS','Công ty CP F&B Việt', '0903000006', 'admin@fnbviet.vn', 'CUSTOMER', '2021-07-05', '2025-03-10'),
 ('CoDienHN','$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS','Công ty TNHH Cơ điện Hà Nội', '0903000007', 'info@codienhanoi.vn', 'CUSTOMER', '2022-03-22', '2024-11-04'),
-('ThietKeXanh','$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS','Công ty TNHH Thiết kế Xanh', '0903000008', 'contact@thietkexanh.vn', 'CUSTOMER', '2023-02-10', '2024-12-15');
+('ThietKeXanh','$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS','Công ty TNHH Thiết kế Xanh', '0903000008', 'contact@thietkexanh.vn', 'CUSTOMER', '2023-02-10', '2024-12-15'),
+('AnPhatCorp', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty CP Tập đoàn An Phát', '0903000009', 'contact@anphatgroup.vn', 'CUSTOMER', '2019-03-12', '2024-10-18'),
+('VietLogistics', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty TNHH Dịch vụ Logistics Việt', '0903000010', 'info@vietlogistics.vn', 'CUSTOMER', '2020-08-26', '2024-11-30'),
+('SunEdu', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty CP Giáo dục Mặt Trời', '0903000011', 'admin@sunedu.vn', 'CUSTOMER', '2018-06-04', '2023-12-22'),
+('GreenTechVN', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty TNHH Công nghệ Xanh Việt Nam', '0903000012', 'support@greentechvn.vn', 'CUSTOMER', '2021-11-15', '2025-01-12'),
+('NamCuongGroup', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty CP Tập đoàn Nam Cường', '0903000013', 'office@namcuonggroup.vn', 'CUSTOMER', '2017-09-28', '2024-08-06'),
+('BlueOcean', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty TNHH Blue Ocean Việt Nam', '0903000014', 'contact@blueocean.vn', 'CUSTOMER', '2022-05-09', '2025-02-20'),
+('VinaMedia', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty CP Truyền thông Vina Media', '0903000015', 'hr@vinamedia.vn', 'CUSTOMER', '2020-01-17', '2024-09-27'),
+('MinhPhatCons', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty TNHH Xây dựng Minh Phát', '0903000016', 'info@minhphatcons.vn', 'CUSTOMER', '2019-10-03', '2024-12-08');
 
 -- =============================
 -- BẢNG PASSWORD_RESET
@@ -179,7 +217,101 @@ INSERT INTO rent_area (building_id, value, created_date, modified_date) VALUES
 (11, 280, '2021-04-30', '2024-10-09'),
 (11, 350, '2021-04-30', '2024-10-09'),
 (11, 170, '2021-04-30', '2024-10-09'),
-(12, 350, '2019-08-15', '2025-01-29');
+(12, 350, '2019-08-15', '2025-01-29'),
+
+-- 13 Sun Grand City Thụy Khuê (25F)
+(13, 150, '2019-06-15', '2025-02-18'),
+(13, 280, '2019-06-15', '2025-02-18'),
+(13, 450, '2019-06-15', '2025-02-18'),
+
+-- 14 Watermark Hồ Tây (18F)
+(14, 120, '2020-04-01', '2024-12-30'),
+(14, 220, '2020-04-01', '2024-12-30'),
+(14, 350, '2020-04-01', '2024-12-30'),
+
+-- 15 Mipec Riverside Office (22F)
+(15, 150, '2020-08-01', '2024-11-05'),
+(15, 300, '2020-08-01', '2024-11-05'),
+(15, 480, '2020-08-01', '2024-11-05'),
+
+-- 16 Sài Đồng Tower (20F)
+(16, 180, '2021-03-01', '2025-01-12'),
+(16, 320, '2021-03-01', '2025-01-12'),
+(16, 500, '2021-03-01', '2025-01-12'),
+
+-- 17 Văn Phú Victoria (30F)
+(17, 200, '2019-10-01', '2025-03-01'),
+(17, 350, '2019-10-01', '2025-03-01'),
+(17, 600, '2019-10-01', '2025-03-01'),
+
+-- 18 The Pride Tower (35F)
+(18, 220, '2020-06-15', '2024-10-21'),
+(18, 400, '2020-06-15', '2024-10-21'),
+(18, 650, '2020-06-15', '2024-10-21'),
+(18, 800, '2020-06-15', '2024-10-21'),
+
+-- 19 Sunshine City Office (32F)
+(19, 200, '2020-12-01', '2025-02-08'),
+(19, 380, '2020-12-01', '2025-02-08'),
+(19, 600, '2020-12-01', '2025-02-08'),
+
+-- 20 EcoHome 3 Tower (27F)
+(20, 150, '2021-04-01', '2024-09-14'),
+(20, 280, '2021-04-01', '2024-09-14'),
+(20, 450, '2021-04-01', '2024-09-14'),
+
+-- 21 Daewoo Business Center (15F)
+(21, 120, '2020-07-01', '2024-11-12'),
+(21, 220, '2020-07-01', '2024-11-12'),
+(21, 350, '2020-07-01', '2024-11-12'),
+
+-- 22 Vincom Metropolis Office (45F)
+(22, 300, '2018-11-01', '2025-03-05'),
+(22, 500, '2018-11-01', '2025-03-05'),
+(22, 750, '2018-11-01', '2025-03-05'),
+(22, 1000, '2018-11-01', '2025-03-05'),
+
+-- 23 TNR Tower Nguyễn Chí Thanh (29F)
+(23, 200, '2018-10-01', '2025-03-01'),
+(23, 380, '2018-10-01', '2025-03-01'),
+(23, 600, '2018-10-01', '2025-03-01'),
+
+-- 24 Indochina Plaza Hanoi (39F)
+(24, 250, '2019-08-01', '2024-11-28'),
+(24, 450, '2019-08-01', '2024-11-28'),
+(24, 700, '2019-08-01', '2024-11-28'),
+(24, 900, '2019-08-01', '2024-11-28'),
+
+-- 25 VNPT Tower (30F)
+(25, 200, '2020-04-01', '2025-01-20'),
+(25, 350, '2020-04-01', '2025-01-20'),
+(25, 600, '2020-04-01', '2025-01-20'),
+
+-- 26 CTM Complex (21F)
+(26, 150, '2021-07-01', '2024-10-11'),
+(26, 280, '2021-07-01', '2024-10-11'),
+(26, 420, '2021-07-01', '2024-10-11'),
+
+-- 27 Handiresco Tower (18F)
+(27, 120, '2021-02-01', '2025-02-15'),
+(27, 240, '2021-02-01', '2025-02-15'),
+(27, 360, '2021-02-01', '2025-02-15'),
+
+-- 28 CEO Tower (30F)
+(28, 220, '2019-04-01', '2025-02-22'),
+(28, 400, '2019-04-01', '2025-02-22'),
+(28, 650, '2019-04-01', '2025-02-22'),
+
+-- 29 Crown Plaza Office (25F)
+(29, 180, '2020-07-15', '2024-11-18'),
+(29, 320, '2020-07-15', '2024-11-18'),
+(29, 500, '2020-07-15', '2024-11-18'),
+
+-- 30 Golden Palace Tower (35F)
+(30, 250, '2018-12-15', '2025-03-03'),
+(30, 450, '2018-12-15', '2025-03-03'),
+(30, 700, '2018-12-15', '2025-03-03'),
+(30, 900, '2018-12-15', '2025-03-03');
 
 -- =============================
 -- BẢNG PHÂN CÔNG NHÂN VIÊN / BUILDING
@@ -204,7 +336,40 @@ INSERT INTO assignment_building (building_id, staff_id) VALUES
 (9, 9), (9, 7),
 (10, 3), (10, 8), (10, 2),
 (11, 5), (11, 10),
-(12, 11), (12, 6);
+(12, 11), (12, 6),
+-- Building 13–14 (Tây Hồ)
+(13, 12), (13, 8), (13, 14),
+(14, 9),  (14, 15),
+
+-- Building 15–16 (Long Biên)
+(15, 7),  (15, 16),
+(16, 5),  (16, 17),
+
+-- Building 17–18 (Hà Đông)
+(17, 6),  (17, 13), (17, 18),
+(18, 8),  (18, 14),
+
+-- Building 19–20 (Bắc Từ Liêm)
+(19, 10), (19, 15), (19, 19),
+(20, 11), (20, 16),
+
+-- Building 21–22 (Ba Đình)
+(21, 2),  (21, 12),
+(22, 3),  (22, 14),
+
+-- Building 23 (Đống Đa – tòa lớn)
+(23, 1),  (23, 4), (23, 15),
+
+-- Building 24–25 (Cầu Giấy)
+(24, 6),  (24, 18),
+(25, 7),  (25, 16), (25, 13),
+
+-- Building 26 (Cầu Giấy)
+(26, 8),  (26, 19),
+
+-- Building 27–28 (Nam Từ Liêm)
+(27, 4),  (27, 12), (27, 17),
+(28, 5),  (28, 15);
 
 -- =============================
 -- BẢNG PHÂN CÔNG KHÁCH HÀNG / CUSTOMER
@@ -224,7 +389,30 @@ INSERT INTO assignment_customer (customer_id, staff_id) VALUES
 (5, 8), (5, 10), (5, 6),
 (6, 9), (6, 7),
 (7, 6), (7, 7), (7, 5),
-(8, 8);
+(8, 8),
+-- Customer 9
+(9, 2), (9, 14), (9, 15),
+
+-- Customer 10
+(10, 7), (10, 16),
+
+-- Customer 11
+(11, 3), (11, 8), (11, 18),
+
+-- Customer 12
+(12, 6), (12, 13),
+
+-- Customer 13 (khách lớn)
+(13, 1), (13, 4), (13, 12), (13, 15),
+
+-- Customer 14
+(14, 9), (14, 17),
+
+-- Customer 15
+(15, 10), (15, 16), (15, 19),
+
+-- Customer 16
+(16, 5), (16, 11), (16, 14);
 
 -- =============================
 -- BẢNG HỢP ĐỒNG / CONTRACT
@@ -268,7 +456,69 @@ INSERT INTO contract
 ('10', '8', '8', '900000.00', '180', '2024-07-01 00:00:00', '2027-07-01 00:00:00', 'ACTIVE', '2024-06-25 16:36:19', '2025-07-01 07:30:50'),
 ('11', '5', '10', '800000.00', '280', '2022-02-01 00:00:00', '2024-02-01 00:00:00', 'EXPIRED', '2022-01-28 17:38:10', '2023-02-01 07:20:40'),
 ('12', '4', '11', '900000.00', '350', '2025-09-01 00:00:00', '2027-03-01 00:00:00', 'ACTIVE', '2025-08-20 14:45:12', '2025-09-02 17:11:32'),
-('12', '4', '6', '900000.00', '350', '2025-08-01 00:00:00', '2028-01-01 00:00:00', 'ACTIVE', '2025-07-28 00:00:00', '2025-08-10 11:10:57');
+('12', '4', '6', '900000.00', '350', '2025-08-01 00:00:00', '2028-01-01 00:00:00', 'ACTIVE', '2025-07-28 00:00:00', '2025-08-10 11:10:57'),
+-- 13 Sun Grand City Thụy Khuê
+(13, 11, 8, 1100000, 280, '2023-01-01', '2026-01-01', 'ACTIVE', '2022-12-15', '2024-02-18'),
+
+-- 14 Watermark Hồ Tây
+(14, 9, 9, 950000, 220, '2022-06-01', '2025-06-01', 'ACTIVE', '2022-05-20', '2024-12-30'),
+
+-- 15 Mipec Riverside Office
+(15, 10, 7, 650000, 300, '2021-09-01', '2024-09-01', 'EXPIRED', '2021-08-15', '2024-09-02'),
+
+-- 16 Sài Đồng Tower
+(16, 15, 5, 600000, 320, '2024-02-01', '2027-02-01', 'ACTIVE', '2024-01-20', '2025-01-12'),
+
+-- 17 Văn Phú Victoria
+(17, 13, 6, 750000, 350, '2023-03-01', '2026-03-01', 'ACTIVE', '2023-02-10', '2025-03-01'),
+
+-- 18 The Pride Tower
+(18, 11, 8, 700000, 400, '2021-08-01', '2024-08-01', 'EXPIRED', '2021-07-15', '2024-08-02'),
+
+-- 19 Sunshine City Office
+(19, 15, 10, 850000, 380, '2024-05-01', '2027-05-01', 'ACTIVE', '2024-04-12', '2025-02-08'),
+
+-- 20 EcoHome 3 Tower
+(20, 16, 11, 650000, 280, '2022-10-01', '2025-10-01', 'ACTIVE', '2022-09-15', '2024-09-14'),
+
+-- 21 Daewoo Business Center
+(21, 1, 2, 750000, 220, '2020-09-01', '2023-09-01', 'EXPIRED', '2020-08-10', '2023-09-02'),
+
+-- 22 Vincom Metropolis Office
+(22, 4, 3, 1200000, 300, '2022-01-01', '2026-01-01', 'ACTIVE', '2021-12-10', '2024-03-05'),
+(22, 9, 14, 1200000, 500, '2023-03-01', '2027-03-01', 'ACTIVE', '2023-02-10', '2025-03-05'),
+(22, 11, 3, 1200000, 750, '2021-06-01', '2025-06-01', 'EXPIRED', '2021-05-01', '2025-06-02'),
+(22, 13, 14, 1200000, 1000, '2024-01-01', '2028-01-01', 'ACTIVE', '2023-12-01', '2025-03-05'),
+(22, 12, 3, 1200000, 300, '2020-09-01', '2024-09-01', 'EXPIRED', '2020-08-01', '2024-09-02'),
+
+-- 23 TNR Tower Nguyễn Chí Thanh
+(23, 1, 1, 1050000, 200, '2022-02-01', '2026-02-01', 'ACTIVE', '2022-01-10', '2025-03-01'),
+(23, 13, 4, 1050000, 380, '2023-06-01', '2028-06-01', 'ACTIVE', '2023-05-18', '2025-03-01'),
+(23, 15, 15, 1050000, 600, '2021-10-01', '2025-10-01', 'EXPIRED', '2021-09-10', '2025-10-02'),
+(23, 9, 4, 1050000, 200, '2024-04-01', '2027-04-01', 'ACTIVE', '2024-03-01', '2025-03-01'),
+
+-- 24 Indochina Plaza Hanoi
+(24, 7, 6, 950000, 450, '2021-04-01', '2024-04-01', 'EXPIRED', '2021-03-10', '2024-04-02'),
+
+-- 25 VNPT Tower
+(25, 10, 7, 780000, 350, '2024-01-01', '2027-01-01', 'ACTIVE', '2023-12-15', '2025-01-20'),
+
+-- 26 CTM Complex
+(26, 15, 8, 720000, 280, '2022-07-01', '2025-07-01', 'ACTIVE', '2022-06-10', '2024-10-11'),
+
+-- 27 Handiresco Tower
+(27, 14, 4, 650000, 240, '2023-09-01', '2026-09-01', 'ACTIVE', '2023-08-12', '2025-02-15'),
+
+-- 28 CEO Tower
+(28, 13, 5, 900000, 400, '2021-05-01', '2024-05-01', 'EXPIRED', '2021-04-10', '2024-05-02'),
+
+-- 29 Crown Plaza Office
+(29, 15, 10, 780000, 320, '2024-03-01', '2027-03-01', 'ACTIVE', '2024-02-15', '2024-11-18'),
+
+-- 30 Golden Palace Tower
+(30, 15, 15, 950000, 250, '2021-01-01', '2025-01-01', 'EXPIRED', '2020-12-01', '2025-01-02'),
+(30, 9, 15, 950000, 450, '2022-05-01', '2026-05-01', 'ACTIVE', '2022-04-01', '2025-03-03'),
+(30, 13, 15, 950000, 700, '2024-01-01', '2028-01-01', 'ACTIVE', '2023-12-01', '2025-03-03');
 
 -- =============================
 -- BẢNG HÓA ĐƠN / INVOICE
