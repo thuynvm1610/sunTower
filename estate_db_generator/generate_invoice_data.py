@@ -72,7 +72,7 @@ for c in contracts:
 
     start_month_first = contract_start.replace(day=1)
 
-    # ⭐⭐ QUAN TRỌNG: chỉ generate đến tháng chứa (end_date - 1 ngày)
+    # QUAN TRỌNG: chỉ generate đến tháng chứa (end_date - 1 ngày)
     real_end = contract_end - timedelta(days=1)
     end_month_first = min(real_end.replace(day=1), last_month_date)
 
@@ -181,4 +181,4 @@ for c in contracts:
 cursor.close()
 db.close()
 
-print("=== DONE: generate đúng tới tháng cuối thuê (không dư) ===")
+print("=== DONE: generate successfully ===")
