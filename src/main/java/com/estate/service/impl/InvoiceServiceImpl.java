@@ -435,7 +435,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     public List<ExpiringInvoiceDTO> getExpiringInvoices(Long staffId) {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime start = now
-                .withDayOfMonth(11)
+                .withDayOfMonth(9)
                 .withHour(0)
                 .withMinute(0)
                 .withSecond(0);
