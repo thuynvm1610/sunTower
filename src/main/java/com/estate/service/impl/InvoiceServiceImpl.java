@@ -414,8 +414,15 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public List<OverdueInvoiceDTO> getOverdueInvoices() {
-        List<InvoiceEntity> overdueInvoices = invoiceRepository.findByStatus("OVERDUE");
+    public List<OverdueInvoiceDTO> getOverdueInvoices(Long staffID) {
+        List<ContractEntity> contracts = contractRepository.findByStaffId(staffID);
+        List<Long> contractIds = contracts
+                .stream()
+                .map(
+                        ContractEntity::getId
+                )
+                .toList();
+        List<InvoiceEntity> overdueInvoices = invoiceRepository.findByStatusAndContractIdIn("OVERDUE", contractIds);
         return overdueInvoices
                 .stream()
                 .map(

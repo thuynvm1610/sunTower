@@ -27,7 +27,7 @@ public interface InvoiceService {
     Integer getRentArea(Long id);
     Map<Long, Integer> getRentAreaByContract();
     void markPaid(Long invoiceId, String method, String txnRef);
-    List<OverdueInvoiceDTO> getOverdueInvoices();
+    List<OverdueInvoiceDTO> getOverdueInvoices(Long staffID);
     List<ExpiringInvoiceDTO> getExpiringInvoices();
     void statusUpdate();
 }

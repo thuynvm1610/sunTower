@@ -80,4 +80,6 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Long>, I
     void invoiceStatusUpdate();
 
     Long countByStatusAndContractIdIn(String status, List<Long> contractIds);
+
+    List<InvoiceEntity> findByStatusAndContractIdIn(String status, List<Long> contractIds);
 }
