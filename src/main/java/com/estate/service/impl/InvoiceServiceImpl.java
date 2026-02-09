@@ -432,20 +432,24 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public List<ExpiringInvoiceDTO> getExpiringInvoices() {
+    public List<ExpiringInvoiceDTO> getExpiringInvoices(Long staffId) {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime start = now
                 .withDayOfMonth(11)
                 .withHour(0)
                 .withMinute(0)
                 .withSecond(0);
-        LocalDateTime end = now
-                .withDayOfMonth(16)
-                .withHour(0)
-                .withMinute(0)
-                .withSecond(0);
 
-        List<InvoiceEntity> invoices = invoiceRepository.getExpiringInvoices(start, end);
+        List<ContractEntity> contracts = contractRepository.findByStaffId(staffId);
+
+        List<Long> contractIds = contracts
+                .stream()
+                .map(
+                        ContractEntity::getId
+                )
+                .toList();
+
+        List<InvoiceEntity> invoices = invoiceRepository.getExpiringInvoices(start, contractIds);
 
         return invoices
                 .stream()

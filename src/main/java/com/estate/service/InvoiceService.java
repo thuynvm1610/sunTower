@@ -28,6 +28,6 @@ public interface InvoiceService {
     Map<Long, Integer> getRentAreaByContract();
     void markPaid(Long invoiceId, String method, String txnRef);
     List<OverdueInvoiceDTO> getOverdueInvoices(Long staffID);
-    List<ExpiringInvoiceDTO> getExpiringInvoices();
+    List<ExpiringInvoiceDTO> getExpiringInvoices(Long staffID);
     void statusUpdate();
 }

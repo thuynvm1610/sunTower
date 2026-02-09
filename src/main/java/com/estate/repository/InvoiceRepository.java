@@ -59,15 +59,17 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Long>, I
     List<InvoiceEntity> findByStatus(String status);
 
     @Query("""
-            SELECT i
-            FROM InvoiceEntity i
-            WHERE CURRENT_TIMESTAMP >= :start
-            AND CURRENT_TIMESTAMP < :end
-            AND i.status = "PENDING"
+                SELECT i
+                FROM InvoiceEntity i
+                JOIN i.contract c
+                WHERE CURRENT_TIMESTAMP >= :start
+                  AND CURRENT_TIMESTAMP < i.dueDate
+                  AND i.status = 'PENDING'
+                  AND c.id IN :contractIds
             """)
     List<InvoiceEntity> getExpiringInvoices(
             @Param("start") LocalDateTime start,
-            @Param("end") LocalDateTime end
+            @Param("contractIds") List<Long> contractIds
     );
 
     @Modifying
