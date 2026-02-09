@@ -19,7 +19,7 @@ public interface InvoiceService {
     Page<InvoiceDetailDTO> getInvoices(int page, int size, Integer  month, Integer  year, Long customerId);
     Page<InvoiceListDTO> getInvoices(int page, int size);
     Page<InvoiceListDTO> search(InvoiceFilterDTO filter, int page, int size);
-    Page<InvoiceDetailDTO> searchByStaff(InvoiceFilterDTO filter, int page, int size);
+    Page<InvoiceDetailDTO> searchByStaff(InvoiceFilterDTO filter, int page, int size, Long staffId);
     void delete(Long id);
     InvoiceDetailDTO viewById(Long invoiceId);
     void invoiceConfirm(Long id);

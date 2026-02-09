@@ -240,9 +240,18 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public Page<InvoiceDetailDTO> searchByStaff(InvoiceFilterDTO filter, int page, int size) {
+    public Page<InvoiceDetailDTO> searchByStaff(InvoiceFilterDTO filter, int page, int size, Long staffId) {
+        List<ContractEntity> contracts = contractRepository.findByStaffId(staffId);
+
+        List<Long> contractIds = contracts
+                .stream()
+                .map(
+                        ContractEntity::getId
+                )
+                .toList();
+
         Pageable pageable = PageRequest.of(page, size);
-        Page<InvoiceEntity> invoicePage = invoiceRepository.searchInvoices(filter, pageable);
+        Page<InvoiceEntity> invoicePage = invoiceRepository.searchInvoicesByStaff(filter, pageable, contractIds);
 
         // Tạo list chứa DTO
         List<InvoiceDetailDTO> dtoList = new ArrayList<>();

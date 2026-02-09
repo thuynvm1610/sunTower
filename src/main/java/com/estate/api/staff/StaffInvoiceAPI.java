@@ -3,10 +3,13 @@ package com.estate.api.staff;
 import com.estate.dto.InvoiceDetailDTO;
 import com.estate.dto.InvoiceFilterDTO;
 import com.estate.dto.InvoiceFormDTO;
+import com.estate.security.CustomUserDetails;
 import com.estate.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,9 +22,10 @@ public class StaffInvoiceAPI {
     public Page<InvoiceDetailDTO> getInvoicesSearchPage(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "5") int size,
-            InvoiceFilterDTO filter
+            InvoiceFilterDTO filter,
+            @AuthenticationPrincipal CustomUserDetails user
     ) {
-        return invoiceService.searchByStaff(filter, page - 1, size);
+        return invoiceService.searchByStaff(filter, page - 1, size, user.getCustomerId());
     }
 
     @DeleteMapping("/delete/{id}")

@@ -74,6 +74,71 @@ public class InvoiceRepositoryImpl implements InvoiceRepositoryCustom {
         return new PageImpl<>(list, pageable, total);
     }
 
+    @Override
+    public Page<InvoiceEntity> searchInvoicesByStaff(InvoiceFilterDTO f, Pageable pageable, List<Long> staffIds) {
+        StringBuilder jpql = new StringBuilder("SELECT i FROM InvoiceEntity i ");
+        StringBuilder countJpql = new StringBuilder("SELECT COUNT(i) FROM InvoiceEntity i ");
+        StringBuilder where = new StringBuilder(" WHERE 1=1 ");
+
+        if (f.getCustomerId() != null) {
+            jpql.append(" LEFT JOIN i.customer c ");
+            countJpql.append(" LEFT JOIN i.customer c ");
+        }
+
+        if (!staffIds.isEmpty()) {
+            jpql.append(" LEFT JOIN i.contract con ");
+            countJpql.append(" LEFT JOIN i.contract con ");
+        }
+
+        // ========== LIKE ==========
+        if (notEmpty(f.getStatus())) {
+            where.append(" AND LOWER(i.status) LIKE LOWER(:status) ");
+        }
+
+        // ========== EQUAL ==========
+        if (f.getCustomerId() != null) {
+            where.append(" AND c.id = :customerId ");
+        }
+
+        if (f.getMonth() != null) {
+            where.append(" AND i.month = :month ");
+        }
+
+        if (f.getYear() != null) {
+            where.append(" AND i.year = :year ");
+        }
+
+        if (!staffIds.isEmpty()) {
+            where.append(" AND con.id IN :staffIds ");
+        }
+
+        // ========== RANGE BIG DECIMAL ==========
+        addRangeDecimal(where, "i.totalAmount", "totalAmountFrom", "totalAmountTo", f.getTotalAmountFrom(), f.getTotalAmountTo());
+
+        // ========== Add WHERE ==========
+        jpql.append(where);
+        countJpql.append(where);
+
+        // ========== CREATE QUERY ==========
+        TypedQuery<InvoiceEntity> query = em.createQuery(jpql.toString(), InvoiceEntity.class);
+        TypedQuery<Long> countQuery = em.createQuery(countJpql.toString(), Long.class);
+
+        // ========== SET PARAMS ==========
+        setParams(query, f);
+        setParams(countQuery, f);
+        query.setParameter("staffIds", staffIds);
+        countQuery.setParameter("staffIds", staffIds);
+
+        // ========== PAGING ==========
+        query.setFirstResult((int) pageable.getOffset());
+        query.setMaxResults(pageable.getPageSize());
+
+        List<InvoiceEntity> list = query.getResultList();
+        Long total = countQuery.getSingleResult();
+
+        return new PageImpl<>(list, pageable, total);
+    }
+
     private boolean notEmpty(String s) {
         return s != null && !s.trim().isEmpty();
     }
