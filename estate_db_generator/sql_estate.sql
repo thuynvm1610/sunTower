@@ -110,7 +110,7 @@ INSERT INTO building
 ('Sun Grand City Thụy Khuê', 8, 'Thụy Khuê', 'Thụy Khuê', 25, 3, 4200, 'TAY', 'A_PLUS', 1100000, 2000000, 2200000, 120000, 20000, 5500, 150000000, 'https://sungrandcity.vn', 'sun-grand-city.jpg', '2019-06-12', '2025-02-18'),
 ('Watermark Hồ Tây', 8, 'Nhật Tân', 'Âu Cơ', 18, 2, 3600, 'TAY_BAC', 'A', 950000, 1500000, 1800000, 90000, 18000, 5200, 90000000, 'https://watermark.vn', 'watermark-tayho.jpg', '2020-03-25', '2024-12-30'),
 ('Mipec Riverside Office', 9, 'Ngọc Lâm', 'Long Biên', 22, 2, 3800, 'DONG_NAM', 'B_PLUS', 650000, 1200000, 1500000, 80000, 16000, 4800, 70000000, 'https://mipecriverside.vn', 'mipec-riverside.jpg', '2020-07-14', '2024-11-05'),
-('Sài Đồng Tower', 9, 'Sài Đồng', 'Nguyễn Văn Linh', 20, 2, 4000, 'NAM', 'B', 600000, 1000000, 1400000, 70000, 15000, 4500, 60000000, 'https://saidongtower.vn', 'sai-dong-tower.jpg', '2021-02-10', '2025-01-12'),
+('Handcorp Plaza', 9, 'Dịch Vọng Hậu', 'Trần Đăng Ninh', 20, 2, 4000, 'NAM', 'B', 600000, 1000000, 1400000, 70000, 15000, 4500, 60000000, 'https://handcorpplaza.vn', 'handcorp-plaza.jpg', '2021-02-10', '2025-01-12'),
 ('Văn Phú Victoria', 10, 'Phú La', 'Lê Trọng Tấn', 30, 3, 5000, 'DONG_BAC', 'A', 750000, 1300000, 1600000, 85000, 17000, 5000, 80000000, 'https://vanphuvictoria.vn', 'van-phu-victoria.jpg', '2019-09-19', '2025-03-01'),
 ('The Pride Tower', 10, 'La Khê', 'Tố Hữu', 35, 3, 5200, 'TAY_NAM', 'B_PLUS', 700000, 1200000, 1500000, 80000, 16000, 4800, 75000000, 'https://thepride.vn', 'the-pride-tower.jpg', '2020-05-28', '2024-10-21'),
 ('Sunshine City Office', 11, 'Đông Ngạc', 'Phạm Văn Đồng', 32, 3, 5400, 'DONG', 'A', 850000, 1500000, 1800000, 90000, 18000, 5200, 90000000, 'https://sunshinecity.vn', 'sunshine-city-office.jpg', '2020-11-11', '2025-02-08'),
