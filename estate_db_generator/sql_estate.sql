@@ -56,7 +56,7 @@ INSERT INTO staff (username, password, full_name, phone, email, image, role, cre
 ('nta1212', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Ngô Tuấn Anh', '0902000008', 'anhtn@gmail.com', 'staff_009', 'STAFF', '2022-06-11', '2024-12-30'),
 ('hdk1311', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Hoàng Đức Khánh', '0902000009', 'khanh.hd@gmail.com', 'staff_010', 'STAFF', '2023-01-05', '2025-01-16'),
 ('ttt1612', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Trịnh Thu Trang', '0902000010', 'trang.tt@gmail.com', 'staff_011', 'STAFF', '2023-03-12', '2025-02-25'),
-('mhc0909', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Hồ Chí Minh', '0902000011', 'minh.hc@gmail.com', 'staff_012', 'ADMIN', '2019-09-09', '2024-12-20'),
+('llt2910', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Lê Thùy Linh', '0902000011', 'linh.lt@gmail.com', 'staff_012', 'ADMIN', '2019-09-09', '2024-12-20'),
 ('nvt1503', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Nguyễn Văn Tùng', '0902000012', 'tung.nv@gmail.com', 'staff_013', 'STAFF', '2020-03-15', '2024-11-08'),
 ('pth2807', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Phạm Thị Hạnh', '0902000013', 'hanh.pt@gmail.com', 'staff_014', 'STAFF', '2020-07-28', '2025-01-05'),
 ('tqd0211', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Trần Quang Đức', '0902000014', 'duc.tq@gmail.com', 'staff_015', 'STAFF', '2021-02-11', '2024-10-19'),
@@ -330,7 +330,7 @@ INSERT INTO assignment_building (building_id, staff_id) VALUES
 (10, 3), (10, 8), (10, 2),
 (11, 5), (11, 10),
 (12, 11), (12, 6),
-(13, 12), (13, 8), (13, 14),
+(13, 8), (13, 14),
 (14, 9),  (14, 15),
 (15, 7),  (15, 16),
 (16, 5),  (16, 17),
@@ -338,13 +338,13 @@ INSERT INTO assignment_building (building_id, staff_id) VALUES
 (18, 8),  (18, 14),
 (19, 10), (19, 15), (19, 19),
 (20, 11), (20, 16),
-(21, 2),  (21, 12),
-(22, 3),  (22, 14), (22, 12),
-(23, 1),  (23, 4), (23, 15),
+(21, 2),
+(22, 3),  (22, 14),
+(23, 4), (23, 15),
 (24, 6),  (24, 18),
 (25, 7),  (25, 16), (25, 13),
 (26, 8),  (26, 19),
-(27, 4),  (27, 12), (27, 17),
+(27, 4), (27, 17),
 (28, 5),  (28, 15),
 (29, 10),
 (30, 15);
@@ -361,7 +361,7 @@ CREATE TABLE assignment_customer (
 );
 
 INSERT INTO assignment_customer (customer_id, staff_id) VALUES
-(1, 11), (1,2), (1, 1),
+(1, 11), (1,2),
 (3, 5), (3, 2), (3, 3),
 (4, 3), (4, 4), (4, 11), (4, 6),
 (5, 8), (5, 10), (5, 6),
@@ -456,7 +456,6 @@ INSERT INTO contract
 (22, 13, 14, 1200000, 1000, '2024-01-01', '2028-01-01', 'ACTIVE', '2023-12-01', '2025-03-05'),
 (22, 12, 3, 1200000, 300, '2020-09-01', '2024-09-01', 'EXPIRED', '2020-08-01', '2024-09-02'),
 
-(23, 1, 1, 1050000, 200, '2022-02-01', '2026-02-01', 'ACTIVE', '2022-01-10', '2025-03-01'),
 (23, 13, 4, 1050000, 380, '2023-06-01', '2028-06-01', 'ACTIVE', '2023-05-18', '2025-03-01'),
 (23, 15, 15, 1050000, 600, '2021-10-01', '2025-10-01', 'EXPIRED', '2021-09-10', '2025-10-02'),
 (23, 9, 4, 1050000, 200, '2024-04-01', '2027-04-01', 'ACTIVE', '2024-03-01', '2025-03-01'),
