@@ -88,8 +88,17 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public Long getTotalUnpaidInvoices() {
-        return invoiceRepository.countByStatus("PENDING");
+    public Long getTotalUnpaidInvoices(Long staffID) {
+        List<ContractEntity> contracts = contractRepository.findByStaffId(staffID);
+
+        List<Long> contractIds = contracts
+                                        .stream()
+                                        .map(
+                                                ContractEntity::getId
+                                        )
+                                        .toList();
+
+        return invoiceRepository.countByStatusAndContractIdIn("PENDING", contractIds);
     }
 
     @Override

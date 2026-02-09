@@ -78,4 +78,6 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Long>, I
             AND CURRENT_TIMESTAMP >= i.dueDate
             """)
     void invoiceStatusUpdate();
+
+    Long countByStatusAndContractIdIn(String status, List<Long> contractIds);
 }

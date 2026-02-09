@@ -33,7 +33,7 @@ public class StaffDashboardController {
         model.addAttribute("buildingCnt", staffService.getBuildingCnt(staffID));
         model.addAttribute("contractCnt", contractService.getContractCnt(staffID));
         model.addAttribute("customerCnt", staffService.getCustomertCnt(staffID));
-        model.addAttribute("unpaidInvoiceCnt", invoiceService.getTotalUnpaidInvoices());
+        model.addAttribute("unpaidInvoiceCnt", invoiceService.getTotalUnpaidInvoices(staffID));
 
         model.addAttribute("overdueInvoices", invoiceService.getOverdueInvoices());
 
