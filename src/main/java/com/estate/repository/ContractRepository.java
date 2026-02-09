@@ -103,9 +103,11 @@ public interface ContractRepository extends JpaRepository<ContractEntity, Long>,
             WHERE c.endDate >= :start
             AND c.endDate < :end
             AND c.status = "ACTIVE"
+            AND c.id IN :contractIds
             """)
     List<ContractEntity> getExpiringContracts(
             @Param("start") LocalDateTime start,
-            @Param("end") LocalDateTime end
+            @Param("end") LocalDateTime end,
+            @Param("contractIds") List<Long> contractIds
     );
 }

@@ -382,7 +382,7 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public List<ContractListDTO> getExpiringContracts() {
+    public List<ContractListDTO> getExpiringContracts(Long staffId) {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime start = now.withDayOfMonth(1)
                 .withHour(0)
@@ -392,7 +392,16 @@ public class ContractServiceImpl implements ContractService {
                 .withHour(0)
                 .withMinute(0)
                 .withSecond(0);
-        List<ContractEntity> contracts = contractRepository.getExpiringContracts(start, end);
+        List<ContractEntity> contractLists = contractRepository.findByStaffId(staffId);
+
+        List<Long> contractIds = contractLists
+                .stream()
+                .map(
+                        ContractEntity::getId
+                )
+                .toList();
+
+        List<ContractEntity> contracts = contractRepository.getExpiringContracts(start, end, contractIds);
 
         return contracts
                 .stream()
