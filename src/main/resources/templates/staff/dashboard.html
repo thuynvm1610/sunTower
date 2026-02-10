@@ -513,7 +513,7 @@
                     <!-- Chỉ hiện nút khi list có phần tử -->
                     <a class="viewAllExpiringInvoice"
                        th:if="${expiringInvoices != null and !#lists.isEmpty(expiringInvoices)}"
-                       th:href="@{/admin/invoices/overdue}">
+                       th:href="@{/staff/invoices(status=PENDING)}">
                         Xem tất cả <i class="bi bi-arrow-right"></i>
                     </a>
                 </div>
