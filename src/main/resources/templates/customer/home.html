@@ -586,7 +586,7 @@
                 <!-- Contracts Section -->
                 <div class="section-card p-4">
                     <div class="section-header mb-3 d-flex justify-content-between align-items-center">
-                        <h2>Hợp đồng của tôi</h2>
+                        <h2 th:text="'Hợp đồng của tôi ' + '(' + ${#lists.size(contracts)} + ')'"></h2>
                         <a th:href="@{/customer/contract/list}" class="view-all">
                             Xem tất cả <i class="bi bi-arrow-right"></i>
                         </a>
@@ -597,7 +597,9 @@
                         <p class="text-muted mb-0">Chưa có hợp đồng nào</p>
                     </div>
                     <!-- Contracts Card, có hợp đồng -->
-                    <div class="contract-card p-3 mb-3" th:each="contract : ${contracts}">
+                    <div class="contract-card p-3 mb-3"
+                         th:each="contract, stat : ${contracts}"
+                         th:if="${stat.index < 2}">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <span class="contract-id" th:text="'Mã hợp đồng: ' + ${contract.id}">HĐ-2024001</span>
                             <span class="badge badge-active rounded-pill px-3 py-2"

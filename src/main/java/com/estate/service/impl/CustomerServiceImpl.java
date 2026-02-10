@@ -230,17 +230,12 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public List<ContractDetailDTO> getCustomerContracts(Long customerId) {
         List<ContractEntity> contractEntities = contractRepository.findByCustomerId(customerId);
-        List<ContractDetailDTO> result = new ArrayList<>();
-        int cnt = 1;
-        for (ContractEntity c : contractEntities) {
-            if (cnt == 3) break;
-            else {
-                result.add(contractDetailConverter.toDto(c));
-                cnt++;
-            }
-        }
-
-        return result;
+        return contractEntities
+                .stream()
+                .map(
+                        contractDetailConverter::toDto
+                )
+                .toList();
     }
 
     @Override
