@@ -46,24 +46,24 @@ CREATE TABLE staff (
 
 INSERT INTO staff (username, password, full_name, phone, email, image, role, created_date, modified_date) VALUES
 ('nvmt1610', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Nguyễn Văn Minh Thủy', '0375577856', 'thuy.nvm@gmail.com', 'staff_001', 'ADMIN', '2018-01-05', '2018-01-05'),
-('tmq0102', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Trần Minh Quân', '0902000001', 'quan.tm@gmail.com', 'staff_002', 'STAFF', '2019-02-15', '2024-04-12'),
-('lth2105', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Lê Thị Hồng', '0902000002', 'hong.lt@gmail.com', 'staff_003', 'STAFF', '2019-05-10', '2024-03-18'),
-('pvd1208', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Phạm Văn Dũng', '0902000003', 'dung.pv@gmail.com', 'staff_004', 'STAFF', '2020-01-08', '2024-05-09'),
-('nha0401', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Nguyễn Hoàng Anh', '0902000004', 'anh.nh@gmail.com', 'staff_005', 'STAFF', '2020-07-20', '2024-04-28'),
-('vnb2511', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Vũ Ngọc Bích', '0902000005', 'bich.vn@gmail.com', 'staff_006', 'STAFF', '2021-02-11', '2025-03-15'),
-('dhc2307', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Đặng Hữu Cường', '0902000006', 'cuong.dh@gmail.com', 'staff_007', 'STAFF', '2021-09-03', '2024-06-10'),
-('ltm1905', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Lương Thị Mai', '0902000007', 'mai.lt@gmail.com', 'staff_008', 'STAFF', '2022-03-25', '2025-02-02'),
-('nta1212', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Ngô Tuấn Anh', '0902000008', 'anhtn@gmail.com', 'staff_009', 'STAFF', '2022-06-11', '2024-12-30'),
-('hdk1311', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Hoàng Đức Khánh', '0902000009', 'khanh.hd@gmail.com', 'staff_010', 'STAFF', '2023-01-05', '2025-01-16'),
-('ttt1612', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Trịnh Thu Trang', '0902000010', 'trang.tt@gmail.com', 'staff_011', 'STAFF', '2023-03-12', '2025-02-25'),
-('llt2910', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Lê Thùy Linh', '0902000011', 'linh.lt@gmail.com', 'staff_012', 'ADMIN', '2019-09-09', '2024-12-20'),
-('nvt1503', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Nguyễn Văn Tùng', '0902000012', 'tung.nv@gmail.com', 'staff_013', 'STAFF', '2020-03-15', '2024-11-08'),
-('pth2807', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Phạm Thị Hạnh', '0902000013', 'hanh.pt@gmail.com', 'staff_014', 'STAFF', '2020-07-28', '2025-01-05'),
-('tqd0211', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Trần Quang Đức', '0902000014', 'duc.tq@gmail.com', 'staff_015', 'STAFF', '2021-02-11', '2024-10-19'),
-('lmn3006', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Lê Minh Ngọc', '0902000015', 'ngoc.lm@gmail.com', 'staff_016', 'STAFF', '2021-06-30', '2025-02-10'),
-('dth1708', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Đỗ Thị Hương', '0902000016', 'huong.dt@gmail.com', 'staff_017', 'STAFF', '2022-08-17', '2024-12-14'),
-('nqk0404', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Nguyễn Quốc Khánh', '0902000017', 'khanh.nq@gmail.com', 'staff_018', 'STAFF', '2022-04-04', '2025-01-28'),
-('vtl2210', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Vũ Thị Linh', '0902000018', 'linh.vt@gmail.com', 'staff_019', 'STAFF', '2023-10-22', '2025-03-01');
+('tmq0102', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Trần Minh Quân', '0812945252', 'quan.tm@gmail.com', 'staff_002', 'STAFF', '2019-02-15', '2024-04-12'),
+('lth2105', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Lê Thị Hồng', '0349397989', 'hong.lt@gmail.com', 'staff_003', 'STAFF', '2019-05-10', '2024-03-18'),
+('pvd1208', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Phạm Văn Dũng', '0852486437', 'dung.pv@gmail.com', 'staff_004', 'STAFF', '2020-01-08', '2024-05-09'),
+('nha0401', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Nguyễn Hoàng Anh', '0384509115', 'anh.nh@gmail.com', 'staff_005', 'STAFF', '2020-07-20', '2024-04-28'),
+('vnb2511', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Vũ Ngọc Bích', '0386213813', 'bich.vn@gmail.com', 'staff_006', 'STAFF', '2021-02-11', '2025-03-15'),
+('dhc2307', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Đặng Hữu Cường', '0337240999', 'cuong.dh@gmail.com', 'staff_007', 'STAFF', '2021-09-03', '2024-06-10'),
+('ltm1905', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Lương Thị Mai', '0385325395', 'mai.lt@gmail.com', 'staff_008', 'STAFF', '2022-03-25', '2025-02-02'),
+('nta1212', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Ngô Tuấn Anh', '0364961972', 'anhtn@gmail.com', 'staff_009', 'STAFF', '2022-06-11', '2024-12-30'),
+('hdk1311', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Hoàng Đức Khánh', '0865890758', 'khanh.hd@gmail.com', 'staff_010', 'STAFF', '2023-01-05', '2025-01-16'),
+('ttt1612', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Trịnh Thu Trang', '0911848571', 'trang.tt@gmail.com', 'staff_011', 'STAFF', '2023-03-12', '2025-02-25'),
+('llt2910', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Lê Thùy Linh', '0345914403', 'linh.lt@gmail.com', 'staff_012', 'ADMIN', '2019-09-09', '2024-12-20'),
+('nvt1503', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Nguyễn Văn Tùng', '0387432641', 'tung.nv@gmail.com', 'staff_013', 'STAFF', '2020-03-15', '2024-11-08'),
+('pth2807', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Phạm Thị Hạnh', '0334021344', 'hanh.pt@gmail.com', 'staff_014', 'STAFF', '2020-07-28', '2025-01-05'),
+('tqd0211', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Trần Quang Đức', '0869076328', 'duc.tq@gmail.com', 'staff_015', 'STAFF', '2021-02-11', '2024-10-19'),
+('lmn3006', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Lê Minh Ngọc', '0377050627', 'ngoc.lm@gmail.com', 'staff_016', 'STAFF', '2021-06-30', '2025-02-10'),
+('dth1708', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Đỗ Thị Hương', '0392613930', 'huong.dt@gmail.com', 'staff_017', 'STAFF', '2022-08-17', '2024-12-14'),
+('nqk0404', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Nguyễn Quốc Khánh', '0862587123', 'khanh.nq@gmail.com', 'staff_018', 'STAFF', '2022-04-04', '2025-01-28'),
+('vtl2210', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Vũ Thị Linh', '0356767043', 'linh.vt@gmail.com', 'staff_019', 'STAFF', '2023-10-22', '2025-03-01');
 
 -- =============================
 -- BẢNG TÒA NHÀ / BUILDING
