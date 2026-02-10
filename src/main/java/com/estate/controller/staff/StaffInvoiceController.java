@@ -38,15 +38,13 @@ public class StaffInvoiceController {
             @AuthenticationPrincipal CustomUserDetails user,
             @RequestParam(required = false, defaultValue = "") String status
         ) {
-        model.addAttribute("customers", customerService.getCustomersName());
+        model.addAttribute("customers", customerService.getCustomersNameByStaff(user.getCustomerId()));
 
         model.addAttribute("staffName", staffService.getStaffName(user.getCustomerId()));
 
         model.addAttribute("staffAvatar", staffService.getStaffAvatar(user.getCustomerId()));
 
         model.addAttribute("status", status);
-
-        model.addAttribute("customers", customerService.getCustomersName());
 
         Map<Long, List<Long>> contracts = contractService.getActiveContracts();
         model.addAttribute("contracts", contracts);

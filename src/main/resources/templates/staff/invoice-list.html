@@ -994,7 +994,11 @@
 
                 <div class="col-md-4">
                     <label class="form-label">Tên khách hàng</label>
-                    <input type="text" class="form-control" name="customerName" placeholder="Nhập tên khách hàng...">
+                    <select class="form-control" name="customerId">
+                        <option value="">-- Chọn khách hàng --</option>
+                        <option th:each="c : ${customers}" th:value="${c.value}" th:text="${c.key}">
+                        </option>
+                    </select>
                 </div>
             </div>
 
@@ -1519,7 +1523,7 @@
             staffId: staffId,
             month: $("[name='month']").val(),
             year: $("[name='year']").val(),
-            customerName: $("[name='customerName']").val(),
+            customerId: $("[name='customerId']").val(),
             totalAmountFrom: $("[name='totalAmountFrom']").val(),
             totalAmountTo: $("[name='totalAmountTo']").val(),
             status: $("[name='status']").val()
