@@ -17,6 +17,7 @@ public interface CustomerService {
     void delete(Long id);
     CustomerDetailDTO viewById(Long id);
     Map<String, Long> getCustomersName();
+    Map<String, Long> getCustomersNameByStaff(Long staffId);
     List<ContractDetailDTO> getCustomerContracts(Long customerId);
     CustomerEntity findById(Long customerId);
     void usernameUpdate(UsernameChangeDTO dto, Long customerId);

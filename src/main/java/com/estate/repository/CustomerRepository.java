@@ -87,4 +87,12 @@ public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> 
                         @Param("customerId") Long customerId);
 
     Optional<CustomerEntity> findByEmail(String email);
+
+    @Query("""
+            SELECT c 
+            FROM CustomerEntity c 
+            JOIN c.staffs_customers sc 
+            WHERE sc.id = :staffId
+            """)
+    List<CustomerEntity> findByStaffId(@Param("staffId") Long staffId);
 }

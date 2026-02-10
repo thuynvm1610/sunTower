@@ -218,6 +218,16 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public Map<String, Long> getCustomersNameByStaff(Long staffId) {
+        List<CustomerEntity> customerEntities = customerRepository.findByStaffId(staffId);
+        Map<String, Long> result = new HashMap<>();
+        for (CustomerEntity c : customerEntities) {
+            result.put(c.getFullName(), c.getId());
+        }
+        return result;
+    }
+
+    @Override
     public List<ContractDetailDTO> getCustomerContracts(Long customerId) {
         List<ContractEntity> contractEntities = contractRepository.findByCustomerId(customerId);
         List<ContractDetailDTO> result = new ArrayList<>();

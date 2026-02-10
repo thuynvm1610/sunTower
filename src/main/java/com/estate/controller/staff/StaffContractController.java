@@ -33,7 +33,7 @@ public class StaffContractController {
             @AuthenticationPrincipal CustomUserDetails user,
             @RequestParam Map<String, String> params
     ) {
-        model.addAttribute("customers", customerService.getCustomersName());
+        model.addAttribute("customers", customerService.getCustomersNameByStaff(user.getCustomerId()));
         model.addAttribute("buildings", buildingService.getBuildingsName());
 
         model.addAttribute("staffName", staffService.getStaffName(user.getCustomerId()));
