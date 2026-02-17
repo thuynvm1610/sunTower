@@ -961,7 +961,8 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         <i class="bi bi-x-circle me-2"></i>Đóng
                     </button>
-                    <button type="button" class="btn btn-payment" onclick="payInvoice(invoiceId)">
+                    <button type="button" class="btn btn-payment"
+                            th:onclick="'payInvoice(' + ${detailInvoice.id} + ')'">
                         <i class="bi bi-credit-card me-2"></i> Xác Nhận Thanh Toán
                     </button>
                 </div>
@@ -969,15 +970,7 @@
         </div>
     </div>
 
-    <script th:inline="javascript">
-        let invoiceId = /*[[${detailInvoice.id}]]*/ 0;
-
-        function payInvoice(id) {
-            fetch(`/payment/create/${id}`)
-                .then(res => res.text())
-                .then(url => window.location.href = url);
-        }
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         setTimeout(function () {
@@ -987,6 +980,42 @@
         }, 5000);
     </script>
 
+    <script>
+        function payInvoice(invoiceId) {
+            Swal.fire({
+                title: "Xác nhận thanh toán?",
+                text: "Bạn sẽ được chuyển sang VNPay để thanh toán.",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonText: "Thanh toán",
+                cancelButtonText: "Hủy"
+            }).then((result) => {
+                if (!result.isConfirmed) return;
+
+                Swal.fire({
+                    title: "Đang tạo yêu cầu thanh toán...",
+                    allowOutsideClick: false,
+                    didOpen: () => Swal.showLoading()
+                });
+
+                $.ajax({
+                    url: "/payment/vnpay/" + invoiceId,
+                    type: "GET",
+                    dataType: "text",
+                    timeout: 15000,
+                    success: function(paymentUrl) {
+                        Swal.close();
+                        window.location.href = paymentUrl;
+                    },
+                    error: function(xhr) {
+                        Swal.close();
+                        console.log(xhr.status, xhr.responseText);
+                        Swal.fire("Lỗi", "Không thể tạo yêu cầu thanh toán", "error");
+                    }
+                });
+            });
+        }
+    </script>
 </body>
 
 </html>
