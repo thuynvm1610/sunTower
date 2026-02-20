@@ -64,4 +64,4 @@ invoices, and transactions with role-based access control.
 ## How to Run
 Read "guide.txt" file
 
-## PROJECT IS IN PROGRESS
+## PROJECT IS FINISHED
