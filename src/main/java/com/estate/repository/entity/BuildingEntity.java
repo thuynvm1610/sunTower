@@ -2,6 +2,8 @@ package com.estate.repository.entity;
 
 import com.estate.enums.Direction;
 import com.estate.enums.Level;
+import com.estate.enums.PropertyType;
+import com.estate.enums.TransactionType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -49,8 +51,19 @@ public class BuildingEntity {
     @Enumerated(EnumType.STRING)
     private Level level;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "property_type", nullable = false)
+    private PropertyType propertyType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "transaction_type", nullable = false)
+    private TransactionType transactionType;
+
     @Column(name = "rent_price")
     private BigDecimal rentPrice;
+
+    @Column(name = "sale_price")
+    private BigDecimal salePrice;
 
     @Column(name = "service_fee")
     private BigDecimal serviceFee;

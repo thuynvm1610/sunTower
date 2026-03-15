@@ -7,7 +7,6 @@ import com.estate.dto.BuildingDetailDTO;
 import com.estate.dto.BuildingFilterDTO;
 import com.estate.dto.BuildingFormDTO;
 import com.estate.dto.BuildingListDTO;
-import com.estate.enums.Direction;
 import com.estate.exception.BusinessException;
 import com.estate.repository.*;
 import com.estate.repository.entity.BuildingEntity;
@@ -21,7 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -248,5 +246,4 @@ public class BuildingServiceImpl implements BuildingService {
 
         return result;
     }
-
 }

@@ -54,6 +54,12 @@ public class BuildingRepositoryImpl implements BuildingRepositoryCustom {
         if (notEmpty(f.getStreet())) {
             where.append(" AND LOWER(b.street) LIKE LOWER(:street) ");
         }
+        if (notEmpty(f.getTransactionType())) {
+            where.append(" AND LOWER(b.transactionType) LIKE LOWER(:transactionType) ");
+        }
+        if (notEmpty(f.getPropertyType())) {
+            where.append(" AND LOWER(b.propertyType) LIKE LOWER(:propertyType) ");
+        }
 
         // ========== EQUAL ==========
         if (f.getDistrictId() != null) {
@@ -134,6 +140,8 @@ public class BuildingRepositoryImpl implements BuildingRepositoryCustom {
         if (notEmpty(f.getName())) q.setParameter("name", "%" + f.getName() + "%");
         if (notEmpty(f.getWard())) q.setParameter("ward", "%" + f.getWard() + "%");
         if (notEmpty(f.getStreet())) q.setParameter("street", "%" + f.getStreet() + "%");
+        if (notEmpty(f.getTransactionType())) q.setParameter("transactionType", "%" + f.getTransactionType() + "%");
+        if (notEmpty(f.getPropertyType())) q.setParameter("propertyType", "%" + f.getPropertyType() + "%");
 
         if (f.getDistrictId() != null) q.setParameter("districtId", f.getDistrictId());
         if (f.getStaffId() != null) q.setParameter("staffId", f.getStaffId());
