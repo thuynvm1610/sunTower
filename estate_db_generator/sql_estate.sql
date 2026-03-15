@@ -7,11 +7,10 @@
 -- MÔ TẢ TỔNG QUAN
 -- ---------------
 -- Hệ thống quản lý bất động sản (BĐS) trên toàn quốc, hỗ trợ 2 loại giao dịch:
--- Phase 2 bổ sung tích hợp bản đồ số: tọa độ building, tọa độ tiện ích lân cận,
--- tìm kiếm theo bán kính Haversine, GeoJSON API cho Leaflet.js + Goong Maps.
---
 --   (1) CHO THUÊ : khách hàng thuê diện tích theo m², phát sinh hóa đơn hàng tháng.
 --   (2) MUA BÁN  : khách hàng mua toàn bộ tài sản, không phát sinh hóa đơn.
+--   Tích hợp bản đồ số: tọa độ building, tọa độ tiện ích lân cận,
+--   Tìm kiếm theo bán kính Haversine, GeoJSON API cho Leaflet.js + Goong Maps.
 --
 -- ===================================================================================
 -- PHÂN LOẠI BẤT ĐỘNG SẢN (property_type)
@@ -76,7 +75,7 @@
 --     - supplier, planning_map, nearby_amenity : hiển thị công khai (GET only).
 --     - legal_authority : CHỈ ADMIN và STAFF phụ trách building đó mới xem được.
 --
--- [6] BẢN ĐỒ SỐ — PHASE 2
+-- [6] BẢN ĐỒ SỐ
 --     - building.latitude / longitude  : tọa độ tòa nhà, dùng render marker bản đồ.
 --     - nearby_amenity.latitude / longitude : tọa độ tiện ích, filter gần tiện ích.
 --     - API GET /buildings/geojson      : trả GeoJSON FeatureCollection cho Leaflet.

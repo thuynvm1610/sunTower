@@ -10,6 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link th:href="@{/css/admin.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slim-select@2/dist/slimselect.min.css">
 
     <style>
         body {
@@ -19,14 +20,14 @@
         }
 
         main.content {
-            margin-left: 250px;
-            padding: 2.5rem 3rem;
-            margin-top: 70px;
+            margin-left: 220px;
+            padding: 2rem 2.5rem;
+            margin-top: 72px;
         }
 
         /* Page header */
         .page-header {
-            margin-bottom: 2rem;
+            margin-bottom: 1.25rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -69,163 +70,171 @@
             transform: translateY(-1px);
         }
 
-        /* Filter card */
+        /* ── Filter card compact ── */
         .filter-card {
             background: white;
             border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .filter-card .form-label {
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: #374151;
-            margin-bottom: 0.5rem;
-        }
-
-        .filter-card .form-control {
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 0.625rem 0.875rem;
-            font-size: 0.875rem;
-            transition: all 0.2s ease;
-        }
-
-        .filter-card .form-control:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-
-        /* Highlight khi có giá trị */
-        .filter-card .form-control.has-value {
-            background-color: #E8F0FE;
-            border-color: #3b82f6;
-            font-weight: 600;
-        }
-
-        /* Filter buttons */
-        .filter-actions {
-            display: flex;
-            gap: 0.75rem;
-            justify-content: flex-end;
-            margin-top: 1.25rem;
-        }
-
-        .btn-filter {
-            padding: 0.625rem 1.25rem;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.875rem;
-            border: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.2s ease;
-        }
-
-        .btn-filter.btn-reset {
-            background: #f3f4f6;
-            color: #374151;
-        }
-
-        .btn-filter.btn-reset:hover {
-            background: #e5e7eb;
-        }
-
-        .btn-filter.btn-search {
-            background: #3b82f6;
-            color: white;
-        }
-
-        .btn-filter.btn-search:hover {
-            background: #2563eb;
-            transform: translateY(-1px);
+            border-radius: 10px;
+            padding: 0.875rem 1rem;
+            margin-bottom: 1.25rem;
         }
 
         .filter-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.25rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.625rem;
+            border-bottom: 1px solid #f3f4f6;
         }
 
         .filter-title {
-            font-size: 1rem;
+            font-size: 0.9375rem;
             font-weight: 600;
             color: #111827;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.375rem;
         }
+
+        .filter-title i { color: #3b82f6; font-size: 0.8rem; }
 
         .btn-toggle-filter {
             background: #f3f4f6;
             border: none;
-            width: 32px;
-            height: 32px;
+            width: 26px;
+            height: 26px;
             border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: background 0.2s;
         }
 
-        .btn-toggle-filter:hover {
-            background: #e5e7eb;
-        }
-
-        .btn-toggle-filter i {
-            transition: transform 0.3s ease;
-        }
-
-        .btn-toggle-filter.collapsed i {
-            transform: rotate(180deg);
-        }
+        .btn-toggle-filter:hover { background: #e5e7eb; }
+        .btn-toggle-filter i { transition: transform 0.25s ease; font-size: 0.75rem; }
+        .btn-toggle-filter.collapsed i { transform: rotate(180deg); }
 
         .filter-body {
-            transition: max-height 0.3s ease;
+            max-height: 800px;
             overflow: hidden;
-            max-height: 2000px;
-            /* chiều cao khi mở */
+            transition: max-height 0.3s ease, opacity 0.25s ease;
+            opacity: 1;
         }
 
-        .filter-body.collapsed {
-            max-height: 0;
-        }
+        .filter-body.collapsed { max-height: 0; opacity: 0; }
 
         .filter-section-title {
-            font-size: 0.9375rem;
-            font-weight: 600;
-            color: #374151;
-            margin-bottom: 1rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            margin-bottom: 0.5rem;
+            margin-top: 0.25rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.35rem;
         }
 
-        .filter-section-title i {
-            color: #3b82f6;
+        .filter-section-title i { color: #3b82f6; }
+
+        .filter-card .form-label {
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.3rem;
+            display: block;
         }
+
+        .filter-card .form-control {
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 0.35rem 0.625rem;
+            font-size: 0.875rem;
+            height: 32px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            color: #374151;
+        }
+
+        .filter-card .form-control:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+            outline: none;
+        }
+
+        .filter-card .form-control.has-value {
+            background: #eff6ff !important;
+            border-color: #3b82f6 !important;
+            font-weight: 600;
+        }
+
+        /* SlimSelect wrapper khi có giá trị được chọn */
+        .filter-card .ss-main.has-value {
+            background: #eff6ff !important;
+            border-color: #3b82f6 !important;
+        }
+
+        .filter-card .ss-main.has-value .placeholder {
+            color: #1d4ed8 !important;
+            font-weight: 600 !important;
+        }
+
+        .filter-card .ss-main.has-value {
+            background: #eff6ff !important;
+            border-color: #3b82f6 !important;
+        }
+
+        .filter-card .ss-main.has-value .ss-single-selected,
+        .filter-card .ss-main.has-value .placeholder {
+            color: #1d4ed8 !important;
+            font-weight: 600 !important;
+        }
+
+        .filter-card .row { --bs-gutter-x: 0.625rem; --bs-gutter-y: 0.5rem; }
+        .filter-card .mb-4 { margin-bottom: 0.625rem !important; }
 
         .range-inputs {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 4px;
         }
 
-        .range-inputs .form-control {
-            flex: 1;
-        }
+        .range-inputs .form-control { flex: 1; min-width: 0; }
 
         .range-separator {
-            color: #9ca3af;
-            font-weight: 500;
+            color: #d1d5db;
+            font-size: 0.75rem;
+            flex-shrink: 0;
         }
+
+        .filter-actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+            margin-top: 0.75rem;
+            padding-top: 0.625rem;
+            border-top: 1px solid #f3f4f6;
+        }
+
+        .btn-filter {
+            padding: 0.3rem 0.875rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.2s ease;
+            height: 32px;
+        }
+
+        .btn-filter.btn-reset  { background: #f3f4f6; color: #374151; }
+        .btn-filter.btn-reset:hover { background: #e5e7eb; }
+        .btn-filter.btn-search { background: #3b82f6; color: white; }
+        .btn-filter.btn-search:hover { background: #2563eb; }
 
         /* Result badge */
         .result-badge {
@@ -508,579 +517,736 @@
         .separator {
             height: 12px;
         }
+
+        /* ── Property type & Transaction badges ── */
+        .property-type-badge,
+        .transaction-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.625rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .prop-office    { background: #eff6ff; color: #1d4ed8; }
+        .prop-shophouse { background: #fef3c7; color: #92400e; }
+        .prop-apartment { background: #f0fdf4; color: #166534; }
+        .prop-warehouse { background: #fdf4ff; color: #7e22ce; }
+
+        .tx-for_rent { background: #f0f9ff; color: #0369a1; }
+        .tx-for_sale { background: #fff7ed; color: #c2410c; }
+
+        /* ── Slim Select override ── */
+        .ss-main {
+            height: 32px !important;
+            min-height: 32px !important;
+            border: 1px solid #e5e7eb !important;
+            border-radius: 6px !important;
+            font-size: 0.875rem !important;
+            color: #374151 !important;
+            background: #fff !important;
+            padding: 0 0.625rem !important;
+            cursor: pointer;
+        }
+
+        .ss-main:focus, .ss-main.ss-open-below, .ss-main.ss-open-above {
+            border-color: #3b82f6 !important;
+            box-shadow: 0 0 0 2px rgba(59,130,246,0.1) !important;
+            outline: none !important;
+        }
+
+        .ss-main .ss-single-selected {
+            height: 30px !important;
+            line-height: 30px !important;
+        }
+
+        .ss-main .placeholder { color: #9ca3af !important; font-size: 0.875rem !important; }
+
+        .ss-content {
+            border: 1px solid #e5e7eb !important;
+            border-radius: 8px !important;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1) !important;
+            z-index: 9999 !important;
+        }
+
+        .ss-search {
+            padding: 0.4rem 0.5rem !important;
+            border-bottom: 1px solid #f3f4f6 !important;
+        }
+
+        .ss-search input {
+            border: 1px solid #e5e7eb !important;
+            border-radius: 5px !important;
+            font-size: 0.8rem !important;
+            padding: 0.25rem 0.5rem !important;
+            height: 26px !important;
+        }
+
+        .ss-list {
+            max-height: 180px !important;
+            overflow-y: auto !important;
+        }
+
+        .ss-list::-webkit-scrollbar { width: 4px; }
+        .ss-list::-webkit-scrollbar-track { background: #f9fafb; }
+        .ss-list::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 2px; }
+        .ss-list::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+
+        .ss-option {
+            padding: 0.3rem 0.625rem !important;
+            font-size: 0.875rem !important;
+            color: #374151 !important;
+            cursor: pointer;
+        }
+
+        .ss-option:hover, .ss-option.ss-highlighted {
+            background: rgba(59,130,246,0.08) !important;
+            color: #1d4ed8 !important;
+        }
+
+        .ss-option.ss-selected {
+            background: rgba(59,130,246,0.12) !important;
+            color: #1d4ed8 !important;
+            font-weight: 600 !important;
+        }
+
     </style>
 </head>
 
 <body>
 
-    <!-- HEADER + SIDEBAR -->
-    <div th:replace="~{layout/header :: header}"></div>
-    <div th:replace="~{layout/sidebar :: sidebar}"></div>
+<!-- HEADER + SIDEBAR -->
+<div th:replace="~{layout/header :: header}"></div>
+<div th:replace="~{layout/sidebar :: sidebar}"></div>
 
-    <main class="content">
-        <div class="container-fluid">
-            <!-- Page Header -->
-            <div class="page-header">
-                <h2>
-                    <i class="bi bi-search"></i>
-                    Kết quả tìm kiếm
-                </h2>
-                <a th:href="@{/admin/building/list}" class="btn-back">
-                    <i class="bi bi-arrow-left"></i>
-                    Quay lại danh sách
-                </a>
+<main class="content">
+    <div class="container-fluid">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h2>
+                <i class="bi bi-search"></i>
+                Kết quả tìm kiếm
+            </h2>
+            <a th:href="@{/admin/building/list}" class="btn-back">
+                <i class="bi bi-arrow-left"></i>
+                Quay lại danh sách
+            </a>
+        </div>
+
+        <!-- Result Badge -->
+        <div class="result-badge">
+            <i class="bi bi-check-circle-fill"></i>
+            <span>Tìm thấy <strong id="totalElements">0</strong> tòa nhà</span>
+        </div>
+
+        <!-- Table Card -->
+        <div class="table-card">
+            <div class="table-header">
+                Kết quả tìm kiếm
             </div>
 
-            <!-- Result Badge -->
-            <div class="result-badge">
-                <i class="bi bi-check-circle-fill"></i>
-                <span>Tìm thấy <strong id="totalElements">0</strong> tòa nhà</span>
-            </div>
+            <div class="table-responsive">
+                <table class="table modern-table">
+                    <thead>
+                    <tr>
+                        <th>Mã</th>
+                        <th>Tên tòa nhà</th>
+                        <th>Địa chỉ</th>
+                        <th>Hạng</th>
+                        <th>Loại hình</th>
+                        <th>Giao dịch</th>
+                        <th style="text-align: center;">Hành động</th>
+                    </tr>
+                    </thead>
 
-            <!-- Table Card -->
-            <div class="table-card">
-                <div class="table-header">
-                    Kết quả tìm kiếm
+                    <tbody id="buildingTableBody">
+                    <!-- dữ liệu sẽ được Ajax thêm vào -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="separator"></div>
+
+        <!-- Pagination -->
+        <div id="pagination"></div>
+
+        <!-- Filter Card -->
+        <form class="filter-card" th:action="@{/admin/building/search}" method="get">
+            <div class="filter-header">
+                <div class="filter-title">
+                    <i class="bi bi-funnel"></i>
+                    Bộ lọc tìm kiếm
                 </div>
-
-                <div class="table-responsive">
-                    <table class="table modern-table">
-                        <thead>
-                            <tr>
-                                <th>Mã</th>
-                                <th>Tên tòa</th>
-                                <th>Địa chỉ</th>
-                                <th>Hạng</th>
-                                <th>Giá thuê (m²)</th>
-                                <th>Quản lý</th>
-                                <th style="text-align: center;">Hành động</th>
-                            </tr>
-                        </thead>
-
-                        <tbody id="buildingTableBody">
-                            <!-- dữ liệu sẽ được Ajax thêm vào -->
-                        </tbody>
-                    </table>
-                </div>
+                <button type="button" class="btn-toggle-filter" onclick="toggleFilter()">
+                    <i class="bi bi-chevron-up" id="toggleIcon"></i>
+                </button>
             </div>
-            <div class="separator"></div>
 
-            <!-- Pagination -->
-            <div id="pagination"></div>
-
-            <!-- Filter Card -->
-            <form class="filter-card" th:action="@{/admin/building/search}" method="get">
-                <div class="filter-header">
-                    <div class="filter-title">
-                        <i class="bi bi-funnel"></i>
-                        Bộ lọc tìm kiếm
+            <div class="filter-body" id="filterBody">
+                <!-- Thông tin cơ bản -->
+                <div class="filter-section-title">
+                    <i class="bi bi-info-circle"></i> Thông tin cơ bản
+                </div>
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <label class="form-label">Tên tòa nhà</label>
+                        <input type="text" class="form-control" name="name" th:value="${filter.name}"
+                               placeholder="VD: Sun Tower">
                     </div>
-                    <button type="button" class="btn-toggle-filter" onclick="toggleFilter()">
-                        <i class="bi bi-chevron-up" id="toggleIcon"></i>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Quận</label>
+                        <select class="form-control" name="districtId" th:value="${filter.districtId}">
+                            <option value="">-- Chọn quận --</option>
+                            <option th:each="d : ${districts}" th:value="${d.getValue()}" th:text="${d.getKey()}"
+                                    th:selected="${d.getValue() == filter.districtId}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Loại hình BĐS</label>
+                        <select class="form-control" name="propertyType">
+                            <option value="">-- Tất cả --</option>
+                            <option th:each="pt : ${propertyTypes}"
+                                    th:value="${pt.name()}"
+                                    th:text="${pt.label}"
+                                    th:selected="${pt.name() == filter.propertyType}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Loại giao dịch</label>
+                        <select class="form-control" name="transactionType">
+                            <option value="">-- Tất cả --</option>
+                            <option th:each="tt : ${transactionTypes}"
+                                    th:value="${tt.name()}"
+                                    th:text="${tt.label}"
+                                    th:selected="${tt.name() == filter.transactionType}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Đặc điểm tòa nhà -->
+                <div class="filter-section-title">
+                    <i class="bi bi-building"></i> Đặc điểm tòa nhà
+                </div>
+                <div class="row mb-4">
+                    <div class="col-md-2">
+                        <label class="form-label">Số tầng</label>
+                        <div class="range-inputs">
+                            <input type="number" class="form-control" name="numberOfFloorFrom"
+                                   th:value="${filter.numberOfFloorFrom}" placeholder="Từ" min="0">
+                            <span class="range-separator">-</span>
+                            <input type="number" class="form-control" name="numberOfFloorTo"
+                                   th:value="${filter.numberOfFloorTo}" placeholder="Đến" min="0">
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label">Số tầng hầm</label>
+                        <div class="range-inputs">
+                            <input type="number" class="form-control" name="numberOfBasementFrom"
+                                   th:value="${filter.numberOfBasementFrom}" placeholder="Từ" min="0">
+                            <span class="range-separator">-</span>
+                            <input type="number" class="form-control" name="numberOfBasementTo"
+                                   th:value="${filter.numberOfBasementTo}" placeholder="Đến" min="0">
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label">Diện tích sàn (m²)</label>
+                        <div class="range-inputs">
+                            <input type="number" class="form-control" name="floorAreaFrom"
+                                   th:value="${filter.floorAreaFrom}" placeholder="Từ" min="0">
+                            <span class="range-separator">-</span>
+                            <input type="number" class="form-control" name="floorAreaTo"
+                                   th:value="${filter.floorAreaTo}" placeholder="Đến" min="0">
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label">Diện tích thuê (m²)</label>
+                        <div class="range-inputs">
+                            <input type="number" class="form-control" name="rentAreaFrom"
+                                   th:value="${filter.rentAreaFrom}" placeholder="Từ" min="0">
+                            <span class="range-separator">-</span>
+                            <input type="number" class="form-control" name="rentAreaTo"
+                                   th:value="${filter.rentAreaTo}" placeholder="Đến" min="0">
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label">Hướng</label>
+                        <select class="form-control" name="direction" th:value="${filter.direction}">
+                            <option value="">-- Chọn hướng --</option>
+                            <option th:each="d : ${directions}" th:value="${d.name()}" th:text="${d.label}"
+                                    th:selected="${d == filter.direction}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label">Hạng</label>
+                        <select class="form-control" name="level" th:value="${filter.level}">
+                            <option value="">-- Chọn hạng --</option>
+                            <option th:each="l : ${levels}" th:value="${l.name()}" th:text="${l.label}"
+                                    th:selected="${l == filter.level}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label">Nhân viên quản lý</label>
+                        <select class="form-control" name="staffId">
+                            <option value="">-- Chọn quản lý --</option>
+                            <option th:each="m : ${managers}" th:value="${m.id}" th:text="${m.fullName}"
+                                    th:selected="${m.id == filter.staffId}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Giá và phí -->
+                <div class="filter-section-title">
+                    <i class="bi bi-cash-stack"></i> Giá và phí (VNĐ)
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <label class="form-label">Giá thuê</label>
+                        <div class="range-inputs">
+                            <input type="number" class="form-control" name="rentPriceFrom"
+                                   th:value="${filter.rentPriceFrom}" placeholder="Từ" min="0">
+                            <span class="range-separator">-</span>
+                            <input type="number" class="form-control" name="rentPriceTo"
+                                   th:value="${filter.rentPriceTo}" placeholder="Đến" min="0">
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label">Phí dịch vụ</label>
+                        <div class="range-inputs">
+                            <input type="number" class="form-control" name="serviceFeeFrom"
+                                   th:value="${filter.serviceFeeFrom}" placeholder="Từ" min="0">
+                            <span class="range-separator">-</span>
+                            <input type="number" class="form-control" name="serviceFeeTo"
+                                   th:value="${filter.serviceFeeTo}" placeholder="Đến" min="0">
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label">Phí xe ô tô</label>
+                        <div class="range-inputs">
+                            <input type="number" class="form-control" name="carFeeFrom"
+                                   th:value="${filter.carFeeFrom}" placeholder="Từ" min="0">
+                            <span class="range-separator">-</span>
+                            <input type="number" class="form-control" name="carFeeTo" th:value="${filter.carFeeTo}"
+                                   placeholder="Đến" min="0">
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label">Phí xe máy</label>
+                        <div class="range-inputs">
+                            <input type="number" class="form-control" name="motorbikeFeeFrom"
+                                   th:value="${filter.motorbikeFeeFrom}" placeholder="Từ" min="0">
+                            <span class="range-separator">-</span>
+                            <input type="number" class="form-control" name="motorbikeFeeTo"
+                                   th:value="${filter.motorbikeFeeTo}" placeholder="Đến" min="0">
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label">Phí nước</label>
+                        <div class="range-inputs">
+                            <input type="number" class="form-control" name="waterFeeFrom"
+                                   th:value="${filter.waterFeeFrom}" placeholder="Từ" min="0">
+                            <span class="range-separator">-</span>
+                            <input type="number" class="form-control" name="waterFeeTo"
+                                   th:value="${filter.waterFeeTo}" placeholder="Đến" min="0">
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label">Phí điện</label>
+                        <div class="range-inputs">
+                            <input type="number" class="form-control" name="electricityFeeFrom"
+                                   th:value="${filter.electricityFeeFrom}" placeholder="Từ" min="0">
+                            <span class="range-separator">-</span>
+                            <input type="number" class="form-control" name="electricityFeeTo"
+                                   th:value="${filter.electricityFeeTo}" placeholder="Đến" min="0">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-actions">
+                    <button type="button" class="btn-filter btn-reset" onclick="resetFilter()">
+                        <i class="bi bi-arrow-clockwise"></i>
+                        Reset
+                    </button>
+                    <button type="submit" class="btn-filter btn-search">
+                        <i class="bi bi-search"></i>
+                        Tìm kiếm
                     </button>
                 </div>
+            </div>
+        </form>
 
-                <div class="filter-body" id="filterBody">
-                    <!-- Thông tin cơ bản -->
-                    <div class="filter-section-title">
-                        <i class="bi bi-info-circle"></i> Thông tin cơ bản
-                    </div>
-                    <div class="row g-3 mb-4">
-                        <div class="col-md-3">
-                            <label class="form-label">Tên tòa nhà</label>
-                            <input type="text" class="form-control" name="name" th:value="${filter.name}"
-                                placeholder="VD: Sun Tower">
-                        </div>
+    </div>
+</main>
 
-                        <div class="col-md-3">
-                            <label class="form-label">Quận</label>
-                            <select class="form-control" name="districtId" th:value="${filter.districtId}">
-                                <option value="">-- Chọn quận --</option>
-                                <option th:each="d : ${districts}" th:value="${d.getValue()}" th:text="${d.getKey()}"
-                                    th:selected="${d.getValue() == filter.districtId}">
-                                </option>
-                            </select>
-                        </div>
+<script src="https://cdn.jsdelivr.net/npm/slim-select@2/dist/slimselect.min.js"></script>
+<!--Bootstrap-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- CDN SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!--JQuery-->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-                        <div class="col-md-3">
-                            <label class="form-label">Phường</label>
-                            <select class="form-control" name="ward" th:value="${filter.ward}">
-                                <option value="">-- Chọn phường --</option>
-                                <option th:each="w : ${wards}" th:value="${w}" th:text="${w}"
-                                    th:selected="${w == filter.ward}">
-                                </option>
-                            </select>
-                        </div>
+<script>
+    function resetFilter() {
+        document.querySelector('.filter-card').reset();
+        document.querySelectorAll('.filter-card input, .filter-card select')
+            .forEach(e => e.value = "");
+    }
+</script>
 
-                        <div class="col-md-3">
-                            <label class="form-label">Phố</label>
-                            <select class="form-control" name="street" th:value="${filter.street}">
-                                <option value="">-- Chọn phố --</option>
-                                <option th:each="s : ${streets}" th:value="${s}" th:text="${s}"
-                                    th:selected="${s == filter.street}">
-                                </option>
-                            </select>
-                        </div>
-                    </div>
+<script>
+    function toggleFilter() {
+        const filterBody = document.getElementById('filterBody');
+        const toggleBtn = document.querySelector('.btn-toggle-filter');
+        const toggleIcon = document.getElementById('toggleIcon');
 
-                    <!-- Đặc điểm tòa nhà -->
-                    <div class="filter-section-title">
-                        <i class="bi bi-building"></i> Đặc điểm tòa nhà
-                    </div>
-                    <div class="row g-3 mb-4">
-                        <div class="col-md-3">
-                            <label class="form-label">Số tầng</label>
-                            <div class="range-inputs">
-                                <input type="number" class="form-control" name="numberOfFloorFrom"
-                                    th:value="${filter.numberOfFloorFrom}" placeholder="Từ" min="0">
-                                <span class="range-separator">-</span>
-                                <input type="number" class="form-control" name="numberOfFloorTo"
-                                    th:value="${filter.numberOfFloorTo}" placeholder="Đến" min="0">
-                            </div>
-                        </div>
+        filterBody.classList.toggle('collapsed');
+        toggleBtn.classList.toggle('collapsed');
 
-                        <div class="col-md-3">
-                            <label class="form-label">Số tầng hầm</label>
-                            <div class="range-inputs">
-                                <input type="number" class="form-control" name="numberOfBasementFrom"
-                                    th:value="${filter.numberOfBasementFrom}" placeholder="Từ" min="0">
-                                <span class="range-separator">-</span>
-                                <input type="number" class="form-control" name="numberOfBasementTo"
-                                    th:value="${filter.numberOfBasementTo}" placeholder="Đến" min="0">
-                            </div>
-                        </div>
+        // Lưu trạng thái vào localStorage
+        const isCollapsed = filterBody.classList.contains('collapsed');
+        localStorage.setItem('filterCollapsed', isCollapsed);
+    }
 
-                        <div class="col-md-3">
-                            <label class="form-label">Diện tích sàn (m²)</label>
-                            <div class="range-inputs">
-                                <input type="number" class="form-control" name="floorAreaFrom"
-                                    th:value="${filter.floorAreaFrom}" placeholder="Từ" min="0">
-                                <span class="range-separator">-</span>
-                                <input type="number" class="form-control" name="floorAreaTo"
-                                    th:value="${filter.floorAreaTo}" placeholder="Đến" min="0">
-                            </div>
-                        </div>
+    // Khôi phục trạng thái khi tải trang
+    document.addEventListener('DOMContentLoaded', function () {
+        const filterBody = document.getElementById('filterBody');
+        const toggleBtn = document.querySelector('.btn-toggle-filter');
+        const isCollapsed = localStorage.getItem('filterCollapsed') === 'true';
 
-                        <div class="col-md-3">
-                            <label class="form-label">Diện tích thuê (m²)</label>
-                            <div class="range-inputs">
-                                <input type="number" class="form-control" name="rentAreaFrom"
-                                    th:value="${filter.rentAreaFrom}" placeholder="Từ" min="0">
-                                <span class="range-separator">-</span>
-                                <input type="number" class="form-control" name="rentAreaTo"
-                                    th:value="${filter.rentAreaTo}" placeholder="Đến" min="0">
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <label class="form-label">Hướng</label>
-                            <select class="form-control" name="direction" th:value="${filter.direction}">
-                                <option value="">-- Chọn hướng --</option>
-                                <option th:each="d : ${directions}" th:value="${d.name()}" th:text="${d.label}"
-                                    th:selected="${d == filter.direction}">
-                                </option>
-                            </select>
-                        </div>
-
-                        <div class="col-md-3">
-                            <label class="form-label">Hạng</label>
-                            <select class="form-control" name="level" th:value="${filter.level}">
-                                <option value="">-- Chọn hạng --</option>
-                                <option th:each="l : ${levels}" th:value="${l.name()}" th:text="${l.label}"
-                                    th:selected="${l == filter.level}">
-                                </option>
-                            </select>
-                        </div>
-
-                        <div class="col-md-3">
-                            <label class="form-label">Nhân viên quản lý</label>
-                            <select class="form-control" name="staffId">
-                                <option value="">-- Chọn quản lý --</option>
-                                <option th:each="m : ${managers}" th:value="${m.id}" th:text="${m.fullName}"
-                                    th:selected="${m.id == filter.staffId}">
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Giá và phí -->
-                    <div class="filter-section-title">
-                        <i class="bi bi-cash-stack"></i> Giá và phí (VNĐ)
-                    </div>
-                    <div class="row g-3">
-                        <div class="col-md-3">
-                            <label class="form-label">Giá thuê</label>
-                            <div class="range-inputs">
-                                <input type="number" class="form-control" name="rentPriceFrom"
-                                    th:value="${filter.rentPriceFrom}" placeholder="Từ" min="0">
-                                <span class="range-separator">-</span>
-                                <input type="number" class="form-control" name="rentPriceTo"
-                                    th:value="${filter.rentPriceTo}" placeholder="Đến" min="0">
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <label class="form-label">Phí dịch vụ</label>
-                            <div class="range-inputs">
-                                <input type="number" class="form-control" name="serviceFeeFrom"
-                                    th:value="${filter.serviceFeeFrom}" placeholder="Từ" min="0">
-                                <span class="range-separator">-</span>
-                                <input type="number" class="form-control" name="serviceFeeTo"
-                                    th:value="${filter.serviceFeeTo}" placeholder="Đến" min="0">
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <label class="form-label">Phí xe ô tô</label>
-                            <div class="range-inputs">
-                                <input type="number" class="form-control" name="carFeeFrom"
-                                    th:value="${filter.carFeeFrom}" placeholder="Từ" min="0">
-                                <span class="range-separator">-</span>
-                                <input type="number" class="form-control" name="carFeeTo" th:value="${filter.carFeeTo}"
-                                    placeholder="Đến" min="0">
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <label class="form-label">Phí xe máy</label>
-                            <div class="range-inputs">
-                                <input type="number" class="form-control" name="motorbikeFeeFrom"
-                                    th:value="${filter.motorbikeFeeFrom}" placeholder="Từ" min="0">
-                                <span class="range-separator">-</span>
-                                <input type="number" class="form-control" name="motorbikeFeeTo"
-                                    th:value="${filter.motorbikeFeeTo}" placeholder="Đến" min="0">
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <label class="form-label">Phí nước</label>
-                            <div class="range-inputs">
-                                <input type="number" class="form-control" name="waterFeeFrom"
-                                    th:value="${filter.waterFeeFrom}" placeholder="Từ" min="0">
-                                <span class="range-separator">-</span>
-                                <input type="number" class="form-control" name="waterFeeTo"
-                                    th:value="${filter.waterFeeTo}" placeholder="Đến" min="0">
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <label class="form-label">Phí điện</label>
-                            <div class="range-inputs">
-                                <input type="number" class="form-control" name="electricityFeeFrom"
-                                    th:value="${filter.electricityFeeFrom}" placeholder="Từ" min="0">
-                                <span class="range-separator">-</span>
-                                <input type="number" class="form-control" name="electricityFeeTo"
-                                    th:value="${filter.electricityFeeTo}" placeholder="Đến" min="0">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="filter-actions">
-                        <button type="button" class="btn-filter btn-reset" onclick="resetFilter()">
-                            <i class="bi bi-arrow-clockwise"></i>
-                            Reset
-                        </button>
-                        <button type="submit" class="btn-filter btn-search">
-                            <i class="bi bi-search"></i>
-                            Tìm kiếm
-                        </button>
-                    </div>
-                </div>
-            </form>
-
-        </div>
-    </main>
-
-    <!--Bootstrap-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- CDN SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!--JQuery-->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <script>
-        function resetFilter() {
-            document.querySelector('.filter-card').reset();
-            document.querySelectorAll('.filter-card input, .filter-card select')
-                .forEach(e => e.value = "");
+        if (isCollapsed) {
+            filterBody.classList.add('collapsed');
+            toggleBtn.classList.add('collapsed');
         }
-    </script>
+    });
+</script>
 
-    <script>
-        function toggleFilter() {
-            const filterBody = document.getElementById('filterBody');
-            const toggleBtn = document.querySelector('.btn-toggle-filter');
-            const toggleIcon = document.getElementById('toggleIcon');
+<script th:inline="javascript">
+    let filter = /*[[${filter}]]*/ {};
+</script>
 
-            filterBody.classList.toggle('collapsed');
-            toggleBtn.classList.toggle('collapsed');
+<script>
+    let currentPage = 1;
+    const pageSize = 5;
+    const levelLabels = {
+        A_PLUS: "A+", A: "A", B_PLUS: "B+", B: "B", C_PLUS: "C+", C: "C"
+    };
 
-            // Lưu trạng thái vào localStorage
-            const isCollapsed = filterBody.classList.contains('collapsed');
-            localStorage.setItem('filterCollapsed', isCollapsed);
-        }
+    const propertyLabels = {
+        OFFICE: "Văn phòng", SHOPHOUSE: "Nhà phố thương mại",
+        APARTMENT: "Căn hộ", WAREHOUSE: "Kho xưởng"
+    };
 
-        // Khôi phục trạng thái khi tải trang
-        document.addEventListener('DOMContentLoaded', function () {
-            const filterBody = document.getElementById('filterBody');
-            const toggleBtn = document.querySelector('.btn-toggle-filter');
-            const isCollapsed = localStorage.getItem('filterCollapsed') === 'true';
+    const transactionLabels = {
+        FOR_RENT: "Cho thuê", FOR_SALE: "Mua bán"
+    };
 
-            if (isCollapsed) {
-                filterBody.classList.add('collapsed');
-                toggleBtn.classList.add('collapsed');
-            }
-        });
-    </script>
+    // Hàm load dữ liệu bảng tòa nhà bằng Ajax
+    function loadBuildings(page, filter, event) {
+        if (event) event.preventDefault();
 
-    <script th:inline="javascript">
-        let filter = /*[[${filter}]]*/ {};
-    </script>
+        $.ajax({
+            url: "/admin/building/search/page",
+            type: "GET",
+            data: {
+                page: page,
+                size: pageSize,
+                name: filter.name,
+                districtId: filter.districtId,
+                ward: filter.ward,
+                street: filter.street,
+                numberOfFloorFrom: filter.numberOfFloorFrom,
+                numberOfFloorTo: filter.numberOfFloorTo,
+                numberOfBasementFrom: filter.numberOfBasementFrom,
+                numberOfBasementTo: filter.numberOfBasementTo,
+                floorAreaFrom: filter.floorAreaFrom,
+                floorAreaTo: filter.floorAreaTo,
+                rentAreaFrom: filter.rentAreaFrom,
+                rentAreaTo: filter.rentAreaTo,
+                direction: filter.direction,
+                level: filter.level,
+                rentPriceFrom: filter.rentPriceFrom,
+                rentPriceTo: filter.rentPriceTo,
+                serviceFeeFrom: filter.serviceFeeFrom,
+                serviceFeeTo: filter.serviceFeeTo,
+                carFeeFrom: filter.carFeeFrom,
+                carFeeTo: filter.carFeeTo,
+                motorbikeFeeFrom: filter.motorbikeFeeFrom,
+                motorbikeFeeTo: filter.motorbikeFeeTo,
+                waterFeeFrom: filter.waterFeeFrom,
+                waterFeeTo: filter.waterFeeTo,
+                electricityFeeFrom: filter.electricityFeeFrom,
+                electricityFeeTo: filter.electricityFeeTo,
+                staffId: filter.staffId,
+                propertyType: filter.propertyType,
+                transactionType: filter.transactionType
+            },
+            success: function (data) {
+                currentPage = page;
+                const tbody = $("#buildingTableBody");
+                tbody.empty();
 
-    <script>
-        let currentPage = 1;
-        const pageSize = 5;
-        const levelLabels = {
-            A_PLUS: "A+",
-            A: "A",
-            B_PLUS: "B+",
-            B: "B",
-            C_PLUS: "C+",
-            C: "C"
-        };
-
-        // Hàm load dữ liệu bảng tòa nhà bằng Ajax
-        function loadBuildings(page, filter, event) {
-            if (event) event.preventDefault();
-
-            $.ajax({
-                url: "/admin/building/search/page",
-                type: "GET",
-                data: {
-                    page: page,
-                    size: pageSize,
-                    name: filter.name,
-                    districtId: filter.districtId,
-                    ward: filter.ward,
-                    street: filter.street,
-                    numberOfFloorFrom: filter.numberOfFloorFrom,
-                    numberOfFloorTo: filter.numberOfFloorTo,
-                    numberOfBasementFrom: filter.numberOfBasementFrom,
-                    numberOfBasementTo: filter.numberOfBasementTo,
-                    floorAreaFrom: filter.floorAreaFrom,
-                    floorAreaTo: filter.floorAreaTo,
-                    rentAreaFrom: filter.rentAreaFrom,
-                    rentAreaTo: filter.rentAreaTo,
-                    direction: filter.direction,
-                    level: filter.level,
-                    rentPriceFrom: filter.rentPriceFrom,
-                    rentPriceTo: filter.rentPriceTo,
-                    serviceFeeFrom: filter.serviceFeeFrom,
-                    serviceFeeTo: filter.serviceFeeTo,
-                    carFeeFrom: filter.carFeeFrom,
-                    carFeeTo: filter.carFeeTo,
-                    motorbikeFeeFrom: filter.motorbikeFeeFrom,
-                    motorbikeFeeTo: filter.motorbikeFeeTo,
-                    waterFeeFrom: filter.waterFeeFrom,
-                    waterFeeTo: filter.waterFeeTo,
-                    electricityFeeFrom: filter.electricityFeeFrom,
-                    electricityFeeTo: filter.electricityFeeTo,
-                    staffId: filter.staffId
-                },
-                success: function (data) {
-                    currentPage = page;
-                    const tbody = $("#buildingTableBody");
-                    tbody.empty();
-
-                    if (data.content.length === 0) {
-                        tbody.append(`
-                            <tr>
-                                <td colspan="7">
-                                    <div class="empty-state">
-                                        <i class="bi bi-inbox"></i>
-                                        <p>Không có dữ liệu tòa nhà</p>
-                                    </div>
-                                </td>
-                            </tr>
-                        `);
-                        $("#pagination").empty();
-                        return;
-                    }
-
-                    $("#totalElements").text(data.totalElements);
-
-                    $.each(data.content, function (i, b) {
-                        tbody.append(`
+                if (data.content.length === 0) {
+                    tbody.append(`
                         <tr>
-                            <td>${b.id}</td>
-                            <td><span class="building-name">${b.name}</span></td>
-                            <td>${b.address}</td>
-                            <td><span class="level-badge">${levelLabels[b.level] || ''}</span></td>
-                            <td><span class="price-badge">${b.rentPrice || ''} đ</span></td>
-                            <td>${b.managerName || ''}</td>
-                            <td>
-                                <div class="action-buttons">
-                                    <a href="/admin/building/${b.id}" class="btn-action btn-view" title="Xem chi tiết">
-                                        <i class="bi bi-eye"></i>
-                                    </a>
-                                    <a href="/admin/building/edit/${b.id}" class="btn-action btn-edit" title="Chỉnh sửa">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <a href="#" title="Xóa" class="btn-action btn-delete" data-id="${b.id}">
-                                       <i class="bi bi-trash"></i>
-                                    </a>
+                            <td colspan="7">
+                                <div class="empty-state">
+                                    <i class="bi bi-inbox"></i>
+                                    <p>Không có dữ liệu tòa nhà</p>
                                 </div>
                             </td>
                         </tr>
                     `);
-                    });
+                    $("#pagination").empty();
+                    return;
+                }
 
-                    renderPagination(data.totalPages, page);
-                },
-                error: function () {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Lỗi',
-                        text: 'Không tải được dữ liệu!'
-                    });
+                $("#totalElements").text(data.totalElements);
+
+                $.each(data.content, function (i, b) {
+                    tbody.append(`
+                    <tr>
+                        <td>${b.id}</td>
+                        <td><span class="building-name">${b.name}</span></td>
+                        <td>${b.address}</td>
+                        <td><span class="level-badge">${levelLabels[b.level] || ''}</span></td>
+                        <td><span class="property-type-badge prop-${(b.propertyType||'').toLowerCase()}">${propertyLabels[b.propertyType] || b.propertyType || ''}</span></td>
+                        <td><span class="transaction-badge tx-${(b.transactionType||'').toLowerCase()}">${transactionLabels[b.transactionType] || b.transactionType || ''}</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <a href="/admin/building/${b.id}" class="btn-action btn-view" title="Xem chi tiết">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a href="/admin/building/edit/${b.id}" class="btn-action btn-edit" title="Chỉnh sửa">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a href="#" title="Xóa" class="btn-action btn-delete" data-id="${b.id}">
+                                   <i class="bi bi-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                `);
+                });
+
+                renderPagination(data.totalPages, page);
+            },
+            error: function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi',
+                    text: 'Không tải được dữ liệu!'
+                });
+            }
+        });
+    }
+
+    // Hàm render phân trang Bootstrap
+    function renderPagination(totalPages, current) {
+        const pagination = $("#pagination");
+        pagination.empty();
+        if (totalPages <= 1) return;
+
+        let html = `<nav class="pagination-wrapper mt-3"><ul class="pagination justify-content-center">`;
+
+        html += `<li class="page-item ${current === 1 ? 'disabled' : ''}">
+        <a href="#" class="page-link" onclick="loadBuildings(1, filter); return false;">First</a>
+    </li>`;
+
+        html += `<li class="page-item ${current === 1 ? 'disabled' : ''}">
+        <a href="#" class="page-link" onclick="loadBuildings(${current - 1}, filter); return false;">
+            <i class="bi bi-chevron-left"></i>
+        </a>
+    </li>`;
+
+        const blockSize = 5;
+        const blockStart = Math.floor((current - 1) / blockSize) * blockSize + 1;
+        let blockEnd = blockStart + blockSize - 1;
+        if (blockEnd > totalPages) blockEnd = totalPages;
+
+        for (let i = blockStart; i <= blockEnd; i++) {
+            html += `
+            <li class="page-item ${i === current ? 'active' : ''}">
+                <a href="#" class="page-link" onclick="loadBuildings(${i}, filter); return false;">${i}</a>
+            </li>
+        `;
+        }
+
+        html += `<li class="page-item ${current === totalPages ? 'disabled' : ''}">
+        <a href="#" class="page-link" onclick="loadBuildings(${current + 1}, filter); return false;">
+            <i class="bi bi-chevron-right"></i>
+        </a>
+    </li>`;
+
+        html += `<li class="page-item ${current === totalPages ? 'disabled' : ''}">
+        <a href="#" class="page-link" onclick="loadBuildings(${totalPages}, filter); return false;">Last</a>
+    </li>`;
+
+        html += `</ul></nav>`;
+
+        pagination.html(html);
+    }
+
+    // Khi trang load, gọi Ajax lần đầu
+    $(document).ready(function () {
+        loadBuildings(1, filter);
+        // Hàm highlight trường có giá trị
+        function highlightFilledInputs() {
+            $('.filter-card .form-control').each(function () {
+                const $input = $(this);
+                if ($input.val() && $input.val().trim() !== '') {
+                    $input.addClass('has-value');
+                } else {
+                    $input.removeClass('has-value');
                 }
             });
         }
 
-        // Hàm render phân trang Bootstrap
-        function renderPagination(totalPages, current) {
-            const pagination = $("#pagination");
-            pagination.empty();
-            if (totalPages <= 1) return;
+        // Highlight các trường đã có giá trị khi load trang
+        highlightFilledInputs();
 
-            let html = `<nav class="pagination-wrapper mt-3"><ul class="pagination justify-content-center">`;
-
-            html += `<li class="page-item ${current === 1 ? 'disabled' : ''}">
-            <a href="#" class="page-link" onclick="loadBuildings(1, filter); return false;">First</a>
-        </li>`;
-
-            html += `<li class="page-item ${current === 1 ? 'disabled' : ''}">
-            <a href="#" class="page-link" onclick="loadBuildings(${current - 1}, filter); return false;">
-                <i class="bi bi-chevron-left"></i>
-            </a>
-        </li>`;
-
-            const blockSize = 5;
-            const blockStart = Math.floor((current - 1) / blockSize) * blockSize + 1;
-            let blockEnd = blockStart + blockSize - 1;
-            if (blockEnd > totalPages) blockEnd = totalPages;
-
-            for (let i = blockStart; i <= blockEnd; i++) {
-                html += `
-                <li class="page-item ${i === current ? 'active' : ''}">
-                    <a href="#" class="page-link" onclick="loadBuildings(${i}, filter); return false;">${i}</a>
-                </li>
-            `;
+        // Lắng nghe sự kiện input/change để highlight real-time
+        $('.filter-card .form-control').on('input change', function () {
+            const $this = $(this);
+            if ($this.val() && $this.val().trim() !== '') {
+                $this.addClass('has-value');
+            } else {
+                $this.removeClass('has-value');
             }
+        });
 
-            html += `<li class="page-item ${current === totalPages ? 'disabled' : ''}">
-            <a href="#" class="page-link" onclick="loadBuildings(${current + 1}, filter); return false;">
-                <i class="bi bi-chevron-right"></i>
-            </a>
-        </li>`;
+        // Reset highlight khi reset form
+        $('.btn-filter.btn-reset').on('click', function () {
+            setTimeout(function () {
+                $('.filter-card .form-control').removeClass('has-value');
+            }, 10);
+        });
+    });
 
-            html += `<li class="page-item ${current === totalPages ? 'disabled' : ''}">
-            <a href="#" class="page-link" onclick="loadBuildings(${totalPages}, filter); return false;">Last</a>
-        </li>`;
+    // Ajax xóa tòa nhà
+    $(document).on("click", ".btn-delete", function (e) {
+        e.preventDefault();
 
-            html += `</ul></nav>`;
+        let id = $(this).data("id");
 
-            pagination.html(html);
-        }
-
-        // Khi trang load, gọi Ajax lần đầu
-        $(document).ready(function () {
-            loadBuildings(1, filter);
-            // Hàm highlight trường có giá trị
-            function highlightFilledInputs() {
-                $('.filter-card .form-control').each(function () {
-                    const $input = $(this);
-                    if ($input.val() && $input.val().trim() !== '') {
-                        $input.addClass('has-value');
-                    } else {
-                        $input.removeClass('has-value');
+        Swal.fire({
+            title: 'Xác nhận xóa',
+            text: "Bạn có chắc muốn xóa tòa nhà này?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc2626',
+            cancelButtonColor: '#6b7280',
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/admin/building/delete/" + id,
+                    type: "DELETE",
+                    success: function () {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công',
+                            text: 'Xóa tòa nhà thành công!',
+                            timer: 1500,       // tự động đóng sau 1.5s
+                            showConfirmButton: false
+                        }).then(() => {
+                            window.location.href = "/admin/building/list";
+                        });
+                    },
+                    error: function (xhr) {
+                        const err = xhr.responseJSON;
+                        if (err && err.message) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi',
+                                text: err.message
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi',
+                                text: 'Xóa thất bại!'
+                            });
+                        }
                     }
                 });
             }
+        })
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
 
-            // Highlight các trường đã có giá trị khi load trang
-            highlightFilledInputs();
+        const slimInstances = new Map();
 
-            // Lắng nghe sự kiện input/change để highlight real-time
-            $('.filter-card .form-control').on('input change', function () {
-                const $this = $(this);
-                if ($this.val() && $this.val().trim() !== '') {
-                    $this.addClass('has-value');
-                } else {
-                    $this.removeClass('has-value');
+        function getSsMain(el) {
+            const inst = slimInstances.get(el);
+            if (inst && inst.main) return inst.main.main;
+            const parent = el.closest('.col-md-2, .col-md-3, .filter-card') || el.parentElement;
+            return parent ? parent.querySelector('.ss-main') : null;
+        }
+
+        function syncHasValue(el) {
+            const ssMain = getSsMain(el);
+            const hasVal = el.value && el.value !== '';
+            if (ssMain) ssMain.classList.toggle('has-value', hasVal);
+        }
+
+        document.querySelectorAll('.filter-card select').forEach(function (el) {
+            const inst = new SlimSelect({
+                select: el,
+                settings: {
+                    showSearch: el.options.length > 6,
+                    searchPlaceholder: 'Tìm kiếm...',
+                    searchText: 'Không có kết quả',
+                    allowDeselect: false,
+                },
+                events: {
+                    afterChange: function () { syncHasValue(el); }
                 }
             });
+            slimInstances.set(el, inst);
+            // Sync ngay sau render — quan trọng cho trang search (có th:selected)
+            setTimeout(function () { syncHasValue(el); }, 0);
+        });
 
-            // Reset highlight khi reset form
-            $('.btn-filter.btn-reset').on('click', function () {
-                setTimeout(function () {
-                    $('.filter-card .form-control').removeClass('has-value');
-                }, 10);
+        // Reset (overwrite window.resetFilter)
+        window.resetFilter = function () {
+            slimInstances.forEach(function (inst, el) {
+                inst.setSelected('');
+                const ssMain = getSsMain(el);
+                if (ssMain) ssMain.classList.remove('has-value');
             });
-        });
+            setTimeout(function () {
+                document.querySelectorAll('.filter-card input').forEach(function (el) {
+                    el.value = '';
+                    el.classList.remove('has-value');
+                });
+            }, 10);
+        };
+    });
+</script>
 
-        // Ajax xóa tòa nhà
-        $(document).on("click", ".btn-delete", function (e) {
-            e.preventDefault();
-
-            let id = $(this).data("id");
-
-            Swal.fire({
-                title: 'Xác nhận xóa',
-                text: "Bạn có chắc muốn xóa tòa nhà này?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#dc2626',
-                cancelButtonColor: '#6b7280',
-                confirmButtonText: 'Xóa',
-                cancelButtonText: 'Hủy'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: "/admin/building/delete/" + id,
-                        type: "DELETE",
-                        success: function () {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Thành công',
-                                text: 'Xóa tòa nhà thành công!',
-                                timer: 1500,       // tự động đóng sau 1.5s
-                                showConfirmButton: false
-                            }).then(() => {
-                                window.location.href = "/admin/building/list";
-                            });
-                        },
-                        error: function (xhr) {
-                            const err = xhr.responseJSON;
-                            if (err && err.message) {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Lỗi',
-                                    text: err.message
-                                });
-                            } else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Lỗi',
-                                    text: 'Xóa thất bại!'
-                                });
-                            }
-                        }
-                    });
-                }
-            })
-        });
-    </script>
 </body>
 
 </html>

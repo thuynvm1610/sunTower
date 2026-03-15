@@ -18,6 +18,8 @@ public class BuildingFilterDTO {
     private Long districtId;
     private String ward;
     private String street;
+    private String propertyType;
+    private String transactionType;
     private Integer numberOfFloorFrom;
     private Integer numberOfFloorTo;
     private Integer numberOfBasementFrom;
