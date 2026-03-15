@@ -16,6 +16,8 @@ public class BuildingListDTO {
     private String name;
     private String address;
     private String level;
+    private String propertyType;
+    private String transactionType;
     private BigDecimal rentPrice;
     private String managerName;
     private BigDecimal waterFee;
