@@ -1,540 +1,874 @@
--- =====================================
--- DATABASE: Estate Management System
--- Author: Thủy
--- =====================================
+-- ===================================================================================
+-- DATABASE : estate
+-- SYSTEM   : Estate Management System v2 + Phase 2 (Bản đồ số)
+-- AUTHOR   : Thủy
+-- ===================================================================================
+--
+-- MÔ TẢ TỔNG QUAN
+-- ---------------
+-- Hệ thống quản lý bất động sản (BĐS) trên toàn quốc, hỗ trợ 2 loại giao dịch:
+-- Phase 2 bổ sung tích hợp bản đồ số: tọa độ building, tọa độ tiện ích lân cận,
+-- tìm kiếm theo bán kính Haversine, GeoJSON API cho Leaflet.js + Goong Maps.
+--
+--   (1) CHO THUÊ : khách hàng thuê diện tích theo m², phát sinh hóa đơn hàng tháng.
+--   (2) MUA BÁN  : khách hàng mua toàn bộ tài sản, không phát sinh hóa đơn.
+--
+-- ===================================================================================
+-- PHÂN LOẠI BẤT ĐỘNG SẢN (property_type)
+-- ----------------------------------------
+--   OFFICE    : Tòa nhà văn phòng cho thuê hoặc mua bán toàn bộ.
+--   SHOPHOUSE : Nhà phố thương mại, tầng trệt kinh doanh.
+--   APARTMENT : Căn hộ chung cư cao cấp.
+--   WAREHOUSE : Kho xưởng, bãi hàng trong khu công nghiệp.
+--
+-- PHÂN BỔ 19 BUILDING (đa tỉnh thành):
+--   OFFICE    : 5 FOR_RENT (HN×2, HCM×1, ĐN×1, Quảng Ninh×1)
+--               2 FOR_SALE (HCM×1, Khánh Hòa×1)
+--   SHOPHOUSE : 2 FOR_RENT (HCM×1, HN×1)
+--               1 FOR_SALE (HCM×1)
+--   APARTMENT : 3 FOR_RENT (HCM×2, HN×1)
+--               2 FOR_SALE (HCM×1, ĐN×1)
+--   WAREHOUSE : 2 FOR_RENT (HCM×1, Đồng Nai×1)
+--               2 FOR_SALE (Bình Dương×1, Quảng Ninh×1)
+--
+-- ===================================================================================
+-- LOẠI GIAO DỊCH (transaction_type)
+-- ------------------------------------
+--   FOR_RENT : Cho thuê theo m²/tháng. Có contract, invoice, utility_meter, rent_area.
+--   FOR_SALE : Bán toàn bộ một lần. Có sale_contract. KHÔNG có invoice, utility_meter.
+--              Mỗi building chỉ được bán 1 lần (UNIQUE). Khách mua: NULL username/password.
+--
+-- ===================================================================================
+-- PHÂN QUYỀN HỆ THỐNG (role)
+-- ---------------------------
+--   ADMIN    : Toàn quyền hệ thống.
+--   STAFF    : Nhân viên quản lý tòa nhà và khách hàng được phân công.
+--   CUSTOMER : Khách thuê — có tài khoản (xem hóa đơn, thanh toán).
+--              Khách mua  — NULL username/password, không cần tài khoản.
+--
+-- ===================================================================================
+-- QUY TẮC NGHIỆP VỤ QUAN TRỌNG
+-- --------------------------------
+--
+-- [1] PHÂN CÔNG NHÂN VIÊN
+--     - assignment_building  : gắn staff với building mà họ phụ trách quản lý.
+--     - assignment_customer  : gắn staff với customer mà họ phụ trách chăm sóc.
+--     - Một building / customer có thể được nhiều staff cùng quản lý.
+--
+-- [2] TẠO HỢP ĐỒNG THUÊ (contract)
+--     - Staff ký hợp đồng PHẢI đồng thời quản lý cả building lẫn customer.
+--       → TRIGGER: trg_contract_staff_validate
+--     - rent_area PHẢI thuộc building tương ứng.
+--       → TRIGGER: trg_contract_rentarea_validate
+--     - Building FOR_SALE không được tạo contract thuê.
+--       → TRIGGER: trg_contract_forsale_validate
+--
+-- [3] TẠO HỢP ĐỒNG MUA BÁN (sale_contract)
+--     - Chỉ tạo được với building FOR_SALE.
+--       → TRIGGER: trg_sale_contract_validate
+--     - Luồng: Ký hợp đồng → Bàn giao (cập nhật transfer_date).
+--
+-- [4] HÓA ĐƠN & ĐIỆN NƯỚC (invoice / utility_meter)
+--     - Chỉ phát sinh với hợp đồng THUÊ. Sinh qua script Python.
+--     - Tháng gần nhất: PENDING. Các tháng trước: PAID.
+--
+-- [5] TRANG PUBLIC
+--     - supplier, planning_map, nearby_amenity : hiển thị công khai (GET only).
+--     - legal_authority : CHỈ ADMIN và STAFF phụ trách building đó mới xem được.
+--
+-- [6] BẢN ĐỒ SỐ — PHASE 2
+--     - building.latitude / longitude  : tọa độ tòa nhà, dùng render marker bản đồ.
+--     - nearby_amenity.latitude / longitude : tọa độ tiện ích, filter gần tiện ích.
+--     - API GET /buildings/geojson      : trả GeoJSON FeatureCollection cho Leaflet.
+--     - API GET /buildings/nearby       : tìm building trong bán kính (Haversine query).
+--     - Frontend: Leaflet.js + Goong Maps tile / Geocoding API.
+--
+-- ===================================================================================
+-- DANH SÁCH BẢNG (19 bảng)
+-- -------------------------
+--   district             : Danh mục quận/huyện/tỉnh toàn quốc.
+--   staff                : Nhân viên hệ thống (ADMIN / STAFF).
+--   building             : Tòa nhà / BĐS — core table, có latitude/longitude.
+--   rent_area            : Các mức diện tích cho thuê của từng building FOR_RENT.
+--   customer             : Khách hàng (thuê: có tài khoản | mua: NULL credential).
+--   assignment_building  : Phân công nhân viên quản lý tòa nhà.
+--   assignment_customer  : Phân công nhân viên quản lý khách hàng.
+--   contract             : Hợp đồng thuê (FOR_RENT).
+--   sale_contract        : Hợp đồng mua bán (FOR_SALE).
+--   invoice              : Hóa đơn hàng tháng (chỉ FOR_RENT).
+--   invoice_detail       : Chi tiết từng khoản phí trong hóa đơn.
+--   utility_meter        : Chỉ số điện/nước theo tháng của từng hợp đồng thuê.
+--   supplier             : Đơn vị thi công / thiết kế của từng building.
+--   planning_map         : Bản đồ quy hoạch của từng building.
+--   legal_authority      : Cơ quan tư pháp — chỉ ADMIN/STAFF phụ trách xem được.
+--   nearby_amenity       : Tiện ích lân cận — có latitude/longitude (Phase 2).
+--   password_reset_token : Token đặt lại mật khẩu.
+--
+-- ===================================================================================
 
 DROP DATABASE IF EXISTS estate;
 CREATE DATABASE estate CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE estate;
 
--- =============================
--- BẢNG QUẬN / DISTRICT
--- =============================
+-- =============================================================================
+-- BẢNG QUẬN / HUYỆN / THỊ XÃ - DISTRICT
+-- =============================================================================
 CREATE TABLE district (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    id   BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100)
 );
 
 INSERT INTO district (name) VALUES
-('Ba Đình'),
-('Hoàn Kiếm'),
-('Đống Đa'),
-('Hai Bà Trưng'),
-('Cầu Giấy'),
-('Thanh Xuân'),
-('Nam Từ Liêm'),
-('Tây Hồ'),
-('Long Biên'),
-('Hà Đông'),
-('Bắc Từ Liêm');
+('Quận Ba Đình, Hà Nội'),
+('Quận Hoàn Kiếm, Hà Nội'),
+('Quận Đống Đa, Hà Nội'),
+('Quận Cầu Giấy, Hà Nội'),
+('Quận Nam Từ Liêm, Hà Nội'),
+('Quận Tây Hồ, Hà Nội'),
+('Quận Thanh Xuân, Hà Nội'),
+('Quận 1, TP. Hồ Chí Minh'),
+('Quận 7, TP. Hồ Chí Minh'),
+('Quận Bình Thạnh, TP. Hồ Chí Minh'),
+('TP. Thủ Đức, TP. Hồ Chí Minh'),
+('Quận Hải Châu, Đà Nẵng'),
+('Quận Ngũ Hành Sơn, Đà Nẵng'),
+('TP. Hải Phòng'),
+('TP. Cần Thơ'),
+('Tỉnh Bình Dương'),
+('Tỉnh Đồng Nai'),
+('Tỉnh Khánh Hòa'),
+('Tỉnh Quảng Ninh');
 
--- =============================
+-- =============================================================================
 -- BẢNG NHÂN VIÊN / STAFF
--- =============================
+-- =============================================================================
 CREATE TABLE staff (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50),
-    password VARCHAR(255),
-    full_name VARCHAR(100),
-    phone VARCHAR(20),
-    email VARCHAR(100),
-    image VARCHAR(30),
-    role VARCHAR(50),
-    created_date DATETIME,
+    id            BIGINT AUTO_INCREMENT PRIMARY KEY,
+    username      VARCHAR(50),
+    password      VARCHAR(255),
+    full_name     VARCHAR(100),
+    phone         VARCHAR(20),
+    email         VARCHAR(100),
+    image         VARCHAR(30),
+    role          VARCHAR(50),
+    created_date  DATETIME,
     modified_date DATETIME
 );
 
 INSERT INTO staff (username, password, full_name, phone, email, image, role, created_date, modified_date) VALUES
 ('nvmt1610', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Nguyễn Văn Minh Thủy', '0375577856', 'thuy.nvm@gmail.com', 'staff_001', 'ADMIN', '2018-01-05', '2018-01-05'),
-('tmq0102', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Trần Minh Quân', '0812945252', 'quan.tm@gmail.com', 'staff_002', 'STAFF', '2019-02-15', '2024-04-12'),
-('lth2105', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Lê Thị Hồng', '0349397989', 'hong.lt@gmail.com', 'staff_003', 'STAFF', '2019-05-10', '2024-03-18'),
-('pvd1208', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Phạm Văn Dũng', '0852486437', 'dung.pv@gmail.com', 'staff_004', 'STAFF', '2020-01-08', '2024-05-09'),
-('nha0401', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Nguyễn Hoàng Anh', '0384509115', 'anh.nh@gmail.com', 'staff_005', 'STAFF', '2020-07-20', '2024-04-28'),
-('vnb2511', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Vũ Ngọc Bích', '0386213813', 'bich.vn@gmail.com', 'staff_006', 'STAFF', '2021-02-11', '2025-03-15'),
-('dhc2307', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Đặng Hữu Cường', '0337240999', 'cuong.dh@gmail.com', 'staff_007', 'STAFF', '2021-09-03', '2024-06-10'),
-('ltm1905', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Lương Thị Mai', '0385325395', 'mai.lt@gmail.com', 'staff_008', 'STAFF', '2022-03-25', '2025-02-02'),
-('nta1212', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Ngô Tuấn Anh', '0364961972', 'anhtn@gmail.com', 'staff_009', 'STAFF', '2022-06-11', '2024-12-30'),
-('hdk1311', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Hoàng Đức Khánh', '0865890758', 'khanh.hd@gmail.com', 'staff_010', 'STAFF', '2023-01-05', '2025-01-16'),
-('ttt1612', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Trịnh Thu Trang', '0911848571', 'trang.tt@gmail.com', 'staff_011', 'STAFF', '2023-03-12', '2025-02-25'),
-('llt2910', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Lê Thùy Linh', '0345914403', 'linh.lt@gmail.com', 'staff_012', 'ADMIN', '2019-09-09', '2024-12-20'),
-('nvt1503', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Nguyễn Văn Tùng', '0387432641', 'tung.nv@gmail.com', 'staff_013', 'STAFF', '2020-03-15', '2024-11-08'),
-('pth2807', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Phạm Thị Hạnh', '0334021344', 'hanh.pt@gmail.com', 'staff_014', 'STAFF', '2020-07-28', '2025-01-05'),
-('tqd0211', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Trần Quang Đức', '0869076328', 'duc.tq@gmail.com', 'staff_015', 'STAFF', '2021-02-11', '2024-10-19'),
-('lmn3006', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Lê Minh Ngọc', '0377050627', 'ngoc.lm@gmail.com', 'staff_016', 'STAFF', '2021-06-30', '2025-02-10'),
-('dth1708', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Đỗ Thị Hương', '0392613930', 'huong.dt@gmail.com', 'staff_017', 'STAFF', '2022-08-17', '2024-12-14'),
-('nqk0404', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Nguyễn Quốc Khánh', '0862587123', 'khanh.nq@gmail.com', 'staff_018', 'STAFF', '2022-04-04', '2025-01-28'),
-('vtl2210', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Vũ Thị Linh', '0356767043', 'linh.vt@gmail.com', 'staff_019', 'STAFF', '2023-10-22', '2025-03-01');
+('tmq0102' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Trần Minh Quân'      , '0812945252', 'quan.tm@gmail.com' , 'staff_002', 'STAFF', '2019-02-15', '2024-04-12'),
+('lth2105' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Lê Thị Hồng'         , '0349397989', 'hong.lt@gmail.com' , 'staff_003', 'STAFF', '2019-05-10', '2024-03-18'),
+('pvd1208' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Phạm Văn Dũng'       , '0852486437', 'dung.pv@gmail.com' , 'staff_004', 'STAFF', '2020-01-08', '2024-05-09'),
+('nha0401' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Nguyễn Hoàng Anh'    , '0384509115', 'anh.nh@gmail.com'  , 'staff_005', 'STAFF', '2020-07-20', '2024-04-28'),
+('vnb2511' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Vũ Ngọc Bích'        , '0386213813', 'bich.vn@gmail.com' , 'staff_006', 'STAFF', '2021-02-11', '2025-03-15'),
+('dhc2307' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Đặng Hữu Cường'      , '0337240999', 'cuong.dh@gmail.com', 'staff_007', 'STAFF', '2021-09-03', '2024-06-10'),
+('ltm1905' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Lương Thị Mai'       , '0385325395', 'mai.lt@gmail.com'  , 'staff_008', 'STAFF', '2022-03-25', '2025-02-02'),
+('nta1212' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Ngô Tuấn Anh'        , '0364961972', 'anhtn@gmail.com'   , 'staff_009', 'STAFF', '2022-06-11', '2024-12-30'),
+('hdk1311' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Hoàng Đức Khánh'     , '0865890758', 'khanh.hd@gmail.com', 'staff_010', 'STAFF', '2023-01-05', '2025-01-16'),
+('ttt1612' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Trịnh Thu Trang'     , '0911848571', 'trang.tt@gmail.com', 'staff_011', 'STAFF', '2023-03-12', '2025-02-25'),
+('llt2910' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Lê Thùy Linh'        , '0345914403', 'linh.lt@gmail.com' , 'staff_012', 'ADMIN', '2019-09-09', '2024-12-20'),
+('nvt1503' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Nguyễn Văn Tùng'     , '0387432641', 'tung.nv@gmail.com' , 'staff_013', 'STAFF', '2020-03-15', '2024-11-08'),
+('pth2807' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Phạm Thị Hạnh'       , '0334021344', 'hanh.pt@gmail.com' , 'staff_014', 'STAFF', '2020-07-28', '2025-01-05'),
+('tqd0211' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Trần Quang Đức'      , '0869076328', 'duc.tq@gmail.com'  , 'staff_015', 'STAFF', '2021-02-11', '2024-10-19'),
+('lmn3006' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Lê Minh Ngọc'        , '0377050627', 'ngoc.lm@gmail.com' , 'staff_016', 'STAFF', '2021-06-30', '2025-02-10'),
+('dth1708' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Đỗ Thị Hương'        , '0392613930', 'huong.dt@gmail.com', 'staff_017', 'STAFF', '2022-08-17', '2024-12-14'),
+('nqk0404' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Nguyễn Quốc Khánh'   , '0862587123', 'khanh.nq@gmail.com', 'staff_018', 'STAFF', '2022-04-04', '2025-01-28'),
+('vtl2210' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Vũ Thị Linh'         , '0356767043', 'linh.vt@gmail.com' , 'staff_019', 'STAFF', '2023-10-22', '2025-03-01');
 
--- =============================
+-- =============================================================================
 -- BẢNG TÒA NHÀ / BUILDING
--- =============================
+-- =============================================================================
 CREATE TABLE building (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255),
-    district_id BIGINT,
-    ward VARCHAR(100),
-    street VARCHAR(255),
-    number_of_floor INT,
+    id                 BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name               VARCHAR(255),
+    district_id        BIGINT,
+    ward               VARCHAR(100),
+    street             VARCHAR(255),
+    number_of_floor    INT,
     number_of_basement INT,
-    floor_area INT,
-    direction VARCHAR(50),
-    level VARCHAR(50),
-    rent_price DECIMAL(15,2),
-    service_fee DECIMAL(15,2),
-    car_fee DECIMAL(15,2),
-    motorbike_fee DECIMAL(15,2),
-    water_fee DECIMAL(15,2),
-    electricity_fee DECIMAL(15,2),
-    deposit DECIMAL(15,2),
-    link_of_building TEXT,
-    image TEXT,
-    created_date DATETIME,
-    modified_date DATETIME,
+    floor_area         INT,
+    direction          VARCHAR(50),
+    level              VARCHAR(50),
+    property_type      ENUM('OFFICE','SHOPHOUSE','APARTMENT','WAREHOUSE') NOT NULL DEFAULT 'OFFICE' COMMENT 'Loại hình bất động sản',
+    transaction_type   ENUM('FOR_RENT','FOR_SALE') NOT NULL DEFAULT 'FOR_RENT'                      COMMENT 'Loại hình giao dịch',
+    rent_price         DECIMAL(15,2),
+    sale_price         DECIMAL(15,2) NULL                                                            COMMENT 'Giá bán toàn bộ. NULL nếu FOR_RENT',
+    service_fee        DECIMAL(15,2),
+    car_fee            DECIMAL(15,2),
+    motorbike_fee      DECIMAL(15,2),
+    water_fee          DECIMAL(15,2),
+    electricity_fee    DECIMAL(15,2),
+    deposit            DECIMAL(15,2),
+    link_of_building   TEXT,
+    image              TEXT,
+    latitude           DECIMAL(10,7) NULL COMMENT 'Vĩ độ — Phase 2 bản đồ số',
+    longitude          DECIMAL(10,7) NULL COMMENT 'Kinh độ — Phase 2 bản đồ số',
+    created_date       DATETIME,
+    modified_date      DATETIME,
     FOREIGN KEY (district_id) REFERENCES district(id)
 );
 
-INSERT INTO building 
-(name, district_id, ward, street, number_of_floor, number_of_basement, floor_area, direction, level, rent_price, service_fee, car_fee, motorbike_fee, water_fee, electricity_fee, deposit, link_of_building, image, created_date, modified_date) VALUES
-('Duy Tân Tower', 5, 'Dịch Vọng Hậu', 'Duy Tân', 15, 2, 1800, 'DONG_NAM', 'A', 900000, 1000000, 1500000, 70000, 15000, 4000, 60000000, 'https://duytantower.vn', 'duy-tan-tower.jpg', '2019-05-10', '2024-06-12'),
-('Lotte Center', 1, 'Liễu Giai', 'Liễu Giai', 60, 5, 7000, 'TAY_BAC', 'A_PLUS', 1200000, 2500000, 2000000, 120000, 25000, 6000, 200000000, 'https://lottecenter.vn', 'lotte-center.jpg', '2018-11-20', '2025-02-11'),
-('Pacific Place', 2, 'Tràng Tiền', 'Lý Thường Kiệt', 20, 3, 3500, 'NAM', 'B', 600000, 2000000, 2500000, 100000, 20000, 5500, 100000000, 'https://pacificplace.vn', 'pacific-place.jpg', '2019-07-18', '2024-05-02'),
-('VCCI Tower', 3, 'Láng Hạ', 'Láng Hạ', 20, 2, 4000, 'DONG', 'A', 900000, 1500000, 1800000, 80000, 18000, 5000, 80000000, 'https://vciitower.vn', 'vcii-tower.jpg', '2020-03-09', '2025-01-05'),
-('Hòa Bình Green City', 4, 'Vĩnh Tuy', 'Minh Khai', 25, 3, 4200, 'TAY_NAM', 'B_PLUS', 800000, 1200000, 1600000, 70000, 16000, 4500, 70000000, 'https://hoabinhgreencity.vn', 'hoa-binh-green-city.jpg', '2020-09-21', '2025-03-03'),
-('HUD Tower', 6, 'Thanh Xuân Bắc', 'Nguyễn Tuân', 28, 3, 5000, 'NAM', 'A', 900000, 1300000, 1700000, 90000, 17000, 5200, 90000000, 'https://hudtower.vn', 'hud-tower.jpg', '2021-01-19', '2025-01-22'),
-('Keangnam Landmark 72', 7, 'Mễ Trì', 'Phạm Hùng', 72, 5, 10000, 'TAY_BAC', 'A_PLUS', 1200000, 3000000, 2600000, 150000, 25000, 6000, 250000000, 'https://keangnamtower.vn', 'keangnam-tower.jpg', '2018-08-25', '2024-12-12'),
-('FPT Tower', 5, 'Yên Hòa', 'Phạm Văn Bạch', 21, 2, 4200, 'DONG_BAC', 'A', 900000, 1200000, 1600000, 80000, 10000, 4800, 80000000, 'https://fpttower.vn', 'fpt-tower.jpg', '2021-06-15', '2025-02-25'),
-('Handico Tower', 7, 'Mễ Trì', 'Phạm Hùng', 39, 3, 5500, 'TAY', 'C_PLUS', 500000, 2000000, 2500000, 120000, 20000, 5500, 120000000, 'https://handico.vn', 'handico-tower.jpg', '2020-08-10', '2025-03-05'),
-('Charmvit Tower', 3, 'Trung Hòa', 'Trần Duy Hưng', 27, 3, 4500, 'DONG_NAM', 'A', 900000, 1800000, 2200000, 100000, 18000, 5200, 100000000, 'https://charmvit.vn', 'charmvit-tower.jpg', '2019-03-18', '2024-11-20'),
-('Thăng Long Tower', 6, 'Hạ Đình', 'Nguyễn Trãi', 20, 2, 3800, 'NAM', 'B_PLUS', 800000, 1000000, 1300000, 70000, 15000, 4700, 60000000, 'https://thanglongtower.vn', 'thang-long-tower.jpg', '2021-04-22', '2024-10-09'),
-('Tràng An Complex', 1, 'Ngọc Khánh', 'Phạm Văn Đồng', 29, 3, 4800, 'DONG_BAC', 'A', 900000, 1400000, 1800000, 90000, 18000, 5000, 90000000, 'https://trangancomplex.vn', 'trang-an-complex.jpg', '2019-08-08', '2025-01-29'),
-('Sun Grand City Thụy Khuê', 8, 'Thụy Khuê', 'Thụy Khuê', 25, 3, 4200, 'TAY', 'A_PLUS', 1100000, 2000000, 2200000, 120000, 20000, 5500, 150000000, 'https://sungrandcity.vn', 'sun-grand-city.jpg', '2019-06-12', '2025-02-18'),
-('Watermark Hồ Tây', 8, 'Nhật Tân', 'Âu Cơ', 18, 2, 3600, 'TAY_BAC', 'A', 950000, 1500000, 1800000, 90000, 18000, 5200, 90000000, 'https://watermark.vn', 'watermark-tayho.jpg', '2020-03-25', '2024-12-30'),
-('Mipec Riverside Office', 9, 'Ngọc Lâm', 'Long Biên', 22, 2, 3800, 'DONG_NAM', 'B_PLUS', 650000, 1200000, 1500000, 80000, 16000, 4800, 70000000, 'https://mipecriverside.vn', 'mipec-riverside.jpg', '2020-07-14', '2024-11-05'),
-('Handcorp Plaza', 9, 'Dịch Vọng Hậu', 'Trần Đăng Ninh', 20, 2, 4000, 'NAM', 'B', 600000, 1000000, 1400000, 70000, 15000, 4500, 60000000, 'https://handcorpplaza.vn', 'handcorp-plaza.jpg', '2021-02-10', '2025-01-12'),
-('Văn Phú Victoria', 10, 'Phú La', 'Lê Trọng Tấn', 30, 3, 5000, 'DONG_BAC', 'A', 750000, 1300000, 1600000, 85000, 17000, 5000, 80000000, 'https://vanphuvictoria.vn', 'van-phu-victoria.jpg', '2019-09-19', '2025-03-01'),
-('The Pride Tower', 10, 'La Khê', 'Tố Hữu', 35, 3, 5200, 'TAY_NAM', 'B_PLUS', 700000, 1200000, 1500000, 80000, 16000, 4800, 75000000, 'https://thepride.vn', 'the-pride-tower.jpg', '2020-05-28', '2024-10-21'),
-('Sunshine City Office', 11, 'Đông Ngạc', 'Phạm Văn Đồng', 32, 3, 5400, 'DONG', 'A', 850000, 1500000, 1800000, 90000, 18000, 5200, 90000000, 'https://sunshinecity.vn', 'sunshine-city-office.jpg', '2020-11-11', '2025-02-08'),
-('EcoHome 3 Tower', 11, 'Cổ Nhuế', 'Tân Xuân', 27, 2, 4100, 'BAC', 'B', 650000, 1000000, 1300000, 70000, 15000, 4500, 60000000, 'https://ecohome.vn', 'ecohome-3.jpg', '2021-03-06', '2024-09-14'),
-('Daewoo Business Center', 1, 'Ngọc Khánh', 'Kim Mã', 15, 2, 3000, 'DONG_NAM', 'B_PLUS', 750000, 1200000, 1500000, 80000, 16000, 4800, 70000000, 'https://daewoo-bc.vn', 'daewoo-bc.jpg', '2020-06-10', '2024-11-12'),
-('Vincom Metropolis Office', 1, 'Ngọc Khánh', 'Liễu Giai', 45, 5, 8000, 'TAY', 'A_PLUS', 1200000, 2800000, 2600000, 150000, 25000, 6000, 220000000, 'https://vincom-metropolis.vn', 'vincom-metropolis.jpg', '2018-10-05', '2025-03-05'),
-('TNR Tower Nguyễn Chí Thanh', 3, 'Láng Thượng', 'Nguyễn Chí Thanh', 29, 4, 5500, 'DONG', 'A_PLUS', 1050000, 2200000, 2400000, 130000, 24000, 5800, 160000000, 'https://tnrtower.vn', 'tnr-nguyen-chi-thanh.jpg', '2018-09-09', '2025-03-01'),
-('Indochina Plaza Hanoi', 5, 'Yên Hòa', 'Xuân Thủy', 39, 3, 6800, 'DONG_BAC', 'A', 950000, 2000000, 2200000, 120000, 22000, 5600, 150000000, 'https://iph.vn', 'iph-office.jpg', '2019-07-15', '2024-11-28'),
-('VNPT Tower', 5, 'Yên Hòa', 'Phạm Hùng', 30, 3, 5000, 'NAM', 'B_PLUS', 780000, 1400000, 1700000, 90000, 18000, 5000, 80000000, 'https://vnpttower.vn', 'vnpt-tower.jpg', '2020-03-04', '2025-01-20'),
-('CTM Complex', 5, 'Trung Hòa', 'Trần Duy Hưng', 21, 2, 4200, 'DONG_NAM', 'B_PLUS', 720000, 1300000, 1600000, 85000, 17000, 4800, 70000000, 'https://ctmcomplex.vn', 'ctm-complex.jpg', '2021-06-22', '2024-10-11'),
-('Handiresco Tower', 6, 'Thanh Xuân Trung', 'Nguyễn Tuân', 18, 2, 3500, 'NAM', 'B', 650000, 1100000, 1400000, 75000, 15000, 4600, 60000000, 'https://handiresco.vn', 'handiresco.jpg', '2021-01-12', '2025-02-15'),
-('CEO Tower', 7, 'Mỹ Đình 1', 'Phạm Hùng', 30, 3, 5200, 'DONG', 'A', 900000, 1700000, 2000000, 100000, 19000, 5400, 100000000, 'https://ceotower.vn', 'ceo-tower.jpg', '2019-03-20', '2025-02-22'),
-('Crown Plaza Office', 7, 'Mỹ Đình 2', 'Lê Đức Thọ', 25, 3, 4800, 'TAY_NAM', 'B_PLUS', 780000, 1400000, 1700000, 90000, 17000, 5000, 80000000, 'https://crownplaza.vn', 'crownplaza.jpg', '2020-06-30', '2024-11-18'),
-('Golden Palace Tower', 7, 'Mễ Trì', 'Mễ Trì', 35, 4, 6500, 'TAY_BAC', 'A', 950000, 2000000, 2300000, 120000, 23000, 5600, 150000000, 'https://goldenpalace.vn', 'golden-palace.jpg', '2018-11-25', '2025-03-03');
+-- -------------------------------------------------------
+-- OFFICE FOR_RENT: B1-B5 — HN×2, HCM×1, ĐN×1, Quảng Ninh×1
+-- -------------------------------------------------------
+INSERT INTO building
+(name, district_id, ward, street, number_of_floor, number_of_basement, floor_area, direction, level, property_type, transaction_type, rent_price, sale_price, service_fee, car_fee, motorbike_fee, water_fee, electricity_fee, deposit, link_of_building, image, latitude, longitude, created_date, modified_date) VALUES
+('Lotte Center'           , 1 , 'P. Liễu Giai'  , 'Liễu Giai'     , 60, 5, 7000 , 'TAY_BAC' , 'A_PLUS', 'OFFICE', 'FOR_RENT', 1200000, NULL, 2500000, 2000000, 120000,180000,55000, 200000000, 'https://lottecenter.vn'  , 'lotte-center.jpg'  , 21.0358, 105.8194, '2018-11-20', '2025-02-11'),
+('Keangnam Landmark 72'   , 5 , 'P. Mễ Trì'     , 'Phạm Hùng'     , 72, 5, 10000, 'TAY_BAC' , 'A_PLUS', 'OFFICE', 'FOR_RENT', 1200000, NULL, 3000000, 2600000, 150000,180000,55000, 250000000, 'https://keangnamtower.vn', 'keangnam-tower.jpg', 21.0134, 105.7823, '2018-08-25', '2024-12-12'),
+('Pacific Place'          , 2 , 'P. Tràng Tiền' , 'Lý Thường Kiệt', 20, 3, 3500 , 'NAM'     , 'B'     , 'OFFICE', 'FOR_RENT', 600000 , NULL, 2000000, 2500000, 100000,150000,45000, 100000000, 'https://pacificplace.vn' , 'pacific-place.jpg' , 21.0207, 105.8527, '2019-07-18', '2024-05-02'),
+('Bitexco Financial Tower', 8 , 'P. Bến Nghé'   , 'Hải Triều'     , 68, 5, 9000 , 'DONG_NAM', 'A_PLUS', 'OFFICE', 'FOR_RENT', 1100000, NULL, 2800000, 3000000, 160000,200000,55000, 220000000, 'https://bitexco.vn'      , 'bitexco.jpg'       , 10.7734, 106.703 , '2018-05-20', '2025-01-10'),
+('Vincom Đà Nẵng Office'  , 12, 'P. Thạch Thang', 'Bạch Đằng'     , 22, 2, 3800 , 'DONG'    , 'B_PLUS', 'OFFICE', 'FOR_RENT', 550000 , NULL, 1200000, 1500000, 80000 ,120000,40000,  80000000, 'https://vincom-danang.vn', 'vincom-danang.jpg' , 16.0678, 108.2134, '2020-07-14', '2024-11-05');
 
--- =============================
+-- -------------------------------------------------------
+-- OFFICE FOR_SALE: B6-B7 — HCM, Khánh Hòa
+-- -------------------------------------------------------
+INSERT INTO building
+(name, district_id, ward, street, number_of_floor, number_of_basement, floor_area, direction, level, property_type, transaction_type, rent_price, sale_price, service_fee, car_fee, motorbike_fee, water_fee, electricity_fee, deposit, link_of_building, image, latitude, longitude, created_date, modified_date) VALUES
+('Saigon Centre Tower', 8 , 'P. Bến Nghé', 'Lê Lợi'  , 25, 3, 5000, 'NAM'     , 'A_PLUS', 'OFFICE', 'FOR_SALE', NULL, 72000000000, 2200000, 2500000, 140000, 22000, 6000, NULL, 'https://saigoncentre.vn'     , 'saigon-centre.jpg'    , 10.7712, 106.6989, '2019-03-15', '2025-01-20'),
+('Landmark Nha Trang' , 18, 'P. Lộc Thọ' , 'Trần Phú', 32, 3, 5500, 'DONG_NAM', 'A_PLUS', 'OFFICE', 'FOR_SALE', NULL, 58000000000, 2000000, 2200000, 130000, 20000, 5500, NULL, 'https://landmark-nhatrang.vn', 'landmark-nhatrang.jpg', 12.2388, 109.1967, '2020-06-10', '2025-02-15');
+
+-- -------------------------------------------------------
+-- SHOPHOUSE FOR_RENT: B8-B9 — HCM, HN
+-- -------------------------------------------------------
+INSERT INTO building
+(name, district_id, ward, street, number_of_floor, number_of_basement, floor_area, direction, level, property_type, transaction_type, rent_price, sale_price, service_fee, car_fee, motorbike_fee, water_fee, electricity_fee, deposit, link_of_building, image, latitude, longitude, created_date, modified_date) VALUES
+('Shophouse The Manor HCM'      , 9, 'P. Phú Mỹ', 'Nguyễn Lương Bằng', 4, 1, 160, 'DONG_NAM', 'B', 'SHOPHOUSE', 'FOR_RENT', 35000000, NULL, 500000, 800000, 50000, 90000,30000,  70000000, 'https://themanor-hcm.vn'      , 'shophouse-the-manor.jpg'  , 10.7223, 106.7056, '2020-08-01', '2024-11-15'),
+('Shophouse Vinhomes Smart City', 5, 'P. Tây Mỗ', 'Đại Lộ Thăng Long', 4, 1, 200, 'TAY_NAM' , 'A', 'SHOPHOUSE', 'FOR_RENT', 28000000, NULL, 400000, 700000, 45000, 80000,28000,  56000000, 'https://vinhomes-smartcity.vn', 'shophouse-vinhomes-sc.jpg', 20.9923, 105.7612, '2021-05-10', '2025-01-20');
+
+-- -------------------------------------------------------
+-- SHOPHOUSE FOR_SALE: B10 — HCM Thủ Đức
+-- -------------------------------------------------------
+INSERT INTO building
+(name, district_id, ward, street, number_of_floor, number_of_basement, floor_area, direction, level, property_type, transaction_type, rent_price, sale_price, service_fee, car_fee, motorbike_fee, water_fee, electricity_fee, deposit, link_of_building, image, latitude, longitude, created_date, modified_date) VALUES
+('Shophouse Masteri Thảo Điền', 11, 'P. Thảo Điền', 'Xa Lộ Hà Nội', 5, 1, 180, 'DONG', 'A_PLUS', 'SHOPHOUSE', 'FOR_SALE', NULL, 23000000000, NULL, NULL, NULL, NULL, NULL, NULL, 'https://masteri-thaodien.vn', 'shophouse-masteri-td.jpg', 10.8012, 106.7312, '2022-03-15', '2025-02-10');
+
+-- -------------------------------------------------------
+-- APARTMENT FOR_RENT: B11-B13 — HCM×2, HN×1
+-- -------------------------------------------------------
+INSERT INTO building
+(name, district_id, ward, street, number_of_floor, number_of_basement, floor_area, direction, level, property_type, transaction_type, rent_price, sale_price, service_fee, car_fee, motorbike_fee, water_fee, electricity_fee, deposit, link_of_building, image, latitude, longitude, created_date, modified_date) VALUES
+('The Ascent Thảo Điền', 11, 'P. Thảo Điền'     , 'Nguyễn Văn Hưởng', 30, 3, 75, 'NAM', 'A'     , 'APARTMENT', 'FOR_RENT', 25000000, NULL, 800000, 1200000, 60000,100000,35000,  50000000, 'https://theascent.vn'         , 'apt-theascent.jpg' , 10.8023, 106.7289, '2021-07-01', '2024-12-10'),
+('Masteri Waterfront'  , 11, 'P. Long Bình'     , 'Vũ Tông Phan'    , 38, 3, 68, 'TAY', 'B_PLUS', 'APARTMENT', 'FOR_RENT', 18000000, NULL, 600000, 900000 , 50000, 90000,30000,  36000000, 'https://masteri-waterfront.vn', 'apt-masteri-wf.jpg', 10.8312, 106.7612, '2022-09-05', '2025-02-28'),
+('Goldseason'          , 7 , 'P. Thanh Xuân Nam', 'Nguyễn Tuân'     , 37, 3, 75, 'NAM', 'A'     , 'APARTMENT', 'FOR_RENT', 18000000, NULL, 800000, 1200000, 60000,100000,35000,  36000000, 'https://goldseason.vn'        , 'apt-goldseason.jpg', 21.0089, 105.8201, '2021-07-01', '2024-12-10');
+
+-- -------------------------------------------------------
+-- APARTMENT FOR_SALE: B14-B15 — HCM, Đà Nẵng
+-- -------------------------------------------------------
+INSERT INTO building
+(name, district_id, ward, street, number_of_floor, number_of_basement, floor_area, direction, level, property_type, transaction_type, rent_price, sale_price, service_fee, car_fee, motorbike_fee, water_fee, electricity_fee, deposit, link_of_building, image, latitude, longitude, created_date, modified_date) VALUES
+('Vinhomes Central Park', 10, 'P. 22'   , 'Nguyễn Hữu Cảnh', 45, 4, 95, 'DONG_NAM', 'A_PLUS', 'APARTMENT', 'FOR_SALE', NULL, 15000000000, NULL, NULL, NULL, NULL, NULL, NULL, 'https://vinhomes-centralpark.vn', 'apt-centralpark.jpg', 10.7912, 106.7234, '2019-04-10', '2025-03-01'),
+('Vinpearl Condotel ĐN' , 13, 'P. Mỹ An', 'Trường Sa'      , 25, 3, 65, 'DONG_NAM', 'A_PLUS', 'APARTMENT', 'FOR_SALE', NULL, 12000000000, NULL, NULL, NULL, NULL, NULL, NULL, 'https://vinpearl-danang.vn'     , 'apt-vinpearl-dn.jpg', 15.9889, 108.2634, '2021-06-01', '2025-01-15');
+
+-- -------------------------------------------------------
+-- WAREHOUSE FOR_RENT: B16-B17 — HCM Thủ Đức, Đồng Nai
+-- -------------------------------------------------------
+INSERT INTO building
+(name, district_id, ward, street, number_of_floor, number_of_basement, floor_area, direction, level, property_type, transaction_type, rent_price, sale_price, service_fee, car_fee, motorbike_fee, water_fee, electricity_fee, deposit, link_of_building, image, latitude, longitude, created_date, modified_date) VALUES
+('Kho bãi Cảng Cát Lái'        , 11, 'P. Cát Lái'      , 'Đường Vành Đai 2'    , 2, 0, 1500, 'DONG', 'B', 'WAREHOUSE', 'FOR_RENT', 120000, NULL, NULL, 2000000, NULL, 80000,25000,  36000000, 'https://catlaiport.vn', 'warehouse-cat-lai.jpg' , 10.7456, 106.7923, '2021-04-18', '2025-01-10'),
+('Kho xưởng KCN Amata Đồng Nai', 17, 'P. Long Bình Tân', 'Đường Số 8 KCN Amata', 2, 0, 1800, 'NAM' , 'B', 'WAREHOUSE', 'FOR_RENT', 100000, NULL, NULL, 1800000, NULL, 70000,22000,  32000000, 'https://amata.com.vn' , 'warehouse-amata-dn.jpg', 10.9512, 106.8634, '2022-01-25', '2025-02-05');
+
+-- -------------------------------------------------------
+-- WAREHOUSE FOR_SALE: B18-B19 — Bình Dương, Quảng Ninh
+-- -------------------------------------------------------
+INSERT INTO building
+(name, district_id, ward, street, number_of_floor, number_of_basement, floor_area, direction, level, property_type, transaction_type, rent_price, sale_price, service_fee, car_fee, motorbike_fee, water_fee, electricity_fee, deposit, link_of_building, image, latitude, longitude, created_date, modified_date) VALUES
+('KCN VSIP Bình Dương'  , 16, 'P. Bình Hòa', 'Đại lộ Bình Dương', 3, 0, 2000, 'BAC' , 'B', 'WAREHOUSE', 'FOR_SALE', NULL, 32000000000, NULL, NULL, NULL, NULL, NULL, NULL, 'https://vsip.com.vn'       , 'warehouse-vsip-bd.jpg' , 10.9234, 106.6823, '2020-06-10', '2024-10-15'),
+('KCN Deep C Quảng Ninh', 19, 'P. Đông Mai', 'Quốc lộ 18'       , 3, 0, 2500, 'DONG', 'B', 'WAREHOUSE', 'FOR_SALE', NULL, 28000000000, NULL, NULL, NULL, NULL, NULL, NULL, 'https://deepc-quangninh.vn', 'warehouse-deepc-qn.jpg', 20.9167, 107.0589, '2021-08-15', '2025-01-20');
+
+-- =============================================================================
 -- BẢNG KHÁCH HÀNG / CUSTOMER
--- =============================
+-- =============================================================================
 CREATE TABLE customer (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) UNIQUE,
-    password VARCHAR(255),
-    full_name VARCHAR(100),
-    phone VARCHAR(20) UNIQUE,
-    email VARCHAR(100) UNIQUE,
-    role VARCHAR(50),
-    created_date DATETIME,
+    id            BIGINT AUTO_INCREMENT PRIMARY KEY,
+    username      VARCHAR(50)  UNIQUE,
+    password      VARCHAR(255),
+    full_name     VARCHAR(100),
+    phone         VARCHAR(20)  UNIQUE,
+    email         VARCHAR(100) UNIQUE,
+    role          VARCHAR(50),
+    created_date  DATETIME,
     modified_date DATETIME
 );
 
+-- C1-C8  : Khách THUÊ  — có username/password để login theo dõi hóa đơn
+-- C9-C14 : Khách MUA   — NULL username/password, không cần tài khoản
 INSERT INTO customer (username, password, full_name, phone, email, role, created_date, modified_date) VALUES
-('abcVietNam','$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS','Công ty TNHH ABC Việt Nam', '0903000001', 'contact@abc.com.vn', 'CUSTOMER', '2019-06-18', '2024-08-10'),
-('solutionIT','$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS','Công ty TNHH IT Solution', '0903000002', 'hr@itsolution.vn', 'CUSTOMER', '2020-05-14', '2024-10-03'),
-('DHT','$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS','Công ty CP Dược Hà Thành', '0903000003', 'info@duochathanh.vn', 'CUSTOMER', '2018-09-21', '2023-12-02'),
-('VietATMCP','$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS','Ngân hàng TMCP Việt Á', '0903000004', 'office@vietabank.vn', 'CUSTOMER', '2019-12-17', '2024-11-20'),
-('HoangGiaTM','$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS','Công ty TNHH Thương mại Hoàng Gia', '0903000005', 'sales@hoanggia.vn', 'CUSTOMER', '2021-01-09', '2024-09-18'),
-('FBViet','$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS','Công ty CP F&B Việt', '0903000006', 'admin@fnbviet.vn', 'CUSTOMER', '2021-07-05', '2025-03-10'),
-('CoDienHN','$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS','Công ty TNHH Cơ điện Hà Nội', '0903000007', 'info@codienhanoi.vn', 'CUSTOMER', '2022-03-22', '2024-11-04'),
-('ThietKeXanh','$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS','Công ty TNHH Thiết kế Xanh', '0903000008', 'contact@thietkexanh.vn', 'CUSTOMER', '2023-02-10', '2024-12-15'),
-('AnPhatCorp', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty CP Tập đoàn An Phát', '0903000009', 'contact@anphatgroup.vn', 'CUSTOMER', '2019-03-12', '2024-10-18'),
-('VietLogistics', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty TNHH Dịch vụ Logistics Việt', '0903000010', 'info@vietlogistics.vn', 'CUSTOMER', '2020-08-26', '2024-11-30'),
-('SunEdu', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty CP Giáo dục Mặt Trời', '0903000011', 'admin@sunedu.vn', 'CUSTOMER', '2018-06-04', '2023-12-22'),
-('GreenTechVN', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty TNHH Công nghệ Xanh Việt Nam', '0903000012', 'support@greentechvn.vn', 'CUSTOMER', '2021-11-15', '2025-01-12'),
-('NamCuongGroup', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty CP Tập đoàn Nam Cường', '0903000013', 'office@namcuonggroup.vn', 'CUSTOMER', '2017-09-28', '2024-08-06'),
-('BlueOcean', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty TNHH Blue Ocean Việt Nam', '0903000014', 'contact@blueocean.vn', 'CUSTOMER', '2022-05-09', '2025-02-20'),
-('VinaMedia', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty CP Truyền thông Vina Media', '0903000015', 'hr@vinamedia.vn', 'CUSTOMER', '2020-01-17', '2024-09-27'),
-('MinhPhatCons', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty TNHH Xây dựng Minh Phát', '0903000016', 'info@minhphatcons.vn', 'CUSTOMER', '2019-10-03', '2024-12-08');
+('abcVietNam'   , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty TNHH ABC Việt Nam'        , '0903000001', 'contact@abc.com.vn'       , 'CUSTOMER', '2019-06-18', '2024-08-10'),
+('VietATMCP'    , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Ngân hàng TMCP Việt Á'            , '0903000002', 'office@vietabank.vn'      , 'CUSTOMER', '2019-12-17', '2024-11-20'),
+('SaigonTech'   , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty CP Công nghệ Sài Gòn'     , '0903000003', 'info@saigontech.vn'       , 'CUSTOMER', '2020-03-10', '2024-09-15'),
+('DaNangMedia'  , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty TNHH Truyền thông Đà Nẵng', '0903000004', 'contact@dananmedia.vn'    , 'CUSTOMER', '2021-05-20', '2025-01-10'),
+('PhoHuongViet' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty CP Phở Hương Việt'        , '0903000005', 'info@phohuongviet.vn'     , 'CUSTOMER', '2020-08-10', '2024-11-15'),
+('AoVietFashion', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty CP Thời trang Áo Việt'    , '0903000006', 'sales@aoviet.vn'          , 'CUSTOMER', '2021-11-15', '2025-01-05'),
+('ExpatsHCM'    , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Nhóm khách thuê căn hộ Thủ Đức'   , '0903000007', 'tenant@expatshcm.vn'      , 'CUSTOMER', '2022-01-10', '2025-02-20'),
+('HoangGiaTM'   , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty TNHH Thương mại Hoàng Gia', '0903000008', 'sales@hoanggia.vn'        , 'CUSTOMER', '2021-01-09', '2024-09-18'),
+('NoiThatGoDat' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty CP Nội thất Gỗ Đất Việt'  , '0903000009', 'info@godatviet.vn'        , 'CUSTOMER', '2021-04-20', '2025-01-10'),
+('SXDongNai'    , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty TNHH Sản xuất Đồng Nai'   , '0903000010', 'info@sxdongnai.vn'        , 'CUSTOMER', '2022-02-15', '2025-02-05'),
+(NULL           , NULL                                                          , 'Tập đoàn An Phát Holdings'        , '0903000011', 'contact@anphatholdings.vn', 'CUSTOMER', '2024-01-05', '2024-06-15'),
+(NULL           , NULL                                                          , 'Tập đoàn Vinpearl Resort & Spa'   , '0903000012', 'invest@vinpearl.com'      , 'CUSTOMER', '2025-01-10', '2025-02-28'),
+(NULL           , NULL                                                          , 'Công ty CP Bán lẻ Luxury Việt'    , '0903000013', 'info@luxuryviet.vn'       , 'CUSTOMER', '2023-06-01', '2024-01-20'),
+(NULL           , NULL                                                          , 'Tập đoàn Đầu tư Nam Cường'        , '0903000014', 'office@namcuonggroup.vn'  , 'CUSTOMER', '2023-04-01', '2023-07-01'),
+(NULL           , NULL                                                          , 'Ông Nguyễn Minh Khoa — Nhà đầu tư', '0903000015', 'khoa.nm@gmail.com'        , 'CUSTOMER', '2024-08-10', '2025-01-15'),
+(NULL           , NULL                                                          , 'Tập đoàn Xây dựng Minh Phát'      , '0903000016', 'info@minhphatgroup.vn'    , 'CUSTOMER', '2025-01-20', '2025-02-01'),
+(NULL           , NULL                                                          , 'Công ty CP Logistics Đại Dương'   , '0903000017', 'info@daiduonglogistics.vn', 'CUSTOMER', '2024-11-05', '2025-03-01');
 
--- =============================
--- BẢNG PASSWORD_RESET
--- =============================
+-- =============================================================================
+-- BẢNG ĐẶT LẠI MẬT KHẨU / PASSWORD_RESET_TOKEN
+-- =============================================================================
 CREATE TABLE password_reset_token (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-
-    token VARCHAR(255) NOT NULL,
-    expires_at DATETIME NOT NULL,
-    used BOOLEAN DEFAULT FALSE,
-
-    user_type VARCHAR(20) NOT NULL,   -- 'STAFF' / 'CUSTOMER'
-    user_id BIGINT NOT NULL,          -- id bên staff / customer
-
+    id         BIGINT PRIMARY KEY AUTO_INCREMENT,
+    token      VARCHAR(255) NOT NULL,
+    expires_at DATETIME     NOT NULL,
+    used       BOOLEAN DEFAULT FALSE,
+    user_type  VARCHAR(20)  NOT NULL,
+    user_id    BIGINT       NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-
     UNIQUE (token)
 );
 
--- =============================
--- BẢNG RENT AREA
--- =============================
+-- =============================================================================
+-- BẢNG DIỆN TÍCH THUÊ / RENT_AREA
+-- =============================================================================
 CREATE TABLE rent_area (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    building_id BIGINT,
-    value INT,
-    created_date DATETIME,
+    id            BIGINT AUTO_INCREMENT PRIMARY KEY,
+    building_id   BIGINT,
+    value         INT,
+    created_date  DATETIME,
     modified_date DATETIME,
     FOREIGN KEY (building_id) REFERENCES building(id)
 );
 
+-- Chỉ building FOR_RENT mới có rent_area
 INSERT INTO rent_area (building_id, value, created_date, modified_date) VALUES
-(1, 150, '2019-05-15', '2024-06-01'),
-(1, 200, '2019-06-10', '2024-07-20'),
+(1 , 300 , '2018-12-05', '2025-02-10'),
+(1 , 250 , '2018-12-05', '2025-02-10'),
+(1 , 350 , '2018-12-05', '2025-02-10'),
+(2 , 600 , '2018-09-01', '2024-10-05'),
+(2 , 400 , '2018-09-01', '2024-10-05'),
+(3 , 250 , '2019-08-01', '2024-05-10'),
+(3 , 150 , '2019-08-01', '2024-05-10'),
+(4 , 400 , '2018-06-01', '2025-01-10'),
+(4 , 250 , '2018-06-01', '2025-01-10'),
+(4 , 600 , '2018-06-01', '2025-01-10'),
+(5 , 200 , '2020-08-01', '2024-11-05'),
+(5 , 350 , '2020-08-01', '2024-11-05'),
+(8 , 160 , '2020-08-05', '2024-11-15'),
+(9 , 200 , '2021-05-15', '2025-01-20'),
+(11, 75  , '2021-07-05', '2024-12-10'),
+(11, 100 , '2021-07-05', '2024-12-10'),
+(12, 68  , '2022-09-10', '2025-02-28'),
+(12, 85  , '2022-09-10', '2025-02-28'),
+(13, 70  , '2021-07-05', '2024-12-10'),
+(13, 90  , '2021-07-05', '2024-12-10'),
+(16, 1500, '2021-04-22', '2025-01-10'),
+(16, 800 , '2021-04-22', '2025-01-10'),
+(17, 1800, '2022-01-30', '2025-02-05'),
+(17, 1000, '2022-01-30', '2025-02-05');
 
-(2, 300, '2018-12-05', '2025-02-10'),
-(2, 250, '2018-12-05', '2025-02-10'),
-(2, 350, '2018-12-05', '2025-02-10'),
-
-(3, 250, '2019-08-01', '2024-05-10'),
-(3, 100, '2019-08-01', '2024-05-10'),
-
-(4, 400, '2020-03-12', '2024-11-25'),
-(4, 300, '2020-03-12', '2024-11-25'),
-
-(5, 350, '2020-09-25', '2025-03-02'),
-(5, 200, '2020-09-25', '2025-03-02'),
-(5, 150, '2020-09-25', '2025-03-02'),
-(5, 450, '2020-09-25', '2025-03-02'),
-
-(6, 420, '2021-02-20', '2024-12-12'),
-(6, 200, '2021-02-20', '2024-12-12'),
-(6, 150, '2021-02-20', '2024-12-12'),
-
-(7, 600, '2018-09-01', '2024-10-05'),
-
-(8, 320, '2021-06-20', '2025-02-12'),
-(8, 500, '2021-06-20', '2025-02-12'),
-
-(9, 450, '2020-08-15', '2025-03-01'),
-(9, 200, '2020-08-15', '2025-03-01'),
-
-(10, 500, '2019-04-02', '2024-11-10'),
-(10, 180, '2019-04-02', '2024-11-10'),
-(10, 360, '2019-04-02', '2024-11-10'),
-
-(11, 280, '2021-04-30', '2024-10-09'),
-(11, 350, '2021-04-30', '2024-10-09'),
-(11, 170, '2021-04-30', '2024-10-09'),
-
-(12, 350, '2019-08-15', '2025-01-29'),
-
-(13, 150, '2019-06-15', '2025-02-18'),
-(13, 280, '2019-06-15', '2025-02-18'),
-(13, 450, '2019-06-15', '2025-02-18'),
-
-(14, 120, '2020-04-01', '2024-12-30'),
-(14, 220, '2020-04-01', '2024-12-30'),
-(14, 350, '2020-04-01', '2024-12-30'),
-
-(15, 150, '2020-08-01', '2024-11-05'),
-(15, 300, '2020-08-01', '2024-11-05'),
-(15, 480, '2020-08-01', '2024-11-05'),
-
-(16, 180, '2021-03-01', '2025-01-12'),
-(16, 320, '2021-03-01', '2025-01-12'),
-(16, 500, '2021-03-01', '2025-01-12'),
-
-(17, 200, '2019-10-01', '2025-03-01'),
-(17, 350, '2019-10-01', '2025-03-01'),
-(17, 600, '2019-10-01', '2025-03-01'),
-
-(18, 220, '2020-06-15', '2024-10-21'),
-(18, 400, '2020-06-15', '2024-10-21'),
-(18, 650, '2020-06-15', '2024-10-21'),
-(18, 800, '2020-06-15', '2024-10-21'),
-
-(19, 200, '2020-12-01', '2025-02-08'),
-(19, 380, '2020-12-01', '2025-02-08'),
-(19, 600, '2020-12-01', '2025-02-08'),
-
-(20, 150, '2021-04-01', '2024-09-14'),
-(20, 280, '2021-04-01', '2024-09-14'),
-(20, 450, '2021-04-01', '2024-09-14'),
-
-(21, 120, '2020-07-01', '2024-11-12'),
-(21, 220, '2020-07-01', '2024-11-12'),
-(21, 350, '2020-07-01', '2024-11-12'),
-
-(22, 300, '2018-11-01', '2025-03-05'),
-(22, 500, '2018-11-01', '2025-03-05'),
-(22, 750, '2018-11-01', '2025-03-05'),
-(22, 1000, '2018-11-01', '2025-03-05'),
-
-(23, 200, '2018-10-01', '2025-03-01'),
-(23, 380, '2018-10-01', '2025-03-01'),
-(23, 600, '2018-10-01', '2025-03-01'),
-
-(24, 250, '2019-08-01', '2024-11-28'),
-(24, 450, '2019-08-01', '2024-11-28'),
-(24, 700, '2019-08-01', '2024-11-28'),
-(24, 900, '2019-08-01', '2024-11-28'),
-
-(25, 200, '2020-04-01', '2025-01-20'),
-(25, 350, '2020-04-01', '2025-01-20'),
-(25, 600, '2020-04-01', '2025-01-20'),
-
-(26, 150, '2021-07-01', '2024-10-11'),
-(26, 280, '2021-07-01', '2024-10-11'),
-(26, 420, '2021-07-01', '2024-10-11'),
-
-(27, 120, '2021-02-01', '2025-02-15'),
-(27, 240, '2021-02-01', '2025-02-15'),
-(27, 360, '2021-02-01', '2025-02-15'),
-
-(28, 220, '2019-04-01', '2025-02-22'),
-(28, 400, '2019-04-01', '2025-02-22'),
-(28, 650, '2019-04-01', '2025-02-22'),
-
-(29, 180, '2020-07-15', '2024-11-18'),
-(29, 320, '2020-07-15', '2024-11-18'),
-(29, 500, '2020-07-15', '2024-11-18'),
-
-(30, 250, '2018-12-15', '2025-03-03'),
-(30, 450, '2018-12-15', '2025-03-03'),
-(30, 700, '2018-12-15', '2025-03-03'),
-(30, 900, '2018-12-15', '2025-03-03');
-
--- =============================
+-- =============================================================================
 -- BẢNG PHÂN CÔNG NHÂN VIÊN / BUILDING
--- =============================
+-- =============================================================================
 CREATE TABLE assignment_building (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    id          BIGINT AUTO_INCREMENT PRIMARY KEY,
     building_id BIGINT,
-    staff_id BIGINT,
+    staff_id    BIGINT,
     FOREIGN KEY (building_id) REFERENCES building(id),
-    FOREIGN KEY (staff_id) REFERENCES staff(id)
+    FOREIGN KEY (staff_id)    REFERENCES staff(id)
 );
 
 INSERT INTO assignment_building (building_id, staff_id) VALUES
-(1, 11), (1, 2),
-(2, 3), (2, 4),
-(3, 2), (3, 5),
-(4, 3), (4, 6),
-(5, 5), (5, 7),
-(6, 6), (6, 8),
-(7, 4), (7, 9),
-(8, 2), (8, 10),
-(9, 9), (9, 7),
-(10, 3), (10, 8), (10, 2),
-(11, 5), (11, 10),
-(12, 11), (12, 6),
-(13, 8), (13, 14),
-(14, 9),  (14, 15),
-(15, 7),  (15, 16),
-(16, 5),  (16, 17),
-(17, 6),  (17, 13), (17, 18),
-(18, 8),  (18, 14),
-(19, 10), (19, 15), (19, 19),
-(20, 11), (20, 16),
-(21, 2),
-(22, 3),  (22, 14),
-(23, 4), (23, 15),
-(24, 6),  (24, 18),
-(25, 7),  (25, 16), (25, 13),
-(26, 8),  (26, 19),
-(27, 4), (27, 17),
-(28, 5),  (28, 15),
-(29, 10),
-(30, 15);
+(1 , 2),
+(1 , 3),
+(2 , 4),
+(2 , 5),
+(3 , 2),
+(3 , 6),
+(4 , 7),
+(4 , 8),
+(5 , 9),
+(5 , 10),
+(6 , 7),
+(6 , 11),
+(7 , 9),
+(7 , 13),
+(8 , 7),
+(8 , 14),
+(9 , 4),
+(9 , 15),
+(10, 7),
+(10, 16),
+(11, 8),
+(12, 8),
+(12, 18),
+(13, 3),
+(13, 6),
+(14, 8),
+(14, 19),
+(15, 9),
+(15, 13),
+(16, 7),
+(16, 14),
+(17, 9),
+(17, 10),
+(18, 11),
+(18, 13),
+(19, 10),
+(19, 13);
 
--- =============================
--- BẢNG PHÂN CÔNG KHÁCH HÀNG / CUSTOMER
--- =============================
+-- =============================================================================
+-- BẢNG PHÂN CÔNG NHÂN VIÊN / CUSTOMER
+-- =============================================================================
 CREATE TABLE assignment_customer (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    id          BIGINT AUTO_INCREMENT PRIMARY KEY,
     customer_id BIGINT,
-    staff_id BIGINT,
+    staff_id    BIGINT,
     FOREIGN KEY (customer_id) REFERENCES customer(id),
-    FOREIGN KEY (staff_id) REFERENCES staff(id)
+    FOREIGN KEY (staff_id)    REFERENCES staff(id)
 );
 
 INSERT INTO assignment_customer (customer_id, staff_id) VALUES
-(1, 11), (1,2),
-(3, 5), (3, 2), (3, 3),
-(4, 3), (4, 4), (4, 11), (4, 6),
-(5, 8), (5, 10), (5, 6),
-(6, 9), (6, 7),
-(7, 6), (7, 7), (7, 5),
-(8, 8),
-(9, 2), (9, 14), (9, 15), (9, 4),
-(10, 7), (10, 16),
-(11, 3), (11, 8), (11, 18),
-(12, 6), (12, 13), (12, 3),
-(13, 4), (13, 15), (13, 6), (13, 14), (13, 5),
-(14, 9), (14, 17), (14, 4),
-(15, 10), (15, 5), (15, 15), (15, 8),
-(16, 5), (16, 11), (16, 14);
+(1 , 2),
+(1 , 3),
+(1 , 4),
+(1 , 5),
+(2 , 2),
+(2 , 6),
+(3 , 7),
+(3 , 8),
+(4 , 9),
+(4 , 10),
+(5 , 7),
+(5 , 14),
+(6 , 15),
+(7 , 8),
+(7 , 18),
+(8 , 3),
+(8 , 6),
+(9 , 7),
+(9 , 14),
+(10, 9),
+(10, 10),
+-- Bổ sung mapping cho contract mới
+(2 , 3),   -- C2 → staff3 (quản lý B1)
+(2 , 4),   -- C2 → staff4 (quản lý B2)
+(2 , 5),   -- C2 → staff5 (quản lý B2)
+(3 , 2),   -- C3 → staff2 (quản lý B3)
+(3 , 6),   -- C3 → staff6 (quản lý B3)
+(4 , 7),   -- C4 → staff7 (quản lý B4, cần cho contract B4 C4 S7)
+(4 , 8),   -- C4 → staff8 (quản lý B4)
+(4 , 10);  -- C4 → staff10 (quản lý B5)
 
--- =============================
--- BẢNG HỢP ĐỒNG / CONTRACT
--- =============================
+-- =============================================================================
+-- BẢNG HỢP ĐỒNG THUÊ / CONTRACT
+-- =============================================================================
 CREATE TABLE contract (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    building_id BIGINT,
-    customer_id BIGINT,
-    staff_id BIGINT,
-    rent_price DECIMAL(15,2),
-    rent_area INT,
-    start_date DATETIME,
-    end_date DATETIME,
-    status VARCHAR(50),
-    created_date DATETIME,
+    id            BIGINT AUTO_INCREMENT PRIMARY KEY,
+    building_id   BIGINT,
+    customer_id   BIGINT,
+    staff_id      BIGINT,
+    rent_price    DECIMAL(15,2),
+    rent_area     INT,
+    start_date    DATETIME,
+    end_date      DATETIME,
+    status        VARCHAR(50),
+    created_date  DATETIME,
     modified_date DATETIME,
     FOREIGN KEY (building_id) REFERENCES building(id),
     FOREIGN KEY (customer_id) REFERENCES customer(id),
-    FOREIGN KEY (staff_id) REFERENCES staff(id)
+    FOREIGN KEY (staff_id)    REFERENCES staff(id)
 );
 
-INSERT INTO contract 
+-- -------------------------------------------------------
+-- TRIGGER 1: Staff phải quản lý cả building lẫn customer
+-- -------------------------------------------------------
+DELIMITER $$
+CREATE TRIGGER trg_contract_staff_validate
+BEFORE INSERT ON contract
+FOR EACH ROW
+BEGIN
+    DECLARE manages_building INT DEFAULT 0;
+    DECLARE manages_customer INT DEFAULT 0;
+
+    SELECT COUNT(*) INTO manages_building
+    FROM assignment_building
+    WHERE building_id = NEW.building_id AND staff_id = NEW.staff_id;
+
+    SELECT COUNT(*) INTO manages_customer
+    FROM assignment_customer
+    WHERE customer_id = NEW.customer_id AND staff_id = NEW.staff_id;
+
+    IF manages_building = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Staff không quản lý tòa nhà này';
+    END IF;
+
+    IF manages_customer = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Staff không quản lý khách hàng này';
+    END IF;
+END$$
+DELIMITER ;
+
+-- -------------------------------------------------------
+-- TRIGGER 2: rent_area phải thuộc building tương ứng
+-- -------------------------------------------------------
+DELIMITER $$
+CREATE TRIGGER trg_contract_rentarea_validate
+BEFORE INSERT ON contract
+FOR EACH ROW
+BEGIN
+    DECLARE area_exists INT DEFAULT 0;
+
+    SELECT COUNT(*) INTO area_exists
+    FROM rent_area
+    WHERE building_id = NEW.building_id AND value = NEW.rent_area;
+
+    IF area_exists = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Diện tích thuê không tồn tại trong tòa nhà này';
+    END IF;
+END$$
+DELIMITER ;
+
+-- -------------------------------------------------------
+-- TRIGGER 3: Building FOR_SALE không được tạo contract thuê
+-- -------------------------------------------------------
+DELIMITER $$
+CREATE TRIGGER trg_contract_forsale_validate
+BEFORE INSERT ON contract
+FOR EACH ROW
+BEGIN
+    DECLARE t_type VARCHAR(20);
+
+    SELECT transaction_type INTO t_type
+    FROM building WHERE id = NEW.building_id;
+
+    IF t_type = 'FOR_SALE' THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Tòa nhà đang bán, không thể tạo hợp đồng thuê';
+    END IF;
+END$$
+DELIMITER ;
+
+INSERT INTO contract
 (building_id, customer_id, staff_id, rent_price, rent_area, start_date, end_date, status, created_date, modified_date) VALUES
-('1', '1', '11', '900000.00', '150', '2019-07-01 00:00:00', '2021-07-01 00:00:00', 'EXPIRED', '2019-06-28 09:30:21', '2021-07-02 07:30:01'),
-('1', '1', '2', '900000.00', '200', '2022-08-01 00:00:00', '2026-02-01 00:00:00', 'ACTIVE', '2022-07-25 10:23:09', '2024-08-01 10:22:00'),
+-- ── B1 Lotte Center (3 contracts) ────────────────────────────────────────────
+(1 , 1 , 2 , 1200000 , 300, '2019-01-01', '2022-01-01', 'EXPIRED', '2018-12-20 09:00:00', '2022-01-02 08:00:00'),
+(1 , 2 , 3 , 1200000 , 350, '2022-04-01', '2025-04-01', 'EXPIRED', '2022-03-15 10:00:00', '2025-04-02 08:00:00'),
+(1 , 1 , 2 , 1250000 , 250, '2025-07-01', '2028-07-01', 'ACTIVE' , '2025-06-20 09:00:00', '2025-07-02 08:00:00'),
+-- ── B2 Keangnam Landmark 72 (3 contracts) ────────────────────────────────────
+(2 , 2 , 4 , 1200000 , 400, '2019-03-01', '2022-03-01', 'EXPIRED', '2019-02-10 09:00:00', '2022-03-02 08:00:00'),
+(2 , 1 , 4 , 1200000 , 600, '2022-06-01', '2025-06-01', 'ACTIVE' , '2022-05-20 10:00:00', '2024-06-01 08:00:00'),
+(2 , 2 , 5 , 1250000 , 600, '2025-10-01', '2028-10-01', 'ACTIVE' , '2025-09-15 09:00:00', '2025-10-02 08:00:00'),
+-- ── B3 Pacific Place HCM (3 contracts) ───────────────────────────────────────
+(3 , 3 , 2 , 600000  , 250, '2018-06-01', '2021-06-01', 'EXPIRED', '2018-05-20 09:00:00', '2021-06-02 08:00:00'),
+(3 , 2 , 2 , 600000  , 250, '2021-09-01', '2024-09-01', 'EXPIRED', '2021-08-15 10:00:00', '2024-09-02 08:00:00'),
+(3 , 3 , 6 , 650000  , 150, '2025-01-01', '2028-01-01', 'ACTIVE' , '2024-12-20 09:00:00', '2025-01-02 08:00:00'),
+-- ── B4 Bitexco Financial Tower (2 contracts) ─────────────────────────────────
+(4 , 4 , 7 , 1100000 , 400, '2021-01-01', '2024-01-01', 'EXPIRED', '2020-12-15 09:00:00', '2024-01-02 08:00:00'),
+(4 , 3 , 8 , 1100000 , 600, '2024-05-01', '2027-05-01', 'ACTIVE' , '2024-04-10 10:00:00', '2025-05-01 08:00:00'),
+-- ── B5 Vincom Đà Nẵng Office (2 contracts) ───────────────────────────────────
+(5 , 4 , 9 , 550000  , 200, '2022-06-01', '2025-09-01', 'ACTIVE' , '2022-05-20 09:00:00', '2024-06-01 08:00:00'),
+(5 , 4 , 10, 580000  , 350, '2026-01-01', '2029-01-01', 'ACTIVE' , '2025-12-15 09:00:00', '2026-01-02 08:00:00'),
+-- ── B8 Shophouse The Manor HCM (2 contracts) ─────────────────────────────────
+(8 , 5 , 7 , 35000000, 160, '2021-08-01', '2025-02-01', 'EXPIRED', '2021-07-20 09:00:00', '2025-02-02 08:00:00'),
+(8 , 5 , 14, 35000000, 160, '2025-07-01', '2028-07-01', 'ACTIVE' , '2025-06-15 10:00:00', '2025-07-02 08:00:00'),
+-- ── B9 Shophouse Vinhomes Smart City (3 contracts) ───────────────────────────
+(9 , 6 , 15, 28000000, 200, '2024-05-01', '2027-05-01', 'ACTIVE' , '2024-04-15 10:00:00', '2024-05-02 08:00:00'),
+(9 , 6 , 15, 30000000, 200, '2026-02-01', '2029-02-01', 'ACTIVE' , '2026-01-20 09:00:00', '2026-02-02 08:00:00'),
+-- ── B11 The Ascent Thảo Điền (3 contracts) ───────────────────────────────────
+(11, 7 , 8 , 25000000, 75 , '2022-06-01', '2025-06-01', 'EXPIRED', '2022-05-20 09:00:00', '2025-06-02 08:00:00'),
+(11, 7 , 8 , 26000000, 75 , '2025-10-01', '2028-10-01', 'ACTIVE' , '2025-09-15 09:00:00', '2025-10-02 08:00:00'),
+-- ── B12 Masteri Waterfront (1 contract) ──────────────────────────────────────
+(12, 7 , 8 , 18000000, 68 , '2023-01-01', '2026-01-01', 'ACTIVE' , '2022-12-15 09:00:00', '2025-01-01 08:00:00'),
+-- ── B13 Goldseason HN (2 contracts) ──────────────────────────────────────────
+(13, 8 , 3 , 18000000, 70 , '2021-09-01', '2024-09-01', 'EXPIRED', '2021-08-15 09:00:00', '2024-09-02 08:00:00'),
+(13, 8 , 6 , 18000000, 90 , '2024-10-01', '2027-10-01', 'ACTIVE' , '2024-09-15 10:00:00', '2024-10-02 08:00:00'),
+-- ── B16 Kho Cát Lái (2 contracts) ────────────────────────────────────────────
+(16, 9 , 7 , 120000  ,1500, '2021-05-01', '2024-05-01', 'EXPIRED', '2021-04-20 09:00:00', '2024-05-02 08:00:00'),
+(16, 9 , 14, 120000  ,1500, '2024-08-01', '2027-08-01', 'ACTIVE' , '2024-07-18 10:00:00', '2024-08-02 08:00:00'),
+-- ── B17 KCN Amata Đồng Nai (1 contract) ──────────────────────────────────────
+(17, 10, 9 , 100000  ,1800, '2022-06-01', '2025-06-01', 'ACTIVE' , '2022-05-25 09:00:00', '2024-06-02 08:00:00');
 
-('2', '4', '3', '1200000.00', '300', '2018-12-01 00:00:00', '2021-10-01 00:00:00', 'EXPIRED', '2018-11-25 14:16:58', '2021-12-15 08:10:40'),
-('2', '4', '4', '1200000.00', '350', '2022-01-01 00:00:00', '2026-05-01 00:00:00', 'ACTIVE', '2021-12-29 15:01:00', '2025-01-10 09:10:20'),
-
-('3', '3', '2', '600000.00', '250', '2020-03-01 00:00:00', '2025-12-01 00:00:00', 'ACTIVE', '2020-02-27 07:20:00', '2022-03-02 15:49:41'),
-('3', '3', '5', '600000.00', '100', '2022-04-01 00:00:00', '2025-04-01 00:00:00', 'EXPIRED', '2022-03-29 11:27:59', '2024-04-01 14:50:00'),
-
-('4', '4', '3', '900000.00', '400', '2020-05-01 00:00:00', '2023-06-01 00:00:00', 'EXPIRED', '2020-04-25 09:56:21', '2022-05-02 09:00:00'),
-('4', '7', '6', '900000.00', '400', '2025-07-01 00:00:00', '2028-02-01 00:00:00', 'ACTIVE', '2025-07-01 10:00:01', '2025-09-16 10:30:08'),
-
-('5', '7', '5', '800000.00', '350', '2021-10-01 00:00:00', '2026-10-01 00:00:00', 'ACTIVE', '2021-09-16 16:10:20', '2024-10-01 16:10:04'),
-('5', '7', '7', '800000.00', '150', '2024-01-01 00:00:00', '2026-10-01 00:00:00', 'ACTIVE', '2023-12-27 09:06:01', '2025-10-31 09:58:00'),
-
-('6', '5', '6', '900000.00', '420', '2021-05-01 00:00:00', '2026-08-01 00:00:00', 'ACTIVE', '2021-04-25 08:58:02', '2023-05-11 08:51:10'),
-('6', '5', '8', '900000.00', '150', '2024-06-01 00:00:00', '2025-09-01 00:00:00', 'EXPIRED', '2024-05-20 10:47:15', '2025-06-01 10:09:00'),
-
-('7', '6', '9', '1200000.00', '600', '2021-09-01 00:00:00', '2026-09-01 00:00:00', 'ACTIVE', '2021-08-22 15:08:56', '2024-09-01 14:18:00'),
-
-('8', '1', '2', '900000.00', '320', '2021-07-01 00:00:00', '2024-07-01 00:00:00', 'EXPIRED', '2021-06-29 14:09:59', '2024-01-01 15:27:15'),
-
-('9', '6', '9', '500000.00', '200', '2025-02-01 00:00:00', '2025-12-01 00:00:00', 'ACTIVE', '2025-01-22 00:00:00', '2025-09-01 16:26:19'),
-('9', '6', '7', '500000.00', '450', '2023-11-01 00:00:00', '2025-10-01 00:00:00', 'EXPIRED', '2023-10-22 11:18:27', '2025-08-01 08:47:00'),
-
-('10', '3', '3', '900000.00', '500', '2020-06-01 00:00:00', '2023-06-01 00:00:00', 'EXPIRED', '2020-05-30 10:25:28', '2023-02-15 09:32:09'),
-('10', '8', '8', '900000.00', '180', '2024-07-01 00:00:00', '2027-07-01 00:00:00', 'ACTIVE', '2024-06-25 16:36:19', '2025-07-01 07:30:50'),
-
-('11', '5', '10', '800000.00', '280', '2022-02-01 00:00:00', '2024-02-01 00:00:00', 'EXPIRED', '2022-01-28 17:38:10', '2023-02-01 07:20:40'),
-
-('12', '4', '11', '900000.00', '350', '2025-09-01 00:00:00', '2027-03-01 00:00:00', 'ACTIVE', '2025-08-20 14:45:12', '2025-09-02 17:11:32'),
-('12', '4', '6', '900000.00', '350', '2025-08-01 00:00:00', '2028-01-01 00:00:00', 'ACTIVE', '2025-07-28 00:00:00', '2025-08-10 11:10:57'),
-
-(13, 11, 8, 1100000, 280, '2023-01-01', '2026-01-01', 'ACTIVE', '2022-12-15', '2024-02-18'),
-
-(14, 9, 15, 950000, 220, '2022-06-01', '2025-06-01', 'ACTIVE', '2022-05-20', '2024-12-30'),
-
-(15, 10, 7, 650000, 300, '2021-09-01', '2024-09-01', 'EXPIRED', '2021-08-15', '2024-09-02'),
-
-(16, 15, 5, 600000, 320, '2024-02-01', '2027-02-01', 'ACTIVE', '2024-01-20', '2025-01-12'),
-
-(17, 13, 6, 750000, 350, '2023-03-01', '2026-03-01', 'ACTIVE', '2023-02-10', '2025-03-01'),
-
-(18, 11, 8, 700000, 400, '2021-08-01', '2024-08-01', 'EXPIRED', '2021-07-15', '2024-08-02'),
-
-(19, 15, 10, 850000, 380, '2024-05-01', '2027-05-01', 'ACTIVE', '2024-04-12', '2025-02-08'),
-
-(20, 16, 11, 650000, 280, '2022-10-01', '2025-10-01', 'ACTIVE', '2022-09-15', '2024-09-14'),
-
-(21, 1, 2, 750000, 220, '2020-09-01', '2023-09-01', 'EXPIRED', '2020-08-10', '2023-09-02'),
-
-(22, 4, 3, 1200000, 300, '2022-01-01', '2026-01-01', 'ACTIVE', '2021-12-10', '2024-03-05'),
-(22, 9, 14, 1200000, 500, '2023-03-01', '2027-03-01', 'ACTIVE', '2023-02-10', '2025-03-05'),
-(22, 11, 3, 1200000, 750, '2021-06-01', '2025-06-01', 'EXPIRED', '2021-05-01', '2025-06-02'),
-(22, 13, 14, 1200000, 1000, '2024-01-01', '2028-01-01', 'ACTIVE', '2023-12-01', '2025-03-05'),
-(22, 12, 3, 1200000, 300, '2020-09-01', '2024-09-01', 'EXPIRED', '2020-08-01', '2024-09-02'),
-
-(23, 13, 4, 1050000, 380, '2023-06-01', '2028-06-01', 'ACTIVE', '2023-05-18', '2025-03-01'),
-(23, 15, 15, 1050000, 600, '2021-10-01', '2025-10-01', 'EXPIRED', '2021-09-10', '2025-10-02'),
-(23, 9, 4, 1050000, 200, '2024-04-01', '2027-04-01', 'ACTIVE', '2024-03-01', '2025-03-01'),
-
-(24, 7, 6, 950000, 450, '2021-04-01', '2024-04-01', 'EXPIRED', '2021-03-10', '2024-04-02'),
-
-(25, 10, 7, 780000, 350, '2024-01-01', '2027-01-01', 'ACTIVE', '2023-12-15', '2025-01-20'),
-
-(26, 15, 8, 720000, 280, '2022-07-01', '2025-07-01', 'ACTIVE', '2022-06-10', '2024-10-11'),
-
-(27, 14, 4, 650000, 240, '2023-09-01', '2026-09-01', 'ACTIVE', '2023-08-12', '2025-02-15'),
-
-(28, 13, 5, 900000, 400, '2021-05-01', '2024-05-01', 'EXPIRED', '2021-04-10', '2024-05-02'),
-
-(29, 15, 10, 780000, 320, '2024-03-01', '2027-03-01', 'ACTIVE', '2024-02-15', '2024-11-18'),
-
-(30, 15, 15, 950000, 250, '2021-01-01', '2025-01-01', 'EXPIRED', '2020-12-01', '2025-01-02'),
-(30, 9, 15, 950000, 450, '2022-05-01', '2026-05-01', 'ACTIVE', '2022-04-01', '2025-03-03'),
-(30, 13, 15, 950000, 700, '2024-01-01', '2028-01-01', 'ACTIVE', '2023-12-01', '2025-03-03');
-
--- =============================
+-- =============================================================================
 -- BẢNG HÓA ĐƠN / INVOICE
--- =============================
+-- =============================================================================
 CREATE TABLE invoice (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    contract_id BIGINT NOT NULL,
-    customer_id BIGINT NOT NULL,
-    month INT NOT NULL,
-    year INT NOT NULL,
-    total_amount DECIMAL(15,2) NOT NULL,
-    status VARCHAR(20) NOT NULL DEFAULT 'PENDING',
-    created_date DATETIME NOT NULL,
-    due_date DATETIME NOT NULL,
-    paid_date DATETIME NULL,
-    payment_method VARCHAR(50),
+    id               BIGINT PRIMARY KEY AUTO_INCREMENT,
+    contract_id      BIGINT        NOT NULL,
+    customer_id      BIGINT        NOT NULL,
+    month            INT           NOT NULL,
+    year             INT           NOT NULL,
+    total_amount     DECIMAL(15,2) NOT NULL,
+    status           VARCHAR(20)   NOT NULL DEFAULT 'PENDING',
+    created_date     DATETIME      NOT NULL,
+    due_date         DATETIME      NOT NULL,
+    paid_date        DATETIME      NULL,
+    payment_method   VARCHAR(50),
     transaction_code VARCHAR(100),
-
-    CONSTRAINT fk_invoice_contract FOREIGN KEY (contract_id)
-        REFERENCES contract(id),
-
-    CONSTRAINT fk_invoice_customer FOREIGN KEY (customer_id)
-        REFERENCES customer(id)
+    CONSTRAINT fk_invoice_contract FOREIGN KEY (contract_id) REFERENCES contract(id),
+    CONSTRAINT fk_invoice_customer FOREIGN KEY (customer_id) REFERENCES customer(id)
 );
 
--- =============================
--- BẢNG CHI TIẾT HÓA ĐƠN / INVOICE DETAIL
--- =============================
+-- =============================================================================
+-- BẢNG CHI TIẾT HÓA ĐƠN / INVOICE_DETAIL
+-- =============================================================================
 CREATE TABLE invoice_detail (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    invoice_id BIGINT NOT NULL,
-    description VARCHAR(255) NOT NULL,
-    amount DECIMAL(15,2) NOT NULL,
-
-    CONSTRAINT fk_invoice_detail FOREIGN KEY (invoice_id)
-        REFERENCES invoice(id)
+    id          BIGINT PRIMARY KEY AUTO_INCREMENT,
+    invoice_id  BIGINT        NOT NULL,
+    description VARCHAR(255)  NOT NULL,
+    amount      DECIMAL(15,2) NOT NULL,
+    CONSTRAINT fk_invoice_detail FOREIGN KEY (invoice_id) REFERENCES invoice(id)
 );
 
--- =============================
--- BẢNG SỐ ĐIỆN-NƯỚC / UTILITY METER
--- =============================
+-- =============================================================================
+-- BẢNG CHỈ SỐ ĐIỆN NƯỚC / UTILITY_METER
+-- =============================================================================
 CREATE TABLE utility_meter (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-
-    contract_id BIGINT NOT NULL,
-
-    month INT NOT NULL CHECK(month BETWEEN 1 AND 12),
-    year INT NOT NULL CHECK(year >= 2000),
-
-    electricity_old INT NOT NULL DEFAULT 0,
-    electricity_new INT NOT NULL DEFAULT 0,
-
-    water_old INT NOT NULL DEFAULT 0,
-    water_new INT NOT NULL DEFAULT 0,
-
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT fk_utility_contract 
-        FOREIGN KEY (contract_id) REFERENCES contract(id),
-
-    -- Một hợp đồng chỉ có 1 bộ chỉ số cho mỗi tháng/năm
+    id              BIGINT   AUTO_INCREMENT PRIMARY KEY,
+    contract_id     BIGINT   NOT NULL,
+    month           INT      NOT NULL CHECK (month BETWEEN 1 AND 12),
+    year            INT      NOT NULL CHECK (year >= 2000),
+    electricity_old INT      NOT NULL DEFAULT 0,
+    electricity_new INT      NOT NULL DEFAULT 0,
+    water_old       INT      NOT NULL DEFAULT 0,
+    water_new       INT      NOT NULL DEFAULT 0,
+    created_at      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_utility_contract FOREIGN KEY (contract_id) REFERENCES contract(id),
     CONSTRAINT unique_meter UNIQUE (contract_id, month, year)
 );
+
+-- =============================================================================
+-- BẢNG HỢP ĐỒNG MUA BÁN / SALE_CONTRACT
+-- =============================================================================
+CREATE TABLE sale_contract (
+    id            BIGINT        AUTO_INCREMENT PRIMARY KEY,
+    building_id   BIGINT        NOT NULL UNIQUE COMMENT 'Mỗi building chỉ được bán 1 lần',
+    customer_id   BIGINT        NOT NULL,
+    staff_id      BIGINT        NOT NULL,
+    sale_price    DECIMAL(15,2) NOT NULL COMMENT 'Tổng giá trị mua bán',
+    transfer_date DATE          NULL     COMMENT 'Ngày bàn giao. NULL = chưa bàn giao',
+    note          TEXT,
+    created_date  DATETIME,
+    modified_date DATETIME,
+    FOREIGN KEY (building_id) REFERENCES building(id),
+    FOREIGN KEY (customer_id) REFERENCES customer(id),
+    FOREIGN KEY (staff_id)    REFERENCES staff(id)
+);
+
+-- -------------------------------------------------------
+-- TRIGGER: Building phải là FOR_SALE khi tạo sale_contract
+-- -------------------------------------------------------
+DELIMITER $$
+CREATE TRIGGER trg_sale_contract_validate
+BEFORE INSERT ON sale_contract
+FOR EACH ROW
+BEGIN
+    DECLARE t_type VARCHAR(20);
+
+    SELECT transaction_type INTO t_type
+    FROM building WHERE id = NEW.building_id;
+
+    IF t_type != 'FOR_SALE' THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Tòa nhà không phải FOR_SALE, không thể tạo hợp đồng mua bán';
+    END IF;
+END$$
+DELIMITER ;
+
+INSERT INTO sale_contract (building_id, customer_id, staff_id, sale_price, transfer_date, note, created_date, modified_date) VALUES
+(6 , 11, 7 , 72000000000, '2024-06-15', 'An Phát mua Saigon Centre làm trụ sở HCM'        , '2024-01-10', '2024-06-16'),
+(7 , 12, 9 , 58000000000, NULL        , 'Vinpearl mua Landmark Nha Trang, đang công chứng', '2025-01-10', '2025-01-10'),
+(10, 13, 7 , 23000000000, '2024-01-20', 'Luxury Việt mua shophouse Masteri mở flagship'   , '2023-06-01', '2024-01-21'),
+(14, 14, 8 , 15000000000, '2023-06-30', 'Nam Cường mua Vinhomes Central Park đầu tư'      , '2023-04-15', '2023-07-01'),
+(15, 15, 9 , 12000000000, NULL        , 'Ông Khoa mua Vinpearl Condotel ĐN, chưa bàn giao', '2024-08-10', '2024-08-10'),
+(18, 16, 11, 32000000000, NULL        , 'Minh Phát mua KCN VSIP Bình Dương, đang thủ tục' , '2025-02-01', '2025-02-01'),
+(19, 17, 10, 28000000000, NULL        , 'Đại Dương Logistics mua KCN Deep C Quảng Ninh'   , '2024-11-05', '2024-11-05');
+
+-- =============================================================================
+-- BẢNG NHÀ CUNG CẤP / SUPPLIER
+-- =============================================================================
+CREATE TABLE supplier (
+    id            BIGINT AUTO_INCREMENT PRIMARY KEY,
+    building_id   BIGINT        NOT NULL,
+    name          VARCHAR(255)  NOT NULL,
+    service_type  VARCHAR(100)  COMMENT 'Thi công, thiết kế điện nước, nội thất...',
+    phone         VARCHAR(20),
+    email         VARCHAR(100),
+    address       TEXT,
+    note          TEXT,
+    created_date  DATETIME,
+    modified_date DATETIME,
+    FOREIGN KEY (building_id) REFERENCES building(id)
+);
+
+INSERT INTO supplier (building_id, name, service_type, phone, email, address, note, created_date, modified_date) VALUES
+(1, 'Tập đoàn Xây dựng Delta'        , 'Thi công xây dựng' , '0241000001', 'info@delta-cons.vn'     , '88 Láng Hạ, Đống Đa, HN'             , 'Tổng thầu Lotte Center'           , '2017-05-20', '2025-02-01'),
+(1, 'Công ty Thiết kế Nội thất AZ'   , 'Thiết kế nội thất' , '0241000002', 'design@az-interior.vn'  , '22 Kim Mã, Ba Đình, HN'              , 'Thiết kế không gian văn phòng'    , '2017-08-10', '2025-02-01'),
+(2, 'Keangnam Construction Korea'    , 'Thi công xây dựng' , '0241000003', 'info@keangnam-cons.com' , 'Phạm Hùng, Nam Từ Liêm, HN'          , 'Tổng thầu Keangnam Landmark 72'   , '2016-01-01', '2024-12-01'),
+(2, 'Công ty TNHH Phòng cháy Rồng Đỏ', 'Hệ thống PCCC'     , '0241000004', 'rongdo@pccc.vn'         , '5 Phạm Hùng, Nam Từ Liêm, HN'        , 'Lắp đặt & bảo trì PCCC'           , '2017-06-15', '2024-12-01'),
+(3, 'Công ty CP Xây dựng Thành Đô'   , 'Thi công xây dựng' , '0241000005', 'contact@thanhdo-cons.vn', '10 Lý Thường Kiệt, Hoàn Kiếm, HN'    , 'Nhà thầu thi công phần thô'       , '2018-10-01', '2024-05-01'),
+(4, 'Coteccons Group'                , 'Thi công xây dựng' , '0241000006', 'info@coteccons.vn'      , '236/4 Điện Biên Phủ, Bình Thạnh, HCM', 'Tổng thầu Bitexco Financial Tower', '2016-03-01', '2025-01-10'),
+(4, 'Archplus HCM'                   , 'Thiết kế kiến trúc', '0241000007', 'arch@archplus.vn'       , '123 Nguyễn Đình Chiểu, Q3, HCM'      , 'Thiết kế tổng thể Bitexco'        , '2016-05-01', '2025-01-10'),
+(5, 'Công ty XD Đà Nẵng Invest'      , 'Thi công xây dựng' , '0241000008', 'info@dninvest.vn'       , '120 Bạch Đằng, Hải Châu, ĐN'         , 'Nhà thầu thi công Vincom ĐN'      , '2019-05-01', '2024-11-05'),
+(6, 'Hòa Bình Construction'          , 'Thi công xây dựng' , '0241000009', 'info@hoabinhcons.vn'    , '235 Đinh Bộ Lĩnh, Bình Thạnh, HCM'   , 'Tổng thầu Saigon Centre Tower'    , '2018-01-01', '2025-01-20'),
+(7, 'Công ty Xây dựng Nha Trang'     , 'Thi công xây dựng' , '0241000010', 'info@ntcons.vn'         , '12 Trần Phú, Lộc Thọ, Nha Trang, KH' , 'Nhà thầu Landmark Nha Trang'      , '2019-06-01', '2025-02-15');
+
+-- =============================================================================
+-- BẢNG BẢN ĐỒ QUY HOẠCH / PLANNING_MAP
+-- =============================================================================
+CREATE TABLE planning_map (
+    id            BIGINT AUTO_INCREMENT PRIMARY KEY,
+    building_id   BIGINT       NOT NULL,
+    map_type      VARCHAR(100) COMMENT 'Quy hoạch 1/500, 1/2000...',
+    issued_by     VARCHAR(255) COMMENT 'Cơ quan ban hành',
+    issued_date   DATE,
+    expired_date  DATE,
+    image_url     TEXT         COMMENT '/uploads/planning/building_id/map.jpg',
+    document_url  TEXT         COMMENT '/uploads/planning/building_id/quyhoach.pdf',
+    note          TEXT,
+    created_date  DATETIME,
+    FOREIGN KEY (building_id) REFERENCES building(id)
+);
+
+INSERT INTO planning_map (building_id, map_type, issued_by, issued_date, expired_date, image_url, document_url, note, created_date) VALUES
+(1 , 'Quy hoạch 1/2000', 'Sở Quy hoạch KT Hà Nội'       , '2017-03-15', '2027-03-15', '/uploads/planning/1/map.jpg' , '/uploads/planning/1/qh.pdf' , 'Phân khu N5 Ba Đình'              , '2018-11-20'),
+(2 , 'Quy hoạch 1/500' , 'UBND quận Nam Từ Liêm, HN'    , '2016-08-01', '2026-08-01', '/uploads/planning/2/map.jpg' , '/uploads/planning/2/qh.pdf' , 'Hành lang xanh sông Nhuệ'         , '2018-08-25'),
+(3 , 'Quy hoạch 1/500' , 'UBND quận Hoàn Kiếm, HN'      , '2018-07-20', '2028-07-20', '/uploads/planning/3/map.jpg' , '/uploads/planning/3/qh.pdf' , 'Khu phố cổ, hạn chế chiều cao'    , '2019-07-18'),
+(4 , 'Quy hoạch 1/2000', 'Sở Quy hoạch KT TP.HCM'       , '2016-01-01', '2026-01-01', '/uploads/planning/4/map.jpg' , '/uploads/planning/4/qh.pdf' , 'Khu trung tâm Q1, hạn chế xây mới', '2018-05-20'),
+(5 , 'Quy hoạch 1/2000', 'UBND quận Hải Châu, Đà Nẵng'  , '2019-06-01', '2029-06-01', '/uploads/planning/5/map.jpg' , '/uploads/planning/5/qh.pdf' , 'Khu thương mại trung tâm ĐN'      , '2020-07-14'),
+(6 , 'Quy hoạch 1/500' , 'Sở Quy hoạch KT TP.HCM'       , '2018-03-01', '2028-03-01', '/uploads/planning/6/map.jpg' , '/uploads/planning/6/qh.pdf' , 'Trục đường Lê Lợi, khu CBD HCM'   , '2019-03-15'),
+(7 , 'Quy hoạch 1/2000', 'UBND TP. Nha Trang, Khánh Hòa', '2019-09-01', '2029-09-01', '/uploads/planning/7/map.jpg' , '/uploads/planning/7/qh.pdf' , 'Khu du lịch ven biển Trần Phú'    , '2020-06-10'),
+(10, 'Quy hoạch 1/500' , 'UBND TP. Thủ Đức, HCM'        , '2021-06-01', '2031-06-01', '/uploads/planning/10/map.jpg', '/uploads/planning/10/qh.pdf', 'Khu đô thị Thủ Đức mới'           , '2022-03-15'),
+(14, 'Quy hoạch 1/500' , 'UBND quận Bình Thạnh, TP.HCM' , '2018-04-01', '2028-04-01', '/uploads/planning/14/map.jpg', '/uploads/planning/14/qh.pdf', 'Khu ven sông Sài Gòn, Bình Thạnh' , '2019-04-10'),
+(15, 'Quy hoạch 1/2000', 'UBND quận Ngũ Hành Sơn, ĐN'   , '2020-05-01', '2030-05-01', '/uploads/planning/15/map.jpg', '/uploads/planning/15/qh.pdf', 'Khu du lịch Non Nước, bãi biển ĐN', '2021-06-01'),
+(18, 'Quy hoạch 1/2000', 'Ban QL KCN tỉnh Bình Dương'   , '2019-06-01', '2029-06-01', '/uploads/planning/18/map.jpg', '/uploads/planning/18/qh.pdf', 'KCN VSIP II mở rộng'              , '2020-06-10'),
+(19, 'Quy hoạch 1/2000', 'Ban QL KKT tỉnh Quảng Ninh'   , '2020-09-01', '2030-09-01', '/uploads/planning/19/map.jpg', '/uploads/planning/19/qh.pdf', 'KCN Deep C, Khu KT Ven biển QN'   , '2021-08-15');
+
+-- =============================================================================
+-- BẢNG CƠ QUAN TƯ PHÁP / LEGAL_AUTHORITY
+-- =============================================================================
+-- Chỉ ADMIN và STAFF được phân công quản lý building đó mới được xem.
+-- KHÔNG hiển thị tại trang public.
+CREATE TABLE legal_authority (
+    id             BIGINT AUTO_INCREMENT PRIMARY KEY,
+    building_id    BIGINT        NOT NULL,
+    authority_name VARCHAR(255)  NOT NULL,
+    authority_type VARCHAR(100)  COMMENT 'NOTARY, LAND_REGISTRY, LAW_FIRM, TAX_OFFICE',
+    address        TEXT,
+    phone          VARCHAR(20),
+    email          VARCHAR(100),
+    note           TEXT,
+    created_date   DATETIME,
+    FOREIGN KEY (building_id) REFERENCES building(id)
+);
+
+INSERT INTO legal_authority (building_id, authority_name, authority_type, address, phone, email, note, created_date) VALUES
+(6 , 'Văn phòng Công chứng Sài Gòn'   , 'NOTARY'       , '55 Pasteur, Q.3, TP.HCM'             , '0283000001', 'vpcc.saigon@hcmc.vn'   , 'Công chứng HĐ mua bán Saigon Centre', '2024-01-10'),
+(6 , 'Sở TN&MT TP. Hồ Chí Minh'       , 'LAND_REGISTRY', '60 Trương Định, Q.3, TP.HCM'         , '0283000002', 'sotnmt@tphcm.gov.vn'   , 'Đăng ký biến động đất đai HCM'      , '2024-01-10'),
+(7 , 'Phòng Công chứng số 1 Khánh Hòa', 'NOTARY'       , '16 Lê Thánh Tôn, Lộc Thọ, Nha Trang' , '0258000001', 'pc1@congchung.kh.vn'   , 'Công chứng khu vực Nha Trang'       , '2025-01-10'),
+(7 , 'Sở TN&MT tỉnh Khánh Hòa'        , 'LAND_REGISTRY', '04 Trần Phú, Lộc Thọ, Nha Trang, KH' , '0258000002', 'sotnmt@khanhhoa.gov.vn', 'Đăng ký biến động đất đai KH'       , '2025-01-10'),
+(10, 'Văn phòng Công chứng Thủ Đức'   , 'NOTARY'       , '23 Xa Lộ Hà Nội, P. Thảo Điền, TĐ'   , '0283000003', 'vpcc.thuduc@hcmc.vn'   , 'Công chứng khu vực Thủ Đức'         , '2023-06-01'),
+(10, 'Chi cục Thuế TP. Thủ Đức'       , 'TAX_OFFICE'   , '12 Đặng Văn Bi, P. Bình Thọ, TĐ, HCM', '0283000004', 'cct.thuduc@gdt.gov.vn' , 'Kê khai & nộp thuế chuyển nhượng'   , '2023-06-01'),
+(14, 'Văn phòng Công chứng Bình Thạnh', 'NOTARY'       , '30 Đinh Bộ Lĩnh, Bình Thạnh, TP.HCM' , '0283000005', 'vpcc.bt@hcmc.vn'       , 'Công chứng HĐ mua bán căn hộ'       , '2023-04-15'),
+(14, 'Chi cục Thuế Q. Bình Thạnh'     , 'TAX_OFFICE'   , '32 Nơ Trang Long, Bình Thạnh, TP.HCM', '0283000006', 'cct.bt@gdt.gov.vn'     , 'Nộp thuế thu nhập cá nhân'          , '2023-04-15'),
+(15, 'Phòng Công chứng số 3 Đà Nẵng'  , 'NOTARY'       , '28 Nguyễn Văn Linh, Hải Châu, ĐN'    , '0236000001', 'pc3@congchung.dn.vn'   , 'Công chứng khu vực Đà Nẵng'         , '2024-08-10'),
+(15, 'Sở TN&MT TP. Đà Nẵng'           , 'LAND_REGISTRY', '62 Lý Tự Trọng, Thạch Thang, ĐN'     , '0236000002', 'sotnmt@danang.gov.vn'  , 'Đăng ký biến động đất đai ĐN'       , '2024-08-10'),
+(18, 'Văn phòng Công chứng Bình Dương', 'NOTARY'       , '8 Đại lộ Bình Dương, Hiệp Thành, BD' , '0274000001', 'vpcc.bd@binhduong.vn'  , 'Công chứng khu vực Bình Dương'      , '2025-02-01'),
+(18, 'Ban Quản lý KCN Bình Dương'     , 'LAND_REGISTRY', 'VSIP II, Bình Hòa, Thuận An, BD'     , '0274000002', 'bql@vsip.com.vn'       , 'Thủ tục thuê đất KCN, giấy phép'    , '2025-02-01'),
+(19, 'Văn phòng Công chứng Quảng Ninh', 'NOTARY'       , '234 Trần Phú, Hồng Hải, Hạ Long, QN' , '0203000001', 'vpcc.qn@quangninh.vn'  , 'Công chứng khu vực Quảng Ninh'      , '2024-11-05'),
+(19, 'Ban QL KKT Ven biển QN'         , 'LAND_REGISTRY', 'KCN Deep C, Đông Mai, Quảng Yên, QN' , '0203000002', 'bql@deepc.vn'          , 'Thủ tục đất KKT ven biển QN'        , '2024-11-05');
+
+-- =============================================================================
+-- BẢNG TIỆN ÍCH LÂN CẬN / NEARBY_AMENITY
+-- =============================================================================
+CREATE TABLE nearby_amenity (
+    id             BIGINT AUTO_INCREMENT PRIMARY KEY,
+    building_id    BIGINT        NOT NULL,
+    name           VARCHAR(255)  NOT NULL,
+    amenity_type   ENUM('SHOPPING','PARK','HOSPITAL','SCHOOL','RESTAURANT','BANK','GYM','TRANSPORT','OTHER') NOT NULL,
+    distance_meter INT           COMMENT 'Khoảng cách tính bằng mét',
+    address        VARCHAR(255),
+    latitude       DECIMAL(10,7) NULL COMMENT 'Vĩ độ tiện ích — Phase 2',
+    longitude      DECIMAL(10,7) NULL COMMENT 'Kinh độ tiện ích — Phase 2',
+    created_date   DATETIME,
+    FOREIGN KEY (building_id) REFERENCES building(id)
+);
+
+INSERT INTO nearby_amenity (building_id, name, amenity_type, distance_meter, address, latitude, longitude, created_date) VALUES
+(1 , 'Vincom Center Liễu Giai'        , 'SHOPPING'  , 400 , 'Liễu Giai, Ba Đình, HN'           , 21.0345, 105.8223, '2018-11-20'),
+(1 , 'Công viên Thủ Lệ'               , 'PARK'      , 700 , 'Bưởi, Ba Đình, HN'                , 21.0412, 105.8134, '2018-11-20'),
+(1 , 'Bệnh viện Hữu Nghị'             , 'HOSPITAL'  , 500 , '1 Trần Khánh Dư, Hai Bà Trưng, HN', 21.0267, 105.8456, '2018-11-20'),
+(1 , 'Ga tàu điện Kim Mã'             , 'TRANSPORT' , 300 , 'Kim Mã, Ba Đình, HN'              , 21.0334, 105.8167, '2018-11-20'),
+(2 , 'Aeon Mall Hà Đông'              , 'SHOPPING'  , 900 , 'Dương Nội, Hà Đông, HN'           , 20.9789, 105.7712, '2018-08-25'),
+(2 , 'Công viên Mễ Trì'               , 'PARK'      , 400 , 'Mễ Trì, Nam Từ Liêm, HN'          , 21.0112, 105.7834, '2018-08-25'),
+(2 , 'Bệnh viện 198'                  , 'HOSPITAL'  , 600 , '8 Trần Bình, Nam Từ Liêm, HN'     , 21.0178, 105.7923, '2018-08-25'),
+(2 , 'The Garden Mall'                , 'SHOPPING'  , 500 , 'Mễ Trì Hạ, Nam Từ Liêm, HN'       , 21.0123, 105.7856, '2018-08-25'),
+(3 , 'Tràng Tiền Plaza'               , 'SHOPPING'  , 200 , '24 Hai Bà Trưng, Hoàn Kiếm, HN'   , 21.0267, 105.8545, '2019-07-18'),
+(3 , 'Hồ Hoàn Kiếm'                   , 'PARK'      , 400 , 'Đinh Tiên Hoàng, Hoàn Kiếm, HN'   , 21.0285, 105.8542, '2019-07-18'),
+(3 , 'Bệnh viện Việt Đức'             , 'HOSPITAL'  , 600 , '40 Tràng Thi, Hoàn Kiếm, HN'      , 21.0312, 105.8478, '2019-07-18'),
+(3 , 'Ga Hà Nội'                      , 'TRANSPORT' , 800 , '120 Lê Duẩn, Hoàn Kiếm, HN'       , 21.0245, 105.8412, '2019-07-18'),
+(4 , 'Vincom Center Đồng Khởi'        , 'SHOPPING'  , 300 , '72 Lê Thánh Tôn, Q.1, TP.HCM'     , 10.7745, 106.7023, '2018-05-20'),
+(4 , 'Công viên 23/9'                 , 'PARK'      , 800 , 'Phạm Ngũ Lão, Q.1, TP.HCM'        , 10.7656, 106.6934, '2018-05-20'),
+(4 , 'Bệnh viện Chợ Rẫy'              , 'HOSPITAL'  , 1500, '201B Nguyễn Chí Thanh, Q.5, HCM'  , 10.7534, 106.6656, '2018-05-20'),
+(4 , 'Bến Bạch Đằng'                  , 'TRANSPORT' , 200 , 'Tôn Đức Thắng, Q.1, TP.HCM'       , 10.7712, 106.7034, '2018-05-20'),
+(5 , 'Vincom Plaza Đà Nẵng'           , 'SHOPPING'  , 200 , '910A Ngô Quyền, Sơn Trà, ĐN'      , 16.0634, 108.2234, '2020-07-14'),
+(5 , 'Công viên 29/3'                 , 'PARK'      , 600 , 'Duy Tân, Hải Châu, ĐN'            , 16.0589, 108.2067, '2020-07-14'),
+(5 , 'Bệnh viện C Đà Nẵng'            , 'HOSPITAL'  , 800 , '122 Hải Phòng, Hải Châu, ĐN'      , 16.0645, 108.2156, '2020-07-14'),
+(5 , 'Sân bay Đà Nẵng'                , 'TRANSPORT' , 2000, 'Duy Tân, Ngũ Hành Sơn, ĐN'        , 16.0439, 108.1992, '2020-07-14'),
+(6 , 'Parkson Lê Thánh Tôn'           , 'SHOPPING'  , 400 , '35 Lê Thánh Tôn, Q.1, TP.HCM'     , 10.7756, 106.7012, '2019-03-15'),
+(6 , 'Công viên Tao Đàn'              , 'PARK'      , 700 , 'Trương Định, Q.1, TP.HCM'         , 10.7745, 106.6945, '2019-03-15'),
+(6 , 'Bệnh viện FV'                   , 'HOSPITAL'  , 1200, '6 Nguyễn Lương Bằng, Q.7, HCM'    , 10.7234, 106.7056, '2019-03-15'),
+(6 , 'Ga Metro Bến Thành'             , 'TRANSPORT' , 300 , 'Lê Lợi, Q.1, TP.HCM'              , 10.7734, 106.6978, '2019-03-15'),
+(7 , 'Vincom Plaza Nha Trang'         , 'SHOPPING'  , 500 , '44 Lê Thánh Tôn, Lộc Thọ, NT, KH' , 12.2456, 109.1934, '2020-06-10'),
+(7 , 'Biển Nha Trang'                 , 'PARK'      , 300 , 'Trần Phú, Lộc Thọ, Nha Trang, KH' , 12.2445, 109.1978, '2020-06-10'),
+(7 , 'Bệnh viện Đa khoa KH'           , 'HOSPITAL'  , 1000, '19 Yersin, Xương Huân, Nha Trang' , 12.2512, 109.1856, '2020-06-10'),
+(7 , 'Cảng tàu Nha Trang'             , 'TRANSPORT' , 800 , '2 Trần Phú, Lộc Thọ, Nha Trang'   , 12.2367, 109.1989, '2020-06-10'),
+(8 , 'SC VivoCity'                    , 'SHOPPING'  , 600 , '1058 Nguyễn Văn Linh, Q.7, HCM'   , 10.7289, 106.7123, '2020-08-01'),
+(8 , 'Công viên Phú Mỹ Hưng'          , 'PARK'      , 400 , 'Nguyễn Lương Bằng, Q.7, HCM'      , 10.7234, 106.7089, '2020-08-01'),
+(8 , 'Bệnh viện FV'                   , 'HOSPITAL'  , 800 , '6 Nguyễn Lương Bằng, Q.7, HCM'    , 10.7234, 106.7056, '2020-08-01'),
+(8 , 'Café The Coffee House Q7'       , 'RESTAURANT', 200 , 'Nguyễn Lương Bằng, Q.7, HCM'      , 10.7212, 106.7034, '2020-08-01'),
+(9 , 'Aeon Mall Hà Đông'              , 'SHOPPING'  , 1200, 'Dương Nội, Hà Đông, HN'           , 20.9789, 105.7712, '2021-05-10'),
+(9 , 'Công viên Tây Mỗ'               , 'PARK'      , 300 , 'Tây Mỗ, Nam Từ Liêm, HN'          , 20.9912, 105.7589, '2021-05-10'),
+(9 , 'Bệnh viện 103'                  , 'HOSPITAL'  , 1500, '261 Phùng Hưng, Hà Đông, HN'      , 20.9734, 105.7934, '2021-05-10'),
+(9 , 'Vietcombank Vinhomes SC'        , 'BANK'      , 100 , 'Đại Lộ Thăng Long, Tây Mỗ, HN'    , 20.9934, 105.7623, '2021-05-10'),
+(10, 'Vincom Mega Mall Thảo Điền'     , 'SHOPPING'  , 500 , 'Xa Lộ Hà Nội, TP. Thủ Đức, HCM'   , 10.8034, 106.7345, '2022-03-15'),
+(10, 'Công viên bờ sông Thủ Đức'      , 'PARK'      , 400 , 'Xa Lộ Hà Nội, Thảo Điền, TĐ'      , 10.8045, 106.7289, '2022-03-15'),
+(10, 'Bệnh viện Ung Bướu HCM'         , 'HOSPITAL'  , 1800, '3 Nơ Trang Long, Bình Thạnh, HCM' , 10.8023, 106.6978, '2022-03-15'),
+(10, 'Ga Metro Thảo Điền'             , 'TRANSPORT' , 600 , 'Xa Lộ Hà Nội, Thảo Điền, TĐ'      , 10.8012, 106.7234, '2022-03-15'),
+(11, 'Vincom Mega Mall Thảo Điền'     , 'SHOPPING'  , 700 , 'Xa Lộ Hà Nội, TP. Thủ Đức, HCM'   , 10.8034, 106.7345, '2021-07-01'),
+(11, 'Công viên Bờ Sông Sài Gòn'      , 'PARK'      , 300 , 'Nguyễn Hữu Cảnh, Bình Thạnh, HCM' , 10.7912, 106.7212, '2021-07-01'),
+(11, 'Bệnh viện Tâm Anh HCM'          , 'HOSPITAL'  , 1000, '2B Phổ Quang, Tân Bình, HCM'      , 10.8023, 106.6756, '2021-07-01'),
+(11, 'Gym California Thảo Điền'       , 'GYM'       , 400 , 'Xa Lộ Hà Nội, Thảo Điền, TĐ'      , 10.8023, 106.7312, '2021-07-01'),
+(12, 'Vincom Mega Mall Thảo Điền'     , 'SHOPPING'  , 1200, 'Xa Lộ Hà Nội, TP. Thủ Đức, HCM'   , 10.8034, 106.7345, '2022-09-05'),
+(12, 'Công viên Long Bình'            , 'PARK'      , 500 , 'Long Bình, TP. Thủ Đức, HCM'      , 10.8289, 106.7534, '2022-09-05'),
+(12, 'Bệnh viện Đa khoa TĐ'           , 'HOSPITAL'  , 1500, '22 Đặng Văn Bi, Bình Thọ, TĐ'     , 10.8167, 106.7456, '2022-09-05'),
+(12, 'Siêu thị Lotte Long Bình'       , 'SHOPPING'  , 800 , 'Long Bình, TP. Thủ Đức, HCM'      , 10.8312, 106.7589, '2022-09-05'),
+(13, 'Aeon Mall Hà Đông'              , 'SHOPPING'  , 1500, 'Dương Nội, Hà Đông, HN'           , 20.9789, 105.7712, '2021-07-01'),
+(13, 'Công viên Nhân Chính'           , 'PARK'      , 600 , 'Nhân Chính, Thanh Xuân, HN'       , 21.0034, 105.8134, '2021-07-01'),
+(13, 'Bệnh viện Bưu Điện'             , 'HOSPITAL'  , 800 , '2 Trịnh Hoài Đức, Thanh Xuân, HN' , 21.0067, 105.8178, '2021-07-01'),
+(13, 'BIDV Thanh Xuân'                , 'BANK'      , 300 , 'Nguyễn Tuân, Thanh Xuân, HN'      , 21.0089, 105.8189, '2021-07-01'),
+(14, 'Landmark 81 Mall'               , 'SHOPPING'  , 200 , '720A Điện Biên Phủ, Bình Thạnh'   , 10.7956, 106.7212, '2019-04-10'),
+(14, 'Công viên Bờ Sông Sài Gòn'      , 'PARK'      , 100 , 'Nguyễn Hữu Cảnh, Bình Thạnh, HCM' , 10.7912, 106.7212, '2019-04-10'),
+(14, 'Bệnh viện Gia An 115'           , 'HOSPITAL'  , 800 , '633 Kinh Dương Vương, Bình Tân'   , 10.7678, 106.6723, '2019-04-10'),
+(14, 'The Coffee House BT'            , 'RESTAURANT', 150 , 'Nguyễn Hữu Cảnh, Bình Thạnh'      , 10.7923, 106.7189, '2019-04-10'),
+(15, 'Gigamall Ngũ Hành Sơn'          , 'SHOPPING'  , 800 , '255 Ngũ Hành Sơn, ĐN'             , 15.9934, 108.2534, '2021-06-01'),
+(15, 'Bãi biển Non Nước'              , 'PARK'      , 400 , 'Trường Sa, Ngũ Hành Sơn, ĐN'      , 15.9845, 108.2712, '2021-06-01'),
+(15, 'Bệnh viện Ngũ Hành Sơn'         , 'HOSPITAL'  , 900 , '222 Ngũ Hành Sơn, ĐN'             , 15.9912, 108.2456, '2021-06-01'),
+(15, 'Sân bay Đà Nẵng'                , 'TRANSPORT' , 4000, 'Duy Tân, Ngũ Hành Sơn, ĐN'        , 16.0439, 108.1992, '2021-06-01'),
+(16, 'Cảng Cát Lái'                   , 'TRANSPORT' , 300 , 'P. Cát Lái, TP. Thủ Đức, HCM'     , 10.7423, 106.7889, '2021-04-18'),
+(16, 'Big C Thủ Đức'                  , 'SHOPPING'  , 1200, '1 Xa Lộ Hà Nội, Thủ Đức, HCM'     , 10.7823, 106.7456, '2021-04-18'),
+(16, 'Bệnh viện Thủ Đức'              , 'HOSPITAL'  , 1500, '29 Phú Châu, Tam Phú, TĐ, HCM'    , 10.7834, 106.7612, '2021-04-18'),
+(16, 'BIDV Chi nhánh Cát Lái'         , 'BANK'      , 400 , 'P. Cát Lái, TP. Thủ Đức, HCM'     , 10.7489, 106.7912, '2021-04-18'),
+(17, 'Vincom Biên Hòa'                , 'SHOPPING'  , 2000, '1 Đường 3/2, TP. Biên Hòa, ĐN'    , 10.9523, 106.8312, '2022-01-25'),
+(17, 'Sân golf Long Thành'            , 'OTHER'     , 3000, 'Long Thành, Đồng Nai'             , 10.9234, 107.0123, '2022-01-25'),
+(17, 'Bệnh viện Đồng Nai'             , 'HOSPITAL'  , 2500, '1 Phan Chu Trinh, Biên Hòa, ĐN'   , 10.9345, 106.8234, '2022-01-25'),
+(17, 'Sân bay Long Thành'             , 'TRANSPORT' , 5000, 'Huyện Long Thành, Đồng Nai'       , 10.7934, 107.0323, '2022-01-25'),
+(18, 'Aeon Mall Bình Dương'           , 'SHOPPING'  , 1500, 'ĐT743, Bình Hòa, Thuận An, BD'    , 10.9023, 106.6745, '2020-06-10'),
+(18, 'Công viên Đại Nam'              , 'PARK'      , 5000, 'Hiệp An, Thủ Dầu Một, BD'         , 10.9934, 106.6523, '2020-06-10'),
+(18, 'Bệnh viện Becamex BD'           , 'HOSPITAL'  , 2000, 'Mỹ Phước, Thủ Dầu Một, BD'        , 11.0034, 106.6456, '2020-06-10'),
+(18, 'BIDV Chi nhánh BD'              , 'BANK'      , 600 , 'ĐL Bình Dương, Bình Hòa, BD'      , 10.9112, 106.6834, '2020-06-10'),
+(19, 'Vincom Hạ Long'                 , 'SHOPPING'  , 4000, '2 Hạ Long, Bãi Cháy, QN'          , 20.9534, 107.0712, '2021-08-15'),
+(19, 'Vịnh Hạ Long'                   , 'PARK'      , 4500, 'Bãi Cháy, Hạ Long, QN'            , 20.9512, 107.1234, '2021-08-15'),
+(19, 'Bệnh viện Việt Nam-Thụy Điển QN', 'HOSPITAL'  , 3500, 'A6 Hùng Thắng, Bãi Cháy, QN'      , 20.9589, 107.0723, '2021-08-15'),
+(19, 'Cảng Cái Lân Quảng Ninh'        , 'TRANSPORT' , 2000, 'Cái Lân, Bãi Cháy, Hạ Long, QN'   , 20.9312, 107.0456, '2021-08-15');
