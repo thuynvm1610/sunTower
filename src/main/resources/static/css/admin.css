@@ -147,7 +147,7 @@ body {
     background: #ffffff;
     border-right: 1px solid #e9ecef;
     overflow: hidden;
-    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.04);
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.04);
     display: flex;
     flex-direction: column;
     z-index: 200;
@@ -157,8 +157,8 @@ body {
 .sidebar-nav {
     display: flex;
     flex-direction: column;
-    gap: 1px;
-    padding: 1rem 0.625rem 0;
+    gap: 2px;
+    padding: 0.875rem 0.625rem 0;
     flex: 1;
     overflow: hidden;
 }
@@ -168,37 +168,36 @@ body {
     display: flex;
     align-items: center;
     gap: 0.625rem;
-    padding: 0.55rem 0.625rem;
+    padding: 0.5rem 0.625rem;
     color: #64748b;
     text-decoration: none;
     font-size: 0.875rem;
     font-weight: 500;
     border-radius: 8px;
-    transition: background 0.18s ease, color 0.18s ease;
+    transition: background 0.15s ease, color 0.15s ease;
     position: relative;
     white-space: nowrap;
     overflow: hidden;
-    letter-spacing: 0.01em;
 }
 
 /* ── Icon box ── */
 .sidebar .nav-icon {
-    width: 32px;
-    height: 32px;
-    min-width: 32px;
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 7px;
     background: #f1f5f9;
-    transition: background 0.18s ease, box-shadow 0.18s ease, transform 0.15s ease;
+    transition: background 0.15s ease;
     flex-shrink: 0;
 }
 
 .sidebar .nav-icon i {
     font-size: 0.875rem;
     color: #94a3b8;
-    transition: color 0.18s ease, transform 0.18s ease;
+    transition: color 0.15s ease;
     line-height: 1;
 }
 
@@ -215,7 +214,7 @@ body {
 .sidebar .nav-badge {
     min-width: 18px;
     height: 18px;
-    background: linear-gradient(135deg, #ef4444, #dc2626);
+    background: #ef4444;
     color: #fff;
     border-radius: 9px;
     font-size: 0.65rem;
@@ -225,48 +224,82 @@ body {
     justify-content: center;
     padding: 0 4px;
     flex-shrink: 0;
-    box-shadow: 0 2px 6px rgba(239, 68, 68, 0.35);
-    animation: badge-pulse 2.4s ease-in-out infinite;
 }
 
 .sidebar .nav-badge.badge-pending {
-    background: linear-gradient(135deg, var(--primary-blue), var(--primary-blue-light));
-    box-shadow: 0 2px 6px rgba(30, 64, 175, 0.3);
+    background: #3b82f6;
 }
 
-@keyframes badge-pulse {
-    0%, 100% { transform: scale(1);    }
-    50%       { transform: scale(1.15); }
-}
+/* ══ Màu riêng từng item ══════════════════════════════════════════════════════
 
-/* ── Hover ── */
-.sidebar .nav-link:hover {
-    background: #f1f5f9;
-    color: var(--primary-blue);
-}
+   Quy tắc độ ưu tiên:
+   1. .active:hover  → giữ nguyên màu solid của active (icon trắng trên nền màu)
+   2. :hover         → icon + text đổi màu, nền nhạt
+   3. .active        → nền trắng nhạt, icon solid, text đậm
+   ══════════════════════════════════════════════════════════════════════════ */
 
-.sidebar .nav-link:hover .nav-icon {
-    background: rgba(30, 64, 175, 0.08);
-    transform: scale(1.06);
-}
+/* ── Dashboard — xanh dương ── */
+.sidebar a[href*="dashboard"]:hover:not(.active)              { color: #1d4ed8; background: #f0f4ff; }
+.sidebar a[href*="dashboard"]:hover:not(.active) .nav-icon    { background: #dbeafe; }
+.sidebar a[href*="dashboard"]:hover:not(.active) .nav-icon i  { color: #1d4ed8; }
+.sidebar a[href*="dashboard"].active                           { color: #1d4ed8; }
+.sidebar a[href*="dashboard"].active .nav-icon                 { background: #1d4ed8; }
+.sidebar a[href*="dashboard"].active:hover .nav-icon           { background: #1e40af; }
+.sidebar a[href*="dashboard"].active::after                    { background: #1d4ed8; }
 
-.sidebar .nav-link:hover .nav-icon i {
-    color: var(--primary-blue);
-    transform: scale(1.1);
-}
+/* ── BĐS — tím indigo ── */
+.sidebar a[href*="building"]:hover:not(.active)               { color: #4f46e5; background: #f0efff; }
+.sidebar a[href*="building"]:hover:not(.active) .nav-icon     { background: #e0e7ff; }
+.sidebar a[href*="building"]:hover:not(.active) .nav-icon i   { color: #4f46e5; }
+.sidebar a[href*="building"].active                            { color: #4f46e5; }
+.sidebar a[href*="building"].active .nav-icon                  { background: #4f46e5; }
+.sidebar a[href*="building"].active:hover .nav-icon            { background: #4338ca; }
+.sidebar a[href*="building"].active::after                     { background: #4f46e5; }
 
-/* ── Active ── */
+/* ── Hợp đồng — xanh lá ── */
+.sidebar a[href*="contract"]:hover:not(.active)               { color: #059669; background: #f0fdf6; }
+.sidebar a[href*="contract"]:hover:not(.active) .nav-icon     { background: #d1fae5; }
+.sidebar a[href*="contract"]:hover:not(.active) .nav-icon i   { color: #059669; }
+.sidebar a[href*="contract"].active                            { color: #059669; }
+.sidebar a[href*="contract"].active .nav-icon                  { background: #059669; }
+.sidebar a[href*="contract"].active:hover .nav-icon            { background: #047857; }
+.sidebar a[href*="contract"].active::after                     { background: #059669; }
+
+/* ── Hóa đơn — vàng amber ── */
+.sidebar a[href*="invoice"]:hover:not(.active)                { color: #d97706; background: #fffcf0; }
+.sidebar a[href*="invoice"]:hover:not(.active) .nav-icon      { background: #fde68a; }
+.sidebar a[href*="invoice"]:hover:not(.active) .nav-icon i    { color: #d97706; }
+.sidebar a[href*="invoice"].active                             { color: #d97706; }
+.sidebar a[href*="invoice"].active .nav-icon                   { background: #d97706; }
+.sidebar a[href*="invoice"].active:hover .nav-icon             { background: #b45309; }
+.sidebar a[href*="invoice"].active::after                      { background: #d97706; }
+
+/* ── Khách hàng — cyan ── */
+.sidebar a[href*="customer"]:hover:not(.active)               { color: #0891b2; background: #f0fdff; }
+.sidebar a[href*="customer"]:hover:not(.active) .nav-icon     { background: #cffafe; }
+.sidebar a[href*="customer"]:hover:not(.active) .nav-icon i   { color: #0891b2; }
+.sidebar a[href*="customer"].active                            { color: #0891b2; }
+.sidebar a[href*="customer"].active .nav-icon                  { background: #0891b2; }
+.sidebar a[href*="customer"].active:hover .nav-icon            { background: #0e7490; }
+.sidebar a[href*="customer"].active::after                     { background: #0891b2; }
+
+/* ── Nhân viên — rose ── */
+.sidebar a[href*="staff"]:hover:not(.active)                  { color: #e11d48; background: #fff4f6; }
+.sidebar a[href*="staff"]:hover:not(.active) .nav-icon        { background: #fecdd3; }
+.sidebar a[href*="staff"]:hover:not(.active) .nav-icon i      { color: #e11d48; }
+.sidebar a[href*="staff"].active                               { color: #e11d48; }
+.sidebar a[href*="staff"].active .nav-icon                     { background: #e11d48; }
+.sidebar a[href*="staff"].active:hover .nav-icon               { background: #be123c; }
+.sidebar a[href*="staff"].active::after                        { background: #e11d48; }
+
+/* ── Active chung ── */
 .sidebar .nav-link.active {
-    background: linear-gradient(135deg,
-        rgba(30, 64, 175, 0.08) 0%,
-        rgba(59, 130, 246, 0.06) 100%);
-    color: var(--primary-blue);
+    background: #f8fafc;
     font-weight: 600;
 }
 
 .sidebar .nav-link.active .nav-icon {
-    background: linear-gradient(135deg, var(--primary-blue), var(--primary-blue-light));
-    box-shadow: 0 3px 10px rgba(30, 64, 175, 0.25);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
 }
 
 .sidebar .nav-link.active .nav-icon i { color: #ffffff; }
@@ -276,12 +309,14 @@ body {
     content: '';
     position: absolute;
     left: -0.625rem;
-    top: 25%;
-    bottom: 25%;
+    top: 20%;
+    bottom: 20%;
     width: 3px;
-    background: linear-gradient(180deg, var(--primary-blue), var(--primary-blue-light));
     border-radius: 0 3px 3px 0;
 }
+
+/* ── Hover chung (fallback cho link không match href) ── */
+.sidebar .nav-link:hover { background: #f8fafc; }
 
 /* ── Divider ── */
 .sidebar-divider {
@@ -296,7 +331,7 @@ body {
 .sidebar .logout-link .nav-icon         { background: rgba(239, 68, 68, 0.07); }
 .sidebar .logout-link .nav-icon i       { color: #ef4444; }
 .sidebar .logout-link:hover             { background: rgba(239, 68, 68, 0.06); color: #dc2626; }
-.sidebar .logout-link:hover .nav-icon   { background: rgba(239, 68, 68, 0.12); }
+.sidebar .logout-link:hover .nav-icon   { background: #fef2f2; }
 .sidebar .logout-link:hover .nav-icon i { color: #dc2626; }
 
 /* ── Footer ── */
@@ -317,7 +352,7 @@ body {
 
 .sidebar-footer i {
     font-size: 0.75rem;
-    color: var(--primary-blue-light);
+    color: #94a3b8;
     flex-shrink: 0;
 }
 

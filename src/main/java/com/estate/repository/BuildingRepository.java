@@ -29,13 +29,12 @@ public interface BuildingRepository extends JpaRepository<BuildingEntity, Long>,
             "GROUP BY b.street")
     List<String> getStreetName();
 
-    @Query("SELECT b.direction " +
-            "FROM BuildingEntity b " +
-            "GROUP BY b.direction")
-    List<String> getDirectionName();
-
-    @Query("SELECT b.level " +
-            "FROM BuildingEntity b " +
-            "GROUP BY b.level")
-    List<String> getLevelName();
+    @Query("""
+                SELECT COUNT(b) > 0
+                FROM BuildingEntity b
+                JOIN b.staffs_buildings sb
+                WHERE sb.id = :staffId
+                  AND b.id = :buildingId
+            """)
+    Boolean isStaffManagesBuilding(Long staffId, Long buildingId);
 }

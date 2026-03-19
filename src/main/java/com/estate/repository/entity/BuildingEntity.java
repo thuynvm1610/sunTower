@@ -13,7 +13,6 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -23,6 +22,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BuildingEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -62,6 +62,7 @@ public class BuildingEntity {
     @Column(name = "rent_price")
     private BigDecimal rentPrice;
 
+    // Giá bán — NULL nếu FOR_RENT, có giá trị nếu FOR_SALE
     @Column(name = "sale_price")
     private BigDecimal salePrice;
 
@@ -89,6 +90,12 @@ public class BuildingEntity {
     @Column
     private String image;
 
+    @Column(precision = 10, scale = 7)
+    private BigDecimal latitude;
+
+    @Column(precision = 10, scale = 7)
+    private BigDecimal longitude;
+
     @Column(name = "created_date")
     private LocalDateTime createdDate;
 
@@ -103,7 +110,7 @@ public class BuildingEntity {
 
     @PreUpdate
     protected void onUpdate() {
-        modifiedDate = LocalDateTime.now();
+        this.modifiedDate = LocalDateTime.now();
     }
 
     // =================== RELATIONSHIPS ===================

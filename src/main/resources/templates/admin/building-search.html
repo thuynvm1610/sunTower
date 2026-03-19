@@ -203,7 +203,7 @@
         .range-inputs .form-control { flex: 1; min-width: 0; }
 
         .range-separator {
-            color: #d1d5db;
+            color: #5E6978;
             font-size: 0.75rem;
             flex-shrink: 0;
         }
@@ -614,6 +614,47 @@
         }
 
 
+
+        /* ── Location search ── */
+        .location-search-wrap { position: relative; }
+        .location-clear-btn {
+            position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%);
+            background: none; border: none; color: #9ca3af; cursor: pointer;
+            padding: 0; line-height: 1; display: none; font-size: 0.8rem;
+        }
+        .location-clear-btn:hover { color: #ef4444; }
+        #locationSuggestions {
+            position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+            background: #fff; border: 1px solid #e5e7eb; border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1); z-index: 9999;
+            max-height: 220px; overflow-y: auto; display: none;
+        }
+        #locationSuggestions .suggest-item {
+            padding: 0.3rem 0.625rem;
+            font-size: 0.875rem;
+            color: #374151;
+            cursor: pointer;
+            border-bottom: 1px solid #f3f4f6;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        #locationSuggestions .suggest-item:last-child { border-bottom: none; }
+        #locationSuggestions .suggest-item:hover,
+        #locationSuggestions .suggest-item.active { background: rgba(59,130,246,0.08); color: #1d4ed8; }
+        .radius-select-wrap { display: flex; align-items: center; gap: 0.4rem; }
+        .radius-select-wrap select {
+            height: 32px !important; border: 1px solid #e5e7eb; border-radius: 6px;
+            font-size: 0.875rem; padding: 0 0.5rem; color: #374151; background: #fff; cursor: pointer;
+        }
+        .radius-select-wrap select:focus { border-color: #3b82f6; outline: none; box-shadow: 0 0 0 2px rgba(59,130,246,0.1); }
+        .location-active-badge {
+            display: inline-flex; align-items: center; gap: 0.3rem;
+            padding: 0.2rem 0.55rem; background: #eff6ff; border: 1px solid #bfdbfe;
+            border-radius: 20px; font-size: 0.75rem; font-weight: 600; color: #1d4ed8; margin-left: 0.5rem;
+        }
+        .suggest-item.active { background: #eff6ff; color: #1d4ed8; }
+
         /* ── ID badge ── */
         .id-badge {
             display: inline-block;
@@ -724,25 +765,57 @@
             </div>
 
             <div class="filter-body" id="filterBody">
+
+                <!-- Tìm kiếm theo vị trí -->
+                <div class="filter-section-title" style="margin-top:0.5rem;">
+                    <i class="bi bi-geo-alt-fill"></i> Tìm kiếm theo vị trí
+                    <span id="locationActiveBadge" class="location-active-badge" style="display:none;">
+                        <i class="bi bi-pin-map-fill"></i>
+                        <span id="locationBadgeText"></span>
+                    </span>
+                </div>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-5">
+                        <label class="form-label">Địa chỉ</label>
+                        <div class="location-search-wrap" style="position:relative;">
+                            <input type="text" id="locationInput" class="form-control"
+                                   placeholder="VD: 200 Nguyễn Trãi, Hà Nội..." autocomplete="off"
+                                   th:value="${filter.locationLabel}">
+                            <button type="button" class="location-clear-btn" id="locationClearBtn" onclick="clearLocation()">
+                                <i class="bi bi-x-circle-fill"></i>
+                            </button>
+                            <div id="locationSuggestions"></div>
+                        </div>
+                        <input type="hidden" name="lat" id="hiddenLat" th:value="${filter.lat}">
+                        <input type="hidden" name="lng" id="hiddenLng" th:value="${filter.lng}">
+                        <input type="hidden" name="locationLabel" id="hiddenLocationLabel" th:value="${filter.locationLabel}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Bán kính tìm kiếm</label>
+                        <div class="radius-select-wrap">
+                            <i class="bi bi-circle" style="color:#3b82f6;font-size:0.8rem;"></i>
+                            <select name="radius" id="radiusSelect">
+                                <option value="500"   th:selected="${filter.radius == 500}">500 m</option>
+                                <option value="1000"  th:selected="${filter.radius == 1000 or filter.radius == null}">1 km</option>
+                                <option value="2000"  th:selected="${filter.radius == 2000}">2 km</option>
+                                <option value="3000"  th:selected="${filter.radius == 3000}">3 km</option>
+                                <option value="5000"  th:selected="${filter.radius == 5000}">5 km</option>
+                                <option value="10000" th:selected="${filter.radius == 10000}">10 km</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Thông tin cơ bản -->
                 <div class="filter-section-title">
                     <i class="bi bi-info-circle"></i> Thông tin cơ bản
                 </div>
+
                 <div class="row mb-4">
                     <div class="col-md-3">
                         <label class="form-label">Tên tòa nhà</label>
                         <input type="text" class="form-control" name="name" th:value="${filter.name}"
                                placeholder="VD: Sun Tower">
-                    </div>
-
-                    <div class="col-md-3">
-                        <label class="form-label">Quận</label>
-                        <select class="form-control" name="districtId" th:value="${filter.districtId}">
-                            <option value="">-- Chọn quận --</option>
-                            <option th:each="d : ${districts}" th:value="${d.getValue()}" th:text="${d.getKey()}"
-                                    th:selected="${d.getValue() == filter.districtId}">
-                            </option>
-                        </select>
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">Loại hình BĐS</label>
@@ -1011,6 +1084,10 @@
                 size: pageSize,
                 name: filter.name,
                 districtId: filter.districtId,
+                lat: filter.lat,
+                lng: filter.lng,
+                radius: filter.radius || 1000,
+                locationLabel: filter.locationLabel,
                 ward: filter.ward,
                 street: filter.street,
                 numberOfFloorFrom: filter.numberOfFloorFrom,
@@ -1286,6 +1363,129 @@
     });
 </script>
 
+
+<script th:inline="javascript">
+    // Khôi phục badge nếu trang reload với vị trí đã chọn
+    document.addEventListener('DOMContentLoaded', function () {
+        const lat   = document.getElementById('hiddenLat').value;
+        const label = document.getElementById('hiddenLocationLabel').value;
+        const clearBtn = document.getElementById('locationClearBtn');
+        if (lat && label) {
+            document.getElementById('locationBadgeText').textContent = label.split(',')[0];
+            document.getElementById('locationActiveBadge').style.display = 'inline-flex';
+            if (clearBtn) clearBtn.style.display = 'block';
+        }
+    });
+</script>
+
+<script>
+    // ══ GOONG PLACES AUTOCOMPLETE ══════════════════════════════════════════
+    const GOONG_API_KEY = 'MfQYQasRyhJp6OkpEOlOAW8GwrhVgz043MK0WDvx';
+    let _autocompleteTimer = null;
+
+    const locationInput  = document.getElementById('locationInput');
+    const suggestions    = document.getElementById('locationSuggestions');
+    const clearBtn       = document.getElementById('locationClearBtn');
+    const hiddenLat      = document.getElementById('hiddenLat');
+    const hiddenLng      = document.getElementById('hiddenLng');
+    const hiddenLabel    = document.getElementById('hiddenLocationLabel');
+    const activeBadge    = document.getElementById('locationActiveBadge');
+    const badgeText      = document.getElementById('locationBadgeText');
+
+    locationInput.addEventListener('input', function () {
+        const q = this.value.trim();
+        clearBtn.style.display = q ? 'block' : 'none';
+        if (!q) { clearLocation(); return; }
+        clearTimeout(_autocompleteTimer);
+        _autocompleteTimer = setTimeout(() => fetchSuggestions(q), 350);
+    });
+
+    function fetchSuggestions(query) {
+        fetch(`https://rsapi.goong.io/Place/AutoComplete?api_key=${GOONG_API_KEY}&input=${encodeURIComponent(query)}`)
+            .then(r => r.json())
+            .then(data => {
+                suggestions.innerHTML = '';
+                if (!data.predictions || !data.predictions.length) {
+                    suggestions.style.display = 'none'; return;
+                }
+                data.predictions.forEach(p => {
+                    const item = document.createElement('div');
+                    item.className = 'suggest-item';
+                    const parts = p.description.split(',');
+                    const main  = parts[0] || p.description;
+                    const sub   = parts.slice(1).join(',').trim();
+                    item.textContent = p.description;
+                    item.addEventListener('click', () => selectPlace(p));
+                    suggestions.appendChild(item);
+                });
+                suggestions.style.display = 'block';
+            })
+            .catch(() => { suggestions.style.display = 'none'; });
+    }
+
+    function selectPlace(prediction) {
+        locationInput.value = prediction.description;
+        suggestions.style.display = 'none';
+        clearBtn.style.display = 'block';
+
+        fetch(`https://rsapi.goong.io/Place/Detail?api_key=${GOONG_API_KEY}&place_id=${prediction.place_id}`)
+            .then(r => r.json())
+            .then(data => {
+                const loc = data.result?.geometry?.location;
+                if (!loc) return;
+                hiddenLat.value   = loc.lat;
+                hiddenLng.value   = loc.lng;
+                hiddenLabel.value = prediction.description;
+                // Cập nhật filter object để loadBuildings dùng
+                filter.lat           = loc.lat;
+                filter.lng           = loc.lng;
+                filter.locationLabel = prediction.description;
+                // Hiện badge
+                badgeText.textContent = prediction.description.split(',')[0];
+                activeBadge.style.display = 'inline-flex';
+            })
+            .catch(() => {});
+    }
+
+    function clearLocation() {
+        locationInput.value  = '';
+        hiddenLat.value      = '';
+        hiddenLng.value      = '';
+        hiddenLabel.value    = '';
+        filter.lat           = null;
+        filter.lng           = null;
+        filter.locationLabel = null;
+        suggestions.style.display   = 'none';
+        clearBtn.style.display      = 'none';
+        activeBadge.style.display   = 'none';
+    }
+
+    // Đóng dropdown khi click ra ngoài
+    document.addEventListener('click', function (e) {
+        if (!locationInput.contains(e.target) && !suggestions.contains(e.target))
+            suggestions.style.display = 'none';
+    });
+
+    // Điều hướng bàn phím
+    locationInput.addEventListener('keydown', function (e) {
+        const items  = suggestions.querySelectorAll('.suggest-item');
+        const active = suggestions.querySelector('.suggest-item.active');
+        let idx = Array.from(items).indexOf(active);
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (active) active.classList.remove('active');
+            (items[idx + 1] || items[0])?.classList.add('active');
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (active) active.classList.remove('active');
+            (items[idx - 1] || items[items.length - 1])?.classList.add('active');
+        } else if (e.key === 'Enter' && active) {
+            e.preventDefault(); active.click();
+        } else if (e.key === 'Escape') {
+            suggestions.style.display = 'none';
+        }
+    });
+</script>
 </body>
 
 </html>

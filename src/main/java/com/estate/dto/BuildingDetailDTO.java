@@ -6,9 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Getter
@@ -18,15 +16,20 @@ import java.util.Map;
 public class BuildingDetailDTO {
     private Long id;
     private String name;
-    private String district;
-    private String ward;
-    private String street;
+    private String address;
     private Integer numberOfFloor;
     private Integer numberOfBasement;
     private Integer floorArea;
     private String direction;
     private String level;
+
+    private String propertyType;
+    private String transactionType;
+
     private BigDecimal rentPrice;
+
+    private BigDecimal salePrice;
+
     private BigDecimal serviceFee;
     private BigDecimal carFee;
     private BigDecimal motorbikeFee;
@@ -35,6 +38,11 @@ public class BuildingDetailDTO {
     private BigDecimal deposit;
     private String linkOfBuilding;
     private String image;
+
+    private BigDecimal latitude;
+    private BigDecimal longitude;
+
     private String rentAreaValues;
+
     private Map<String, Long> staffs = new HashMap<>();
 }

@@ -43,4 +43,9 @@ public class BuildingFilterDTO {
     private BigDecimal electricityFeeFrom;
     private BigDecimal electricityFeeTo;
     private Long staffId;
+
+    private Double lat;
+    private Double lng;
+    private Integer radius;      // đơn vị: mét, mặc định 1000
+    private String locationLabel; // lưu tên địa điểm để hiển thị lại trên form
 }

@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -49,6 +50,54 @@ public class BuildingServiceImpl implements BuildingService {
     @Autowired
     private BuildingDetailConverter buildingDetailConverter;
 
+    // ═══════════════════════════════════════════════════════════════════════
+    // Haversine — tính khoảng cách (mét) giữa 2 tọa độ
+    // ═══════════════════════════════════════════════════════════════════════
+    private static final double EARTH_RADIUS_METERS = 6_371_000.0;
+
+    private double haversine(double lat1, double lng1, double lat2, double lng2) {
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLng = Math.toRadians(lng2 - lng1);
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
+                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                * Math.sin(dLng / 2) * Math.sin(dLng / 2);
+        return EARTH_RADIUS_METERS * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // Kiểm tra filter có yêu cầu lọc theo vị trí không
+    // ═══════════════════════════════════════════════════════════════════════
+    private boolean hasLocationFilter(BuildingFilterDTO filter) {
+        return filter.getLat() != null && filter.getLng() != null;
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // Lọc danh sách entity theo bán kính Haversine
+    // ═══════════════════════════════════════════════════════════════════════
+    private List<BuildingEntity> filterByLocation(List<BuildingEntity> buildings, BuildingFilterDTO filter) {
+        double lat    = filter.getLat();
+        double lng    = filter.getLng();
+        int    radius = filter.getRadius() != null ? filter.getRadius() : 1000;
+
+        return buildings.stream()
+                .filter(b -> b.getLatitude() != null && b.getLongitude() != null)
+                .filter(b -> haversine(lat, lng,
+                        b.getLatitude().doubleValue(),
+                        b.getLongitude().doubleValue()) <= radius)
+                .collect(Collectors.toList());
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // Phân trang thủ công từ một List đã được lọc
+    // ═══════════════════════════════════════════════════════════════════════
+    private <T> Page<T> toPage(List<T> list, Pageable pageable) {
+        int total = list.size();
+        int start = (int) pageable.getOffset();
+        int end   = Math.min(start + pageable.getPageSize(), total);
+        List<T> pageContent = (start >= total) ? Collections.emptyList() : list.subList(start, end);
+        return new PageImpl<>(pageContent, pageable, total);
+    }
+
     @Override
     public long countAll() {
         return buildingRepository.count();
@@ -58,16 +107,10 @@ public class BuildingServiceImpl implements BuildingService {
     public List<BuildingListDTO> findRecent() {
         List<BuildingEntity> buildingEntities = buildingRepository.findRecentBuildings(PageRequest.of(0, 5));
         List<BuildingListDTO> result = new ArrayList<>();
-
         for (BuildingEntity b : buildingEntities) {
-            // Lấy danh sách tên nhân viên quản lý
             List<String> staffNames = staffRepository.findStaffNamesByBuildingId(b.getId());
-            String staffNamesStr = String.join(" - ", staffNames);
-
-            // Map sang DTO
-            result.add(buildingListConverter.toDto(b, staffNamesStr));
+            result.add(buildingListConverter.toDto(b, String.join(" - ", staffNames)));
         }
-
         return result;
     }
 
@@ -84,58 +127,50 @@ public class BuildingServiceImpl implements BuildingService {
     @Override
     public Page<BuildingListDTO> getBuildings(int page, int size) {
         Page<BuildingEntity> buildingPage = buildingRepository.findAll(PageRequest.of(page, size));
-
-        // Tạo list chứa DTO
         List<BuildingListDTO> dtoList = new ArrayList<>();
-
-        // Duyệt qua từng BuildingEntity
         for (BuildingEntity b : buildingPage) {
             List<String> managersName = staffRepository.findStaffNamesByBuildingId(b.getId());
-            String managerNameStr = String.join(" - ", managersName);
-
-            // Convert entity sang DTO, có thêm managerName
-            BuildingListDTO dto = buildingListConverter.toDto(b, managerNameStr);
-
-            dtoList.add(dto);
+            dtoList.add(buildingListConverter.toDto(b, String.join(" - ", managersName)));
         }
-
-        // Tạo PageImpl giữ nguyên thông tin phân trang gốc
-        Page<BuildingListDTO> result = new PageImpl<>(
-                dtoList,
-                buildingPage.getPageable(),
-                buildingPage.getTotalElements()
-        );
-
-        return result;
+        return new PageImpl<>(dtoList, buildingPage.getPageable(), buildingPage.getTotalElements());
     }
 
     @Override
     public Page<BuildingListDTO> search(BuildingFilterDTO filter, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<BuildingEntity> buildingPage = buildingRepository.searchBuildings(filter, pageable);
 
-        // Tạo list chứa DTO
-        List<BuildingListDTO> dtoList = new ArrayList<>();
+        // ── Trường hợp có lọc theo vị trí ───────────────────────────────
+        // Phải lấy TẤT CẢ kết quả khớp filter DB trước, rồi mới lọc
+        // Haversine, sau đó tự phân trang — nếu để DB phân trang trước thì
+        // tổng số trang sẽ sai (DB không biết bao nhiêu bản ghi sẽ bị loại)
+        if (hasLocationFilter(filter)) {
+            // Lấy toàn bộ, không giới hạn trang
+            Page<BuildingEntity> allMatchedPage =
+                    buildingRepository.searchBuildings(filter, PageRequest.of(0, Integer.MAX_VALUE));
 
-        // Duyệt qua từng BuildingEntity
-        for (BuildingEntity b : buildingPage) {
-            List<String> managersName = staffRepository.findStaffNamesByBuildingId(b.getId());
-            String managerNameStr = String.join(" - ", managersName);
+            // Lọc theo khoảng cách
+            List<BuildingEntity> filtered = filterByLocation(allMatchedPage.getContent(), filter);
 
-            // Convert entity sang DTO, có thêm managerName
-            BuildingListDTO dto = buildingListConverter.toDto(b, managerNameStr);
+            // Convert sang DTO
+            List<BuildingListDTO> dtoList = filtered.stream()
+                    .map(b -> {
+                        List<String> names = staffRepository.findStaffNamesByBuildingId(b.getId());
+                        return buildingListConverter.toDto(b, String.join(" - ", names));
+                    })
+                    .collect(Collectors.toList());
 
-            dtoList.add(dto);
+            // Phân trang thủ công
+            return toPage(dtoList, pageable);
         }
 
-        // Tạo PageImpl giữ nguyên thông tin phân trang gốc
-        Page<BuildingListDTO> result = new PageImpl<>(
-                dtoList,
-                buildingPage.getPageable(),
-                buildingPage.getTotalElements()
-        );
-
-        return result;
+        // ── Trường hợp thông thường — giữ nguyên logic cũ ───────────────
+        Page<BuildingEntity> buildingPage = buildingRepository.searchBuildings(filter, pageable);
+        List<BuildingListDTO> dtoList = new ArrayList<>();
+        for (BuildingEntity b : buildingPage) {
+            List<String> managersName = staffRepository.findStaffNamesByBuildingId(b.getId());
+            dtoList.add(buildingListConverter.toDto(b, String.join(" - ", managersName)));
+        }
+        return new PageImpl<>(dtoList, buildingPage.getPageable(), buildingPage.getTotalElements());
     }
 
     @Override
@@ -150,28 +185,22 @@ public class BuildingServiceImpl implements BuildingService {
 
     @Override
     public void save(BuildingFormDTO dto) {
-
         BuildingEntity entity;
-
         if (dto.getId() != null) {
             entity = buildingRepository.findById(dto.getId())
                     .orElseThrow(() -> new BusinessException("Không tìm thấy tòa nhà để sửa"));
         } else {
             entity = new BuildingEntity();
         }
-
         buildingFormConverter.toEntity(entity, dto);
-
         buildingRepository.save(entity);
     }
-
 
     @Override
     public BuildingFormDTO findById(Long id) {
         BuildingEntity buildingEntity = buildingRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("Không tìm thấy tòa nhà"));
-        BuildingFormDTO buildingFormDTO = buildingFormConverter.toDTO(buildingEntity);
-        return buildingFormDTO;
+        return buildingFormConverter.toDTO(buildingEntity);
     }
 
     @Override
@@ -189,9 +218,8 @@ public class BuildingServiceImpl implements BuildingService {
     @Override
     public BuildingDetailDTO viewById(Long id) {
         BuildingEntity buildingEntity = buildingRepository.findById(id)
-                .orElseThrow(() -> new BusinessException("Không tìm thấy tòa nhà"));
-        BuildingDetailDTO buildingDetailDTO = buildingDetailConverter.toDTO(buildingEntity);
-        return buildingDetailDTO;
+                .orElseThrow(() -> new BusinessException("Không tìm thấy bất động sản"));
+        return buildingDetailConverter.toDTO(buildingEntity);
     }
 
     @Override
@@ -207,43 +235,38 @@ public class BuildingServiceImpl implements BuildingService {
     @Override
     public List<BuildingDetailDTO> searchByCustomer(BuildingFilterDTO filter) {
         List<BuildingEntity> buildings = buildingRepository.searchBuildingsByCustomer(filter);
-
-        // Tạo list chứa DTO
         List<BuildingDetailDTO> dtoList = new ArrayList<>();
-
-        // Duyệt qua từng BuildingEntity
         for (BuildingEntity b : buildings) {
-            BuildingDetailDTO dto = buildingDetailConverter.toDTO(b);
-            dtoList.add(dto);
+            dtoList.add(buildingDetailConverter.toDTO(b));
         }
-
         return dtoList;
     }
 
     @Override
     public Page<BuildingDetailDTO> searchByStaff(BuildingFilterDTO filter, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<BuildingEntity> buildingPage = buildingRepository.searchBuildings(filter, pageable);
 
-        // Tạo list chứa DTO
-        List<BuildingDetailDTO> dtoList = new ArrayList<>();
-
-        // Duyệt qua từng BuildingEntity
-        for (BuildingEntity b : buildingPage) {
-            List<String> managersName = staffRepository.findStaffNamesByBuildingId(b.getId());
-            // Convert entity sang DTO, có thêm managerName
-            BuildingDetailDTO dto = buildingDetailConverter.toDTO(b);
-
-            dtoList.add(dto);
+        // Nếu có lọc vị trí — lấy tất cả rồi lọc Haversine rồi phân trang thủ công
+        if (hasLocationFilter(filter)) {
+            Page<BuildingEntity> allMatchedPage =
+                    buildingRepository.searchBuildings(filter, PageRequest.of(0, Integer.MAX_VALUE));
+            List<BuildingEntity> filtered = filterByLocation(allMatchedPage.getContent(), filter);
+            List<BuildingDetailDTO> dtoList = filtered.stream()
+                    .map(buildingDetailConverter::toDTO)
+                    .collect(Collectors.toList());
+            return toPage(dtoList, pageable);
         }
 
-        // Tạo PageImpl giữ nguyên thông tin phân trang gốc
-        Page<BuildingDetailDTO> result = new PageImpl<>(
-                dtoList,
-                buildingPage.getPageable(),
-                buildingPage.getTotalElements()
-        );
+        Page<BuildingEntity> buildingPage = buildingRepository.searchBuildings(filter, pageable);
+        List<BuildingDetailDTO> dtoList = new ArrayList<>();
+        for (BuildingEntity b : buildingPage) {
+            dtoList.add(buildingDetailConverter.toDTO(b));
+        }
+        return new PageImpl<>(dtoList, buildingPage.getPageable(), buildingPage.getTotalElements());
+    }
 
-        return result;
+    @Override
+    public boolean isStaffManagesBuilding(Long staffId, Long buildingId) {
+        return buildingRepository.isStaffManagesBuilding(staffId, buildingId);
     }
 }

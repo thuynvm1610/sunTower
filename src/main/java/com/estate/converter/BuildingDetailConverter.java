@@ -2,6 +2,7 @@ package com.estate.converter;
 
 import com.estate.dto.BuildingDetailDTO;
 import com.estate.repository.entity.BuildingEntity;
+import com.estate.repository.entity.StaffEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,16 +17,23 @@ public class BuildingDetailConverter {
     public BuildingDetailDTO toDTO(BuildingEntity entity) {
         BuildingDetailDTO dto = modelMapper.map(entity, BuildingDetailDTO.class);
 
+        String address = String.join(", ",
+                safe(entity.getStreet()),
+                safe(entity.getWard()),
+                safe(entity.getDistrict().getName())
+        );
+        dto.setAddress(address);
+
+        dto.setPropertyType(entity.getPropertyType().name());
+
+        dto.setTransactionType(entity.getTransactionType().name());
+
         if (entity.getDirection() != null) {
             dto.setDirection(entity.getDirection().getLabel());
         }
 
         if (entity.getLevel() != null) {
             dto.setLevel(entity.getLevel().getLabel());
-        }
-
-        if (entity.getDistrict() != null) {
-            dto.setDistrict(entity.getDistrict().getName());
         }
 
         if (entity.getRentAreas() != null && !entity.getRentAreas().isEmpty()) {
@@ -40,11 +48,15 @@ public class BuildingDetailConverter {
                     entity.getStaffs_buildings()
                             .stream()
                             .collect(Collectors.toMap(
-                                    s -> s.getFullName(),   // key
-                                    s -> s.getId()          // value
+                                    StaffEntity::getFullName,
+                                    StaffEntity::getId
                             ))
             );
         }
         return dto;
+    }
+
+    private String safe(String s) {
+        return s == null ? "" : s;
     }
 }

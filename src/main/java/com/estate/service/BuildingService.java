@@ -24,4 +24,5 @@ public interface BuildingService {
     Map<String, Long> getBuildingsName();
     List<BuildingDetailDTO> searchByCustomer(BuildingFilterDTO filter);
     Page<BuildingDetailDTO> searchByStaff(BuildingFilterDTO filter, int page, int size);
+    boolean isStaffManagesBuilding(Long staffId, Long buildingId);
 }
