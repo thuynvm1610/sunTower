@@ -50,54 +50,6 @@ public class BuildingServiceImpl implements BuildingService {
     @Autowired
     private BuildingDetailConverter buildingDetailConverter;
 
-    // ═══════════════════════════════════════════════════════════════════════
-    // Haversine — tính khoảng cách (mét) giữa 2 tọa độ
-    // ═══════════════════════════════════════════════════════════════════════
-    private static final double EARTH_RADIUS_METERS = 6_371_000.0;
-
-    private double haversine(double lat1, double lng1, double lat2, double lng2) {
-        double dLat = Math.toRadians(lat2 - lat1);
-        double dLng = Math.toRadians(lng2 - lng1);
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
-                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
-                * Math.sin(dLng / 2) * Math.sin(dLng / 2);
-        return EARTH_RADIUS_METERS * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    }
-
-    // ═══════════════════════════════════════════════════════════════════════
-    // Kiểm tra filter có yêu cầu lọc theo vị trí không
-    // ═══════════════════════════════════════════════════════════════════════
-    private boolean hasLocationFilter(BuildingFilterDTO filter) {
-        return filter.getLat() != null && filter.getLng() != null;
-    }
-
-    // ═══════════════════════════════════════════════════════════════════════
-    // Lọc danh sách entity theo bán kính Haversine
-    // ═══════════════════════════════════════════════════════════════════════
-    private List<BuildingEntity> filterByLocation(List<BuildingEntity> buildings, BuildingFilterDTO filter) {
-        double lat    = filter.getLat();
-        double lng    = filter.getLng();
-        int    radius = filter.getRadius() != null ? filter.getRadius() : 1000;
-
-        return buildings.stream()
-                .filter(b -> b.getLatitude() != null && b.getLongitude() != null)
-                .filter(b -> haversine(lat, lng,
-                        b.getLatitude().doubleValue(),
-                        b.getLongitude().doubleValue()) <= radius)
-                .collect(Collectors.toList());
-    }
-
-    // ═══════════════════════════════════════════════════════════════════════
-    // Phân trang thủ công từ một List đã được lọc
-    // ═══════════════════════════════════════════════════════════════════════
-    private <T> Page<T> toPage(List<T> list, Pageable pageable) {
-        int total = list.size();
-        int start = (int) pageable.getOffset();
-        int end   = Math.min(start + pageable.getPageSize(), total);
-        List<T> pageContent = (start >= total) ? Collections.emptyList() : list.subList(start, end);
-        return new PageImpl<>(pageContent, pageable, total);
-    }
-
     @Override
     public long countAll() {
         return buildingRepository.count();
@@ -139,11 +91,11 @@ public class BuildingServiceImpl implements BuildingService {
     public Page<BuildingListDTO> search(BuildingFilterDTO filter, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
 
-        // ── Trường hợp có lọc theo vị trí ───────────────────────────────
-        // Phải lấy TẤT CẢ kết quả khớp filter DB trước, rồi mới lọc
-        // Haversine, sau đó tự phân trang — nếu để DB phân trang trước thì
+        // ─────────── Trường hợp có lọc theo vị trí ────────────
+        // Phải lấy TẤT CẢ kết quả khớp filter DB trước, rồi mới lọc Haversine
+        // sau đó tự phân trang, nếu để DB phân trang trước thì
         // tổng số trang sẽ sai (DB không biết bao nhiêu bản ghi sẽ bị loại)
-        if (hasLocationFilter(filter)) {
+        if (filter.getLat() != null && filter.getLng() != null) {
             // Lấy toàn bộ, không giới hạn trang
             Page<BuildingEntity> allMatchedPage =
                     buildingRepository.searchBuildings(filter, PageRequest.of(0, Integer.MAX_VALUE));
@@ -171,6 +123,44 @@ public class BuildingServiceImpl implements BuildingService {
             dtoList.add(buildingListConverter.toDto(b, String.join(" - ", managersName)));
         }
         return new PageImpl<>(dtoList, buildingPage.getPageable(), buildingPage.getTotalElements());
+    }
+
+    // Haversine — tính khoảng cách (mét) giữa 2 tọa độ
+    private static final double EARTH_RADIUS_METERS = 6_371_000.0;
+
+    private double haversine(double lat1, double lng1, double lat2, double lng2) {
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLng = Math.toRadians(lng2 - lng1);
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
+                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                * Math.sin(dLng / 2) * Math.sin(dLng / 2);
+        return EARTH_RADIUS_METERS * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    }
+
+    // Lọc danh sách entity theo bán kính Haversine
+    private List<BuildingEntity> filterByLocation(List<BuildingEntity> buildings, BuildingFilterDTO filter) {
+        double lat = filter.getLat();
+        double lng = filter.getLng();
+        int radius = filter.getRadius() != null ? filter.getRadius() : 1000;
+
+        return buildings.stream()
+                .filter(b -> b.getLatitude() != null && b.getLongitude() != null)
+                .filter(b -> haversine(
+                        lat,
+                        lng,
+                        b.getLatitude().doubleValue(),
+                        b.getLongitude().doubleValue()) <= radius
+                )
+                .collect(Collectors.toList());
+    }
+
+    // Phân trang thủ công từ một List đã được lọc
+    private <T> Page<T> toPage(List<T> list, Pageable pageable) {
+        int total = list.size();
+        int start = (int) pageable.getOffset();
+        int end = Math.min(start + pageable.getPageSize(), total);
+        List<T> pageContent = (start >= total) ? Collections.emptyList() : list.subList(start, end);
+        return new PageImpl<>(pageContent, pageable, total);
     }
 
     @Override
@@ -247,7 +237,7 @@ public class BuildingServiceImpl implements BuildingService {
         Pageable pageable = PageRequest.of(page, size);
 
         // Nếu có lọc vị trí — lấy tất cả rồi lọc Haversine rồi phân trang thủ công
-        if (hasLocationFilter(filter)) {
+        if (filter.getLat() != null && filter.getLng() != null) {
             Page<BuildingEntity> allMatchedPage =
                     buildingRepository.searchBuildings(filter, PageRequest.of(0, Integer.MAX_VALUE));
             List<BuildingEntity> filtered = filterByLocation(allMatchedPage.getContent(), filter);
@@ -257,6 +247,7 @@ public class BuildingServiceImpl implements BuildingService {
             return toPage(dtoList, pageable);
         }
 
+        // Nếu không có lọc theo vị trí -> Logic cũ
         Page<BuildingEntity> buildingPage = buildingRepository.searchBuildings(filter, pageable);
         List<BuildingDetailDTO> dtoList = new ArrayList<>();
         for (BuildingEntity b : buildingPage) {

@@ -9,6 +9,4 @@ import java.util.List;
 public interface PlanningMapRepository extends JpaRepository<PlanningMapEntity, Long> {
 
     List<PlanningMapEntity> findByBuildingId(Long buildingId);
-
-    void deleteByBuildingId(Long buildingId);
 }

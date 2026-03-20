@@ -96,7 +96,10 @@
             gap: 0.375rem;
         }
 
-        .filter-title i { color: #3b82f6; font-size: 0.8rem; }
+        .filter-title i {
+            color: #3b82f6;
+            font-size: 0.8rem;
+        }
 
         .btn-toggle-filter {
             background: #f3f4f6;
@@ -111,9 +114,18 @@
             transition: background 0.2s;
         }
 
-        .btn-toggle-filter:hover { background: #e5e7eb; }
-        .btn-toggle-filter i { transition: transform 0.25s ease; font-size: 0.75rem; }
-        .btn-toggle-filter.collapsed i { transform: rotate(180deg); }
+        .btn-toggle-filter:hover {
+            background: #e5e7eb;
+        }
+
+        .btn-toggle-filter i {
+            transition: transform 0.25s ease;
+            font-size: 0.75rem;
+        }
+
+        .btn-toggle-filter.collapsed i {
+            transform: rotate(180deg);
+        }
 
         .filter-body {
             max-height: 800px;
@@ -122,7 +134,10 @@
             opacity: 1;
         }
 
-        .filter-body.collapsed { max-height: 0; opacity: 0; }
+        .filter-body.collapsed {
+            max-height: 0;
+            opacity: 0;
+        }
 
         .filter-section-title {
             font-size: 0.7rem;
@@ -137,7 +152,9 @@
             gap: 0.35rem;
         }
 
-        .filter-section-title i { color: #3b82f6; }
+        .filter-section-title i {
+            color: #3b82f6;
+        }
 
         .filter-card .form-label {
             font-size: 0.8125rem;
@@ -191,8 +208,14 @@
             font-weight: 600 !important;
         }
 
-        .filter-card .row { --bs-gutter-x: 0.625rem; --bs-gutter-y: 0.5rem; }
-        .filter-card .mb-4 { margin-bottom: 0.625rem !important; }
+        .filter-card .row {
+            --bs-gutter-x: 0.625rem;
+            --bs-gutter-y: 0.5rem;
+        }
+
+        .filter-card .mb-4 {
+            margin-bottom: 0.625rem !important;
+        }
 
         .range-inputs {
             display: flex;
@@ -200,7 +223,10 @@
             gap: 4px;
         }
 
-        .range-inputs .form-control { flex: 1; min-width: 0; }
+        .range-inputs .form-control {
+            flex: 1;
+            min-width: 0;
+        }
 
         .range-separator {
             color: #5E6978;
@@ -230,10 +256,23 @@
             height: 32px;
         }
 
-        .btn-filter.btn-reset  { background: #f3f4f6; color: #374151; }
-        .btn-filter.btn-reset:hover { background: #e5e7eb; }
-        .btn-filter.btn-search { background: #3b82f6; color: white; }
-        .btn-filter.btn-search:hover { background: #2563eb; }
+        .btn-filter.btn-reset {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .btn-filter.btn-reset:hover {
+            background: #e5e7eb;
+        }
+
+        .btn-filter.btn-search {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-filter.btn-search:hover {
+            background: #2563eb;
+        }
 
         /* Result badge */
         .result-badge {
@@ -531,13 +570,35 @@
             white-space: nowrap;
         }
 
-        .prop-office    { background: #eff6ff; color: #1d4ed8; }
-        .prop-shophouse { background: #fef3c7; color: #92400e; }
-        .prop-apartment { background: #f0fdf4; color: #166534; }
-        .prop-warehouse { background: #fdf4ff; color: #7e22ce; }
+        .prop-office {
+            background: #eff6ff;
+            color: #1d4ed8;
+        }
 
-        .tx-for_rent { background: #f0f9ff; color: #0369a1; }
-        .tx-for_sale { background: #fff7ed; color: #c2410c; }
+        .prop-shophouse {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .prop-apartment {
+            background: #f0fdf4;
+            color: #166534;
+        }
+
+        .prop-warehouse {
+            background: #fdf4ff;
+            color: #7e22ce;
+        }
+
+        .tx-for_rent {
+            background: #f0f9ff;
+            color: #0369a1;
+        }
+
+        .tx-for_sale {
+            background: #fff7ed;
+            color: #c2410c;
+        }
 
         /* ── Slim Select override ── */
         .ss-main {
@@ -552,9 +613,11 @@
             cursor: pointer;
         }
 
-        .ss-main:focus, .ss-main.ss-open-below, .ss-main.ss-open-above {
+        .ss-main:focus,
+        .ss-main.ss-open-below,
+        .ss-main.ss-open-above {
             border-color: #3b82f6 !important;
-            box-shadow: 0 0 0 2px rgba(59,130,246,0.1) !important;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1) !important;
             outline: none !important;
         }
 
@@ -563,12 +626,15 @@
             line-height: 30px !important;
         }
 
-        .ss-main .placeholder { color: #9ca3af !important; font-size: 0.875rem !important; }
+        .ss-main .placeholder {
+            color: #9ca3af !important;
+            font-size: 0.875rem !important;
+        }
 
         .ss-content {
             border: 1px solid #e5e7eb !important;
             border-radius: 8px !important;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.1) !important;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
             z-index: 9999 !important;
         }
 
@@ -590,10 +656,22 @@
             overflow-y: auto !important;
         }
 
-        .ss-list::-webkit-scrollbar { width: 4px; }
-        .ss-list::-webkit-scrollbar-track { background: #f9fafb; }
-        .ss-list::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 2px; }
-        .ss-list::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+        .ss-list::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .ss-list::-webkit-scrollbar-track {
+            background: #f9fafb;
+        }
+
+        .ss-list::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 2px;
+        }
+
+        .ss-list::-webkit-scrollbar-thumb:hover {
+            background: #9ca3af;
+        }
 
         .ss-option {
             padding: 0.3rem 0.625rem !important;
@@ -602,13 +680,14 @@
             cursor: pointer;
         }
 
-        .ss-option:hover, .ss-option.ss-highlighted {
-            background: rgba(59,130,246,0.08) !important;
+        .ss-option:hover,
+        .ss-option.ss-highlighted {
+            background: rgba(59, 130, 246, 0.08) !important;
             color: #1d4ed8 !important;
         }
 
         .ss-option.ss-selected {
-            background: rgba(59,130,246,0.12) !important;
+            background: rgba(59, 130, 246, 0.12) !important;
             color: #1d4ed8 !important;
             font-weight: 600 !important;
         }
@@ -616,19 +695,44 @@
 
 
         /* ── Location search ── */
-        .location-search-wrap { position: relative; }
+        .location-search-wrap {
+            position: relative;
+        }
+
         .location-clear-btn {
-            position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%);
-            background: none; border: none; color: #9ca3af; cursor: pointer;
-            padding: 0; line-height: 1; display: none; font-size: 0.8rem;
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #9ca3af;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+            display: none;
+            font-size: 0.8rem;
         }
-        .location-clear-btn:hover { color: #ef4444; }
+
+        .location-clear-btn:hover {
+            color: #ef4444;
+        }
+
         #locationSuggestions {
-            position: absolute; top: calc(100% + 4px); left: 0; right: 0;
-            background: #fff; border: 1px solid #e5e7eb; border-radius: 8px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.1); z-index: 9999;
-            max-height: 220px; overflow-y: auto; display: none;
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            right: 0;
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            z-index: 9999;
+            max-height: 220px;
+            overflow-y: auto;
+            display: none;
         }
+
         #locationSuggestions .suggest-item {
             padding: 0.3rem 0.625rem;
             font-size: 0.875rem;
@@ -639,21 +743,58 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        #locationSuggestions .suggest-item:last-child { border-bottom: none; }
+
+        #locationSuggestions .suggest-item:last-child {
+            border-bottom: none;
+        }
+
         #locationSuggestions .suggest-item:hover,
-        #locationSuggestions .suggest-item.active { background: rgba(59,130,246,0.08); color: #1d4ed8; }
-        .radius-select-wrap { display: flex; align-items: center; gap: 0.4rem; }
+        #locationSuggestions .suggest-item.active {
+            background: rgba(59, 130, 246, 0.08);
+            color: #1d4ed8;
+        }
+
+        .radius-select-wrap {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
         .radius-select-wrap select {
-            height: 32px !important; border: 1px solid #e5e7eb; border-radius: 6px;
-            font-size: 0.875rem; padding: 0 0.5rem; color: #374151; background: #fff; cursor: pointer;
+            height: 32px !important;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            padding: 0 0.5rem;
+            color: #374151;
+            background: #fff;
+            cursor: pointer;
         }
-        .radius-select-wrap select:focus { border-color: #3b82f6; outline: none; box-shadow: 0 0 0 2px rgba(59,130,246,0.1); }
+
+        .radius-select-wrap select:focus {
+            border-color: #3b82f6;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+        }
+
         .location-active-badge {
-            display: inline-flex; align-items: center; gap: 0.3rem;
-            padding: 0.2rem 0.55rem; background: #eff6ff; border: 1px solid #bfdbfe;
-            border-radius: 20px; font-size: 0.75rem; font-weight: 600; color: #1d4ed8; margin-left: 0.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.2rem 0.55rem;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #1d4ed8;
+            margin-left: 0.5rem;
         }
-        .suggest-item.active { background: #eff6ff; color: #1d4ed8; }
+
+        .suggest-item.active {
+            background: #eff6ff;
+            color: #1d4ed8;
+        }
 
         /* ── ID badge ── */
         .id-badge {
@@ -681,472 +822,472 @@
 
         /* Cột ID */
         .modern-table th:nth-child(1),
-        .modern-table td:nth-child(1) { white-space: nowrap; }
-
+        .modern-table td:nth-child(1) {
+            white-space: nowrap;
+        }
     </style>
 </head>
 
 <body>
 
-<!-- HEADER + SIDEBAR -->
-<div th:replace="~{layout/header :: header}"></div>
-<div th:replace="~{layout/sidebar :: sidebar}"></div>
+    <!-- HEADER + SIDEBAR -->
+    <div th:replace="~{layout/header :: header}"></div>
+    <div th:replace="~{layout/sidebar :: sidebar}"></div>
 
-<main class="content">
-    <div class="container-fluid">
-        <!-- Page Header -->
-        <div class="page-header">
-            <h2>
-                <i class="bi bi-search"></i>
-                Kết quả tìm kiếm
-            </h2>
-            <a th:href="@{/admin/building/list}" class="btn-back">
-                <i class="bi bi-arrow-left"></i>
-                Quay lại danh sách
-            </a>
-        </div>
-
-        <!-- Result Badge -->
-        <div class="result-badge">
-            <i class="bi bi-check-circle-fill"></i>
-            <span>Tìm thấy <strong id="totalElements">0</strong> tòa nhà</span>
-        </div>
-
-        <!-- Table Card -->
-        <div class="table-card">
-            <div class="table-header">
-                Kết quả tìm kiếm
+    <main class="content">
+        <div class="container-fluid">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h2>
+                    <i class="bi bi-search"></i>
+                    Kết quả tìm kiếm
+                </h2>
+                <a th:href="@{/admin/building/list}" class="btn-back">
+                    <i class="bi bi-arrow-left"></i>
+                    Quay lại danh sách
+                </a>
             </div>
 
-            <div class="table-responsive">
-                <table class="table modern-table">
-                    <colgroup>
-                        <col style="width: 90px">   <!-- Mã -->
-                        <col style="width: 210px">  <!-- Tên tòa nhà -->
-                        <col style="width: 360px">  <!-- Địa chỉ -->
-                        <col style="width: 90px">   <!-- Hạng -->
-                        <col style="width: 170px">  <!-- Loại hình -->
-                        <col style="width: 120px">  <!-- Giao dịch -->
-                        <col>                       <!-- Hành động: chiếm phần còn lại -->
-                    </colgroup>
-                    <thead>
-                    <tr>
-                        <th>Mã</th>
-                        <th>Tên tòa nhà</th>
-                        <th>Địa chỉ</th>
-                        <th>Hạng</th>
-                        <th>Loại hình</th>
-                        <th>Giao dịch</th>
-                        <th style="text-align: center;">Hành động</th>
-                    </tr>
-                    </thead>
-
-                    <tbody id="buildingTableBody">
-                    <!-- dữ liệu sẽ được Ajax thêm vào -->
-                    </tbody>
-                </table>
+            <!-- Result Badge -->
+            <div class="result-badge">
+                <i class="bi bi-check-circle-fill"></i>
+                <span>Tìm thấy <strong id="totalElements">0</strong> bất động sản</span>
             </div>
-        </div>
-        <div class="separator"></div>
 
-        <!-- Pagination -->
-        <div id="pagination"></div>
-
-        <!-- Filter Card -->
-        <form class="filter-card" th:action="@{/admin/building/search}" method="get">
-            <div class="filter-header">
-                <div class="filter-title">
-                    <i class="bi bi-funnel"></i>
-                    Bộ lọc tìm kiếm
+            <!-- Table Card -->
+            <div class="table-card">
+                <div class="table-header">
+                    Kết quả tìm kiếm
                 </div>
-                <button type="button" class="btn-toggle-filter" onclick="toggleFilter()">
-                    <i class="bi bi-chevron-up" id="toggleIcon"></i>
-                </button>
-            </div>
 
-            <div class="filter-body" id="filterBody">
+                <div class="table-responsive">
+                    <table class="table modern-table">
+                        <colgroup>
+                            <col style="width: 90px"> <!-- Mã -->
+                            <col style="width: 210px"> <!-- Tên bất động sản -->
+                            <col style="width: 360px"> <!-- Địa chỉ -->
+                            <col style="width: 90px"> <!-- Hạng -->
+                            <col style="width: 170px"> <!-- Loại hình -->
+                            <col style="width: 120px"> <!-- Giao dịch -->
+                            <col> <!-- Hành động: chiếm phần còn lại -->
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>Mã</th>
+                                <th>Tên bất động sản</th>
+                                <th>Địa chỉ</th>
+                                <th>Hạng</th>
+                                <th>Loại hình</th>
+                                <th>Giao dịch</th>
+                                <th style="text-align: center;">Hành động</th>
+                            </tr>
+                        </thead>
 
-                <!-- Tìm kiếm theo vị trí -->
-                <div class="filter-section-title" style="margin-top:0.5rem;">
-                    <i class="bi bi-geo-alt-fill"></i> Tìm kiếm theo vị trí
-                    <span id="locationActiveBadge" class="location-active-badge" style="display:none;">
-                        <i class="bi bi-pin-map-fill"></i>
-                        <span id="locationBadgeText"></span>
-                    </span>
+                        <tbody id="buildingTableBody">
+                            <!-- dữ liệu sẽ được Ajax thêm vào -->
+                        </tbody>
+                    </table>
                 </div>
-                <div class="row g-3 mb-3">
-                    <div class="col-md-5">
-                        <label class="form-label">Địa chỉ</label>
-                        <div class="location-search-wrap" style="position:relative;">
-                            <input type="text" id="locationInput" class="form-control"
-                                   placeholder="VD: 200 Nguyễn Trãi, Hà Nội..." autocomplete="off"
-                                   th:value="${filter.locationLabel}">
-                            <button type="button" class="location-clear-btn" id="locationClearBtn" onclick="clearLocation()">
-                                <i class="bi bi-x-circle-fill"></i>
-                            </button>
-                            <div id="locationSuggestions"></div>
-                        </div>
-                        <input type="hidden" name="lat" id="hiddenLat" th:value="${filter.lat}">
-                        <input type="hidden" name="lng" id="hiddenLng" th:value="${filter.lng}">
-                        <input type="hidden" name="locationLabel" id="hiddenLocationLabel" th:value="${filter.locationLabel}">
+            </div>
+            <div class="separator"></div>
+
+            <!-- Pagination -->
+            <div id="pagination"></div>
+
+            <!-- Filter Card -->
+            <form class="filter-card" th:action="@{/admin/building/search}" method="get">
+                <div class="filter-header">
+                    <div class="filter-title">
+                        <i class="bi bi-funnel"></i>
+                        Bộ lọc tìm kiếm
                     </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Bán kính tìm kiếm</label>
-                        <div class="radius-select-wrap">
-                            <i class="bi bi-circle" style="color:#3b82f6;font-size:0.8rem;"></i>
-                            <select name="radius" id="radiusSelect">
-                                <option value="500"   th:selected="${filter.radius == 500}">500 m</option>
-                                <option value="1000"  th:selected="${filter.radius == 1000 or filter.radius == null}">1 km</option>
-                                <option value="2000"  th:selected="${filter.radius == 2000}">2 km</option>
-                                <option value="3000"  th:selected="${filter.radius == 3000}">3 km</option>
-                                <option value="5000"  th:selected="${filter.radius == 5000}">5 km</option>
-                                <option value="10000" th:selected="${filter.radius == 10000}">10 km</option>
+                    <button type="button" class="btn-toggle-filter" onclick="toggleFilter()">
+                        <i class="bi bi-chevron-up" id="toggleIcon"></i>
+                    </button>
+                </div>
+
+                <div class="filter-body" id="filterBody">
+
+                    <!-- Tìm kiếm theo vị trí -->
+                    <div class="filter-section-title" style="margin-top:0.5rem;">
+                        <i class="bi bi-geo-alt-fill"></i> Tìm kiếm theo vị trí
+                        <span id="locationActiveBadge" class="location-active-badge" style="display:none;">
+                            <i class="bi bi-pin-map-fill"></i>
+                            <span id="locationBadgeText"></span>
+                        </span>
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-5">
+                            <label class="form-label">Địa chỉ</label>
+                            <div class="location-search-wrap" style="position:relative;">
+                                <input type="text" id="locationInput" class="form-control"
+                                    placeholder="VD: 200 Nguyễn Trãi, Hà Nội..." autocomplete="off"
+                                    th:value="${filter.locationLabel}">
+                                <button type="button" class="location-clear-btn" id="locationClearBtn"
+                                    onclick="clearLocation()">
+                                    <i class="bi bi-x-circle-fill"></i>
+                                </button>
+                                <div id="locationSuggestions"></div>
+                            </div>
+                            <input type="hidden" name="lat" id="hiddenLat" th:value="${filter.lat}">
+                            <input type="hidden" name="lng" id="hiddenLng" th:value="${filter.lng}">
+                            <input type="hidden" name="locationLabel" id="hiddenLocationLabel"
+                                th:value="${filter.locationLabel}">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Bán kính tìm kiếm</label>
+                            <div class="radius-select-wrap">
+                                <i class="bi bi-circle" style="color:#3b82f6;font-size:0.8rem;"></i>
+                                <select name="radius" id="radiusSelect">
+                                    <option value="500" th:selected="${filter.radius == 500}">500 m</option>
+                                    <option value="1000"
+                                        th:selected="${filter.radius == 1000 or filter.radius == null}">1 km</option>
+                                    <option value="2000" th:selected="${filter.radius == 2000}">2 km</option>
+                                    <option value="3000" th:selected="${filter.radius == 3000}">3 km</option>
+                                    <option value="5000" th:selected="${filter.radius == 5000}">5 km</option>
+                                    <option value="10000" th:selected="${filter.radius == 10000}">10 km</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Thông tin cơ bản -->
+                    <div class="filter-section-title">
+                        <i class="bi bi-info-circle"></i> Thông tin cơ bản
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <label class="form-label">Tên bất động sản</label>
+                            <input type="text" class="form-control" name="name" th:value="${filter.name}"
+                                placeholder="VD: Sun Tower">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Loại hình BĐS</label>
+                            <select class="form-control" name="propertyType">
+                                <option value="">-- Tất cả --</option>
+                                <option th:each="pt : ${propertyTypes}" th:value="${pt.name()}" th:text="${pt.label}"
+                                    th:selected="${pt.name() == filter.propertyType}">
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Loại giao dịch</label>
+                            <select class="form-control" name="transactionType">
+                                <option value="">-- Tất cả --</option>
+                                <option th:each="tt : ${transactionTypes}" th:value="${tt.name()}" th:text="${tt.label}"
+                                    th:selected="${tt.name() == filter.transactionType}">
+                                </option>
                             </select>
                         </div>
                     </div>
-                </div>
 
-                <!-- Thông tin cơ bản -->
-                <div class="filter-section-title">
-                    <i class="bi bi-info-circle"></i> Thông tin cơ bản
-                </div>
-
-                <div class="row mb-4">
-                    <div class="col-md-3">
-                        <label class="form-label">Tên tòa nhà</label>
-                        <input type="text" class="form-control" name="name" th:value="${filter.name}"
-                               placeholder="VD: Sun Tower">
+                    <!-- Đặc điểm bất động sản -->
+                    <div class="filter-section-title">
+                        <i class="bi bi-building"></i> Đặc điểm bất động sản
                     </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Loại hình BĐS</label>
-                        <select class="form-control" name="propertyType">
-                            <option value="">-- Tất cả --</option>
-                            <option th:each="pt : ${propertyTypes}"
-                                    th:value="${pt.name()}"
-                                    th:text="${pt.label}"
-                                    th:selected="${pt.name() == filter.propertyType}">
-                            </option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Loại giao dịch</label>
-                        <select class="form-control" name="transactionType">
-                            <option value="">-- Tất cả --</option>
-                            <option th:each="tt : ${transactionTypes}"
-                                    th:value="${tt.name()}"
-                                    th:text="${tt.label}"
-                                    th:selected="${tt.name() == filter.transactionType}">
-                            </option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Đặc điểm tòa nhà -->
-                <div class="filter-section-title">
-                    <i class="bi bi-building"></i> Đặc điểm tòa nhà
-                </div>
-                <div class="row mb-4">
-                    <div class="col-md-2">
-                        <label class="form-label">Số tầng</label>
-                        <div class="range-inputs">
-                            <input type="number" class="form-control" name="numberOfFloorFrom"
-                                   th:value="${filter.numberOfFloorFrom}" placeholder="Từ" min="0">
-                            <span class="range-separator">-</span>
-                            <input type="number" class="form-control" name="numberOfFloorTo"
-                                   th:value="${filter.numberOfFloorTo}" placeholder="Đến" min="0">
+                    <div class="row mb-4">
+                        <div class="col-md-2">
+                            <label class="form-label">Số tầng</label>
+                            <div class="range-inputs">
+                                <input type="number" class="form-control" name="numberOfFloorFrom"
+                                    th:value="${filter.numberOfFloorFrom}" placeholder="Từ" min="0">
+                                <span class="range-separator">-</span>
+                                <input type="number" class="form-control" name="numberOfFloorTo"
+                                    th:value="${filter.numberOfFloorTo}" placeholder="Đến" min="0">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="col-md-2">
-                        <label class="form-label">Số tầng hầm</label>
-                        <div class="range-inputs">
-                            <input type="number" class="form-control" name="numberOfBasementFrom"
-                                   th:value="${filter.numberOfBasementFrom}" placeholder="Từ" min="0">
-                            <span class="range-separator">-</span>
-                            <input type="number" class="form-control" name="numberOfBasementTo"
-                                   th:value="${filter.numberOfBasementTo}" placeholder="Đến" min="0">
+                        <div class="col-md-2">
+                            <label class="form-label">Số tầng hầm</label>
+                            <div class="range-inputs">
+                                <input type="number" class="form-control" name="numberOfBasementFrom"
+                                    th:value="${filter.numberOfBasementFrom}" placeholder="Từ" min="0">
+                                <span class="range-separator">-</span>
+                                <input type="number" class="form-control" name="numberOfBasementTo"
+                                    th:value="${filter.numberOfBasementTo}" placeholder="Đến" min="0">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="col-md-2">
-                        <label class="form-label">Diện tích sàn (m²)</label>
-                        <div class="range-inputs">
-                            <input type="number" class="form-control" name="floorAreaFrom"
-                                   th:value="${filter.floorAreaFrom}" placeholder="Từ" min="0">
-                            <span class="range-separator">-</span>
-                            <input type="number" class="form-control" name="floorAreaTo"
-                                   th:value="${filter.floorAreaTo}" placeholder="Đến" min="0">
+                        <div class="col-md-2">
+                            <label class="form-label">Diện tích sàn (m²)</label>
+                            <div class="range-inputs">
+                                <input type="number" class="form-control" name="floorAreaFrom"
+                                    th:value="${filter.floorAreaFrom}" placeholder="Từ" min="0">
+                                <span class="range-separator">-</span>
+                                <input type="number" class="form-control" name="floorAreaTo"
+                                    th:value="${filter.floorAreaTo}" placeholder="Đến" min="0">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="col-md-2">
-                        <label class="form-label">Diện tích thuê (m²)</label>
-                        <div class="range-inputs">
-                            <input type="number" class="form-control" name="rentAreaFrom"
-                                   th:value="${filter.rentAreaFrom}" placeholder="Từ" min="0">
-                            <span class="range-separator">-</span>
-                            <input type="number" class="form-control" name="rentAreaTo"
-                                   th:value="${filter.rentAreaTo}" placeholder="Đến" min="0">
+                        <div class="col-md-2">
+                            <label class="form-label">Diện tích thuê (m²)</label>
+                            <div class="range-inputs">
+                                <input type="number" class="form-control" name="rentAreaFrom"
+                                    th:value="${filter.rentAreaFrom}" placeholder="Từ" min="0">
+                                <span class="range-separator">-</span>
+                                <input type="number" class="form-control" name="rentAreaTo"
+                                    th:value="${filter.rentAreaTo}" placeholder="Đến" min="0">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="col-md-2">
-                        <label class="form-label">Hướng</label>
-                        <select class="form-control" name="direction" th:value="${filter.direction}">
-                            <option value="">-- Chọn hướng --</option>
-                            <option th:each="d : ${directions}" th:value="${d.name()}" th:text="${d.label}"
+                        <div class="col-md-2">
+                            <label class="form-label">Hướng</label>
+                            <select class="form-control" name="direction" th:value="${filter.direction}">
+                                <option value="">-- Chọn hướng --</option>
+                                <option th:each="d : ${directions}" th:value="${d.name()}" th:text="${d.label}"
                                     th:selected="${d == filter.direction}">
-                            </option>
-                        </select>
-                    </div>
+                                </option>
+                            </select>
+                        </div>
 
-                    <div class="col-md-2">
-                        <label class="form-label">Hạng</label>
-                        <select class="form-control" name="level" th:value="${filter.level}">
-                            <option value="">-- Chọn hạng --</option>
-                            <option th:each="l : ${levels}" th:value="${l.name()}" th:text="${l.label}"
+                        <div class="col-md-2">
+                            <label class="form-label">Hạng</label>
+                            <select class="form-control" name="level" th:value="${filter.level}">
+                                <option value="">-- Chọn hạng --</option>
+                                <option th:each="l : ${levels}" th:value="${l.name()}" th:text="${l.label}"
                                     th:selected="${l == filter.level}">
-                            </option>
-                        </select>
-                    </div>
+                                </option>
+                            </select>
+                        </div>
 
-                    <div class="col-md-2">
-                        <label class="form-label">Nhân viên quản lý</label>
-                        <select class="form-control" name="staffId">
-                            <option value="">-- Chọn quản lý --</option>
-                            <option th:each="m : ${managers}" th:value="${m.id}" th:text="${m.fullName}"
+                        <div class="col-md-2">
+                            <label class="form-label">Nhân viên quản lý</label>
+                            <select class="form-control" name="staffId">
+                                <option value="">-- Chọn quản lý --</option>
+                                <option th:each="m : ${managers}" th:value="${m.id}" th:text="${m.fullName}"
                                     th:selected="${m.id == filter.staffId}">
-                            </option>
-                        </select>
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Giá và phí -->
+                    <div class="filter-section-title">
+                        <i class="bi bi-cash-stack"></i> Giá và phí (VNĐ)
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label class="form-label">Giá thuê</label>
+                            <div class="range-inputs">
+                                <input type="number" class="form-control" name="rentPriceFrom"
+                                    th:value="${filter.rentPriceFrom}" placeholder="Từ" min="0">
+                                <span class="range-separator">-</span>
+                                <input type="number" class="form-control" name="rentPriceTo"
+                                    th:value="${filter.rentPriceTo}" placeholder="Đến" min="0">
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label class="form-label">Phí dịch vụ</label>
+                            <div class="range-inputs">
+                                <input type="number" class="form-control" name="serviceFeeFrom"
+                                    th:value="${filter.serviceFeeFrom}" placeholder="Từ" min="0">
+                                <span class="range-separator">-</span>
+                                <input type="number" class="form-control" name="serviceFeeTo"
+                                    th:value="${filter.serviceFeeTo}" placeholder="Đến" min="0">
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label class="form-label">Phí xe ô tô</label>
+                            <div class="range-inputs">
+                                <input type="number" class="form-control" name="carFeeFrom"
+                                    th:value="${filter.carFeeFrom}" placeholder="Từ" min="0">
+                                <span class="range-separator">-</span>
+                                <input type="number" class="form-control" name="carFeeTo" th:value="${filter.carFeeTo}"
+                                    placeholder="Đến" min="0">
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label class="form-label">Phí xe máy</label>
+                            <div class="range-inputs">
+                                <input type="number" class="form-control" name="motorbikeFeeFrom"
+                                    th:value="${filter.motorbikeFeeFrom}" placeholder="Từ" min="0">
+                                <span class="range-separator">-</span>
+                                <input type="number" class="form-control" name="motorbikeFeeTo"
+                                    th:value="${filter.motorbikeFeeTo}" placeholder="Đến" min="0">
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label class="form-label">Phí nước</label>
+                            <div class="range-inputs">
+                                <input type="number" class="form-control" name="waterFeeFrom"
+                                    th:value="${filter.waterFeeFrom}" placeholder="Từ" min="0">
+                                <span class="range-separator">-</span>
+                                <input type="number" class="form-control" name="waterFeeTo"
+                                    th:value="${filter.waterFeeTo}" placeholder="Đến" min="0">
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label class="form-label">Phí điện</label>
+                            <div class="range-inputs">
+                                <input type="number" class="form-control" name="electricityFeeFrom"
+                                    th:value="${filter.electricityFeeFrom}" placeholder="Từ" min="0">
+                                <span class="range-separator">-</span>
+                                <input type="number" class="form-control" name="electricityFeeTo"
+                                    th:value="${filter.electricityFeeTo}" placeholder="Đến" min="0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="filter-actions">
+                        <button type="button" class="btn-filter btn-reset" onclick="resetFilter()">
+                            <i class="bi bi-arrow-clockwise"></i>
+                            Reset
+                        </button>
+                        <button type="submit" class="btn-filter btn-search">
+                            <i class="bi bi-search"></i>
+                            Tìm kiếm
+                        </button>
                     </div>
                 </div>
+            </form>
 
-                <!-- Giá và phí -->
-                <div class="filter-section-title">
-                    <i class="bi bi-cash-stack"></i> Giá và phí (VNĐ)
-                </div>
-                <div class="row">
-                    <div class="col-md-2">
-                        <label class="form-label">Giá thuê</label>
-                        <div class="range-inputs">
-                            <input type="number" class="form-control" name="rentPriceFrom"
-                                   th:value="${filter.rentPriceFrom}" placeholder="Từ" min="0">
-                            <span class="range-separator">-</span>
-                            <input type="number" class="form-control" name="rentPriceTo"
-                                   th:value="${filter.rentPriceTo}" placeholder="Đến" min="0">
-                        </div>
-                    </div>
+        </div>
+    </main>
 
-                    <div class="col-md-2">
-                        <label class="form-label">Phí dịch vụ</label>
-                        <div class="range-inputs">
-                            <input type="number" class="form-control" name="serviceFeeFrom"
-                                   th:value="${filter.serviceFeeFrom}" placeholder="Từ" min="0">
-                            <span class="range-separator">-</span>
-                            <input type="number" class="form-control" name="serviceFeeTo"
-                                   th:value="${filter.serviceFeeTo}" placeholder="Đến" min="0">
-                        </div>
-                    </div>
+    <script src="https://cdn.jsdelivr.net/npm/slim-select@2/dist/slimselect.min.js"></script>
+    <!--Bootstrap-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- CDN SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!--JQuery-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-                    <div class="col-md-2">
-                        <label class="form-label">Phí xe ô tô</label>
-                        <div class="range-inputs">
-                            <input type="number" class="form-control" name="carFeeFrom"
-                                   th:value="${filter.carFeeFrom}" placeholder="Từ" min="0">
-                            <span class="range-separator">-</span>
-                            <input type="number" class="form-control" name="carFeeTo" th:value="${filter.carFeeTo}"
-                                   placeholder="Đến" min="0">
-                        </div>
-                    </div>
-
-                    <div class="col-md-2">
-                        <label class="form-label">Phí xe máy</label>
-                        <div class="range-inputs">
-                            <input type="number" class="form-control" name="motorbikeFeeFrom"
-                                   th:value="${filter.motorbikeFeeFrom}" placeholder="Từ" min="0">
-                            <span class="range-separator">-</span>
-                            <input type="number" class="form-control" name="motorbikeFeeTo"
-                                   th:value="${filter.motorbikeFeeTo}" placeholder="Đến" min="0">
-                        </div>
-                    </div>
-
-                    <div class="col-md-2">
-                        <label class="form-label">Phí nước</label>
-                        <div class="range-inputs">
-                            <input type="number" class="form-control" name="waterFeeFrom"
-                                   th:value="${filter.waterFeeFrom}" placeholder="Từ" min="0">
-                            <span class="range-separator">-</span>
-                            <input type="number" class="form-control" name="waterFeeTo"
-                                   th:value="${filter.waterFeeTo}" placeholder="Đến" min="0">
-                        </div>
-                    </div>
-
-                    <div class="col-md-2">
-                        <label class="form-label">Phí điện</label>
-                        <div class="range-inputs">
-                            <input type="number" class="form-control" name="electricityFeeFrom"
-                                   th:value="${filter.electricityFeeFrom}" placeholder="Từ" min="0">
-                            <span class="range-separator">-</span>
-                            <input type="number" class="form-control" name="electricityFeeTo"
-                                   th:value="${filter.electricityFeeTo}" placeholder="Đến" min="0">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="filter-actions">
-                    <button type="button" class="btn-filter btn-reset" onclick="resetFilter()">
-                        <i class="bi bi-arrow-clockwise"></i>
-                        Reset
-                    </button>
-                    <button type="submit" class="btn-filter btn-search">
-                        <i class="bi bi-search"></i>
-                        Tìm kiếm
-                    </button>
-                </div>
-            </div>
-        </form>
-
-    </div>
-</main>
-
-<script src="https://cdn.jsdelivr.net/npm/slim-select@2/dist/slimselect.min.js"></script>
-<!--Bootstrap-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- CDN SweetAlert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<!--JQuery-->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<script>
-    function resetFilter() {
-        document.querySelector('.filter-card').reset();
-        document.querySelectorAll('.filter-card input, .filter-card select')
-            .forEach(e => e.value = "");
-    }
-</script>
-
-<script>
-    function toggleFilter() {
-        const filterBody = document.getElementById('filterBody');
-        const toggleBtn = document.querySelector('.btn-toggle-filter');
-        const toggleIcon = document.getElementById('toggleIcon');
-
-        filterBody.classList.toggle('collapsed');
-        toggleBtn.classList.toggle('collapsed');
-
-        // Lưu trạng thái vào localStorage
-        const isCollapsed = filterBody.classList.contains('collapsed');
-        localStorage.setItem('filterCollapsed', isCollapsed);
-    }
-
-    // Khôi phục trạng thái khi tải trang
-    document.addEventListener('DOMContentLoaded', function () {
-        const filterBody = document.getElementById('filterBody');
-        const toggleBtn = document.querySelector('.btn-toggle-filter');
-        const isCollapsed = localStorage.getItem('filterCollapsed') === 'true';
-
-        if (isCollapsed) {
-            filterBody.classList.add('collapsed');
-            toggleBtn.classList.add('collapsed');
+    <script>
+        function resetFilter() {
+            document.querySelector('.filter-card').reset();
+            document.querySelectorAll('.filter-card input, .filter-card select')
+                .forEach(e => e.value = "");
         }
-    });
-</script>
+    </script>
 
-<script th:inline="javascript">
-    let filter = /*[[${filter}]]*/ {};
-</script>
+    <script>
+        function toggleFilter() {
+            const filterBody = document.getElementById('filterBody');
+            const toggleBtn = document.querySelector('.btn-toggle-filter');
+            const toggleIcon = document.getElementById('toggleIcon');
 
-<script>
-    let currentPage = 1;
-    const pageSize = 5;
-    const levelLabels = {
-        A_PLUS: "A+", A: "A", B_PLUS: "B+", B: "B", C_PLUS: "C+", C: "C"
-    };
+            filterBody.classList.toggle('collapsed');
+            toggleBtn.classList.toggle('collapsed');
 
-    const propertyLabels = {
-        OFFICE: "Văn phòng", SHOPHOUSE: "Nhà phố thương mại",
-        APARTMENT: "Căn hộ", WAREHOUSE: "Kho xưởng"
-    };
+            // Lưu trạng thái vào localStorage
+            const isCollapsed = filterBody.classList.contains('collapsed');
+            localStorage.setItem('filterCollapsed', isCollapsed);
+        }
 
-    const transactionLabels = {
-        FOR_RENT: "Cho thuê", FOR_SALE: "Mua bán"
-    };
+        // Khôi phục trạng thái khi tải trang
+        document.addEventListener('DOMContentLoaded', function () {
+            const filterBody = document.getElementById('filterBody');
+            const toggleBtn = document.querySelector('.btn-toggle-filter');
+            const isCollapsed = localStorage.getItem('filterCollapsed') === 'true';
 
-    // Hàm load dữ liệu bảng tòa nhà bằng Ajax
-    function loadBuildings(page, filter, event) {
-        if (event) event.preventDefault();
+            if (isCollapsed) {
+                filterBody.classList.add('collapsed');
+                toggleBtn.classList.add('collapsed');
+            }
+        });
+    </script>
 
-        $.ajax({
-            url: "/admin/building/search/page",
-            type: "GET",
-            data: {
-                page: page,
-                size: pageSize,
-                name: filter.name,
-                districtId: filter.districtId,
-                lat: filter.lat,
-                lng: filter.lng,
-                radius: filter.radius || 1000,
-                locationLabel: filter.locationLabel,
-                ward: filter.ward,
-                street: filter.street,
-                numberOfFloorFrom: filter.numberOfFloorFrom,
-                numberOfFloorTo: filter.numberOfFloorTo,
-                numberOfBasementFrom: filter.numberOfBasementFrom,
-                numberOfBasementTo: filter.numberOfBasementTo,
-                floorAreaFrom: filter.floorAreaFrom,
-                floorAreaTo: filter.floorAreaTo,
-                rentAreaFrom: filter.rentAreaFrom,
-                rentAreaTo: filter.rentAreaTo,
-                direction: filter.direction,
-                level: filter.level,
-                rentPriceFrom: filter.rentPriceFrom,
-                rentPriceTo: filter.rentPriceTo,
-                serviceFeeFrom: filter.serviceFeeFrom,
-                serviceFeeTo: filter.serviceFeeTo,
-                carFeeFrom: filter.carFeeFrom,
-                carFeeTo: filter.carFeeTo,
-                motorbikeFeeFrom: filter.motorbikeFeeFrom,
-                motorbikeFeeTo: filter.motorbikeFeeTo,
-                waterFeeFrom: filter.waterFeeFrom,
-                waterFeeTo: filter.waterFeeTo,
-                electricityFeeFrom: filter.electricityFeeFrom,
-                electricityFeeTo: filter.electricityFeeTo,
-                staffId: filter.staffId,
-                propertyType: filter.propertyType,
-                transactionType: filter.transactionType
-            },
-            success: function (data) {
-                currentPage = page;
-                const tbody = $("#buildingTableBody");
-                tbody.empty();
+    <script th:inline="javascript">
+        let filter = /*[[${filter}]]*/ {};
+    </script>
 
-                if (data.content.length === 0) {
-                    tbody.append(`
+    <script>
+        let currentPage = 1;
+        const pageSize = 5;
+        const levelLabels = {
+            A_PLUS: "A+", A: "A", B_PLUS: "B+", B: "B", C_PLUS: "C+", C: "C"
+        };
+
+        const propertyLabels = {
+            OFFICE: "Văn phòng", SHOPHOUSE: "Nhà phố thương mại",
+            APARTMENT: "Căn hộ", WAREHOUSE: "Kho xưởng"
+        };
+
+        const transactionLabels = {
+            FOR_RENT: "Cho thuê", FOR_SALE: "Mua bán"
+        };
+
+        // Hàm load dữ liệu bảng tòa nhà bằng Ajax
+        function loadBuildings(page, filter, event) {
+            if (event) event.preventDefault();
+
+            $.ajax({
+                url: "/admin/building/search/page",
+                type: "GET",
+                data: {
+                    page: page,
+                    size: pageSize,
+                    name: filter.name,
+                    districtId: filter.districtId,
+                    lat: filter.lat,
+                    lng: filter.lng,
+                    radius: filter.radius || 1000,
+                    locationLabel: filter.locationLabel,
+                    ward: filter.ward,
+                    street: filter.street,
+                    numberOfFloorFrom: filter.numberOfFloorFrom,
+                    numberOfFloorTo: filter.numberOfFloorTo,
+                    numberOfBasementFrom: filter.numberOfBasementFrom,
+                    numberOfBasementTo: filter.numberOfBasementTo,
+                    floorAreaFrom: filter.floorAreaFrom,
+                    floorAreaTo: filter.floorAreaTo,
+                    rentAreaFrom: filter.rentAreaFrom,
+                    rentAreaTo: filter.rentAreaTo,
+                    direction: filter.direction,
+                    level: filter.level,
+                    rentPriceFrom: filter.rentPriceFrom,
+                    rentPriceTo: filter.rentPriceTo,
+                    serviceFeeFrom: filter.serviceFeeFrom,
+                    serviceFeeTo: filter.serviceFeeTo,
+                    carFeeFrom: filter.carFeeFrom,
+                    carFeeTo: filter.carFeeTo,
+                    motorbikeFeeFrom: filter.motorbikeFeeFrom,
+                    motorbikeFeeTo: filter.motorbikeFeeTo,
+                    waterFeeFrom: filter.waterFeeFrom,
+                    waterFeeTo: filter.waterFeeTo,
+                    electricityFeeFrom: filter.electricityFeeFrom,
+                    electricityFeeTo: filter.electricityFeeTo,
+                    staffId: filter.staffId,
+                    propertyType: filter.propertyType,
+                    transactionType: filter.transactionType
+                },
+                success: function (data) {
+                    currentPage = page;
+                    const tbody = $("#buildingTableBody");
+                    tbody.empty();
+
+                    if (data.content.length === 0) {
+                        tbody.append(`
                         <tr>
                             <td colspan="7">
                                 <div class="empty-state">
                                     <i class="bi bi-inbox"></i>
-                                    <p>Không có dữ liệu tòa nhà</p>
+                                    <p>Không có dữ liệu bất động sản</p>
                                 </div>
                             </td>
                         </tr>
                     `);
-                    $("#pagination").empty();
-                    return;
-                }
+                        $("#pagination").empty();
+                        return;
+                    }
 
-                $("#totalElements").text(data.totalElements);
+                    $("#totalElements").text(data.totalElements);
 
-                $.each(data.content, function (i, b) {
-                    tbody.append(`
+                    $.each(data.content, function (i, b) {
+                        tbody.append(`
                     <tr>
                         <td><span class="id-badge">BĐS-${b.id}</span></td>
                         <td><span class="building-name">${b.name}</span></td>
                         <td><span class="address-cell">${b.address}</span></td>
                         <td><span class="level-badge">${levelLabels[b.level] || ''}</span></td>
-                        <td><span class="property-type-badge prop-${(b.propertyType||'').toLowerCase()}">${propertyLabels[b.propertyType] || b.propertyType || ''}</span></td>
-                        <td><span class="transaction-badge tx-${(b.transactionType||'').toLowerCase()}">${transactionLabels[b.transactionType] || b.transactionType || ''}</span></td>
+                        <td><span class="property-type-badge prop-${(b.propertyType || '').toLowerCase()}">${propertyLabels[b.propertyType] || b.propertyType || ''}</span></td>
+                        <td><span class="transaction-badge tx-${(b.transactionType || '').toLowerCase()}">${transactionLabels[b.transactionType] || b.transactionType || ''}</span></td>
                         <td>
                             <div class="action-buttons">
                                 <a href="/admin/building/${b.id}" class="btn-action btn-view" title="Xem chi tiết">
@@ -1162,330 +1303,330 @@
                         </td>
                     </tr>
                 `);
-                });
+                    });
 
-                renderPagination(data.totalPages, page);
-            },
-            error: function () {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Lỗi',
-                    text: 'Không tải được dữ liệu!'
-                });
-            }
-        });
-    }
+                    renderPagination(data.totalPages, page);
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: 'Không tải được dữ liệu!'
+                    });
+                }
+            });
+        }
 
-    // Hàm render phân trang Bootstrap
-    function renderPagination(totalPages, current) {
-        const pagination = $("#pagination");
-        pagination.empty();
-        if (totalPages <= 1) return;
+        // Hàm render phân trang Bootstrap
+        function renderPagination(totalPages, current) {
+            const pagination = $("#pagination");
+            pagination.empty();
+            if (totalPages <= 1) return;
 
-        let html = `<nav class="pagination-wrapper mt-3"><ul class="pagination justify-content-center">`;
+            let html = `<nav class="pagination-wrapper mt-3"><ul class="pagination justify-content-center">`;
 
-        html += `<li class="page-item ${current === 1 ? 'disabled' : ''}">
+            html += `<li class="page-item ${current === 1 ? 'disabled' : ''}">
         <a href="#" class="page-link" onclick="loadBuildings(1, filter); return false;">First</a>
     </li>`;
 
-        html += `<li class="page-item ${current === 1 ? 'disabled' : ''}">
+            html += `<li class="page-item ${current === 1 ? 'disabled' : ''}">
         <a href="#" class="page-link" onclick="loadBuildings(${current - 1}, filter); return false;">
             <i class="bi bi-chevron-left"></i>
         </a>
     </li>`;
 
-        const blockSize = 5;
-        const blockStart = Math.floor((current - 1) / blockSize) * blockSize + 1;
-        let blockEnd = blockStart + blockSize - 1;
-        if (blockEnd > totalPages) blockEnd = totalPages;
+            const blockSize = 5;
+            const blockStart = Math.floor((current - 1) / blockSize) * blockSize + 1;
+            let blockEnd = blockStart + blockSize - 1;
+            if (blockEnd > totalPages) blockEnd = totalPages;
 
-        for (let i = blockStart; i <= blockEnd; i++) {
-            html += `
+            for (let i = blockStart; i <= blockEnd; i++) {
+                html += `
             <li class="page-item ${i === current ? 'active' : ''}">
                 <a href="#" class="page-link" onclick="loadBuildings(${i}, filter); return false;">${i}</a>
             </li>
         `;
-        }
+            }
 
-        html += `<li class="page-item ${current === totalPages ? 'disabled' : ''}">
+            html += `<li class="page-item ${current === totalPages ? 'disabled' : ''}">
         <a href="#" class="page-link" onclick="loadBuildings(${current + 1}, filter); return false;">
             <i class="bi bi-chevron-right"></i>
         </a>
     </li>`;
 
-        html += `<li class="page-item ${current === totalPages ? 'disabled' : ''}">
+            html += `<li class="page-item ${current === totalPages ? 'disabled' : ''}">
         <a href="#" class="page-link" onclick="loadBuildings(${totalPages}, filter); return false;">Last</a>
     </li>`;
 
-        html += `</ul></nav>`;
+            html += `</ul></nav>`;
 
-        pagination.html(html);
-    }
-
-    // Khi trang load, gọi Ajax lần đầu
-    $(document).ready(function () {
-        loadBuildings(1, filter);
-        // Hàm highlight trường có giá trị
-        function highlightFilledInputs() {
-            $('.filter-card .form-control').each(function () {
-                const $input = $(this);
-                if ($input.val() && $input.val().trim() !== '') {
-                    $input.addClass('has-value');
-                } else {
-                    $input.removeClass('has-value');
-                }
-            });
+            pagination.html(html);
         }
 
-        // Highlight các trường đã có giá trị khi load trang
-        highlightFilledInputs();
-
-        // Lắng nghe sự kiện input/change để highlight real-time
-        $('.filter-card .form-control').on('input change', function () {
-            const $this = $(this);
-            if ($this.val() && $this.val().trim() !== '') {
-                $this.addClass('has-value');
-            } else {
-                $this.removeClass('has-value');
-            }
-        });
-
-        // Reset highlight khi reset form
-        $('.btn-filter.btn-reset').on('click', function () {
-            setTimeout(function () {
-                $('.filter-card .form-control').removeClass('has-value');
-            }, 10);
-        });
-    });
-
-    // Ajax xóa tòa nhà
-    $(document).on("click", ".btn-delete", function (e) {
-        e.preventDefault();
-
-        let id = $(this).data("id");
-
-        Swal.fire({
-            title: 'Xác nhận xóa',
-            text: "Bạn có chắc muốn xóa tòa nhà này?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#dc2626',
-            cancelButtonColor: '#6b7280',
-            confirmButtonText: 'Xóa',
-            cancelButtonText: 'Hủy'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: "/admin/building/delete/" + id,
-                    type: "DELETE",
-                    success: function () {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Thành công',
-                            text: 'Xóa tòa nhà thành công!',
-                            timer: 1500,       // tự động đóng sau 1.5s
-                            showConfirmButton: false
-                        }).then(() => {
-                            window.location.href = "/admin/building/list";
-                        });
-                    },
-                    error: function (xhr) {
-                        const err = xhr.responseJSON;
-                        if (err && err.message) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Lỗi',
-                                text: err.message
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Lỗi',
-                                text: 'Xóa thất bại!'
-                            });
-                        }
+        // Khi trang load, gọi Ajax lần đầu
+        $(document).ready(function () {
+            loadBuildings(1, filter);
+            // Hàm highlight trường có giá trị
+            function highlightFilledInputs() {
+                $('.filter-card .form-control').each(function () {
+                    const $input = $(this);
+                    if ($input.val() && $input.val().trim() !== '') {
+                        $input.addClass('has-value');
+                    } else {
+                        $input.removeClass('has-value');
                     }
                 });
             }
-        })
-    });
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
 
-        const slimInstances = new Map();
+            // Highlight các trường đã có giá trị khi load trang
+            highlightFilledInputs();
 
-        function getSsMain(el) {
-            const inst = slimInstances.get(el);
-            if (inst && inst.main) return inst.main.main;
-            const parent = el.closest('.col-md-2, .col-md-3, .filter-card') || el.parentElement;
-            return parent ? parent.querySelector('.ss-main') : null;
-        }
-
-        function syncHasValue(el) {
-            const ssMain = getSsMain(el);
-            const hasVal = el.value && el.value !== '';
-            if (ssMain) ssMain.classList.toggle('has-value', hasVal);
-        }
-
-        document.querySelectorAll('.filter-card select').forEach(function (el) {
-            const inst = new SlimSelect({
-                select: el,
-                settings: {
-                    showSearch: el.options.length > 6,
-                    searchPlaceholder: 'Tìm kiếm...',
-                    searchText: 'Không có kết quả',
-                    allowDeselect: false,
-                },
-                events: {
-                    afterChange: function () { syncHasValue(el); }
+            // Lắng nghe sự kiện input/change để highlight real-time
+            $('.filter-card .form-control').on('input change', function () {
+                const $this = $(this);
+                if ($this.val() && $this.val().trim() !== '') {
+                    $this.addClass('has-value');
+                } else {
+                    $this.removeClass('has-value');
                 }
             });
-            slimInstances.set(el, inst);
-            // Sync ngay sau render — quan trọng cho trang search (có th:selected)
-            setTimeout(function () { syncHasValue(el); }, 0);
+
+            // Reset highlight khi reset form
+            $('.btn-filter.btn-reset').on('click', function () {
+                setTimeout(function () {
+                    $('.filter-card .form-control').removeClass('has-value');
+                }, 10);
+            });
         });
 
-        // Reset (overwrite window.resetFilter)
-        window.resetFilter = function () {
-            slimInstances.forEach(function (inst, el) {
-                inst.setSelected('');
-                const ssMain = getSsMain(el);
-                if (ssMain) ssMain.classList.remove('has-value');
-            });
-            setTimeout(function () {
-                document.querySelectorAll('.filter-card input').forEach(function (el) {
-                    el.value = '';
-                    el.classList.remove('has-value');
-                });
-            }, 10);
-        };
-    });
-</script>
+        // Ajax xóa tòa nhà
+        $(document).on("click", ".btn-delete", function (e) {
+            e.preventDefault();
 
+            let id = $(this).data("id");
 
-<script th:inline="javascript">
-    // Khôi phục badge nếu trang reload với vị trí đã chọn
-    document.addEventListener('DOMContentLoaded', function () {
-        const lat   = document.getElementById('hiddenLat').value;
-        const label = document.getElementById('hiddenLocationLabel').value;
-        const clearBtn = document.getElementById('locationClearBtn');
-        if (lat && label) {
-            document.getElementById('locationBadgeText').textContent = label.split(',')[0];
-            document.getElementById('locationActiveBadge').style.display = 'inline-flex';
-            if (clearBtn) clearBtn.style.display = 'block';
-        }
-    });
-</script>
-
-<script>
-    // ══ GOONG PLACES AUTOCOMPLETE ══════════════════════════════════════════
-    const GOONG_API_KEY = 'MfQYQasRyhJp6OkpEOlOAW8GwrhVgz043MK0WDvx';
-    let _autocompleteTimer = null;
-
-    const locationInput  = document.getElementById('locationInput');
-    const suggestions    = document.getElementById('locationSuggestions');
-    const clearBtn       = document.getElementById('locationClearBtn');
-    const hiddenLat      = document.getElementById('hiddenLat');
-    const hiddenLng      = document.getElementById('hiddenLng');
-    const hiddenLabel    = document.getElementById('hiddenLocationLabel');
-    const activeBadge    = document.getElementById('locationActiveBadge');
-    const badgeText      = document.getElementById('locationBadgeText');
-
-    locationInput.addEventListener('input', function () {
-        const q = this.value.trim();
-        clearBtn.style.display = q ? 'block' : 'none';
-        if (!q) { clearLocation(); return; }
-        clearTimeout(_autocompleteTimer);
-        _autocompleteTimer = setTimeout(() => fetchSuggestions(q), 350);
-    });
-
-    function fetchSuggestions(query) {
-        fetch(`https://rsapi.goong.io/Place/AutoComplete?api_key=${GOONG_API_KEY}&input=${encodeURIComponent(query)}`)
-            .then(r => r.json())
-            .then(data => {
-                suggestions.innerHTML = '';
-                if (!data.predictions || !data.predictions.length) {
-                    suggestions.style.display = 'none'; return;
+            Swal.fire({
+                title: 'Xác nhận xóa',
+                text: "Bạn có chắc muốn xóa tòa nhà này?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc2626',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "/admin/building/delete/" + id,
+                        type: "DELETE",
+                        success: function () {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Thành công',
+                                text: 'Xóa tòa nhà thành công!',
+                                timer: 1500,       // tự động đóng sau 1.5s
+                                showConfirmButton: false
+                            }).then(() => {
+                                window.location.href = "/admin/building/list";
+                            });
+                        },
+                        error: function (xhr) {
+                            const err = xhr.responseJSON;
+                            if (err && err.message) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Lỗi',
+                                    text: err.message
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Lỗi',
+                                    text: 'Xóa thất bại!'
+                                });
+                            }
+                        }
+                    });
                 }
-                data.predictions.forEach(p => {
-                    const item = document.createElement('div');
-                    item.className = 'suggest-item';
-                    const parts = p.description.split(',');
-                    const main  = parts[0] || p.description;
-                    const sub   = parts.slice(1).join(',').trim();
-                    item.textContent = p.description;
-                    item.addEventListener('click', () => selectPlace(p));
-                    suggestions.appendChild(item);
+            })
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            const slimInstances = new Map();
+
+            function getSsMain(el) {
+                const inst = slimInstances.get(el);
+                if (inst && inst.main) return inst.main.main;
+                const parent = el.closest('.col-md-2, .col-md-3, .filter-card') || el.parentElement;
+                return parent ? parent.querySelector('.ss-main') : null;
+            }
+
+            function syncHasValue(el) {
+                const ssMain = getSsMain(el);
+                const hasVal = el.value && el.value !== '';
+                if (ssMain) ssMain.classList.toggle('has-value', hasVal);
+            }
+
+            document.querySelectorAll('.filter-card select').forEach(function (el) {
+                const inst = new SlimSelect({
+                    select: el,
+                    settings: {
+                        showSearch: el.options.length > 6,
+                        searchPlaceholder: 'Tìm kiếm...',
+                        searchText: 'Không có kết quả',
+                        allowDeselect: false,
+                    },
+                    events: {
+                        afterChange: function () { syncHasValue(el); }
+                    }
                 });
-                suggestions.style.display = 'block';
-            })
-            .catch(() => { suggestions.style.display = 'none'; });
-    }
+                slimInstances.set(el, inst);
+                // Sync ngay sau render — quan trọng cho trang search (có th:selected)
+                setTimeout(function () { syncHasValue(el); }, 0);
+            });
 
-    function selectPlace(prediction) {
-        locationInput.value = prediction.description;
-        suggestions.style.display = 'none';
-        clearBtn.style.display = 'block';
+            // Reset (overwrite window.resetFilter)
+            window.resetFilter = function () {
+                slimInstances.forEach(function (inst, el) {
+                    inst.setSelected('');
+                    const ssMain = getSsMain(el);
+                    if (ssMain) ssMain.classList.remove('has-value');
+                });
+                setTimeout(function () {
+                    document.querySelectorAll('.filter-card input').forEach(function (el) {
+                        el.value = '';
+                        el.classList.remove('has-value');
+                    });
+                }, 10);
+            };
+        });
+    </script>
 
-        fetch(`https://rsapi.goong.io/Place/Detail?api_key=${GOONG_API_KEY}&place_id=${prediction.place_id}`)
-            .then(r => r.json())
-            .then(data => {
-                const loc = data.result?.geometry?.location;
-                if (!loc) return;
-                hiddenLat.value   = loc.lat;
-                hiddenLng.value   = loc.lng;
-                hiddenLabel.value = prediction.description;
-                // Cập nhật filter object để loadBuildings dùng
-                filter.lat           = loc.lat;
-                filter.lng           = loc.lng;
-                filter.locationLabel = prediction.description;
-                // Hiện badge
-                badgeText.textContent = prediction.description.split(',')[0];
-                activeBadge.style.display = 'inline-flex';
-            })
-            .catch(() => {});
-    }
 
-    function clearLocation() {
-        locationInput.value  = '';
-        hiddenLat.value      = '';
-        hiddenLng.value      = '';
-        hiddenLabel.value    = '';
-        filter.lat           = null;
-        filter.lng           = null;
-        filter.locationLabel = null;
-        suggestions.style.display   = 'none';
-        clearBtn.style.display      = 'none';
-        activeBadge.style.display   = 'none';
-    }
+    <script th:inline="javascript">
+        // Khôi phục badge nếu trang reload với vị trí đã chọn
+        document.addEventListener('DOMContentLoaded', function () {
+            const lat = document.getElementById('hiddenLat').value;
+            const label = document.getElementById('hiddenLocationLabel').value;
+            const clearBtn = document.getElementById('locationClearBtn');
+            if (lat && label) {
+                document.getElementById('locationBadgeText').textContent = label.split(',')[0];
+                document.getElementById('locationActiveBadge').style.display = 'inline-flex';
+                if (clearBtn) clearBtn.style.display = 'block';
+            }
+        });
+    </script>
 
-    // Đóng dropdown khi click ra ngoài
-    document.addEventListener('click', function (e) {
-        if (!locationInput.contains(e.target) && !suggestions.contains(e.target))
-            suggestions.style.display = 'none';
-    });
+    <script>
+        // ══ GOONG PLACES AUTOCOMPLETE ══════════════════════════════════════════
+        const GOONG_API_KEY = 'MfQYQasRyhJp6OkpEOlOAW8GwrhVgz043MK0WDvx';
+        let _autocompleteTimer = null;
 
-    // Điều hướng bàn phím
-    locationInput.addEventListener('keydown', function (e) {
-        const items  = suggestions.querySelectorAll('.suggest-item');
-        const active = suggestions.querySelector('.suggest-item.active');
-        let idx = Array.from(items).indexOf(active);
-        if (e.key === 'ArrowDown') {
-            e.preventDefault();
-            if (active) active.classList.remove('active');
-            (items[idx + 1] || items[0])?.classList.add('active');
-        } else if (e.key === 'ArrowUp') {
-            e.preventDefault();
-            if (active) active.classList.remove('active');
-            (items[idx - 1] || items[items.length - 1])?.classList.add('active');
-        } else if (e.key === 'Enter' && active) {
-            e.preventDefault(); active.click();
-        } else if (e.key === 'Escape') {
-            suggestions.style.display = 'none';
+        const locationInput = document.getElementById('locationInput');
+        const suggestions = document.getElementById('locationSuggestions');
+        const clearBtn = document.getElementById('locationClearBtn');
+        const hiddenLat = document.getElementById('hiddenLat');
+        const hiddenLng = document.getElementById('hiddenLng');
+        const hiddenLabel = document.getElementById('hiddenLocationLabel');
+        const activeBadge = document.getElementById('locationActiveBadge');
+        const badgeText = document.getElementById('locationBadgeText');
+
+        locationInput.addEventListener('input', function () {
+            const q = this.value.trim();
+            clearBtn.style.display = q ? 'block' : 'none';
+            if (!q) { clearLocation(); return; }
+            clearTimeout(_autocompleteTimer);
+            _autocompleteTimer = setTimeout(() => fetchSuggestions(q), 350);
+        });
+
+        function fetchSuggestions(query) {
+            fetch(`https://rsapi.goong.io/Place/AutoComplete?api_key=${GOONG_API_KEY}&input=${encodeURIComponent(query)}`)
+                .then(r => r.json())
+                .then(data => {
+                    suggestions.innerHTML = '';
+                    if (!data.predictions || !data.predictions.length) {
+                        suggestions.style.display = 'none'; return;
+                    }
+                    data.predictions.forEach(p => {
+                        const item = document.createElement('div');
+                        item.className = 'suggest-item';
+                        const parts = p.description.split(',');
+                        const main = parts[0] || p.description;
+                        const sub = parts.slice(1).join(',').trim();
+                        item.textContent = p.description;
+                        item.addEventListener('click', () => selectPlace(p));
+                        suggestions.appendChild(item);
+                    });
+                    suggestions.style.display = 'block';
+                })
+                .catch(() => { suggestions.style.display = 'none'; });
         }
-    });
-</script>
+
+        function selectPlace(prediction) {
+            locationInput.value = prediction.description;
+            suggestions.style.display = 'none';
+            clearBtn.style.display = 'block';
+
+            fetch(`https://rsapi.goong.io/Place/Detail?api_key=${GOONG_API_KEY}&place_id=${prediction.place_id}`)
+                .then(r => r.json())
+                .then(data => {
+                    const loc = data.result?.geometry?.location;
+                    if (!loc) return;
+                    hiddenLat.value = loc.lat;
+                    hiddenLng.value = loc.lng;
+                    hiddenLabel.value = prediction.description;
+                    // Cập nhật filter object để loadBuildings dùng
+                    filter.lat = loc.lat;
+                    filter.lng = loc.lng;
+                    filter.locationLabel = prediction.description;
+                    // Hiện badge
+                    badgeText.textContent = prediction.description.split(',')[0];
+                    activeBadge.style.display = 'inline-flex';
+                })
+                .catch(() => { });
+        }
+
+        function clearLocation() {
+            locationInput.value = '';
+            hiddenLat.value = '';
+            hiddenLng.value = '';
+            hiddenLabel.value = '';
+            filter.lat = null;
+            filter.lng = null;
+            filter.locationLabel = null;
+            suggestions.style.display = 'none';
+            clearBtn.style.display = 'none';
+            activeBadge.style.display = 'none';
+        }
+
+        // Đóng dropdown khi click ra ngoài
+        document.addEventListener('click', function (e) {
+            if (!locationInput.contains(e.target) && !suggestions.contains(e.target))
+                suggestions.style.display = 'none';
+        });
+
+        // Điều hướng bàn phím
+        locationInput.addEventListener('keydown', function (e) {
+            const items = suggestions.querySelectorAll('.suggest-item');
+            const active = suggestions.querySelector('.suggest-item.active');
+            let idx = Array.from(items).indexOf(active);
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (active) active.classList.remove('active');
+                (items[idx + 1] || items[0])?.classList.add('active');
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                if (active) active.classList.remove('active');
+                (items[idx - 1] || items[items.length - 1])?.classList.add('active');
+            } else if (e.key === 'Enter' && active) {
+                e.preventDefault(); active.click();
+            } else if (e.key === 'Escape') {
+                suggestions.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 
 </html>
