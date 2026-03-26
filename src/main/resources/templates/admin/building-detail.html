@@ -581,7 +581,13 @@
             <div class="hero">
                 <!-- Ảnh nếu có -->
                 <img th:if="${not #strings.isEmpty(building.image)}"
-                    th:src="@{/images/building_img/{img}(img=${building.image})}" alt="" class="hero-img" />
+                    th:src="${'/images/building_img/' + building.image}" alt="" class="hero-img"
+                    onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+                <!-- Fallback nếu ảnh lỗi load -->
+                <div class="hero-no-img" style="display:none;">
+                    <i class="bi bi-image-fill"></i>
+                    <span>Không tải được ảnh</span>
+                </div>
                 <!-- Placeholder nếu không có ảnh -->
                 <div th:unless="${not #strings.isEmpty(building.image)}" class="hero-no-img">
                     <i class="bi bi-buildings"></i>
@@ -986,7 +992,7 @@
                         display: inline-flex;
                         align-items: center;
                         gap: 0.35rem;
-                        padding: 0.35rem 0.9rem;
+                        padding: 0.5rem 0.9rem;
                         background: #3b82f6;
                         color: #fff !important;
                         border: none;
@@ -1135,6 +1141,18 @@
                 </div>
 
                 <!-- Planning Map -->
+                <!-- Nhà cung cấp &amp; Đơn vị thi công — chưa cập nhật -->
+                <div class="d-card" th:unless="${suppliers != null and not #lists.isEmpty(suppliers)}">
+                    <div class="d-card-header">
+                        <i class="bi bi-truck"></i>
+                        <h3>Nhà cung cấp &amp; Đơn vị thi công</h3>
+                    </div>
+                    <div style="padding:1.25rem 1rem;text-align:center;color:#9ca3af;font-size:0.875rem;">
+                        <i class="bi bi-inbox"
+                            style="font-size:1.5rem;display:block;margin-bottom:0.375rem;opacity:0.4;"></i>
+                        Chưa cập nhật
+                    </div>
+                </div>
                 <div class="d-card" th:if="${not #lists.isEmpty(planningMaps)}">
                     <div class="d-card-header">
                         <i class="bi bi-map-fill"></i>
@@ -1171,6 +1189,18 @@
                 </div>
 
                 <!-- Nearby Amenity -->
+                <!-- Bản đồ quy hoạch — chưa cập nhật -->
+                <div class="d-card" th:unless="${planningMaps != null and not #lists.isEmpty(planningMaps)}">
+                    <div class="d-card-header">
+                        <i class="bi bi-map-fill"></i>
+                        <h3>Bản đồ quy hoạch</h3>
+                    </div>
+                    <div style="padding:1.25rem 1rem;text-align:center;color:#9ca3af;font-size:0.875rem;">
+                        <i class="bi bi-inbox"
+                            style="font-size:1.5rem;display:block;margin-bottom:0.375rem;opacity:0.4;"></i>
+                        Chưa cập nhật
+                    </div>
+                </div>
                 <div class="d-card" th:if="${not #lists.isEmpty(nearbyAmenities)}">
                     <div class="d-card-header">
                         <i class="bi bi-pin-map-fill"></i>
@@ -1200,6 +1230,18 @@
                 </div>
 
                 <!-- Legal Authority -->
+                <!-- Tiện ích lân cận — chưa cập nhật -->
+                <div class="d-card" th:unless="${nearbyAmenities != null and not #lists.isEmpty(nearbyAmenities)}">
+                    <div class="d-card-header">
+                        <i class="bi bi-pin-map-fill"></i>
+                        <h3>Tiện ích lân cận</h3>
+                    </div>
+                    <div style="padding:1.25rem 1rem;text-align:center;color:#9ca3af;font-size:0.875rem;">
+                        <i class="bi bi-inbox"
+                            style="font-size:1.5rem;display:block;margin-bottom:0.375rem;opacity:0.4;"></i>
+                        Chưa cập nhật
+                    </div>
+                </div>
                 <div class="d-card" th:if="${legalAuthorities!=null and not #lists.isEmpty(legalAuthorities)}">
                     <div class="d-card-header">
                         <i class="bi bi-shield-fill-check"></i>
@@ -1237,20 +1279,37 @@
 
 
                 <!-- Nhân viên quản lý -->
+                <!-- Cơ quan tư pháp — chưa cập nhật -->
+                <div class="d-card" th:unless="${legalAuthorities != null and not #lists.isEmpty(legalAuthorities)}">
+                    <div class="d-card-header">
+                        <i class="bi bi-shield-fill-check"></i>
+                        <h3>Cơ quan tư pháp</h3>
+                    </div>
+                    <div style="padding:1.25rem 1rem;text-align:center;color:#9ca3af;font-size:0.875rem;">
+                        <i class="bi bi-inbox"
+                            style="font-size:1.5rem;display:block;margin-bottom:0.375rem;opacity:0.4;"></i>
+                        Chưa cập nhật
+                    </div>
+                </div>
                 <div class="d-card">
                     <div class="d-card-header">
                         <i class="bi bi-people-fill"></i>
                         <h3>Nhân viên quản lý</h3>
                     </div>
-                    <div class="d-card-body">
-                        <div th:if="${not #lists.isEmpty(building.staffs)}" class="d-flex flex-wrap gap-2">
+                    <div th:if="${not building.staffs.isEmpty()}" class="d-card-body">
+                        <div class="d-flex flex-wrap gap-2">
                             <div class="staff-item" th:each="entry : ${building.staffs.entrySet()}"
                                 th:onclick="|window.location='/admin/staff/'+${entry.value}|">
                                 <i class="bi bi-person-badge-fill"></i>
                                 <span th:text="${entry.key}"></span>
                             </div>
                         </div>
-                        <span th:unless="${not #lists.isEmpty(building.staffs)}" class="empty">Chưa có nhân viên</span>
+                    </div>
+                    <div th:if="${building.staffs.isEmpty()}"
+                        style="padding:1.25rem 1rem;text-align:center;color:#9ca3af;font-size:0.875rem;">
+                        <i class="bi bi-inbox"
+                            style="font-size:1.5rem;display:block;margin-bottom:0.375rem;opacity:0.4;"></i>
+                        Chưa cập nhật
                     </div>
                 </div>
 
@@ -1270,7 +1329,7 @@
             const id = $(this).data("id");
             Swal.fire({
                 title: 'Xác nhận xóa',
-                text: "Bạn có chắc muốn xóa tòa nhà này?",
+                text: "Bạn có chắc muốn xóa bất động sản này?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#dc2626',
@@ -1293,7 +1352,7 @@
     <script th:if="${building.latitude != null}" th:inline="javascript">
         // ── Config ────────────────────────────────────────────────────────────────
         var MAPTILES_KEY = 'd2vMzWHY7kcxkY1yITDytGLWaIPf9knt8mLMXmkx';
-        var GOONG_API_KEY = /*[[${@environment.getProperty('goong.api-key')}]]*/ 'YOUR_GOONG_API_KEY';
+        var GOONG_API_KEY = 'MfQYQasRyhJp6OkpEOlOAW8GwrhVgz043MK0WDvx';
 
         var _mapLat = /*[[${building.latitude}]]*/  0;
         var _mapLng = /*[[${building.longitude}]]*/  0;
@@ -1308,7 +1367,7 @@
         var _acTimer = null;
         var _pickMode = null;  // 'origin' | 'dest' | null
         var _vehicle = 'car'; // 'car' | 'bike' | 'foot'
-        var _isCustomDest = false; // đích đã bị thay đổi khỏi tòa nhà
+        var _isCustomDest = false; // đích đã bị thay đổi khỏi building
 
         // ── Modal ─────────────────────────────────────────────────────────────────
         function openMapModal() {
@@ -1633,7 +1692,7 @@
             document.getElementById('routeError').style.display = 'none';
             document.getElementById('btnClearRoute').style.display = 'none';
 
-            // Reset dest về tòa nhà nếu đã đổi
+            // Reset dest về building nếu đã đổi
             if (_isCustomDest) {
                 _destLat = _mapLat; _destLng = _mapLng; _isCustomDest = false;
                 document.getElementById('destLabel').textContent = _mapName;

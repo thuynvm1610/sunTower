@@ -840,7 +840,7 @@
             <!-- Page Header -->
             <div class="page-header">
                 <h2>
-                    <i class="bi bi-building"></i>
+                    <i class="bi-buildings"></i>
                     Quản lý bất động sản
                 </h2>
                 <a th:href="@{/admin/building/add}" class="btn-add">
@@ -889,14 +889,18 @@
                         <div class="col-md-3">
                             <label class="form-label">Bán kính tìm kiếm</label>
                             <div class="radius-select-wrap">
-                                <i class="bi bi-circle" style="color:#3b82f6;font-size:0.8rem;"></i>
                                 <select name="radius" id="radiusSelect">
-                                    <option value="500">500 m</option>
                                     <option value="1000" selected>1 km</option>
-                                    <option value="2000">2 km</option>
-                                    <option value="3000">3 km</option>
-                                    <option value="5000">5 km</option>
                                     <option value="10000">10 km</option>
+                                    <option value="20000">20 km</option>
+                                    <option value="30000">30 km</option>
+                                    <option value="40000">40 km</option>
+                                    <option value="50000">50 km</option>
+                                    <option value="60000">60 km</option>
+                                    <option value="70000">70 km</option>
+                                    <option value="80000">80 km</option>
+                                    <option value="90000">90 km</option>
+                                    <option value="100000">100 km</option>
                                 </select>
                             </div>
                         </div>
@@ -1181,7 +1185,7 @@
                 .replaceAll('.', ',') + ' đ';
         }
 
-        // Hàm load dữ liệu bảng tòa nhà bằng Ajax
+        // Hàm load dữ liệu bảng building bằng Ajax
         function loadBuildings(page, event) {
             if (event) event.preventDefault();
 
@@ -1213,28 +1217,28 @@
 
                     $.each(data.content, function (i, b) {
                         tbody.append(`
-                    <tr>
-                        <td><span class="id-badge">BĐS-${b.id}</span></td>
-                        <td><span class="building-name">${b.name}</span></td>
-                        <td><span class="address-cell">${b.address}</span></td>
-                        <td><span class="level-badge">${levelLabels[b.level] || ''}</span></td>
-                        <td><span class="property-type-badge prop-${(b.propertyType || '').toLowerCase()}">${propertyLabels[b.propertyType] || b.propertyType || ''}</span></td>
-                        <td><span class="transaction-badge tx-${(b.transactionType || '').toLowerCase()}">${transactionLabels[b.transactionType] || b.transactionType || ''}</span></td>
-                        <td>
-                            <div class="action-buttons">
-                                <a href="/admin/building/${b.id}" class="btn-action btn-view" title="Xem chi tiết">
-                                    <i class="bi bi-eye"></i>
-                                </a>
-                                <a href="/admin/building/edit/${b.id}" class="btn-action btn-edit" title="Chỉnh sửa">
-                                    <i class="bi bi-pencil"></i>
-                                </a>
-                                <a href="#" title="Xóa" class="btn-action btn-delete" data-id="${b.id}">
-                                   <i class="bi bi-trash"></i>
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                `);
+                <tr>
+                    <td><span class="id-badge">BĐS-${b.id}</span></td>
+                    <td><span class="building-name">${b.name}</span></td>
+                    <td><span class="address-cell">${b.address}</span></td>
+                    <td><span class="level-badge">${levelLabels[b.level] || ''}</span></td>
+                    <td><span class="property-type-badge prop-${(b.propertyType || '').toLowerCase()}">${propertyLabels[b.propertyType] || b.propertyType || ''}</span></td>
+                    <td><span class="transaction-badge tx-${(b.transactionType || '').toLowerCase()}">${transactionLabels[b.transactionType] || b.transactionType || ''}</span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <a href="/admin/building/${b.id}" class="btn-action btn-view" title="Xem chi tiết">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <a href="/admin/building/edit/${b.id}" class="btn-action btn-edit" title="Chỉnh sửa">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a href="#" title="Xóa" class="btn-action btn-delete" data-id="${b.id}">
+                               <i class="bi bi-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            `);
                     });
 
                     renderPagination(data.totalPages, page);
@@ -1253,25 +1257,25 @@
             if (totalPages <= 1) return;
 
             let html = `
-        <nav class="pagination-wrapper mt-3">
-            <ul class="pagination justify-content-center">
-    `;
+    <nav class="pagination-wrapper mt-3">
+        <ul class="pagination justify-content-center">
+`;
 
             // Nút "First"
             html += `
-    <li class="page-item ${current === 1 ? 'disabled' : ''}">
-        <a href="#" class="page-link" onclick="loadBuildings(1, event)">First</a>
-    </li>
-    `;
+<li class="page-item ${current === 1 ? 'disabled' : ''}">
+    <a href="#" class="page-link" onclick="loadBuildings(1, event)">First</a>
+</li>
+`;
 
             // Nút "Previous"
             html += `
-        <li class="page-item ${current === 1 ? 'disabled' : ''}">
-            <a href="#" class="page-link" onclick="loadBuildings(${current - 1}, event)">
-                <i class="bi bi-chevron-left"></i>
-            </a>
-        </li>
-    `;
+    <li class="page-item ${current === 1 ? 'disabled' : ''}">
+        <a href="#" class="page-link" onclick="loadBuildings(${current - 1}, event)">
+            <i class="bi bi-chevron-left"></i>
+        </a>
+    </li>
+`;
 
             // Các trang số
             const blockSize = 5;
@@ -1281,32 +1285,32 @@
 
             for (let i = blockStart; i <= blockEnd; i++) {
                 html += `
-            <li class="page-item ${i === current ? 'active' : ''}">
-                <a href="#" class="page-link" onclick="loadBuildings(${i}, event)">${i}</a>
-            </li>
-        `;
+        <li class="page-item ${i === current ? 'active' : ''}">
+            <a href="#" class="page-link" onclick="loadBuildings(${i}, event)">${i}</a>
+        </li>
+    `;
             }
 
             // Nút "Next"
             html += `
-        <li class="page-item ${current === totalPages ? 'disabled' : ''}">
-            <a href="#" class="page-link" onclick="loadBuildings(${current + 1}, event)">
-                <i class="bi bi-chevron-right"></i>
-            </a>
-        </li>
-    `;
+    <li class="page-item ${current === totalPages ? 'disabled' : ''}">
+        <a href="#" class="page-link" onclick="loadBuildings(${current + 1}, event)">
+            <i class="bi bi-chevron-right"></i>
+        </a>
+    </li>
+`;
 
             // Nút "Last"
             html += `
-        <li class="page-item ${current === totalPages ? 'disabled' : ''}">
-            <a href="#" class="page-link" onclick="loadBuildings(${totalPages}, event)">Last</a>
-        </li>
-    `;
+    <li class="page-item ${current === totalPages ? 'disabled' : ''}">
+        <a href="#" class="page-link" onclick="loadBuildings(${totalPages}, event)">Last</a>
+    </li>
+`;
 
             html += `
-            </ul>
-        </nav>
-    `;
+        </ul>
+    </nav>
+`;
 
             pagination.html(html);
         }
@@ -1347,7 +1351,7 @@
             });
         });
 
-        // Ajax xóa tòa nhà
+        // Ajax xóa building
         $(document).on("click", ".btn-delete", function (e) {
             e.preventDefault();
 
@@ -1355,7 +1359,7 @@
 
             Swal.fire({
                 title: 'Xác nhận xóa',
-                text: "Bạn có chắc muốn xóa tòa nhà này?",
+                text: "Bạn có chắc muốn xóa bất động sản này?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#dc2626',
@@ -1371,7 +1375,7 @@
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Thành công',
-                                text: 'Xóa tòa nhà thành công!',
+                                text: 'Xóa bất động sản thành công!',
                                 timer: 1500,       // tự động đóng sau 1.5s
                                 showConfirmButton: false
                             }).then(() => {
