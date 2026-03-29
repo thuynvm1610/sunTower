@@ -9,6 +9,4 @@ import java.util.List;
 public interface SupplierRepository extends JpaRepository<SupplierEntity, Long> {
 
     List<SupplierEntity> findByBuildingId(Long buildingId);
-
-    void deleteByBuildingId(Long buildingId);
 }

@@ -9,12 +9,13 @@ import java.time.LocalDateTime;
 @Getter @Setter @NoArgsConstructor
 public class PlanningMapDTO {
     private Long id;
+    private Long buildingId;
+    private String buildingName;
     private String mapType;
     private String issuedBy;
     private LocalDate issuedDate;
     private LocalDate expiredDate;
     private String imageUrl;
-    private String documentUrl;
     private String note;
     private LocalDateTime createdDate;
     // true nếu expiredDate < today

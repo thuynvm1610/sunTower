@@ -1179,9 +1179,9 @@
                                 </td>
                                 <td><span th:if="${pm.expired}" class="bc bc-expired">Hết hạn</span><span
                                         th:unless="${pm.expired}" class="bc bc-valid">Còn hạn</span></td>
-                                <td><a th:if="${pm.documentUrl}" th:href="${pm.documentUrl}" target="_blank"
+                                <td><a th:if="${pm.imageUrl}" th:href="${pm.imageUrl}" target="_blank"
                                         class="map-link"><i class="bi bi-file-earmark-pdf"></i> PDF</a><span
-                                        th:unless="${pm.documentUrl}">—</span>
+                                        th:unless="${pm.imageUrl}">—</span>
                                 </td>
                             </tr>
                         </tbody>

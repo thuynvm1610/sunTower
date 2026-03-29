@@ -35,9 +35,6 @@ public class PlanningMapEntity {
     @Column(name = "image_url", columnDefinition = "TEXT")
     private String imageUrl;
 
-    @Column(name = "document_url", columnDefinition = "TEXT")
-    private String documentUrl;
-
     @Column(columnDefinition = "TEXT")
     private String note;
 

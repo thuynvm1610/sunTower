@@ -819,32 +819,31 @@ CREATE TABLE planning_map (
     issued_date   DATE,
     expired_date  DATE,
     image_url     TEXT         COMMENT '/uploads/planning/building_id/map.jpg',
-    document_url  TEXT         COMMENT '/uploads/planning/building_id/quyhoach.pdf',
     note          TEXT,
     created_date  DATETIME,
     FOREIGN KEY (building_id) REFERENCES building(id)
 );
 
-INSERT INTO planning_map (building_id, map_type, issued_by, issued_date, expired_date, image_url, document_url, note, created_date) VALUES
-(1 , 'Quy hoạch 1/2000', 'Sở Quy hoạch KT Hà Nội'       , '2017-03-15', '2027-03-15', '/uploads/planning/1/map.jpg' , '/uploads/planning/1/qh.pdf' , 'Phân khu N5 Ba Đình'              , '2018-11-20'),
-(2 , 'Quy hoạch 1/500' , 'UBND quận Nam Từ Liêm, HN'    , '2016-08-01', '2026-08-01', '/uploads/planning/2/map.jpg' , '/uploads/planning/2/qh.pdf' , 'Hành lang xanh sông Nhuệ'         , '2018-08-25'),
-(3 , 'Quy hoạch 1/500' , 'UBND quận Hoàn Kiếm, HN'      , '2018-07-20', '2028-07-20', '/uploads/planning/3/map.jpg' , '/uploads/planning/3/qh.pdf' , 'Khu phố cổ, hạn chế chiều cao'    , '2019-07-18'),
-(4 , 'Quy hoạch 1/2000', 'Sở Quy hoạch KT TP.HCM'       , '2016-01-01', '2026-01-01', '/uploads/planning/4/map.jpg' , '/uploads/planning/4/qh.pdf' , 'Khu trung tâm Q1, hạn chế xây mới', '2018-05-20'),
-(5 , 'Quy hoạch 1/2000', 'UBND quận Hải Châu, Đà Nẵng'  , '2019-06-01', '2029-06-01', '/uploads/planning/5/map.jpg' , '/uploads/planning/5/qh.pdf' , 'Khu thương mại trung tâm ĐN'      , '2020-07-14'),
-(6 , 'Quy hoạch 1/500' , 'Sở Quy hoạch KT TP.HCM'       , '2018-03-01', '2028-03-01', '/uploads/planning/6/map.jpg' , '/uploads/planning/6/qh.pdf' , 'Trục đường Lê Lợi, khu CBD HCM'   , '2019-03-15'),
-(8 , 'Quy hoạch 1/2000', 'UBND quận 7, TP.HCM'          , '2018-06-01', '2028-06-01', '/uploads/planning/8/map.jpg' , '/uploads/planning/8/qh.pdf' , 'Khu đô thị Phú Mỹ Hưng, trục thương mại', '2019-03-10'),
-(9 , 'Quy hoạch 1/2000', 'UBND quận Nam Từ Liêm, HN'    , '2020-01-15', '2030-01-15', '/uploads/planning/9/map.jpg' , '/uploads/planning/9/qh.pdf' , 'Khu đô thị Vinhomes Smart City'   , '2020-06-01'),
-(7 , 'Quy hoạch 1/2000', 'UBND TP. Nha Trang, Khánh Hòa', '2019-09-01', '2029-09-01', '/uploads/planning/7/map.jpg' , '/uploads/planning/7/qh.pdf' , 'Khu du lịch ven biển Trần Phú'    , '2020-06-10'),
-(10, 'Quy hoạch 1/500' , 'UBND TP. Thủ Đức, HCM'        , '2021-06-01', '2031-06-01', '/uploads/planning/10/map.jpg', '/uploads/planning/10/qh.pdf', 'Khu đô thị Thủ Đức mới'           , '2022-03-15'),
-(11, 'Quy hoạch 1/500' , 'UBND TP. Thủ Đức, HCM'        , '2018-03-01', '2028-03-01', '/uploads/planning/11/map.jpg', '/uploads/planning/11/qh.pdf', 'Khu dân cư cao cấp Thảo Điền'     , '2019-01-10'),
-(12, 'Quy hoạch 1/500' , 'UBND TP. Thủ Đức, HCM'        , '2020-07-01', '2030-07-01', '/uploads/planning/12/map.jpg', '/uploads/planning/12/qh.pdf', 'Hành lang sông Đồng Nai, khu đô thị mới' , '2021-03-01'),
-(13, 'Quy hoạch 1/500' , 'UBND quận Thanh Xuân, HN'     , '2017-10-01', '2027-10-01', '/uploads/planning/13/map.jpg', '/uploads/planning/13/qh.pdf', 'Khu dân cư Nguyễn Tuân, hạn chế cao tầng', '2018-05-15'),
-(14, 'Quy hoạch 1/500' , 'UBND quận Bình Thạnh, TP.HCM' , '2018-04-01', '2028-04-01', '/uploads/planning/14/map.jpg', '/uploads/planning/14/qh.pdf', 'Khu ven sông Sài Gòn, Bình Thạnh' , '2019-04-10'),
-(15, 'Quy hoạch 1/2000', 'UBND quận Ngũ Hành Sơn, ĐN'   , '2020-05-01', '2030-05-01', '/uploads/planning/15/map.jpg', '/uploads/planning/15/qh.pdf', 'Khu du lịch Non Nước, bãi biển ĐN', '2021-06-01'),
-(16, 'Quy hoạch 1/2000', 'UBND TP.HCM - Sở GTVT'        , '2016-08-01', '2026-08-01', '/uploads/planning/16/map.jpg', '/uploads/planning/16/qh.pdf', 'Quy hoạch cảng & logistics Cát Lái'      , '2017-03-01'),
-(17, 'Quy hoạch 1/2000', 'Ban QL KCN tỉnh Đồng Nai'     , '2014-06-01', '2024-06-01', '/uploads/planning/17/map.jpg', '/uploads/planning/17/qh.pdf', 'KCN Amata mở rộng giai đoạn 3 — HẾT HẠN' , '2015-01-10'),
-(18, 'Quy hoạch 1/2000', 'Ban QL KCN tỉnh Bình Dương'   , '2019-06-01', '2029-06-01', '/uploads/planning/18/map.jpg', '/uploads/planning/18/qh.pdf', 'KCN VSIP II mở rộng'              , '2020-06-10'),
-(19, 'Quy hoạch 1/2000', 'Ban QL KKT tỉnh Quảng Ninh'   , '2020-09-01', '2030-09-01', '/uploads/planning/19/map.jpg', '/uploads/planning/19/qh.pdf', 'KCN Deep C, Khu KT Ven biển QN'   , '2021-08-15');
+INSERT INTO planning_map (building_id, map_type, issued_by, issued_date, expired_date, image_url, note, created_date) VALUES
+(1 , 'Quy hoạch 1/2000', 'Sở Quy hoạch KT Hà Nội'       , '2017-03-15', '2027-03-15', 'map1.jpg' , 'Phân khu N5 Ba Đình'              , '2018-11-20'),
+(2 , 'Quy hoạch 1/500' , 'UBND quận Nam Từ Liêm, HN'    , '2016-08-01', '2026-08-01', 'map2.jpg' , 'Hành lang xanh sông Nhuệ'         , '2018-08-25'),
+(3 , 'Quy hoạch 1/500' , 'UBND quận Hoàn Kiếm, HN'      , '2018-07-20', '2028-07-20', 'map3.jpg' , 'Khu phố cổ, hạn chế chiều cao'    , '2019-07-18'),
+(4 , 'Quy hoạch 1/2000', 'Sở Quy hoạch KT TP.HCM'       , '2016-01-01', '2026-01-01', 'map4.jpg' , 'Khu trung tâm Q1, hạn chế xây mới', '2018-05-20'),
+(5 , 'Quy hoạch 1/2000', 'UBND quận Hải Châu, Đà Nẵng'  , '2019-06-01', '2029-06-01', 'map5.jpg' , 'Khu thương mại trung tâm ĐN'      , '2020-07-14'),
+(6 , 'Quy hoạch 1/500' , 'Sở Quy hoạch KT TP.HCM'       , '2018-03-01', '2028-03-01', 'map6.jpg' , 'Trục đường Lê Lợi, khu CBD HCM'   , '2019-03-15'),
+(8 , 'Quy hoạch 1/2000', 'UBND quận 7, TP.HCM'          , '2018-06-01', '2028-06-01', 'map7.jpg' , 'Khu đô thị Phú Mỹ Hưng, trục thương mại', '2019-03-10'),
+(9 , 'Quy hoạch 1/2000', 'UBND quận Nam Từ Liêm, HN'    , '2020-01-15', '2030-01-15', 'map8.jpg' , 'Khu đô thị Vinhomes Smart City'   , '2020-06-01'),
+(7 , 'Quy hoạch 1/2000', 'UBND TP. Nha Trang, Khánh Hòa', '2019-09-01', '2029-09-01', 'map9.jpg' , 'Khu du lịch ven biển Trần Phú'    , '2020-06-10'),
+(10, 'Quy hoạch 1/500' , 'UBND TP. Thủ Đức, HCM'        , '2021-06-01', '2031-06-01', 'map10.jpg', 'Khu đô thị Thủ Đức mới'           , '2022-03-15'),
+(11, 'Quy hoạch 1/500' , 'UBND TP. Thủ Đức, HCM'        , '2018-03-01', '2028-03-01', 'map11.jpg', 'Khu dân cư cao cấp Thảo Điền'     , '2019-01-10'),
+(12, 'Quy hoạch 1/500' , 'UBND TP. Thủ Đức, HCM'        , '2020-07-01', '2030-07-01', 'map12.jpg', 'Hành lang sông Đồng Nai, khu đô thị mới' , '2021-03-01'),
+(13, 'Quy hoạch 1/500' , 'UBND quận Thanh Xuân, HN'     , '2017-10-01', '2027-10-01', 'map13.jpg', 'Khu dân cư Nguyễn Tuân, hạn chế cao tầng', '2018-05-15'),
+(14, 'Quy hoạch 1/500' , 'UBND quận Bình Thạnh, TP.HCM' , '2018-04-01', '2028-04-01', 'map14.jpg', 'Khu ven sông Sài Gòn, Bình Thạnh' , '2019-04-10'),
+(15, 'Quy hoạch 1/2000', 'UBND quận Ngũ Hành Sơn, ĐN'   , '2020-05-01', '2030-05-01', 'map15.jpg', 'Khu du lịch Non Nước, bãi biển ĐN', '2021-06-01'),
+(16, 'Quy hoạch 1/2000', 'UBND TP.HCM - Sở GTVT'        , '2016-08-01', '2026-08-01', 'map16.jpg', 'Quy hoạch cảng & logistics Cát Lái'      , '2017-03-01'),
+(17, 'Quy hoạch 1/2000', 'Ban QL KCN tỉnh Đồng Nai'     , '2014-06-01', '2024-06-01', 'map17.jpg', 'KCN Amata mở rộng giai đoạn 3 — HẾT HẠN' , '2015-01-10'),
+(18, 'Quy hoạch 1/2000', 'Ban QL KCN tỉnh Bình Dương'   , '2019-06-01', '2029-06-01', 'map18.jpg', 'KCN VSIP II mở rộng'              , '2020-06-10'),
+(19, 'Quy hoạch 1/2000', 'Ban QL KKT tỉnh Quảng Ninh'   , '2020-09-01', '2030-09-01', 'map19.jpg', 'KCN Deep C, Khu KT Ven biển QN'   , '2021-08-15');
 
 -- =============================================================================
 -- BẢNG CƠ QUAN TƯ PHÁP / LEGAL_AUTHORITY
