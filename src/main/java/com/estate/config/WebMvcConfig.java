@@ -1,4 +1,4 @@
-package com.example.estatemanagement.config;
+package com.estate.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;

@@ -79,6 +79,16 @@ public class AdminDashboardController {
         model.addAttribute("contractYearLabels", contractByYear.keySet());
         model.addAttribute("contractYearCounts", contractByYear.values());
 
+//        model.addAttribute("saleContractRate", contractService.getSaleContractRate());
+        Map<Long, Long> saleRate = contractService.getSaleContractRate();
+        Long totalForSale = saleRate.keySet().iterator().next();
+        Long totalSold = saleRate.values().iterator().next();
+        long totalNotSold = totalForSale - totalSold;
+
+        model.addAttribute("totalForSale", totalForSale);
+        model.addAttribute("totalSold", totalSold);
+        model.addAttribute("totalNotSold", Math.max(totalNotSold, 0));
+
         List<PotentialCustomersDTO> potentialCustomers = customerService.getTopCustomers();
         model.addAttribute("potentialCustomers", potentialCustomers);
 
