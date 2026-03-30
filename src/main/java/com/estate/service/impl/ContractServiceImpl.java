@@ -313,6 +313,11 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
+    public Long countActiveByBuildingId(Long buildingId) {
+        return contractRepository.countByBuildingIdAndStatus(buildingId, "ACTIVE");
+    }
+
+    @Override
     public Long getContractCountByCustomer(Long id) {
         return contractRepository.countByCustomerId(id);
     }

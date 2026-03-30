@@ -1,12 +1,8 @@
 package com.estate.dto;
 
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
@@ -15,68 +11,75 @@ import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class BuildingFormDTO {
-    private Long id; // Null khi thêm mới, có giá trị khi sửa
 
-    @Size(max = 255, message = "Tên tòa nhà không được vượt quá 255 ký tự")
+    private Long id;
+
+    @NotBlank(message = "Tên bất động sản không được để trống")
     private String name;
 
+    @NotNull(message = "Quận/huyện không được để trống")
     private Long districtId;
 
-    @Size(max = 100, message = "Tên phường không được vượt quá 100 ký tự")
+    private String districtName;
+
+    @NotBlank(message = "Phường/xã không được để trống")
     private String ward;
 
-    @Size(max = 255, message = "Tên đường không được vượt quá 255 ký tự")
+    @NotBlank(message = "Đường/phố không được để trống")
     private String street;
 
-    @Min(value = 1, message = "Số tầng phải >= 1")
+    @NotNull(message = "Số tầng không được để trống")
     private Integer numberOfFloor;
 
-    @Min(value = 0, message = "Số tầng hầm phải >= 0")
+    @NotNull(message = "Số tầng hầm không được để trống")
     private Integer numberOfBasement;
 
-    @Min(value = 0, message = "Diện tích sàn phải >= 0")
+    @NotNull(message = "Diện tích sàn không được để trống")
     private Integer floorArea;
 
-    private String direction;
+    private String direction;   // enum name: DONG, TAY...
 
-    private String level;
+    private String level;       // enum name: A, B, A_PLUS...
 
-    @DecimalMin(value = "0.0", inclusive = true, message = "Giá thuê phải >= 0")
+    // ── Phân loại BĐS ──────────────────────────────────────────────────────
+    @NotBlank(message = "Vui lòng chọn loại hình bất động sản")
+    private String propertyType;    // OFFICE | SHOPHOUSE | APARTMENT | WAREHOUSE
+
+    @NotBlank(message = "Vui lòng chọn loại giao dịch")
+    private String transactionType; // FOR_RENT | FOR_SALE
+
+    // ── Giá thuê (FOR_RENT) ─────────────────────────────────────────────────
     private BigDecimal rentPrice;
 
-    @DecimalMin(value = "0.0", inclusive = true, message = "Phí dịch vụ phải >= 0")
-    private BigDecimal serviceFee;
-
-    @DecimalMin(value = "0.0", inclusive = true, message = "Phí ô tô phải >= 0")
-    private BigDecimal carFee;
-
-    @DecimalMin(value = "0.0", inclusive = true, message = "Phí xe máy phải >= 0")
-    private BigDecimal motorbikeFee;
-
-    @DecimalMin(value = "0.0", inclusive = true, message = "Phí nước phải >= 0")
-    private BigDecimal waterFee;
-
-    @DecimalMin(value = "0.0", inclusive = true, message = "Phí điện phải >= 0")
-    private BigDecimal electricityFee;
-
-    @DecimalMin(value = "0.0", inclusive = true, message = "Đặt cọc phải >= 0")
     private BigDecimal deposit;
 
-    @Size(max = 500, message = "Link tòa nhà không được vượt quá 500 ký tự")
+    private BigDecimal serviceFee;
+
+    private BigDecimal carFee;
+
+    private BigDecimal motorbikeFee;
+
+    private BigDecimal waterFee;
+
+    private BigDecimal electricityFee;
+
+    // ── Giá bán (FOR_SALE) ──────────────────────────────────────────────────
+    private BigDecimal salePrice;
+
+    // ── Tọa độ ─────────────────────────────────────────────────────────────
+    @NotNull(message = "Tọa độ không được để trống")
+    private Double latitude;
+
+    @NotNull(message = "Tọa độ không được để trống")
+    private Double longitude;
+
+    // ── Thông tin khác ──────────────────────────────────────────────────────
     private String linkOfBuilding;
 
-    @Size(max = 500, message = "Link hình ảnh không được vượt quá 500 ký tự")
-    private String image;
+    private String image;               // tên file ảnh, VD: "abc123.jpg"
 
-    @Pattern(
-            regexp = "^\\d+(,\\d+)*$",
-            message = "Chuỗi diện tích phải có dạng: 100,200,300 (các số nguyên ngăn cách bởi dấu phẩy)"
-    )
-    private String rentAreaValues;
+    private String rentAreaValues;      // "100,200,350"
 
-    @Size(min = 1, message = "Vui lòng chọn ít nhất một nhân viên quản lý")
     private List<Long> staffIds = new ArrayList<>();
 }

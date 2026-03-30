@@ -9,6 +9,4 @@ import java.util.List;
 public interface LegalAuthorityRepository extends JpaRepository<LegalAuthorityEntity, Long> {
 
     List<LegalAuthorityEntity> findByBuildingId(Long buildingId);
-
-    void deleteByBuildingId(Long buildingId);
 }

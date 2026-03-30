@@ -35,6 +35,8 @@ public interface ContractRepository extends JpaRepository<ContractEntity, Long>,
             "ORDER BY YEAR(c.startDate)")
     List<Long[]> countContractsByYear();
 
+    long countByBuildingIdAndStatus(Long buildingId, String status);
+
     long countByBuildingId(Long buildingId);
 
     long countByCustomerId(Long customerId);

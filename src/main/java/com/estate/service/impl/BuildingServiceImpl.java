@@ -10,6 +10,7 @@ import com.estate.dto.BuildingListDTO;
 import com.estate.exception.BusinessException;
 import com.estate.repository.*;
 import com.estate.repository.entity.BuildingEntity;
+import com.estate.repository.entity.SaleContractEntity;
 import com.estate.service.BuildingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,10 +31,7 @@ public class BuildingServiceImpl implements BuildingService {
     private BuildingRepository buildingRepository;
 
     @Autowired
-    private DistrictRepository districtRepository;
-
-    @Autowired
-    private RentAreaRepository rentAreaRepository;
+    private SaleContractRepository saleContractRepository;
 
     @Autowired
     private BuildingListConverter buildingListConverter;
@@ -178,7 +176,10 @@ public class BuildingServiceImpl implements BuildingService {
         BuildingEntity entity;
         if (dto.getId() != null) {
             entity = buildingRepository.findById(dto.getId())
-                    .orElseThrow(() -> new BusinessException("Không tìm thấy tòa nhà để sửa"));
+                    .orElseThrow(() -> new BusinessException("Không tìm thấy bất động sản"));
+            if (saleContractRepository.saleContractCnt(dto.getId()) == 1) {
+                throw new BusinessException("Bất động sản đã đuọc bán, không thể sửa");
+            }
         } else {
             entity = new BuildingEntity();
         }
@@ -189,7 +190,7 @@ public class BuildingServiceImpl implements BuildingService {
     @Override
     public BuildingFormDTO findById(Long id) {
         BuildingEntity buildingEntity = buildingRepository.findById(id)
-                .orElseThrow(() -> new BusinessException("Không tìm thấy tòa nhà"));
+                .orElseThrow(() -> new BusinessException("Không tìm thấy bất động sản"));
         return buildingFormConverter.toDTO(buildingEntity);
     }
 

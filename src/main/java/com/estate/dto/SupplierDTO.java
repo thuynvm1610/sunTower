@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class SupplierDTO {
     private Long id;
+    private Long buildingId;
+    private String buildingName;
     private String name;
     private String serviceType;
     private String phone;

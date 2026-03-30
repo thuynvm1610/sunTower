@@ -9,6 +9,8 @@ import java.time.LocalDateTime;
 @Getter @Setter @NoArgsConstructor
 public class NearbyAmenityDTO {
     private Long id;
+    private Long buildingId;
+    private String buildingName;
     private String name;
     private String amenityType;       // SHOPPING, PARK, HOSPITAL...
     private String amenityTypeLabel;  // Việt hóa
