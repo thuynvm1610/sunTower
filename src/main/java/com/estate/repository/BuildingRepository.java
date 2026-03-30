@@ -1,5 +1,6 @@
 package com.estate.repository;
 
+import com.estate.enums.TransactionType;
 import com.estate.repository.custom.BuildingRepositoryCustom;
 import com.estate.repository.entity.BuildingEntity;
 import org.springframework.data.domain.Pageable;
@@ -37,4 +38,11 @@ public interface BuildingRepository extends JpaRepository<BuildingEntity, Long>,
                   AND b.id = :buildingId
             """)
     Boolean isStaffManagesBuilding(Long staffId, Long buildingId);
+
+    @Query("""
+                SELECT COUNT(b)
+                FROM BuildingEntity b
+                WHERE b.transactionType = :transactionType
+            """)
+    Long countByTransactionType(TransactionType transactionType);
 }

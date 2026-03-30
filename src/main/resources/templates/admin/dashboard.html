@@ -13,282 +13,261 @@
 
     <style>
         body {
-            background: #fafbfc;
+            background: #f4f6f9;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             overflow-x: hidden;
         }
 
         main.content {
-            margin-left: 250px;
-            padding: 2.5rem 3rem;
-            margin-top: 70px;
+            margin-left: 220px;
+            padding: 0;
+            margin-top: 72px;
         }
 
-        /* Minimalist stat cards */
+        /* ══ PAGE HEADER (giống detail) ══════════════════════════════════════ */
+        .detail-body {
+            padding: 1.5rem;
+        }
+
+        .page-header-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            gap: 1rem;
+        }
+
+        .page-header-bar h2 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #111827;
+            margin: 0;
+        }
+
+        .page-header-bar .update-time {
+            font-size: 0.8125rem;
+            color: #9ca3af;
+            margin-top: 0.2rem;
+        }
+
+        /* ══ STAT CARDS ══════════════════════════════════════════════════════ */
         .stat-card {
-            border: none;
-            border-radius: 16px;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1.75rem;
-            transition: all .5s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: box-shadow 0.2s, transform 0.2s;
+            cursor: pointer;
             position: relative;
             overflow: hidden;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
         }
 
-        /* Gradient border effect */
         .stat-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
+            width: 4px;
             height: 100%;
-            border-radius: 16px;
-            padding: 2px;
-            background: linear-gradient(135deg, transparent, transparent);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0;
-            transition: all .5s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 10px 0 0 10px;
         }
 
-        /* Ripple effect */
-        .stat-card::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: all .6s cubic-bezier(0.4, 0, 0.2, 1);
-            opacity: 0;
-            z-index: 0;
-        }
-
-        /* Primary card colors */
         .stat-card.primary::before {
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            background: #3b82f6;
         }
 
-        .stat-card.primary::after {
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.3), transparent);
-        }
-
-        .stat-card.primary .icon-wrapper {
-            background: linear-gradient(135deg, #dbeafe, #ede9fe);
-            color: #3b82f6;
-        }
-
-        /* Success card colors */
         .stat-card.success::before {
-            background: linear-gradient(135deg, #10b981, #059669);
+            background: #10b981;
         }
 
-        .stat-card.success::after {
-            background: radial-gradient(circle, rgba(16, 185, 129, 0.3), transparent);
-        }
-
-        .stat-card.success .icon-wrapper {
-            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
-            color: #10b981;
-        }
-
-        /* Warning card colors */
         .stat-card.warning::before {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
+            background: #f59e0b;
         }
 
-        .stat-card.warning::after {
-            background: radial-gradient(circle, rgba(245, 158, 11, 0.3), transparent);
-        }
-
-        .stat-card.warning .icon-wrapper {
-            background: linear-gradient(135deg, #fef3c7, #fde68a);
-            color: #f59e0b;
-        }
-
-        /* Danger card colors */
         .stat-card.danger::before {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
+            background: #ef4444;
         }
 
-        .stat-card.danger::after {
-            background: radial-gradient(circle, rgba(239, 68, 68, 0.3), transparent);
+        .stat-card:hover {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
         }
 
-        .stat-card.danger .icon-wrapper {
-            background: linear-gradient(135deg, #fee2e2, #fecaca);
-            color: #ef4444;
-        }
-
-        /* Icon wrapper */
         .stat-card .icon-wrapper {
-            width: 56px;
-            height: 56px;
-            border-radius: 12px;
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-            transition: all .5s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 1.375rem;
+            flex-shrink: 0;
         }
 
-        /* Text elements */
+        .stat-card.primary .icon-wrapper {
+            background: #eff6ff;
+            color: #3b82f6;
+        }
+
+        .stat-card.success .icon-wrapper {
+            background: #ecfdf5;
+            color: #10b981;
+        }
+
+        .stat-card.warning .icon-wrapper {
+            background: #fffbeb;
+            color: #f59e0b;
+        }
+
+        .stat-card.danger .icon-wrapper {
+            background: #fef2f2;
+            color: #ef4444;
+        }
+
+        .stat-card .stat-text {
+            flex: 1;
+            min-width: 0;
+        }
+
         .stat-card .stat-label {
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: #6b7280;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #9ca3af;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.5rem;
-            transition: all .3s ease;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.2rem;
         }
 
         .stat-card .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
+            font-size: 1.75rem;
+            font-weight: 800;
             color: #111827;
-            transition: all .3s ease;
+            line-height: 1.1;
         }
 
-        /* Hover effects */
-        .stat-card:hover {
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.18), 0 12px 24px rgba(0, 0, 0, 0.12);
-            transform: translateY(-12px) scale(1.02);
-            background: rgba(255, 255, 255, 1);
-        }
-
-        .stat-card:hover::before {
-            opacity: 1;
-        }
-
-        .stat-card:hover::after {
-            width: 500px;
-            height: 500px;
-            opacity: 1;
-        }
-
-        .stat-card:hover .icon-wrapper {
-            transform: scale(1.1) rotate(5deg);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-        }
-
-        .stat-card:hover .stat-value {
-            transform: scale(1.05);
-        }
-
-        .stat-card:hover .stat-label {
-            color: #374151;
-        }
-
-        /* Active/Click effect */
-        .stat-card:active {
-            transform: translateY(-8px) scale(1.01);
-            transition: all .1s ease;
-        }
-
-        .stat-card>* {
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Clean chart cards */
-        .chart-card {
-            background: white;
+        /* ══ D-CARD (giống detail) ═══════════════════════════════════════════ */
+        .d-card {
+            background: #fff;
             border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 1.5rem;
-            height: 100%;
+            border-radius: 10px;
         }
 
-        .chart-card .chart-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #111827;
-            margin-bottom: 1.5rem;
+        .d-card-header {
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            padding: 0.875rem 1.5rem;
+            border-bottom: 1px solid #f3f4f6;
+            background: #fafbfc;
+            border-radius: 10px 10px 0 0;
         }
 
-        .chart-card .chart-title i {
-            font-size: 1.125rem;
-            color: #6b7280;
+        .d-card-header i {
+            font-size: 0.9375rem;
+            color: #3b82f6;
         }
 
-        /* Minimal table */
-        .minimal-table {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .minimal-table .table-header {
-            padding: 1.25rem 1.5rem;
-            border-bottom: 1px solid #e5e7eb;
-            font-weight: 600;
+        .d-card-header h3 {
+            font-size: 0.875rem;
+            font-weight: 700;
             color: #111827;
-            font-size: 1rem;
-        }
-
-        .minimal-table table {
             margin: 0;
         }
 
-        .minimal-table thead th {
-            background: #f9fafb;
-            border: none;
-            border-bottom: 1px solid #e5e7eb;
-            padding: 0.875rem 1rem;
-            font-size: 0.875rem;
+        .d-card-header .header-badge {
+            margin-left: auto;
+            font-size: 0.72rem;
             font-weight: 600;
-            color: #6b7280;
-            text-transform: uppercase;
-            letter-spacing: 0.025em;
+            padding: 0.2rem 0.55rem;
+            border-radius: 20px;
+            background: #eff6ff;
+            color: #1d4ed8;
         }
 
-        .minimal-table tbody td {
-            padding: 1rem;
-            border: none;
+        .d-card-body {
+            padding: 1.5rem;
+        }
+
+        /* ══ CHART LEGEND PILLS ══════════════════════════════════════════════ */
+        .legend-pills {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .legend-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        /* ══ TABLE (giống .dt trong detail) ══════════════════════════════════ */
+        .dash-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8125rem;
+        }
+
+        .dash-table thead th {
+            background: #f8fafc;
+            padding: 0.5rem 0.875rem;
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            border-bottom: 1.5px solid #e9ecef;
+            white-space: nowrap;
+        }
+
+        .dash-table tbody td {
+            padding: 0.625rem 0.875rem;
             border-bottom: 1px solid #f3f4f6;
             color: #374151;
             vertical-align: middle;
+            font-size: 0.8125rem;
         }
 
-        .minimal-table tbody tr:last-child td {
+        .dash-table tbody tr:last-child td {
             border-bottom: none;
         }
 
-        .minimal-table tbody tr:hover {
-            background: #f9fafb;
+        .dash-table tbody tr {
+            cursor: pointer;
+            transition: background 0.15s, transform 0.15s;
         }
 
-        /* Badge styles */
-        .badge-minimal {
-            padding: 0.375rem 0.75rem;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 0.875rem;
+        .dash-table tbody tr:hover {
+            background: #f0f9ff;
         }
 
-        /* Rankings */
+        .dash-table tbody tr:hover td {
+            color: #1e40af;
+        }
+
+        /* ══ RANK BADGES ═════════════════════════════════════════════════════ */
         .rank-badge {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
+            width: 28px;
+            height: 28px;
+            border-radius: 7px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 0.875rem;
+            font-size: 0.8rem;
         }
 
         .rank-1 {
@@ -306,76 +285,91 @@
             color: #9a3412;
         }
 
-        /* Recent list */
-        .recent-list {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
+        /* ══ RECENT LIST (giống staff-item trong detail) ═════════════════════ */
+        .recent-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.625rem 0.875rem;
+            background: #f9fafb;
+            border: 1px solid #e9ecef;
+            border-radius: 7px;
+            cursor: pointer;
+            transition: background 0.15s;
+            font-size: 0.875rem;
+            margin-bottom: 0.375rem;
+        }
+
+        .recent-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .recent-item:hover {
+            background: #f0f9ff;
+            border-color: #bfdbfe;
+        }
+
+        .recent-item i {
+            color: #3b82f6;
+            font-size: 0.9rem;
+        }
+
+        .recent-item .ri-name {
+            font-weight: 600;
+            color: #111827;
+            font-size: 0.8125rem;
+        }
+
+        .recent-item .ri-sub {
+            font-size: 0.72rem;
+            color: #9ca3af;
+            margin-top: 0.1rem;
+        }
+
+        /* ══ PROGRESS BAR (nhân viên) ════════════════════════════════════════ */
+        .perf-bar-wrap {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .perf-bar-bg {
+            flex: 1;
+            height: 6px;
+            background: #f3f4f6;
+            border-radius: 3px;
             overflow: hidden;
         }
 
-        .recent-list .list-header {
-            padding: 1.25rem 1.5rem;
-            border-bottom: 1px solid #e5e7eb;
-            font-weight: 600;
-            color: #111827;
-            font-size: 1rem;
+        .perf-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #059669);
+            border-radius: 3px;
+            transition: width 0.4s;
         }
 
-        .recent-list .list-group-item {
-            border: none;
-            border-bottom: 1px solid #f3f4f6;
-            padding: 1rem 1.5rem;
-            background: transparent;
-        }
-
-        .recent-list .list-group-item:last-child {
-            border-bottom: none;
-        }
-
-        .recent-list .list-group-item:hover {
-            background: #f9fafb;
-        }
-
-        /* Page header */
-        .page-header {
-            margin-bottom: 2rem;
-        }
-
-        .page-header h2 {
-            font-size: 1.75rem;
+        .perf-pct {
+            font-size: 0.72rem;
             font-weight: 700;
-            color: #111827;
-            margin: 0;
-        }
-
-        .page-header .update-time {
-            font-size: 0.875rem;
             color: #6b7280;
-            margin-top: 0.25rem;
+            min-width: 38px;
+            text-align: right;
         }
 
-        .minimal-table tbody tr {
-            transition: all 0.2s ease;
+        /* ══ BADGE PILLS ═════════════════════════════════════════════════════ */
+        .bc {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.2rem 0.55rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.78rem;
+            white-space: nowrap;
         }
 
-        .minimal-table tbody tr:hover {
-            background: #f0f9ff;
-            transform: translateX(4px);
-            box-shadow: inset 3px 0 0 #3b82f6;
-        }
-
-        .minimal-table tbody tr:hover td {
-            color: #1e40af;
-        }
-
-        .minimal-table tbody tr:hover .rank-badge {
-            transform: scale(1.1);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        .minimal-table tbody tr:hover .badge {
-            transform: scale(1.05);
+        .bc-primary {
+            background: #eff6ff;
+            color: #1d4ed8;
         }
     </style>
 </head>
@@ -387,328 +381,382 @@
     <div th:replace="~{layout/sidebar :: sidebar}"></div>
 
     <main class="content">
-        <div class="container-fluid">
-            <!-- Page Header -->
-            <div class="page-header">
-                <h2>Dashboard</h2>
-                <div class="update-time">
-                    Cập nhật lần cuối: <span th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy HH:mm')}"></span>
+        <div class="detail-body">
+
+            <!-- ── Page Header ─────────────────────────────────────────────── -->
+            <div class="page-header-bar">
+                <div>
+                    <h2><i class="bi bi-grid-1x2 me-2" style="color:#3b82f6;font-size:1.2rem;"></i>Dashboard</h2>
+                    <div class="update-time">
+                        Cập nhật lần cuối:
+                        <span th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy HH:mm')}"></span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Stats Overview -->
-            <div class="row g-4 mb-4">
+            <!-- ── Stats Overview ──────────────────────────────────────────── -->
+            <div class="row g-3 mb-4">
                 <div class="col-lg-3 col-md-6">
                     <div class="stat-card primary" onclick="window.location='/admin/building/list'">
                         <div class="icon-wrapper"><i class="bi bi-building"></i></div>
-                        <div class="stat-label">Tòa nhà</div>
-                        <div class="stat-value" th:text="${totalBuildings}"></div>
+                        <div class="stat-text">
+                            <div class="stat-label">Tòa nhà</div>
+                            <div class="stat-value" th:text="${totalBuildings}">0</div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <div class="stat-card success" onclick="window.location='/admin/customer/list'">
                         <div class="icon-wrapper"><i class="bi bi-people"></i></div>
-                        <div class="stat-label">Khách hàng</div>
-                        <div class="stat-value" th:text="${totalCustomers}"></div>
+                        <div class="stat-text">
+                            <div class="stat-label">Khách hàng</div>
+                            <div class="stat-value" th:text="${totalCustomers}">0</div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <div class="stat-card warning" onclick="window.location='/admin/staff/list'">
                         <div class="icon-wrapper"><i class="bi bi-person-badge"></i></div>
-                        <div class="stat-label">Nhân viên</div>
-                        <div class="stat-value" th:text="${totalStaffs}"></div>
+                        <div class="stat-text">
+                            <div class="stat-label">Nhân viên</div>
+                            <div class="stat-value" th:text="${totalStaffs}">0</div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <div class="stat-card danger" onclick="window.location='/admin/contract/list'">
                         <div class="icon-wrapper"><i class="bi bi-file-earmark-text"></i></div>
-                        <div class="stat-label">Hợp đồng</div>
-                        <div class="stat-value" th:text="${totalContracts}"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row g-4 mb-4">
-                <div class="col-lg-12">
-                    <div class="chart-card">
-                        <div class="chart-title">
-                            <i class="bi bi-graph-up"></i>
-                            Doanh thu theo tháng của năm <span th:text="${currentYear}"></span>
-                        </div>
-                        <div style="position: relative; height: 300px;">
-                            <canvas id="revenueChart02"></canvas>
+                        <div class="stat-text">
+                            <div class="stat-label">Hợp đồng</div>
+                            <div class="stat-value" th:text="${totalContracts}">0</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Charts Row 1 -->
-            <div class="row g-4 mb-4">
+            <!-- ── Row 1: Doanh thu theo tháng (gộp) + Doanh thu 3 năm ─────── -->
+            <div class="row g-3 mb-4">
                 <div class="col-lg-8">
-                    <div class="chart-card">
-                        <div class="chart-title">
-                            <i class="bi bi-graph-up"></i>
-                            Doanh thu theo tháng của năm <span th:text="${lastYear}"></span>
-                        </div>
-                        <div style="position: relative; height: 300px;">
-                            <canvas id="revenueChart01"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="chart-card">
-                        <div class="chart-title">
-                            <i class="bi bi-pie-chart"></i>
-                            Tòa nhà theo quận
-                        </div>
-                        <div style="position: relative; height: 300px;">
-                            <canvas id="districtChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Charts Row 2 -->
-            <div class="row g-4 mb-4">
-                <div class="col-lg-4">
-                    <div class="chart-card">
-                        <div class="chart-title">
-                            <i class="bi bi-bar-chart"></i>
-                            Doanh thu 3 năm
-                        </div>
-                        <div style="position: relative; height: 250px;">
-                            <canvas id="revenue3YearChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="chart-card">
-                        <div class="chart-title">
-                            <i class="bi bi-buildings"></i>
-                            Hợp đồng theo tòa nhà
-                        </div>
-                        <div style="position: relative; height: 250px;">
-                            <canvas id="contractsByBuildingChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="chart-card">
-                        <div class="chart-title">
-                            <i class="bi bi-calendar3"></i>
-                            Hợp đồng theo năm
-                        </div>
-                        <div style="position: relative; height: 250px;">
-                            <canvas id="contract3YearChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Data Tables Row -->
-            <div class="row g-4 mb-4">
-                <!-- Recent Buildings -->
-                <div class="col-lg-6">
-                    <div class="recent-list">
-                        <div class="list-header">Tòa nhà thêm gần đây</div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item" th:each="building : ${recentBuildings}"
-                                th:onclick="|window.location='/admin/building/' + ${building.id}|"
-                                style="cursor: pointer;">
-                                <strong th:text="${building.name}"></strong>
-                                <div style="font-size: 0.875rem; color: #6b7280; margin-top: 0.25rem;">
-                                    Quản lý: <span th:text="${building.managerName}"></span>
-                                </div>
-                            </li>
-                            <li class="list-group-item text-center" style="color: #9ca3af;"
-                                th:if="${#lists.isEmpty(recentBuildings)}">
-                                Không có dữ liệu gần đây
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Top Customers -->
-                <div class="col-lg-6">
-                    <div class="minimal-table">
-                        <div class="table-header">Top khách hàng</div>
-                        <table class="table mb-0">
-                            <thead>
-                                <tr>
-                                    <th style="width: 60px;">Top</th>
-                                    <th>Mã KH</th>
-                                    <th>Tên khách hàng</th>
-                                    <th style="text-align: right;">Hợp đồng</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="customer, iter : ${potentialCustomers}"
-                                    th:onclick="|window.location='/admin/customer/' + ${customer.customerId}|"
-                                    style="cursor: pointer;">
-                                    <td>
-                                        <span class="rank-badge"
-                                            th:classappend="${iter.index == 0 ? 'rank-1' : iter.index == 1 ? 'rank-2' : iter.index == 2 ? 'rank-3' : ''}"
-                                            th:text="${iter.index + 1}">
-                                        </span>
-                                    </td>
-                                    <td th:text="${customer.customerId}"></td>
-                                    <td th:text="${customer.fullName}"></td>
-                                    <td style="text-align: right;">
-                                        <span class="badge bg-primary badge-minimal"
-                                            th:text="${customer.contractCount}"></span>
-                                    </td>
-                                </tr>
-                                <tr th:if="${#lists.isEmpty(potentialCustomers)}">
-                                    <td colspan="4" class="text-center" style="color: #9ca3af;">Không có dữ liệu</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Top Staff Table -->
-            <div class="minimal-table">
-                <div class="table-header">Top 5 nhân viên hiệu suất cao</div>
-                <table class="table mb-0">
-                    <thead>
-                        <tr>
-                            <th style="width: 60px;">Top</th>
-                            <th>Mã NV</th>
-                            <th>Tên nhân viên</th>
-                            <th style="text-align: center;">Hợp đồng</th>
-                            <th style="width: 200px;">Tỷ lệ đóng góp</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="staff, iter : ${topStaffs}"
-                            th:onclick="|window.location='/admin/staff/' + ${staff.staffId}|" style="cursor: pointer;">
-                            <td>
-                                <span class="rank-badge"
-                                    th:classappend="${iter.index == 0 ? 'rank-1' : iter.index == 1 ? 'rank-2' : iter.index == 2 ? 'rank-3' : ''}"
-                                    th:text="${iter.index + 1}">
+                    <div class="d-card h-100">
+                        <div class="d-card-header">
+                            <i class="bi bi-graph-up-arrow"></i>
+                            <h3>Doanh thu theo tháng</h3>
+                            <div class="legend-pills ms-auto">
+                                <span class="legend-pill">
+                                    <span class="legend-dot" style="background:#3b82f6;"></span>
+                                    Năm <span th:text="${currentYear}">2024</span>
                                 </span>
-                            </td>
-                            <td th:text="${staff.staffId}"></td>
-                            <td th:text="${staff.fullName}"></td>
-                            <td style="text-align: center;" th:text="${staff.contractCount}"></td>
-                            <td>
-                                <div class="d-flex align-items-center gap-2">
-                                    <div class="bg-success" th:style="'width:' + ${staff.performancePercent} + '%'">
-                                    </div>
-                                </div>
-                                <small style="font-weight: 600; color: #6b7280; min-width: 40px;"
-                                    th:text="${staff.performancePercent + '%'}"></small>
+                                <span class="legend-pill">
+                                    <span class="legend-dot"
+                                        style="background:#e2e8f0;border:2px solid #94a3b8;"></span>
+                                    Năm <span th:text="${lastYear}">2023</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="d-card-body">
+                            <div style="position:relative;height:280px;">
+                                <canvas id="revenueChartCombined"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="d-card h-100">
+                        <div class="d-card-header">
+                            <i class="bi bi-bar-chart-line"></i>
+                            <h3>Doanh thu 3 năm</h3>
+                        </div>
+                        <div class="d-card-body">
+                            <div style="position:relative;height:280px;">
+                                <canvas id="revenue3YearChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            </td>
-            </tr>
-            <tr th:if="${#lists.isEmpty(topStaffs)}">
-                <td colspan="5" class="text-center" style="color: #9ca3af;">Chưa có dữ liệu hiệu suất</td>
-            </tr>
-            </tbody>
-            </table>
-        </div>
-        </div>
+
+            <!-- ── Row 2: Hợp đồng theo tòa nhà + theo năm + tòa nhà theo quận ── -->
+            <div class="row g-3 mb-4">
+                <div class="col-lg-4">
+                    <div class="d-card h-100">
+                        <div class="d-card-header">
+                            <i class="bi bi-buildings"></i>
+                            <h3>Hợp đồng thuê theo tòa nhà</h3>
+                        </div>
+                        <div class="d-card-body">
+                            <div style="position:relative;height:250px;">
+                                <canvas id="contractsByBuildingChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="d-card h-100">
+                        <div class="d-card-header">
+                            <i class="bi bi-calendar3"></i>
+                            <h3>Hợp đồng theo năm</h3>
+                        </div>
+                        <div class="d-card-body">
+                            <div style="position:relative;height:250px;">
+                                <canvas id="contract3YearChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="d-card h-100">
+                        <div class="d-card-header">
+                            <i class="bi bi-pie-chart"></i>
+                            <h3>Tòa nhà theo quận</h3>
+                        </div>
+                        <div class="d-card-body">
+                            <div style="position:relative;height:250px;">
+                                <canvas id="districtChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Row 3: Top khách hàng + Top nhân viên ──────────────────── -->
+            <div class="row g-3 mb-4">
+                <div class="col-lg-5">
+                    <div class="d-card h-100">
+                        <div class="d-card-header">
+                            <i class="bi bi-trophy"></i>
+                            <h3>Top khách hàng</h3>
+                        </div>
+                        <div class="d-card-body" style="padding:0;">
+                            <table class="dash-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:52px;">Top</th>
+                                        <th>Mã KH</th>
+                                        <th>Tên khách hàng</th>
+                                        <th style="text-align:right;">Hợp đồng</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="customer, iter : ${potentialCustomers}"
+                                        th:onclick="|window.location='/admin/customer/' + ${customer.customerId}|">
+                                        <td>
+                                            <span class="rank-badge"
+                                                th:classappend="${iter.index == 0 ? 'rank-1' : iter.index == 1 ? 'rank-2' : iter.index == 2 ? 'rank-3' : ''}"
+                                                th:text="${iter.index + 1}"></span>
+                                        </td>
+                                        <td th:text="'KH-' + ${customer.customerId}"></td>
+                                        <td th:text="${customer.fullName}"></td>
+                                        <td style="text-align:right;">
+                                            <span class="bc bc-primary" th:text="${customer.contractCount}"></span>
+                                        </td>
+                                    </tr>
+                                    <tr th:if="${#lists.isEmpty(potentialCustomers)}">
+                                        <td colspan="4" style="text-align:center;color:#9ca3af;">Không có dữ liệu</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <div class="d-card h-100">
+                        <div class="d-card-header">
+                            <i class="bi bi-person-check"></i>
+                            <h3>Top 5 nhân viên hiệu suất cao</h3>
+                        </div>
+                        <div class="d-card-body" style="padding:0;">
+                            <table class="dash-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:52px;">Top</th>
+                                        <th>Mã NV</th>
+                                        <th>Tên nhân viên</th>
+                                        <th style="text-align:center;">Hợp đồng</th>
+                                        <th style="min-width:160px;">Tỷ lệ đóng góp</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="staff, iter : ${topStaffs}"
+                                        th:onclick="|window.location='/admin/staff/' + ${staff.staffId}|">
+                                        <td>
+                                            <span class="rank-badge"
+                                                th:classappend="${iter.index == 0 ? 'rank-1' : iter.index == 1 ? 'rank-2' : iter.index == 2 ? 'rank-3' : ''}"
+                                                th:text="${iter.index + 1}"></span>
+                                        </td>
+                                        <td th:text="'NV-' + ${staff.staffId}"></td>
+                                        <td th:text="${staff.fullName}"></td>
+                                        <td style="text-align:center;" th:text="${staff.contractCount}"></td>
+                                        <td>
+                                            <div class="perf-bar-wrap">
+                                                <div class="perf-bar-bg">
+                                                    <div class="perf-bar-fill"
+                                                        th:style="'width:' + ${staff.performancePercent} + '%'"></div>
+                                                </div>
+                                                <span class="perf-pct"
+                                                    th:text="${staff.performancePercent + '%'}"></span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr th:if="${#lists.isEmpty(topStaffs)}">
+                                        <td colspan="5" style="text-align:center;color:#9ca3af;padding:1.5rem;">
+                                            Chưa có dữ liệu hiệu suất
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Row 4: Tòa nhà thêm gần đây ───────────────────────────── -->
+            <div class="row g-3 mb-2">
+                <div class="col-lg-6">
+                    <div class="d-card">
+                        <div class="d-card-header">
+                            <i class="bi bi-building-add"></i>
+                            <h3>Tòa nhà thêm gần đây</h3>
+                        </div>
+                        <div class="d-card-body">
+                            <div th:each="building, iterStat : ${recentBuildings}" th:if="${iterStat.index < 4}"
+                                class="recent-item" th:onclick="|window.location='/admin/building/' + ${building.id}|">
+                                <i class="bi bi-building"></i>
+                                <div style="min-width:0;">
+                                    <div class="ri-name" th:text="${building.name}">Tòa nhà</div>
+                                    <div class="ri-sub">Quản lý: <span th:text="${building.managerName}"></span></div>
+                                </div>
+                                <i class="bi bi-chevron-right ms-auto"
+                                    style="color:#d1d5db;font-size:0.75rem;flex-shrink:0;"></i>
+                            </div>
+                            <div th:if="${#lists.isEmpty(recentBuildings)}"
+                                style="text-align:center;color:#9ca3af;font-size:0.8125rem;padding:1rem 0;">
+                                Không có dữ liệu gần đây
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="d-card h-100">
+                        <div class="d-card-header">
+                            <i class="bi bi-house-check" style="color:#8b5cf6;"></i>
+                            <h3>Tỷ lệ tòa nhà đã bán</h3>
+                            <span class="header-badge" style="background:#f5f3ff;color:#6d28d9;">
+                                Chào bán: <span th:text="${totalForSale}">0</span>
+                            </span>
+                        </div>
+                        <div class="d-card-body"
+                            style="display:flex;flex-direction:column;align-items:center;gap:1rem;">
+                            <div
+                                style="position:relative; height:200px; width:240px; padding:10px; box-sizing:content-box;">
+                                <canvas id="saleRateChart"></canvas>
+                            </div>
+                            <!-- Legend -->
+                            <div style="display:flex;gap:1.5rem;">
+                                <div class="legend-pill">
+                                    <span class="legend-dot" style="background:#8b5cf6;"></span>
+                                    Đã bán (<span th:text="${totalSold}">0</span>)
+                                </div>
+                                <div class="legend-pill">
+                                    <span class="legend-dot"
+                                        style="background:#e5e7eb;border:1.5px solid #d1d5db;"></span>
+                                    Chưa bán (<span th:text="${totalNotSold}">0</span>)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /detail-body -->
     </main>
 
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Boostrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script th:inline="javascript">
-        // Chart default config
         Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
         Chart.defaults.color = '#6b7280';
+        Chart.defaults.font.size = 12;
 
-        // Revenue Chart - Monthly
-        const revenueData02 = /*[[${monthlyRevenue}]]*/[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-        new Chart(document.getElementById('revenueChart02'), {
+        const tooltipDefaults = {
+            backgroundColor: 'rgba(17, 24, 39, 0.92)',
+            titleColor: '#f9fafb',
+            bodyColor: '#d1d5db',
+            padding: 10,
+            borderColor: '#374151',
+            borderWidth: 1,
+            cornerRadius: 6
+        };
+
+        const scaleDefaults = {
+            y: {
+                beginAtZero: true,
+                grid: { color: '#f3f4f6' },
+                border: { display: false }
+            },
+            x: {
+                grid: { display: false },
+                border: { display: false }
+            }
+        };
+
+        /* ── COMBINED Revenue Chart (năm hiện tại + năm trước) ──────────────── */
+        const revenueDataCurrent = /*[[${monthlyRevenue}]]*/[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        const revenueDataLastYear = /*[[${monthlyRevenueLastYear}]]*/[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        const currentYear = /*[[${currentYear}]]*/ 2024;
+        const lastYear = /*[[${lastYear}]]*/ 2023;
+
+        new Chart(document.getElementById('revenueChartCombined'), {
             type: 'line',
             data: {
                 labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'],
-                datasets: [{
-                    label: 'Doanh thu (tỷ VNĐ)',
-                    data: revenueData02.map(v => v / 1_000_000_000),
-                    borderColor: '#3b82f6',
-                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                    fill: true,
-                    tension: 0.4,
-                    borderWidth: 2,
-                    pointRadius: 3,
-                    pointHoverRadius: 5
-                }]
+                datasets: [
+                    {
+                        label: 'Năm ' + currentYear,
+                        data: revenueDataCurrent.map(v => v / 1_000_000_000),
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59,130,246,0.08)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 2.5,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#3b82f6',
+                        pointHoverRadius: 6
+                    },
+                    {
+                        label: 'Năm ' + lastYear,
+                        data: revenueDataLastYear.map(v => v / 1_000_000_000),
+                        borderColor: '#94a3b8',
+                        backgroundColor: 'rgba(148,163,184,0.06)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 2,
+                        borderDash: [5, 3],
+                        pointRadius: 3,
+                        pointBackgroundColor: '#94a3b8',
+                        pointHoverRadius: 5
+                    }
+                ]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                interaction: { mode: 'index', intersect: false },
                 plugins: {
                     legend: { display: false },
                     tooltip: {
-                        backgroundColor: 'rgba(17, 24, 39, 0.95)',
-                        padding: 12,
-                        borderColor: '#e5e7eb',
-                        borderWidth: 1
+                        ...tooltipDefaults,
+                        callbacks: {
+                            label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(2)} tỷ VNĐ`
+                        }
                     }
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: { color: '#f3f4f6' },
-                        border: { display: false }
-                    },
-                    x: {
-                        grid: { display: false },
-                        border: { display: false }
-                    }
-                }
+                scales: scaleDefaults
             }
         });
 
-        const revenueData01 = /*[[${monthlyRevenueLastYear}]]*/[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-        new Chart(document.getElementById('revenueChart01'), {
-            type: 'line',
-            data: {
-                labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'],
-                datasets: [{
-                    label: 'Doanh thu (tỷ VNĐ)',
-                    data: revenueData01.map(v => v / 1_000_000_000),
-                    borderColor: '#3b82f6',
-                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                    fill: true,
-                    tension: 0.4,
-                    borderWidth: 2,
-                    pointRadius: 3,
-                    pointHoverRadius: 5
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        backgroundColor: 'rgba(17, 24, 39, 0.95)',
-                        padding: 12,
-                        borderColor: '#e5e7eb',
-                        borderWidth: 1
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: { color: '#f3f4f6' },
-                        border: { display: false }
-                    },
-                    x: {
-                        grid: { display: false },
-                        border: { display: false }
-                    }
-                }
-            }
-        });
-
-        // District Chart
+        /* ── District Chart ────────────────────────────────────────────────── */
         const districtNames = /*[[${districtNames}]]*/[];
         const districtCounts = /*[[${districtCounts}]]*/[];
         new Chart(document.getElementById('districtChart'), {
@@ -718,7 +766,8 @@
                 datasets: [{
                     data: districtCounts,
                     backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'],
-                    borderWidth: 0
+                    borderWidth: 0,
+                    hoverOffset: 6
                 }]
             },
             options: {
@@ -727,21 +776,18 @@
                 plugins: {
                     legend: {
                         position: 'bottom',
-                        labels: {
-                            padding: 12,
-                            usePointStyle: true,
-                            pointStyle: 'circle'
-                        }
-                    }
+                        labels: { padding: 10, usePointStyle: true, pointStyle: 'circle', font: { size: 11 } }
+                    },
+                    tooltip: tooltipDefaults
                 }
             }
         });
 
-        // 3 Year Revenue Chart
+        /* ── 3 Year Revenue Chart ───────────────────────────────────────────── */
         const revenue3YearLabels = [
-    /*[[${yearBeforeLast}]]*/ 2022,
-    /*[[${lastYear}]]*/ 2023,
-    /*[[${currentYear}]]*/ 2024
+        /*[[${yearBeforeLast}]]*/ 2022,
+        /*[[${lastYear}]]*/ 2023,
+        /*[[${currentYear}]]*/ 2024
         ];
         const revenue3YearValues = /*[[${yearlyRevenue}]]*/[0, 0, 0];
         new Chart(document.getElementById('revenue3YearChart'), {
@@ -751,29 +797,26 @@
                 datasets: [{
                     label: 'Doanh thu (tỷ VNĐ)',
                     data: revenue3YearValues.map(v => v / 1_000_000_000),
-                    backgroundColor: '#3b82f6',
-                    borderRadius: 6
+                    backgroundColor: ['#94a3b8', '#60a5fa', '#3b82f6'],
+                    borderRadius: 6,
+                    borderSkipped: false
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: { color: '#f3f4f6' },
-                        border: { display: false }
-                    },
-                    x: {
-                        grid: { display: false },
-                        border: { display: false }
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        ...tooltipDefaults,
+                        callbacks: { label: ctx => ` ${ctx.parsed.y.toFixed(2)} tỷ VNĐ` }
                     }
-                }
+                },
+                scales: scaleDefaults
             }
         });
 
-        // 3 Year Contracts Chart
+        /* ── 3 Year Contracts Chart ─────────────────────────────────────────── */
         const contractYearLabels = /*[[${contractYearLabels}]]*/[];
         const contractYearCounts = /*[[${contractYearCounts}]]*/[];
         new Chart(document.getElementById('contract3YearChart'), {
@@ -784,36 +827,33 @@
                     label: 'Số hợp đồng',
                     data: contractYearCounts,
                     borderColor: '#f59e0b',
-                    backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                    backgroundColor: 'rgba(245,158,11,0.08)',
                     fill: true,
                     tension: 0.4,
-                    borderWidth: 2,
-                    pointRadius: 3,
-                    pointHoverRadius: 5
+                    borderWidth: 2.5,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#f59e0b',
+                    pointHoverRadius: 6
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: { color: '#f3f4f6' },
-                        border: { display: false },
-                        ticks: {
-                            stepSize: 1,
-                        }
-                    },
-                    x: {
-                        grid: { display: false },
-                        border: { display: false }
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        ...tooltipDefaults,
+                        callbacks: { label: ctx => ` ${ctx.parsed.y} hợp đồng` }
                     }
+                },
+                scales: {
+                    ...scaleDefaults,
+                    y: { ...scaleDefaults.y, ticks: { stepSize: 1 } }
                 }
             }
         });
 
-        // Contracts by Building Chart
+        /* ── Contracts by Building Chart ────────────────────────────────────── */
         const buildingNames = /*[[${buildingNames}]]*/[];
         const buildingContractCounts = /*[[${buildingContractCounts}]]*/[];
         new Chart(document.getElementById('contractsByBuildingChart'), {
@@ -824,7 +864,8 @@
                     label: 'Số hợp đồng',
                     data: buildingContractCounts,
                     backgroundColor: '#3b82f6',
-                    borderRadius: 6
+                    borderRadius: 5,
+                    borderSkipped: false
                 }]
             },
             options: {
@@ -834,21 +875,121 @@
                 plugins: {
                     legend: { display: false },
                     tooltip: {
-                        callbacks: {
-                            label: (item) => `${item.raw} hợp đồng`
-                        }
+                        ...tooltipDefaults,
+                        callbacks: { label: ctx => ` ${ctx.raw} hợp đồng` }
                     }
                 },
                 scales: {
-                    x: {
-                        beginAtZero: true,
-                        grid: { color: '#f3f4f6' },
-                        border: { display: false },
-                        ticks: { precision: 0 }
-                    },
-                    y: {
-                        grid: { display: false },
-                        border: { display: false }
+                    x: { beginAtZero: true, grid: { color: '#f3f4f6' }, border: { display: false }, ticks: { precision: 0 } },
+                    y: { grid: { display: false }, border: { display: false } }
+                }
+            }
+        });
+
+        /* ── Sale Rate Doughnut Chart ─────────────────────────────────────────── */
+        const totalSold = /*[[${totalSold}]]*/ 0;
+        const totalNotSold = /*[[${totalNotSold}]]*/ 0;
+
+        const centerTextPlugin = {
+            id: 'centerText',
+            afterDraw(chart) {
+                const { ctx, chartArea: { width, height, left, top } } = chart;
+                const total = totalSold + totalNotSold;
+                const pct = total > 0 ? ((totalSold / total) * 100).toFixed(1) + '%' : '0%';
+                const cx = left + width / 2;
+                const cy = top + height / 2;
+
+                ctx.save();
+                ctx.font = 'bold 22px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+                ctx.fillStyle = '#111827';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(pct, cx, cy - 10);
+                ctx.font = '600 11px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+                ctx.fillStyle = '#9ca3af';
+                ctx.fillText('Đã bán', cx, cy + 14);
+                ctx.restore();
+            }
+        };
+
+        const externalTooltipHandler = (context) => {
+            const { chart, tooltip } = context;
+
+            let tooltipEl = document.getElementById('saleRateTooltip');
+            if (!tooltipEl) {
+                tooltipEl = document.createElement('div');
+                tooltipEl.id = 'saleRateTooltip';
+                tooltipEl.style.cssText = `
+            position: absolute;
+            background: rgba(17,24,39,0.92);
+            color: #f9fafb;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            white-space: nowrap;
+            z-index: 100;
+            border: 1px solid #374151;
+        `;
+                // Gắn vào wrapper card thay vì canvas
+                chart.canvas.closest('.d-card').style.position = 'relative';
+                chart.canvas.closest('.d-card').appendChild(tooltipEl);
+            }
+
+            if (tooltip.opacity === 0) {
+                tooltipEl.style.opacity = '0';
+                return;
+            }
+
+            const dataIndex = tooltip.dataPoints[0].dataIndex;
+            const label = tooltip.dataPoints[0].label;
+            const value = tooltip.dataPoints[0].raw;
+            const total = totalSold + totalNotSold;
+            const pct = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+            const dotColor = dataIndex === 0 ? '#8b5cf6' : '#9ca3af';
+
+            tooltipEl.innerHTML = `
+        <span style="display:inline-block;width:9px;height:9px;border-radius:50%;
+                     background:${dotColor};margin-right:6px;vertical-align:middle;"></span>
+        ${label}: <strong style="color:#fff;margin-left:4px;">${value} tòa (${pct}%)</strong>
+    `;
+
+            // Vị trí: dựa theo vị trí chuột trong card
+            const cardRect = chart.canvas.closest('.d-card').getBoundingClientRect();
+            const canvasRect = chart.canvas.getBoundingClientRect();
+            const posX = canvasRect.left - cardRect.left + tooltip.caretX;
+            const posY = canvasRect.top - cardRect.top + tooltip.caretY - 40;
+
+            tooltipEl.style.left = posX + 'px';
+            tooltipEl.style.top = posY + 'px';
+            tooltipEl.style.opacity = '1';
+            tooltipEl.style.transform = 'translateX(-50%)';
+        };
+
+        new Chart(document.getElementById('saleRateChart'), {
+            type: 'doughnut',
+            plugins: [centerTextPlugin],
+            data: {
+                labels: ['Đã bán', 'Chưa bán'],
+                datasets: [{
+                    data: [totalSold, totalNotSold],
+                    backgroundColor: ['#8b5cf6', '#e5e7eb'],
+                    borderWidth: 0,
+                    hoverOffset: 8,
+                    cutout: '72%'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                layout: { padding: 10 },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        enabled: false,                        // ← tắt tooltip mặc định
+                        external: externalTooltipHandler       // ← dùng tooltip ngoài
                     }
                 }
             }
