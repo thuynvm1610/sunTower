@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,11 +19,13 @@ public class DistrictServiceImpl implements DistrictService {
 
     @Override
     public Map<String, Long> findAll() {
-        List<DistrictEntity> districtEntities = districtRepository.findAll();
-        Map<String, Long> result = new HashMap<>();
-        for (DistrictEntity d : districtEntities) {
-            result.put(d.getName(), d.getId());
+        List<Object[]> list = districtRepository.getDistricts();
+
+        Map<String, Long> result = new LinkedHashMap<>();
+        for (Object[] row : list) {
+            result.put((String) row[0], (Long) row[1]);
         }
+
         return result;
     }
 }

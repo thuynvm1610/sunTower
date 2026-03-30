@@ -9,6 +9,4 @@ import java.util.List;
 public interface NearbyAmenityRepository extends JpaRepository<NearbyAmenityEntity, Long> {
 
     List<NearbyAmenityEntity> findByBuildingId(Long buildingId);
-
-    void deleteByBuildingId(Long buildingId);
 }

@@ -118,25 +118,96 @@ CREATE TABLE district (
 );
 
 INSERT INTO district (name) VALUES
+-- ================= HÀ NỘI =================
 ('Quận Ba Đình, Hà Nội'),
 ('Quận Hoàn Kiếm, Hà Nội'),
+('Quận Hai Bà Trưng, Hà Nội'),
 ('Quận Đống Đa, Hà Nội'),
-('Quận Cầu Giấy, Hà Nội'),
-('Quận Nam Từ Liêm, Hà Nội'),
 ('Quận Tây Hồ, Hà Nội'),
+('Quận Cầu Giấy, Hà Nội'),
 ('Quận Thanh Xuân, Hà Nội'),
+('Quận Hoàng Mai, Hà Nội'),
+('Quận Long Biên, Hà Nội'),
+('Quận Bắc Từ Liêm, Hà Nội'),
+('Quận Nam Từ Liêm, Hà Nội'),
+('Quận Hà Đông, Hà Nội'),
+('Huyện Gia Lâm, Hà Nội'),
+
+-- ================= TP HCM =================
 ('Quận 1, TP. Hồ Chí Minh'),
+('Quận 3, TP. Hồ Chí Minh'),
+('Quận 4, TP. Hồ Chí Minh'),
+('Quận 5, TP. Hồ Chí Minh'),
+('Quận 6, TP. Hồ Chí Minh'),
 ('Quận 7, TP. Hồ Chí Minh'),
+('Quận 8, TP. Hồ Chí Minh'),
+('Quận 10, TP. Hồ Chí Minh'),
+('Quận 11, TP. Hồ Chí Minh'),
+('Quận 12, TP. Hồ Chí Minh'),
+('Quận Bình Tân, TP. Hồ Chí Minh'),
+('Quận Tân Phú, TP. Hồ Chí Minh'),
+('Quận Gò Vấp, TP. Hồ Chí Minh'),
+('Quận Phú Nhuận, TP. Hồ Chí Minh'),
 ('Quận Bình Thạnh, TP. Hồ Chí Minh'),
+('Quận Tân Bình, TP. Hồ Chí Minh'),
 ('TP. Thủ Đức, TP. Hồ Chí Minh'),
+
+-- ================= HẢI PHÒNG =================
+('Quận Hồng Bàng, Hải Phòng'),
+('Quận Ngô Quyền, Hải Phòng'),
+('Quận Lê Chân, Hải Phòng'),
+('Quận Hải An, Hải Phòng'),
+('Quận Kiến An, Hải Phòng'),
+('Quận Đồ Sơn, Hải Phòng'),
+('Quận Dương Kinh, Hải Phòng'),
+
+-- ================= ĐÀ NẴNG =================
 ('Quận Hải Châu, Đà Nẵng'),
+('Quận Thanh Khê, Đà Nẵng'),
+('Quận Sơn Trà, Đà Nẵng'),
 ('Quận Ngũ Hành Sơn, Đà Nẵng'),
-('TP. Hải Phòng'),
-('TP. Cần Thơ'),
-('Tỉnh Bình Dương'),
-('Tỉnh Đồng Nai'),
+('Quận Liên Chiểu, Đà Nẵng'),
+('Quận Cẩm Lệ, Đà Nẵng'),
+
+-- ================= CẦN THƠ =================
+('Quận Ninh Kiều, Cần Thơ'),
+('Quận Bình Thủy, Cần Thơ'),
+('Quận Cái Răng, Cần Thơ'),
+('Quận Ô Môn, Cần Thơ'),
+('Quận Thốt Nốt, Cần Thơ'),
+
+-- ================= HUẾ =================
+('TP. Huế, Huế'),
+
+-- ================= 28 TỈNH =================
+('Tỉnh Cao Bằng'),
+('Tỉnh Lạng Sơn'),
+('Tỉnh Lai Châu'),
+('Tỉnh Điện Biên'),
+('Tỉnh Sơn La'),
+('Tỉnh Lào Cai'),
+('Tỉnh Tuyên Quang'),
+('Tỉnh Thái Nguyên'),
+('Tỉnh Phú Thọ'),
+('Tỉnh Bắc Ninh'),
+('Tỉnh Quảng Ninh'),
+('Tỉnh Hưng Yên'),
+('Tỉnh Ninh Bình'),
+('Tỉnh Thanh Hóa'),
+('Tỉnh Nghệ An'),
+('Tỉnh Hà Tĩnh'),
+('Tỉnh Quảng Trị'),
+('Tỉnh Quảng Ngãi'),
+('Tỉnh Gia Lai'),
+('Tỉnh Đắk Lắk'),
 ('Tỉnh Khánh Hòa'),
-('Tỉnh Quảng Ninh');
+('Tỉnh Lâm Đồng'),
+('Tỉnh Đồng Nai'),
+('Tỉnh Tây Ninh'),
+('Tỉnh Đồng Tháp'),
+('Tỉnh An Giang'),
+('Tỉnh Vĩnh Long'),
+('Tỉnh Cà Mau');
 
 -- =============================================================================
 -- BẢNG NHÂN VIÊN / STAFF
@@ -192,7 +263,7 @@ CREATE TABLE building (
     property_type      ENUM('OFFICE','SHOPHOUSE','APARTMENT','WAREHOUSE') NOT NULL DEFAULT 'OFFICE' COMMENT 'Loại hình bất động sản',
     transaction_type   ENUM('FOR_RENT','FOR_SALE') NOT NULL DEFAULT 'FOR_RENT'                      COMMENT 'Loại hình giao dịch',
     rent_price         DECIMAL(15,2),
-    sale_price         DECIMAL(15,2) NULL                                                            COMMENT 'Giá bán toàn bộ. NULL nếu FOR_RENT',
+    sale_price         DECIMAL(15,2) NULL                                                           COMMENT 'Giá bán toàn bộ. NULL nếu FOR_RENT',
     service_fee        DECIMAL(15,2),
     car_fee            DECIMAL(15,2),
     motorbike_fee      DECIMAL(15,2),
@@ -201,79 +272,79 @@ CREATE TABLE building (
     deposit            DECIMAL(15,2),
     link_of_building   TEXT,
     image              TEXT,
-    latitude           DECIMAL(10,7) NULL COMMENT 'Vĩ độ — Phase 2 bản đồ số',
-    longitude          DECIMAL(10,7) NULL COMMENT 'Kinh độ — Phase 2 bản đồ số',
+    latitude           DECIMAL(10,7) NULL COMMENT 'Vĩ độ — bản đồ số',
+    longitude          DECIMAL(10,7) NULL COMMENT 'Kinh độ — bản đồ số',
     created_date       DATETIME,
     modified_date      DATETIME,
     FOREIGN KEY (district_id) REFERENCES district(id)
 );
 
 -- -------------------------------------------------------
--- OFFICE FOR_RENT: B1-B5 — HN×2, HCM×1, ĐN×1, Quảng Ninh×1
+-- OFFICE FOR_RENT: B1-B5 — HN×3, HCM×1, ĐN×1
 -- -------------------------------------------------------
 INSERT INTO building
 (name, district_id, ward, street, number_of_floor, number_of_basement, floor_area, direction, level, property_type, transaction_type, rent_price, sale_price, service_fee, car_fee, motorbike_fee, water_fee, electricity_fee, deposit, link_of_building, image, latitude, longitude, created_date, modified_date) VALUES
-('Lotte Center'           , 1 , 'P. Liễu Giai'  , 'Liễu Giai'     , 60, 5, 7000 , 'TAY_BAC' , 'A_PLUS', 'OFFICE', 'FOR_RENT', 1200000, NULL, 2500000, 2000000, 120000,180000,55000, 200000000, 'https://lottecenter.vn'  , 'lotte-center.jpg'  , 21.0358, 105.8194, '2018-11-20', '2025-02-11'),
-('Keangnam Landmark 72'   , 5 , 'P. Mễ Trì'     , 'Phạm Hùng'     , 72, 5, 10000, 'TAY_BAC' , 'A_PLUS', 'OFFICE', 'FOR_RENT', 1200000, NULL, 3000000, 2600000, 150000,180000,55000, 250000000, 'https://keangnamtower.vn', 'keangnam-tower.jpg', 21.0134, 105.7823, '2018-08-25', '2024-12-12'),
-('Pacific Place'          , 2 , 'P. Tràng Tiền' , 'Lý Thường Kiệt', 20, 3, 3500 , 'NAM'     , 'B'     , 'OFFICE', 'FOR_RENT', 600000 , NULL, 2000000, 2500000, 100000,150000,45000, 100000000, 'https://pacificplace.vn' , 'pacific-place.jpg' , 21.0207, 105.8527, '2019-07-18', '2024-05-02'),
-('Bitexco Financial Tower', 8 , 'P. Bến Nghé'   , 'Hải Triều'     , 68, 5, 9000 , 'DONG_NAM', 'A_PLUS', 'OFFICE', 'FOR_RENT', 1100000, NULL, 2800000, 3000000, 160000,200000,55000, 220000000, 'https://bitexco.vn'      , 'bitexco.jpg'       , 10.7734, 106.703 , '2018-05-20', '2025-01-10'),
-('Vincom Đà Nẵng Office'  , 12, 'P. Thạch Thang', 'Bạch Đằng'     , 22, 2, 3800 , 'DONG'    , 'B_PLUS', 'OFFICE', 'FOR_RENT', 550000 , NULL, 1200000, 1500000, 80000 ,120000,40000,  80000000, 'https://vincom-danang.vn', 'vincom-danang.jpg' , 16.0678, 108.2134, '2020-07-14', '2024-11-05');
+('Lotte Center Ha Noi'    , 1 , 'P. Cống Vị'      , '54 Liễu Giai'      , 60, 5, 7000 , 'TAY_BAC' , 'A_PLUS', 'OFFICE', 'FOR_RENT', 1200000, NULL, 2500000, 2000000, 120000,180000,55000, 200000000, 'https://lottecenter.vn'  , 'lotte-center.jpg'  , 21.032319977933223, 105.81268937783526, '2018-11-20', '2025-02-11'),
+('Keangnam Landmark 72'   , 11, 'P. Mễ Trì'       , 'E6 Phạm Hùng'      , 72, 5, 10000, 'TAY_BAC' , 'A_PLUS', 'OFFICE', 'FOR_RENT', 1200000, NULL, 3000000, 2600000, 150000,180000,55000, 250000000, 'https://keangnamtower.vn', 'keangnam-tower.jpg', 21.0167517369239  , 105.78377473603696, '2018-08-25', '2024-12-12'),
+('Pacific Place'          , 2 , 'P. Trần Hưng Đạo', '83B Lý Thường Kiệt', 20, 3, 3500 , 'NAM'     , 'B'     , 'OFFICE', 'FOR_RENT', 600000 , NULL, 2000000, 2500000, 100000,150000,45000, 100000000, 'https://pacificplace.vn' , 'pacific-place.jpg' , 21.024913138029675, 105.84336779988024, '2019-07-18', '2024-05-02'),
+('Bitexco Financial Tower', 14, 'P. Bến Nghé'     , '2 Hải Triều'       , 68, 5, 9000 , 'DONG_NAM', 'A_PLUS', 'OFFICE', 'FOR_RENT', 1100000, NULL, 2800000, 3000000, 160000,200000,55000, 220000000, 'https://bitexco.vn'      , 'bitexco.jpg'       , 10.77170738357016 , 106.70437501713937, '2018-05-20', '2025-01-10'),
+('Vincom Plaza Đà Nẵng'   , 40, 'P. An Hải Bắc'   , '910A Ngô Quyền'    , 22, 2, 3800 , 'DONG'    , 'B_PLUS', 'OFFICE', 'FOR_RENT', 550000 , NULL, 1200000, 1500000, 80000 ,120000,40000,  80000000, 'https://vincom-danang.vn', 'vincom-danang.jpg' , 16.071398821656608, 108.22996729971118, '2020-07-14', '2024-11-05');
 
 -- -------------------------------------------------------
 -- OFFICE FOR_SALE: B6-B7 — HCM, Khánh Hòa
 -- -------------------------------------------------------
 INSERT INTO building
 (name, district_id, ward, street, number_of_floor, number_of_basement, floor_area, direction, level, property_type, transaction_type, rent_price, sale_price, service_fee, car_fee, motorbike_fee, water_fee, electricity_fee, deposit, link_of_building, image, latitude, longitude, created_date, modified_date) VALUES
-('Saigon Centre Tower', 8 , 'P. Bến Nghé', 'Lê Lợi'  , 25, 3, 5000, 'NAM'     , 'A_PLUS', 'OFFICE', 'FOR_SALE', NULL, 72000000000, 2200000, 2500000, 140000, 22000, 6000, NULL, 'https://saigoncentre.vn'     , 'saigon-centre.jpg'    , 10.7712, 106.6989, '2019-03-15', '2025-01-20'),
-('Landmark Nha Trang' , 18, 'P. Lộc Thọ' , 'Trần Phú', 32, 3, 5500, 'DONG_NAM', 'A_PLUS', 'OFFICE', 'FOR_SALE', NULL, 58000000000, 2000000, 2200000, 130000, 20000, 5500, NULL, 'https://landmark-nhatrang.vn', 'landmark-nhatrang.jpg', 12.2388, 109.1967, '2020-06-10', '2025-02-15');
+('Saigon Centre Building', 14, 'P. Sài Gòn' , '67 Lê Lợi' , 25, 3, 5000, 'NAM'     , 'A_PLUS', 'OFFICE', 'FOR_SALE', NULL, 72000000000, 2200000, 2500000, 140000, 22000, 6000, NULL, 'https://saigoncentre.vn'     , 'saigon-centre.jpg'    , 10.773102238637799, 106.70104984112902, '2019-03-15', '2025-01-20'),
+('Landmark Nha Trang'    , 70, 'P. Vĩnh Hải', '06 Bắc Sơn', 32, 3, 5500, 'DONG_NAM', 'A_PLUS', 'OFFICE', 'FOR_SALE', NULL, 58000000000, 2000000, 2200000, 130000, 20000, 5500, NULL, 'https://landmark-nhatrang.vn', 'landmark-nhatrang.jpg', 12.278003404832022, 109.19739094817429, '2020-06-10', '2025-02-15');
 
 -- -------------------------------------------------------
 -- SHOPHOUSE FOR_RENT: B8-B9 — HCM, HN
 -- -------------------------------------------------------
 INSERT INTO building
 (name, district_id, ward, street, number_of_floor, number_of_basement, floor_area, direction, level, property_type, transaction_type, rent_price, sale_price, service_fee, car_fee, motorbike_fee, water_fee, electricity_fee, deposit, link_of_building, image, latitude, longitude, created_date, modified_date) VALUES
-('Shophouse The Manor HCM'      , 9, 'P. Phú Mỹ', 'Nguyễn Lương Bằng', 4, 1, 160, 'DONG_NAM', 'B', 'SHOPHOUSE', 'FOR_RENT', 35000000, NULL, 500000, 800000, 50000, 90000,30000,  70000000, 'https://themanor-hcm.vn'      , 'shophouse-the-manor.jpg'  , 10.7223, 106.7056, '2020-08-01', '2024-11-15'),
-('Shophouse Vinhomes Smart City', 5, 'P. Tây Mỗ', 'Đại Lộ Thăng Long', 4, 1, 200, 'TAY_NAM' , 'A', 'SHOPHOUSE', 'FOR_RENT', 28000000, NULL, 400000, 700000, 45000, 80000,28000,  56000000, 'https://vinhomes-smartcity.vn', 'shophouse-vinhomes-sc.jpg', 20.9923, 105.7612, '2021-05-10', '2025-01-20');
+('The Manor 2'           , 28, 'P. 22'    , '91 Nguyễn Hữu Cảnh', 4, 1, 160, 'DONG_NAM', 'B', 'SHOPHOUSE', 'FOR_RENT', 35000000, NULL, 500000, 800000, 50000, 90000,30000,  70000000, 'https://themanor-hcm.vn'      , 'shophouse-the-manor.jpg'  , 10.792513365900277, 106.71785936601302, '2020-08-01', '2024-11-15'),
+('Vincity Sportia Tây Mỗ', 11, 'P. Tây Mỗ', 'Đại Lộ Thăng Long' , 4, 1, 200, 'TAY_NAM' , 'A', 'SHOPHOUSE', 'FOR_RENT', 28000000, NULL, 400000, 700000, 45000, 80000,28000,  56000000, 'https://vinhomes-smartcity.vn', 'shophouse-vinhomes-sc.jpg', 21.007788596072942, 105.73787479994706, '2021-05-10', '2025-01-20');
 
 -- -------------------------------------------------------
--- SHOPHOUSE FOR_SALE: B10 — HCM Thủ Đức
+-- SHOPHOUSE FOR_SALE: B10 — HCM
 -- -------------------------------------------------------
 INSERT INTO building
 (name, district_id, ward, street, number_of_floor, number_of_basement, floor_area, direction, level, property_type, transaction_type, rent_price, sale_price, service_fee, car_fee, motorbike_fee, water_fee, electricity_fee, deposit, link_of_building, image, latitude, longitude, created_date, modified_date) VALUES
-('Shophouse Masteri Thảo Điền', 11, 'P. Thảo Điền', 'Xa Lộ Hà Nội', 5, 1, 180, 'DONG', 'A_PLUS', 'SHOPHOUSE', 'FOR_SALE', NULL, 23000000000, NULL, NULL, NULL, NULL, NULL, NULL, 'https://masteri-thaodien.vn', 'shophouse-masteri-td.jpg', 10.8012, 106.7312, '2022-03-15', '2025-02-10');
+('Masteri Thảo Điền', 30, 'P. Thảo Điền', '159 Võ Nguyên Giáp', 5, 1, 180, 'DONG', 'A_PLUS', 'SHOPHOUSE', 'FOR_SALE', NULL, 23000000000, NULL, NULL, NULL, NULL, NULL, NULL, 'https://masteri-thaodien.vn', 'shophouse-masteri-td.jpg', 10.802020904141203, 106.73956790040825, '2022-03-15', '2025-02-10');
 
 -- -------------------------------------------------------
--- APARTMENT FOR_RENT: B11-B13 — HCM×2, HN×1
+-- APARTMENT FOR_RENT: B11-B13 — HCM×1, HN×2
 -- -------------------------------------------------------
 INSERT INTO building
 (name, district_id, ward, street, number_of_floor, number_of_basement, floor_area, direction, level, property_type, transaction_type, rent_price, sale_price, service_fee, car_fee, motorbike_fee, water_fee, electricity_fee, deposit, link_of_building, image, latitude, longitude, created_date, modified_date) VALUES
-('The Ascent Thảo Điền', 11, 'P. Thảo Điền'     , 'Nguyễn Văn Hưởng', 30, 3, 75, 'NAM', 'A'     , 'APARTMENT', 'FOR_RENT', 25000000, NULL, 800000, 1200000, 60000,100000,35000,  50000000, 'https://theascent.vn'         , 'apt-theascent.jpg' , 10.8023, 106.7289, '2021-07-01', '2024-12-10'),
-('Masteri Waterfront'  , 11, 'P. Long Bình'     , 'Vũ Tông Phan'    , 38, 3, 68, 'TAY', 'B_PLUS', 'APARTMENT', 'FOR_RENT', 18000000, NULL, 600000, 900000 , 50000, 90000,30000,  36000000, 'https://masteri-waterfront.vn', 'apt-masteri-wf.jpg', 10.8312, 106.7612, '2022-09-05', '2025-02-28'),
-('Goldseason'          , 7 , 'P. Thanh Xuân Nam', 'Nguyễn Tuân'     , 37, 3, 75, 'NAM', 'A'     , 'APARTMENT', 'FOR_RENT', 18000000, NULL, 800000, 1200000, 60000,100000,35000,  36000000, 'https://goldseason.vn'        , 'apt-goldseason.jpg', 21.0089, 105.8201, '2021-07-01', '2024-12-10');
+('The Ascent Thảo Điền', 30, 'P. Thảo Điền'       , '58 Quốc Hương' , 30, 3, 75, 'NAM', 'A'     , 'APARTMENT', 'FOR_RENT', 25000000, NULL, 800000, 1200000, 60000,100000,35000,  50000000, 'https://theascent.vn'         , 'apt-theascent.jpg' , 10.807198264176137, 106.73141565928037, '2021-07-01', '2024-12-10'),
+('Masteri Waterfront'  , 13, 'P. Đa Tốn'          , 'Hải Đăng 2'    , 38, 3, 68, 'TAY', 'B_PLUS', 'APARTMENT', 'FOR_RENT', 18000000, NULL, 600000, 900000 , 50000, 90000,30000,  36000000, 'https://masteri-waterfront.vn', 'apt-masteri-wf.jpg', 20.994602250137632, 105.94490104128745, '2022-09-05', '2025-02-28'),
+('Gold Season'         , 7 , 'P. Thanh Xuân Trung', '47 Nguyễn Tuân', 37, 3, 75, 'NAM', 'A'     , 'APARTMENT', 'FOR_RENT', 18000000, NULL, 800000, 1200000, 60000,100000,35000,  36000000, 'https://goldseason.vn'        , 'apt-goldseason.jpg', 20.995411298376332, 105.80463299602404, '2021-07-01', '2024-12-10');
 
 -- -------------------------------------------------------
 -- APARTMENT FOR_SALE: B14-B15 — HCM, Đà Nẵng
 -- -------------------------------------------------------
 INSERT INTO building
 (name, district_id, ward, street, number_of_floor, number_of_basement, floor_area, direction, level, property_type, transaction_type, rent_price, sale_price, service_fee, car_fee, motorbike_fee, water_fee, electricity_fee, deposit, link_of_building, image, latitude, longitude, created_date, modified_date) VALUES
-('Vinhomes Central Park', 10, 'P. 22'   , 'Nguyễn Hữu Cảnh', 45, 4, 95, 'DONG_NAM', 'A_PLUS', 'APARTMENT', 'FOR_SALE', NULL, 15000000000, NULL, NULL, NULL, NULL, NULL, NULL, 'https://vinhomes-centralpark.vn', 'apt-centralpark.jpg', 10.7912, 106.7234, '2019-04-10', '2025-03-01'),
-('Vinpearl Condotel ĐN' , 13, 'P. Mỹ An', 'Trường Sa'      , 25, 3, 65, 'DONG_NAM', 'A_PLUS', 'APARTMENT', 'FOR_SALE', NULL, 12000000000, NULL, NULL, NULL, NULL, NULL, NULL, 'https://vinpearl-danang.vn'     , 'apt-vinpearl-dn.jpg', 15.9889, 108.2634, '2021-06-01', '2025-01-15');
+('Vinhomes Central Park'               , 28, 'P. 22'        , '208 Nguyễn Hữu Cảnh', 45, 4, 95, 'DONG_NAM', 'A_PLUS', 'APARTMENT', 'FOR_SALE', NULL, 15000000000, NULL, NULL, NULL, NULL, NULL, NULL, 'https://vinhomes-centralpark.vn', 'apt-centralpark.jpg', 10.793699887408508, 106.72200904461549, '2019-04-10', '2025-03-01'),
+('Vinpearl Condotel Riverfront Da Nang', 40, 'P. An Hải Bắc', '341 Trần Hưng Đạo'  , 25, 3, 65, 'DONG_NAM', 'A_PLUS', 'APARTMENT', 'FOR_SALE', NULL, 12000000000, NULL, NULL, NULL, NULL, NULL, NULL, 'https://vinpearl-danang.vn'     , 'apt-vinpearl-dn.jpg', 16.07083189900832 , 108.22914644974416, '2021-06-01', '2025-01-15');
 
 -- -------------------------------------------------------
--- WAREHOUSE FOR_RENT: B16-B17 — HCM Thủ Đức, Đồng Nai
+-- WAREHOUSE FOR_RENT: B16-B17 — HCM, Đồng Nai
 -- -------------------------------------------------------
 INSERT INTO building
 (name, district_id, ward, street, number_of_floor, number_of_basement, floor_area, direction, level, property_type, transaction_type, rent_price, sale_price, service_fee, car_fee, motorbike_fee, water_fee, electricity_fee, deposit, link_of_building, image, latitude, longitude, created_date, modified_date) VALUES
-('Kho bãi Cảng Cát Lái'        , 11, 'P. Cát Lái'      , 'Đường Vành Đai 2'    , 2, 0, 1500, 'DONG', 'B', 'WAREHOUSE', 'FOR_RENT', 120000, NULL, NULL, 2000000, NULL, 80000,25000,  36000000, 'https://catlaiport.vn', 'warehouse-cat-lai.jpg' , 10.7456, 106.7923, '2021-04-18', '2025-01-10'),
-('Kho xưởng KCN Amata Đồng Nai', 17, 'P. Long Bình Tân', 'Đường Số 8 KCN Amata', 2, 0, 1800, 'NAM' , 'B', 'WAREHOUSE', 'FOR_RENT', 100000, NULL, NULL, 1800000, NULL, 70000,22000,  32000000, 'https://amata.com.vn' , 'warehouse-amata-dn.jpg', 10.9512, 106.8634, '2022-01-25', '2025-02-05');
+('Cảng Cát Lái'  , 30, 'P. Cát Lái'      , 'Nguyễn Thị Định'     , 2, 0, 1500, 'DONG', 'B', 'WAREHOUSE', 'FOR_RENT', 120000, NULL, NULL, 2000000, NULL, 80000,25000,  36000000, 'https://catlaiport.vn', 'warehouse-cat-lai.jpg' , 10.759855691901775, 106.78723701505041, '2021-04-18', '2025-01-10'),
+('Amata Đồng Nai', 72, 'P. Long Bình Tân', 'Đường Số 8 KCN Amata', 2, 0, 1800, 'NAM' , 'B', 'WAREHOUSE', 'FOR_RENT', 100000, NULL, NULL, 1800000, NULL, 70000,22000,  32000000, 'https://amata.com.vn' , 'warehouse-amata-dn.jpg', 10.943214724665408, 106.88020823191884, '2022-01-25', '2025-02-05');
 
 -- -------------------------------------------------------
--- WAREHOUSE FOR_SALE: B18-B19 — Bình Dương, Quảng Ninh
+-- WAREHOUSE FOR_SALE: B18-B19 — HCM, Quảng Ninh
 -- -------------------------------------------------------
 INSERT INTO building
 (name, district_id, ward, street, number_of_floor, number_of_basement, floor_area, direction, level, property_type, transaction_type, rent_price, sale_price, service_fee, car_fee, motorbike_fee, water_fee, electricity_fee, deposit, link_of_building, image, latitude, longitude, created_date, modified_date) VALUES
-('KCN VSIP Bình Dương'  , 16, 'P. Bình Hòa', 'Đại lộ Bình Dương', 3, 0, 2000, 'BAC' , 'B', 'WAREHOUSE', 'FOR_SALE', NULL, 32000000000, NULL, NULL, NULL, NULL, NULL, NULL, 'https://vsip.com.vn'       , 'warehouse-vsip-bd.jpg' , 10.9234, 106.6823, '2020-06-10', '2024-10-15'),
-('KCN Deep C Quảng Ninh', 19, 'P. Đông Mai', 'Quốc lộ 18'       , 3, 0, 2500, 'DONG', 'B', 'WAREHOUSE', 'FOR_SALE', NULL, 28000000000, NULL, NULL, NULL, NULL, NULL, NULL, 'https://deepc-quangninh.vn', 'warehouse-deepc-qn.jpg', 20.9167, 107.0589, '2021-08-15', '2025-01-20');
+('Khu công nghiệp VSIP 1'                            , 17, 'P. Bình Hòa', '8 Hữu Nghị', 3, 0, 2000, 'BAC' , 'B', 'WAREHOUSE', 'FOR_SALE', NULL, 32000000000, NULL, NULL, NULL, NULL, NULL, NULL, 'https://vsip.com.vn'       , 'warehouse-vsip-bd.jpg' , 10.924383629102962, 106.7135557386782 , '2020-06-10', '2024-10-15'),
+('Khu công nghiệp Bắc Tiền Phong - Deep C Quảng Ninh', 60, 'P. Yên Hưng', 'Tiền Phong', 3, 0, 2500, 'DONG', 'B', 'WAREHOUSE', 'FOR_SALE', NULL, 28000000000, NULL, NULL, NULL, NULL, NULL, NULL, 'https://deepc-quangninh.vn', 'warehouse-deepc-qn.jpg', 20.83818117634496 , 106.86106577476207, '2021-08-15', '2025-01-20');
 
 -- =============================================================================
 -- BẢNG KHÁCH HÀNG / CUSTOMER
@@ -702,16 +773,40 @@ CREATE TABLE supplier (
 );
 
 INSERT INTO supplier (building_id, name, service_type, phone, email, address, note, created_date, modified_date) VALUES
-(1, 'Tập đoàn Xây dựng Delta'        , 'Thi công xây dựng' , '0241000001', 'info@delta-cons.vn'     , '88 Láng Hạ, Đống Đa, HN'             , 'Tổng thầu Lotte Center'           , '2017-05-20', '2025-02-01'),
-(1, 'Công ty Thiết kế Nội thất AZ'   , 'Thiết kế nội thất' , '0241000002', 'design@az-interior.vn'  , '22 Kim Mã, Ba Đình, HN'              , 'Thiết kế không gian văn phòng'    , '2017-08-10', '2025-02-01'),
-(2, 'Keangnam Construction Korea'    , 'Thi công xây dựng' , '0241000003', 'info@keangnam-cons.com' , 'Phạm Hùng, Nam Từ Liêm, HN'          , 'Tổng thầu Keangnam Landmark 72'   , '2016-01-01', '2024-12-01'),
-(2, 'Công ty TNHH Phòng cháy Rồng Đỏ', 'Hệ thống PCCC'     , '0241000004', 'rongdo@pccc.vn'         , '5 Phạm Hùng, Nam Từ Liêm, HN'        , 'Lắp đặt & bảo trì PCCC'           , '2017-06-15', '2024-12-01'),
-(3, 'Công ty CP Xây dựng Thành Đô'   , 'Thi công xây dựng' , '0241000005', 'contact@thanhdo-cons.vn', '10 Lý Thường Kiệt, Hoàn Kiếm, HN'    , 'Nhà thầu thi công phần thô'       , '2018-10-01', '2024-05-01'),
-(4, 'Coteccons Group'                , 'Thi công xây dựng' , '0241000006', 'info@coteccons.vn'      , '236/4 Điện Biên Phủ, Bình Thạnh, HCM', 'Tổng thầu Bitexco Financial Tower', '2016-03-01', '2025-01-10'),
-(4, 'Archplus HCM'                   , 'Thiết kế kiến trúc', '0241000007', 'arch@archplus.vn'       , '123 Nguyễn Đình Chiểu, Q3, HCM'      , 'Thiết kế tổng thể Bitexco'        , '2016-05-01', '2025-01-10'),
-(5, 'Công ty XD Đà Nẵng Invest'      , 'Thi công xây dựng' , '0241000008', 'info@dninvest.vn'       , '120 Bạch Đằng, Hải Châu, ĐN'         , 'Nhà thầu thi công Vincom ĐN'      , '2019-05-01', '2024-11-05'),
-(6, 'Hòa Bình Construction'          , 'Thi công xây dựng' , '0241000009', 'info@hoabinhcons.vn'    , '235 Đinh Bộ Lĩnh, Bình Thạnh, HCM'   , 'Tổng thầu Saigon Centre Tower'    , '2018-01-01', '2025-01-20'),
-(7, 'Công ty Xây dựng Nha Trang'     , 'Thi công xây dựng' , '0241000010', 'info@ntcons.vn'         , '12 Trần Phú, Lộc Thọ, Nha Trang, KH' , 'Nhà thầu Landmark Nha Trang'      , '2019-06-01', '2025-02-15');
+(1 , 'Tập đoàn Xây dựng Delta'        , 'Thi công xây dựng' , '0241000001', 'info@delta-cons.vn'     , '88 Láng Hạ, Đống Đa, HN'             , 'Tổng thầu Lotte Center'           , '2017-05-20', '2025-02-01'),
+(1 , 'Công ty Thiết kế Nội thất AZ'   , 'Thiết kế nội thất' , '0241000002', 'design@az-interior.vn'  , '22 Kim Mã, Ba Đình, HN'              , 'Thiết kế không gian văn phòng'    , '2017-08-10', '2025-02-01'),
+(2 , 'Keangnam Construction Korea'    , 'Thi công xây dựng' , '0241000003', 'info@keangnam-cons.com' , 'Phạm Hùng, Nam Từ Liêm, HN'          , 'Tổng thầu Keangnam Landmark 72'   , '2016-01-01', '2024-12-01'),
+(2 , 'Công ty TNHH Phòng cháy Rồng Đỏ', 'Hệ thống PCCC'     , '0241000004', 'rongdo@pccc.vn'         , '5 Phạm Hùng, Nam Từ Liêm, HN'        , 'Lắp đặt & bảo trì PCCC'           , '2017-06-15', '2024-12-01'),
+(3 , 'Công ty CP Xây dựng Thành Đô'   , 'Thi công xây dựng' , '0241000005', 'contact@thanhdo-cons.vn', '10 Lý Thường Kiệt, Hoàn Kiếm, HN'    , 'Nhà thầu thi công phần thô'       , '2018-10-01', '2024-05-01'),
+(4 , 'Coteccons Group'                , 'Thi công xây dựng' , '0241000006', 'info@coteccons.vn'      , '236/4 Điện Biên Phủ, Bình Thạnh, HCM', 'Tổng thầu Bitexco Financial Tower', '2016-03-01', '2025-01-10'),
+(4 , 'Archplus HCM'                   , 'Thiết kế kiến trúc', '0241000007', 'arch@archplus.vn'       , '123 Nguyễn Đình Chiểu, Q3, HCM'      , 'Thiết kế tổng thể Bitexco'        , '2016-05-01', '2025-01-10'),
+(5 , 'Công ty XD Đà Nẵng Invest'      , 'Thi công xây dựng' , '0241000008', 'info@dninvest.vn'       , '120 Bạch Đằng, Hải Châu, ĐN'         , 'Nhà thầu thi công Vincom ĐN'      , '2019-05-01', '2024-11-05'),
+(6 , 'Hòa Bình Construction'          , 'Thi công xây dựng' , '0241000009', 'info@hoabinhcons.vn'    , '235 Đinh Bộ Lĩnh, Bình Thạnh, HCM'   , 'Tổng thầu Saigon Centre Tower'    , '2018-01-01', '2025-01-20'),
+(7 , 'Công ty Xây dựng Nha Trang'     , 'Thi công xây dựng' , '0241000010', 'info@ntcons.vn'         , '12 Trần Phú, Lộc Thọ, Nha Trang, KH' , 'Nhà thầu Landmark Nha Trang'      , '2019-06-01', '2025-02-15'),
+(8 , 'Phú Mỹ Hưng Development Corp'   , 'Thi công xây dựng' , '0283800001', 'info@phumyhung.vn'      , 'Khu đô thị Phú Mỹ Hưng, Q.7, HCM'    , 'Chủ đầu tư & tổng thầu The Manor' , '2019-03-01', '2024-10-01'),
+(8 , 'Công ty Nội thất SaigonHome'    , 'Thiết kế nội thất' , '0283800002', 'design@saigonhome.vn'   , '12 Nguyễn Lương Bằng, Q.7, HCM'      , 'Thiết kế shophouse tầng 1–2'      , '2019-06-15', '2025-01-15'),
+(9 , 'Vinhomes Corp'                  , 'Thi công xây dựng' , '0241900001', 'contact@vinhomes.vn'    , '458 Minh Khai, Hai Bà Trưng, HN'     , 'Tổng thầu Vinhomes Smart City'    , '2020-01-01', '2024-12-01'),
+(9 , 'Hệ thống PCCC An Toàn HN'       , 'Hệ thống PCCC'     , '0241900002', 'info@antoanpccc.vn'     , '22 Trần Đăng Ninh, Cầu Giấy, HN'     , 'Lắp đặt PCCC toàn khu'            , '2020-03-10', '2024-12-01'),
+(10, 'Thảo Điền Investment'           , 'Thi công xây dựng' , '0283100001', 'info@thaodien-inv.vn'   , '159 Xa Lộ Hà Nội, P. Thảo Điền, TĐ'  , 'Tổng thầu Masteri Thảo Điền'      , '2018-05-01', '2024-09-01'),
+(10, 'Công ty Tư vấn Pháp lý BĐS HCM' , 'Tư vấn pháp lý'    , '0283100002', 'legal@bdshcm.vn'        , '56 Nguyễn Thị Minh Khai, Q.3, HCM'   , 'Hỗ trợ thủ tục mua bán shophouse' , '2020-06-01', '2025-01-01'),
+(11, 'Tiến Phát Corp'                 , 'Thi công xây dựng' , '0283110001', 'info@tienphat.vn'       , '65 Hoàng Diệu 2, Thủ Đức, HCM'       , 'Nhà thầu The Ascent Thảo Điền'    , '2018-01-01', '2024-08-01'),
+(11, 'Công ty Quản lý Tòa nhà Sao Mai', 'Quản lý vận hành'  , '0283110002', 'fm@saomaipm.vn'         , '134 Đinh Bộ Lĩnh, Bình Thạnh, HCM'   , 'FM: điện, nước, thang máy căn hộ' , '2019-01-01', '2025-02-01'),
+(12, 'Masterise Homes'                , 'Thi công xây dựng' , '0283120001', 'contact@masterisehomes.vn', '5 Hà Nội Highway, Long Bình, TĐ, HCM', 'Chủ đầu tư Masteri Waterfront'         , '2020-06-01', '2025-01-01'),
+(12, 'Schindler Vietnam'              , 'Cơ điện thang máy' , '0283120002', 'vietnam@schindler.com'    , 'Lầu 10, 152 Điện Biên Phủ, Q.3, HCM' , 'Bảo trì thang máy & hệ thống cơ điện'  , '2021-01-01', '2025-02-01'),
+(13, 'Công ty Cổ phần LICOGI 16'      , 'Thi công xây dựng' , '0241300001', 'info@licogi16.vn'       , '3 Thanh Xuân Bắc, Thanh Xuân, HN'    , 'Nhà thầu chính Goldseason 47 Nguyễn Tuân', '2017-09-01', '2024-11-01'),
+(13, 'Otis Elevator Vietnam'          , 'Cơ điện thang máy' , '0241300002', 'vietnam@otis.com'       , '14 Láng Hạ, Đống Đa, HN'             , 'Bảo trì thang máy & hệ thống HVAC', '2018-06-01', '2025-01-01'),
+(14, 'Vinhomes Corp'                  , 'Thi công xây dựng' , '0283140001', 'contact@vinhomes.vn'    , '720A Điện Biên Phủ, Bình Thạnh, HCM', 'Chủ đầu tư & tổng thầu Vinhomes CP', '2015-01-01', '2024-12-01'),
+(14, 'Công ty Pháp lý Minh Khai'      , 'Tư vấn pháp lý'    , '0283140002', 'info@minhkhailegal.vn'  , '215 Điện Biên Phủ, Bình Thạnh, HCM' , 'Tư vấn mua bán căn hộ Vinhomes'    , '2018-06-01', '2025-01-01'),
+(15, 'Vinpearl Construction'          , 'Thi công xây dựng' , '0236150001', 'build@vinpearl.com'     , '2 Trường Sa, Ngũ Hành Sơn, ĐN'      , 'Tổng thầu Condotel Đà Nẵng'        , '2019-03-01', '2025-01-01'),
+(15, 'Công ty Quản lý DL Biển Đông'   , 'Quản lý vận hành'  , '0236150002', 'fm@biendong-mgmt.vn'    , '10 Lê Đình Lý, Hải Châu, ĐN'        , 'Vận hành condotel & dịch vụ du lịch', '2020-01-01', '2025-01-01'),
+(16, 'Tổng Cty Tân Cảng Sài Gòn'      , 'Thi công xây dựng' , '0283160001', 'info@tancang.com.vn'    , 'Cảng Cát Lái, Q.2 (cũ), TP.HCM'     , 'Xây dựng kho bãi & hạ tầng logistics', '2016-06-01', '2024-10-01'),
+(16, 'Công ty PCCC & CNCH Phương Nam' , 'Hệ thống PCCC'     , '0283160002', 'info@phuongnampccc.vn'  , '88 Đồng Văn Cống, Q.2, TP.HCM'      , 'Lắp đặt & kiểm định PCCC kho bãi'  , '2017-01-01', '2024-10-01'),
+(17, 'Amata Corporation Thailand'     , 'Thi công xây dựng' , '0251170001', 'info@amata.com'         , 'Long Bình, Biên Hòa, Đồng Nai'      , 'Chủ đầu tư & tổng thầu KCN Amata'  , '2014-01-01', '2024-09-01'),
+(17, 'Cty Cơ điện Đồng Nai'           , 'Cơ điện thang máy' , '0251170002', 'info@codiendognai.vn'   , '25 Đồng Khởi, Biên Hòa, Đồng Nai'   , 'Hệ thống điện, nước, PCCC kho xưởng', '2015-03-01', '2024-09-01'),
+(18, 'VSIP Group'                     , 'Thi công xây dựng' , '0274180001', 'info@vsip.com.vn'       , 'VSIP II, Bình Hòa, Thuận An, BD'    , 'Chủ đầu tư & phát triển hạ tầng KCN', '2010-01-01', '2024-11-01'),
+(18, 'Tư vấn Đầu tư KCN Việt Nam'     , 'Tư vấn pháp lý'    , '0274180002', 'info@kcnvn-consult.vn'  , '12 Đại lộ Bình Dương, Thủ Dầu Một'  , 'Tư vấn thủ tục thuê/mua đất KCN'   , '2018-06-01', '2025-01-01'),
+(19, 'Deep C Industrial Zones'        , 'Thi công xây dựng' , '0203190001', 'info@deepc.vn'          , 'KCN Deep C, Đông Mai, Quảng Yên, QN', 'Chủ đầu tư & phát triển hạ tầng'   , '2012-01-01', '2024-12-01'),
+(19, 'Công ty Xây dựng Quảng Ninh'    , 'Thi công xây dựng' , '0203190002', 'info@xdqn.vn'           , '234 Trần Phú, Hạ Long, Quảng Ninh'  , 'Nhà thầu hạ tầng kỹ thuật KCN'     , '2014-06-01', '2024-12-01');
 
 -- =============================================================================
 -- BẢNG BẢN ĐỒ QUY HOẠCH / PLANNING_MAP
@@ -724,25 +819,31 @@ CREATE TABLE planning_map (
     issued_date   DATE,
     expired_date  DATE,
     image_url     TEXT         COMMENT '/uploads/planning/building_id/map.jpg',
-    document_url  TEXT         COMMENT '/uploads/planning/building_id/quyhoach.pdf',
     note          TEXT,
     created_date  DATETIME,
     FOREIGN KEY (building_id) REFERENCES building(id)
 );
 
-INSERT INTO planning_map (building_id, map_type, issued_by, issued_date, expired_date, image_url, document_url, note, created_date) VALUES
-(1 , 'Quy hoạch 1/2000', 'Sở Quy hoạch KT Hà Nội'       , '2017-03-15', '2027-03-15', '/uploads/planning/1/map.jpg' , '/uploads/planning/1/qh.pdf' , 'Phân khu N5 Ba Đình'              , '2018-11-20'),
-(2 , 'Quy hoạch 1/500' , 'UBND quận Nam Từ Liêm, HN'    , '2016-08-01', '2026-08-01', '/uploads/planning/2/map.jpg' , '/uploads/planning/2/qh.pdf' , 'Hành lang xanh sông Nhuệ'         , '2018-08-25'),
-(3 , 'Quy hoạch 1/500' , 'UBND quận Hoàn Kiếm, HN'      , '2018-07-20', '2028-07-20', '/uploads/planning/3/map.jpg' , '/uploads/planning/3/qh.pdf' , 'Khu phố cổ, hạn chế chiều cao'    , '2019-07-18'),
-(4 , 'Quy hoạch 1/2000', 'Sở Quy hoạch KT TP.HCM'       , '2016-01-01', '2026-01-01', '/uploads/planning/4/map.jpg' , '/uploads/planning/4/qh.pdf' , 'Khu trung tâm Q1, hạn chế xây mới', '2018-05-20'),
-(5 , 'Quy hoạch 1/2000', 'UBND quận Hải Châu, Đà Nẵng'  , '2019-06-01', '2029-06-01', '/uploads/planning/5/map.jpg' , '/uploads/planning/5/qh.pdf' , 'Khu thương mại trung tâm ĐN'      , '2020-07-14'),
-(6 , 'Quy hoạch 1/500' , 'Sở Quy hoạch KT TP.HCM'       , '2018-03-01', '2028-03-01', '/uploads/planning/6/map.jpg' , '/uploads/planning/6/qh.pdf' , 'Trục đường Lê Lợi, khu CBD HCM'   , '2019-03-15'),
-(7 , 'Quy hoạch 1/2000', 'UBND TP. Nha Trang, Khánh Hòa', '2019-09-01', '2029-09-01', '/uploads/planning/7/map.jpg' , '/uploads/planning/7/qh.pdf' , 'Khu du lịch ven biển Trần Phú'    , '2020-06-10'),
-(10, 'Quy hoạch 1/500' , 'UBND TP. Thủ Đức, HCM'        , '2021-06-01', '2031-06-01', '/uploads/planning/10/map.jpg', '/uploads/planning/10/qh.pdf', 'Khu đô thị Thủ Đức mới'           , '2022-03-15'),
-(14, 'Quy hoạch 1/500' , 'UBND quận Bình Thạnh, TP.HCM' , '2018-04-01', '2028-04-01', '/uploads/planning/14/map.jpg', '/uploads/planning/14/qh.pdf', 'Khu ven sông Sài Gòn, Bình Thạnh' , '2019-04-10'),
-(15, 'Quy hoạch 1/2000', 'UBND quận Ngũ Hành Sơn, ĐN'   , '2020-05-01', '2030-05-01', '/uploads/planning/15/map.jpg', '/uploads/planning/15/qh.pdf', 'Khu du lịch Non Nước, bãi biển ĐN', '2021-06-01'),
-(18, 'Quy hoạch 1/2000', 'Ban QL KCN tỉnh Bình Dương'   , '2019-06-01', '2029-06-01', '/uploads/planning/18/map.jpg', '/uploads/planning/18/qh.pdf', 'KCN VSIP II mở rộng'              , '2020-06-10'),
-(19, 'Quy hoạch 1/2000', 'Ban QL KKT tỉnh Quảng Ninh'   , '2020-09-01', '2030-09-01', '/uploads/planning/19/map.jpg', '/uploads/planning/19/qh.pdf', 'KCN Deep C, Khu KT Ven biển QN'   , '2021-08-15');
+INSERT INTO planning_map (building_id, map_type, issued_by, issued_date, expired_date, image_url, note, created_date) VALUES
+(1 , 'Quy hoạch 1/2000', 'Sở Quy hoạch KT Hà Nội'       , '2017-03-15', '2027-03-15', 'map1.jpg' , 'Phân khu N5 Ba Đình'              , '2018-11-20'),
+(2 , 'Quy hoạch 1/500' , 'UBND quận Nam Từ Liêm, HN'    , '2016-08-01', '2026-08-01', 'map2.jpg' , 'Hành lang xanh sông Nhuệ'         , '2018-08-25'),
+(3 , 'Quy hoạch 1/500' , 'UBND quận Hoàn Kiếm, HN'      , '2018-07-20', '2028-07-20', 'map3.jpg' , 'Khu phố cổ, hạn chế chiều cao'    , '2019-07-18'),
+(4 , 'Quy hoạch 1/2000', 'Sở Quy hoạch KT TP.HCM'       , '2016-01-01', '2026-01-01', 'map4.jpg' , 'Khu trung tâm Q1, hạn chế xây mới', '2018-05-20'),
+(5 , 'Quy hoạch 1/2000', 'UBND quận Hải Châu, Đà Nẵng'  , '2019-06-01', '2029-06-01', 'map5.jpg' , 'Khu thương mại trung tâm ĐN'      , '2020-07-14'),
+(6 , 'Quy hoạch 1/500' , 'Sở Quy hoạch KT TP.HCM'       , '2018-03-01', '2028-03-01', 'map6.jpg' , 'Trục đường Lê Lợi, khu CBD HCM'   , '2019-03-15'),
+(8 , 'Quy hoạch 1/2000', 'UBND quận 7, TP.HCM'          , '2018-06-01', '2028-06-01', 'map7.jpg' , 'Khu đô thị Phú Mỹ Hưng, trục thương mại', '2019-03-10'),
+(9 , 'Quy hoạch 1/2000', 'UBND quận Nam Từ Liêm, HN'    , '2020-01-15', '2030-01-15', 'map8.jpg' , 'Khu đô thị Vinhomes Smart City'   , '2020-06-01'),
+(7 , 'Quy hoạch 1/2000', 'UBND TP. Nha Trang, Khánh Hòa', '2019-09-01', '2029-09-01', 'map9.jpg' , 'Khu du lịch ven biển Trần Phú'    , '2020-06-10'),
+(10, 'Quy hoạch 1/500' , 'UBND TP. Thủ Đức, HCM'        , '2021-06-01', '2031-06-01', 'map10.jpg', 'Khu đô thị Thủ Đức mới'           , '2022-03-15'),
+(11, 'Quy hoạch 1/500' , 'UBND TP. Thủ Đức, HCM'        , '2018-03-01', '2028-03-01', 'map11.jpg', 'Khu dân cư cao cấp Thảo Điền'     , '2019-01-10'),
+(12, 'Quy hoạch 1/500' , 'UBND TP. Thủ Đức, HCM'        , '2020-07-01', '2030-07-01', 'map12.jpg', 'Hành lang sông Đồng Nai, khu đô thị mới' , '2021-03-01'),
+(13, 'Quy hoạch 1/500' , 'UBND quận Thanh Xuân, HN'     , '2017-10-01', '2027-10-01', 'map13.jpg', 'Khu dân cư Nguyễn Tuân, hạn chế cao tầng', '2018-05-15'),
+(14, 'Quy hoạch 1/500' , 'UBND quận Bình Thạnh, TP.HCM' , '2018-04-01', '2028-04-01', 'map14.jpg', 'Khu ven sông Sài Gòn, Bình Thạnh' , '2019-04-10'),
+(15, 'Quy hoạch 1/2000', 'UBND quận Ngũ Hành Sơn, ĐN'   , '2020-05-01', '2030-05-01', 'map15.jpg', 'Khu du lịch Non Nước, bãi biển ĐN', '2021-06-01'),
+(16, 'Quy hoạch 1/2000', 'UBND TP.HCM - Sở GTVT'        , '2016-08-01', '2026-08-01', 'map16.jpg', 'Quy hoạch cảng & logistics Cát Lái'      , '2017-03-01'),
+(17, 'Quy hoạch 1/2000', 'Ban QL KCN tỉnh Đồng Nai'     , '2014-06-01', '2024-06-01', 'map17.jpg', 'KCN Amata mở rộng giai đoạn 3 — HẾT HẠN' , '2015-01-10'),
+(18, 'Quy hoạch 1/2000', 'Ban QL KCN tỉnh Bình Dương'   , '2019-06-01', '2029-06-01', 'map18.jpg', 'KCN VSIP II mở rộng'              , '2020-06-10'),
+(19, 'Quy hoạch 1/2000', 'Ban QL KKT tỉnh Quảng Ninh'   , '2020-09-01', '2030-09-01', 'map19.jpg', 'KCN Deep C, Khu KT Ven biển QN'   , '2021-08-15');
 
 -- =============================================================================
 -- BẢNG CƠ QUAN TƯ PHÁP / LEGAL_AUTHORITY
@@ -763,16 +864,40 @@ CREATE TABLE legal_authority (
 );
 
 INSERT INTO legal_authority (building_id, authority_name, authority_type, address, phone, email, note, created_date) VALUES
+(1 , 'Chi cục Thuế quận Ba Đình, HN'  , 'TAX_OFFICE'   , '18 Liễu Giai, Ba Đình, HN'           , '0241000101', 'cct.badinh@gdt.gov.vn' , 'Kê khai VAT, thuế TNCN nhân viên'   , '2019-01-01'),
+(1 , 'Phòng Cảnh sát PCCC Ba Đình'    , 'LAW_FIRM'     , '2 Phạm Huy Thông, Ba Đình, HN'       , '0241000102', 'pccc.badinh@hanoipccc.vn', 'Kiểm định PCCC định kỳ 6 tháng/lần', '2019-01-01'),
+(2 , 'Chi cục Thuế quận Nam Từ Liêm'  , 'TAX_OFFICE'   , '72 Trần Bình, Nam Từ Liêm, HN'       , '0241000201', 'cct.ntuliem@gdt.gov.vn', 'Thuế VAT dịch vụ cho thuê văn phòng', '2018-01-01'),
+(2 , 'Văn phòng Luật Hà Nội Capital'  , 'LAW_FIRM'     , '15 Phạm Hùng, Nam Từ Liêm, HN'       , '0241000202', 'info@hncapital-law.vn' , 'Soạn thảo & kiểm tra HĐ cho thuê'   , '2018-06-01'),
+(3 , 'Chi cục Thuế quận Hoàn Kiếm'    , 'TAX_OFFICE'   , '43 Đinh Tiên Hoàng, Hoàn Kiếm, HN'   , '0241000301', 'cct.hoankiem@gdt.gov.vn', 'Kê khai thuế dịch vụ văn phòng'    , '2020-01-01'),
+(3 , 'Phòng CS PCCC quận Hoàn Kiếm'   , 'LAW_FIRM'     , '28 Hàng Bài, Hoàn Kiếm, HN'          , '0241000302', 'pccc.hoankiem@hanoi.vn', 'Kiểm tra PCCC & cấp phép hoạt động' , '2020-01-01'),
+(4 , 'Chi cục Thuế quận 1, TP.HCM'    , 'TAX_OFFICE'   , '79 Hàm Nghi, Q.1, TP.HCM'            , '0283000401', 'cct.q1@gdt.gov.vn'     , 'Thuế VAT & môn bài dịch vụ VP'      , '2018-01-01'),
+(4 , 'Văn phòng Luật LCT Lawyers'     , 'LAW_FIRM'     , '14 Tôn Thất Đạm, Q.1, TP.HCM'        , '0283000402', 'info@lct-lawyers.vn'   , 'Tư vấn pháp lý HĐ thuê văn phòng'   , '2018-06-01'),
+(5 , 'Chi cục Thuế quận Hải Châu, ĐN' , 'TAX_OFFICE'   , '12 Ông Ích Khiêm, Hải Châu, ĐN'      , '0236000501', 'cct.haichau@gdt.gov.vn', 'Kê khai VAT văn phòng cho thuê'     , '2021-01-01'),
+(5 , 'Phòng CS PCCC TP. Đà Nẵng'      , 'LAW_FIRM'     , '18 Phan Đình Phùng, Hải Châu, ĐN'    , '0236000502', 'pccc@danang.gov.vn'    , 'Cấp phép & kiểm định PCCC'          , '2021-01-01'),
 (6 , 'Văn phòng Công chứng Sài Gòn'   , 'NOTARY'       , '55 Pasteur, Q.3, TP.HCM'             , '0283000001', 'vpcc.saigon@hcmc.vn'   , 'Công chứng HĐ mua bán Saigon Centre', '2024-01-10'),
 (6 , 'Sở TN&MT TP. Hồ Chí Minh'       , 'LAND_REGISTRY', '60 Trương Định, Q.3, TP.HCM'         , '0283000002', 'sotnmt@tphcm.gov.vn'   , 'Đăng ký biến động đất đai HCM'      , '2024-01-10'),
 (7 , 'Phòng Công chứng số 1 Khánh Hòa', 'NOTARY'       , '16 Lê Thánh Tôn, Lộc Thọ, Nha Trang' , '0258000001', 'pc1@congchung.kh.vn'   , 'Công chứng khu vực Nha Trang'       , '2025-01-10'),
 (7 , 'Sở TN&MT tỉnh Khánh Hòa'        , 'LAND_REGISTRY', '04 Trần Phú, Lộc Thọ, Nha Trang, KH' , '0258000002', 'sotnmt@khanhhoa.gov.vn', 'Đăng ký biến động đất đai KH'       , '2025-01-10'),
+(8 , 'Chi cục Thuế quận 7, TP.HCM'    , 'TAX_OFFICE'   , '9 Huỳnh Tấn Phát, Q.7, TP.HCM'       , '0283000801', 'cct.q7@gdt.gov.vn'     , 'Thuế VAT kinh doanh shophouse'      , '2020-03-01'),
+(8 , 'Văn phòng Công chứng Q.7 HCM'   , 'NOTARY'       , '25 Nguyễn Thị Thập, Q.7, TP.HCM'     , '0283000802', 'vpcc.q7@hcmc.vn'       , 'Công chứng HĐ thuê shophouse'       , '2020-03-01'),
+(9 , 'Chi cục Thuế quận Nam Từ Liêm'  , 'TAX_OFFICE'   , '72 Trần Bình, Nam Từ Liêm, HN'       , '0241000901', 'cct.ntuliem@gdt.gov.vn', 'Thuế kinh doanh shophouse'          , '2021-01-01'),
+(9 , 'Phòng Công chứng số 4 HN'       , 'NOTARY'       , '34 Xuân Thủy, Cầu Giấy, HN'          , '0241000902', 'pc4@congchung.hn.vn'   , 'Công chứng HĐ thuê mặt bằng'        , '2021-01-01'),
 (10, 'Văn phòng Công chứng Thủ Đức'   , 'NOTARY'       , '23 Xa Lộ Hà Nội, P. Thảo Điền, TĐ'   , '0283000003', 'vpcc.thuduc@hcmc.vn'   , 'Công chứng khu vực Thủ Đức'         , '2023-06-01'),
 (10, 'Chi cục Thuế TP. Thủ Đức'       , 'TAX_OFFICE'   , '12 Đặng Văn Bi, P. Bình Thọ, TĐ, HCM', '0283000004', 'cct.thuduc@gdt.gov.vn' , 'Kê khai & nộp thuế chuyển nhượng'   , '2023-06-01'),
+(11, 'Chi cục Thuế TP. Thủ Đức'       , 'TAX_OFFICE'   , '12 Đặng Văn Bi, Bình Thọ, TĐ, HCM'   , '0283001101', 'cct.thuduc@gdt.gov.vn' , 'Thuế TNCN từ cho thuê căn hộ'       , '2020-01-01'),
+(11, 'Văn phòng Công chứng Thủ Đức'   , 'NOTARY'       , '23 Xa Lộ Hà Nội, Thảo Điền, TĐ'      , '0283001102', 'vpcc.thuduc@hcmc.vn'   , 'Công chứng HĐ cho thuê căn hộ'      , '2020-01-01'),
+(12, 'Chi cục Thuế TP. Thủ Đức'       , 'TAX_OFFICE'   , '12 Đặng Văn Bi, Bình Thọ, TĐ, HCM'   , '0283001201', 'cct.thuduc@gdt.gov.vn' , 'Thuế từ dịch vụ cho thuê căn hộ'    , '2021-06-01'),
+(12, 'Phòng CS PCCC TP. Thủ Đức'      , 'LAW_FIRM'     , '45 Võ Văn Ngân, Bình Thọ, TĐ, HCM'   , '0283001202', 'pccc.thuduc@hcmc.gov.vn', 'Kiểm định PCCC chung cư định kỳ'   , '2021-06-01'),
+(13, 'Chi cục Thuế quận Thanh Xuân'   , 'TAX_OFFICE'   , '103 Khuất Duy Tiến, Thanh Xuân, HN'  , '0241001301', 'cct.thxuan@gdt.gov.vn' , 'Thuế TNCN từ cho thuê căn hộ'       , '2019-06-01'),
+(13, 'Văn phòng Công chứng Thanh Xuân', 'NOTARY'       , '15 Nguyễn Tuân, Thanh Xuân, HN'      , '0241001302', 'vpcc.thxuan@hanoi.vn'  , 'Công chứng HĐ thuê căn hộ'          , '2019-06-01'),
 (14, 'Văn phòng Công chứng Bình Thạnh', 'NOTARY'       , '30 Đinh Bộ Lĩnh, Bình Thạnh, TP.HCM' , '0283000005', 'vpcc.bt@hcmc.vn'       , 'Công chứng HĐ mua bán căn hộ'       , '2023-04-15'),
 (14, 'Chi cục Thuế Q. Bình Thạnh'     , 'TAX_OFFICE'   , '32 Nơ Trang Long, Bình Thạnh, TP.HCM', '0283000006', 'cct.bt@gdt.gov.vn'     , 'Nộp thuế thu nhập cá nhân'          , '2023-04-15'),
 (15, 'Phòng Công chứng số 3 Đà Nẵng'  , 'NOTARY'       , '28 Nguyễn Văn Linh, Hải Châu, ĐN'    , '0236000001', 'pc3@congchung.dn.vn'   , 'Công chứng khu vực Đà Nẵng'         , '2024-08-10'),
 (15, 'Sở TN&MT TP. Đà Nẵng'           , 'LAND_REGISTRY', '62 Lý Tự Trọng, Thạch Thang, ĐN'     , '0236000002', 'sotnmt@danang.gov.vn'  , 'Đăng ký biến động đất đai ĐN'       , '2024-08-10'),
+(16, 'Chi cục Thuế TP. Thủ Đức'       , 'TAX_OFFICE'   , '12 Đặng Văn Bi, Bình Thọ, TĐ, HCM'   , '0283001601', 'cct.thuduc@gdt.gov.vn' , 'Thuế VAT dịch vụ kho bãi'           , '2018-01-01'),
+(16, 'Cảnh sát PCCC Q. Thủ Đức'       , 'LAW_FIRM'     , '60 Kha Vạn Cân, Thủ Đức, TP.HCM'     , '0283001602', 'pccc.thuduc@hcmc.gov.vn', 'Kiểm định PCCC kho bãi 6 tháng/lần', '2018-01-01'),
+(17, 'Chi cục Thuế TP. Biên Hòa, ĐN'  , 'TAX_OFFICE'   , '90 Phạm Văn Thuận, Biên Hòa, ĐN'     , '0251001701', 'cct.bienhoa@gdt.gov.vn', 'Thuế đất KCN & dịch vụ kho xưởng'   , '2016-01-01'),
+(17, 'Ban QL KCN tỉnh Đồng Nai'       , 'LAND_REGISTRY', 'KCN Amata, Long Bình, Biên Hòa, ĐN'  , '0251001702', 'bql@kcndongnai.gov.vn' , 'Cấp phép xây dựng & thuê đất KCN'   , '2016-01-01'),
 (18, 'Văn phòng Công chứng Bình Dương', 'NOTARY'       , '8 Đại lộ Bình Dương, Hiệp Thành, BD' , '0274000001', 'vpcc.bd@binhduong.vn'  , 'Công chứng khu vực Bình Dương'      , '2025-02-01'),
 (18, 'Ban Quản lý KCN Bình Dương'     , 'LAND_REGISTRY', 'VSIP II, Bình Hòa, Thuận An, BD'     , '0274000002', 'bql@vsip.com.vn'       , 'Thủ tục thuê đất KCN, giấy phép'    , '2025-02-01'),
 (19, 'Văn phòng Công chứng Quảng Ninh', 'NOTARY'       , '234 Trần Phú, Hồng Hải, Hạ Long, QN' , '0203000001', 'vpcc.qn@quangninh.vn'  , 'Công chứng khu vực Quảng Ninh'      , '2024-11-05'),
