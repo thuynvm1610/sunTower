@@ -3,6 +3,7 @@ package com.estate.api.admin;
 import com.estate.dto.LegalAuthorityDTO;
 import com.estate.dto.NearbyAmenityDTO;
 import com.estate.dto.PlanningMapDTO;
+import com.estate.dto.SupplierDTO;
 import com.estate.service.BuildingDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -60,6 +61,24 @@ public class AdminBuildingAdditionalInformationAPI {
     }
 
     // ===================== SUPPLIER =====================
+    @PostMapping("/supplier")
+    public ResponseEntity<SupplierDTO> createSupplier(@RequestBody SupplierDTO dto) {
+        return ResponseEntity.ok(buildingDetailService.createSupplier(dto));
+    }
+
+    @PutMapping("/supplier/{id}")
+    public ResponseEntity<SupplierDTO> updateSupplier(@PathVariable Long id,
+                                                            @RequestBody SupplierDTO dto) {
+        return ResponseEntity.ok(buildingDetailService.updateSupplier(id, dto));
+    }
+
+    @DeleteMapping("/supplier/{id}")
+    public ResponseEntity<SupplierDTO> deleteSupplier(@PathVariable Long id) {
+        buildingDetailService.deleteSupplier(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    // ===================== PLANNING MAP =====================
     @PostMapping("/planning-map")
     public ResponseEntity<PlanningMapDTO> createPlanningMap(@RequestBody PlanningMapDTO dto) {
         return ResponseEntity.ok(buildingDetailService.createPlanningMap(dto));

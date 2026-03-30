@@ -838,11 +838,14 @@
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Điện thoại <span class="text-danger">*</span></label>
-                        <input type="text" id="legal-phone" class="form-control" placeholder="0901234567">
+                        <input type="tel" id="legal-phone" class="form-control" placeholder="0901234567"
+                               maxlength="10" pattern="\d{10}" inputmode="numeric"
+                               oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)">
                     </div>
                     <div class="col-12">
                         <label class="form-label">Email <span class="text-danger">*</span></label>
-                        <input type="email" id="legal-email" class="form-control" placeholder="contact@example.com">
+                        <input type="email" id="legal-email" class="form-control" placeholder="contact@example.com"
+                               autocomplete="email">
                     </div>
                     <div class="col-12">
                         <label class="form-label">Địa chỉ <span class="text-danger">*</span></label>
@@ -983,7 +986,8 @@
                     <!-- Upload ảnh -->
                     <div class="col-12">
                         <label class="form-label">Ảnh bản đồ <span class="text-danger">*</span></label>
-                        <div id="planningUploadZone" class="planning-upload-zone" onclick="document.getElementById('planningImageFile').click()">
+                        <div id="planningUploadZone" class="planning-upload-zone"
+                             onclick="if(!event.target.closest('#planningUploadPreview'))document.getElementById('planningImageFile').click()">
                             <div id="planningUploadPlaceholder">
                                 <i class="bi bi-cloud-arrow-up" style="font-size:1.75rem;color:#d1d5db;display:block;margin-bottom:0.4rem;"></i>
                                 <div style="font-size:0.8125rem;color:#6b7280;">Nhấn để chọn ảnh hoặc kéo thả vào đây</div>
@@ -991,11 +995,7 @@
                             </div>
                             <div id="planningUploadPreview" style="display:none;position:relative;width:fit-content;margin:0 auto;">
                                 <img id="planningPreviewImg" src="" alt="preview"
-                                     style="max-height:140px;max-width:100%;border-radius:6px;border:1px solid #e5e7eb;object-fit:contain;"
-                                     onerror="this.style.display='none';document.getElementById('planningImgError').style.display=''">
-                                <div id="planningImgError" style="display:none;font-size:0.8rem;color:#dc2626;padding:0.5rem;">
-                                    <i class="bi bi-exclamation-triangle"></i> Không tải được ảnh
-                                </div>
+                                     style="max-height:140px;max-width:100%;border-radius:6px;border:1px solid #e5e7eb;object-fit:contain;">
                                 <button type="button" onclick="event.stopPropagation();clearPlanningImage()"
                                         style="position:absolute;top:-8px;right:-8px;width:22px;height:22px;background:#ef4444;color:#fff;border:none;border-radius:50%;font-size:0.75rem;cursor:pointer;display:flex;align-items:center;justify-content:center;">
                                     <i class="bi bi-x"></i>
@@ -1052,12 +1052,14 @@
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Điện thoại <span class="text-danger">*</span></label>
-                        <input type="text" id="supplier-phone" class="form-control" placeholder="0901234567">
+                        <input type="tel" id="supplier-phone" class="form-control" placeholder="0901234567"
+                               maxlength="10" pattern="\d{10}" inputmode="numeric"
+                               oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)">
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Email <span class="text-danger">*</span></label>
                         <input type="email" id="supplier-email" class="form-control"
-                               placeholder="contact@supplier.com">
+                               placeholder="contact@supplier.com" autocomplete="email">
                     </div>
                     <div class="col-12">
                         <label class="form-label">Địa chỉ</label>
@@ -1200,22 +1202,27 @@
     // ── Open edit modal ──
     async function editItem(type, id) {
         try {
-            const res = await fetch(`${BASE}/${endpoints[type]}/${BUILDING_ID}/list`);
-            if (!res.ok) throw new Error();
+            const url = `${BASE}/${endpoints[type]}/${BUILDING_ID}/list`;
+            const res = await fetch(url);
+            if (!res.ok) {
+                const errText = await res.text();
+                console.error('editItem fetch error', res.status, errText);
+                throw new Error(`HTTP ${res.status}`);
+            }
             const list = await res.json();
             const item = list.find(i => i.id == id);
-            if (!item) { toastError('Không tìm thấy dữ liệu'); return; }
+            if (!item) { toastError('Không tìm thấy dữ liệu (id=' + id + ')'); return; }
             clearForm(type);
             fillForm(type, item);
             document.getElementById(type + '-id').value = id;
             document.getElementById('modal' + capitalize(type) + 'Title').textContent = modalTitles[type].edit;
-            // Cập nhật coord display nếu là amenity
             if (type === 'amenity' && item.latitude) {
                 updateAmenityCoordDisplay(item.latitude, item.longitude);
             }
             bsModals[type].show();
-        } catch {
-            toastError('Lỗi tải dữ liệu');
+        } catch (err) {
+            console.error('editItem error:', err);
+            toastError('Lỗi tải dữ liệu: ' + (err.message || err));
         }
     }
 
@@ -1238,12 +1245,17 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload),
             });
-            if (!res.ok) throw new Error();
+            if (!res.ok) {
+                const errBody = await res.text().catch(() => '');
+                console.error('saveItem error', res.status, errBody);
+                throw new Error(`HTTP ${res.status}${errBody ? ': ' + errBody : ''}`);
+            }
             bsModals[type].hide();
             await refreshSection(type);
             Swal.fire({ icon: 'success', title: 'Thành công', text: id ? 'Cập nhật thành công!' : 'Thêm mới thành công!', timer: 1500, showConfirmButton: false });
-        } catch {
-            Swal.fire({ icon: 'error', title: 'Lỗi', text: 'Có lỗi xảy ra, vui lòng thử lại.' });
+        } catch (err) {
+            console.error('saveItem caught:', err);
+            Swal.fire({ icon: 'error', title: 'Lỗi', text: err.message || 'Có lỗi xảy ra, vui lòng thử lại.' });
         } finally {
             saveBtn.disabled = false;
         }
@@ -1401,12 +1413,9 @@
             const resolvedUrl = resolveImgUrl(item.imageUrl);
             document.getElementById('planning-imageUrl').value = item.imageUrl;
             var img = document.getElementById('planningPreviewImg');
-            img.onerror = function() {
-                this.style.display = 'none';
-            };
-            img.src = resolvedUrl;
+            img.onerror = function() { this.style.display = 'none'; };
             img.style.display = '';
-            document.getElementById('planningImgError').style.display = 'none';
+            img.src = resolvedUrl;
             document.getElementById('planningUploadPlaceholder').style.display = 'none';
             document.getElementById('planningUploadPreview').style.display = 'block';
             document.getElementById('planningUploadZone').classList.add('has-image');
@@ -1441,6 +1450,20 @@
             const fieldNames = [...new Set(missing.map(f => labels[f] || f))];
             Swal.fire({ icon: 'warning', title: 'Thiếu thông tin', html: 'Vui lòng điền đầy đủ:<br><strong>' + fieldNames.join(', ') + '</strong>' });
             return null;
+        }
+        // Validate phone – đúng 10 chữ số
+        if (obj.phone) {
+            if (!/^\d{10}$/.test(obj.phone)) {
+                Swal.fire({ icon: 'warning', title: 'Số điện thoại không hợp lệ', text: 'Số điện thoại phải đúng 10 chữ số.' });
+                return null;
+            }
+        }
+        // Validate email – định dạng hợp lệ
+        if (obj.email) {
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(obj.email)) {
+                Swal.fire({ icon: 'warning', title: 'Email không hợp lệ', text: 'Vui lòng nhập đúng định dạng email.' });
+                return null;
+            }
         }
         if (type === 'amenity') {
             if (obj.distanceMeter) obj.distanceMeter = parseInt(obj.distanceMeter);
@@ -1716,8 +1739,9 @@
         var reader = new FileReader();
         reader.onload = function(e) {
             var img = document.getElementById('planningPreviewImg');
+            img.onerror = null;        // xóa handler cũ, base64 không thể lỗi
+            img.style.display = '';    // đảm bảo img visible
             img.src = e.target.result;
-            img.onerror = null; // base64 không thể lỗi
             document.getElementById('planningUploadPlaceholder').style.display = 'none';
             document.getElementById('planningUploadPreview').style.display = 'block';
             document.getElementById('planningUploadZone').classList.add('has-image');
@@ -1756,9 +1780,9 @@
         document.getElementById('planning-imageUrl').value = '';
         document.getElementById('planningImageFile').value = '';
         var img = document.getElementById('planningPreviewImg');
-        img.src = ''; img.style.display = '';
-        var errEl = document.getElementById('planningImgError');
-        if (errEl) errEl.style.display = 'none';
+        img.onerror = null;
+        img.src = '';
+        img.style.display = '';
         document.getElementById('planningUploadPlaceholder').style.display = '';
         document.getElementById('planningUploadPreview').style.display = 'none';
         document.getElementById('planningUploadZone').classList.remove('has-image', 'uploading');
