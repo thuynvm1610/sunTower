@@ -4,11 +4,9 @@ import com.estate.converter.ContractDetailConverter;
 import com.estate.converter.ContractFormConverter;
 import com.estate.converter.ContractListConverter;
 import com.estate.dto.*;
+import com.estate.enums.TransactionType;
 import com.estate.exception.BusinessException;
-import com.estate.repository.BuildingRepository;
-import com.estate.repository.ContractRepository;
-import com.estate.repository.CustomerRepository;
-import com.estate.repository.StaffRepository;
+import com.estate.repository.*;
 import com.estate.repository.entity.BuildingEntity;
 import com.estate.repository.entity.ContractEntity;
 import com.estate.repository.entity.CustomerEntity;
@@ -51,6 +49,9 @@ public class ContractServiceImpl implements ContractService {
 
     @Autowired
     private ContractDetailConverter contractDetailConverter;
+
+    @Autowired
+    private SaleContractRepository saleContractRepository;
 
     @Override
     public Long countAll() {
@@ -169,11 +170,18 @@ public class ContractServiceImpl implements ContractService {
 
     @Override
     public Map<Long, Long> getContractCountByYear() {
-        List<Long[]> result = contractRepository.countContractsByYear();
-        Map<Long, Long> map = new LinkedHashMap<>();
-        for (Long[] row : result) {
-            map.put(row[0], row[1]);
+        List<Long[]> rentContracts = contractRepository.countRentContractsByYear();
+        List<Long[]> saleContracts = contractRepository.countSaleContractsByYear();
+
+        Map<Long, Long> map = new HashMap<>();
+
+        if (rentContracts != null) {
+            rentContracts.forEach(row -> map.put(row[0], row[1]));
         }
+        if (saleContracts != null) {
+            saleContracts.forEach(row -> map.merge(row[0], row[1], Long::sum));
+        }
+
         return map;
     }
 
@@ -414,6 +422,14 @@ public class ContractServiceImpl implements ContractService {
                         c -> contractListConverter.toDto(c)
                 )
                 .toList();
+    }
+
+    @Override
+    public Map<Long, Long> getSaleContractRate() {
+        Long totalBuildingForSale = buildingRepository.countByTransactionType(TransactionType.FOR_SALE);
+        Long totalSoldBuilding = saleContractRepository.count();
+
+        return Map.of(totalBuildingForSale, totalSoldBuilding);
     }
 
 }
