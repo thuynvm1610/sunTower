@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>SunTower | Quản lý Khách hàng</title>
+    <title>SunTower | Kết quả tìm kiếm khách hàng</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Bootstrap + Icons -->
@@ -14,363 +14,45 @@
     <style>
         body {
             background: #fafbfc;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             overflow-x: hidden;
         }
 
         main.content {
-            margin-left: 250px;
-            padding: 2.5rem 3rem;
-            margin-top: 70px;
+            margin-left: 220px;
+            padding: 1.5rem 1.5rem;
+            margin-top: 72px;
         }
 
-        /* Page header */
+        /* ══ PAGE HEADER ════════════════════════════════════════════════════ */
         .page-header {
-            margin-bottom: 2rem;
+            margin-bottom: 1.25rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .page-header h2 {
-            font-size: 1.75rem;
-            font-weight: 700;
+            font-size: 1.4rem;
+            font-weight: 800;
             color: #111827;
             margin: 0;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.5rem;
         }
 
         .page-header h2 i {
             color: #3b82f6;
+            font-size: 1.2rem;
         }
 
-        /* Modern button */
-        .btn-add {
-            background: #3b82f6;
-            color: white;
-            border: none;
-            padding: 0.625rem 1.25rem;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.875rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.2s ease;
-            text-decoration: none;
-        }
-
-        .btn-add:hover {
-            background: #2563eb;
-            color: white;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-        }
-
-        /* Filter card */
-        .filter-card {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .filter-card .form-label {
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: #374151;
-            margin-bottom: 0.5rem;
-        }
-
-        .filter-card .form-control {
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 0.625rem 0.875rem;
-            font-size: 0.875rem;
-            transition: all 0.2s ease;
-        }
-
-        .filter-card .form-control:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-
-        /* Highlight khi có giá trị */
-        .filter-card .form-control.has-value {
-            background-color: #E8F0FE;
-            border-color: #3b82f6;
-            font-weight: 600;
-        }
-
-        /* Filter buttons */
-        .filter-actions {
-            display: flex;
-            gap: 0.75rem;
-            justify-content: flex-end;
-            margin-top: 1.25rem;
-        }
-
-        .btn-filter {
-            padding: 0.625rem 1.25rem;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.875rem;
-            border: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.2s ease;
-        }
-
-        .btn-filter.btn-reset {
-            background: #f3f4f6;
-            color: #374151;
-        }
-
-        .btn-filter.btn-reset:hover {
-            background: #e5e7eb;
-        }
-
-        .btn-filter.btn-search {
-            background: #3b82f6;
-            color: white;
-        }
-
-        .btn-filter.btn-search:hover {
-            background: #2563eb;
-            transform: translateY(-1px);
-        }
-
-        /* Table card */
-        .table-card {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .table-card .table-header {
-            padding: 1.25rem 1.5rem;
-            border-bottom: 1px solid #e5e7eb;
-            font-weight: 600;
-            color: #111827;
-            font-size: 1rem;
-            background: #fafbfc;
-        }
-
-        /* Modern table */
-        .modern-table {
-            margin: 0;
-            min-height: 480px;
-        }
-
-        .modern-table thead th {
-            background: #f9fafb;
-            border: none;
-            border-bottom: 1px solid #e5e7eb;
-            padding: 0.875rem 1rem;
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: #6b7280;
-            text-transform: uppercase;
-            letter-spacing: 0.025em;
-            height: 60px;
-        }
-
-        .modern-table tbody {
-            min-height: 420px;
-            display: table-row-group;
-        }
-
-        .modern-table tbody td {
-            position: relative;
-            padding: 1rem;
-            border-bottom: 1px solid #f3f4f6;
-        }
-
-        .modern-table tbody tr {
-            height: 84px;
-            min-height: 84px;
-        }
-
-        .modern-table tbody tr:last-child td {
-            border-bottom: none;
-        }
-
-        .modern-table tbody tr {
-            transition: background 0.15s ease;
-        }
-
-        .modern-table tbody tr:hover {
-            background: #f9fafb;
-        }
-
-        .table-responsive {
-            min-height: 480px;
-        }
-
-        /* Table content styling */
-        .customer-name {
-            font-weight: 600;
-            color: #111827;
-        }
-
-        .customer-id {
-            color: #6b7280;
-            font-weight: 500;
-        }
-
-        .contact-info {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: #374151;
-        }
-
-        .contact-info i {
-            color: #6b7280;
-            font-size: 0.875rem;
-        }
-
-        /* Action buttons */
-        .action-buttons {
-            display: flex;
-            gap: 0.5rem;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-        }
-
-        .btn-action {
-            width: 32px;
-            height: 32px;
-            padding: 0;
-            border-radius: 6px;
-            border: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-            font-size: 0.875rem;
-        }
-
-        .btn-action.btn-view {
-            background: #eff6ff;
-            color: #2563eb;
-        }
-
-        .btn-action.btn-view:hover {
-            background: #dbeafe;
-            transform: translateY(-1px);
-        }
-
-        .btn-action.btn-edit {
-            background: #fffbeb;
-            color: #d97706;
-        }
-
-        .btn-action.btn-edit:hover {
-            background: #fef3c7;
-            transform: translateY(-1px);
-        }
-
-        .btn-action.btn-delete {
-            background: #fef2f2;
-            color: #dc2626;
-        }
-
-        .btn-action.btn-delete:hover {
-            background: #fee2e2;
-            transform: translateY(-1px);
-        }
-
-        /* Empty state */
-        .empty-state {
-            padding: 3rem;
-            text-align: center;
+        .page-header .update-time {
+            font-size: 0.8125rem;
             color: #9ca3af;
-            min-height: 420px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            margin-top: 0.2rem;
         }
 
-        .empty-state i {
-            font-size: 3rem;
-            color: #d1d5db;
-            margin-bottom: 1rem;
-        }
-
-        .empty-state p {
-            margin: 0;
-            font-size: 0.875rem;
-        }
-
-        /* Pagination */
-        .pagination-wrapper {
-            min-height: auto;
-            margin-top: 1.5rem;
-        }
-
-        .pagination {
-            margin-bottom: 28px;
-        }
-
-        .pagination .page-item {
-            margin: 0;
-        }
-
-        .pagination .page-link {
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 0.5rem 0.875rem;
-            color: #374151;
-            font-weight: 600;
-            font-size: 0.875rem;
-            transition: all 0.2s ease;
-        }
-
-        .pagination .page-link:hover {
-            background: #f9fafb;
-            border-color: #d1d5db;
-            color: #111827;
-        }
-
-        .pagination .page-item.active .page-link {
-            background: #3b82f6;
-            border-color: #3b82f6;
-            color: white;
-        }
-
-        .pagination .page-item.disabled .page-link {
-            background: #f9fafb;
-            border-color: #e5e7eb;
-            color: #d1d5db;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            main.content {
-                margin-left: 0;
-                padding: 1.5rem;
-            }
-
-            .page-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-            }
-
-            .action-buttons {
-                flex-wrap: wrap;
-            }
-        }
-
-        /* Modern button */
+        /* ══ BUTTONS ════════════════════════════════════════════════════════ */
         .btn-back {
             background: white;
             color: #374151;
@@ -393,7 +75,174 @@
             transform: translateY(-1px);
         }
 
-        /* Result badge */
+        /* ══ FILTER CARD ════════════════════════════════════════════════════ */
+        .filter-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.875rem 1.5rem;
+            border-bottom: 1px solid #f3f4f6;
+            transition: border-color 0.2s ease;
+        }
+
+        .filter-card:has(.filter-body.collapsed) .filter-header {
+            border-bottom-color: transparent;
+        }
+
+        .filter-title {
+            font-size: 0.8125rem;
+            font-weight: 700;
+            color: #374151;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .filter-title i {
+            color: #3b82f6;
+            font-size: 0.875rem;
+        }
+
+        .btn-toggle-filter {
+            background: #f3f4f6;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #6b7280;
+            font-size: 0.75rem;
+        }
+
+        .btn-toggle-filter:hover {
+            background: #e5e7eb;
+            color: #111827;
+        }
+
+        .btn-toggle-filter i {
+            transition: transform 0.3s;
+        }
+
+        .btn-toggle-filter.collapsed i {
+            transform: rotate(180deg);
+        }
+
+        .filter-body {
+            max-height: 1000px;
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            opacity: 1;
+            padding: 1.25rem 1.5rem;
+        }
+
+        .filter-body.collapsed {
+            max-height: 0;
+            opacity: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        .filter-section-title {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.75rem;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .filter-section-title i {
+            color: #3b82f6;
+            font-size: 0.8rem;
+        }
+
+        /* Form controls */
+        .filter-card .form-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.35rem;
+            display: block;
+        }
+
+        .filter-card .form-control {
+            border: 1px solid #e5e7eb;
+            border-radius: 7px;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.8125rem;
+            color: #374151;
+            background: #fff;
+            transition: all 0.2s;
+            height: auto;
+        }
+
+        .filter-card .form-control:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            outline: none;
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #f3f4f6;
+        }
+
+        .btn-filter {
+            padding: 0.45rem 1rem;
+            border-radius: 7px;
+            font-weight: 600;
+            font-size: 0.8125rem;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .btn-filter.btn-reset {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .btn-filter.btn-reset:hover { background: #e5e7eb; }
+
+        .btn-filter.btn-search {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-filter.btn-search:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(59,130,246,0.3);
+        }
+
+        /* ══ RESULT BADGE ════════════════════════════════════════════════════ */
         .result-badge {
             display: inline-flex;
             align-items: center;
@@ -404,137 +253,385 @@
             border-radius: 8px;
             font-size: 0.875rem;
             font-weight: 600;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
         }
 
-        .separator {
-            height: 12px;
+        /* ══ TABLE CARD ══════════════════════════════════════════════════════ */
+        .table-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
         }
+
+        .table-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.875rem 1.5rem;
+            border-bottom: 1px solid #f3f4f6;
+            background: #fafbfc;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .table-header-row .thr-title {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .table-header-row .thr-title i {
+            color: #3b82f6;
+            font-size: 0.9375rem;
+        }
+
+        /* ══ TABLE ═══════════════════════════════════════════════════════════ */
+        .table-responsive {
+            min-height: unset;
+        }
+
+        .modern-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8125rem;
+        }
+
+        .modern-table thead th {
+            background: #f8fafc;
+            border: none;
+            border-bottom: 1.5px solid #e9ecef;
+            padding: 0.5rem 0.875rem;
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            white-space: nowrap;
+        }
+
+        .modern-table tbody td {
+            padding: 0.75rem 0.875rem;
+            border-bottom: 1px solid #f3f4f6;
+            color: #374151;
+            vertical-align: middle;
+            font-size: 0.8125rem;
+        }
+
+        .modern-table tbody tr:last-child td { border-bottom: none; }
+
+        .modern-table tbody tr {
+            transition: background 0.15s;
+        }
+
+        .modern-table tbody tr:hover {
+            background: #f0f9ff;
+        }
+
+        /* ══ TABLE CELL STYLES ═══════════════════════════════════════════════ */
+        .customer-id {
+            font-weight: 700;
+            color: #111827;
+            font-size: 0.8125rem;
+        }
+
+        .customer-name {
+            font-weight: 600;
+            color: #111827;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.4;
+            max-height: 2.8em;
+        }
+
+        .contact-info {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.775rem;
+            color: #6b7280;
+        }
+
+        .contact-info i {
+            font-size: 0.7rem;
+            color: #9ca3af;
+        }
+
+        /* ══ ACTION BUTTONS ═══════════════════════════════════════════════════ */
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .btn-action {
+            width: 30px;
+            height: 30px;
+            padding: 0;
+            border-radius: 7px;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            font-size: 0.8rem;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .btn-action.btn-view  { background: #eff6ff; color: #2563eb; }
+        .btn-action.btn-view:hover  { background: #dbeafe; transform: translateY(-1px); }
+
+        .btn-action.btn-delete { background: #fef2f2; color: #dc2626; }
+        .btn-action.btn-delete:hover { background: #fee2e2; transform: translateY(-1px); }
+
+        /* ══ EMPTY STATE ══════════════════════════════════════════════════════ */
+        .empty-state {
+            padding: 3rem;
+            text-align: center;
+            color: #9ca3af;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .empty-state i {
+            font-size: 2.5rem;
+            color: #d1d5db;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state p {
+            margin: 0;
+            font-size: 0.875rem;
+        }
+
+        /* ══ PAGINATION ═══════════════════════════════════════════════════════ */
+        .pagination-wrapper {
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+            border-top: 1px solid #f3f4f6;
+        }
+
+        .pagination {
+            gap: 0.3rem;
+            margin: 0;
+        }
+
+        .pagination .page-item { margin: 0; }
+
+        .pagination .page-link {
+            border: 1px solid #e5e7eb;
+            border-radius: 7px;
+            padding: 0.35rem 0.75rem;
+            color: #374151;
+            font-weight: 600;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+            background: #fff;
+        }
+
+        .pagination .page-link:hover {
+            background: #f0f9ff;
+            border-color: #bfdbfe;
+            color: #1e40af;
+        }
+
+        .pagination .page-item.active .page-link {
+            background: #3b82f6;
+            border-color: #3b82f6;
+            color: white;
+        }
+
+        .pagination .page-item.disabled .page-link {
+            background: #f9fafb;
+            border-color: #e5e7eb;
+            color: #d1d5db;
+        }
+
+        /* ══ RESPONSIVE ═══════════════════════════════════════════════════════ */
+        @media (max-width: 768px) {
+            main.content {
+                margin-left: 0;
+                padding: 1.5rem;
+            }
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            .action-buttons { flex-wrap: wrap; }
+        }
+
+        .separator { height: 12px; }
     </style>
 </head>
 
 <body>
 
-    <!-- HEADER + SIDEBAR -->
-    <div th:replace="~{layout/header :: header}"></div>
-    <div th:replace="~{layout/sidebar :: sidebar}"></div>
+<!-- HEADER + SIDEBAR -->
+<div th:replace="~{layout/header :: header}"></div>
+<div th:replace="~{layout/sidebar :: sidebar}"></div>
 
-    <main class="content">
-        <div class="container-fluid">
-            <!-- Page Header -->
-            <div class="page-header">
-                <h2>
-                    <i class="bi bi-search"></i>
-                    Kết quả tìm kiếm
-                </h2>
-                <a th:href="@{/admin/customer/list}" class="btn-back">
-                    <i class="bi bi-arrow-left"></i>
-                    Quay lại danh sách
-                </a>
-            </div>
+<main class="content">
 
-            <!-- Result Badge -->
-            <div class="result-badge">
-                <i class="bi bi-check-circle-fill"></i>
-                <span>Tìm thấy <strong id="totalElements">0</strong> khách hàng</span>
-            </div>
-
-            <!-- Table Card -->
-            <div class="table-card">
-                <div class="table-header">
-                    Danh sách khách hàng
-                </div>
-
-                <div class="table-responsive">
-                    <table class="table modern-table">
-                        <thead>
-                            <tr>
-                                <th style="width: 10%;">Mã KH</th>
-                                <th style="width: 30%;">Tên khách hàng</th>
-                                <th style="width: 20%;">Điện thoại</th>
-                                <th style="width: 25%;">Email</th>
-                                <th style="width: 15%; text-align: center;">Hành động</th>
-                            </tr>
-                        </thead>
-
-                        <tbody id="customerTableBody">
-                            <!-- Dữ liệu sẽ được Ajax thêm vào -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="separator"></div>
-
-            <!-- Pagination -->
-            <div id="pagination"></div>
-
-            <!-- Filter Card -->
-            <form class="filter-card" th:action="@{/admin/customer/search}" method="get">
-                <div class="row g-3">
-                    <div class="col-md-8">
-                        <label class="form-label">Tên khách hàng</label>
-                        <input type="text" class="form-control" name="fullName" th:value="${fullName}"
-                            placeholder="Nhập tên khách hàng cần tìm...">
-                    </div>
-                    <div class="col-md-4 d-flex align-items-end">
-                        <div class="filter-actions w-100">
-                            <button type="button" class="btn-filter btn-reset" onclick="resetFilter()">
-                                <i class="bi bi-arrow-clockwise"></i>
-                                Reset
-                            </button>
-                            <button type="submit" class="btn-filter btn-search">
-                                <i class="bi bi-search"></i>
-                                Tìm kiếm
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </form>
+    <!-- Page Header -->
+    <div class="page-header">
+        <div>
+            <h2>
+                <i class="bi bi-search"></i>
+                Kết quả tìm kiếm khách hàng
+            </h2>
+            <div class="update-time">Danh sách khách hàng theo điều kiện tìm kiếm</div>
         </div>
-    </main>
+        <a th:href="@{/admin/customer/list}" class="btn-back">
+            <i class="bi bi-arrow-left"></i>
+            Quay lại danh sách
+        </a>
+    </div>
 
-    <!--Bootstrap-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- CDN SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!--JQuery-->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Result Badge -->
+    <div class="result-badge">
+        <i class="bi bi-check-circle-fill"></i>
+        <span>Tìm thấy <strong id="totalElements">0</strong> khách hàng</span>
+    </div>
 
-    <script>
-        function resetFilter() {
-            document.querySelector('.filter-card').reset();
-            document.querySelectorAll('.filter-card input, .filter-card select')
-                .forEach(e => e.value = "");
+    <!-- Table Card -->
+    <div class="table-card">
+        <div class="table-header-row">
+            <div class="thr-title">
+                <i class="bi bi-table"></i>
+                Kết quả tìm kiếm
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table modern-table">
+                <colgroup>
+                    <col style="width: 80px">
+                    <col style="width: 280px">
+                    <col style="width: 180px">
+                    <col>
+                    <col style="width: 110px">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>Mã KH</th>
+                    <th>Tên khách hàng</th>
+                    <th>Điện thoại</th>
+                    <th>Email</th>
+                    <th style="text-align:center;">Hành động</th>
+                </tr>
+                </thead>
+                <tbody id="customerTableBody">
+                <!-- Ajax render -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination inside card -->
+        <div id="pagination"></div>
+    </div>
+
+    <!-- Filter Card -->
+    <form class="filter-card" th:action="@{/admin/customer/search}" method="get">
+        <div class="filter-header">
+            <div class="filter-title">
+                <i class="bi bi-funnel"></i>
+                Bộ lọc tìm kiếm
+            </div>
+            <button type="button" class="btn-toggle-filter" onclick="toggleFilter()">
+                <i class="bi bi-chevron-up"></i>
+            </button>
+        </div>
+
+        <div class="filter-body" id="filterBody">
+            <div class="filter-section-title">
+                <i class="bi bi-info-circle"></i> Thông tin khách hàng
+            </div>
+            <div class="row g-3">
+                <div class="col-md-8">
+                    <label class="form-label">Tên khách hàng</label>
+                    <input type="text" class="form-control" name="fullName"
+                           th:value="${fullName}"
+                           placeholder="Nhập tên khách hàng cần tìm...">
+                </div>
+            </div>
+
+            <div class="filter-actions">
+                <button type="button" class="btn-filter btn-reset" onclick="resetFilter()">
+                    <i class="bi bi-arrow-clockwise"></i> Reset
+                </button>
+                <button type="submit" class="btn-filter btn-search">
+                    <i class="bi bi-search"></i> Tìm kiếm
+                </button>
+            </div>
+        </div>
+    </form>
+
+</main>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    /* ── Toggle filter ──────────────────────────────────────────────── */
+    function toggleFilter() {
+        const filterBody = document.getElementById('filterBody');
+        const toggleBtn  = document.querySelector('.btn-toggle-filter');
+        filterBody.classList.toggle('collapsed');
+        toggleBtn.classList.toggle('collapsed');
+        localStorage.setItem('filterCollapsed', filterBody.classList.contains('collapsed'));
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const filterBody = document.getElementById('filterBody');
+        const toggleBtn  = document.querySelector('.btn-toggle-filter');
+        if (localStorage.getItem('filterCollapsed') === 'true') {
+            filterBody.classList.add('collapsed');
+            toggleBtn.classList.add('collapsed');
         }
-    </script>
+    });
 
-    <script th:inline="javascript">
-        let fullName = /*[[${fullName}]]*/ {};
-    </script>
+    function resetFilter() {
+        document.querySelectorAll('.filter-card .form-control, .filter-card select')
+            .forEach(el => el.value = '');
+    }
+</script>
 
-    <script>
-        let currentPage = 1;
-        const pageSize = 5;
+<script th:inline="javascript">
+    let fullName = /*[[${fullName}]]*/ '';
+</script>
 
-        // Hàm load dữ liệu bảng khách hàng bằng Ajax
-        function loadCustomers(page, fullName, event) {
-            if (event) event.preventDefault();
+<script>
+    let currentPage = 1;
+    const pageSize  = 5;
 
-            $.ajax({
-                url: "/admin/customer/search/page",
-                type: "GET",
-                data: {
-                    page: page,
-                    size: pageSize,
-                    fullName: fullName
-                },
-                success: function (data) {
-                    currentPage = page;
-                    const tbody = $("#customerTableBody");
-                    tbody.empty();
+    function loadCustomers(page) {
+        $.ajax({
+            url: "/admin/customer/search/page",
+            type: "GET",
+            data: { page: page, size: pageSize, fullName: fullName },
+            success: function (data) {
+                currentPage = page;
+                const tbody = $("#customerTableBody");
+                tbody.empty();
 
-                    if (data.content.length === 0) {
-                        tbody.append(`
+                $("#totalElements").text(data.totalElements);
+
+                if (data.content.length === 0) {
+                    tbody.append(`
                         <tr>
                             <td colspan="5">
                                 <div class="empty-state">
@@ -544,16 +641,14 @@
                             </td>
                         </tr>
                     `);
-                        $("#pagination").empty();
-                        return;
-                    }
+                    $("#pagination").empty();
+                    return;
+                }
 
-                    $("#totalElements").text(data.totalElements);
-
-                    $.each(data.content, function (i, customer) {
-                        tbody.append(`
+                $.each(data.content, function (i, customer) {
+                    tbody.append(`
                         <tr>
-                            <td><span class="customer-id">${customer.id}</span></td>
+                            <td><span class="customer-id">KH-${customer.id}</span></td>
                             <td><span class="customer-name">${customer.fullName || ''}</span></td>
                             <td>
                                 <div class="contact-info">
@@ -569,189 +664,115 @@
                             </td>
                             <td>
                                 <div class="action-buttons">
-                                    <a href="/admin/customer/${customer.id}"
-                                       class="btn-action btn-view"
-                                       title="Xem chi tiết">
+                                    <a href="/admin/customer/${customer.id}" class="btn-action btn-view" title="Xem chi tiết">
                                         <i class="bi bi-eye"></i>
                                     </a>
-                                    <a href="#"
-                                       title="Xóa"
-                                       class="btn-action btn-delete"
-                                       data-id="${customer.id}">
-                                       <i class="bi bi-trash"></i>
+                                    <a href="#" title="Xóa" class="btn-action btn-delete" data-id="${customer.id}">
+                                        <i class="bi bi-trash"></i>
                                     </a>
                                 </div>
                             </td>
                         </tr>
                     `);
-                    });
+                });
 
-                    renderPagination(data.totalPages, page);
-                },
-                error: function () {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Lỗi',
-                        text: 'Không tải được dữ liệu!'
-                    });
-                }
-            });
-        }
-
-        // Hàm render phân trang Bootstrap
-        function renderPagination(totalPages, current) {
-            const pagination = $("#pagination");
-            pagination.empty();
-
-            if (totalPages <= 1) return;
-
-            let html = `
-            <nav class="pagination-wrapper mt-3">
-                <ul class="pagination justify-content-center">
-        `;
-
-            // Nút "First"
-            html += `
-            <li class="page-item ${current === 1 ? 'disabled' : ''}">
-                <a href="#" class="page-link" onclick="loadCustomers(1, fullName, event)">First</a>
-            </li>
-        `;
-
-            // Nút "Previous"
-            html += `
-            <li class="page-item ${current === 1 ? 'disabled' : ''}">
-                <a href="#" class="page-link" onclick="loadCustomers(${current - 1}, fullName, event)">
-                    <i class="bi bi-chevron-left"></i>
-                </a>
-            </li>
-        `;
-
-            const blockSize = 5;
-            const blockStart = Math.floor((current - 1) / blockSize) * blockSize + 1;
-            let blockEnd = blockStart + blockSize - 1;
-            if (blockEnd > totalPages) blockEnd = totalPages;
-
-            for (let i = blockStart; i <= blockEnd; i++) {
-                html += `
-                <li class="page-item ${i === current ? 'active' : ''}">
-                    <a href="#" class="page-link" onclick="loadCustomers(${i}, fullName, event)">${i}</a>
-                </li>
-            `;
+                renderPagination(data.totalPages, page);
+            },
+            error: function () {
+                Swal.fire({ icon: 'error', title: 'Lỗi', text: 'Không tải được dữ liệu!' });
             }
+        });
+    }
 
-            // Nút "Next"
-            html += `
-            <li class="page-item ${current === totalPages ? 'disabled' : ''}">
-                <a href="#" class="page-link" onclick="loadCustomers(${current + 1}, fullName, event)">
-                    <i class="bi bi-chevron-right"></i>
-                </a>
-            </li>
-        `;
+    function renderPagination(totalPages, current) {
+        const pagination = $("#pagination");
+        pagination.empty();
+        if (totalPages <= 1) return;
 
-            // Nút "Last"
-            html += `
-            <li class="page-item ${current === totalPages ? 'disabled' : ''}">
-                <a href="#" class="page-link" onclick="loadCustomers(${totalPages}, fullName, event)">Last</a>
-            </li>
-        `;
+        let html = `<nav class="pagination-wrapper"><ul class="pagination justify-content-center">`;
 
-            html += `
-                </ul>
-            </nav>
-        `;
+        html += `<li class="page-item ${current===1?'disabled':''}">
+                    <a href="#" class="page-link" onclick="loadCustomers(1); return false;">
+                        <i class="bi bi-chevron-double-left"></i>
+                    </a>
+                 </li>`;
 
-            pagination.html(html);
+        html += `<li class="page-item ${current===1?'disabled':''}">
+                    <a href="#" class="page-link" onclick="loadCustomers(${current-1}); return false;">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                 </li>`;
+
+        const blockSize  = 5;
+        const blockStart = Math.floor((current-1)/blockSize)*blockSize + 1;
+        let   blockEnd   = Math.min(blockStart + blockSize - 1, totalPages);
+
+        for (let i = blockStart; i <= blockEnd; i++) {
+            html += `<li class="page-item ${i===current?'active':''}">
+                        <a href="#" class="page-link" onclick="loadCustomers(${i}); return false;">${i}</a>
+                     </li>`;
         }
 
-        // Khi trang load, gọi Ajax lần đầu
-        $(document).ready(function () {
-            loadCustomers(1, fullName);
+        html += `<li class="page-item ${current===totalPages?'disabled':''}">
+                    <a href="#" class="page-link" onclick="loadCustomers(${current+1}); return false;">
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                 </li>`;
 
-            // Hàm highlight trường có giá trị
-            function highlightFilledInputs() {
-                $('.filter-card .form-control').each(function () {
-                    const $input = $(this);
-                    if ($input.val() && $input.val().trim() !== '') {
-                        $input.addClass('has-value');
-                    } else {
-                        $input.removeClass('has-value');
+        html += `<li class="page-item ${current===totalPages?'disabled':''}">
+                    <a href="#" class="page-link" onclick="loadCustomers(${totalPages}); return false;">
+                        <i class="bi bi-chevron-double-right"></i>
+                    </a>
+                 </li>`;
+
+        html += `</ul></nav>`;
+        pagination.html(html);
+    }
+
+    $(document).ready(function () {
+        loadCustomers(1);
+    });
+
+    // Ajax xóa khách hàng
+    $(document).on("click", ".btn-delete", function (e) {
+        e.preventDefault();
+        const id = $(this).data("id");
+
+        Swal.fire({
+            title: 'Xác nhận xóa',
+            text: "Bạn có chắc muốn xóa khách hàng này?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc2626',
+            cancelButtonColor: '#6b7280',
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/admin/customer/delete/" + id,
+                    type: "DELETE",
+                    success: function () {
+                        Swal.fire({
+                            icon: 'success', title: 'Thành công',
+                            text: 'Xóa khách hàng thành công!',
+                            timer: 1500, showConfirmButton: false
+                        }).then(() => {
+                            window.location.href = "/admin/customer/list";
+                        });
+                    },
+                    error: function (xhr) {
+                        const err = xhr.responseJSON;
+                        Swal.fire({
+                            icon: 'error', title: 'Lỗi',
+                            text: err?.message || 'Xóa thất bại!'
+                        });
                     }
                 });
             }
-
-            // Highlight các trường đã có giá trị khi load trang
-            highlightFilledInputs();
-
-            // Lắng nghe sự kiện input/change để highlight real-time
-            $('.filter-card .form-control').on('input change', function () {
-                const $this = $(this);
-                if ($this.val() && $this.val().trim() !== '') {
-                    $this.addClass('has-value');
-                } else {
-                    $this.removeClass('has-value');
-                }
-            });
-
-            // Reset highlight khi reset form
-            $('.btn-filter.btn-reset').on('click', function () {
-                setTimeout(function () {
-                    $('.filter-card .form-control').removeClass('has-value');
-                }, 10);
-            });
         });
+    });
+</script>
 
-        // Ajax xóa khách hàng
-        $(document).on("click", ".btn-delete", function (e) {
-            e.preventDefault();
-
-            let id = $(this).data("id");
-
-            Swal.fire({
-                title: 'Xác nhận xóa',
-                text: "Bạn có chắc muốn xóa khách hàng này?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#dc2626',
-                cancelButtonColor: '#6b7280',
-                confirmButtonText: 'Xóa',
-                cancelButtonText: 'Hủy'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: "/admin/customer/delete/" + id,
-                        type: "DELETE",
-                        success: function () {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Thành công',
-                                text: 'Xóa khách hàng thành công!',
-                                timer: 1500,
-                                showConfirmButton: false
-                            }).then(() => {
-                                window.location.href = "/admin/customer/list";
-                            });
-                        },
-                        error: function (xhr) {
-                            const err = xhr.responseJSON;
-                            if (err && err.message) {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Lỗi',
-                                    text: err.message
-                                });
-                            } else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Lỗi',
-                                    text: 'Xóa thất bại!'
-                                });
-                            }
-                        }
-                    });
-                }
-            });
-        });
-    </script>
 </body>
-
 </html>
