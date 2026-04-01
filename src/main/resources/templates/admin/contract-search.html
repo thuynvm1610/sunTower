@@ -81,7 +81,6 @@
             border: 1px solid #e5e7eb;
             border-radius: 10px;
             padding: 0;
-            margin-bottom: 1.25rem;
             overflow: hidden;
         }
 
@@ -545,8 +544,6 @@
 <div th:replace="~{layout/sidebar :: sidebar}"></div>
 
 <main class="content">
-    <div class="container-fluid">
-
         <!-- Page Header -->
         <div class="page-header">
             <div>
@@ -608,8 +605,6 @@
             <!-- Pagination inside card -->
             <div id="pagination"></div>
         </div>
-
-        <div class="separator"></div>
 
         <!-- Filter Card -->
         <form class="filter-card" th:action="@{/admin/contract/search}" method="get">
@@ -701,8 +696,6 @@
                 </div>
             </div>
         </form>
-
-    </div><!-- /container-fluid -->
 </main>
 
 <!-- Scripts -->
