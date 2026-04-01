@@ -93,6 +93,12 @@
             border-bottom: 1px solid #f3f4f6;
         }
 
+        .d-card-body:has(.filter-body.collapsed) .filter-header {
+            border-bottom-color: transparent;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
         .filter-title {
             font-size: 0.8125rem;
             font-weight: 700;
@@ -776,17 +782,19 @@
 
     <!-- Filter Card -->
     <form class="filter-card" th:action="@{/admin/building/search}" method="get">
-        <div class="filter-header">
-            <div class="filter-title">
-                <i class="bi bi-funnel"></i>
-                Bộ lọc tìm kiếm
+        <div class="d-card-body">
+            <div class="filter-header">
+                <div class="filter-title">
+                    <i class="bi bi-funnel"></i>
+                    Bộ lọc tìm kiếm
+                </div>
+                <button type="button" class="btn-toggle-filter collapsed" onclick="toggleFilter()">
+                    <i class="bi bi-chevron-up" id="toggleIcon"></i>
+                </button>
             </div>
-            <button type="button" class="btn-toggle-filter" onclick="toggleFilter()">
-                <i class="bi bi-chevron-up" id="toggleIcon"></i>
-            </button>
         </div>
 
-        <div class="filter-body" id="filterBody">
+        <div class="filter-body collapsed" id="filterBody">
             <!-- Tìm kiếm theo vị trí -->
             <div class="filter-section-title">
                 <i class="bi bi-geo-alt-fill"></i> Tìm kiếm theo vị trí
@@ -1069,23 +1077,7 @@
 
         filterBody.classList.toggle('collapsed');
         toggleBtn.classList.toggle('collapsed');
-
-        // Lưu trạng thái vào localStorage
-        const isCollapsed = filterBody.classList.contains('collapsed');
-        localStorage.setItem('filterCollapsed', isCollapsed);
     }
-
-    // Khôi phục trạng thái khi tải trang
-    document.addEventListener('DOMContentLoaded', function () {
-        const filterBody = document.getElementById('filterBody');
-        const toggleBtn = document.querySelector('.btn-toggle-filter');
-        const isCollapsed = localStorage.getItem('filterCollapsed') === 'true';
-
-        if (isCollapsed) {
-            filterBody.classList.add('collapsed');
-            toggleBtn.classList.add('collapsed');
-        }
-    });
 </script>
 
 <script>

@@ -14,39 +14,45 @@
     <style>
         body {
             background: #fafbfc;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             overflow-x: hidden;
         }
 
         main.content {
-            margin-left: 250px;
-            padding: 2.5rem 3rem;
-            margin-top: 70px;
+            margin-left: 220px;
+            padding: 1.5rem 1.5rem;
+            margin-top: 72px;
         }
 
-        /* Page header */
+        /* ══ PAGE HEADER ════════════════════════════════════════════════════ */
         .page-header {
-            margin-bottom: 2rem;
+            margin-bottom: 1.25rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .page-header h2 {
-            font-size: 1.75rem;
-            font-weight: 700;
+            font-size: 1.4rem;
+            font-weight: 800;
             color: #111827;
             margin: 0;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.5rem;
         }
 
         .page-header h2 i {
             color: #3b82f6;
+            font-size: 1.2rem;
         }
 
-        /* Modern button */
+        .page-header .update-time {
+            font-size: 0.8125rem;
+            color: #9ca3af;
+            margin-top: 0.2rem;
+        }
+
+        /* ══ BUTTONS ════════════════════════════════════════════════════════ */
         .btn-back {
             background: white;
             color: #374151;
@@ -69,60 +75,173 @@
             transform: translateY(-1px);
         }
 
-        /* Filter card */
+        /* ══ FILTER CARD ════════════════════════════════════════════════════ */
         .filter-card {
             background: white;
             border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
+            border-radius: 10px;
+            padding: 0;
+            overflow: hidden;
         }
 
-        .filter-card .form-label {
-            font-size: 0.875rem;
-            font-weight: 600;
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.875rem 1.5rem;
+            border-bottom: 1px solid #f3f4f6;
+            transition: border-color 0.2s ease;
+        }
+
+        .filter-card:has(.filter-body.collapsed) .filter-header {
+            border-bottom-color: transparent;
+        }
+
+        .filter-title {
+            font-size: 0.8125rem;
+            font-weight: 700;
             color: #374151;
-            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
-        .filter-card .form-control {
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 0.625rem 0.875rem;
+        .filter-title i {
+            color: #3b82f6;
             font-size: 0.875rem;
-            transition: all 0.2s ease;
         }
 
-        .filter-card .form-control:focus {
+        .btn-toggle-filter {
+            background: #f3f4f6;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #6b7280;
+            font-size: 0.75rem;
+        }
+
+        .btn-toggle-filter:hover {
+            background: #e5e7eb;
+            color: #111827;
+        }
+
+        .btn-toggle-filter i {
+            transition: transform 0.3s;
+        }
+
+        .btn-toggle-filter.collapsed i {
+            transform: rotate(180deg);
+        }
+
+        .filter-body {
+            max-height: 1000px;
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            opacity: 1;
+            padding: 1.25rem 1.5rem;
+        }
+
+        .filter-body.collapsed {
+            max-height: 0;
+            opacity: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        .filter-section-title {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.75rem;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .filter-section-title i {
+            color: #3b82f6;
+            font-size: 0.8rem;
+        }
+
+        /* Form controls */
+        .filter-card .form-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.35rem;
+            display: block;
+        }
+
+        .filter-card .form-control,
+        .filter-card .form-select {
+            border: 1px solid #e5e7eb;
+            border-radius: 7px;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.8125rem;
+            color: #374151;
+            background: #fff;
+            transition: all 0.2s;
+            height: auto;
+        }
+
+        .filter-card .form-control:focus,
+        .filter-card .form-select:focus {
             border-color: #3b82f6;
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            outline: none;
         }
 
-        /* Highlight khi có giá trị */
-        .filter-card .form-control.has-value {
-            background-color: #E8F0FE;
-            border-color: #3b82f6;
+        .range-inputs {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .range-inputs .form-control {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .range-separator {
+            color: #d1d5db;
             font-weight: 600;
+            font-size: 0.75rem;
+            flex-shrink: 0;
         }
 
-        /* Filter buttons */
         .filter-actions {
             display: flex;
-            gap: 0.75rem;
+            gap: 0.5rem;
             justify-content: flex-end;
-            margin-top: 1.25rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #f3f4f6;
         }
 
         .btn-filter {
-            padding: 0.625rem 1.25rem;
-            border-radius: 8px;
+            padding: 0.45rem 1rem;
+            border-radius: 7px;
             font-weight: 600;
-            font-size: 0.875rem;
+            font-size: 0.8125rem;
             border: none;
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            transition: all 0.2s ease;
+            gap: 0.4rem;
+            transition: all 0.2s;
+            cursor: pointer;
         }
 
         .btn-filter.btn-reset {
@@ -130,9 +249,7 @@
             color: #374151;
         }
 
-        .btn-filter.btn-reset:hover {
-            background: #e5e7eb;
-        }
+        .btn-filter.btn-reset:hover { background: #e5e7eb; }
 
         .btn-filter.btn-search {
             background: #3b82f6;
@@ -142,91 +259,10 @@
         .btn-filter.btn-search:hover {
             background: #2563eb;
             transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(59,130,246,0.3);
         }
 
-        .filter-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.25rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .filter-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #111827;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .btn-toggle-filter {
-            background: #f3f4f6;
-            border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .btn-toggle-filter:hover {
-            background: #e5e7eb;
-        }
-
-        .btn-toggle-filter i {
-            transition: transform 0.3s ease;
-        }
-
-        .btn-toggle-filter.collapsed i {
-            transform: rotate(180deg);
-        }
-
-        .filter-body {
-            transition: max-height 0.3s ease;
-            overflow: hidden;
-            max-height: 2000px;
-        }
-
-        .filter-body.collapsed {
-            max-height: 0;
-        }
-
-        .filter-section-title {
-            font-size: 0.9375rem;
-            font-weight: 600;
-            color: #374151;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .filter-section-title i {
-            color: #3b82f6;
-        }
-
-        .range-inputs {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .range-inputs .form-control {
-            flex: 1;
-        }
-
-        .range-separator {
-            color: #9ca3af;
-            font-weight: 500;
-        }
-
-        /* Result badge */
+        /* ══ RESULT BADGE ════════════════════════════════════════════════════ */
         .result-badge {
             display: inline-flex;
             align-items: center;
@@ -237,89 +273,92 @@
             border-radius: 8px;
             font-size: 0.875rem;
             font-weight: 600;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
         }
 
-        /* Table card */
+        /* ══ TABLE CARD ══════════════════════════════════════════════════════ */
         .table-card {
             background: white;
             border: 1px solid #e5e7eb;
-            border-radius: 12px;
+            border-radius: 10px;
             overflow: hidden;
+            margin-bottom: 20px;
         }
 
-        .table-card .table-header {
-            padding: 1.25rem 1.5rem;
-            border-bottom: 1px solid #e5e7eb;
-            font-weight: 600;
-            color: #111827;
-            font-size: 1rem;
+        .table-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.875rem 1.5rem;
+            border-bottom: 1px solid #f3f4f6;
             background: #fafbfc;
+            border-radius: 10px 10px 0 0;
         }
 
+        .table-header-row .thr-title {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .table-header-row .thr-title i {
+            color: #3b82f6;
+            font-size: 0.9375rem;
+        }
+
+        /* ══ TABLE ═══════════════════════════════════════════════════════════ */
         .table-responsive {
-            min-height: 480px;
+            min-height: unset;
         }
 
-        /* Modern table */
         .modern-table {
-            margin: 0;
-            min-height: 480px;
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8125rem;
         }
 
         .modern-table thead th {
-            background: #f9fafb;
+            background: #f8fafc;
             border: none;
-            border-bottom: 1px solid #e5e7eb;
-            padding: 0.875rem 1rem;
-            font-size: 0.875rem;
-            font-weight: 600;
+            border-bottom: 1.5px solid #e9ecef;
+            padding: 0.5rem 0.875rem;
+            font-size: 0.68rem;
+            font-weight: 700;
             color: #6b7280;
             text-transform: uppercase;
-            letter-spacing: 0.025em;
-            height: 60px;
-        }
-
-        .modern-table tbody {
-            min-height: 420px;
-            display: table-row-group;
-        }
-
-        .modern-table tbody td {
-            position: relative;
-            padding: 1rem;
-            border-bottom: 1px solid #e5e7eb;
-            font-size: 0.875rem;
-            color: #374151;
-            vertical-align: middle;
-        }
-
-        .modern-table tbody tr {
-            height: 84px;
-            min-height: 84px;
-        }
-
-        .modern-table tbody tr:last-child td {
-            border-bottom: none;
-        }
-
-        .modern-table tbody tr {
-            transition: background 0.15s ease;
-        }
-
-        .modern-table tbody tr:hover {
-            background: #f9fafb;
-        }
-
-        /* Table badges and cells */
-        .invoice-id {
-            font-weight: 600;
-            color: #111827;
+            letter-spacing: 0.06em;
             white-space: nowrap;
         }
 
-        .customer-name,
-        .building-name {
+        .modern-table tbody td {
+            padding: 0.75rem 0.875rem;
+            border-bottom: 1px solid #f3f4f6;
+            color: #374151;
+            vertical-align: middle;
+            font-size: 0.8125rem;
+        }
+
+        .modern-table tbody tr:last-child td { border-bottom: none; }
+
+        .modern-table tbody tr {
+            transition: background 0.15s;
+        }
+
+        .modern-table tbody tr:hover {
+            background: #f0f9ff;
+        }
+
+        /* ══ TABLE CELL STYLES ═══════════════════════════════════════════════ */
+        .invoice-id {
+            font-weight: 700;
+            color: #111827;
+            font-size: 0.8125rem;
+        }
+
+        .customer-name {
             font-weight: 600;
             color: #111827;
             display: -webkit-box;
@@ -329,60 +368,68 @@
             text-overflow: ellipsis;
             line-height: 1.4;
             max-height: 2.8em;
+            max-width: 230px;
         }
 
-        .month-badge {
-            display: inline-block;
-            padding: 0.375rem 0.75rem;
-            border-radius: 6px;
+        .building-name {
             font-weight: 600;
-            font-size: 0.875rem;
+            color: #111827;
+            max-width: 230px;
+            overflow: hidden;
+            text-overflow: ellipsis;
             white-space: nowrap;
-            background: #dbeafe;
-            color: #1e40af;
+            display: block;
         }
 
-        .area-badge {
+        /* ══ BADGES ═════════════════════════════════════════════════════════ */
+        .bc {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.2rem 0.55rem;
+            border-radius: 20px;
             font-weight: 600;
-            font-size: 0.875rem;
-        }
-
-        .price-badge {
-            display: inline-block;
-            padding: 0.375rem 0.75rem;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 0.875rem;
+            font-size: 0.75rem;
             white-space: nowrap;
-            background: #ecfdf5;
-            color: #059669;
         }
 
+        .bc-month   { background: #eff6ff; color: #1d4ed8; }
+        .bc-area    { background: #f0fdf4; color: #166534; }
+        .bc-price   { background: #ecfdf5; color: #059669; font-weight: 700; }
+        .bc-paid    { background: #dcfce7; color: #16a34a; }
+        .bc-pending { background: #fef3c7; color: #d97706; }
+        .bc-overdue { background: #fee2e2; color: #dc2626; }
+
+        /* Status badge with dot (matching contract style) */
         .status-badge {
-            display: inline-block;
-            padding: 0.375rem 0.75rem;
-            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
             font-weight: 600;
-            font-size: 0.875rem;
+            font-size: 0.78rem;
             white-space: nowrap;
         }
 
-        .status-badge.paid {
-            background: #dcfce7;
-            color: #16a34a;
+        .status-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            flex-shrink: 0;
         }
 
-        .status-badge.pending {
-            background: #fef3c7;
-            color: #d97706;
-        }
+        .status-badge.paid    { background: #dcfce7; color: #16a34a; }
+        .status-badge.paid::before { background: #16a34a; }
 
-        .status-badge.overdue {
-            background: #fee2e2;
-            color: #dc2626;
-        }
+        .status-badge.pending { background: #fef3c7; color: #d97706; }
+        .status-badge.pending::before { background: #d97706; }
 
-        /* Action buttons */
+        .status-badge.overdue { background: #fee2e2; color: #dc2626; }
+        .status-badge.overdue::before { background: #dc2626; }
+
+        /* ══ ACTION BUTTONS ═══════════════════════════════════════════════════ */
         .action-buttons {
             display: flex;
             gap: 0.5rem;
@@ -392,64 +439,41 @@
         }
 
         .btn-action {
-            width: 32px;
-            height: 32px;
+            width: 30px;
+            height: 30px;
             padding: 0;
-            border-radius: 6px;
+            border-radius: 7px;
             border: none;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s ease;
-            font-size: 0.875rem;
+            transition: all 0.2s;
+            font-size: 0.8rem;
+            text-decoration: none;
+            flex-shrink: 0;
         }
 
-        .btn-action.btn-view {
-            background: #eff6ff;
-            color: #2563eb;
-        }
+        .btn-action.btn-view   { background: #eff6ff; color: #2563eb; }
+        .btn-action.btn-view:hover   { background: #dbeafe; transform: translateY(-1px); }
 
-        .btn-action.btn-view:hover {
-            background: #dbeafe;
-            transform: translateY(-1px);
-        }
+        .btn-action.btn-edit   { background: #fffbeb; color: #d97706; }
+        .btn-action.btn-edit:hover   { background: #fef3c7; transform: translateY(-1px); }
 
-        .btn-action.btn-edit {
-            background: #fffbeb;
-            color: #d97706;
-        }
+        .btn-action.btn-delete { background: #fef2f2; color: #dc2626; }
+        .btn-action.btn-delete:hover { background: #fee2e2; transform: translateY(-1px); }
 
-        .btn-action.btn-edit:hover {
-            background: #fef3c7;
-            transform: translateY(-1px);
-        }
-
-        .btn-action.btn-delete {
-            background: #fef2f2;
-            color: #dc2626;
-        }
-
-        .btn-action.btn-delete:hover {
-            background: #fee2e2;
-            transform: translateY(-1px);
-        }
-
-        /* Empty state */
+        /* ══ EMPTY STATE ══════════════════════════════════════════════════════ */
         .empty-state {
-            padding: 3rem;
+            padding: 3rem 1rem;
             text-align: center;
             color: #9ca3af;
-            min-height: 420px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
         }
 
         .empty-state i {
-            font-size: 3rem;
+            font-size: 2.5rem;
             color: #d1d5db;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
+            display: block;
         }
 
         .empty-state p {
@@ -457,34 +481,35 @@
             font-size: 0.875rem;
         }
 
-        /* Pagination */
+        /* ══ PAGINATION ═══════════════════════════════════════════════════════ */
         .pagination-wrapper {
-            min-height: auto;
-            margin-top: 1.5rem;
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+            border-top: 1px solid #f3f4f6;
         }
 
         .pagination {
-            margin-bottom: 28px;
-        }
-
-        .pagination .page-item {
+            gap: 0.3rem;
             margin: 0;
         }
 
+        .pagination .page-item { margin: 0; }
+
         .pagination .page-link {
             border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 0.5rem 0.875rem;
+            border-radius: 7px;
+            padding: 0.35rem 0.75rem;
             color: #374151;
             font-weight: 600;
-            font-size: 0.875rem;
-            transition: all 0.2s ease;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+            background: #fff;
         }
 
         .pagination .page-link:hover {
-            background: #f9fafb;
-            border-color: #d1d5db;
-            color: #111827;
+            background: #f0f9ff;
+            border-color: #bfdbfe;
+            color: #1e40af;
         }
 
         .pagination .page-item.active .page-link {
@@ -499,27 +524,21 @@
             color: #d1d5db;
         }
 
-        /* Responsive */
+        /* ══ RESPONSIVE ═══════════════════════════════════════════════════════ */
         @media (max-width: 768px) {
             main.content {
                 margin-left: 0;
                 padding: 1.5rem;
             }
-
             .page-header {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 1rem;
             }
-
-            .action-buttons {
-                flex-wrap: wrap;
-            }
+            .action-buttons { flex-wrap: wrap; }
         }
 
-        .separator {
-            height: 12px;
-        }
+        .separator { height: 12px; }
     </style>
 </head>
 
@@ -530,218 +549,175 @@
 <div th:replace="~{layout/sidebar :: sidebar}"></div>
 
 <main class="content">
-    <div class="container-fluid">
-        <!-- Page Header -->
-        <div class="page-header">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div>
             <h2>
                 <i class="bi bi-search"></i>
                 Kết quả tìm kiếm hóa đơn
             </h2>
-            <a th:href="@{/admin/invoice/list}" class="btn-back">
-                <i class="bi bi-arrow-left"></i>
-                Quay lại danh sách
-            </a>
+            <div class="update-time">Danh sách hóa đơn theo điều kiện tìm kiếm</div>
         </div>
+        <a th:href="@{/admin/invoice/list}" class="btn-back">
+            <i class="bi bi-arrow-left"></i>
+            Quay lại danh sách
+        </a>
+    </div>
 
-        <!-- Result Badge -->
-        <div class="result-badge">
-            <i class="bi bi-check-circle-fill"></i>
-            <span>Tìm thấy <strong id="totalElements">0</strong> hóa đơn</span>
-        </div>
+    <!-- Result Badge -->
+    <div class="result-badge">
+        <i class="bi bi-check-circle-fill"></i>
+        <span>Tìm thấy <strong id="totalElements">0</strong> hóa đơn</span>
+    </div>
 
-        <!-- Table Card -->
-        <div class="table-card">
-            <div class="table-header">
+    <!-- Table Card -->
+    <div class="table-card">
+        <div class="table-header-row">
+            <div class="thr-title">
+                <i class="bi bi-table"></i>
                 Kết quả tìm kiếm
             </div>
-
-            <div class="table-responsive">
-                <table class="table modern-table">
-                    <thead>
-                    <tr>
-                        <th>Mã HĐ</th>
-                        <th>Hóa đơn tháng</th>
-                        <th>Khách hàng</th>
-                        <th>Diện tích thuê</th>
-                        <th>Tổng tiền</th>
-                        <th>Trạng thái</th>
-                        <th style="text-align: center;">Hành động</th>
-                    </tr>
-                    </thead>
-
-                    <tbody id="invoiceTableBody">
-                    <!-- Dữ liệu sẽ được Ajax thêm vào -->
-                    </tbody>
-                </table>
-            </div>
         </div>
-        <div class="separator"></div>
 
-        <!-- Pagination -->
+        <div class="table-responsive">
+            <table class="table modern-table">
+                <colgroup>
+                    <col style="width: 60px">   <!-- Mã HĐ -->
+                    <col style="width: 90px">   <!-- Tháng -->
+                    <col style="width: 260px">  <!-- Khách hàng -->
+                    <col style="width: 180px">  <!-- Tòa nhà -->
+                    <col style="width: 110px">  <!-- Diện tích -->
+                    <col style="width: 150px">  <!-- Tổng tiền -->
+                    <col style="width: 150px">  <!-- Trạng thái -->
+                    <col>                       <!-- Hành động -->
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>Mã HĐ</th>
+                    <th>Tháng</th>
+                    <th>Khách hàng</th>
+                    <th>Tòa nhà</th>
+                    <th>Diện tích</th>
+                    <th>Tổng tiền</th>
+                    <th>Trạng thái</th>
+                    <th style="text-align:center;">Hành động</th>
+                </tr>
+                </thead>
+                <tbody id="invoiceTableBody">
+                <!-- Ajax render -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination inside card -->
         <div id="pagination"></div>
+    </div>
 
-        <!-- Filter Card -->
-        <form class="filter-card" th:action="@{/admin/invoice/search}" method="get">
-            <div class="filter-header">
-                <div class="filter-title">
-                    <i class="bi bi-funnel"></i>
-                    Bộ lọc tìm kiếm
+    <!-- Filter Card -->
+    <form class="filter-card" th:action="@{/admin/invoice/search}" method="get">
+        <div class="filter-header">
+            <div class="filter-title">
+                <i class="bi bi-funnel"></i>
+                Bộ lọc tìm kiếm
+            </div>
+            <button type="button" class="btn-toggle-filter" onclick="toggleFilter()">
+                <i class="bi bi-chevron-up" id="toggleIcon"></i>
+            </button>
+        </div>
+
+        <div class="filter-body" id="filterBody">
+            <!-- Thông tin cơ bản -->
+            <div class="filter-section-title">
+                <i class="bi bi-info-circle"></i> Thông tin cơ bản
+            </div>
+            <div class="row g-3 mb-3">
+                <div class="col-md-2">
+                    <label class="form-label">Tháng</label>
+                    <input type="number" class="form-control" name="month"
+                           th:value="${filter.month}" placeholder="1 – 12" min="1" max="12">
                 </div>
-                <button type="button" class="btn-toggle-filter" onclick="toggleFilter()">
-                    <i class="bi bi-chevron-up" id="toggleIcon"></i>
+                <div class="col-md-2">
+                    <label class="form-label">Năm</label>
+                    <input type="number" class="form-control" name="year"
+                           th:value="${filter.year}" placeholder="VD: 2025" min="2000" max="2099">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Tên khách hàng</label>
+                    <select class="form-control" name="customerId">
+                        <option value="">-- Chọn khách hàng --</option>
+                        <option th:each="c : ${customers}" th:value="${c.value}" th:text="${c.key}"
+                                th:selected="${c.value == filter.customerId}">
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Tổng tiền và trạng thái -->
+            <div class="filter-section-title">
+                <i class="bi bi-cash-stack"></i> Tổng tiền và trạng thái
+            </div>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Tổng tiền hóa đơn (VNĐ)</label>
+                    <div class="range-inputs">
+                        <input type="number" class="form-control" name="totalAmountFrom"
+                               th:value="${filter.totalAmountFrom}" placeholder="Từ" min="0">
+                        <span class="range-separator">-</span>
+                        <input type="number" class="form-control" name="totalAmountTo"
+                               th:value="${filter.totalAmountTo}" placeholder="Đến" min="0">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Trạng thái</label>
+                    <select class="form-control" name="status">
+                        <option value="">-- Tất cả trạng thái --</option>
+                        <option value="PAID"    th:selected="${filter.status == 'PAID'}">Đã thanh toán</option>
+                        <option value="PENDING" th:selected="${filter.status == 'PENDING'}">Chưa thanh toán</option>
+                        <option value="OVERDUE" th:selected="${filter.status == 'OVERDUE'}">Quá hạn</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="filter-actions">
+                <button type="button" class="btn-filter btn-reset" onclick="resetFilter()">
+                    <i class="bi bi-arrow-clockwise"></i> Reset
+                </button>
+                <button type="submit" class="btn-filter btn-search">
+                    <i class="bi bi-search"></i> Tìm kiếm
                 </button>
             </div>
-
-            <div class="filter-body" id="filterBody">
-                <!-- Thông tin cơ bản -->
-                <div class="filter-section-title">
-                    <i class="bi bi-info-circle"></i> Thông tin cơ bản
-                </div>
-                <div class="row g-3 mb-4">
-                    <div class="col-md-4">
-                        <label class="form-label">Tháng</label>
-                        <select class="form-control" name="month" th:value="${filter.month}">
-                            <option value="">-- Chọn tháng --</option>
-                            <option value="1" th:selected="${filter.month == 1}">Tháng 1</option>
-                            <option value="2" th:selected="${filter.month == 2}">Tháng 2</option>
-                            <option value="3" th:selected="${filter.month == 3}">Tháng 3</option>
-                            <option value="4" th:selected="${filter.month == 4}">Tháng 4</option>
-                            <option value="5" th:selected="${filter.month == 5}">Tháng 5</option>
-                            <option value="6" th:selected="${filter.month == 6}">Tháng 6</option>
-                            <option value="7" th:selected="${filter.month == 7}">Tháng 7</option>
-                            <option value="8" th:selected="${filter.month == 8}">Tháng 8</option>
-                            <option value="9" th:selected="${filter.month == 9}">Tháng 9</option>
-                            <option value="10" th:selected="${filter.month == 10}">Tháng 10</option>
-                            <option value="11" th:selected="${filter.month == 11}">Tháng 11</option>
-                            <option value="12" th:selected="${filter.month == 12}">Tháng 12</option>
-                        </select>
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="form-label">Năm</label>
-                        <select class="form-control" name="year" id="yearSelect" th:value="${filter.year}">
-                            <option value="">-- Chọn năm --</option>
-                        </select>
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="form-label">Tên khách hàng</label>
-                        <select class="form-control" name="customerId" th:value="${filter.customerId}">
-                            <option value="">-- Chọn khách hàng --</option>
-                            <option th:each="c : ${customers}" th:value="${c.value}" th:text="${c.key}"
-                                    th:selected="${c.value == filter.customerId}">
-                            </option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Giá tiền và trạng thái -->
-                <div class="filter-section-title">
-                    <i class="bi bi-cash-stack"></i> Tổng tiền và trạng thái
-                </div>
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <label class="form-label">Tổng tiền hóa đơn (VNĐ)</label>
-                        <div class="range-inputs">
-                            <input type="number" class="form-control" name="totalAmountFrom"
-                                   th:value="${filter.totalAmountFrom}" placeholder="Từ" min="0">
-                            <span class="range-separator">-</span>
-                            <input type="number" class="form-control" name="totalAmountTo"
-                                   th:value="${filter.totalAmountTo}" placeholder="Đến" min="0">
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label">Trạng thái</label>
-                        <select class="form-control" name="status" th:value="${filter.status}">
-                            <option value="">-- Tất cả trạng thái --</option>
-                            <option value="PAID" th:selected="${filter.status == 'PAID'}">Đã thanh toán</option>
-                            <option value="PENDING" th:selected="${filter.status == 'PENDING'}">Chưa thanh toán
-                            </option>
-                            <option value="OVERDUE" th:selected="${filter.status == 'OVERDUE'}">Quá hạn</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="filter-actions">
-                    <button type="button" class="btn-filter btn-reset" onclick="resetFilter()">
-                        <i class="bi bi-arrow-clockwise"></i>
-                        Reset
-                    </button>
-                    <button type="submit" class="btn-filter btn-search">
-                        <i class="bi bi-search"></i>
-                        Tìm kiếm
-                    </button>
-                </div>
-            </div>
-        </form>
-
-    </div>
+        </div>
+    </form>
 </main>
 
-<!--Bootstrap-->
+<!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- CDN SweetAlert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<!--JQuery-->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script th:inline="javascript">
-    const selectedYear = /*[[${filter.year}]]*/ '';
-</script>
-
 <script>
-    // Generate year options (10 years back from current year)
-    document.addEventListener('DOMContentLoaded', function () {
-        const yearSelect = document.getElementById('yearSelect');
-        const currentYear = new Date().getFullYear();
-
-        for (let i = 0; i < 10; i++) {
-            const year = currentYear - i;
-            const option = document.createElement('option');
-            option.value = year;
-            option.textContent = 'Năm ' + year;
-            if (selectedYear && Number(selectedYear) === year) {
-                option.selected = true;
-            }
-            yearSelect.appendChild(option);
-        }
-    });
-</script>
-
-<script>
-    function resetFilter() {
-        document.querySelector('.filter-card').reset();
-        document.querySelectorAll('.filter-card input, .filter-card select')
-            .forEach(e => e.value = "");
-    }
-</script>
-
-<script>
+    /* ── Toggle filter ──────────────────────────────────────────────── */
     function toggleFilter() {
         const filterBody = document.getElementById('filterBody');
-        const toggleBtn = document.querySelector('.btn-toggle-filter');
-        const toggleIcon = document.getElementById('toggleIcon');
-
+        const toggleBtn  = document.querySelector('.btn-toggle-filter');
         filterBody.classList.toggle('collapsed');
         toggleBtn.classList.toggle('collapsed');
-
-        // Lưu trạng thái vào localStorage
-        const isCollapsed = filterBody.classList.contains('collapsed');
-        localStorage.setItem('filterCollapsed', isCollapsed);
+        localStorage.setItem('invoiceFilterCollapsed', filterBody.classList.contains('collapsed'));
     }
 
-    // Khôi phục trạng thái khi tải trang
     document.addEventListener('DOMContentLoaded', function () {
         const filterBody = document.getElementById('filterBody');
-        const toggleBtn = document.querySelector('.btn-toggle-filter');
-        const isCollapsed = localStorage.getItem('filterCollapsed') === 'true';
-
-        if (isCollapsed) {
+        const toggleBtn  = document.querySelector('.btn-toggle-filter');
+        if (localStorage.getItem('invoiceFilterCollapsed') === 'true') {
             filterBody.classList.add('collapsed');
             toggleBtn.classList.add('collapsed');
         }
     });
+
+    function resetFilter() {
+        document.querySelectorAll('.filter-card .form-control, .filter-card select')
+            .forEach(el => el.value = '');
+    }
 </script>
 
 <script th:inline="javascript">
@@ -750,202 +726,157 @@
 
 <script>
     let currentPage = 1;
-    const pageSize = 5;
+    const pageSize  = 5;
 
-    // Hàm format tháng/năm
     function formatMonth(month, year) {
         if (!month || !year) return '';
         return `Tháng ${month}/${year}`;
     }
 
-    // Hàm format giá tiền
     function formatPrice(price) {
-        if (!price) return '';
+        if (price == null) return '';
         return new Intl.NumberFormat('vi-VN').format(price) + ' đ';
     }
 
-    // Hàm format diện tích
     function formatArea(area) {
         if (!area) return '';
         return new Intl.NumberFormat('vi-VN').format(area) + ' m²';
     }
 
-    // Hàm lấy badge status
     function getStatusBadge(status) {
-        const statusMap = {
-            'PAID': { class: 'paid', text: 'Đã thanh toán' },
-            'PENDING': { class: 'pending', text: 'Chưa thanh toán' },
-            'OVERDUE': { class: 'overdue', text: 'Quá hạn' },
+        const map = {
+            'PAID':    { cls: 'paid',    text: 'Đã thanh toán'   },
+            'PENDING': { cls: 'pending', text: 'Chưa thanh toán' },
+            'OVERDUE': { cls: 'overdue', text: 'Quá hạn'         },
         };
-        const s = statusMap[status] || { class: 'pending', text: status };
-        return `<span class="status-badge ${s.class}">${s.text}</span>`;
+        const s = map[status] || { cls: 'pending', text: status };
+        return `<span class="status-badge ${s.cls}">${s.text}</span>`;
     }
 
-    // Hàm load dữ liệu bảng hóa đơn bằng Ajax
-    function loadInvoices(page, filter, event) {
-        if (event) event.preventDefault();
-
+    function loadInvoices(page) {
         $.ajax({
             url: "/admin/invoice/search/page",
             type: "GET",
             data: {
                 page: page,
                 size: pageSize,
-                month: filter.month,
-                year: filter.year,
-                customerId: filter.customerId,
+                month:           filter.month,
+                year:            filter.year,
+                customerId:      filter.customerId,
                 totalAmountFrom: filter.totalAmountFrom,
-                totalAmountTo: filter.totalAmountTo,
-                status: filter.status
+                totalAmountTo:   filter.totalAmountTo,
+                status:          filter.status
             },
             success: function (data) {
                 currentPage = page;
                 const tbody = $("#invoiceTableBody");
                 tbody.empty();
 
+                $("#totalElements").text(data.totalElements);
+
                 if (data.content.length === 0) {
                     tbody.append(`
-                    <tr>
-                        <td colspan="8">
-                            <div class="empty-state">
-                                <i class="bi bi-inbox"></i>
-                                <p>Không có dữ liệu hóa đơn</p>
-                            </div>
-                        </td>
-                    </tr>
-                `);
+                        <tr>
+                            <td colspan="12">
+                                <div class="empty-state">
+                                    <i class="bi bi-inbox"></i>
+                                    <p>Không có dữ liệu hóa đơn</p>
+                                </div>
+                            </td>
+                        </tr>
+                    `);
                     $("#pagination").empty();
                     return;
                 }
 
-                $("#totalElements").text(data.totalElements);
-
                 $.each(data.content, function (i, inv) {
                     tbody.append(`
-                <tr>
-                    <td><span class="invoice-id">${inv.id}</span></td>
-                    <td><span class="month-badge">${formatMonth(inv.month, inv.year)}</span></td>
-                    <td><span class="customer-name">${inv.customer.fullName || ''}</span></td>
-                    <td><span class="area-badge">${formatArea(inv.contract.rentArea)}</span></td>
-                    <td><span class="price-badge">${formatPrice(inv.totalAmount)}</span></td>
-                    <td>${getStatusBadge(inv.status)}</td>
-                    <td>
-                        <div class="action-buttons">
-                            <a href="/admin/invoice/${inv.id}" class="btn-action btn-view" title="Xem chi tiết">
-                                <i class="bi bi-eye"></i>
-                            </a>
-                            <a href="/admin/invoice/edit/${inv.id}" class="btn-action btn-edit" title="Chỉnh sửa">
-                                <i class="bi bi-pencil"></i>
-                            </a>
-                            <a href="#" title="Xóa" class="btn-action btn-delete" data-id="${inv.id}">
-                               <i class="bi bi-trash"></i>
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-            `);
+                        <tr>
+                            <td><span class="invoice-id">HĐ-${inv.id}</span></td>
+                            <td><span class="bc bc-month"><i class="bi bi-calendar3" style="font-size:.65rem;"></i> ${formatMonth(inv.month, inv.year)}</span></td>
+                            <td><span class="customer-name">${inv.customer?.fullName || '—'}</span></td>
+                            <td><span class="building-name" title="${inv.contract.building.name || ''}">${inv.contract.building.name || '—'}</span></td>
+                            <td><span class="bc bc-area"><i class="bi bi-rulers" style="font-size:.65rem;"></i> ${formatArea(inv.contract?.rentArea)}</span></td>
+                            <td><span class="bc bc-price">${formatPrice(inv.totalAmount)}</span></td>
+                            <td>${getStatusBadge(inv.status)}</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="/admin/invoice/${inv.id}" class="btn-action btn-view" title="Xem chi tiết">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <a href="/admin/invoice/edit/${inv.id}" class="btn-action btn-edit" title="Chỉnh sửa">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a href="#" title="Xóa" class="btn-action btn-delete" data-id="${inv.id}">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    `);
                 });
 
                 renderPagination(data.totalPages, page);
             },
             error: function () {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Lỗi',
-                    text: 'Không tải được dữ liệu!'
-                });
+                Swal.fire({ icon: 'error', title: 'Lỗi', text: 'Không tải được dữ liệu!' });
             }
         });
     }
 
-    // Hàm render phân trang Bootstrap
     function renderPagination(totalPages, current) {
         const pagination = $("#pagination");
         pagination.empty();
         if (totalPages <= 1) return;
 
-        let html = `<nav class="pagination-wrapper mt-3"><ul class="pagination justify-content-center">`;
+        let html = `<nav class="pagination-wrapper"><ul class="pagination justify-content-center">`;
 
-        html += `<li class="page-item ${current === 1 ? 'disabled' : ''}">
-        <a href="#" class="page-link" onclick="loadInvoices(1, filter); return false;">First</a>
-    </li>`;
+        html += `<li class="page-item ${current===1?'disabled':''}">
+                    <a href="#" class="page-link" onclick="loadInvoices(1); return false;">
+                        <i class="bi bi-chevron-double-left"></i>
+                    </a>
+                 </li>`;
 
-        html += `<li class="page-item ${current === 1 ? 'disabled' : ''}">
-        <a href="#" class="page-link" onclick="loadInvoices(${current - 1}, filter); return false;">
-            <i class="bi bi-chevron-left"></i>
-        </a>
-    </li>`;
+        html += `<li class="page-item ${current===1?'disabled':''}">
+                    <a href="#" class="page-link" onclick="loadInvoices(${current-1}); return false;">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                 </li>`;
 
-        const blockSize = 5;
-        const blockStart = Math.floor((current - 1) / blockSize) * blockSize + 1;
-        let blockEnd = blockStart + blockSize - 1;
-        if (blockEnd > totalPages) blockEnd = totalPages;
+        const blockSize  = 5;
+        const blockStart = Math.floor((current-1)/blockSize)*blockSize + 1;
+        let   blockEnd   = Math.min(blockStart + blockSize - 1, totalPages);
 
         for (let i = blockStart; i <= blockEnd; i++) {
-            html += `
-            <li class="page-item ${i === current ? 'active' : ''}">
-                <a href="#" class="page-link" onclick="loadInvoices(${i}, filter); return false;">${i}</a>
-            </li>
-        `;
+            html += `<li class="page-item ${i===current?'active':''}">
+                        <a href="#" class="page-link" onclick="loadInvoices(${i}); return false;">${i}</a>
+                     </li>`;
         }
 
-        html += `<li class="page-item ${current === totalPages ? 'disabled' : ''}">
-        <a href="#" class="page-link" onclick="loadInvoices(${current + 1}, filter); return false;">
-            <i class="bi bi-chevron-right"></i>
-        </a>
-    </li>`;
+        html += `<li class="page-item ${current===totalPages?'disabled':''}">
+                    <a href="#" class="page-link" onclick="loadInvoices(${current+1}); return false;">
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                 </li>`;
 
-        html += `<li class="page-item ${current === totalPages ? 'disabled' : ''}">
-        <a href="#" class="page-link" onclick="loadInvoices(${totalPages}, filter); return false;">Last</a>
-    </li>`;
+        html += `<li class="page-item ${current===totalPages?'disabled':''}">
+                    <a href="#" class="page-link" onclick="loadInvoices(${totalPages}); return false;">
+                        <i class="bi bi-chevron-double-right"></i>
+                    </a>
+                 </li>`;
 
         html += `</ul></nav>`;
-
         pagination.html(html);
     }
 
-    // Khi trang load, gọi Ajax lần đầu
     $(document).ready(function () {
-        loadInvoices(1, filter);
-
-        // Hàm highlight trường có giá trị
-        function highlightFilledInputs() {
-            $('.filter-card .form-control').each(function () {
-                const $input = $(this);
-                if ($input.val() && $input.val().trim() !== '') {
-                    $input.addClass('has-value');
-                } else {
-                    $input.removeClass('has-value');
-                }
-            });
-        }
-
-        // Highlight các trường đã có giá trị khi load trang
-        highlightFilledInputs();
-
-        // Lắng nghe sự kiện input/change để highlight real-time
-        $('.filter-card .form-control').on('input change', function () {
-            const $this = $(this);
-            if ($this.val() && $this.val().trim() !== '') {
-                $this.addClass('has-value');
-            } else {
-                $this.removeClass('has-value');
-            }
-        });
-
-        // Reset highlight khi reset form
-        $('.btn-filter.btn-reset').on('click', function () {
-            setTimeout(function () {
-                $('.filter-card .form-control').removeClass('has-value');
-            }, 10);
-        });
+        loadInvoices(1);
     });
 
     // Ajax xóa hóa đơn
     $(document).on("click", ".btn-delete", function (e) {
         e.preventDefault();
-
-        let id = $(this).data("id");
+        const id = $(this).data("id");
 
         Swal.fire({
             title: 'Xác nhận xóa',
@@ -963,30 +894,19 @@
                     type: "DELETE",
                     success: function () {
                         Swal.fire({
-                            icon: 'success',
-                            title: 'Thành công',
+                            icon: 'success', title: 'Thành công',
                             text: 'Xóa hóa đơn thành công!',
-                            timer: 1500,
-                            showConfirmButton: false
+                            timer: 1500, showConfirmButton: false
                         }).then(() => {
                             window.location.href = "/admin/invoice/list";
                         });
                     },
                     error: function (xhr) {
                         const err = xhr.responseJSON;
-                        if (err && err.message) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Lỗi',
-                                text: err.message
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Lỗi',
-                                text: 'Xóa thất bại!'
-                            });
-                        }
+                        Swal.fire({
+                            icon: 'error', title: 'Lỗi',
+                            text: err?.message || 'Xóa thất bại!'
+                        });
                     }
                 });
             }

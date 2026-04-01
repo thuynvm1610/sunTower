@@ -6,181 +6,166 @@
     <title>SunTower | Quản lý Hóa đơn</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Bootstrap + Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link th:href="@{/css/admin.css}" rel="stylesheet">
 
     <style>
         body {
-            background: #fafbfc;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: #f4f6f9;
             overflow-x: hidden;
         }
 
         main.content {
-            margin-left: 250px;
-            padding: 2.5rem 3rem;
-            margin-top: 70px;
+            margin-left: 220px;
+            padding: 0;
+            margin-top: 72px;
         }
 
-        /* Page header */
-        .page-header {
-            margin-bottom: 2rem;
+        /* ══ BODY ════════════════════════════════════════════════════════════ */
+        .list-body {
+            padding: 1.5rem;
+            min-height: unset;
+        }
+
+        /* ══ PAGE HEADER BAR ════════════════════════════════════════════════ */
+        .page-header-bar {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.25rem;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
 
-        .page-header h2 {
-            font-size: 1.75rem;
-            font-weight: 700;
+        .page-header-bar h2 {
+            font-size: 1.4rem;
+            font-weight: 800;
             color: #111827;
             margin: 0;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.5rem;
         }
 
-        .page-header h2 i {
+        .page-header-bar h2 i {
             color: #3b82f6;
+            font-size: 1.2rem;
         }
 
-        /* Modern button */
-        .btn-add {
-            background: #3b82f6;
-            color: white;
-            border: none;
-            padding: 0.625rem 1.25rem;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.875rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.2s ease;
-            text-decoration: none;
+        .page-sub {
+            font-size: 0.8125rem;
+            color: #9ca3af;
+            margin-top: 0.2rem;
         }
 
-        .btn-add:hover {
-            background: #2563eb;
-            color: white;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-        }
-
-        /* Filter card */
-        .filter-card {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .filter-card .form-label {
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: #374151;
-            margin-bottom: 0.5rem;
-        }
-
-        .filter-card .form-control {
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 0.625rem 0.875rem;
-            font-size: 0.875rem;
-            transition: all 0.2s ease;
-        }
-
-        .filter-card .form-control:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-
-        /* Highlight khi có giá trị */
-        .filter-card .form-control.has-value {
-            background-color: #E8F0FE;
-            border-color: #3b82f6;
-            font-weight: 600;
-        }
-
-        /* Filter buttons */
-        .filter-actions {
+        .header-actions {
             display: flex;
-            gap: 0.75rem;
-            justify-content: flex-end;
-            margin-top: 1.25rem;
+            gap: 0.5rem;
+            align-items: center;
         }
 
-        .btn-filter {
-            padding: 0.625rem 1.25rem;
-            border-radius: 8px;
+        /* ══ BUTTONS ════════════════════════════════════════════════════════ */
+        .btn-hd {
+            padding: 0.45rem 0.875rem;
+            border-radius: 7px;
             font-weight: 600;
-            font-size: 0.875rem;
+            font-size: 0.8125rem;
             border: none;
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            transition: all 0.2s ease;
+            gap: 0.35rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: filter 0.15s ease;
+            white-space: nowrap;
         }
 
-        .btn-filter.btn-reset {
-            background: #f3f4f6;
-            color: #374151;
-        }
-
-        .btn-filter.btn-reset:hover {
-            background: #e5e7eb;
-        }
-
-        .btn-filter.btn-search {
+        .btn-hd-primary {
             background: #3b82f6;
-            color: white;
+            color: #fff;
         }
 
-        .btn-filter.btn-search:hover {
-            background: #2563eb;
-            transform: translateY(-1px);
+        .btn-hd-primary:hover  { filter: brightness(0.93); color: #fff; }
+        .btn-hd-primary:active { filter: brightness(0.87); }
+
+        .btn-hd-green {
+            background: #f0fdf4;
+            color: #16a34a;
+            border: 1px solid #bbf7d0;
+        }
+
+        .btn-hd-green:hover {
+            background: #dcfce7;
+            border-color: #86efac;
+            color: #15803d;
+        }
+
+        /* ══ FILTER CARD ════════════════════════════════════════════════════ */
+        .d-card {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+        }
+
+        .d-card-body {
+            padding: 0.875rem 1.5rem;
         }
 
         .filter-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.25rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 1.125rem;
+            padding-bottom: 0.875rem;
+            border-bottom: 1px solid #f3f4f6;
+            transition: border-color 0.2s ease;
+        }
+
+        .filter-header.no-border {
+            border-bottom-color: transparent;
+            margin-bottom: 0;
+            padding-bottom: 0;
         }
 
         .filter-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #111827;
+            font-size: 0.8125rem;
+            font-weight: 700;
+            color: #374151;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .filter-title i {
+            color: #3b82f6;
+            font-size: 0.875rem;
         }
 
         .btn-toggle-filter {
             background: #f3f4f6;
             border: none;
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
             border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.2s;
+            color: #6b7280;
+            font-size: 0.75rem;
         }
 
         .btn-toggle-filter:hover {
             background: #e5e7eb;
+            color: #111827;
         }
 
         .btn-toggle-filter i {
-            transition: transform 0.3s ease;
+            transition: transform 0.3s;
         }
 
         .btn-toggle-filter.collapsed i {
@@ -190,295 +175,294 @@
         .filter-body {
             max-height: 1000px;
             overflow: hidden;
-            transition: max-height 0.3s ease, opacity 0.3s ease;
+            transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
             opacity: 1;
         }
 
         .filter-body.collapsed {
             max-height: 0;
             opacity: 0;
+            padding-top: 0;
+            padding-bottom: 0;
         }
 
+        /* ══ FORM CONTROLS ══════════════════════════════════════════════════ */
         .filter-section-title {
-            font-size: 0.9375rem;
-            font-weight: 600;
-            color: #374151;
-            margin-bottom: 1rem;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.75rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.35rem;
         }
 
         .filter-section-title i {
             color: #3b82f6;
+            font-size: 0.8rem;
+        }
+
+        .filter-body .form-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.35rem;
+        }
+
+        .filter-body .form-control,
+        .filter-body .form-select {
+            border: 1px solid #e5e7eb;
+            border-radius: 7px;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.8125rem;
+            color: #374151;
+            background: #fff;
+            transition: all 0.2s;
+        }
+
+        .filter-body .form-control:focus,
+        .filter-body .form-select:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            outline: none;
         }
 
         .range-inputs {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.4rem;
         }
 
-        .range-inputs .form-control {
-            flex: 1;
-        }
+        .range-inputs .form-control { flex: 1; }
 
         .range-separator {
-            color: #9ca3af;
-            font-weight: 500;
-        }
-
-        /* Table card */
-        .table-card {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .table-card .table-header {
-            padding: 1.25rem 1.5rem;
-            border-bottom: 1px solid #e5e7eb;
+            color: #d1d5db;
             font-weight: 600;
-            color: #111827;
-            font-size: 1rem;
+            font-size: 0.75rem;
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #f3f4f6;
+        }
+
+        .btn-filter {
+            padding: 0.45rem 1rem;
+            border-radius: 7px;
+            font-weight: 600;
+            font-size: 0.8125rem;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .btn-filter.btn-reset {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .btn-filter.btn-reset:hover { background: #e5e7eb; }
+
+        .btn-filter.btn-search {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-filter.btn-search:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(59, 130, 246, 0.3);
+        }
+
+        /* ══ TABLE CARD ═════════════════════════════════════════════════════ */
+        .table-card {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 0;
+        }
+
+        .table-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.875rem 1.5rem;
+            border-bottom: 1px solid #f3f4f6;
             background: #fafbfc;
         }
 
-        /* Modern table */
+        .table-card-header-left {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .table-card-header-left i { color: #3b82f6; font-size: 0.9375rem; }
+
+        /* ══ TABLE ══════════════════════════════════════════════════════════ */
         .modern-table {
             margin: 0;
-            min-height: 480px;
+            width: 100%;
         }
 
         .modern-table thead th {
             background: #f9fafb;
             border: none;
             border-bottom: 1px solid #e5e7eb;
-            padding: 0.875rem 1rem;
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: #6b7280;
+            padding: 0.625rem 1rem;
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: #9ca3af;
             text-transform: uppercase;
-            letter-spacing: 0.025em;
-            height: 60px;
-        }
-
-        .modern-table tbody {
-            min-height: 420px;
-            display: table-row-group;
+            letter-spacing: 0.06em;
+            white-space: nowrap;
         }
 
         .modern-table tbody td {
-            position: relative;
-            padding: 1rem;
-            border-bottom: 1px solid #e5e7eb;
-            font-size: 0.875rem;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #f3f4f6;
+            font-size: 0.8125rem;
             color: #374151;
             vertical-align: middle;
         }
 
-        .modern-table tbody tr {
-            height: 84px;
-            min-height: 84px;
+        .modern-table tbody tr:last-child td { border-bottom: none; }
+
+        .modern-table tbody tr:hover { background: #fafbfc; }
+
+        /* ══ CELL STYLES ════════════════════════════════════════════════════ */
+        .cell-id {
+            font-weight: 700;
+            color: #111827;
+            font-size: 0.8125rem;
         }
 
-        .modern-table tbody tr:last-child td {
-            border-bottom: none;
-        }
-
-        .modern-table tbody tr {
-            transition: background 0.15s ease;
-        }
-
-        .modern-table tbody tr:hover {
-            background: #f9fafb;
-        }
-
-        .table-responsive {
-            min-height: 480px;
-        }
-
-        /* Table badges and cells */
-        .invoice-id {
+        .cell-name {
             font-weight: 600;
             color: #111827;
-            white-space: nowrap;
-        }
-
-        .customer-name,
-        .building-name {
-            font-weight: 600;
-            color: #111827;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
+            max-width: 230px;
             overflow: hidden;
             text-overflow: ellipsis;
-            line-height: 1.4;
-            max-height: 2.8em;
-        }
-
-        .month-badge {
-            display: inline-block;
-            padding: 0.375rem 0.75rem;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 0.875rem;
             white-space: nowrap;
-            background: #dbeafe;
-            color: #1e40af;
+            display: block;
         }
 
-        .area-badge {
+        /* ══ BADGES ═════════════════════════════════════════════════════════ */
+        .bc {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.2rem 0.55rem;
+            border-radius: 20px;
             font-weight: 600;
-            font-size: 0.875rem;
-        }
-
-        .price-badge {
-            display: inline-block;
-            padding: 0.375rem 0.75rem;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 0.875rem;
-            white-space: nowrap;
-            background: #ecfdf5;
-            color: #059669;
-        }
-
-        .status-badge {
-            display: inline-block;
-            padding: 0.375rem 0.75rem;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 0.875rem;
+            font-size: 0.75rem;
             white-space: nowrap;
         }
 
-        .status-badge.paid {
-            background: #dcfce7;
-            color: #16a34a;
-        }
+        .bc-month  { background: #eff6ff; color: #1d4ed8; }
+        .bc-area   { background: #f0fdf4; color: #166534; }
+        .bc-price  { background: #ecfdf5; color: #059669; font-weight: 700; }
+        .bc-paid   { background: #dcfce7; color: #16a34a; }
+        .bc-pending{ background: #fef3c7; color: #d97706; }
+        .bc-overdue{ background: #fee2e2; color: #dc2626; }
 
-        .status-badge.pending {
-            background: #fef3c7;
-            color: #d97706;
-        }
-
-        .status-badge.overdue {
-            background: #fee2e2;
-            color: #dc2626;
-        }
-
-        /* Action buttons */
+        /* ══ ACTION BUTTONS ═════════════════════════════════════════════════ */
         .action-buttons {
             display: flex;
-            gap: 0.5rem;
-            justify-content: center;
+            gap: 0.375rem;
             align-items: center;
-            height: 100%;
         }
 
         .btn-action {
-            width: 32px;
-            height: 32px;
-            padding: 0;
+            width: 30px;
+            height: 30px;
             border-radius: 6px;
             border: none;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s ease;
-            font-size: 0.875rem;
+            font-size: 0.8rem;
+            transition: filter 0.15s;
+            text-decoration: none;
+            cursor: pointer;
         }
 
-        .btn-action.btn-view {
-            background: #eff6ff;
-            color: #2563eb;
-        }
+        .btn-action.btn-view   { background: #eff6ff; color: #2563eb; }
+        .btn-action.btn-edit   { background: #fffbeb; color: #d97706; }
+        .btn-action.btn-delete { background: #fef2f2; color: #dc2626; }
 
-        .btn-action.btn-view:hover {
-            background: #dbeafe;
-            transform: translateY(-1px);
-        }
+        .btn-action:hover { filter: brightness(0.92); }
 
-        .btn-action.btn-edit {
-            background: #fffbeb;
-            color: #d97706;
-        }
-
-        .btn-action.btn-edit:hover {
-            background: #fef3c7;
-            transform: translateY(-1px);
-        }
-
-        .btn-action.btn-delete {
-            background: #fef2f2;
-            color: #dc2626;
-        }
-
-        .btn-action.btn-delete:hover {
-            background: #fee2e2;
-            transform: translateY(-1px);
-        }
-
-        /* Empty state */
+        /* ══ EMPTY STATE ════════════════════════════════════════════════════ */
         .empty-state {
-            padding: 3rem;
+            padding: 3rem 1rem;
             text-align: center;
             color: #9ca3af;
-            min-height: 420px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
         }
 
         .empty-state i {
-            font-size: 3rem;
+            font-size: 2.25rem;
             color: #d1d5db;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
+            display: block;
         }
 
         .empty-state p {
-            margin: 0;
             font-size: 0.875rem;
+            margin: 0;
+            color: #6b7280;
         }
 
-        /* Pagination */
+        /* ══ PAGINATION ══════════════════════════════════════════════════════ */
         .pagination-wrapper {
-            min-height: auto;
-            margin-top: 1.5rem;
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+            border-top: 1px solid #f3f4f6;
         }
 
         .pagination {
-            gap: 0.5rem;
-        }
-
-        .pagination .page-item {
+            gap: 0.3rem;
             margin: 0;
         }
 
+        .pagination .page-item { margin: 0; }
+
         .pagination .page-link {
             border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 0.5rem 0.875rem;
+            border-radius: 7px;
+            padding: 0.35rem 0.75rem;
             color: #374151;
             font-weight: 600;
-            font-size: 0.875rem;
-            transition: all 0.2s ease;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+            background: #fff;
         }
 
         .pagination .page-link:hover {
-            background: #f9fafb;
-            border-color: #d1d5db;
-            color: #111827;
+            background: #f0f9ff;
+            border-color: #bfdbfe;
+            color: #1e40af;
         }
 
         .pagination .page-item.active .page-link {
             background: #3b82f6;
             border-color: #3b82f6;
-            color: white;
+            color: #fff;
         }
 
         .pagination .page-item.disabled .page-link {
@@ -487,555 +471,406 @@
             color: #d1d5db;
         }
 
-        /* Responsive */
+        /* ══ RESPONSIVE ══════════════════════════════════════════════════════ */
         @media (max-width: 768px) {
-            main.content {
-                margin-left: 0;
-                padding: 1.5rem;
-            }
-
-            .page-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-            }
-
-            .action-buttons {
-                flex-wrap: wrap;
-            }
-        }
-
-        /* CSS nút cập nhật trạng thái hóa đơn */
-        .btn-update-status {
-            background: #f0fdf4;
-            color: #16a34a;
-            border: 1px solid #bbf7d0;
-            padding: 0.625rem 1.25rem;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.875rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.2s ease;
-            cursor: pointer;
-        }
-
-        .btn-update-status:hover {
-            background: #dcfce7;
-            border-color: #86efac;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
-        }
-
-        .btn-update-status i {
-            font-size: 1rem;
+            main.content { margin-left: 0; }
+            .list-body { padding: 1rem; }
+            .page-header-bar { flex-direction: column; align-items: flex-start; }
         }
     </style>
 </head>
 
 <body>
 
-    <!-- HEADER + SIDEBAR -->
-    <div th:replace="~{layout/header :: header}"></div>
-    <div th:replace="~{layout/sidebar :: sidebar}"></div>
+<!-- HEADER + SIDEBAR -->
+<div th:replace="~{layout/header :: header}"></div>
+<div th:replace="~{layout/sidebar :: sidebar}"></div>
 
-    <main class="content">
-        <div class="container-fluid">
-            <!-- Page Header -->
-            <div class="page-header">
+<main class="content">
+    <div class="list-body">
+
+        <!-- ── Page Header ─────────────────────────────────────────────────── -->
+        <div class="page-header-bar">
+            <div>
                 <h2>
-                    <i class="bi bi-receipt"></i>
+                    <i class="bi bi-receipt-cutoff"></i>
                     Quản lý Hóa đơn
                 </h2>
-                <div style="display: flex; gap: 0.75rem;">
-                    <button onclick="updateInvoiceStatus()" class="btn-update-status">
-                        <i class="bi bi-arrow-clockwise"></i>
-                        Cập nhật trạng thái
-                    </button>
-                    <a th:href="@{/admin/invoice/add}" class="btn-add">
-                        <i class="bi bi-plus-circle"></i>
-                        Thêm hóa đơn
-                    </a>
-                </div>
+                <div class="page-sub">Danh sách và quản lý tất cả hóa đơn trong hệ thống</div>
             </div>
+            <div class="header-actions">
+                <button onclick="updateInvoiceStatus()" class="btn-hd btn-hd-green">
+                    <i class="bi bi-arrow-clockwise"></i>
+                    Cập nhật trạng thái
+                </button>
+                <a th:href="@{/admin/invoice/add}" class="btn-hd btn-hd-primary">
+                    <i class="bi bi-plus-circle"></i>
+                    Thêm hóa đơn
+                </a>
+            </div>
+        </div>
 
-            <!-- Filter Card -->
-            <form class="filter-card" th:action="@{/admin/invoice/search}" method="get">
-                <div class="filter-header">
-                    <div class="filter-title">
-                        <i class="bi bi-funnel"></i>
-                        Bộ lọc tìm kiếm
-                    </div>
-                    <button type="button" class="btn-toggle-filter" onclick="toggleFilter()">
-                        <i class="bi bi-chevron-up" id="toggleIcon"></i>
-                    </button>
-                </div>
-
-                <div class="filter-body" id="filterBody">
-                    <!-- Thông tin cơ bản -->
-                    <div class="filter-section-title">
-                        <i class="bi bi-info-circle"></i> Thông tin cơ bản
-                    </div>
-                    <div class="row g-3 mb-4">
-                        <div class="col-md-4">
-                            <label class="form-label">Tháng</label>
-                            <select class="form-control" name="month">
-                                <option value="">-- Chọn tháng --</option>
-                                <option value="1">Tháng 1</option>
-                                <option value="2">Tháng 2</option>
-                                <option value="3">Tháng 3</option>
-                                <option value="4">Tháng 4</option>
-                                <option value="5">Tháng 5</option>
-                                <option value="6">Tháng 6</option>
-                                <option value="7">Tháng 7</option>
-                                <option value="8">Tháng 8</option>
-                                <option value="9">Tháng 9</option>
-                                <option value="10">Tháng 10</option>
-                                <option value="11">Tháng 11</option>
-                                <option value="12">Tháng 12</option>
-                            </select>
+        <!-- ── Filter Card ─────────────────────────────────────────────────── -->
+        <div class="d-card mb-3">
+            <form th:action="@{/admin/invoice/search}" method="get">
+                <div class="d-card-body">
+                    <div class="filter-header">
+                        <div class="filter-title">
+                            <i class="bi bi-funnel"></i>
+                            Bộ lọc tìm kiếm
                         </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label">Năm</label>
-                            <select class="form-control" name="year" id="yearSelect">
-                                <option value="">-- Chọn năm --</option>
-                            </select>
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label">Tên khách hàng</label>
-                            <select class="form-control" name="customerId">
-                                <option value="">-- Chọn khách hàng --</option>
-                                <option th:each="c : ${customers}" th:value="${c.value}" th:text="${c.key}">
-                                </option>
-                            </select>
-                        </div>
+                        <button type="button" class="btn-toggle-filter collapsed" onclick="toggleFilter()">
+                            <i class="bi bi-chevron-up" id="toggleIcon"></i>
+                        </button>
                     </div>
 
-                    <!-- Giá tiền và trạng thái -->
-                    <div class="filter-section-title">
-                        <i class="bi bi-cash-stack"></i> Tổng tiền và trạng thái
-                    </div>
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label class="form-label">Tổng tiền hóa đơn (VNĐ)</label>
-                            <div class="range-inputs">
-                                <input type="number" class="form-control" name="totalAmountFrom" placeholder="Từ"
-                                    min="0">
-                                <span class="range-separator">-</span>
-                                <input type="number" class="form-control" name="totalAmountTo" placeholder="Đến"
-                                    min="0">
+                    <div class="filter-body collapsed" id="filterBody">
+                        <!-- Thông tin cơ bản -->
+                        <div class="filter-section-title">
+                            <i class="bi bi-info-circle"></i> Thông tin cơ bản
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-2">
+                                <label class="form-label">Tháng</label>
+                                <input type="number" class="form-control" name="month" placeholder="1 – 12" min="1" max="12">
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">Năm</label>
+                                <input type="number" class="form-control" name="year" placeholder="VD: 2025" min="2000" max="2099">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Khách hàng</label>
+                                <select class="form-select" name="customerId">
+                                    <option value="">-- Chọn khách hàng --</option>
+                                    <option th:each="c : ${customers}" th:value="${c.value}" th:text="${c.key}"></option>
+                                </select>
                             </div>
                         </div>
 
-                        <div class="col-md-6">
-                            <label class="form-label">Trạng thái</label>
-                            <select class="form-control" name="status">
-                                <option value="">-- Tất cả trạng thái --</option>
-                                <option value="PAID">Đã thanh toán</option>
-                                <option value="PENDING">Chưa thanh toán</option>
-                                <option value="OVERDUE">Quá hạn</option>
-                            </select>
+                        <!-- Tổng tiền và trạng thái -->
+                        <div class="filter-section-title">
+                            <i class="bi bi-cash-stack"></i> Tổng tiền và trạng thái
                         </div>
-                    </div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Tổng tiền hóa đơn (VNĐ)</label>
+                                <div class="range-inputs">
+                                    <input type="number" class="form-control" name="totalAmountFrom" placeholder="Từ" min="0">
+                                    <span class="range-separator">—</span>
+                                    <input type="number" class="form-control" name="totalAmountTo" placeholder="Đến" min="0">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Trạng thái</label>
+                                <select class="form-select" name="status">
+                                    <option value="">-- Tất cả --</option>
+                                    <option value="PAID">Đã thanh toán</option>
+                                    <option value="PENDING">Chưa thanh toán</option>
+                                    <option value="OVERDUE">Quá hạn</option>
+                                </select>
+                            </div>
+                        </div>
 
-                    <div class="filter-actions">
-                        <button type="reset" class="btn-filter btn-reset">
-                            <i class="bi bi-arrow-clockwise"></i>
-                            Reset
-                        </button>
-                        <button type="submit" class="btn-filter btn-search">
-                            <i class="bi bi-search"></i>
-                            Tìm kiếm
-                        </button>
-                    </div>
+                        <div class="filter-actions">
+                            <button type="reset" class="btn-filter btn-reset" id="btnReset">
+                                <i class="bi bi-arrow-clockwise"></i> Reset
+                            </button>
+                            <button type="submit" class="btn-filter btn-search">
+                                <i class="bi bi-search"></i> Tìm kiếm
+                            </button>
+                        </div>
+                    </div><!-- /filter-body -->
                 </div>
             </form>
+        </div>
 
-            <!-- Table Card -->
-            <div class="table-card">
-                <div class="table-header">
+        <!-- ── Table Card ──────────────────────────────────────────────────── -->
+        <div class="table-card">
+            <div class="table-card-header">
+                <div class="table-card-header-left">
+                    <i class="bi bi-table"></i>
                     Danh sách hóa đơn
-                </div>
-
-                <div class="table-responsive">
-                    <table class="table modern-table">
-                        <thead>
-                            <tr>
-                                <th>Mã HĐ</th>
-                                <th>Hóa đơn tháng</th>
-                                <th>Khách hàng</th>
-                                <th>Tòa nhà</th>
-                                <th>Diện tích thuê</th>
-                                <th>Tổng tiền</th>
-                                <th>Trạng thái</th>
-                                <th style="text-align: center;">Hành động</th>
-                            </tr>
-                        </thead>
-
-                        <tbody id="invoiceTableBody">
-                            <!-- Dữ liệu sẽ được Ajax thêm vào -->
-                        </tbody>
-                    </table>
                 </div>
             </div>
 
-            <!-- Pagination -->
+            <div class="table-responsive">
+                <table class="table modern-table">
+                    <colgroup>
+                        <col style="width: 60px">   <!-- Mã HĐ -->
+                        <col style="width: 90px">  <!-- Tháng -->
+                        <col style="width: 260px">  <!-- Khách hàng -->
+                        <col style="width: 180px">  <!-- Tòa nhà -->
+                        <col style="width: 110px">  <!-- Diện tích -->
+                        <col style="width: 150px">  <!-- Tổng tiền -->
+                        <col style="width: 150px">  <!-- Trạng thái -->
+                        <col>                       <!-- Hành động -->
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>Mã HĐ</th>
+                        <th>Tháng</th>
+                        <th>Khách hàng</th>
+                        <th>Tòa nhà</th>
+                        <th>Diện tích</th>
+                        <th>Tổng tiền</th>
+                        <th>Trạng thái</th>
+                        <th style="text-align:center;">Hành động</th>
+                    </tr>
+                    </thead>
+                    <tbody id="invoiceTableBody">
+                    <!-- Ajax fill -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination inside card -->
             <div id="pagination"></div>
         </div>
-    </main>
 
-    <!--Bootstrap-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- CDN SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!--JQuery-->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    </div><!-- /list-body -->
+</main>
 
-    <script>
-        // Generate year options (10 years back from current year)
-        document.addEventListener('DOMContentLoaded', function () {
-            const yearSelect = document.getElementById('yearSelect');
-            const currentYear = new Date().getFullYear();
+<!-- Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-            for (let i = 0; i < 10; i++) {
-                const year = currentYear - i;
-                const option = document.createElement('option');
-                option.value = year;
-                option.textContent = 'Năm ' + year;
-                yearSelect.appendChild(option);
-            }
-        });
-    </script>
+<script>
+    // Toggle filter
+    function toggleFilter() {
+        const filterBody = document.getElementById('filterBody');
+        const toggleBtn  = document.querySelector('.btn-toggle-filter');
+        const filterHeader = document.querySelector('.filter-header');
+        filterBody.classList.toggle('collapsed');
+        toggleBtn.classList.toggle('collapsed');
+        filterHeader.classList.toggle('no-border', filterBody.classList.contains('collapsed'));
+    }
 
-    <script>
-        function toggleFilter() {
-            const filterBody = document.getElementById('filterBody');
-            const toggleBtn = document.querySelector('.btn-toggle-filter');
-            const toggleIcon = document.getElementById('toggleIcon');
-
-            filterBody.classList.toggle('collapsed');
-            toggleBtn.classList.toggle('collapsed');
-
-            // Lưu trạng thái vào localStorage
-            const isCollapsed = filterBody.classList.contains('collapsed');
-            localStorage.setItem('filterCollapsed', isCollapsed);
+    // Init on load: filter starts collapsed, apply no-border
+    document.addEventListener('DOMContentLoaded', function () {
+        const filterBody = document.getElementById('filterBody');
+        const filterHeader = document.querySelector('.filter-header');
+        if (filterBody.classList.contains('collapsed')) {
+            filterHeader.classList.add('no-border');
         }
+    });
+</script>
 
-        // Khôi phục trạng thái khi tải trang
-        document.addEventListener('DOMContentLoaded', function () {
-            const filterBody = document.getElementById('filterBody');
-            const toggleBtn = document.querySelector('.btn-toggle-filter');
-            const isCollapsed = localStorage.getItem('filterCollapsed') === 'true';
+<script>
+    let currentPage = 1;
+    const pageSize  = 5;
 
-            if (isCollapsed) {
-                filterBody.classList.add('collapsed');
-                toggleBtn.classList.add('collapsed');
-            }
-        });
-    </script>
+    function formatMonth(month, year) {
+        if (!month || !year) return '';
+        return `Tháng ${month}/${year}`;
+    }
 
-    <script>
-        let currentPage = 1;
-        const pageSize = 5;
+    function formatPrice(price) {
+        if (price == null) return '';
+        return new Intl.NumberFormat('vi-VN').format(price).replaceAll('.', ',') + ' đ';
+    }
 
-        // Hàm format tháng/năm
-        function formatMonth(month, year) {
-            if (!month || !year) return '';
-            return `Tháng ${month}/${year}`;
-        }
+    function formatArea(area) {
+        if (!area) return '';
+        return new Intl.NumberFormat('vi-VN').format(area) + ' m²';
+    }
 
-        // Hàm format giá tiền
-        function formatPrice(price) {
-            if (price == null) return '';
-            return new Intl.NumberFormat('vi-VN')
-                .format(price)
-                .replaceAll('.', ',') + ' đ';
-        }
+    function getStatusBadge(status) {
+        const map = {
+            'PAID':    { cls: 'bc-paid',    icon: 'bi-check-circle-fill', text: 'Đã thanh toán' },
+            'PENDING': { cls: 'bc-pending',  icon: 'bi-clock-fill',        text: 'Chưa thanh toán' },
+            'OVERDUE': { cls: 'bc-overdue',  icon: 'bi-exclamation-circle-fill', text: 'Quá hạn' },
+        };
+        const s = map[status] || { cls: 'bc-pending', icon: 'bi-dash-circle', text: status };
+        return `<span class="bc ${s.cls}"><i class="bi ${s.icon}" style="font-size:.65rem;"></i> ${s.text}</span>`;
+    }
 
-        // Hàm format diện tích
-        function formatArea(area) {
-            if (!area) return '';
-            return new Intl.NumberFormat('vi-VN').format(area) + ' m²';
-        }
+    function loadInvoices(page) {
+        $.ajax({
+            url: "/admin/invoice/list/page",
+            type: "GET",
+            data: { page: page, size: pageSize },
+            success: function (data) {
+                currentPage = page;
+                const tbody = $("#invoiceTableBody");
+                tbody.empty();
 
-        // Hàm lấy badge status
-        function getStatusBadge(status) {
-            const statusMap = {
-                'PAID': { class: 'paid', text: 'Đã thanh toán' },
-                'PENDING': { class: 'pending', text: 'Chưa thanh toán' },
-                'OVERDUE': { class: 'overdue', text: 'Quá hạn' },
-            };
-            const s = statusMap[status] || { class: 'pending', text: status };
-            return `<span class="status-badge ${s.class}">${s.text}</span>`;
-        }
-
-        // Hàm load dữ liệu bảng hóa đơn bằng Ajax
-        function loadInvoices(page, event) {
-            if (event) event.preventDefault();
-
-            $.ajax({
-                url: "/admin/invoice/list/page",
-                type: "GET",
-                data: { page: page, size: pageSize },
-                success: function (data) {
-                    currentPage = page;
-                    const tbody = $("#invoiceTableBody");
-                    tbody.empty();
-
-                    if (data.content.length === 0) {
-                        tbody.append(`
-                    <tr>
-                        <td colspan="8">
-                            <div class="empty-state">
-                                <i class="bi bi-inbox"></i>
-                                <p>Không có dữ liệu hóa đơn</p>
-                            </div>
-                        </td>
-                    </tr>
-                `);
-                        $("#pagination").empty();
-                        return;
-                    }
-
-                    $.each(data.content, function (i, inv) {
-                        tbody.append(`
-                    <tr>
-                        <td><span class="invoice-id">${inv.id}</span></td>
-                        <td><span class="month-badge">${formatMonth(inv.month, inv.year)}</span></td>
-                        <td><span class="customer-name">${inv.customer.fullName || ''}</span></td>
-                        <td><span class="building-name">${inv.contract.building.name || ''}</span></td>
-                        <td><span class="area-badge">${formatArea(inv.contract.rentArea)}</span></td>
-                        <td><span class="price-badge">${formatPrice(inv.totalAmount)}</span></td>
-                        <td>${getStatusBadge(inv.status)}</td>
-                        <td>
-                            <div class="action-buttons">
-                                <a href="/admin/invoice/${inv.id}" class="btn-action btn-view" title="Xem chi tiết">
-                                    <i class="bi bi-eye"></i>
-                                </a>
-                                <a href="/admin/invoice/edit/${inv.id}" class="btn-action btn-edit" title="Chỉnh sửa">
-                                    <i class="bi bi-pencil"></i>
-                                </a>
-                                <a href="#" title="Xóa" class="btn-action btn-delete" data-id="${inv.id}">
-                                   <i class="bi bi-trash"></i>
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                `);
-                    });
-
-                    renderPagination(data.totalPages, page);
-                },
-                error: function () {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Lỗi',
-                        text: 'Không tải được dữ liệu!'
-                    });
+                if (data.content.length === 0) {
+                    tbody.append(`
+                        <tr>
+                            <td colspan="8">
+                                <div class="empty-state">
+                                    <i class="bi bi-inbox"></i>
+                                    <p>Không có hóa đơn nào</p>
+                                </div>
+                            </td>
+                        </tr>
+                    `);
+                    $("#pagination").empty();
+                    return;
                 }
-            });
-        }
 
-        // Hàm render phân trang Bootstrap
-        function renderPagination(totalPages, current) {
-            const pagination = $("#pagination");
-            pagination.empty();
+                $.each(data.content, function (i, inv) {
+                    tbody.append(`
+                        <tr>
+                            <td><span class="cell-id">HĐ-${inv.id}</span></td>
+                            <td><span class="bc bc-month"><i class="bi bi-calendar3" style="font-size:.65rem;"></i> ${formatMonth(inv.month, inv.year)}</span></td>
+                            <td><span class="cell-name" title="${inv.customer.fullName || ''}">${inv.customer.fullName || '—'}</span></td>
+                            <td><span class="cell-name" title="${inv.contract.building.name || ''}">${inv.contract.building.name || '—'}</span></td>
+                            <td><span class="bc bc-area"><i class="bi bi-rulers" style="font-size:.65rem;"></i> ${formatArea(inv.contract.rentArea)}</span></td>
+                            <td><span class="bc bc-price">${formatPrice(inv.totalAmount)}</span></td>
+                            <td>${getStatusBadge(inv.status)}</td>
+                            <td>
+                                <div class="action-buttons" style="justify-content:center;">
+                                    <a href="/admin/invoice/${inv.id}" class="btn-action btn-view" title="Xem chi tiết">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <a href="/admin/invoice/edit/${inv.id}" class="btn-action btn-edit" title="Chỉnh sửa">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a href="#" class="btn-action btn-delete" data-id="${inv.id}" title="Xóa">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    `);
+                });
 
-            if (totalPages <= 1) return;
-
-            let html = `
-        <nav class="pagination-wrapper mt-3">
-            <ul class="pagination justify-content-center">
-    `;
-
-            // Nút "First"
-            html += `
-        <li class="page-item ${current === 1 ? 'disabled' : ''}">
-            <a href="#" class="page-link" onclick="loadInvoices(1, event)">First</a>
-        </li>
-    `;
-
-            // Nút "Previous"
-            html += `
-        <li class="page-item ${current === 1 ? 'disabled' : ''}">
-            <a href="#" class="page-link" onclick="loadInvoices(${current - 1}, event)">
-                <i class="bi bi-chevron-left"></i>
-            </a>
-        </li>
-    `;
-
-            // Các trang số
-            const blockSize = 5;
-            const blockStart = Math.floor((current - 1) / blockSize) * blockSize + 1;
-            let blockEnd = blockStart + blockSize - 1;
-            if (blockEnd > totalPages) blockEnd = totalPages;
-
-            for (let i = blockStart; i <= blockEnd; i++) {
-                html += `
-            <li class="page-item ${i === current ? 'active' : ''}">
-                <a href="#" class="page-link" onclick="loadInvoices(${i}, event)">${i}</a>
-            </li>
-        `;
+                renderPagination(data.totalPages, page);
+            },
+            error: function () {
+                Swal.fire({ icon: 'error', title: 'Lỗi', text: 'Không tải được dữ liệu!' });
             }
+        });
+    }
 
-            // Nút "Next"
-            html += `
-        <li class="page-item ${current === totalPages ? 'disabled' : ''}">
-            <a href="#" class="page-link" onclick="loadInvoices(${current + 1}, event)">
-                <i class="bi bi-chevron-right"></i>
-            </a>
-        </li>
-    `;
+    function renderPagination(totalPages, current) {
+        const pagination = $("#pagination");
+        pagination.empty();
+        if (totalPages <= 1) return;
 
-            // Nút "Last"
-            html += `
-        <li class="page-item ${current === totalPages ? 'disabled' : ''}">
-            <a href="#" class="page-link" onclick="loadInvoices(${totalPages}, event)">Last</a>
-        </li>
-    `;
+        let html = `<nav class="pagination-wrapper"><ul class="pagination justify-content-center">`;
 
-            html += `
-            </ul>
-        </nav>
-    `;
+        html += `<li class="page-item ${current===1?'disabled':''}">
+                    <a href="#" class="page-link" onclick="loadInvoices(1); return false;">
+                        <i class="bi bi-chevron-double-left"></i>
+                    </a>
+                 </li>`;
+        html += `<li class="page-item ${current===1?'disabled':''}">
+                    <a href="#" class="page-link" onclick="loadInvoices(${current-1}); return false;">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                 </li>`;
 
-            pagination.html(html);
+        const blockSize  = 5;
+        const blockStart = Math.floor((current - 1) / blockSize) * blockSize + 1;
+        let   blockEnd   = Math.min(blockStart + blockSize - 1, totalPages);
+
+        for (let i = blockStart; i <= blockEnd; i++) {
+            html += `<li class="page-item ${i===current?'active':''}">
+                        <a href="#" class="page-link" onclick="loadInvoices(${i}); return false;">${i}</a>
+                     </li>`;
         }
 
-        // Khi trang load, gọi Ajax lần đầu
-        $(document).ready(function () {
-            loadInvoices(1);
+        html += `<li class="page-item ${current===totalPages?'disabled':''}">
+                    <a href="#" class="page-link" onclick="loadInvoices(${current+1}); return false;">
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                 </li>`;
+        html += `<li class="page-item ${current===totalPages?'disabled':''}">
+                    <a href="#" class="page-link" onclick="loadInvoices(${totalPages}); return false;">
+                        <i class="bi bi-chevron-double-right"></i>
+                    </a>
+                 </li>`;
 
-            // Hàm highlight trường có giá trị
-            function highlightFilledInputs() {
-                $('.filter-card .form-control').each(function () {
-                    const $input = $(this);
-                    if ($input.val() && $input.val().trim() !== '') {
-                        $input.addClass('has-value');
-                    } else {
-                        $input.removeClass('has-value');
+        html += `</ul></nav>`;
+        pagination.html(html);
+    }
+
+    $(document).ready(function () {
+        loadInvoices(1);
+    });
+
+    // Ajax xóa hóa đơn
+    $(document).on("click", ".btn-delete", function (e) {
+        e.preventDefault();
+        const id = $(this).data("id");
+
+        Swal.fire({
+            title: 'Xác nhận xóa',
+            text: "Bạn có chắc muốn xóa hóa đơn này?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc2626',
+            cancelButtonColor: '#6b7280',
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/admin/invoice/delete/" + id,
+                    type: "DELETE",
+                    success: function () {
+                        Swal.fire({
+                            icon: 'success', title: 'Thành công',
+                            text: 'Xóa hóa đơn thành công!',
+                            timer: 1500, showConfirmButton: false
+                        }).then(() => { window.location.href = "/admin/invoice/list"; });
+                    },
+                    error: function (xhr) {
+                        const err = xhr.responseJSON;
+                        Swal.fire({
+                            icon: 'error', title: 'Lỗi',
+                            text: err?.message || 'Xóa thất bại!'
+                        });
                     }
                 });
             }
-
-            // Highlight các trường đã có giá trị khi load trang
-            highlightFilledInputs();
-
-            // Lắng nghe sự kiện input/change để highlight real-time
-            $('.filter-card .form-control').on('input change', function () {
-                const $this = $(this);
-                if ($this.val() && $this.val().trim() !== '') {
-                    $this.addClass('has-value');
-                } else {
-                    $this.removeClass('has-value');
-                }
-            });
-
-            // Reset highlight khi reset form
-            $('.btn-filter.btn-reset').on('click', function () {
-                setTimeout(function () {
-                    $('.filter-card .form-control').removeClass('has-value');
-                }, 10);
-            });
         });
+    });
+</script>
 
-        // Ajax xóa hóa đơn
-        $(document).on("click", ".btn-delete", function (e) {
-            e.preventDefault();
-
-            let id = $(this).data("id");
-
-            Swal.fire({
-                title: 'Xác nhận xóa',
-                text: "Bạn có chắc muốn xóa hóa đơn này?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#dc2626',
-                cancelButtonColor: '#6b7280',
-                confirmButtonText: 'Xóa',
-                cancelButtonText: 'Hủy'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: "/admin/invoice/delete/" + id,
-                        type: "DELETE",
-                        success: function () {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Thành công',
-                                text: 'Xóa hóa đơn thành công!',
-                                timer: 1500,
-                                showConfirmButton: false
-                            }).then(() => {
-                                window.location.href = "/admin/invoice/list";
-                            });
-                        },
-                        error: function (xhr) {
-                            const err = xhr.responseJSON;
-                            if (err && err.message) {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Lỗi',
-                                    text: err.message
-                                });
-                            } else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Lỗi',
-                                    text: 'Xóa thất bại!'
-                                });
-                            }
-                        }
-                    });
-                }
-            });
+<script>
+    // Cập nhật trạng thái tất cả hóa đơn
+    function updateInvoiceStatus() {
+        Swal.fire({
+            title: 'Xác nhận cập nhật',
+            text: "Hệ thống sẽ kiểm tra và cập nhật trạng thái tất cả hóa đơn",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#16a34a',
+            cancelButtonColor: '#6b7280',
+            confirmButtonText: '<i class="bi bi-check-circle"></i> Cập nhật',
+            cancelButtonText: 'Hủy',
+            showLoaderOnConfirm: true,
+            preConfirm: () => {
+                return $.ajax({
+                    url: "/admin/invoice/status",
+                    type: "PUT",
+                    timeout: 30000
+                }).catch(error => {
+                    Swal.showValidationMessage(
+                        `Lỗi: ${error.responseJSON?.message || 'Không thể kết nối đến server'}`
+                    );
+                });
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Cập nhật thành công!',
+                    text: 'Trạng thái hóa đơn đã được cập nhật',
+                    timer: 2000,
+                    showConfirmButton: false
+                }).then(() => { loadInvoices(currentPage); });
+            }
         });
-    </script>
-
-    <script>
-        // Hàm cập nhật trạng thái tất cả hóa đơn
-        function updateInvoiceStatus() {
-            Swal.fire({
-                title: 'Xác nhận cập nhật',
-                text: "Hệ thống sẽ kiểm tra và cập nhật trạng thái tất cả hóa đơn",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#16a34a',
-                cancelButtonColor: '#6b7280',
-                confirmButtonText: '<i class="bi bi-check-circle"></i> Cập nhật',
-                cancelButtonText: 'Hủy',
-                showLoaderOnConfirm: true,
-                preConfirm: () => {
-                    return $.ajax({
-                        url: "/admin/invoice/status",
-                        type: "PUT",
-                        timeout: 30000
-                    }).catch(error => {
-                        Swal.showValidationMessage(
-                            `Lỗi: ${error.responseJSON?.message || 'Không thể kết nối đến server'}`
-                        );
-                    });
-                },
-                allowOutsideClick: () => !Swal.isLoading()
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Cập nhật thành công!',
-                        text: 'Trạng thái hóa đơn đã được cập nhật',
-                        timer: 2000,
-                        showConfirmButton: false
-                    }).then(() => {
-                        loadContracts(currentPage);
-                    });
-                }
-            });
-        }
-    </script>
+    }
+</script>
 
 </body>
-
 </html>
