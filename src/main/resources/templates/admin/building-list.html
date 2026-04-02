@@ -254,7 +254,9 @@
             color: #374151;
         }
 
-        .btn-filter.btn-reset:hover { background: #e5e7eb; }
+        .btn-filter.btn-reset:hover {
+            background: #e5e7eb;
+        }
 
         .btn-filter.btn-search {
             background: #3b82f6;
@@ -264,7 +266,7 @@
         .btn-filter.btn-search:hover {
             background: #2563eb;
             transform: translateY(-1px);
-            box-shadow: 0 3px 8px rgba(59,130,246,0.3);
+            box-shadow: 0 3px 8px rgba(59, 130, 246, 0.3);
         }
 
         /* Table card */
@@ -760,381 +762,374 @@
 
 <body>
 
-<!-- HEADER + SIDEBAR -->
-<div th:replace="~{layout/header :: header}"></div>
-<div th:replace="~{layout/sidebar :: sidebar}"></div>
+    <!-- HEADER + SIDEBAR -->
+    <div th:replace="~{layout/header :: header}"></div>
+    <div th:replace="~{layout/sidebar :: sidebar}"></div>
 
-<main class="content">
-    <!-- Page Header -->
-    <div class="page-header">
-        <div>
-            <h2>
-                <i class="bi-buildings"></i>
-                Quản lý bất động sản
-            </h2>
-            <div class="update-time">Danh sách toàn bộ bất động sản trong hệ thống</div>
-        </div>
-        <a th:href="@{/admin/building/add}" class="btn-add">
-            <i class="bi bi-plus-circle"></i>
-            Thêm bất động sản
-        </a>
-    </div>
-
-    <!-- Filter Card -->
-    <form class="filter-card" th:action="@{/admin/building/search}" method="get">
-        <div class="d-card-body">
-            <div class="filter-header">
-                <div class="filter-title">
-                    <i class="bi bi-funnel"></i>
-                    Bộ lọc tìm kiếm
-                </div>
-                <button type="button" class="btn-toggle-filter collapsed" onclick="toggleFilter()">
-                    <i class="bi bi-chevron-up" id="toggleIcon"></i>
-                </button>
+    <main class="content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2>
+                    <i class="bi-buildings"></i>
+                    Quản lý bất động sản
+                </h2>
+                <div class="update-time">Danh sách toàn bộ bất động sản trong hệ thống</div>
             </div>
+            <a th:href="@{/admin/building/add}" class="btn-add">
+                <i class="bi bi-plus-circle"></i>
+                Thêm bất động sản
+            </a>
         </div>
 
-        <div class="filter-body collapsed" id="filterBody">
-            <!-- Tìm kiếm theo vị trí -->
-            <div class="filter-section-title">
-                <i class="bi bi-geo-alt-fill"></i> Tìm kiếm theo vị trí
-                <span id="locationActiveBadge" class="location-active-badge" style="display:none;">
+        <!-- Filter Card -->
+        <form class="filter-card" th:action="@{/admin/building/search}" method="get">
+            <div class="d-card-body">
+                <div class="filter-header">
+                    <div class="filter-title">
+                        <i class="bi bi-funnel"></i>
+                        Bộ lọc tìm kiếm
+                    </div>
+                    <button type="button" class="btn-toggle-filter collapsed" onclick="toggleFilter()">
+                        <i class="bi bi-chevron-up" id="toggleIcon"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="filter-body collapsed" id="filterBody">
+                <!-- Tìm kiếm theo vị trí -->
+                <div class="filter-section-title">
+                    <i class="bi bi-geo-alt-fill"></i> Tìm kiếm theo vị trí
+                    <span id="locationActiveBadge" class="location-active-badge" style="display:none;">
                         <i class="bi bi-pin-map-fill"></i> <span id="locationBadgeText">Đang lọc</span>
                     </span>
-            </div>
-            <div class="row g-3 mb-4">
-                <div class="col-md-5">
-                    <label class="form-label">Địa chỉ</label>
-                    <div class="location-search-wrap" style="position:relative;">
-                        <input type="text" id="locationInput" class="form-control"
-                               placeholder="VD: 200 Nguyễn Trãi, Hà Nội..." autocomplete="off">
-                        <button type="button" class="location-clear-btn" id="locationClearBtn"
-                                onclick="clearLocation()">
-                            <i class="bi bi-x-circle-fill"></i>
-                        </button>
-                        <div id="locationSuggestions"></div>
-                    </div>
-                    <!-- hidden inputs lưu tọa độ để gửi lên backend -->
-                    <input type="hidden" name="lat" id="hiddenLat">
-                    <input type="hidden" name="lng" id="hiddenLng">
-                    <input type="hidden" name="locationLabel" id="hiddenLocationLabel">
                 </div>
-                <div class="col-md-4">
-                    <label class="form-label">Bán kính tìm kiếm</label>
-                    <div class="radius-select-wrap">
-                        <select name="radius" id="radiusSelect">
-                            <option value="1000" selected>1 km</option>
-                            <option value="10000">10 km</option>
-                            <option value="20000">20 km</option>
-                            <option value="30000">30 km</option>
-                            <option value="40000">40 km</option>
-                            <option value="50000">50 km</option>
-                            <option value="60000">60 km</option>
-                            <option value="70000">70 km</option>
-                            <option value="80000">80 km</option>
-                            <option value="90000">90 km</option>
-                            <option value="100000">100 km</option>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-5">
+                        <label class="form-label">Địa chỉ</label>
+                        <div class="location-search-wrap" style="position:relative;">
+                            <input type="text" id="locationInput" class="form-control"
+                                placeholder="VD: 200 Nguyễn Trãi, Hà Nội..." autocomplete="off">
+                            <button type="button" class="location-clear-btn" id="locationClearBtn"
+                                onclick="clearLocation()">
+                                <i class="bi bi-x-circle-fill"></i>
+                            </button>
+                            <div id="locationSuggestions"></div>
+                        </div>
+                        <!-- hidden inputs lưu tọa độ để gửi lên backend -->
+                        <input type="hidden" name="lat" id="hiddenLat">
+                        <input type="hidden" name="lng" id="hiddenLng">
+                        <input type="hidden" name="locationLabel" id="hiddenLocationLabel">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Bán kính tìm kiếm</label>
+                        <div class="radius-select-wrap">
+                            <select name="radius" id="radiusSelect">
+                                <option value="1000" selected>1 km</option>
+                                <option value="10000">10 km</option>
+                                <option value="20000">20 km</option>
+                                <option value="30000">30 km</option>
+                                <option value="40000">40 km</option>
+                                <option value="50000">50 km</option>
+                                <option value="60000">60 km</option>
+                                <option value="70000">70 km</option>
+                                <option value="80000">80 km</option>
+                                <option value="90000">90 km</option>
+                                <option value="100000">100 km</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Thông tin cơ bản -->
+                <div class="filter-section-title">
+                    <i class="bi bi-info-circle"></i> Thông tin cơ bản
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3">
+                        <label class="form-label">Tên bất động sản</label>
+                        <input type="text" class="form-control" name="name" placeholder="VD: Sun Tower">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Loại hình BĐS</label>
+                        <select class="form-control" name="propertyType">
+                            <option value="">-- Tất cả --</option>
+                            <option th:each="pt : ${propertyTypes}" th:value="${pt.name()}" th:text="${pt.label}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Loại giao dịch</label>
+                        <select class="form-control" name="transactionType">
+                            <option value="">-- Tất cả --</option>
+                            <option th:each="tt : ${transactionTypes}" th:value="${tt.name()}" th:text="${tt.label}">
+                            </option>
                         </select>
                     </div>
                 </div>
+
+                <!-- Đặc điểm bất động sản -->
+                <div class="filter-section-title">
+                    <i class="bi bi-building"></i> Đặc điểm bất động sản
+                </div>
+                <div class="row mb-4">
+                    <div class="col-md-2">
+                        <label class="form-label">Số tầng</label>
+                        <div class="range-inputs">
+                            <input type="number" class="form-control" name="numberOfFloorFrom" placeholder="Từ" min="0">
+                            <span class="range-separator">-</span>
+                            <input type="number" class="form-control" name="numberOfFloorTo" placeholder="Đến" min="0">
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label">Số tầng hầm</label>
+                        <div class="range-inputs">
+                            <input type="number" class="form-control" name="numberOfBasementFrom" placeholder="Từ"
+                                min="0">
+                            <span class="range-separator">-</span>
+                            <input type="number" class="form-control" name="numberOfBasementTo" placeholder="Đến"
+                                min="0">
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label">Diện tích sàn (m²)</label>
+                        <div class="range-inputs">
+                            <input type="number" class="form-control" name="floorAreaFrom" placeholder="Từ" min="0">
+                            <span class="range-separator">-</span>
+                            <input type="number" class="form-control" name="floorAreaTo" placeholder="Đến" min="0">
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label">Diện tích thuê (m²)</label>
+                        <div class="range-inputs">
+                            <input type="number" class="form-control" name="rentAreaFrom" placeholder="Từ" min="0">
+                            <span class="range-separator">-</span>
+                            <input type="number" class="form-control" name="rentAreaTo" placeholder="Đến" min="0">
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label">Hướng</label>
+                        <select class="form-control" name="direction">
+                            <option value="">-- Chọn hướng --</option>
+                            <option th:each="d : ${directions}" th:value="${d.name()}" th:text="${d.label}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label">Hạng</label>
+                        <select class="form-control" name="level">
+                            <option value="">-- Chọn hạng --</option>
+                            <option th:each="l : ${levels}" th:value="${l.name()}" th:text="${l.label}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label mt-2">Nhân viên quản lý</label>
+                        <select class="form-control" name="staffId">
+                            <option value="">-- Tất cả --</option>
+                            <option th:each="m : ${managers}" th:value="${m.id}" th:text="${m.fullName}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Giá và phí -->
+                <div class="filter-section-title">
+                    <i class="bi bi-cash-stack"></i> Giá và phí (VNĐ)
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <label class="form-label">Giá thuê</label>
+                        <div class="range-inputs">
+                            <input type="number" class="form-control" name="rentPriceFrom" placeholder="Từ" min="0">
+                            <span class="range-separator">-</span>
+                            <input type="number" class="form-control" name="rentPriceTo" placeholder="Đến" min="0">
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label">Phí dịch vụ</label>
+                        <div class="range-inputs">
+                            <input type="number" class="form-control" name="serviceFeeFrom" placeholder="Từ" min="0">
+                            <span class="range-separator">-</span>
+                            <input type="number" class="form-control" name="serviceFeeTo" placeholder="Đến" min="0">
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label">Phí xe ô tô</label>
+                        <div class="range-inputs">
+                            <input type="number" class="form-control" name="carFeeFrom" placeholder="Từ" min="0">
+                            <span class="range-separator">-</span>
+                            <input type="number" class="form-control" name="carFeeTo" placeholder="Đến" min="0">
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label">Phí xe máy</label>
+                        <div class="range-inputs">
+                            <input type="number" class="form-control" name="motorbikeFeeFrom" placeholder="Từ" min="0">
+                            <span class="range-separator">-</span>
+                            <input type="number" class="form-control" name="motorbikeFeeTo" placeholder="Đến" min="0">
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label">Phí nước</label>
+                        <div class="range-inputs">
+                            <input type="number" class="form-control" name="waterFeeFrom" placeholder="Từ" min="0">
+                            <span class="range-separator">-</span>
+                            <input type="number" class="form-control" name="waterFeeTo" placeholder="Đến" min="0">
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label">Phí điện</label>
+                        <div class="range-inputs">
+                            <input type="number" class="form-control" name="electricityFeeFrom" placeholder="Từ"
+                                min="0">
+                            <span class="range-separator">-</span>
+                            <input type="number" class="form-control" name="electricityFeeTo" placeholder="Đến" min="0">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-actions">
+                    <button type="reset" class="btn-filter btn-reset">
+                        <i class="bi bi-arrow-clockwise"></i>
+                        Reset
+                    </button>
+                    <button type="submit" class="btn-filter btn-search">
+                        <i class="bi bi-search"></i>
+                        Tìm kiếm
+                    </button>
+                </div>
             </div>
-
-            <!-- Thông tin cơ bản -->
-            <div class="filter-section-title">
-                <i class="bi bi-info-circle"></i> Thông tin cơ bản
-            </div>
-
-            <div class="row g-3 mb-4">
-                <div class="col-md-3">
-                    <label class="form-label">Tên bất động sản</label>
-                    <input type="text" class="form-control" name="name" placeholder="VD: Sun Tower">
-                </div>
-
-                <div class="col-md-3">
-                    <label class="form-label">Loại hình BĐS</label>
-                    <select class="form-control" name="propertyType">
-                        <option value="">-- Tất cả --</option>
-                        <option th:each="pt : ${propertyTypes}" th:value="${pt.name()}" th:text="${pt.label}">
-                        </option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">Loại giao dịch</label>
-                    <select class="form-control" name="transactionType">
-                        <option value="">-- Tất cả --</option>
-                        <option th:each="tt : ${transactionTypes}" th:value="${tt.name()}"
-                                th:text="${tt.label}">
-                        </option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Đặc điểm bất động sản -->
-            <div class="filter-section-title">
-                <i class="bi bi-building"></i> Đặc điểm bất động sản
-            </div>
-            <div class="row mb-4">
-                <div class="col-md-2">
-                    <label class="form-label">Số tầng</label>
-                    <div class="range-inputs">
-                        <input type="number" class="form-control" name="numberOfFloorFrom" placeholder="Từ"
-                               min="0">
-                        <span class="range-separator">-</span>
-                        <input type="number" class="form-control" name="numberOfFloorTo" placeholder="Đến"
-                               min="0">
-                    </div>
-                </div>
-
-                <div class="col-md-2">
-                    <label class="form-label">Số tầng hầm</label>
-                    <div class="range-inputs">
-                        <input type="number" class="form-control" name="numberOfBasementFrom" placeholder="Từ"
-                               min="0">
-                        <span class="range-separator">-</span>
-                        <input type="number" class="form-control" name="numberOfBasementTo" placeholder="Đến"
-                               min="0">
-                    </div>
-                </div>
-
-                <div class="col-md-2">
-                    <label class="form-label">Diện tích sàn (m²)</label>
-                    <div class="range-inputs">
-                        <input type="number" class="form-control" name="floorAreaFrom" placeholder="Từ" min="0">
-                        <span class="range-separator">-</span>
-                        <input type="number" class="form-control" name="floorAreaTo" placeholder="Đến" min="0">
-                    </div>
-                </div>
-
-                <div class="col-md-2">
-                    <label class="form-label">Diện tích thuê (m²)</label>
-                    <div class="range-inputs">
-                        <input type="number" class="form-control" name="rentAreaFrom" placeholder="Từ" min="0">
-                        <span class="range-separator">-</span>
-                        <input type="number" class="form-control" name="rentAreaTo" placeholder="Đến" min="0">
-                    </div>
-                </div>
-
-                <div class="col-md-2">
-                    <label class="form-label">Hướng</label>
-                    <select class="form-control" name="direction">
-                        <option value="">-- Chọn hướng --</option>
-                        <option th:each="d : ${directions}" th:value="${d.name()}" th:text="${d.label}">
-                        </option>
-                    </select>
-                </div>
-
-                <div class="col-md-2">
-                    <label class="form-label">Hạng</label>
-                    <select class="form-control" name="level">
-                        <option value="">-- Chọn hạng --</option>
-                        <option th:each="l : ${levels}" th:value="${l.name()}" th:text="${l.label}">
-                        </option>
-                    </select>
-                </div>
-
-                <div class="col-md-3">
-                    <label class="form-label mt-2">Nhân viên quản lý</label>
-                    <select class="form-control" name="staffId">
-                        <option value="">-- Tất cả --</option>
-                        <option th:each="m : ${managers}" th:value="${m.id}" th:text="${m.fullName}">
-                        </option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Giá và phí -->
-            <div class="filter-section-title">
-                <i class="bi bi-cash-stack"></i> Giá và phí (VNĐ)
-            </div>
-            <div class="row">
-                <div class="col-md-2">
-                    <label class="form-label">Giá thuê</label>
-                    <div class="range-inputs">
-                        <input type="number" class="form-control" name="rentPriceFrom" placeholder="Từ" min="0">
-                        <span class="range-separator">-</span>
-                        <input type="number" class="form-control" name="rentPriceTo" placeholder="Đến" min="0">
-                    </div>
-                </div>
-
-                <div class="col-md-2">
-                    <label class="form-label">Phí dịch vụ</label>
-                    <div class="range-inputs">
-                        <input type="number" class="form-control" name="serviceFeeFrom" placeholder="Từ"
-                               min="0">
-                        <span class="range-separator">-</span>
-                        <input type="number" class="form-control" name="serviceFeeTo" placeholder="Đến" min="0">
-                    </div>
-                </div>
-
-                <div class="col-md-2">
-                    <label class="form-label">Phí xe ô tô</label>
-                    <div class="range-inputs">
-                        <input type="number" class="form-control" name="carFeeFrom" placeholder="Từ" min="0">
-                        <span class="range-separator">-</span>
-                        <input type="number" class="form-control" name="carFeeTo" placeholder="Đến" min="0">
-                    </div>
-                </div>
-
-                <div class="col-md-2">
-                    <label class="form-label">Phí xe máy</label>
-                    <div class="range-inputs">
-                        <input type="number" class="form-control" name="motorbikeFeeFrom" placeholder="Từ"
-                               min="0">
-                        <span class="range-separator">-</span>
-                        <input type="number" class="form-control" name="motorbikeFeeTo" placeholder="Đến"
-                               min="0">
-                    </div>
-                </div>
-
-                <div class="col-md-2">
-                    <label class="form-label">Phí nước</label>
-                    <div class="range-inputs">
-                        <input type="number" class="form-control" name="waterFeeFrom" placeholder="Từ" min="0">
-                        <span class="range-separator">-</span>
-                        <input type="number" class="form-control" name="waterFeeTo" placeholder="Đến" min="0">
-                    </div>
-                </div>
-
-                <div class="col-md-2">
-                    <label class="form-label">Phí điện</label>
-                    <div class="range-inputs">
-                        <input type="number" class="form-control" name="electricityFeeFrom" placeholder="Từ"
-                               min="0">
-                        <span class="range-separator">-</span>
-                        <input type="number" class="form-control" name="electricityFeeTo" placeholder="Đến"
-                               min="0">
-                    </div>
+        </form>
+        <!-- Table Card -->
+        <div class="table-card">
+            <div class="table-header-row">
+                <div class="thr-title">
+                    <i class="bi bi-table"></i>
+                    Danh sách bất động sản
                 </div>
             </div>
 
-            <div class="filter-actions">
-                <button type="reset" class="btn-filter btn-reset">
-                    <i class="bi bi-arrow-clockwise"></i>
-                    Reset
-                </button>
-                <button type="submit" class="btn-filter btn-search">
-                    <i class="bi bi-search"></i>
-                    Tìm kiếm
-                </button>
+            <div class="table-responsive">
+                <table class="table modern-table">
+                    <colgroup>
+                        <col style="width: 90px"> <!-- Mã -->
+                        <col style="width: 210px"> <!-- Tên bất động sản -->
+                        <col style="width: 360px"> <!-- Địa chỉ -->
+                        <col style="width: 90px"> <!-- Hạng -->
+                        <col style="width: 170px"> <!-- Loại hình -->
+                        <col style="width: 120px"> <!-- Giao dịch -->
+                        <col> <!-- Hành động: chiếm phần còn lại -->
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>Mã</th>
+                            <th>Tên bất động sản</th>
+                            <th>Địa chỉ</th>
+                            <th>Hạng</th>
+                            <th>Loại hình</th>
+                            <th>Giao dịch</th>
+                            <th style="text-align: center;">Hành động</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="buildingTableBody">
+                        <!-- dữ liệu sẽ được Ajax thêm vào -->
+                    </tbody>
+                </table>
             </div>
+
+            <!-- Pagination inside card -->
+            <div id="pagination"></div>
         </div>
-    </form>
-    <!-- Table Card -->
-    <div class="table-card">
-        <div class="table-header-row">
-            <div class="thr-title">
-                <i class="bi bi-table"></i>
-                Danh sách bất động sản
-            </div>
-        </div>
+    </main>
 
-        <div class="table-responsive">
-            <table class="table modern-table">
-                <colgroup>
-                    <col style="width: 90px"> <!-- Mã -->
-                    <col style="width: 210px"> <!-- Tên bất động sản -->
-                    <col style="width: 360px"> <!-- Địa chỉ -->
-                    <col style="width: 90px"> <!-- Hạng -->
-                    <col style="width: 170px"> <!-- Loại hình -->
-                    <col style="width: 120px"> <!-- Giao dịch -->
-                    <col> <!-- Hành động: chiếm phần còn lại -->
-                </colgroup>
-                <thead>
-                <tr>
-                    <th>Mã</th>
-                    <th>Tên bất động sản</th>
-                    <th>Địa chỉ</th>
-                    <th>Hạng</th>
-                    <th>Loại hình</th>
-                    <th>Giao dịch</th>
-                    <th style="text-align: center;">Hành động</th>
-                </tr>
-                </thead>
+    <!--Bootstrap-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- CDN SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!--JQuery-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-                <tbody id="buildingTableBody">
-                <!-- dữ liệu sẽ được Ajax thêm vào -->
-                </tbody>
-            </table>
-        </div>
+    <script>
+        function toggleFilter() {
+            const filterBody = document.getElementById('filterBody');
+            const toggleBtn = document.querySelector('.btn-toggle-filter');
+            const toggleIcon = document.getElementById('toggleIcon');
 
-        <!-- Pagination inside card -->
-        <div id="pagination"></div>
-    </div>
-</main>
+            filterBody.classList.toggle('collapsed');
+            toggleBtn.classList.toggle('collapsed');
+        }
+    </script>
 
-<!--Bootstrap-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- CDN SweetAlert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<!--JQuery-->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        let currentPage = 1;
+        const pageSize = 5;
+        const levelLabels = {
+            A_PLUS: "A+", A: "A", B_PLUS: "B+", B: "B", C_PLUS: "C+", C: "C"
+        };
 
-<script>
-    function toggleFilter() {
-        const filterBody = document.getElementById('filterBody');
-        const toggleBtn = document.querySelector('.btn-toggle-filter');
-        const toggleIcon = document.getElementById('toggleIcon');
+        const propertyLabels = {
+            OFFICE: "Văn phòng", SHOPHOUSE: "Nhà phố thương mại",
+            APARTMENT: "Căn hộ", WAREHOUSE: "Kho xưởng"
+        };
 
-        filterBody.classList.toggle('collapsed');
-        toggleBtn.classList.toggle('collapsed');
-    }
-</script>
+        const transactionLabels = {
+            FOR_RENT: "Cho thuê", FOR_SALE: "Mua bán"
+        };
 
-<script>
-    let currentPage = 1;
-    const pageSize = 5;
-    const levelLabels = {
-        A_PLUS: "A+", A: "A", B_PLUS: "B+", B: "B", C_PLUS: "C+", C: "C"
-    };
-
-    const propertyLabels = {
-        OFFICE: "Văn phòng", SHOPHOUSE: "Nhà phố thương mại",
-        APARTMENT: "Căn hộ", WAREHOUSE: "Kho xưởng"
-    };
-
-    const transactionLabels = {
-        FOR_RENT: "Cho thuê", FOR_SALE: "Mua bán"
-    };
-
-    function formatPrice(price) {
-        if (price == null) return '';
-        return new Intl.NumberFormat('vi-VN')
-            .format(price)
-            .replaceAll('.', ',') + ' đ';
-    }
-
-    // Hàm load dữ liệu bảng building bằng Ajax
-    function loadBuildings(page, event) {
-        if (event) event.preventDefault();
-
-        // Lấy lat/lng từ hidden inputs nếu có
-        const lat = $('#hiddenLat').val();
-        const lng = $('#hiddenLng').val();
-        const radius = $('#radiusSelect').val();
-        const ajaxData = { page: page, size: pageSize };
-        if (lat && lng) {
-            ajaxData.lat = lat;
-            ajaxData.lng = lng;
-            ajaxData.radius = radius || 1000;
+        function formatPrice(price) {
+            if (price == null) return '';
+            return new Intl.NumberFormat('vi-VN')
+                .format(price)
+                .replaceAll('.', ',') + ' đ';
         }
 
-        $.ajax({
-            url: "/admin/building/list/page",
-            type: "GET",
-            data: ajaxData,
-            success: function (data) {
-                currentPage = page;
-                const tbody = $("#buildingTableBody");
-                tbody.empty();
+        // Hàm load dữ liệu bảng building bằng Ajax
+        function loadBuildings(page, event) {
+            if (event) event.preventDefault();
 
-                if (data.content.length === 0) {
-                    tbody.append(`<tr><td colspan="7" class="text-center text-muted">Không có dữ liệu</td></tr>`);
-                    $("#pagination").empty();
-                    return;
-                }
+            // Lấy lat/lng từ hidden inputs nếu có
+            const lat = $('#hiddenLat').val();
+            const lng = $('#hiddenLng').val();
+            const radius = $('#radiusSelect').val();
+            const ajaxData = { page: page, size: pageSize };
+            if (lat && lng) {
+                ajaxData.lat = lat;
+                ajaxData.lng = lng;
+                ajaxData.radius = radius || 1000;
+            }
 
-                $.each(data.content, function (i, b) {
-                    tbody.append(`
+            $.ajax({
+                url: "/admin/building/list/page",
+                type: "GET",
+                data: ajaxData,
+                success: function (data) {
+                    currentPage = page;
+                    const tbody = $("#buildingTableBody");
+                    tbody.empty();
+
+                    if (data.content.length === 0) {
+                        tbody.append(`<tr><td colspan="7" class="text-center text-muted">Không có dữ liệu</td></tr>`);
+                        $("#pagination").empty();
+                        return;
+                    }
+
+                    $.each(data.content, function (i, b) {
+                        tbody.append(`
         <tr>
             <td><span class="id-badge">BĐS-${b.id}</span></td>
             <td><span class="building-name">${b.name}</span></td>
@@ -1160,34 +1155,34 @@
             </td>
         </tr>
     `);
-                });
+                    });
 
-                renderPagination(data.totalPages, page);
-            },
-            error: function () {
-                alert("Không tải được dữ liệu!");
-            }
-        });
-    }
+                    renderPagination(data.totalPages, page);
+                },
+                error: function () {
+                    alert("Không tải được dữ liệu!");
+                }
+            });
+        }
 
-    // Hàm render phân trang Bootstrap
-    function renderPagination(totalPages, current) {
-        const pagination = $("#pagination");
-        pagination.empty();
+        // Hàm render phân trang Bootstrap
+        function renderPagination(totalPages, current) {
+            const pagination = $("#pagination");
+            pagination.empty();
 
-        if (totalPages <= 1) return;
+            if (totalPages <= 1) return;
 
-        let html = `<nav class="pagination-wrapper"><ul class="pagination justify-content-center">`;
+            let html = `<nav class="pagination-wrapper"><ul class="pagination justify-content-center">`;
 
-        // Nút "First"
-        html += `
+            // Nút "First"
+            html += `
 <li class="page-item ${current === 1 ? 'disabled' : ''}">
 <a href="#" class="page-link" onclick="loadBuildings(1, event)"><i class="bi bi-chevron-double-left"></i></a>
 </li>
 `;
 
-        // Nút "Previous"
-        html += `
+            // Nút "Previous"
+            html += `
 <li class="page-item ${current === 1 ? 'disabled' : ''}">
 <a href="#" class="page-link" onclick="loadBuildings(${current - 1}, event)">
     <i class="bi bi-chevron-left"></i>
@@ -1195,22 +1190,22 @@
 </li>
 `;
 
-        // Các trang số
-        const blockSize = 5;
-        const blockStart = Math.floor((current - 1) / blockSize) * blockSize + 1;
-        let blockEnd = blockStart + blockSize - 1;
-        if (blockEnd > totalPages) blockEnd = totalPages;
+            // Các trang số
+            const blockSize = 5;
+            const blockStart = Math.floor((current - 1) / blockSize) * blockSize + 1;
+            let blockEnd = blockStart + blockSize - 1;
+            if (blockEnd > totalPages) blockEnd = totalPages;
 
-        for (let i = blockStart; i <= blockEnd; i++) {
-            html += `
+            for (let i = blockStart; i <= blockEnd; i++) {
+                html += `
 <li class="page-item ${i === current ? 'active' : ''}">
     <a href="#" class="page-link" onclick="loadBuildings(${i}, event)">${i}</a>
 </li>
 `;
-        }
+            }
 
-        // Nút "Next"
-        html += `
+            // Nút "Next"
+            html += `
 <li class="page-item ${current === totalPages ? 'disabled' : ''}">
 <a href="#" class="page-link" onclick="loadBuildings(${current + 1}, event)">
     <i class="bi bi-chevron-right"></i>
@@ -1218,193 +1213,193 @@
 </li>
 `;
 
-        // Nút "Last"
-        html += `
+            // Nút "Last"
+            html += `
 <li class="page-item ${current === totalPages ? 'disabled' : ''}">
 <a href="#" class="page-link" onclick="loadBuildings(${totalPages}, event)"><i class="bi bi-chevron-double-right"></i></a>
 </li>
 `;
 
-        html += `</ul></nav>`;
-        pagination.html(html);
-    }
+            html += `</ul></nav>`;
+            pagination.html(html);
+        }
 
-    // Khi trang load, gọi Ajax lần đầu
-    $(document).ready(function () {
-        loadBuildings(1);
-    });
+        // Khi trang load, gọi Ajax lần đầu
+        $(document).ready(function () {
+            loadBuildings(1);
+        });
 
-    // Ajax xóa building
-    $(document).on("click", ".btn-delete", function (e) {
-        e.preventDefault();
+        // Ajax xóa building
+        $(document).on("click", ".btn-delete", function (e) {
+            e.preventDefault();
 
-        let id = $(this).data("id");
+            let id = $(this).data("id");
 
-        Swal.fire({
-            title: 'Xác nhận xóa',
-            text: "Bạn có chắc muốn xóa bất động sản này?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#dc2626',
-            cancelButtonColor: '#6b7280',
-            confirmButtonText: 'Xóa',
-            cancelButtonText: 'Hủy'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: "/admin/building/delete/" + id,
-                    type: "DELETE",
-                    success: function () {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Thành công',
-                            text: 'Xóa bất động sản thành công!',
-                            timer: 1500,       // tự động đóng sau 1.5s
-                            showConfirmButton: false
-                        }).then(() => {
-                            window.location.href = "/admin/building/list";
-                        });
-                    },
-                    error: function (xhr) {
-                        const err = xhr.responseJSON;
-                        if (err && err.message) {
+            Swal.fire({
+                title: 'Xác nhận xóa',
+                text: "Bạn có chắc muốn xóa bất động sản này?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc2626',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "/admin/building/delete/" + id,
+                        type: "DELETE",
+                        success: function () {
                             Swal.fire({
-                                icon: 'error',
-                                title: 'Lỗi',
-                                text: err.message
+                                icon: 'success',
+                                title: 'Thành công',
+                                text: 'Xóa bất động sản thành công!',
+                                timer: 1500,       // tự động đóng sau 1.5s
+                                showConfirmButton: false
+                            }).then(() => {
+                                window.location.href = "/admin/building/list";
                             });
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Lỗi',
-                                text: 'Xóa thất bại!'
-                            });
+                        },
+                        error: function (xhr) {
+                            const err = xhr.responseJSON;
+                            if (err && err.message) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Lỗi',
+                                    text: err.message
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Lỗi',
+                                    text: 'Xóa thất bại!'
+                                });
+                            }
                         }
-                    }
-                });
-            }
-        })
-    });
-</script>
-
-<script>
-    // ══ GOONG PLACES AUTOCOMPLETE ══════════════════════════════════════════
-    const GOONG_API_KEY = 'MfQYQasRyhJp6OkpEOlOAW8GwrhVgz043MK0WDvx';
-    let _autocompleteTimer = null;
-    let _selectedLocation = null;
-
-    const locationInput = document.getElementById('locationInput');
-    const suggestions = document.getElementById('locationSuggestions');
-    const clearBtn = document.getElementById('locationClearBtn');
-    const hiddenLat = document.getElementById('hiddenLat');
-    const hiddenLng = document.getElementById('hiddenLng');
-    const activeBadge = document.getElementById('locationActiveBadge');
-    const badgeText = document.getElementById('locationBadgeText');
-
-    locationInput.addEventListener('input', function () {
-        const q = this.value.trim();
-        clearBtn.style.display = q ? 'block' : 'none';
-
-        // Nếu xóa hết text → reset tọa độ
-        if (!q) {
-            clearLocation();
-            return;
-        }
-
-        // Debounce 350ms
-        clearTimeout(_autocompleteTimer);
-        _autocompleteTimer = setTimeout(() => fetchSuggestions(q), 350);
-    });
-
-    function fetchSuggestions(query) {
-        fetch(`https://rsapi.goong.io/Place/AutoComplete?api_key=${GOONG_API_KEY}&input=${encodeURIComponent(query)}`)
-            .then(r => r.json())
-            .then(data => {
-                suggestions.innerHTML = '';
-                if (!data.predictions || data.predictions.length === 0) {
-                    suggestions.style.display = 'none';
-                    return;
+                    });
                 }
-                data.predictions.forEach(p => {
-                    const item = document.createElement('div');
-                    item.className = 'suggest-item';
-                    const parts = p.description.split(',');
-                    const main = parts[0] || p.description;
-                    const sub = parts.slice(1).join(',').trim();
-                    item.textContent = p.description;
-                    item.addEventListener('click', () => selectPlace(p));
-                    suggestions.appendChild(item);
-                });
-                suggestions.style.display = 'block';
             })
-            .catch(() => { suggestions.style.display = 'none'; });
-    }
+        });
+    </script>
 
-    function selectPlace(prediction) {
-        locationInput.value = prediction.description;
-        suggestions.style.display = 'none';
-        clearBtn.style.display = 'block';
+    <script>
+        // ══ GOONG PLACES AUTOCOMPLETE ══════════════════════════════════════════
+        const GOONG_API_KEY = 'MfQYQasRyhJp6OkpEOlOAW8GwrhVgz043MK0WDvx';
+        let _autocompleteTimer = null;
+        let _selectedLocation = null;
 
-        // Lấy tọa độ từ Place Detail
-        fetch(`https://rsapi.goong.io/Place/Detail?api_key=${GOONG_API_KEY}&place_id=${prediction.place_id}`)
-            .then(r => r.json())
-            .then(data => {
-                const loc = data.result?.geometry?.location;
-                if (!loc) return;
-                hiddenLat.value = loc.lat;
-                hiddenLng.value = loc.lng;
-                document.getElementById('hiddenLocationLabel').value = prediction.description;
-                _selectedLocation = { lat: loc.lat, lng: loc.lng, label: prediction.description };
+        const locationInput = document.getElementById('locationInput');
+        const suggestions = document.getElementById('locationSuggestions');
+        const clearBtn = document.getElementById('locationClearBtn');
+        const hiddenLat = document.getElementById('hiddenLat');
+        const hiddenLng = document.getElementById('hiddenLng');
+        const activeBadge = document.getElementById('locationActiveBadge');
+        const badgeText = document.getElementById('locationBadgeText');
 
-                // Hiện badge
-                const shortLabel = prediction.description.split(',')[0];
-                badgeText.textContent = shortLabel;
-                activeBadge.style.display = 'inline-flex';
-            })
-            .catch(() => { });
-    }
+        locationInput.addEventListener('input', function () {
+            const q = this.value.trim();
+            clearBtn.style.display = q ? 'block' : 'none';
 
-    function clearLocation() {
-        locationInput.value = '';
-        hiddenLat.value = '';
-        hiddenLng.value = '';
-        _selectedLocation = null;
-        suggestions.style.display = 'none';
-        clearBtn.style.display = 'none';
-        activeBadge.style.display = 'none';
-    }
+            // Nếu xóa hết text → reset tọa độ
+            if (!q) {
+                clearLocation();
+                return;
+            }
 
-    // Đóng dropdown khi click ra ngoài
-    document.addEventListener('click', function (e) {
-        if (!locationInput.contains(e.target) && !suggestions.contains(e.target)) {
-            suggestions.style.display = 'none';
+            // Debounce 350ms
+            clearTimeout(_autocompleteTimer);
+            _autocompleteTimer = setTimeout(() => fetchSuggestions(q), 350);
+        });
+
+        function fetchSuggestions(query) {
+            fetch(`https://rsapi.goong.io/Place/AutoComplete?api_key=${GOONG_API_KEY}&input=${encodeURIComponent(query)}`)
+                .then(r => r.json())
+                .then(data => {
+                    suggestions.innerHTML = '';
+                    if (!data.predictions || data.predictions.length === 0) {
+                        suggestions.style.display = 'none';
+                        return;
+                    }
+                    data.predictions.forEach(p => {
+                        const item = document.createElement('div');
+                        item.className = 'suggest-item';
+                        const parts = p.description.split(',');
+                        const main = parts[0] || p.description;
+                        const sub = parts.slice(1).join(',').trim();
+                        item.textContent = p.description;
+                        item.addEventListener('click', () => selectPlace(p));
+                        suggestions.appendChild(item);
+                    });
+                    suggestions.style.display = 'block';
+                })
+                .catch(() => { suggestions.style.display = 'none'; });
         }
-    });
 
-    // Điều hướng dropdown bằng phím mũi tên
-    locationInput.addEventListener('keydown', function (e) {
-        const items = suggestions.querySelectorAll('.suggest-item');
-        const active = suggestions.querySelector('.suggest-item.active');
-        let idx = Array.from(items).indexOf(active);
-
-        if (e.key === 'ArrowDown') {
-            e.preventDefault();
-            if (active) active.classList.remove('active');
-            const next = items[idx + 1] || items[0];
-            if (next) next.classList.add('active');
-        } else if (e.key === 'ArrowUp') {
-            e.preventDefault();
-            if (active) active.classList.remove('active');
-            const prev = items[idx - 1] || items[items.length - 1];
-            if (prev) prev.classList.add('active');
-        } else if (e.key === 'Enter' && active) {
-            e.preventDefault();
-            active.click();
-        } else if (e.key === 'Escape') {
+        function selectPlace(prediction) {
+            locationInput.value = prediction.description;
             suggestions.style.display = 'none';
+            clearBtn.style.display = 'block';
+
+            // Lấy tọa độ từ Place Detail
+            fetch(`https://rsapi.goong.io/Place/Detail?api_key=${GOONG_API_KEY}&place_id=${prediction.place_id}`)
+                .then(r => r.json())
+                .then(data => {
+                    const loc = data.result?.geometry?.location;
+                    if (!loc) return;
+                    hiddenLat.value = loc.lat;
+                    hiddenLng.value = loc.lng;
+                    document.getElementById('hiddenLocationLabel').value = prediction.description;
+                    _selectedLocation = { lat: loc.lat, lng: loc.lng, label: prediction.description };
+
+                    // Hiện badge
+                    const shortLabel = prediction.description.split(',')[0];
+                    badgeText.textContent = shortLabel;
+                    activeBadge.style.display = 'inline-flex';
+                })
+                .catch(() => { });
         }
-    });
-</script>
+
+        function clearLocation() {
+            locationInput.value = '';
+            hiddenLat.value = '';
+            hiddenLng.value = '';
+            _selectedLocation = null;
+            suggestions.style.display = 'none';
+            clearBtn.style.display = 'none';
+            activeBadge.style.display = 'none';
+        }
+
+        // Đóng dropdown khi click ra ngoài
+        document.addEventListener('click', function (e) {
+            if (!locationInput.contains(e.target) && !suggestions.contains(e.target)) {
+                suggestions.style.display = 'none';
+            }
+        });
+
+        // Điều hướng dropdown bằng phím mũi tên
+        locationInput.addEventListener('keydown', function (e) {
+            const items = suggestions.querySelectorAll('.suggest-item');
+            const active = suggestions.querySelector('.suggest-item.active');
+            let idx = Array.from(items).indexOf(active);
+
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (active) active.classList.remove('active');
+                const next = items[idx + 1] || items[0];
+                if (next) next.classList.add('active');
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                if (active) active.classList.remove('active');
+                const prev = items[idx - 1] || items[items.length - 1];
+                if (prev) prev.classList.add('active');
+            } else if (e.key === 'Enter' && active) {
+                e.preventDefault();
+                active.click();
+            } else if (e.key === 'Escape') {
+                suggestions.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 
 </html>

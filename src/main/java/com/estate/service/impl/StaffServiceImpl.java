@@ -5,8 +5,12 @@ import com.estate.converter.StaffFormConverter;
 import com.estate.converter.StaffListConverter;
 import com.estate.dto.*;
 import com.estate.exception.BusinessException;
+import com.estate.exception.InputValidationException;
+import com.estate.repository.BuildingRepository;
+import com.estate.repository.ContractRepository;
 import com.estate.repository.CustomerRepository;
 import com.estate.repository.StaffRepository;
+import com.estate.repository.entity.BuildingEntity;
 import com.estate.repository.entity.CustomerEntity;
 import com.estate.repository.entity.StaffEntity;
 import com.estate.service.StaffService;
@@ -22,12 +26,19 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class StaffServiceImpl implements StaffService {
     @Autowired
     private StaffRepository staffRepository;
+
+    @Autowired
+    private BuildingRepository buildingRepository;
+
+    @Autowired
+    private ContractRepository contractRepository;
 
     @Autowired
     private StaffListConverter staffListConverter;
@@ -277,5 +288,137 @@ public class StaffServiceImpl implements StaffService {
     public StaffEntity findById(Long staffId) {
         return staffRepository.findById(staffId)
                 .orElseThrow(() -> new BusinessException("Không tìm thấy nhân viên"));
+    }
+
+    @Override
+    public List<BuildingSelectDTO> getAllBuildingsForSelect() {
+        return buildingRepository.findAllForSelect();
+    }
+
+    @Override
+    public List<CustomerSelectDTO> getAllCustomersForSelect() {
+        return customerRepository.findAllForSelect();
+    }
+
+    @Override
+    public List<Long> getAssignedBuildingIds(Long staffId) {
+        return staffRepository.findAssignedBuildingIds(staffId);
+    }
+
+    @Override
+    public List<Long> getAssignedCustomerIds(Long staffId) {
+        return staffRepository.findAssignedCustomerIds(staffId);
+    }
+
+    @Override
+    @Transactional
+    public void updateBuildingAssignments(Long staffId, List<Long> newBuildingIds) {
+        if (newBuildingIds == null) newBuildingIds = new ArrayList<>();
+
+        StaffEntity staff = staffRepository.findById(staffId)
+                .orElseThrow(() -> new InputValidationException("Không tìm thấy nhân viên"));
+
+        // IDs hiện tại đang assigned
+        List<Long> currentIds = staffRepository.findAssignedBuildingIds(staffId);
+
+        // Tìm IDs bị bỏ (có trong current, không có trong new)
+        List<Long> finalNewBuildingIds1 = newBuildingIds;
+        List<Long> removedIds = currentIds.stream()
+                .filter(id -> !finalNewBuildingIds1.contains(id))
+                .toList();
+
+        // Tìm IDs được thêm mới (có trong new, không có trong current)
+        final List<Long> finalNewBuildingIds = newBuildingIds;
+        List<Long> addedIds = finalNewBuildingIds.stream()
+                .filter(id -> !currentIds.contains(id))
+                .toList();
+
+        // Validate: building bị bỏ không được có active contract với staff này
+        for (Long buildingId : removedIds) {
+            if (contractRepository.existsActiveByStaffAndBuilding(staffId, buildingId)) {
+                BuildingEntity b = buildingRepository.findById(buildingId).orElse(null);
+                String name = (b != null) ? b.getName() : "ID " + buildingId;
+                throw new InputValidationException(
+                        "Không thể bỏ phân công tòa nhà \"" + name +
+                                "\" vì có hợp đồng đang khả dụng."
+                );
+            }
+        }
+
+        // Xử lý từ OWNING SIDE (BuildingEntity) để JPA thực sự persist vào DB
+
+        // Xóa staff ra khỏi các building bị bỏ
+        for (Long removedId : removedIds) {
+            buildingRepository.findById(removedId).ifPresent(building -> {
+                building.getStaffs_buildings().remove(staff);
+                buildingRepository.save(building);
+            });
+        }
+
+        // Thêm staff vào các building mới
+        for (Long buildingId : addedIds) {
+            buildingRepository.findById(buildingId).ifPresent(building -> {
+                if (!building.getStaffs_buildings().contains(staff)) {
+                    building.getStaffs_buildings().add(staff);
+                    buildingRepository.save(building);
+                }
+            });
+        }
+    }
+
+    @Override
+    @Transactional
+    public void updateCustomerAssignments(Long staffId, List<Long> newCustomerIds) {
+        if (newCustomerIds == null) newCustomerIds = new ArrayList<>();
+
+        StaffEntity staff = staffRepository.findById(staffId)
+                .orElseThrow(() -> new InputValidationException("Không tìm thấy nhân viên"));
+
+        // IDs hiện tại đang assigned
+        List<Long> currentIds = staffRepository.findAssignedCustomerIds(staffId);
+
+        // Tìm IDs bị bỏ
+        List<Long> finalNewCustomerIds1 = newCustomerIds;
+        List<Long> removedIds = currentIds.stream()
+                .filter(id -> !finalNewCustomerIds1.contains(id))
+                .toList();
+
+        // Tìm IDs được thêm mới
+        final List<Long> finalNewCustomerIds = newCustomerIds;
+        List<Long> addedIds = finalNewCustomerIds.stream()
+                .filter(id -> !currentIds.contains(id))
+                .toList();
+
+        // Validate: customer bị bỏ không được có active contract với staff này
+        for (Long removedId : removedIds) {
+            if (contractRepository.existsActiveByStaffAndCustomer(staffId, removedId)) {
+                CustomerEntity c = customerRepository.findById(removedId).orElse(null);
+                String name = (c != null) ? c.getFullName() : "ID " + removedId;
+                throw new InputValidationException(
+                        "Không thể bỏ phân công khách hàng \"" + name +
+                                "\" vì có hợp đồng đang khả dụng."
+                );
+            }
+        }
+
+        // Xử lý từ OWNING SIDE (CustomerEntity) để JPA thực sự persist vào DB
+
+        // Xóa staff ra khỏi các customer bị bỏ
+        for (Long customerId : removedIds) {
+            customerRepository.findById(customerId).ifPresent(customer -> {
+                customer.getStaffs_customers().remove(staff);
+                customerRepository.save(customer);
+            });
+        }
+
+        // Thêm staff vào các customer mới
+        for (Long customerId : addedIds) {
+            customerRepository.findById(customerId).ifPresent(customer -> {
+                if (!customer.getStaffs_customers().contains(staff)) {
+                    customer.getStaffs_customers().add(staff);
+                    customerRepository.save(customer);
+                }
+            });
+        }
     }
 }

@@ -275,7 +275,9 @@
             gap: 0.4rem;
         }
 
-        .range-inputs .form-control { flex: 1; }
+        .range-inputs .form-control {
+            flex: 1;
+        }
 
         .range-separator {
             color: #d1d5db;
@@ -310,7 +312,9 @@
             color: #374151;
         }
 
-        .btn-filter.btn-reset:hover { background: #e5e7eb; }
+        .btn-filter.btn-reset:hover {
+            background: #e5e7eb;
+        }
 
         .btn-filter.btn-search {
             background: #3b82f6;
@@ -320,7 +324,7 @@
         .btn-filter.btn-search:hover {
             background: #2563eb;
             transform: translateY(-1px);
-            box-shadow: 0 3px 8px rgba(59,130,246,0.3);
+            box-shadow: 0 3px 8px rgba(59, 130, 246, 0.3);
         }
 
         /* ══ TABLE (giống dash-table trong dashboard) ════════════════════════ */
@@ -350,7 +354,9 @@
             font-size: 0.8125rem;
         }
 
-        .dash-table tbody tr:last-child td { border-bottom: none; }
+        .dash-table tbody tr:last-child td {
+            border-bottom: none;
+        }
 
         .dash-table tbody tr {
             transition: background 0.15s;
@@ -415,19 +421,28 @@
             background: #dcfce7;
             color: #16a34a;
         }
-        .status-badge.active::before { background: #16a34a; }
+
+        .status-badge.active::before {
+            background: #16a34a;
+        }
 
         .status-badge.expired {
             background: #fee2e2;
             color: #dc2626;
         }
-        .status-badge.expired::before { background: #dc2626; }
+
+        .status-badge.expired::before {
+            background: #dc2626;
+        }
 
         .status-badge.pending {
             background: #fef3c7;
             color: #d97706;
         }
-        .status-badge.pending::before { background: #d97706; }
+
+        .status-badge.pending::before {
+            background: #d97706;
+        }
 
         .date-info {
             font-size: 0.775rem;
@@ -463,14 +478,35 @@
             flex-shrink: 0;
         }
 
-        .btn-action.btn-view  { background: #eff6ff; color: #2563eb; }
-        .btn-action.btn-view:hover  { background: #dbeafe; transform: translateY(-1px); }
+        .btn-action.btn-view {
+            background: #eff6ff;
+            color: #2563eb;
+        }
 
-        .btn-action.btn-edit  { background: #fffbeb; color: #d97706; }
-        .btn-action.btn-edit:hover  { background: #fef3c7; transform: translateY(-1px); }
+        .btn-action.btn-view:hover {
+            background: #dbeafe;
+            transform: translateY(-1px);
+        }
 
-        .btn-action.btn-delete { background: #fef2f2; color: #dc2626; }
-        .btn-action.btn-delete:hover { background: #fee2e2; transform: translateY(-1px); }
+        .btn-action.btn-edit {
+            background: #fffbeb;
+            color: #d97706;
+        }
+
+        .btn-action.btn-edit:hover {
+            background: #fef3c7;
+            transform: translateY(-1px);
+        }
+
+        .btn-action.btn-delete {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .btn-action.btn-delete:hover {
+            background: #fee2e2;
+            transform: translateY(-1px);
+        }
 
         /* ══ TABLE HEADER ROW (count + title) ════════════════════════════════ */
         .table-header-row {
@@ -568,239 +604,244 @@
                 margin-left: 0;
                 padding: 0;
             }
+
             .page-header-bar {
                 flex-direction: column;
                 align-items: flex-start;
             }
-            .action-buttons { flex-wrap: wrap; }
+
+            .action-buttons {
+                flex-wrap: wrap;
+            }
         }
     </style>
 </head>
 
 <body>
 
-<!-- HEADER + SIDEBAR -->
-<div th:replace="~{layout/header :: header}"></div>
-<div th:replace="~{layout/sidebar :: sidebar}"></div>
+    <!-- HEADER + SIDEBAR -->
+    <div th:replace="~{layout/header :: header}"></div>
+    <div th:replace="~{layout/sidebar :: sidebar}"></div>
 
-<main class="content">
-    <div class="detail-body">
+    <main class="content">
+        <div class="detail-body">
 
-        <!-- ── Page Header ─────────────────────────────────────────────── -->
-        <div class="page-header-bar">
-            <div>
-                <h2>
-                    <i class="bi bi-file-earmark-text" style="color:#3b82f6;font-size:1.2rem;"></i>
-                    Quản lý hợp đồng cho thuê
-                </h2>
-                <div class="update-time">Danh sách toàn bộ hợp đồng cho thuê trong hệ thống</div>
+            <!-- ── Page Header ─────────────────────────────────────────────── -->
+            <div class="page-header-bar">
+                <div>
+                    <h2>
+                        <i class="bi bi-file-earmark-text" style="color:#3b82f6;font-size:1.2rem;"></i>
+                        Quản lý hợp đồng cho thuê
+                    </h2>
+                    <div class="update-time">Danh sách toàn bộ hợp đồng cho thuê trong hệ thống</div>
+                </div>
+                <div class="page-header-actions">
+                    <button onclick="updateContractStatus()" class="btn-update-status">
+                        <i class="bi bi-arrow-clockwise"></i>
+                        Cập nhật trạng thái
+                    </button>
+                    <a th:href="@{/admin/contract/add}" class="btn-add">
+                        <i class="bi bi-plus-circle"></i>
+                        Thêm hợp đồng
+                    </a>
+                </div>
             </div>
-            <div class="page-header-actions">
-                <button onclick="updateContractStatus()" class="btn-update-status">
-                    <i class="bi bi-arrow-clockwise"></i>
-                    Cập nhật trạng thái
-                </button>
-                <a th:href="@{/admin/contract/add}" class="btn-add">
-                    <i class="bi bi-plus-circle"></i>
-                    Thêm hợp đồng
-                </a>
-            </div>
-        </div>
 
-        <!-- ── Filter Card ─────────────────────────────────────────────── -->
-        <div class="d-card">
-            <form th:action="@{/admin/contract/search}" method="get">
-                <div class="d-card-body">
-                    <div class="filter-header">
-                        <div class="filter-title">
-                            <i class="bi bi-funnel"></i>
-                            Bộ lọc tìm kiếm
+            <!-- ── Filter Card ─────────────────────────────────────────────── -->
+            <div class="d-card">
+                <form th:action="@{/admin/contract/search}" method="get">
+                    <div class="d-card-body">
+                        <div class="filter-header">
+                            <div class="filter-title">
+                                <i class="bi bi-funnel"></i>
+                                Bộ lọc tìm kiếm
+                            </div>
+                            <button type="button" class="btn-toggle-filter collapsed" onclick="toggleFilter()">
+                                <i class="bi bi-chevron-up" id="toggleIcon"></i>
+                            </button>
                         </div>
-                        <button type="button" class="btn-toggle-filter collapsed" onclick="toggleFilter()">
-                            <i class="bi bi-chevron-up" id="toggleIcon"></i>
-                        </button>
+
+                        <div class="filter-body collapsed" id="filterBody">
+                            <!-- Thông tin cơ bản -->
+                            <div class="filter-section-title">
+                                <i class="bi bi-info-circle"></i> Thông tin cơ bản
+                            </div>
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-4">
+                                    <label class="form-label">Tên khách hàng</label>
+                                    <select class="form-control" name="customerId">
+                                        <option value="">-- Chọn khách hàng --</option>
+                                        <option th:each="c : ${customers}" th:value="${c.value}" th:text="${c.key}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Tên tòa nhà</label>
+                                    <select class="form-control" name="buildingId">
+                                        <option value="">-- Chọn tòa nhà --</option>
+                                        <option th:each="b : ${buildings}" th:value="${b.value}" th:text="${b.key}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Nhân viên quản lý</label>
+                                    <select class="form-control" name="staffId">
+                                        <option value="">-- Chọn nhân viên --</option>
+                                        <option th:each="s : ${staffs}" th:value="${s.id}" th:text="${s.fullName}">
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Giá thuê và thời gian -->
+                            <div class="filter-section-title">
+                                <i class="bi bi-cash-stack"></i> Giá thuê và thời gian
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label class="form-label">Giá thuê (VNĐ)</label>
+                                    <div class="range-inputs">
+                                        <input type="number" class="form-control" name="rentPriceFrom" placeholder="Từ"
+                                            min="0">
+                                        <span class="range-separator">—</span>
+                                        <input type="number" class="form-control" name="rentPriceTo" placeholder="Đến"
+                                            min="0">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Ngày bắt đầu — Ngày kết thúc</label>
+                                    <div class="range-inputs">
+                                        <input type="date" class="form-control" name="startDate">
+                                        <span class="range-separator">—</span>
+                                        <input type="date" class="form-control" name="endDate">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Trạng thái</label>
+                                    <select class="form-control" name="status">
+                                        <option value="">-- Tất cả trạng thái --</option>
+                                        <option value="ACTIVE">Đang hiệu lực</option>
+                                        <option value="EXPIRED">Hết hạn</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="filter-actions">
+                                <button type="reset" class="btn-filter btn-reset">
+                                    <i class="bi bi-arrow-clockwise"></i> Reset
+                                </button>
+                                <button type="submit" class="btn-filter btn-search">
+                                    <i class="bi bi-search"></i> Tìm kiếm
+                                </button>
+                            </div>
+                        </div><!-- /filter-body -->
                     </div>
-
-                    <div class="filter-body collapsed" id="filterBody">
-                        <!-- Thông tin cơ bản -->
-                        <div class="filter-section-title">
-                            <i class="bi bi-info-circle"></i> Thông tin cơ bản
-                        </div>
-                        <div class="row g-3 mb-3">
-                            <div class="col-md-4">
-                                <label class="form-label">Tên khách hàng</label>
-                                <select class="form-control" name="customerId">
-                                    <option value="">-- Chọn khách hàng --</option>
-                                    <option th:each="c : ${customers}" th:value="${c.value}"
-                                            th:text="${c.key}"></option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">Tên tòa nhà</label>
-                                <select class="form-control" name="buildingId">
-                                    <option value="">-- Chọn tòa nhà --</option>
-                                    <option th:each="b : ${buildings}" th:value="${b.value}"
-                                            th:text="${b.key}"></option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">Nhân viên quản lý</label>
-                                <select class="form-control" name="staffId">
-                                    <option value="">-- Chọn nhân viên --</option>
-                                    <option th:each="s : ${staffs}" th:value="${s.id}" th:text="${s.fullName}"></option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Giá thuê và thời gian -->
-                        <div class="filter-section-title">
-                            <i class="bi bi-cash-stack"></i> Giá thuê và thời gian
-                        </div>
-                        <div class="row g-3">
-                            <div class="col-md-4">
-                                <label class="form-label">Giá thuê (VNĐ)</label>
-                                <div class="range-inputs">
-                                    <input type="number" class="form-control" name="rentPriceFrom" placeholder="Từ"
-                                           min="0">
-                                    <span class="range-separator">—</span>
-                                    <input type="number" class="form-control" name="rentPriceTo" placeholder="Đến"
-                                           min="0">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">Ngày bắt đầu — Ngày kết thúc</label>
-                                <div class="range-inputs">
-                                    <input type="date" class="form-control" name="startDate">
-                                    <span class="range-separator">—</span>
-                                    <input type="date" class="form-control" name="endDate">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">Trạng thái</label>
-                                <select class="form-control" name="status">
-                                    <option value="">-- Tất cả trạng thái --</option>
-                                    <option value="ACTIVE">Đang hiệu lực</option>
-                                    <option value="EXPIRED">Hết hạn</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="filter-actions">
-                            <button type="reset" class="btn-filter btn-reset">
-                                <i class="bi bi-arrow-clockwise"></i> Reset
-                            </button>
-                            <button type="submit" class="btn-filter btn-search">
-                                <i class="bi bi-search"></i> Tìm kiếm
-                            </button>
-                        </div>
-                    </div><!-- /filter-body -->
-                </div>
-            </form>
-        </div>
-
-        <!-- ── Table Card ──────────────────────────────────────────────── -->
-        <div class="d-card">
-            <div class="table-header-row">
-                <div class="thr-title">
-                    <i class="bi bi-table"></i>
-                    Danh sách hợp đồng
-                </div>
+                </form>
             </div>
 
-            <div class="table-responsive">
-                <table class="dash-table">
-                    <colgroup>
-                        <col style="width: 80px">   <!-- Mã HĐ -->
-                        <col style="width: 300px">  <!-- Khách hàng -->
-                        <col style="width: 210px">  <!-- Tòa nhà -->
-                        <col style="width: 150px">  <!-- Giá thuê -->
-                        <col style="width: 160px">  <!-- Thời gian -->
-                        <col style="width: 110px">  <!-- Hiệu lực -->
-                        <col>                       <!-- Hành động -->
-                    </colgroup>
-                    <thead>
-                    <tr>
-                        <th>Mã HĐ</th>
-                        <th>Khách hàng</th>
-                        <th>Tòa nhà</th>
-                        <th>Giá thuê (m²)</th>
-                        <th>Thời gian</th>
-                        <th>Hiệu lực</th>
-                        <th style="text-align:center;">Hành động</th>
-                    </tr>
-                    </thead>
-                    <tbody id="contractTableBody">
-                    <!-- Ajax render -->
-                    </tbody>
-                </table>
+            <!-- ── Table Card ──────────────────────────────────────────────── -->
+            <div class="d-card">
+                <div class="table-header-row">
+                    <div class="thr-title">
+                        <i class="bi bi-table"></i>
+                        Danh sách hợp đồng
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="dash-table">
+                        <colgroup>
+                            <col style="width: 80px"> <!-- Mã HĐ -->
+                            <col style="width: 300px"> <!-- Khách hàng -->
+                            <col style="width: 210px"> <!-- Tòa nhà -->
+                            <col style="width: 150px"> <!-- Giá thuê -->
+                            <col style="width: 160px"> <!-- Thời gian -->
+                            <col style="width: 110px"> <!-- Hiệu lực -->
+                            <col> <!-- Hành động -->
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>Mã HĐ</th>
+                                <th>Khách hàng</th>
+                                <th>Tòa nhà</th>
+                                <th>Giá thuê (m²)</th>
+                                <th>Thời gian</th>
+                                <th>Hiệu lực</th>
+                                <th style="text-align:center;">Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody id="contractTableBody">
+                            <!-- Ajax render -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination inside card -->
+                <div id="pagination"></div>
             </div>
 
-            <!-- Pagination inside card -->
-            <div id="pagination"></div>
-        </div>
+        </div><!-- /detail-body -->
+    </main>
 
-    </div><!-- /detail-body -->
-</main>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        /* ── Toggle filter ──────────────────────────────────────────────── */
+        function toggleFilter() {
+            const filterBody = document.getElementById('filterBody');
+            const toggleBtn = document.querySelector('.btn-toggle-filter');
+            filterBody.classList.toggle('collapsed');
+            toggleBtn.classList.toggle('collapsed');
+        }
 
-<script>
-    /* ── Toggle filter ──────────────────────────────────────────────── */
-    function toggleFilter() {
-        const filterBody = document.getElementById('filterBody');
-        const toggleBtn  = document.querySelector('.btn-toggle-filter');
-        filterBody.classList.toggle('collapsed');
-        toggleBtn.classList.toggle('collapsed');
-    }
+        function resetFilter() {
+            document.querySelectorAll('.filter-card .form-control, .filter-card select')
+                .forEach(el => el.value = '');
+        }
+    </script>
 
-    function resetFilter() {
-        document.querySelectorAll('.filter-card .form-control, .filter-card select')
-            .forEach(el => el.value = '');
-    }
-</script>
+    <script>
+        let currentPage = 1;
+        const pageSize = 5;
 
-<script>
-    let currentPage = 1;
-    const pageSize  = 5;
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const d = new Date(dateString);
+            return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+        }
 
-    function formatDate(dateString) {
-        if (!dateString) return '';
-        const d = new Date(dateString);
-        return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
-    }
+        function formatPrice(price) {
+            if (price == null) return '';
+            return new Intl.NumberFormat('vi-VN').format(price).replaceAll('.', ',') + ' đ';
+        }
 
-    function formatPrice(price) {
-        if (price == null) return '';
-        return new Intl.NumberFormat('vi-VN').format(price).replaceAll('.', ',') + ' đ';
-    }
+        function getStatusBadge(status) {
+            const map = {
+                'ACTIVE': { cls: 'active', text: 'Hiệu lực' },
+                'EXPIRED': { cls: 'expired', text: 'Hết hạn' },
+            };
+            const s = map[status] || { cls: 'pending', text: status };
+            return `<span class="status-badge ${s.cls}">${s.text}</span>`;
+        }
 
-    function getStatusBadge(status) {
-        const map = {
-            'ACTIVE':  { cls: 'active',  text: 'Hiệu lực' },
-            'EXPIRED': { cls: 'expired', text: 'Hết hạn'  },
-        };
-        const s = map[status] || { cls: 'pending', text: status };
-        return `<span class="status-badge ${s.cls}">${s.text}</span>`;
-    }
+        function loadContracts(page, event) {
+            if (event) event.preventDefault();
 
-    function loadContracts(page, event) {
-        if (event) event.preventDefault();
+            $.ajax({
+                url: "/admin/contract/list/page",
+                type: "GET",
+                data: { page: page, size: pageSize },
+                success: function (data) {
+                    currentPage = page;
+                    $('#currentPageLabel').text(page);
+                    const tbody = $("#contractTableBody");
+                    tbody.empty();
 
-        $.ajax({
-            url: "/admin/contract/list/page",
-            type: "GET",
-            data: { page: page, size: pageSize },
-            success: function (data) {
-                currentPage = page;
-                $('#currentPageLabel').text(page);
-                const tbody = $("#contractTableBody");
-                tbody.empty();
-
-                if (data.content.length === 0) {
-                    tbody.append(`
+                    if (data.content.length === 0) {
+                        tbody.append(`
                         <tr>
                             <td colspan="7">
                                 <div class="empty-state">
@@ -810,12 +851,12 @@
                             </td>
                         </tr>
                     `);
-                    $("#pagination").empty();
-                    return;
-                }
+                        $("#pagination").empty();
+                        return;
+                    }
 
-                $.each(data.content, function (i, c) {
-                    tbody.append(`
+                    $.each(data.content, function (i, c) {
+                        tbody.append(`
                         <tr>
                             <td><span class="contract-id">HĐ-${c.id}</span></td>
                             <td><span class="customer-name">${c.customer || ''}</span></td>
@@ -843,138 +884,139 @@
                             </td>
                         </tr>
                     `);
-                });
+                    });
 
-                renderPagination(data.totalPages, page);
-            },
-            error: function () {
-                Swal.fire({ icon: 'error', title: 'Lỗi', text: 'Không tải được dữ liệu!' });
-            }
-        });
-    }
+                    renderPagination(data.totalPages, page);
+                },
+                error: function () {
+                    Swal.fire({ icon: 'error', title: 'Lỗi', text: 'Không tải được dữ liệu!' });
+                }
+            });
+        }
 
-    function renderPagination(totalPages, current) {
-        const pagination = $("#pagination");
-        pagination.empty();
-        if (totalPages <= 1) return;
+        function renderPagination(totalPages, current) {
+            const pagination = $("#pagination");
+            pagination.empty();
+            if (totalPages <= 1) return;
 
-        let html = `<nav class="pagination-wrapper"><ul class="pagination justify-content-center">`;
+            let html = `<nav class="pagination-wrapper"><ul class="pagination justify-content-center">`;
 
-        html += `<li class="page-item ${current===1?'disabled':''}">
+            html += `<li class="page-item ${current === 1 ? 'disabled' : ''}">
                     <a href="#" class="page-link" onclick="loadContracts(1,event)">
                         <i class="bi bi-chevron-double-left"></i>
                     </a>
                  </li>`;
 
-        html += `<li class="page-item ${current===1?'disabled':''}">
-                    <a href="#" class="page-link" onclick="loadContracts(${current-1},event)">
+            html += `<li class="page-item ${current === 1 ? 'disabled' : ''}">
+                    <a href="#" class="page-link" onclick="loadContracts(${current - 1},event)">
                         <i class="bi bi-chevron-left"></i>
                     </a>
                  </li>`;
 
-        const blockSize  = 5;
-        const blockStart = Math.floor((current-1)/blockSize)*blockSize + 1;
-        let   blockEnd   = Math.min(blockStart + blockSize - 1, totalPages);
+            const blockSize = 5;
+            const blockStart = Math.floor((current - 1) / blockSize) * blockSize + 1;
+            let blockEnd = Math.min(blockStart + blockSize - 1, totalPages);
 
-        for (let i = blockStart; i <= blockEnd; i++) {
-            html += `<li class="page-item ${i===current?'active':''}">
+            for (let i = blockStart; i <= blockEnd; i++) {
+                html += `<li class="page-item ${i === current ? 'active' : ''}">
                         <a href="#" class="page-link" onclick="loadContracts(${i},event)">${i}</a>
                      </li>`;
-        }
+            }
 
-        html += `<li class="page-item ${current===totalPages?'disabled':''}">
-                    <a href="#" class="page-link" onclick="loadContracts(${current+1},event)">
+            html += `<li class="page-item ${current === totalPages ? 'disabled' : ''}">
+                    <a href="#" class="page-link" onclick="loadContracts(${current + 1},event)">
                         <i class="bi bi-chevron-right"></i>
                     </a>
                  </li>`;
 
-        html += `<li class="page-item ${current===totalPages?'disabled':''}">
+            html += `<li class="page-item ${current === totalPages ? 'disabled' : ''}">
                     <a href="#" class="page-link" onclick="loadContracts(${totalPages},event)">
                         <i class="bi bi-chevron-double-right"></i>
                     </a>
                  </li>`;
 
-        html += `</ul></nav>`;
-        pagination.html(html);
-    }
+            html += `</ul></nav>`;
+            pagination.html(html);
+        }
 
-    $(document).ready(function () {
-        loadContracts(1);
+        $(document).ready(function () {
+            loadContracts(1);
 
-    });
-
-    // Ajax xóa hợp đồng
-    $(document).on("click", ".btn-delete", function (e) {
-        e.preventDefault();
-        const id = $(this).data("id");
-
-        Swal.fire({
-            title: 'Xác nhận xóa',
-            text: "Bạn có chắc muốn xóa hợp đồng này?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#dc2626',
-            cancelButtonColor: '#6b7280',
-            confirmButtonText: 'Xóa',
-            cancelButtonText: 'Hủy'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: "/admin/contract/delete/" + id,
-                    type: "DELETE",
-                    success: function () {
-                        Swal.fire({
-                            icon: 'success', title: 'Thành công',
-                            text: 'Xóa hợp đồng thành công!',
-                            timer: 1500, showConfirmButton: false
-                        }).then(() => loadContracts(currentPage));
-                    },
-                    error: function (xhr) {
-                        const err = xhr.responseJSON;
-                        Swal.fire({
-                            icon: 'error', title: 'Lỗi',
-                            text: err?.message || 'Xóa thất bại!'
-                        });
-                    }
-                });
-            }
         });
-    });
-</script>
 
-<script>
-    function updateContractStatus() {
-        Swal.fire({
-            title: 'Xác nhận cập nhật',
-            text: "Hệ thống sẽ kiểm tra và cập nhật trạng thái tất cả hợp đồng",
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#16a34a',
-            cancelButtonColor: '#6b7280',
-            confirmButtonText: '<i class="bi bi-check-circle"></i> Cập nhật',
-            cancelButtonText: 'Hủy',
-            showLoaderOnConfirm: true,
-            preConfirm: () => {
-                return $.ajax({
-                    url: "/admin/contract/status",
-                    type: "PUT",
-                    timeout: 30000
-                }).catch(error => {
-                    Swal.showValidationMessage(`Lỗi: ${error.responseJSON?.message || 'Không thể kết nối đến server'}`);
-                });
-            },
-            allowOutsideClick: () => !Swal.isLoading()
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire({
-                    icon: 'success', title: 'Cập nhật thành công!',
-                    text: 'Trạng thái hợp đồng đã được cập nhật',
-                    timer: 2000, showConfirmButton: false
-                }).then(() => loadContracts(currentPage));
-            }
+        // Ajax xóa hợp đồng
+        $(document).on("click", ".btn-delete", function (e) {
+            e.preventDefault();
+            const id = $(this).data("id");
+
+            Swal.fire({
+                title: 'Xác nhận xóa',
+                text: "Bạn có chắc muốn xóa hợp đồng này?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc2626',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "/admin/contract/delete/" + id,
+                        type: "DELETE",
+                        success: function () {
+                            Swal.fire({
+                                icon: 'success', title: 'Thành công',
+                                text: 'Xóa hợp đồng thành công!',
+                                timer: 1500, showConfirmButton: false
+                            }).then(() => loadContracts(currentPage));
+                        },
+                        error: function (xhr) {
+                            const err = xhr.responseJSON;
+                            Swal.fire({
+                                icon: 'error', title: 'Lỗi',
+                                text: err?.message || 'Xóa thất bại!'
+                            });
+                        }
+                    });
+                }
+            });
         });
-    }
-</script>
+    </script>
+
+    <script>
+        function updateContractStatus() {
+            Swal.fire({
+                title: 'Xác nhận cập nhật',
+                text: "Hệ thống sẽ kiểm tra và cập nhật trạng thái tất cả hợp đồng",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#16a34a',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: '<i class="bi bi-check-circle"></i> Cập nhật',
+                cancelButtonText: 'Hủy',
+                showLoaderOnConfirm: true,
+                preConfirm: () => {
+                    return $.ajax({
+                        url: "/admin/contract/status",
+                        type: "PUT",
+                        timeout: 30000
+                    }).catch(error => {
+                        Swal.showValidationMessage(`Lỗi: ${error.responseJSON?.message || 'Không thể kết nối đến server'}`);
+                    });
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        icon: 'success', title: 'Cập nhật thành công!',
+                        text: 'Trạng thái hợp đồng đã được cập nhật',
+                        timer: 2000, showConfirmButton: false
+                    }).then(() => loadContracts(currentPage));
+                }
+            });
+        }
+    </script>
 
 </body>
+
 </html>

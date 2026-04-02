@@ -24,4 +24,10 @@ public interface StaffService {
     void phoneNumberUpdate(PhoneNumberChangeDTO dto, Long staffId);
     void passwordUpdate(PasswordChangeDTO dto, Long staffId);
     StaffEntity findById(Long staffId);
+    List<BuildingSelectDTO> getAllBuildingsForSelect();
+    List<CustomerSelectDTO> getAllCustomersForSelect();
+    List<Long> getAssignedBuildingIds(Long staffId);
+    List<Long> getAssignedCustomerIds(Long staffId);
+    void updateBuildingAssignments(Long staffId, List<Long> buildingIds);
+    void updateCustomerAssignments(Long staffId, List<Long> customerIds);
 }

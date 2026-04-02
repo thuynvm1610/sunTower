@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -430,187 +431,196 @@
         }
     </style>
 </head>
+
 <body>
 
-<header>
-    <nav>
-        <a href="/suntower" class="logo">SunTower</a>
-        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
-        <div class="nav-links" id="navLinks">
-            <a href="/suntower">Trang chủ</a>
-            <a href="/suntower/introduce" class="active">Giới thiệu</a>
-            <a href="/suntower/building">Tòa nhà</a>
-            <a href="/suntower/contact">Liên hệ</a>
-            <a href="/login" class="login-btn">Đăng nhập</a>
-        </div>
-    </nav>
-</header>
-
-<div class="page-header">
-    <h1>Giới thiệu về SunTower</h1>
-    <p>Đối tác tin cậy trong quản lý bất động sản</p>
-</div>
-
-<section class="about-section">
-    <div class="container">
-        <div class="about-content">
-            <div class="about-text">
-                <h2>Về chúng tôi</h2>
-                <p>SunTower là hệ thống quản lý bất động sản hàng đầu tại Việt Nam, được thiết kế để đáp ứng mọi nhu cầu quản lý tòa nhà, căn hộ và khách hàng một cách chuyên nghiệp và hiệu quả.</p>
-                <p>Với đội ngũ chuyên gia giàu kinh nghiệm và công nghệ tiên tiến, chúng tôi cam kết mang đến giải pháp tối ưu nhất cho doanh nghiệp của bạn.</p>
-                <p>Chúng tôi không ngừng đổi mới và cải tiến để đảm bảo khách hàng luôn có trải nghiệm tốt nhất khi sử dụng dịch vụ của chúng tôi.</p>
+    <header>
+        <nav>
+            <a href="/suntower" class="logo">SunTower</a>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <div class="nav-links" id="navLinks">
+                <a href="/suntower">Trang chủ</a>
+                <a href="/suntower/introduce" class="active">Giới thiệu</a>
+                <a href="/suntower/building">Tòa nhà</a>
+                <a href="/suntower/contact">Liên hệ</a>
+                <a href="/login" class="login-btn">Đăng nhập</a>
             </div>
-            <div class="about-image">
-                <img src="/images/building_img/fpt-tower.jpg" alt="SunTower Building"/>
-            </div>
-        </div>
+        </nav>
+    </header>
+
+    <div class="page-header">
+        <h1>Giới thiệu về SunTower</h1>
+        <p>Đối tác tin cậy trong quản lý bất động sản</p>
     </div>
-</section>
 
-<section class="mission-vision">
-    <div class="container">
-        <div class="mv-grid">
-            <div class="mv-card">
-                <h3>Sứ mệnh</h3>
-                <p>Cung cấp giải pháp quản lý bất động sản toàn diện, giúp doanh nghiệp tối ưu hóa quy trình vận hành, nâng cao hiệu quả kinh doanh và mang đến trải nghiệm dịch vụ tuyệt vời cho khách hàng.</p>
-            </div>
-            <div class="mv-card">
-                <h3>Tầm nhìn</h3>
-                <p>Trở thành nền tảng quản lý bất động sản hàng đầu tại Việt Nam và khu vực Đông Nam Á, được tin dùng bởi hàng nghìn doanh nghiệp và đóng góp vào sự phát triển bền vững của ngành bất động sản.</p>
+    <section class="about-section">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Về chúng tôi</h2>
+                    <p>SunTower là hệ thống quản lý bất động sản hàng đầu tại Việt Nam, được thiết kế để đáp ứng mọi nhu
+                        cầu quản lý tòa nhà, căn hộ và khách hàng một cách chuyên nghiệp và hiệu quả.</p>
+                    <p>Với đội ngũ chuyên gia giàu kinh nghiệm và công nghệ tiên tiến, chúng tôi cam kết mang đến giải
+                        pháp tối ưu nhất cho doanh nghiệp của bạn.</p>
+                    <p>Chúng tôi không ngừng đổi mới và cải tiến để đảm bảo khách hàng luôn có trải nghiệm tốt nhất khi
+                        sử dụng dịch vụ của chúng tôi.</p>
+                </div>
+                <div class="about-image">
+                    <img src="/images/building_img/fpt-tower.jpg" alt="SunTower Building" />
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<section class="values-section">
-    <div class="container">
-        <div class="section-title">
-            <h2>Giá trị cốt lõi</h2>
-            <p>Những nguyên tắc định hướng hoạt động của chúng tôi</p>
-        </div>
-        <div class="values-grid">
-            <div class="value-card">
-                <div class="value-icon">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                    </svg>
+    <section class="mission-vision">
+        <div class="container">
+            <div class="mv-grid">
+                <div class="mv-card">
+                    <h3>Sứ mệnh</h3>
+                    <p>Cung cấp giải pháp quản lý bất động sản toàn diện, giúp doanh nghiệp tối ưu hóa quy trình vận
+                        hành, nâng cao hiệu quả kinh doanh và mang đến trải nghiệm dịch vụ tuyệt vời cho khách hàng.</p>
                 </div>
-                <h3>Chất lượng</h3>
-                <p>Cam kết cung cấp sản phẩm và dịch vụ chất lượng cao nhất, đáp ứng vượt mong đợi của khách hàng.</p>
-            </div>
-            <div class="value-card">
-                <div class="value-icon">
-                    <svg viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <polyline points="12 6 12 12 16 14"></polyline>
-                    </svg>
+                <div class="mv-card">
+                    <h3>Tầm nhìn</h3>
+                    <p>Trở thành nền tảng quản lý bất động sản hàng đầu tại Việt Nam và khu vực Đông Nam Á, được tin
+                        dùng bởi hàng nghìn doanh nghiệp và đóng góp vào sự phát triển bền vững của ngành bất động sản.
+                    </p>
                 </div>
-                <h3>Hiệu quả</h3>
-                <p>Tối ưu hóa mọi quy trình để mang lại hiệu quả cao nhất trong quản lý và vận hành.</p>
-            </div>
-            <div class="value-card">
-                <div class="value-icon">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                    </svg>
-                </div>
-                <h3>Tin cậy</h3>
-                <p>Xây dựng lòng tin thông qua sự minh bạch, trung thực và trách nhiệm trong mọi giao dịch.</p>
-            </div>
-            <div class="value-card">
-                <div class="value-icon">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-                        <polyline points="2 17 12 22 22 17"></polyline>
-                        <polyline points="2 12 12 17 22 12"></polyline>
-                    </svg>
-                </div>
-                <h3>Đổi mới</h3>
-                <p>Không ngừng đổi mới và áp dụng công nghệ tiên tiến để cải thiện trải nghiệm người dùng.</p>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<section class="team-section">
-    <div class="container">
-        <div class="section-title">
-            <h2>Đội ngũ của chúng tôi</h2>
-            <p>Những con người tài năng đằng sau thành công</p>
+    <section class="values-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Giá trị cốt lõi</h2>
+                <p>Những nguyên tắc định hướng hoạt động của chúng tôi</p>
+            </div>
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                    </div>
+                    <h3>Chất lượng</h3>
+                    <p>Cam kết cung cấp sản phẩm và dịch vụ chất lượng cao nhất, đáp ứng vượt mong đợi của khách hàng.
+                    </p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                    </div>
+                    <h3>Hiệu quả</h3>
+                    <p>Tối ưu hóa mọi quy trình để mang lại hiệu quả cao nhất trong quản lý và vận hành.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                    </div>
+                    <h3>Tin cậy</h3>
+                    <p>Xây dựng lòng tin thông qua sự minh bạch, trung thực và trách nhiệm trong mọi giao dịch.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                            <polyline points="2 17 12 22 22 17"></polyline>
+                            <polyline points="2 12 12 17 22 12"></polyline>
+                        </svg>
+                    </div>
+                    <h3>Đổi mới</h3>
+                    <p>Không ngừng đổi mới và áp dụng công nghệ tiên tiến để cải thiện trải nghiệm người dùng.</p>
+                </div>
+            </div>
         </div>
-        <div class="team-grid">
-            <div class="team-member">
-                <div class="team-image">
-                    <img src="/images/staff_img/ceo.jpg" alt="CEO"/>
-                </div>
-                <div class="team-info">
-                    <h3>Nguyễn Bình Minh</h3>
-                    <p>Giám đốc điều hành</p>
-                </div>
-            </div>
-            <div class="team-member">
-                <div class="team-image">
-                    <img src="/images/staff_img/cto.jpg" alt="CTO"/>
-                </div>
-                <div class="team-info">
-                    <h3>Phạm Ngọc Anh</h3>
-                    <p>Giám đốc công nghệ</p>
-                </div>
-            </div>
-            <div class="team-member">
-                <div class="team-image">
-                    <img src="/images/staff_img/sm.jpg" alt="Sales Manager"/>
-                </div>
-                <div class="team-info">
-                    <h3>Trần Anh Tuấn</h3>
-                    <p>Trưởng phòng kinh doanh</p>
-                </div>
-            </div>
-            <div class="team-member">
-                <div class="team-image">
-                    <img src="/images/staff_img/csm.jpg" alt="Customer Support Manager"/>
-                </div>
-                <div class="team-info">
-                    <h3>Lê Thị Thu Trang</h3>
-                    <p>Trưởng phòng hỗ trợ khách hàng</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+    </section>
 
-<footer>
-    <div class="footer-content">
-        <div class="footer-section">
-            <h3>SunTower</h3>
-            <p>Hệ thống quản lý bất động sản chuyên nghiệp, mang đến giải pháp tối ưu cho doanh nghiệp của bạn.</p>
+    <section class="team-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Đội ngũ của chúng tôi</h2>
+                <p>Những con người tài năng đằng sau thành công</p>
+            </div>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="team-image">
+                        <img src="/images/staff_img/ceo.jpg" alt="CEO" />
+                    </div>
+                    <div class="team-info">
+                        <h3>Nguyễn Bình Minh</h3>
+                        <p>Giám đốc điều hành</p>
+                    </div>
+                </div>
+                <div class="team-member">
+                    <div class="team-image">
+                        <img src="/images/staff_img/cto.jpg" alt="CTO" />
+                    </div>
+                    <div class="team-info">
+                        <h3>Phạm Ngọc Anh</h3>
+                        <p>Giám đốc công nghệ</p>
+                    </div>
+                </div>
+                <div class="team-member">
+                    <div class="team-image">
+                        <img src="/images/staff_img/sm.jpg" alt="Sales Manager" />
+                    </div>
+                    <div class="team-info">
+                        <h3>Trần Anh Tuấn</h3>
+                        <p>Trưởng phòng kinh doanh</p>
+                    </div>
+                </div>
+                <div class="team-member">
+                    <div class="team-image">
+                        <img src="/images/staff_img/csm.jpg" alt="Customer Support Manager" />
+                    </div>
+                    <div class="team-info">
+                        <h3>Lê Thị Thu Trang</h3>
+                        <p>Trưởng phòng hỗ trợ khách hàng</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="footer-section">
-            <h3>Liên kết nhanh</h3>
-            <a href="/suntower">Trang chủ</a>
-            <a href="/suntower/introduce">Giới thiệu</a>
-            <a href="/suntower/building">Tòa nhà</a>
-            <a href="/suntower/contact">Liên hệ</a>
-        </div>
-        <div class="footer-section">
-            <h3>Liên hệ</h3>
-            <p>Email: suntower@gmail.com</p>
-            <p>Hotline: 0375577856</p>
-            <p>Địa chỉ: Ng. 158 Đ. Võ Chí Công, Xuân La, Tây Hồ, Hà Nội</p>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <p>&copy; 2026 SunTower. All rights reserved.</p>
-    </div>
-</footer>
+    </section>
 
-<script>
-    function toggleMenu() {
-        const navLinks = document.getElementById('navLinks');
-        navLinks.classList.toggle('active');
-    }
-</script>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>SunTower</h3>
+                <p>Hệ thống quản lý bất động sản chuyên nghiệp, mang đến giải pháp tối ưu cho doanh nghiệp của bạn.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Liên kết nhanh</h3>
+                <a href="/suntower">Trang chủ</a>
+                <a href="/suntower/introduce">Giới thiệu</a>
+                <a href="/suntower/building">Tòa nhà</a>
+                <a href="/suntower/contact">Liên hệ</a>
+            </div>
+            <div class="footer-section">
+                <h3>Liên hệ</h3>
+                <p>Email: suntower@gmail.com</p>
+                <p>Hotline: 0375577856</p>
+                <p>Địa chỉ: Ng. 158 Đ. Võ Chí Công, Xuân La, Tây Hồ, Hà Nội</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 SunTower. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+    </script>
 
 </body>
+
 </html>
