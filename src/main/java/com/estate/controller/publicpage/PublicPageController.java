@@ -25,17 +25,7 @@ public class PublicPageController {
     DistrictService districtService;
 
     @GetMapping("")
-    public String home() {
-        return "publicPage/home";
-    }
-
-    @GetMapping("/introduce")
-    public String about() {
-        return "publicPage/introduce";
-    }
-
-    @GetMapping("/building")
-    public String buildings (
+    public String home(
             Model model,
             @RequestParam(required = false) String buildingName
     ) {
@@ -45,14 +35,8 @@ public class PublicPageController {
         model.addAttribute("directions", Direction.values());
         model.addAttribute("levels", Level.values());
         model.addAttribute("districts", districtService.findAll());
-
         model.addAttribute("buildingName", buildingName == null ? "" : buildingName);
 
-        return "publicPage/building-list";
-    }
-
-    @GetMapping("/contact")
-    public String contact() {
-        return "publicPage/contact";
+        return "publicPage/publicPage";
     }
 }
