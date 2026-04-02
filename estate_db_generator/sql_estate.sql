@@ -374,13 +374,13 @@ INSERT INTO customer (username, password, full_name, phone, email, role, created
 ('HoangGiaTM'   , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty TNHH Thương mại Hoàng Gia', '0903000008', 'sales@hoanggia.vn'        , 'CUSTOMER', '2021-01-09', '2024-09-18'),
 ('NoiThatGoDat' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty CP Nội thất Gỗ Đất Việt'  , '0903000009', 'info@godatviet.vn'        , 'CUSTOMER', '2021-04-20', '2025-01-10'),
 ('SXDongNai'    , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty TNHH Sản xuất Đồng Nai'   , '0903000010', 'info@sxdongnai.vn'        , 'CUSTOMER', '2022-02-15', '2025-02-05'),
-(NULL           , NULL                                                          , 'Tập đoàn An Phát Holdings'        , '0903000011', 'contact@anphatholdings.vn', 'CUSTOMER', '2024-01-05', '2024-06-15'),
-(NULL           , NULL                                                          , 'Tập đoàn Vinpearl Resort & Spa'   , '0903000012', 'invest@vinpearl.com'      , 'CUSTOMER', '2025-01-10', '2025-02-28'),
-(NULL           , NULL                                                          , 'Công ty CP Bán lẻ Luxury Việt'    , '0903000013', 'info@luxuryviet.vn'       , 'CUSTOMER', '2023-06-01', '2024-01-20'),
-(NULL           , NULL                                                          , 'Tập đoàn Đầu tư Nam Cường'        , '0903000014', 'office@namcuonggroup.vn'  , 'CUSTOMER', '2023-04-01', '2023-07-01'),
-(NULL           , NULL                                                          , 'Ông Nguyễn Minh Khoa — Nhà đầu tư', '0903000015', 'khoa.nm@gmail.com'        , 'CUSTOMER', '2024-08-10', '2025-01-15'),
-(NULL           , NULL                                                          , 'Tập đoàn Xây dựng Minh Phát'      , '0903000016', 'info@minhphatgroup.vn'    , 'CUSTOMER', '2025-01-20', '2025-02-01'),
-(NULL           , NULL                                                          , 'Công ty CP Logistics Đại Dương'   , '0903000017', 'info@daiduonglogistics.vn', 'CUSTOMER', '2024-11-05', '2025-03-01');
+('APHoldings'   , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Tập đoàn An Phát Holdings'        , '0903000011', 'contact@anphatholdings.vn', 'CUSTOMER', '2024-01-05', '2024-06-15'),
+('VRS'          , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Tập đoàn Vinpearl Resort & Spa'   , '0903000012', 'invest@vinpearl.com'      , 'CUSTOMER', '2025-01-10', '2025-02-28'),
+('CPLuxuryViet' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty CP Bán lẻ Luxury Việt'    , '0903000013', 'info@luxuryviet.vn'       , 'CUSTOMER', '2023-06-01', '2024-01-20'),
+('DTNamCuong'   , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Tập đoàn Đầu tư Nam Cường'        , '0903000014', 'office@namcuonggroup.vn'  , 'CUSTOMER', '2023-04-01', '2023-07-01'),
+('NMK'          , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Ông Nguyễn Minh Khoa — Nhà đầu tư', '0903000015', 'khoa.nm@gmail.com'        , 'CUSTOMER', '2024-08-10', '2025-01-15'),
+('XDMinhPhat'   , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Tập đoàn Xây dựng Minh Phát'      , '0903000016', 'info@minhphatgroup.vn'    , 'CUSTOMER', '2025-01-20', '2025-02-01'),
+('CPLogisticsDD', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty CP Logistics Đại Dương'   , '0903000017', 'info@daiduonglogistics.vn', 'CUSTOMER', '2024-11-05', '2025-03-01');
 
 -- =============================================================================
 -- BẢNG ĐẶT LẠI MẬT KHẨU / PASSWORD_RESET_TOKEN

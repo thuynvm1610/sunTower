@@ -118,4 +118,19 @@ public interface ContractRepository extends JpaRepository<ContractEntity, Long>,
             @Param("end") LocalDateTime end,
             @Param("contractIds") List<Long> contractIds
     );
+
+    @Query("SELECT COUNT(c) > 0 FROM ContractEntity c " +
+            "WHERE c.staff.id = :staffId " +
+            "AND c.building.id = :buildingId " +
+            "AND c.status = 'ACTIVE'")
+    boolean existsActiveByStaffAndBuilding(@Param("staffId") Long staffId,
+                                           @Param("buildingId") Long buildingId);
+
+    // Kiểm tra active contract theo staff + customer
+    @Query("SELECT COUNT(c) > 0 FROM ContractEntity c " +
+            "WHERE c.staff.id = :staffId " +
+            "AND c.customer.id = :customerId " +
+            "AND c.status = 'ACTIVE'")
+    boolean existsActiveByStaffAndCustomer(@Param("staffId") Long staffId,
+                                           @Param("customerId") Long customerId);
 }

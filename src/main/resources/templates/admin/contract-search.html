@@ -247,7 +247,9 @@
             color: #374151;
         }
 
-        .btn-filter.btn-reset:hover { background: #e5e7eb; }
+        .btn-filter.btn-reset:hover {
+            background: #e5e7eb;
+        }
 
         .btn-filter.btn-search {
             background: #3b82f6;
@@ -257,7 +259,7 @@
         .btn-filter.btn-search:hover {
             background: #2563eb;
             transform: translateY(-1px);
-            box-shadow: 0 3px 8px rgba(59,130,246,0.3);
+            box-shadow: 0 3px 8px rgba(59, 130, 246, 0.3);
         }
 
         /* ══ RESULT BADGE ════════════════════════════════════════════════════ */
@@ -339,7 +341,9 @@
             font-size: 0.8125rem;
         }
 
-        .modern-table tbody tr:last-child td { border-bottom: none; }
+        .modern-table tbody tr:last-child td {
+            border-bottom: none;
+        }
 
         .modern-table tbody tr {
             transition: background 0.15s;
@@ -400,14 +404,32 @@
             flex-shrink: 0;
         }
 
-        .status-badge.active  { background: #dcfce7; color: #16a34a; }
-        .status-badge.active::before { background: #16a34a; }
+        .status-badge.active {
+            background: #dcfce7;
+            color: #16a34a;
+        }
 
-        .status-badge.expired { background: #fee2e2; color: #dc2626; }
-        .status-badge.expired::before { background: #dc2626; }
+        .status-badge.active::before {
+            background: #16a34a;
+        }
 
-        .status-badge.pending { background: #fef3c7; color: #d97706; }
-        .status-badge.pending::before { background: #d97706; }
+        .status-badge.expired {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .status-badge.expired::before {
+            background: #dc2626;
+        }
+
+        .status-badge.pending {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .status-badge.pending::before {
+            background: #d97706;
+        }
 
         .date-info {
             font-size: 0.775rem;
@@ -444,14 +466,35 @@
             flex-shrink: 0;
         }
 
-        .btn-action.btn-view  { background: #eff6ff; color: #2563eb; }
-        .btn-action.btn-view:hover  { background: #dbeafe; transform: translateY(-1px); }
+        .btn-action.btn-view {
+            background: #eff6ff;
+            color: #2563eb;
+        }
 
-        .btn-action.btn-edit  { background: #fffbeb; color: #d97706; }
-        .btn-action.btn-edit:hover  { background: #fef3c7; transform: translateY(-1px); }
+        .btn-action.btn-view:hover {
+            background: #dbeafe;
+            transform: translateY(-1px);
+        }
 
-        .btn-action.btn-delete { background: #fef2f2; color: #dc2626; }
-        .btn-action.btn-delete:hover { background: #fee2e2; transform: translateY(-1px); }
+        .btn-action.btn-edit {
+            background: #fffbeb;
+            color: #d97706;
+        }
+
+        .btn-action.btn-edit:hover {
+            background: #fef3c7;
+            transform: translateY(-1px);
+        }
+
+        .btn-action.btn-delete {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .btn-action.btn-delete:hover {
+            background: #fee2e2;
+            transform: translateY(-1px);
+        }
 
         /* ══ EMPTY STATE ══════════════════════════════════════════════════════ */
         .empty-state {
@@ -488,7 +531,9 @@
             margin: 0;
         }
 
-        .pagination .page-item { margin: 0; }
+        .pagination .page-item {
+            margin: 0;
+        }
 
         .pagination .page-link {
             border: 1px solid #e5e7eb;
@@ -525,25 +570,31 @@
                 margin-left: 0;
                 padding: 1.5rem;
             }
+
             .page-header {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 1rem;
             }
-            .action-buttons { flex-wrap: wrap; }
+
+            .action-buttons {
+                flex-wrap: wrap;
+            }
         }
 
-        .separator { height: 12px; }
+        .separator {
+            height: 12px;
+        }
     </style>
 </head>
 
 <body>
 
-<!-- HEADER + SIDEBAR -->
-<div th:replace="~{layout/header :: header}"></div>
-<div th:replace="~{layout/sidebar :: sidebar}"></div>
+    <!-- HEADER + SIDEBAR -->
+    <div th:replace="~{layout/header :: header}"></div>
+    <div th:replace="~{layout/sidebar :: sidebar}"></div>
 
-<main class="content">
+    <main class="content">
         <!-- Page Header -->
         <div class="page-header">
             <div>
@@ -586,18 +637,18 @@
                         <col>
                     </colgroup>
                     <thead>
-                    <tr>
-                        <th>Mã HĐ</th>
-                        <th>Khách hàng</th>
-                        <th>Tòa nhà</th>
-                        <th>Giá thuê (m²)</th>
-                        <th>Thời gian</th>
-                        <th>Hiệu lực</th>
-                        <th style="text-align:center;">Hành động</th>
-                    </tr>
+                        <tr>
+                            <th>Mã HĐ</th>
+                            <th>Khách hàng</th>
+                            <th>Tòa nhà</th>
+                            <th>Giá thuê (m²)</th>
+                            <th>Thời gian</th>
+                            <th>Hiệu lực</th>
+                            <th style="text-align:center;">Hành động</th>
+                        </tr>
                     </thead>
                     <tbody id="contractTableBody">
-                    <!-- Ajax render -->
+                        <!-- Ajax render -->
                     </tbody>
                 </table>
             </div>
@@ -629,7 +680,7 @@
                         <select class="form-control" name="customerId" th:value="${filter.customerId}">
                             <option value="">-- Chọn khách hàng --</option>
                             <option th:each="c : ${customers}" th:value="${c.value}" th:text="${c.key}"
-                                    th:selected="${c.value == filter.customerId}">
+                                th:selected="${c.value == filter.customerId}">
                             </option>
                         </select>
                     </div>
@@ -638,7 +689,7 @@
                         <select class="form-control" name="buildingId" th:value="${filter.buildingId}">
                             <option value="">-- Chọn tòa nhà --</option>
                             <option th:each="b : ${buildings}" th:value="${b.value}" th:text="${b.key}"
-                                    th:selected="${b.value == filter.buildingId}">
+                                th:selected="${b.value == filter.buildingId}">
                             </option>
                         </select>
                     </div>
@@ -647,7 +698,7 @@
                         <select class="form-control" name="staffId" th:value="${filter.staffId}">
                             <option value="">-- Chọn nhân viên --</option>
                             <option th:each="s : ${staffs}" th:value="${s.id}" th:text="${s.fullName}"
-                                    th:selected="${s.id == filter.staffId}">
+                                th:selected="${s.id == filter.staffId}">
                             </option>
                         </select>
                     </div>
@@ -662,10 +713,10 @@
                         <label class="form-label">Giá thuê (VNĐ)</label>
                         <div class="range-inputs">
                             <input type="number" class="form-control" name="rentPriceFrom"
-                                   th:value="${filter.rentPriceFrom}" placeholder="Từ" min="0">
+                                th:value="${filter.rentPriceFrom}" placeholder="Từ" min="0">
                             <span class="range-separator">-</span>
                             <input type="number" class="form-control" name="rentPriceTo"
-                                   th:value="${filter.rentPriceTo}" placeholder="Đến" min="0">
+                                th:value="${filter.rentPriceTo}" placeholder="Đến" min="0">
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -696,91 +747,91 @@
                 </div>
             </div>
         </form>
-</main>
+    </main>
 
-<!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script>
-    /* ── Toggle filter ──────────────────────────────────────────────── */
-    function toggleFilter() {
-        const filterBody = document.getElementById('filterBody');
-        const toggleBtn  = document.querySelector('.btn-toggle-filter');
-        filterBody.classList.toggle('collapsed');
-        toggleBtn.classList.toggle('collapsed');
-        localStorage.setItem('filterCollapsed', filterBody.classList.contains('collapsed'));
-    }
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const filterBody = document.getElementById('filterBody');
-        const toggleBtn  = document.querySelector('.btn-toggle-filter');
-        if (localStorage.getItem('filterCollapsed') === 'true') {
-            filterBody.classList.add('collapsed');
-            toggleBtn.classList.add('collapsed');
+    <script>
+        /* ── Toggle filter ──────────────────────────────────────────────── */
+        function toggleFilter() {
+            const filterBody = document.getElementById('filterBody');
+            const toggleBtn = document.querySelector('.btn-toggle-filter');
+            filterBody.classList.toggle('collapsed');
+            toggleBtn.classList.toggle('collapsed');
+            localStorage.setItem('filterCollapsed', filterBody.classList.contains('collapsed'));
         }
-    });
 
-    function resetFilter() {
-        document.querySelectorAll('.filter-card .form-control, .filter-card select')
-            .forEach(el => el.value = '');
-    }
-</script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const filterBody = document.getElementById('filterBody');
+            const toggleBtn = document.querySelector('.btn-toggle-filter');
+            if (localStorage.getItem('filterCollapsed') === 'true') {
+                filterBody.classList.add('collapsed');
+                toggleBtn.classList.add('collapsed');
+            }
+        });
 
-<script th:inline="javascript">
-    let filter = /*[[${filter}]]*/ {};
-</script>
+        function resetFilter() {
+            document.querySelectorAll('.filter-card .form-control, .filter-card select')
+                .forEach(el => el.value = '');
+        }
+    </script>
 
-<script>
-    let currentPage = 1;
-    const pageSize  = 5;
+    <script th:inline="javascript">
+        let filter = /*[[${filter}]]*/ {};
+    </script>
 
-    function formatDate(dateString) {
-        if (!dateString) return '';
-        const d = new Date(dateString);
-        return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
-    }
+    <script>
+        let currentPage = 1;
+        const pageSize = 5;
 
-    function formatPrice(price) {
-        if (price == null) return '';
-        return new Intl.NumberFormat('vi-VN').format(price).replaceAll('.', ',') + ' đ';
-    }
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const d = new Date(dateString);
+            return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+        }
 
-    function getStatusBadge(status) {
-        const map = {
-            'ACTIVE':  { cls: 'active',  text: 'Hiệu lực' },
-            'EXPIRED': { cls: 'expired', text: 'Hết hạn'  },
-        };
-        const s = map[status] || { cls: 'pending', text: status };
-        return `<span class="status-badge ${s.cls}">${s.text}</span>`;
-    }
+        function formatPrice(price) {
+            if (price == null) return '';
+            return new Intl.NumberFormat('vi-VN').format(price).replaceAll('.', ',') + ' đ';
+        }
 
-    function loadContracts(page) {
-        $.ajax({
-            url: "/admin/contract/search/page",
-            type: "GET",
-            data: {
-                page: page,
-                size: pageSize,
-                customerId:    filter.customerId,
-                buildingId:    filter.buildingId,
-                staffId:       filter.staffId,
-                rentPriceFrom: filter.rentPriceFrom,
-                rentPriceTo:   filter.rentPriceTo,
-                startDate:     filter.startDate,
-                endDate:       filter.endDate,
-                status:        filter.status
-            },
-            success: function (data) {
-                currentPage = page;
-                const tbody = $("#contractTableBody");
-                tbody.empty();
+        function getStatusBadge(status) {
+            const map = {
+                'ACTIVE': { cls: 'active', text: 'Hiệu lực' },
+                'EXPIRED': { cls: 'expired', text: 'Hết hạn' },
+            };
+            const s = map[status] || { cls: 'pending', text: status };
+            return `<span class="status-badge ${s.cls}">${s.text}</span>`;
+        }
 
-                $("#totalElements").text(data.totalElements);
+        function loadContracts(page) {
+            $.ajax({
+                url: "/admin/contract/search/page",
+                type: "GET",
+                data: {
+                    page: page,
+                    size: pageSize,
+                    customerId: filter.customerId,
+                    buildingId: filter.buildingId,
+                    staffId: filter.staffId,
+                    rentPriceFrom: filter.rentPriceFrom,
+                    rentPriceTo: filter.rentPriceTo,
+                    startDate: filter.startDate,
+                    endDate: filter.endDate,
+                    status: filter.status
+                },
+                success: function (data) {
+                    currentPage = page;
+                    const tbody = $("#contractTableBody");
+                    tbody.empty();
 
-                if (data.content.length === 0) {
-                    tbody.append(`
+                    $("#totalElements").text(data.totalElements);
+
+                    if (data.content.length === 0) {
+                        tbody.append(`
                         <tr>
                             <td colspan="7">
                                 <div class="empty-state">
@@ -790,12 +841,12 @@
                             </td>
                         </tr>
                     `);
-                    $("#pagination").empty();
-                    return;
-                }
+                        $("#pagination").empty();
+                        return;
+                    }
 
-                $.each(data.content, function (i, c) {
-                    tbody.append(`
+                    $.each(data.content, function (i, c) {
+                        tbody.append(`
                         <tr>
                             <td><span class="contract-id">HĐ-${c.id}</span></td>
                             <td><span class="customer-name">${c.customer || ''}</span></td>
@@ -823,105 +874,105 @@
                             </td>
                         </tr>
                     `);
-                });
+                    });
 
-                renderPagination(data.totalPages, page);
-            },
-            error: function () {
-                Swal.fire({ icon: 'error', title: 'Lỗi', text: 'Không tải được dữ liệu!' });
-            }
-        });
-    }
+                    renderPagination(data.totalPages, page);
+                },
+                error: function () {
+                    Swal.fire({ icon: 'error', title: 'Lỗi', text: 'Không tải được dữ liệu!' });
+                }
+            });
+        }
 
-    function renderPagination(totalPages, current) {
-        const pagination = $("#pagination");
-        pagination.empty();
-        if (totalPages <= 1) return;
+        function renderPagination(totalPages, current) {
+            const pagination = $("#pagination");
+            pagination.empty();
+            if (totalPages <= 1) return;
 
-        let html = `<nav class="pagination-wrapper"><ul class="pagination justify-content-center">`;
+            let html = `<nav class="pagination-wrapper"><ul class="pagination justify-content-center">`;
 
-        html += `<li class="page-item ${current===1?'disabled':''}">
+            html += `<li class="page-item ${current === 1 ? 'disabled' : ''}">
                     <a href="#" class="page-link" onclick="loadContracts(1); return false;">
                         <i class="bi bi-chevron-double-left"></i>
                     </a>
                  </li>`;
 
-        html += `<li class="page-item ${current===1?'disabled':''}">
-                    <a href="#" class="page-link" onclick="loadContracts(${current-1}); return false;">
+            html += `<li class="page-item ${current === 1 ? 'disabled' : ''}">
+                    <a href="#" class="page-link" onclick="loadContracts(${current - 1}); return false;">
                         <i class="bi bi-chevron-left"></i>
                     </a>
                  </li>`;
 
-        const blockSize  = 5;
-        const blockStart = Math.floor((current-1)/blockSize)*blockSize + 1;
-        let   blockEnd   = Math.min(blockStart + blockSize - 1, totalPages);
+            const blockSize = 5;
+            const blockStart = Math.floor((current - 1) / blockSize) * blockSize + 1;
+            let blockEnd = Math.min(blockStart + blockSize - 1, totalPages);
 
-        for (let i = blockStart; i <= blockEnd; i++) {
-            html += `<li class="page-item ${i===current?'active':''}">
+            for (let i = blockStart; i <= blockEnd; i++) {
+                html += `<li class="page-item ${i === current ? 'active' : ''}">
                         <a href="#" class="page-link" onclick="loadContracts(${i}); return false;">${i}</a>
                      </li>`;
-        }
+            }
 
-        html += `<li class="page-item ${current===totalPages?'disabled':''}">
-                    <a href="#" class="page-link" onclick="loadContracts(${current+1}); return false;">
+            html += `<li class="page-item ${current === totalPages ? 'disabled' : ''}">
+                    <a href="#" class="page-link" onclick="loadContracts(${current + 1}); return false;">
                         <i class="bi bi-chevron-right"></i>
                     </a>
                  </li>`;
 
-        html += `<li class="page-item ${current===totalPages?'disabled':''}">
+            html += `<li class="page-item ${current === totalPages ? 'disabled' : ''}">
                     <a href="#" class="page-link" onclick="loadContracts(${totalPages}); return false;">
                         <i class="bi bi-chevron-double-right"></i>
                     </a>
                  </li>`;
 
-        html += `</ul></nav>`;
-        pagination.html(html);
-    }
+            html += `</ul></nav>`;
+            pagination.html(html);
+        }
 
-    $(document).ready(function () {
-        loadContracts(1);
-    });
-
-    // Ajax xóa hợp đồng
-    $(document).on("click", ".btn-delete", function (e) {
-        e.preventDefault();
-        const id = $(this).data("id");
-
-        Swal.fire({
-            title: 'Xác nhận xóa',
-            text: "Bạn có chắc muốn xóa hợp đồng này?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#dc2626',
-            cancelButtonColor: '#6b7280',
-            confirmButtonText: 'Xóa',
-            cancelButtonText: 'Hủy'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: "/admin/contract/delete/" + id,
-                    type: "DELETE",
-                    success: function () {
-                        Swal.fire({
-                            icon: 'success', title: 'Thành công',
-                            text: 'Xóa hợp đồng thành công!',
-                            timer: 1500, showConfirmButton: false
-                        }).then(() => {
-                            window.location.href = "/admin/contract/list";
-                        });
-                    },
-                    error: function (xhr) {
-                        const err = xhr.responseJSON;
-                        Swal.fire({
-                            icon: 'error', title: 'Lỗi',
-                            text: err?.message || 'Xóa thất bại!'
-                        });
-                    }
-                });
-            }
+        $(document).ready(function () {
+            loadContracts(1);
         });
-    });
-</script>
+
+        // Ajax xóa hợp đồng
+        $(document).on("click", ".btn-delete", function (e) {
+            e.preventDefault();
+            const id = $(this).data("id");
+
+            Swal.fire({
+                title: 'Xác nhận xóa',
+                text: "Bạn có chắc muốn xóa hợp đồng này?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc2626',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "/admin/contract/delete/" + id,
+                        type: "DELETE",
+                        success: function () {
+                            Swal.fire({
+                                icon: 'success', title: 'Thành công',
+                                text: 'Xóa hợp đồng thành công!',
+                                timer: 1500, showConfirmButton: false
+                            }).then(() => {
+                                window.location.href = "/admin/contract/list";
+                            });
+                        },
+                        error: function (xhr) {
+                            const err = xhr.responseJSON;
+                            Swal.fire({
+                                icon: 'error', title: 'Lỗi',
+                                text: err?.message || 'Xóa thất bại!'
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

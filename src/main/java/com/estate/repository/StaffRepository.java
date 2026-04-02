@@ -24,9 +24,9 @@ public interface StaffRepository extends JpaRepository<StaffEntity, Long> {
     Page<StaffEntity> findByRole(Pageable pageable, String role);
 
     @Query("""
-            SELECT s FROM StaffEntity s
-            WHERE (:fullName = '' OR s.fullName = :fullName)
-            AND (:role = '' OR s.role = :role)
+                SELECT s FROM StaffEntity s
+                WHERE (:fullName = '' OR s.fullName LIKE CONCAT('%', :fullName, '%'))
+                AND (:role = '' OR s.role = :role)
             """)
     Page<StaffEntity> search(
             @Param("fullName") String fullName,
@@ -71,8 +71,6 @@ public interface StaffRepository extends JpaRepository<StaffEntity, Long> {
     boolean existsByStaffIdAndCustomerId(@Param("staffId") Long staffId,
                                          @Param("customerId") Long customerId);
 
-    StaffEntity findByUsername(String username);
-
     Optional<StaffEntity> findByEmail(String email);
 
     @Modifying
@@ -110,4 +108,20 @@ public interface StaffRepository extends JpaRepository<StaffEntity, Long> {
             """)
     void passwordUpdate(@Param("password") String password,
                         @Param("staffId") Long staffId);
+
+    Optional<StaffEntity> findByUsername(String username);
+
+    // Lấy danh sách buildingId đang được phân công cho staff
+    @Query("SELECT b.id " +
+            "FROM StaffEntity s " +
+            "JOIN s.buildings b " +
+            "WHERE s.id = :staffId")
+    List<Long> findAssignedBuildingIds(@Param("staffId") Long staffId);
+
+    // Lấy danh sách customerId đang được phân công cho staff
+    @Query("SELECT c.id " +
+            "FROM StaffEntity s " +
+            "JOIN s.customers c " +
+            "WHERE s.id = :staffId")
+    List<Long> findAssignedCustomerIds(@Param("staffId") Long staffId);
 }

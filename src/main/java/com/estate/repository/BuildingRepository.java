@@ -1,5 +1,6 @@
 package com.estate.repository;
 
+import com.estate.dto.BuildingSelectDTO;
 import com.estate.enums.TransactionType;
 import com.estate.repository.custom.BuildingRepositoryCustom;
 import com.estate.repository.entity.BuildingEntity;
@@ -45,4 +46,9 @@ public interface BuildingRepository extends JpaRepository<BuildingEntity, Long>,
                 WHERE b.transactionType = :transactionType
             """)
     Long countByTransactionType(TransactionType transactionType);
+
+    @Query("SELECT new com.estate.dto.BuildingSelectDTO(b.id, b.name, CONCAT(b.ward, ', ', b.street)) " +
+            "FROM BuildingEntity b " +
+            "ORDER BY b.name ASC")
+    List<BuildingSelectDTO> findAllForSelect();
 }

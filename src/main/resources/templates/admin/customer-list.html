@@ -125,21 +125,11 @@
             padding: 0.875rem 1.5rem;
         }
 
-        /* ══ FILTER CARD ══════════════════════════════════════════════════════ */
-        .filter-header {
+        /* ══ FILTER INLINE ════════════════════════════════════════════════ */
+        .filter-inline {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.125rem;
-            padding-bottom: 0.875rem;
-            border-bottom: 1px solid #f3f4f6;
-            transition: border-color 0.2s ease;
-        }
-
-        .d-card-body:has(.filter-body.collapsed) .filter-header {
-            border-bottom-color: transparent;
-            margin-bottom: 0;
-            padding-bottom: 0;
+            gap: 0.75rem;
         }
 
         .filter-title {
@@ -151,6 +141,8 @@
             gap: 0.4rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .filter-title i {
@@ -158,77 +150,8 @@
             font-size: 0.875rem;
         }
 
-        .btn-toggle-filter {
-            background: #f3f4f6;
-            border: none;
-            width: 28px;
-            height: 28px;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            color: #6b7280;
-            font-size: 0.75rem;
-        }
-
-        .btn-toggle-filter:hover {
-            background: #e5e7eb;
-            color: #111827;
-        }
-
-        .btn-toggle-filter i {
-            transition: transform 0.3s;
-        }
-
-        .btn-toggle-filter.collapsed i {
-            transform: rotate(180deg);
-        }
-
-        .filter-body {
-            max-height: 1000px;
-            overflow: hidden;
-            transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
-            opacity: 1;
-        }
-
-        .filter-body.collapsed {
-            max-height: 0;
-            opacity: 0;
-            padding-top: 0;
-            padding-bottom: 0;
-        }
-
-        .filter-section-title {
-            font-size: 0.72rem;
-            font-weight: 700;
-            color: #9ca3af;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            margin-bottom: 0.75rem;
-            display: flex;
-            align-items: center;
-            gap: 0.35rem;
-        }
-
-        .filter-section-title i {
-            color: #3b82f6;
-            font-size: 0.8rem;
-        }
-
-        /* Form controls */
-        .filter-body .form-label {
-            font-size: 0.72rem;
-            font-weight: 700;
-            color: #6b7280;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.35rem;
-        }
-
-        .filter-body .form-control,
-        .filter-body .form-select {
+        .filter-inline-input {
+            flex: 1;
             border: 1px solid #e5e7eb;
             border-radius: 7px;
             padding: 0.5rem 0.75rem;
@@ -238,20 +161,10 @@
             transition: all 0.2s;
         }
 
-        .filter-body .form-control:focus,
-        .filter-body .form-select:focus {
+        .filter-inline-input:focus {
             border-color: #3b82f6;
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
             outline: none;
-        }
-
-        .filter-actions {
-            display: flex;
-            gap: 0.5rem;
-            justify-content: flex-end;
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid #f3f4f6;
         }
 
         .btn-filter {
@@ -272,7 +185,9 @@
             color: #374151;
         }
 
-        .btn-filter.btn-reset:hover { background: #e5e7eb; }
+        .btn-filter.btn-reset:hover {
+            background: #e5e7eb;
+        }
 
         .btn-filter.btn-search {
             background: #3b82f6;
@@ -282,7 +197,7 @@
         .btn-filter.btn-search:hover {
             background: #2563eb;
             transform: translateY(-1px);
-            box-shadow: 0 3px 8px rgba(59,130,246,0.3);
+            box-shadow: 0 3px 8px rgba(59, 130, 246, 0.3);
         }
 
         /* ══ TABLE ═══════════════════════════════════════════════════════════ */
@@ -312,7 +227,9 @@
             font-size: 0.8125rem;
         }
 
-        .dash-table tbody tr:last-child td { border-bottom: none; }
+        .dash-table tbody tr:last-child td {
+            border-bottom: none;
+        }
 
         .dash-table tbody tr {
             transition: background 0.15s;
@@ -489,68 +406,56 @@
                 margin-left: 0;
                 padding: 0;
             }
+
             .page-header-bar {
                 flex-direction: column;
                 align-items: flex-start;
             }
-            .action-buttons { flex-wrap: wrap; }
+
+            .action-buttons {
+                flex-wrap: wrap;
+            }
         }
     </style>
 </head>
 
 <body>
 
-<!-- HEADER + SIDEBAR -->
-<div th:replace="~{layout/header :: header}"></div>
-<div th:replace="~{layout/sidebar :: sidebar}"></div>
+    <!-- HEADER + SIDEBAR -->
+    <div th:replace="~{layout/header :: header}"></div>
+    <div th:replace="~{layout/sidebar :: sidebar}"></div>
 
-<main class="content">
-    <div class="detail-body">
+    <main class="content">
+        <div class="detail-body">
 
-        <!-- ── Page Header ─────────────────────────────────────────────── -->
-        <div class="page-header-bar">
-            <div>
-                <h2>
-                    <i class="bi bi-people" style="color:#3b82f6;font-size:1.2rem;"></i>
-                    Quản lý Khách hàng
-                </h2>
-                <div class="update-time">Danh sách toàn bộ khách hàng trong hệ thống</div>
+            <!-- ── Page Header ─────────────────────────────────────────────── -->
+            <div class="page-header-bar">
+                <div>
+                    <h2>
+                        <i class="bi bi-people" style="color:#3b82f6;font-size:1.2rem;"></i>
+                        Quản lý Khách hàng
+                    </h2>
+                    <div class="update-time">Danh sách toàn bộ khách hàng trong hệ thống</div>
+                </div>
+                <div class="page-header-actions">
+                    <a th:href="@{/admin/customer/add}" class="btn-add">
+                        <i class="bi bi-plus-circle"></i>
+                        Thêm khách hàng
+                    </a>
+                </div>
             </div>
-            <div class="page-header-actions">
-                <a th:href="@{/admin/customer/add}" class="btn-add">
-                    <i class="bi bi-plus-circle"></i>
-                    Thêm khách hàng
-                </a>
-            </div>
-        </div>
 
-        <!-- ── Filter Card ─────────────────────────────────────────────── -->
-        <div class="d-card">
-            <form th:action="@{/admin/customer/search}" method="get">
-                <div class="d-card-body">
-                    <div class="filter-header">
-                        <div class="filter-title">
-                            <i class="bi bi-funnel"></i>
-                            Bộ lọc tìm kiếm
-                        </div>
-                        <button type="button" class="btn-toggle-filter collapsed" onclick="toggleFilter()">
-                            <i class="bi bi-chevron-up"></i>
-                        </button>
-                    </div>
-
-                    <div class="filter-body collapsed" id="filterBody">
-                        <div class="filter-section-title">
-                            <i class="bi bi-info-circle"></i> Thông tin khách hàng
-                        </div>
-                        <div class="row g-3">
-                            <div class="col-md-8">
-                                <label class="form-label">Tên khách hàng</label>
-                                <input type="text" class="form-control" name="fullName"
-                                       placeholder="Nhập tên khách hàng cần tìm...">
+            <!-- ── Filter Card ─────────────────────────────────────────────── -->
+            <div class="d-card">
+                <form th:action="@{/admin/customer/search}" method="get">
+                    <div class="d-card-body">
+                        <div class="filter-inline">
+                            <div class="filter-title">
+                                <i class="bi bi-funnel"></i>
+                                Bộ lọc
                             </div>
-                        </div>
-
-                        <div class="filter-actions">
+                            <input type="text" class="form-control filter-inline-input" name="fullName"
+                                placeholder="Nhập tên khách hàng cần tìm...">
                             <button type="reset" class="btn-filter btn-reset">
                                 <i class="bi bi-arrow-clockwise"></i> Reset
                             </button>
@@ -558,84 +463,73 @@
                                 <i class="bi bi-search"></i> Tìm kiếm
                             </button>
                         </div>
-                    </div><!-- /filter-body -->
-                </div>
-            </form>
-        </div>
-
-        <!-- ── Table Card ──────────────────────────────────────────────── -->
-        <div class="d-card">
-            <div class="table-header-row">
-                <div class="thr-title">
-                    <i class="bi bi-table"></i>
-                    Danh sách khách hàng
-                </div>
+                    </div>
+                </form>
             </div>
 
-            <div class="table-responsive">
-                <table class="dash-table">
-                    <colgroup>
-                        <col style="width: 80px">   <!-- Mã KH -->
-                        <col style="width: 300px">  <!-- Tên khách hàng -->
-                        <col style="width: 300px">  <!-- Điện thoại -->
-                        <col style="width: 300px">  <!-- Email -->
-                        <col>  <!-- Hành động -->
-                    </colgroup>
-                    <thead>
-                    <tr>
-                        <th>Mã KH</th>
-                        <th>Tên khách hàng</th>
-                        <th>Điện thoại</th>
-                        <th>Email</th>
-                        <th style="text-align:center;">Hành động</th>
-                    </tr>
-                    </thead>
-                    <tbody id="customerTableBody">
-                    <!-- Ajax render -->
-                    </tbody>
-                </table>
+            <!-- ── Table Card ──────────────────────────────────────────────── -->
+            <div class="d-card">
+                <div class="table-header-row">
+                    <div class="thr-title">
+                        <i class="bi bi-table"></i>
+                        Danh sách khách hàng
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="dash-table">
+                        <colgroup>
+                            <col style="width: 80px"> <!-- Mã KH -->
+                            <col style="width: 300px"> <!-- Tên khách hàng -->
+                            <col style="width: 300px"> <!-- Điện thoại -->
+                            <col style="width: 300px"> <!-- Email -->
+                            <col> <!-- Hành động -->
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>Mã KH</th>
+                                <th>Tên khách hàng</th>
+                                <th>Điện thoại</th>
+                                <th>Email</th>
+                                <th style="text-align:center;">Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customerTableBody">
+                            <!-- Ajax render -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination inside card -->
+                <div id="pagination"></div>
             </div>
 
-            <!-- Pagination inside card -->
-            <div id="pagination"></div>
-        </div>
+        </div><!-- /detail-body -->
+    </main>
 
-    </div><!-- /detail-body -->
-</main>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        let currentPage = 1;
+        const pageSize = 5;
 
-<script>
-    /* ── Toggle filter ──────────────────────────────────────────────── */
-    function toggleFilter() {
-        const filterBody = document.getElementById('filterBody');
-        const toggleBtn  = document.querySelector('.btn-toggle-filter');
-        filterBody.classList.toggle('collapsed');
-        toggleBtn.classList.toggle('collapsed');
-    }
-</script>
+        function loadCustomers(page, event) {
+            if (event) event.preventDefault();
 
-<script>
-    let currentPage = 1;
-    const pageSize  = 5;
+            $.ajax({
+                url: "/admin/customer/list/page",
+                type: "GET",
+                data: { page: page, size: pageSize },
+                success: function (data) {
+                    currentPage = page;
+                    const tbody = $("#customerTableBody");
+                    tbody.empty();
 
-    function loadCustomers(page, event) {
-        if (event) event.preventDefault();
-
-        $.ajax({
-            url: "/admin/customer/list/page",
-            type: "GET",
-            data: { page: page, size: pageSize },
-            success: function (data) {
-                currentPage = page;
-                const tbody = $("#customerTableBody");
-                tbody.empty();
-
-                if (data.content.length === 0) {
-                    tbody.append(`
+                    if (data.content.length === 0) {
+                        tbody.append(`
                         <tr>
                             <td colspan="5">
                                 <div class="empty-state">
@@ -645,12 +539,12 @@
                             </td>
                         </tr>
                     `);
-                    $("#pagination").empty();
-                    return;
-                }
+                        $("#pagination").empty();
+                        return;
+                    }
 
-                $.each(data.content, function (i, customer) {
-                    tbody.append(`
+                    $.each(data.content, function (i, customer) {
+                        tbody.append(`
                         <tr>
                             <td><span class="customer-id">KH-${customer.id}</span></td>
                             <td><span class="customer-name">${customer.fullName || ''}</span></td>
@@ -678,103 +572,104 @@
                             </td>
                         </tr>
                     `);
-                });
+                    });
 
-                renderPagination(data.totalPages, page);
-            },
-            error: function () {
-                Swal.fire({ icon: 'error', title: 'Lỗi', text: 'Không tải được dữ liệu!' });
-            }
-        });
-    }
+                    renderPagination(data.totalPages, page);
+                },
+                error: function () {
+                    Swal.fire({ icon: 'error', title: 'Lỗi', text: 'Không tải được dữ liệu!' });
+                }
+            });
+        }
 
-    function renderPagination(totalPages, current) {
-        const pagination = $("#pagination");
-        pagination.empty();
-        if (totalPages <= 1) return;
+        function renderPagination(totalPages, current) {
+            const pagination = $("#pagination");
+            pagination.empty();
+            if (totalPages <= 1) return;
 
-        let html = `<nav class="pagination-wrapper"><ul class="pagination justify-content-center">`;
+            let html = `<nav class="pagination-wrapper"><ul class="pagination justify-content-center">`;
 
-        html += `<li class="page-item ${current===1?'disabled':''}">
+            html += `<li class="page-item ${current === 1 ? 'disabled' : ''}">
                     <a href="#" class="page-link" onclick="loadCustomers(1,event)">
                         <i class="bi bi-chevron-double-left"></i>
                     </a>
                  </li>`;
 
-        html += `<li class="page-item ${current===1?'disabled':''}">
-                    <a href="#" class="page-link" onclick="loadCustomers(${current-1},event)">
+            html += `<li class="page-item ${current === 1 ? 'disabled' : ''}">
+                    <a href="#" class="page-link" onclick="loadCustomers(${current - 1},event)">
                         <i class="bi bi-chevron-left"></i>
                     </a>
                  </li>`;
 
-        const blockSize  = 5;
-        const blockStart = Math.floor((current-1)/blockSize)*blockSize + 1;
-        let   blockEnd   = Math.min(blockStart + blockSize - 1, totalPages);
+            const blockSize = 5;
+            const blockStart = Math.floor((current - 1) / blockSize) * blockSize + 1;
+            let blockEnd = Math.min(blockStart + blockSize - 1, totalPages);
 
-        for (let i = blockStart; i <= blockEnd; i++) {
-            html += `<li class="page-item ${i===current?'active':''}">
+            for (let i = blockStart; i <= blockEnd; i++) {
+                html += `<li class="page-item ${i === current ? 'active' : ''}">
                         <a href="#" class="page-link" onclick="loadCustomers(${i},event)">${i}</a>
                      </li>`;
-        }
+            }
 
-        html += `<li class="page-item ${current===totalPages?'disabled':''}">
-                    <a href="#" class="page-link" onclick="loadCustomers(${current+1},event)">
+            html += `<li class="page-item ${current === totalPages ? 'disabled' : ''}">
+                    <a href="#" class="page-link" onclick="loadCustomers(${current + 1},event)">
                         <i class="bi bi-chevron-right"></i>
                     </a>
                  </li>`;
 
-        html += `<li class="page-item ${current===totalPages?'disabled':''}">
+            html += `<li class="page-item ${current === totalPages ? 'disabled' : ''}">
                     <a href="#" class="page-link" onclick="loadCustomers(${totalPages},event)">
                         <i class="bi bi-chevron-double-right"></i>
                     </a>
                  </li>`;
 
-        html += `</ul></nav>`;
-        pagination.html(html);
-    }
+            html += `</ul></nav>`;
+            pagination.html(html);
+        }
 
-    $(document).ready(function () {
-        loadCustomers(1);
-    });
-
-    // Ajax xóa khách hàng
-    $(document).on("click", ".btn-delete", function (e) {
-        e.preventDefault();
-        const id = $(this).data("id");
-
-        Swal.fire({
-            title: 'Xác nhận xóa',
-            text: "Bạn có chắc muốn xóa khách hàng này?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#dc2626',
-            cancelButtonColor: '#6b7280',
-            confirmButtonText: 'Xóa',
-            cancelButtonText: 'Hủy'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: "/admin/customer/delete/" + id,
-                    type: "DELETE",
-                    success: function () {
-                        Swal.fire({
-                            icon: 'success', title: 'Thành công',
-                            text: 'Xóa khách hàng thành công!',
-                            timer: 1500, showConfirmButton: false
-                        }).then(() => loadCustomers(currentPage));
-                    },
-                    error: function (xhr) {
-                        const err = xhr.responseJSON;
-                        Swal.fire({
-                            icon: 'error', title: 'Lỗi',
-                            text: err?.message || 'Xóa thất bại!'
-                        });
-                    }
-                });
-            }
+        $(document).ready(function () {
+            loadCustomers(1);
         });
-    });
-</script>
+
+        // Ajax xóa khách hàng
+        $(document).on("click", ".btn-delete", function (e) {
+            e.preventDefault();
+            const id = $(this).data("id");
+
+            Swal.fire({
+                title: 'Xác nhận xóa',
+                text: "Bạn có chắc muốn xóa khách hàng này?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc2626',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "/admin/customer/delete/" + id,
+                        type: "DELETE",
+                        success: function () {
+                            Swal.fire({
+                                icon: 'success', title: 'Thành công',
+                                text: 'Xóa khách hàng thành công!',
+                                timer: 1500, showConfirmButton: false
+                            }).then(() => loadCustomers(currentPage));
+                        },
+                        error: function (xhr) {
+                            const err = xhr.responseJSON;
+                            Swal.fire({
+                                icon: 'error', title: 'Lỗi',
+                                text: err?.message || 'Xóa thất bại!'
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 
 </body>
+
 </html>

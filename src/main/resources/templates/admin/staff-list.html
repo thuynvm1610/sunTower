@@ -6,92 +6,158 @@
     <title>SunTower | Quản lý Nhân viên</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Bootstrap + Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link th:href="@{/css/admin.css}" rel="stylesheet">
 
     <style>
         body {
-            background: #fafbfc;
+            background: #f4f6f9;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             overflow-x: hidden;
         }
 
         main.content {
-            margin-left: 250px;
-            padding: 2.5rem 3rem;
-            margin-top: 70px;
+            margin-left: 220px;
+            padding: 0;
+            margin-top: 72px;
         }
 
-        /* Page header */
-        .page-header {
-            margin-bottom: 2rem;
+        .detail-body {
+            padding: 1.5rem;
+        }
+
+        /* ══ PAGE HEADER ════════════════════════════════════════════════════ */
+        .page-header-bar {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.25rem;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
 
-        .page-header h2 {
-            font-size: 1.75rem;
-            font-weight: 700;
+        .page-header-bar h2 {
+            font-size: 1.4rem;
+            font-weight: 800;
             color: #111827;
             margin: 0;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.5rem;
         }
 
-        .page-header h2 i {
+        .page-header-bar h2 i {
             color: #3b82f6;
+            font-size: 1.2rem;
         }
 
-        /* Modern button */
-        .btn-add {
-            background: #3b82f6;
-            color: white;
-            border: none;
-            padding: 0.625rem 1.25rem;
-            border-radius: 8px;
+        .page-sub {
+            font-size: 0.8125rem;
+            color: #9ca3af;
+            margin-top: 0.2rem;
+        }
+
+        /* ══ HEADER BUTTONS ═════════════════════════════════════════════════ */
+        .btn-hd {
+            padding: 0.45rem 0.875rem;
+            border-radius: 7px;
             font-weight: 600;
-            font-size: 0.875rem;
+            font-size: 0.8125rem;
+            border: none;
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            transition: all 0.2s ease;
+            gap: 0.35rem;
+            cursor: pointer;
             text-decoration: none;
+            transition: filter 0.15s ease;
         }
 
-        .btn-add:hover {
-            background: #2563eb;
-            color: white;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        .btn-hd-add {
+            background: #3b82f6;
+            color: #fff;
         }
 
-        /* Filter card */
+        .btn-hd-add:hover {
+            filter: brightness(0.93);
+            color: #fff;
+        }
+
+        /* ══ FILTER CARD ════════════════════════════════════════════════════ */
         .filter-card {
-            background: white;
+            background: #fff;
             border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
+            border-radius: 10px;
+            padding: 0;
+            overflow: hidden;
+            margin-bottom: 0;
+        }
+
+        .filter-header {
+            display: flex;
+            align-items: center;
+            padding: 0.875rem 1.5rem;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .filter-title {
+            font-size: 0.8125rem;
+            font-weight: 700;
+            color: #374151;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .filter-title i {
+            color: #3b82f6;
+            font-size: 0.875rem;
+        }
+
+        .filter-body {
+            padding: 1.25rem 1.5rem;
+        }
+
+        .filter-section-title {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.75rem;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .filter-section-title i {
+            color: #3b82f6;
+            font-size: 0.8rem;
         }
 
         .filter-card .form-label {
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: #374151;
-            margin-bottom: 0.5rem;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.35rem;
+            display: block;
         }
 
         .filter-card .form-control,
         .filter-card .form-select {
             border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 0.625rem 0.875rem;
-            font-size: 0.875rem;
-            transition: all 0.2s ease;
+            border-radius: 7px;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.8125rem;
+            color: #374151;
+            background: #fff;
+            transition: all 0.2s;
+            height: auto;
         }
 
         .filter-card .form-control:focus,
@@ -100,32 +166,26 @@
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
-        /* Highlight khi có giá trị */
-        .filter-card .form-control.has-value,
-        .filter-card .form-select.has-value {
-            background-color: #E8F0FE;
-            border-color: #3b82f6;
-            font-weight: 600;
-        }
-
-        /* Filter buttons */
         .filter-actions {
             display: flex;
-            gap: 0.75rem;
+            gap: 0.5rem;
             justify-content: flex-end;
-            margin-top: 1.25rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #f3f4f6;
         }
 
         .btn-filter {
-            padding: 0.625rem 1.25rem;
-            border-radius: 8px;
+            padding: 0.45rem 1rem;
+            border-radius: 7px;
             font-weight: 600;
-            font-size: 0.875rem;
+            font-size: 0.8125rem;
             border: none;
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            transition: all 0.2s ease;
+            gap: 0.4rem;
+            transition: all 0.2s;
+            cursor: pointer;
         }
 
         .btn-filter.btn-reset {
@@ -139,142 +199,129 @@
 
         .btn-filter.btn-search {
             background: #3b82f6;
-            color: white;
+            color: #fff;
         }
 
         .btn-filter.btn-search:hover {
             background: #2563eb;
             transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(59, 130, 246, 0.3);
         }
 
-        /* Table card */
+        /* ══ TABLE CARD ═════════════════════════════════════════════════════ */
         .table-card {
-            background: white;
+            background: #fff;
             border: 1px solid #e5e7eb;
-            border-radius: 12px;
+            border-radius: 10px;
             overflow: hidden;
-            margin-bottom: 1.5rem;
+            margin-top: 1.25rem;
         }
 
-        .table-card .table-header {
-            padding: 1.25rem 1.5rem;
-            border-bottom: 1px solid #e5e7eb;
-            font-weight: 600;
-            color: #111827;
-            font-size: 1rem;
-            background: #fafbfc;
+        .table-card-header {
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            padding: 0.875rem 1.5rem;
+            border-bottom: 1px solid #f3f4f6;
+            background: #fafbfc;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: #111827;
         }
 
-        .table-header i {
-            font-size: 1.1rem;
+        .table-card-header i {
+            font-size: 0.9375rem;
         }
 
-        .table-header.admin-header {
-            background: #fef3c7;
-            color: #78350f;
+        .table-card-header.admin-header {
+            background: #fef9ec;
         }
 
-        .table-header.admin-header i {
+        .table-card-header.admin-header i {
             color: #d97706;
         }
 
-        .table-header.staff-header {
-            background: #dbeafe;
-            color: #1e3a8a;
+        .table-card-header.staff-header {
+            background: #eff6ff;
         }
 
-        .table-header.staff-header i {
+        .table-card-header.staff-header i {
             color: #2563eb;
         }
 
-        /* Modern table */
-        .modern-table {
+        /* ══ TABLE ═══════════════════════════════════════════════════════════ */
+        .dash-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8125rem;
             margin: 0;
-            min-height: 480px;
         }
 
-        .modern-table thead th {
-            background: #f9fafb;
-            border: none;
-            border-bottom: 1px solid #e5e7eb;
-            padding: 0.875rem 1rem;
-            font-size: 0.875rem;
-            font-weight: 600;
+        .dash-table thead th {
+            background: #f8fafc;
+            padding: 0.5rem 1rem;
+            font-size: 0.68rem;
+            font-weight: 700;
             color: #6b7280;
             text-transform: uppercase;
-            letter-spacing: 0.025em;
-            height: 60px;
+            letter-spacing: 0.06em;
+            border-bottom: 1.5px solid #e9ecef;
+            white-space: nowrap;
         }
 
-        .modern-table tbody {
-            min-height: 420px;
-            display: table-row-group;
-        }
-
-        .modern-table tbody td {
-            position: relative;
-            padding: 1rem;
+        .dash-table tbody td {
+            padding: 0.75rem 0.875rem;
             border-bottom: 1px solid #f3f4f6;
+            color: #374151;
+            vertical-align: middle;
+            font-size: 0.8125rem;
         }
 
-        .modern-table tbody tr {
-            height: 84px;
-            min-height: 84px;
-        }
-
-        .modern-table tbody tr:last-child td {
+        .dash-table tbody tr:last-child td {
             border-bottom: none;
         }
 
-        .modern-table tbody tr {
-            transition: background 0.15s ease;
+        .dash-table tbody tr {
+            transition: background 0.15s;
         }
 
-        .modern-table tbody tr:hover {
-            background: #f9fafb;
+        .dash-table tbody tr:hover {
+            background: #f0f9ff;
         }
 
-        .table-responsive {
-            min-height: 480px;
+        .staff-id {
+            font-weight: 700;
+            color: #111827;
+            font-size: 0.8125rem;
         }
 
-        /* Table content styling */
         .staff-name {
             font-weight: 600;
             color: #111827;
         }
 
-        .staff-id {
-            color: #6b7280;
-            font-weight: 500;
-        }
-
         .contact-info {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            color: #374151;
+            gap: 0.4rem;
+            color: #6b7280;
+            font-size: 0.8125rem;
         }
 
         .contact-info i {
-            color: #6b7280;
-            font-size: 0.875rem;
+            font-size: 0.75rem;
+            color: #9ca3af;
         }
 
         /* Role badge */
         .role-badge {
             display: inline-flex;
             align-items: center;
-            gap: 0.375rem;
-            padding: 0.375rem 0.75rem;
-            border-radius: 6px;
-            font-size: 0.75rem;
+            gap: 0.3rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.025em;
+            font-size: 0.78rem;
         }
 
         .role-badge.admin {
@@ -290,23 +337,23 @@
         /* Action buttons */
         .action-buttons {
             display: flex;
-            gap: 0.5rem;
+            gap: 0.4rem;
             justify-content: center;
-            align-items: center;
-            height: 100%;
         }
 
         .btn-action {
-            width: 32px;
-            height: 32px;
+            width: 30px;
+            height: 30px;
             padding: 0;
-            border-radius: 6px;
+            border-radius: 7px;
             border: none;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s ease;
-            font-size: 0.875rem;
+            transition: all 0.2s;
+            font-size: 0.8rem;
+            text-decoration: none;
+            flex-shrink: 0;
         }
 
         .btn-action.btn-view {
@@ -316,16 +363,6 @@
 
         .btn-action.btn-view:hover {
             background: #dbeafe;
-            transform: translateY(-1px);
-        }
-
-        .btn-action.btn-edit {
-            background: #fffbeb;
-            color: #d97706;
-        }
-
-        .btn-action.btn-edit:hover {
-            background: #fef3c7;
             transform: translateY(-1px);
         }
 
@@ -344,7 +381,6 @@
             padding: 3rem;
             text-align: center;
             color: #9ca3af;
-            min-height: 420px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -352,24 +388,26 @@
         }
 
         .empty-state i {
-            font-size: 3rem;
+            font-size: 2rem;
             color: #d1d5db;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
         }
 
         .empty-state p {
             margin: 0;
-            font-size: 0.875rem;
+            font-size: 0.8125rem;
         }
 
         /* Pagination */
         .pagination-wrapper {
-            min-height: auto;
-            margin-top: 1.5rem;
+            margin-top: 0;
+            padding: 0.75rem 1.5rem;
+            border-top: 1px solid #f3f4f6;
         }
 
         .pagination {
-            gap: 0.5rem;
+            gap: 0.3rem;
+            margin: 0;
         }
 
         .pagination .page-item {
@@ -378,24 +416,25 @@
 
         .pagination .page-link {
             border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 0.5rem 0.875rem;
+            border-radius: 7px;
+            padding: 0.35rem 0.75rem;
             color: #374151;
             font-weight: 600;
-            font-size: 0.875rem;
-            transition: all 0.2s ease;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+            background: #fff;
         }
 
         .pagination .page-link:hover {
-            background: #f9fafb;
-            border-color: #d1d5db;
-            color: #111827;
+            background: #f0f9ff;
+            border-color: #bfdbfe;
+            color: #1e40af;
         }
 
         .pagination .page-item.active .page-link {
             background: #3b82f6;
             border-color: #3b82f6;
-            color: white;
+            color: #fff;
         }
 
         .pagination .page-item.disabled .page-link {
@@ -404,21 +443,18 @@
             color: #d1d5db;
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
             main.content {
                 margin-left: 0;
-                padding: 1.5rem;
             }
 
-            .page-header {
+            .detail-body {
+                padding: 1rem;
+            }
+
+            .page-header-bar {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 1rem;
-            }
-
-            .action-buttons {
-                flex-wrap: wrap;
             }
         }
     </style>
@@ -431,59 +467,69 @@
     <div th:replace="~{layout/sidebar :: sidebar}"></div>
 
     <main class="content">
-        <div class="container-fluid">
-            <!-- Page Header -->
-            <div class="page-header">
-                <h2>
-                    <i class="bi bi-person-badge"></i>
-                    Quản lý Nhân viên
-                </h2>
-                <a th:href="@{/admin/staff/add}" class="btn-add">
+        <div class="detail-body">
+
+            <!-- ── Page Header ─────────────────────────────────────────────────── -->
+            <div class="page-header-bar">
+                <div>
+                    <h2>
+                        <i class="bi bi-person-badge"></i>
+                        Quản lý Nhân viên
+                    </h2>
+                    <div class="page-sub">Danh sách quản trị viên và nhân viên trong hệ thống</div>
+                </div>
+                <a th:href="@{/admin/staff/add}" class="btn-hd btn-hd-add">
                     <i class="bi bi-plus-circle"></i>
                     Thêm nhân viên
                 </a>
             </div>
 
-            <!-- Filter Card -->
+            <!-- ── Filter Card ────────────────────────────────────────────────── -->
             <form class="filter-card" th:action="@{/admin/staff/search}" method="get">
-                <div class="row g-3">
-                    <div class="col-md-5">
-                        <label class="form-label">Tên nhân viên</label>
-                        <input type="text" class="form-control" name="fullName"
-                            placeholder="Nhập tên nhân viên cần tìm...">
+                <div class="filter-header">
+                    <div class="filter-title">
+                        <i class="bi bi-funnel"></i>
+                        Bộ lọc tìm kiếm
                     </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Vai trò</label>
-                        <select class="form-select" name="role">
-                            <option value="">Tất cả</option>
-                            <option value="ADMIN">Admin</option>
-                            <option value="STAFF">Nhân viên</option>
-                        </select>
+                </div>
+                <div class="filter-body">
+                    <div class="filter-section-title">
+                        <i class="bi bi-person"></i> Thông tin nhân viên
                     </div>
-                    <div class="col-md-4 d-flex align-items-end">
-                        <div class="filter-actions w-100">
-                            <button type="reset" class="btn-filter btn-reset">
-                                <i class="bi bi-arrow-clockwise"></i>
-                                Reset
-                            </button>
-                            <button type="submit" class="btn-filter btn-search">
-                                <i class="bi bi-search"></i>
-                                Tìm kiếm
-                            </button>
+                    <div class="row g-3">
+                        <div class="col-md-5">
+                            <label class="form-label">Tên nhân viên</label>
+                            <input type="text" class="form-control" name="fullName"
+                                placeholder="Nhập tên nhân viên cần tìm...">
                         </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Vai trò</label>
+                            <select class="form-select" name="role">
+                                <option value="">-- Tất cả vai trò --</option>
+                                <option value="ADMIN">Admin</option>
+                                <option value="STAFF">Nhân viên</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="filter-actions">
+                        <button type="reset" class="btn-filter btn-reset">
+                            <i class="bi bi-arrow-clockwise"></i> Reset
+                        </button>
+                        <button type="submit" class="btn-filter btn-search">
+                            <i class="bi bi-search"></i> Tìm kiếm
+                        </button>
                     </div>
                 </div>
             </form>
 
-            <!-- Admin Table Card -->
+            <!-- ── Admin Table ────────────────────────────────────────────────── -->
             <div class="table-card">
-                <div class="table-header admin-header">
+                <div class="table-card-header admin-header">
                     <i class="bi bi-shield-check"></i>
                     Quản trị viên
                 </div>
-
                 <div class="table-responsive">
-                    <table class="table modern-table">
+                    <table class="dash-table">
                         <thead>
                             <tr>
                                 <th style="width: 11%;">Mã NV</th>
@@ -493,23 +539,20 @@
                                 <th style="width: 15%; text-align: center;">Hành động</th>
                             </tr>
                         </thead>
-
-                        <tbody id="adminTableBody">
-                            <!-- Dữ liệu Admin sẽ được Ajax thêm vào -->
-                        </tbody>
+                        <tbody id="adminTableBody"></tbody>
                     </table>
                 </div>
+                <div id="paginationAdmin"></div>
             </div>
 
-            <!-- Staff Table Card -->
+            <!-- ── Staff Table ────────────────────────────────────────────────── -->
             <div class="table-card">
-                <div class="table-header staff-header">
+                <div class="table-card-header staff-header">
                     <i class="bi bi-people"></i>
                     Nhân viên
                 </div>
-
                 <div class="table-responsive">
-                    <table class="table modern-table">
+                    <table class="dash-table">
                         <thead>
                             <tr>
                                 <th style="width: 11%;">Mã NV</th>
@@ -519,25 +562,17 @@
                                 <th style="width: 15%; text-align: center;">Hành động</th>
                             </tr>
                         </thead>
-
-                        <tbody id="staffTableBody">
-                            <!-- Dữ liệu Staff sẽ được Ajax thêm vào -->
-                        </tbody>
+                        <tbody id="staffTableBody"></tbody>
                     </table>
                 </div>
+                <div id="paginationStaff"></div>
             </div>
 
-            <!-- Pagination -->
-            <div id="paginationAdmin"></div>
-            <div id="paginationStaff"></div>
-        </div>
+        </div><!-- /detail-body -->
     </main>
 
-    <!--Bootstrap-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- CDN SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!--JQuery-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
@@ -545,10 +580,8 @@
         let currentStaffPage = 1;
         const pageSize = 5;
 
-        // Hàm load dữ liệu Admin
         function loadAdmins(page, event) {
             if (event) event.preventDefault();
-
             $.ajax({
                 url: "/admin/staff/list/page",
                 type: "GET",
@@ -557,74 +590,37 @@
                     currentAdminPage = page;
                     const tbody = $("#adminTableBody");
                     tbody.empty();
-
                     if (data.content.length === 0) {
-                        tbody.append(`
-                        <tr>
-                            <td colspan="6">
-                                <div class="empty-state">
-                                    <i class="bi bi-inbox"></i>
-                                    <p>Không có dữ liệu quản trị viên</p>
-                                </div>
-                            </td>
-                        </tr>
-                    `);
+                        tbody.append(`<tr><td colspan="5"><div class="empty-state"><i class="bi bi-inbox"></i><p>Không có dữ liệu quản trị viên</p></div></td></tr>`);
                         $("#paginationAdmin").empty();
                         return;
                     }
-
                     $.each(data.content, function (i, staff) {
                         tbody.append(`
                         <tr>
-                            <td><span class="staff-id">${staff.id}</span></td>
+                            <td><span class="staff-id">NV-${staff.id}</span></td>
                             <td><span class="staff-name">${staff.fullName || ''}</span></td>
-                            <td>
-                                <div class="contact-info">
-                                    <i class="bi bi-telephone"></i>
-                                    <span>${staff.phone || 'Chưa cập nhật'}</span>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="contact-info">
-                                    <i class="bi bi-envelope"></i>
-                                    <span>${staff.email || 'Chưa cập nhật'}</span>
-                                </div>
-                            </td>
+                            <td><div class="contact-info"><i class="bi bi-telephone"></i><span>${staff.phone || 'Chưa cập nhật'}</span></div></td>
+                            <td><div class="contact-info"><i class="bi bi-envelope"></i><span>${staff.email || 'Chưa cập nhật'}</span></div></td>
                             <td>
                                 <div class="action-buttons">
-                                    <a href="/admin/staff/${staff.id}"
-                                       class="btn-action btn-view"
-                                       title="Xem chi tiết">
-                                        <i class="bi bi-eye"></i>
-                                    </a>
-                                    <a href="#"
-                                       title="Xóa"
-                                       class="btn-action btn-delete"
-                                       data-id="${staff.id}">
-                                       <i class="bi bi-trash"></i>
-                                    </a>
+                                    <a href="/admin/staff/${staff.id}" class="btn-action btn-view" title="Xem chi tiết"><i class="bi bi-eye"></i></a>
+                                    <a href="#" class="btn-action btn-delete" data-id="${staff.id}" title="Xóa"><i class="bi bi-trash"></i></a>
                                 </div>
                             </td>
                         </tr>
                     `);
                     });
-
                     renderPagination(data.totalPages, page, 'Admin');
                 },
                 error: function () {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Lỗi',
-                        text: 'Không tải được dữ liệu Admin!'
-                    });
+                    Swal.fire({ icon: 'error', title: 'Lỗi', text: 'Không tải được dữ liệu Admin!' });
                 }
             });
         }
 
-        // Hàm load dữ liệu Staff
         function loadStaffs(page, event) {
             if (event) event.preventDefault();
-
             $.ajax({
                 url: "/admin/staff/list/page",
                 type: "GET",
@@ -633,222 +629,79 @@
                     currentStaffPage = page;
                     const tbody = $("#staffTableBody");
                     tbody.empty();
-
                     if (data.content.length === 0) {
-                        tbody.append(`
-                        <tr>
-                            <td colspan="6">
-                                <div class="empty-state">
-                                    <i class="bi bi-inbox"></i>
-                                    <p>Không có dữ liệu nhân viên</p>
-                                </div>
-                            </td>
-                        </tr>
-                    `);
+                        tbody.append(`<tr><td colspan="5"><div class="empty-state"><i class="bi bi-inbox"></i><p>Không có dữ liệu nhân viên</p></div></td></tr>`);
                         $("#paginationStaff").empty();
                         return;
                     }
-
                     $.each(data.content, function (i, staff) {
                         tbody.append(`
                         <tr>
-                            <td><span class="staff-id">${staff.id}</span></td>
+                            <td><span class="staff-id">NV-${staff.id}</span></td>
                             <td><span class="staff-name">${staff.fullName || ''}</span></td>
-                            <td>
-                                <div class="contact-info">
-                                    <i class="bi bi-telephone"></i>
-                                    <span>${staff.phone || 'Chưa cập nhật'}</span>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="contact-info">
-                                    <i class="bi bi-envelope"></i>
-                                    <span>${staff.email || 'Chưa cập nhật'}</span>
-                                </div>
-                            </td>
+                            <td><div class="contact-info"><i class="bi bi-telephone"></i><span>${staff.phone || 'Chưa cập nhật'}</span></div></td>
+                            <td><div class="contact-info"><i class="bi bi-envelope"></i><span>${staff.email || 'Chưa cập nhật'}</span></div></td>
                             <td>
                                 <div class="action-buttons">
-                                    <a href="/admin/staff/${staff.id}"
-                                       class="btn-action btn-view"
-                                       title="Xem chi tiết">
-                                        <i class="bi bi-eye"></i>
-                                    </a>
-                                    <a href="#"
-                                       title="Xóa"
-                                       class="btn-action btn-delete"
-                                       data-id="${staff.id}">
-                                       <i class="bi bi-trash"></i>
-                                    </a>
+                                    <a href="/admin/staff/${staff.id}" class="btn-action btn-view" title="Xem chi tiết"><i class="bi bi-eye"></i></a>
+                                    <a href="#" class="btn-action btn-delete" data-id="${staff.id}" title="Xóa"><i class="bi bi-trash"></i></a>
                                 </div>
                             </td>
                         </tr>
                     `);
                     });
-
                     renderPagination(data.totalPages, page, 'Staff');
                 },
                 error: function () {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Lỗi',
-                        text: 'Không tải được dữ liệu nhân viên!'
-                    });
+                    Swal.fire({ icon: 'error', title: 'Lỗi', text: 'Không tải được dữ liệu nhân viên!' });
                 }
             });
         }
 
-        // Hàm render phân trang
         function renderPagination(totalPages, current, type) {
             const pagination = type === 'Admin' ? $("#paginationAdmin") : $("#paginationStaff");
-            const loadFunction = type === 'Admin' ? 'loadAdmins' : 'loadStaffs';
-
+            const loadFn = type === 'Admin' ? 'loadAdmins' : 'loadStaffs';
             pagination.empty();
-
             if (totalPages <= 1) return;
-
-            let html = `
-            <nav class="pagination-wrapper mt-3">
-                <ul class="pagination justify-content-center">
-        `;
-
-            // Nút "First"
-            html += `
-            <li class="page-item ${current === 1 ? 'disabled' : ''}">
-                <a href="#" class="page-link" onclick="${loadFunction}(1, event)">First</a>
-            </li>
-        `;
-
-            // Nút "Previous"
-            html += `
-            <li class="page-item ${current === 1 ? 'disabled' : ''}">
-                <a href="#" class="page-link" onclick="${loadFunction}(${current - 1}, event)">
-                    <i class="bi bi-chevron-left"></i>
-                </a>
-            </li>
-        `;
-
-            // Các trang số
             const blockSize = 5;
             const blockStart = Math.floor((current - 1) / blockSize) * blockSize + 1;
-            let blockEnd = blockStart + blockSize - 1;
-            if (blockEnd > totalPages) blockEnd = totalPages;
-
+            let blockEnd = Math.min(blockStart + blockSize - 1, totalPages);
+            let html = `<nav class="pagination-wrapper"><ul class="pagination justify-content-center mb-0">`;
+            html += `<li class="page-item ${current === 1 ? 'disabled' : ''}"><a href="#" class="page-link" onclick="${loadFn}(1,event)"><i class="bi bi-chevron-double-left"></i></a></li>`;
+            html += `<li class="page-item ${current === 1 ? 'disabled' : ''}"><a href="#" class="page-link" onclick="${loadFn}(${current - 1},event)"><i class="bi bi-chevron-left"></i></a></li>`;
             for (let i = blockStart; i <= blockEnd; i++) {
-                html += `
-                <li class="page-item ${i === current ? 'active' : ''}">
-                    <a href="#" class="page-link" onclick="${loadFunction}(${i}, event)">${i}</a>
-                </li>
-            `;
+                html += `<li class="page-item ${i === current ? 'active' : ''}"><a href="#" class="page-link" onclick="${loadFn}(${i},event)">${i}</a></li>`;
             }
-
-            // Nút "Next"
-            html += `
-            <li class="page-item ${current === totalPages ? 'disabled' : ''}">
-                <a href="#" class="page-link" onclick="${loadFunction}(${current + 1}, event)">
-                    <i class="bi bi-chevron-right"></i>
-                </a>
-            </li>
-        `;
-
-            // Nút "Last"
-            html += `
-            <li class="page-item ${current === totalPages ? 'disabled' : ''}">
-                <a href="#" class="page-link" onclick="${loadFunction}(${totalPages}, event)">Last</a>
-            </li>
-        `;
-
-            html += `
-                </ul>
-            </nav>
-        `;
-
+            html += `<li class="page-item ${current === totalPages ? 'disabled' : ''}"><a href="#" class="page-link" onclick="${loadFn}(${current + 1},event)"><i class="bi bi-chevron-right"></i></a></li>`;
+            html += `<li class="page-item ${current === totalPages ? 'disabled' : ''}"><a href="#" class="page-link" onclick="${loadFn}(${totalPages},event)"><i class="bi bi-chevron-double-right"></i></a></li>`;
+            html += `</ul></nav>`;
             pagination.html(html);
         }
 
-        // Khi trang load, gọi Ajax lần đầu
         $(document).ready(function () {
             loadAdmins(1);
             loadStaffs(1);
 
-            // Hàm highlight trường có giá trị
-            function highlightFilledInputs() {
-                $('.filter-card .form-control, .filter-card .form-select').each(function () {
-                    const $input = $(this);
-                    if ($input.val() && $input.val().trim() !== '') {
-                        $input.addClass('has-value');
-                    } else {
-                        $input.removeClass('has-value');
-                    }
-                });
-            }
-
-            // Highlight các trường đã có giá trị khi load trang
-            highlightFilledInputs();
-
-            // Lắng nghe sự kiện input/change để highlight real-time
-            $('.filter-card .form-control, .filter-card .form-select').on('input change', function () {
-                const $this = $(this);
-                if ($this.val() && $this.val().trim() !== '') {
-                    $this.addClass('has-value');
-                } else {
-                    $this.removeClass('has-value');
-                }
-            });
-
-            // Reset highlight khi reset form
-            $('.btn-filter.btn-reset').on('click', function () {
-                setTimeout(function () {
-                    $('.filter-card .form-control, .filter-card .form-select').removeClass('has-value');
-                }, 10);
-            });
         });
 
-        // Ajax xóa nhân viên
         $(document).on("click", ".btn-delete", function (e) {
             e.preventDefault();
-
             let id = $(this).data("id");
-
             Swal.fire({
-                title: 'Xác nhận xóa',
-                text: "Bạn có chắc muốn xóa nhân viên này?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#dc2626',
-                cancelButtonColor: '#6b7280',
-                confirmButtonText: 'Xóa',
-                cancelButtonText: 'Hủy'
+                title: 'Xác nhận xóa', text: "Bạn có chắc muốn xóa nhân viên này?", icon: 'warning',
+                showCancelButton: true, confirmButtonColor: '#dc2626', cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Xóa', cancelButtonText: 'Hủy'
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "/admin/staff/delete/" + id,
-                        type: "DELETE",
+                        url: "/admin/staff/delete/" + id, type: "DELETE",
                         success: function () {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Thành công',
-                                text: 'Xóa nhân viên thành công!',
-                                timer: 1500,
-                                showConfirmButton: false
-                            }).then(() => {
-                                window.location.href = "/admin/staff/list";
-                            });
+                            Swal.fire({ icon: 'success', title: 'Thành công', text: 'Xóa nhân viên thành công!', timer: 1500, showConfirmButton: false })
+                                .then(() => { window.location.href = "/admin/staff/list"; });
                         },
                         error: function (xhr) {
                             const err = xhr.responseJSON;
-                            if (err && err.message) {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Lỗi',
-                                    text: err.message
-                                });
-                            } else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Lỗi',
-                                    text: 'Xóa thất bại!'
-                                });
-                            }
+                            Swal.fire({ icon: 'error', title: 'Lỗi', text: err?.message || 'Xóa thất bại!' });
                         }
                     });
                 }

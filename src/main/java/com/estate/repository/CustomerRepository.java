@@ -1,5 +1,6 @@
 package com.estate.repository;
 
+import com.estate.dto.CustomerSelectDTO;
 import com.estate.dto.UsernameChangeDTO;
 import com.estate.repository.entity.CustomerEntity;
 import com.estate.repository.entity.StaffEntity;
@@ -95,4 +96,8 @@ public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> 
             WHERE sc.id = :staffId
             """)
     List<CustomerEntity> findByStaffId(@Param("staffId") Long staffId);
+
+    @Query("SELECT new com.estate.dto.CustomerSelectDTO(c.id, c.fullName, c.phone) " +
+            "FROM CustomerEntity c ORDER BY c.fullName ASC")
+    List<CustomerSelectDTO> findAllForSelect();
 }

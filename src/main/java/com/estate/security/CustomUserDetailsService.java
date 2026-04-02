@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
@@ -22,13 +24,13 @@ public class CustomUserDetailsService implements UserDetailsService {
             throws UsernameNotFoundException {
 
         // 1. STAFF (ADMIN / STAFF)
-        StaffEntity staff = staffRepository.findByUsername(username);
-        if (staff != null) {
+        Optional<StaffEntity> staff = staffRepository.findByUsername(username);
+        if (staff.isPresent()) {
             return new CustomUserDetails(
-                    staff.getId(),
-                    staff.getUsername(),
-                    staff.getPassword(),
-                    staff.getRole()
+                    staff.get().getId(),
+                    staff.get().getUsername(),
+                    staff.get().getPassword(),
+                    staff.get().getRole()
             );
         }
 

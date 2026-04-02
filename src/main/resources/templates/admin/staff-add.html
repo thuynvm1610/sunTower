@@ -6,130 +6,177 @@
     <title>SunTower | Thêm Nhân viên</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Bootstrap + Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link th:href="@{/css/admin.css}" rel="stylesheet">
 
     <style>
         body {
-            background: #fafbfc;
+            background: #f4f6f9;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             overflow-x: hidden;
         }
 
         main.content {
-            margin-left: 250px;
-            padding: 2.5rem 3rem;
-            margin-top: 70px;
+            margin-left: 220px;
+            padding: 0;
+            margin-top: 72px;
         }
 
-        /* Page header */
-        .page-header {
-            margin-bottom: 2rem;
+        .detail-body {
+            padding: 1.5rem;
+        }
+
+        /* ══ PAGE HEADER ════════════════════════════════════════════════════ */
+        .page-header-bar {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.25rem;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
 
-        .page-header h2 {
-            font-size: 1.75rem;
-            font-weight: 700;
+        .page-header-bar h2 {
+            font-size: 1.4rem;
+            font-weight: 800;
             color: #111827;
             margin: 0;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.5rem;
         }
 
-        .page-header h2 i {
+        .page-header-bar h2 i {
             color: #3b82f6;
+            font-size: 1.2rem;
         }
 
-        /* Modern button */
-        .btn-back {
-            background: white;
-            color: #374151;
-            border: 1px solid #e5e7eb;
-            padding: 0.625rem 1.25rem;
-            border-radius: 8px;
+        .page-sub {
+            font-size: 0.8125rem;
+            color: #9ca3af;
+            margin-top: 0.2rem;
+        }
+
+        /* ══ BUTTONS ════════════════════════════════════════════════════════ */
+        .btn-hd {
+            padding: 0.45rem 0.875rem;
+            border-radius: 7px;
             font-weight: 600;
-            font-size: 0.875rem;
+            font-size: 0.8125rem;
+            border: none;
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            transition: all 0.2s ease;
+            gap: 0.35rem;
+            cursor: pointer;
             text-decoration: none;
+            transition: filter 0.15s ease;
         }
 
-        .btn-back:hover {
+        .btn-hd-back {
+            background: #fff;
+            color: #374151;
+            border: 1px solid #e5e7eb;
+        }
+
+        .btn-hd-back:hover {
             background: #f9fafb;
             color: #111827;
-            border-color: #d1d5db;
-            transform: translateY(-1px);
         }
 
-        /* Form card */
-        .form-card {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .form-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* ══ INFO BOX ═══════════════════════════════════════════════════════ */
+        .info-box {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 10px;
+            padding: 0.875rem 1.25rem;
             margin-bottom: 1.25rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.875rem;
+            color: #1e40af;
         }
 
-        .form-title {
+        .info-box i {
+            color: #3b82f6;
             font-size: 1rem;
-            font-weight: 600;
-            color: #111827;
+            flex-shrink: 0;
+        }
+
+        /* ══ CARD ════════════════════════════════════════════════════════════ */
+        .d-card {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            margin-bottom: 1.25rem;
+        }
+
+        .d-card-header {
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            padding: 0.875rem 1.5rem;
+            border-bottom: 1px solid #f3f4f6;
+            background: #fafbfc;
+            border-radius: 10px 10px 0 0;
         }
 
-        .form-section-title {
+        .d-card-header i {
             font-size: 0.9375rem;
-            font-weight: 600;
-            color: #374151;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .form-section-title i {
             color: #3b82f6;
         }
 
-        /* Form controls */
-        .form-label {
+        .d-card-header h3 {
             font-size: 0.875rem;
-            font-weight: 600;
-            color: #374151;
-            margin-bottom: 0.5rem;
+            font-weight: 700;
+            color: #111827;
+            margin: 0;
+        }
+
+        .d-card-body {
+            padding: 1.25rem 1.5rem;
+        }
+
+        /* ══ SECTION TITLE ══════════════════════════════════════════════════ */
+        .section-title {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .section-title i {
+            color: #3b82f6;
+        }
+
+        /* ══ FORM CONTROLS ══════════════════════════════════════════════════ */
+        .form-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.35rem;
         }
 
         .required {
             color: #ef4444;
-            margin-left: 0.25rem;
+            margin-left: 0.2rem;
         }
 
         .form-control,
         .form-select {
             border: 1px solid #e5e7eb;
             border-radius: 8px;
-            padding: 0.625rem 0.875rem;
+            padding: 0.5rem 0.75rem;
             font-size: 0.875rem;
-            transition: all 0.2s ease;
+            transition: all 0.15s;
         }
 
         .form-control:focus,
@@ -143,7 +190,6 @@
             color: #9ca3af;
         }
 
-        /* Highlight khi có giá trị */
         .form-control.has-value,
         .form-select.has-value {
             background-color: #E8F0FE;
@@ -158,7 +204,6 @@
             border-right: none;
             color: #6b7280;
             font-size: 0.875rem;
-            font-weight: 500;
         }
 
         .input-group .form-control {
@@ -171,86 +216,26 @@
             color: #3b82f6;
         }
 
-        /* Helper text */
         .form-text {
-            font-size: 0.8125rem;
-            color: #6b7280;
-            margin-top: 0.375rem;
+            font-size: 0.75rem;
+            color: #9ca3af;
+            margin-top: 0.25rem;
         }
 
-        /* Form actions */
-        .form-actions {
-            display: flex;
-            gap: 0.75rem;
-            justify-content: flex-end;
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid #e5e7eb;
-        }
-
-        .btn-action {
-            padding: 0.625rem 1.25rem;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.875rem;
-            border: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.2s ease;
-            text-decoration: none;
-        }
-
-        .btn-action.btn-reset {
-            background: #f3f4f6;
-            color: #374151;
-        }
-
-        .btn-action.btn-reset:hover {
-            background: #e5e7eb;
-        }
-
-        .btn-action.btn-submit {
-            background: #3b82f6;
-            color: white;
-        }
-
-        .btn-action.btn-submit:hover {
-            background: #2563eb;
-            transform: translateY(-1px);
-        }
-
-        /* Info box */
-        .info-box {
-            background: #eff6ff;
-            border: 1px solid #bfdbfe;
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .info-box i {
-            color: #3b82f6;
-            font-size: 1.125rem;
-        }
-
-        .info-box-content {
-            font-size: 0.875rem;
-            color: #1e40af;
-            line-height: 1.5;
-        }
-
-        /* Role selection styles */
+        /* ══ ROLE CARDS ═════════════════════════════════════════════════════ */
         .role-card {
             border: 2px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 1rem;
+            border-radius: 10px;
+            padding: 1.25rem 1rem;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.15s;
             text-align: center;
+            min-height: 160px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
         }
 
         .role-card:hover {
@@ -268,9 +253,9 @@
         }
 
         .role-icon {
-            font-size: 2.5rem;
+            font-size: 2rem;
             margin-bottom: 0.5rem;
-            color: #6b7280;
+            color: #9ca3af;
         }
 
         .role-card.selected .role-icon {
@@ -278,18 +263,18 @@
         }
 
         .role-title {
-            font-weight: 600;
-            font-size: 0.9375rem;
+            font-weight: 700;
+            font-size: 0.875rem;
             color: #111827;
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.2rem;
         }
 
         .role-desc {
             font-size: 0.75rem;
-            color: #6b7280;
+            color: #9ca3af;
         }
 
-        /* Password strength indicator */
+        /* ══ PASSWORD STRENGTH ══════════════════════════════════════════════ */
         .password-strength {
             height: 4px;
             border-radius: 2px;
@@ -301,7 +286,7 @@
         .password-strength-bar {
             height: 100%;
             width: 0;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
             border-radius: 2px;
         }
 
@@ -321,7 +306,7 @@
         }
 
         .password-strength-text {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             margin-top: 0.25rem;
             font-weight: 600;
         }
@@ -338,26 +323,69 @@
             color: #10b981;
         }
 
-        /* Responsive */
+        /* ══ SECTION DIVIDER ════════════════════════════════════════════════ */
+        .section-div {
+            border: none;
+            border-top: 1px solid #f3f4f6;
+            margin: 1.25rem 0;
+        }
+
+        /* ══ FORM ACTIONS ═══════════════════════════════════════════════════ */
+        .form-actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+            padding-top: 1.25rem;
+            border-top: 1px solid #f3f4f6;
+            margin-top: 1.25rem;
+        }
+
+        .btn-action {
+            padding: 0.45rem 0.875rem;
+            border-radius: 7px;
+            font-weight: 600;
+            font-size: 0.8125rem;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            transition: filter 0.15s;
+        }
+
+        .btn-action.btn-reset {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .btn-action.btn-reset:hover {
+            background: #e5e7eb;
+        }
+
+        .btn-action.btn-submit {
+            background: #3b82f6;
+            color: #fff;
+        }
+
+        .btn-action.btn-submit:hover {
+            filter: brightness(0.93);
+        }
+
         @media (max-width: 768px) {
             main.content {
                 margin-left: 0;
-                padding: 1.5rem;
             }
 
-            .page-header {
+            .detail-body {
+                padding: 1rem;
+            }
+
+            .page-header-bar {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 1rem;
             }
 
             .form-actions {
                 flex-direction: column;
-            }
-
-            .btn-action {
-                width: 100%;
-                justify-content: center;
             }
         }
     </style>
@@ -370,193 +398,161 @@
     <div th:replace="~{layout/sidebar :: sidebar}"></div>
 
     <main class="content">
-        <div class="container-fluid">
-            <!-- Page Header -->
-            <div class="page-header">
-                <h2>
-                    <i class="bi bi-person-plus-fill"></i>
-                    Thêm nhân viên mới
-                </h2>
-                <a th:href="@{/admin/staff/list}" class="btn-back">
-                    <i class="bi bi-arrow-left"></i>
-                    Quay lại danh sách
+        <div class="detail-body">
+
+            <!-- ── Page Header ─────────────────────────────────────────────────── -->
+            <div class="page-header-bar">
+                <div>
+                    <h2>
+                        <i class="bi bi-person-plus-fill"></i>
+                        Thêm nhân viên mới
+                    </h2>
+                    <div class="page-sub">Điền đầy đủ thông tin để thêm nhân viên vào hệ thống</div>
+                </div>
+                <a th:href="@{/admin/staff/list}" class="btn-hd btn-hd-back">
+                    <i class="bi bi-arrow-left"></i> Danh sách
                 </a>
             </div>
 
-            <!-- Info Box -->
+            <!-- ── Info Box ───────────────────────────────────────────────────── -->
             <div class="info-box">
                 <i class="bi bi-info-circle"></i>
-                <div class="info-box-content">
-                    Vui lòng điền đầy đủ thông tin bắt buộc để thêm nhân viên mới vào hệ thống.
+                Vui lòng điền đầy đủ thông tin bắt buộc (<span style="color:#ef4444">*</span>) để thêm nhân viên mới vào
+                hệ thống.
+            </div>
+
+            <!-- ── Form Card ──────────────────────────────────────────────────── -->
+            <div class="d-card">
+                <div class="d-card-header">
+                    <i class="bi bi-person-badge"></i>
+                    <h3>Thông tin nhân viên</h3>
+                </div>
+                <div class="d-card-body">
+                    <form id="staffForm">
+
+                        <!-- Thông tin tài khoản -->
+                        <div class="section-title">
+                            <i class="bi bi-person-circle"></i>
+                            Thông tin tài khoản
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Tên đăng nhập <span class="required">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                    <input type="text" class="form-control" name="username" placeholder="VD: staff01"
+                                        required>
+                                </div>
+                                <small class="form-text">Tên đăng nhập phải là duy nhất trong hệ thống</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Mật khẩu <span class="required">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                    <input type="password" class="form-control" name="password"
+                                        placeholder="Nhập mật khẩu" required id="passwordInput">
+                                </div>
+                                <div class="password-strength">
+                                    <div class="password-strength-bar" id="strengthBar"></div>
+                                </div>
+                                <small class="password-strength-text" id="strengthText"></small>
+                            </div>
+                        </div>
+
+                        <hr class="section-div">
+
+                        <!-- Vai trò -->
+                        <div class="section-title">
+                            <i class="bi bi-shield-check"></i>
+                            Vai trò <span class="required" style="text-transform:none;">*</span>
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-3">
+                                <label class="role-card" for="roleStaff">
+                                    <input type="radio" name="role" value="STAFF" id="roleStaff" checked>
+                                    <div class="role-icon"><i class="bi bi-people"></i></div>
+                                    <div class="role-title">Nhân viên</div>
+                                    <div class="role-desc">Quyền hạn cơ bản, xử lý công việc hàng ngày</div>
+                                </label>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="role-card" for="roleAdmin">
+                                    <input type="radio" name="role" value="ADMIN" id="roleAdmin">
+                                    <div class="role-icon"><i class="bi bi-shield-check"></i></div>
+                                    <div class="role-title">Quản trị viên</div>
+                                    <div class="role-desc">Toàn quyền quản lý hệ thống</div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <hr class="section-div">
+
+                        <!-- Thông tin cá nhân -->
+                        <div class="section-title">
+                            <i class="bi bi-info-circle"></i>
+                            Thông tin cá nhân
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <label class="form-label">Họ và tên <span class="required">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+                                    <input type="text" class="form-control" name="fullName"
+                                        placeholder="VD: Nguyễn Văn A" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Số điện thoại <span class="required">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                                    <input type="tel" class="form-control" name="phone" placeholder="VD: 0912345678"
+                                        required>
+                                </div>
+                                <small class="form-text">Nhập số điện thoại 10 chữ số</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Email <span class="required">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                    <input type="email" class="form-control" name="email"
+                                        placeholder="VD: staff@example.com" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Form Actions -->
+                        <div class="form-actions">
+                            <button type="reset" class="btn-action btn-reset" onclick="resetForm()">
+                                <i class="bi bi-arrow-clockwise"></i> Reset
+                            </button>
+                            <button type="submit" class="btn-action btn-submit">
+                                <i class="bi bi-check-circle"></i> Lưu nhân viên
+                            </button>
+                        </div>
+
+                    </form>
                 </div>
             </div>
 
-            <!-- Form Card -->
-            <form class="form-card" id="staffForm">
-                <div class="form-header">
-                    <div class="form-title">
-                        <i class="bi bi-person-badge"></i>
-                        Thông tin nhân viên
-                    </div>
-                </div>
-
-                <!-- Thông tin tài khoản -->
-                <div class="form-section-title">
-                    <i class="bi bi-person-circle"></i> Thông tin tài khoản
-                </div>
-                <div class="row g-3 mb-4">
-                    <div class="col-md-6">
-                        <label class="form-label">
-                            Tên đăng nhập
-                            <span class="required">*</span>
-                        </label>
-                        <div class="input-group">
-                            <span class="input-group-text">
-                                <i class="bi bi-person"></i>
-                            </span>
-                            <input type="text" class="form-control" name="username" placeholder="VD: staff01" required>
-                        </div>
-                        <small class="form-text">Tên đăng nhập phải là duy nhất trong hệ thống</small>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label">
-                            Mật khẩu
-                            <span class="required">*</span>
-                        </label>
-                        <div class="input-group">
-                            <span class="input-group-text">
-                                <i class="bi bi-lock"></i>
-                            </span>
-                            <input type="password" class="form-control" name="password" placeholder="Nhập mật khẩu"
-                                required id="passwordInput">
-                        </div>
-                        <div class="password-strength">
-                            <div class="password-strength-bar" id="strengthBar"></div>
-                        </div>
-                        <small class="password-strength-text" id="strengthText"></small>
-                    </div>
-                </div>
-
-                <!-- Vai trò -->
-                <div class="form-section-title">
-                    <i class="bi bi-shield-check"></i> Vai trò
-                    <span class="required">*</span>
-                </div>
-                <div class="row g-3 mb-4">
-                    <div class="col-md-3">
-                        <label style="min-height: 165.7px; min-width: 100%;" class="role-card" for="roleStaff">
-                            <input type="radio" name="role" value="STAFF" id="roleStaff" checked>
-                            <div class="role-icon">
-                                <i class="bi bi-people"></i>
-                            </div>
-                            <div class="role-title">Nhân viên</div>
-                            <div class="role-desc">Quyền hạn cơ bản, xử lý công việc hàng ngày</div>
-                        </label>
-                    </div>
-                    <div class="col-md-3">
-                        <label style="min-height: 165.7px; min-width: 100%;" class="role-card" for="roleAdmin">
-                            <input type="radio" name="role" value="ADMIN" id="roleAdmin">
-                            <div class="role-icon">
-                                <i class="bi bi-shield-check"></i>
-                            </div>
-                            <div class="role-title">Quản trị viên</div>
-                            <div class="role-desc">Toàn quyền quản lý hệ thống</div>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Thông tin cá nhân -->
-                <div class="form-section-title">
-                    <i class="bi bi-info-circle"></i> Thông tin cá nhân
-                </div>
-                <div class="row g-3 mb-4">
-                    <div class="col-md-12">
-                        <label class="form-label">
-                            Họ và tên
-                            <span class="required">*</span>
-                        </label>
-                        <div class="input-group">
-                            <span class="input-group-text">
-                                <i class="bi bi-person-badge"></i>
-                            </span>
-                            <input type="text" class="form-control" name="fullName" placeholder="VD: Nguyễn Văn A"
-                                required>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label">
-                            Số điện thoại
-                            <span class="required">*</span>
-                        </label>
-                        <div class="input-group">
-                            <span class="input-group-text">
-                                <i class="bi bi-telephone"></i>
-                            </span>
-                            <input type="tel" class="form-control" name="phone" placeholder="VD: 0912345678" required>
-                        </div>
-                        <small class="form-text">Nhập số điện thoại 10 chữ số</small>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label">
-                            Email
-                            <span class="required">*</span>
-                        </label>
-                        <div class="input-group">
-                            <span class="input-group-text">
-                                <i class="bi bi-envelope"></i>
-                            </span>
-                            <input type="email" class="form-control" name="email" placeholder="VD: staff@example.com"
-                                required>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Form Actions -->
-                <div class="form-actions">
-                    <button type="reset" class="btn-action btn-reset" onclick="resetForm()">
-                        <i class="bi bi-arrow-clockwise"></i>
-                        Reset
-                    </button>
-                    <button type="submit" class="btn-action btn-submit">
-                        <i class="bi bi-check-circle"></i>
-                        Lưu nhân viên
-                    </button>
-                </div>
-            </form>
-        </div>
+        </div><!-- /detail-body -->
     </main>
 
-    <!--Bootstrap-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- CDN SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!--JQuery-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-        // Password strength checker
         function checkPasswordStrength(password) {
             const strengthBar = document.getElementById('strengthBar');
             const strengthText = document.getElementById('strengthText');
-
-            if (!password) {
-                strengthBar.className = 'password-strength-bar';
-                strengthText.textContent = '';
-                return;
-            }
-
+            if (!password) { strengthBar.className = 'password-strength-bar'; strengthText.textContent = ''; return; }
             let strength = 0;
             if (password.length >= 8) strength++;
             if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
             if (password.match(/[0-9]/)) strength++;
             if (password.match(/[^a-zA-Z0-9]/)) strength++;
-
             strengthBar.className = 'password-strength-bar';
             strengthText.className = 'password-strength-text';
-
             if (strength <= 1) {
                 strengthBar.classList.add('weak');
                 strengthText.classList.add('weak');
@@ -576,49 +572,33 @@
             checkPasswordStrength(e.target.value);
         });
 
-        // Role card selection
         document.addEventListener('DOMContentLoaded', function () {
             const roleCards = document.querySelectorAll('.role-card');
             const roleRadios = document.querySelectorAll('input[name="role"]');
-
             roleRadios.forEach(radio => {
                 radio.addEventListener('change', function () {
                     roleCards.forEach(card => card.classList.remove('selected'));
-                    if (this.checked) {
-                        this.closest('.role-card').classList.add('selected');
-                    }
+                    if (this.checked) this.closest('.role-card').classList.add('selected');
                 });
             });
-
-            // Set initial selected state
             const checkedRadio = document.querySelector('input[name="role"]:checked');
-            if (checkedRadio) {
-                checkedRadio.closest('.role-card').classList.add('selected');
-            }
+            if (checkedRadio) checkedRadio.closest('.role-card').classList.add('selected');
         });
 
         function resetForm() {
-            // Reset password strength
             const strengthBar = document.getElementById('strengthBar');
             const strengthText = document.getElementById('strengthText');
             strengthBar.className = 'password-strength-bar';
             strengthText.textContent = '';
-
-            // Reset role selection visual
             setTimeout(() => {
                 const checkedRadio = document.querySelector('input[name="role"]:checked');
                 document.querySelectorAll('.role-card').forEach(card => card.classList.remove('selected'));
-                if (checkedRadio) {
-                    checkedRadio.closest('.role-card').classList.add('selected');
-                }
+                if (checkedRadio) checkedRadio.closest('.role-card').classList.add('selected');
             }, 10);
         }
-    </script>
 
-    <script>
         $("#staffForm").on("submit", function (e) {
             e.preventDefault();
-
             const data = {
                 username: $("[name='username']").val(),
                 password: $("[name='password']").val(),
@@ -627,74 +607,34 @@
                 email: $("[name='email']").val(),
                 role: $("[name='role']:checked").val()
             };
-
             $.ajax({
                 url: "/admin/staff/add",
                 type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify(data),
-
                 success: function () {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Thành công',
-                        text: 'Thêm nhân viên thành công!',
-                        timer: 1500,
-                        showConfirmButton: false
-                    }).then(() => {
-                        window.location.href = "/admin/staff/list";
-                    });
+                    Swal.fire({ icon: 'success', title: 'Thành công', text: 'Thêm nhân viên thành công!', timer: 1500, showConfirmButton: false })
+                        .then(() => { window.location.href = "/admin/staff/list"; });
                 },
                 error: function (xhr) {
                     const err = xhr.responseJSON;
-                    if (err && err.message) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Lỗi',
-                            text: err.message
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Lỗi',
-                            text: 'Thêm thất bại!'
-                        });
-                    }
+                    Swal.fire({ icon: 'error', title: 'Lỗi', text: err?.message || 'Thêm thất bại!' });
                 }
             });
         });
 
         $(document).ready(function () {
-            // Hàm highlight trường có giá trị
-            function highlightFilledInputs() {
+            function highlightFilled() {
                 $('.form-control, .form-select').each(function () {
-                    const $input = $(this);
-                    if ($input.val() && $input.val().trim() !== '') {
-                        $input.addClass('has-value');
-                    } else {
-                        $input.removeClass('has-value');
-                    }
+                    $(this).toggleClass('has-value', !!($(this).val() && $(this).val().trim()));
                 });
             }
-
-            // Highlight các trường đã có giá trị khi load trang
-            highlightFilledInputs();
-
-            // Lắng nghe sự kiện input/change để highlight real-time
+            highlightFilled();
             $('.form-control, .form-select').on('input change', function () {
-                const $this = $(this);
-                if ($this.val() && $this.val().trim() !== '') {
-                    $this.addClass('has-value');
-                } else {
-                    $this.removeClass('has-value');
-                }
+                $(this).toggleClass('has-value', !!($(this).val() && $(this).val().trim()));
             });
-
-            // Reset highlight khi reset form
             $('.btn-reset').on('click', function () {
-                setTimeout(function () {
-                    $('.form-control, .form-select').removeClass('has-value');
-                }, 10);
+                setTimeout(() => $('.form-control, .form-select').removeClass('has-value'), 10);
             });
         });
     </script>
