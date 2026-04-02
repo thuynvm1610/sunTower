@@ -13,7 +13,8 @@
             box-sizing: border-box;
         }
 
-        html, body {
+        html,
+        body {
             height: 100%;
             margin: 0;
             padding: 0;
@@ -74,8 +75,8 @@
             right: 0;
             width: 100px;
             height: 100px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            border-left: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .logo-section {
@@ -87,8 +88,8 @@
 
         .logo-badge {
             display: inline-block;
-            background: rgba(255,255,255,0.13);
-            color: rgba(255,255,255,0.85);
+            background: rgba(255, 255, 255, 0.13);
+            color: rgba(255, 255, 255, 0.85);
             font-size: 11px;
             font-weight: 600;
             letter-spacing: 2px;
@@ -109,27 +110,27 @@
 
         .logo-sub {
             font-size: 13px;
-            color: rgba(255,255,255,0.55);
+            color: rgba(255, 255, 255, 0.55);
             margin-bottom: 28px;
         }
 
         .divider-line {
             width: 32px;
             height: 2px;
-            background: rgba(255,255,255,0.25);
+            background: rgba(255, 255, 255, 0.25);
             margin-bottom: 24px;
         }
 
         .description {
             font-size: 13.5px;
             line-height: 1.75;
-            color: rgba(255,255,255,0.6);
+            color: rgba(255, 255, 255, 0.6);
             max-width: 220px;
         }
 
         .left-footer {
             font-size: 11.5px;
-            color: rgba(255,255,255,0.3);
+            color: rgba(255, 255, 255, 0.3);
         }
 
         /* RIGHT PANEL */
@@ -284,56 +285,55 @@
 
 <body>
 
-<div class="page-center">
-    <div class="login-container">
-        <!-- LEFT -->
-        <div class="login-header-section">
-            <div class="logo-section">
-                <div class="logo-badge">Bất động sản</div>
-                <div class="logo">SunTower</div>
-                <div class="logo-sub">Hệ thống quản lý tích hợp</div>
-                <div class="divider-line"></div>
-                <p class="description">
-                    Nền tảng quản lý bất động sản toàn diện dành cho đội ngũ chuyên nghiệp.
-                </p>
-            </div>
-            <div class="left-footer">© 2026 SunTower. All rights reserved.</div>
-        </div>
-
-        <!-- RIGHT -->
-        <div class="login-form-section">
-            <div class="login-header">
-                <h2>Đăng nhập</h2>
-                <p>Nhập thông tin để truy cập tài khoản của bạn</p>
+    <div class="page-center">
+        <div class="login-container">
+            <!-- LEFT -->
+            <div class="login-header-section">
+                <div class="logo-section">
+                    <div class="logo-badge">Bất động sản</div>
+                    <div class="logo">SunTower</div>
+                    <div class="logo-sub">Hệ thống quản lý tích hợp</div>
+                    <div class="divider-line"></div>
+                    <p class="description">
+                        Nền tảng quản lý bất động sản toàn diện dành cho đội ngũ chuyên nghiệp.
+                    </p>
+                </div>
+                <div class="left-footer">© 2026 SunTower. All rights reserved.</div>
             </div>
 
-            <form th:action="@{/doLogin}" method="post">
-                <div class="form-group">
-                    <label for="username">Tên đăng nhập</label>
-                    <div class="input-wrapper">
-                        <input type="text" id="username" name="username"
-                               placeholder="Nhập tên đăng nhập" required autofocus>
-                    </div>
+            <!-- RIGHT -->
+            <div class="login-form-section">
+                <div class="login-header">
+                    <h2>Đăng nhập</h2>
+                    <p>Nhập thông tin để truy cập tài khoản của bạn</p>
                 </div>
 
-                <div class="form-group">
-                    <label for="password">Mật khẩu</label>
-                    <div class="input-wrapper">
-                        <input type="password" id="password" name="password"
-                               placeholder="Nhập mật khẩu" required>
-                        <i class="fa-solid fa-eye toggle-password" onclick="togglePassword('password')"></i>
+                <form th:action="@{/doLogin}" method="post">
+                    <div class="form-group">
+                        <label for="username">Tên đăng nhập</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="username" name="username" placeholder="Nhập tên đăng nhập" required
+                                autofocus>
+                        </div>
                     </div>
+
+                    <div class="form-group">
+                        <label for="password">Mật khẩu</label>
+                        <div class="input-wrapper">
+                            <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" required>
+                            <i class="fa-solid fa-eye toggle-password" onclick="togglePassword('password')"></i>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="login-button">Đăng nhập</button>
+                </form>
+
+                <div class="forgot-password">
+                    <a href="/forgot-password">Quên mật khẩu?</a>
                 </div>
-
-                <button type="submit" class="login-button">Đăng nhập</button>
-            </form>
-
-            <div class="forgot-password">
-                <a href="/forgot-password">Quên mật khẩu?</a>
             </div>
         </div>
     </div>
-</div>
 
 </body>
 
