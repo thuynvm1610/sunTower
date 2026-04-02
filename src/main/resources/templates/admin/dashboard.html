@@ -448,7 +448,7 @@
                                 </span>
                                 <span class="legend-pill">
                                     <span class="legend-dot"
-                                        style="background:#e2e8f0;border:2px solid #94a3b8;"></span>
+                                        style="background:#fef2f2;border:2px solid #ef4444;"></span>
                                     Năm <span th:text="${lastYear}">2023</span>
                                 </span>
                             </div>
@@ -727,14 +727,14 @@
                     {
                         label: 'Năm ' + lastYear,
                         data: revenueDataLastYear.map(v => v / 1_000_000_000),
-                        borderColor: '#94a3b8',
-                        backgroundColor: 'rgba(148,163,184,0.06)',
+                        borderColor: '#ef4444',
+                        backgroundColor: 'rgba(239,68,68,0.06)',
                         fill: true,
                         tension: 0.4,
                         borderWidth: 2,
                         borderDash: [5, 3],
                         pointRadius: 3,
-                        pointBackgroundColor: '#94a3b8',
+                        pointBackgroundColor: '#ef4444',
                         pointHoverRadius: 5
                     }
                 ]
