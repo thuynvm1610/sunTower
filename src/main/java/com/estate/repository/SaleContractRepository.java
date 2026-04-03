@@ -16,4 +16,7 @@ public interface SaleContractRepository extends JpaRepository<SaleContractEntity
                 WHERE b.id = :buildingId
             """)
     Long saleContractCnt(@Param("buildingId") Long buildingId);
+
+    /** Kiểm tra building đã có hợp đồng mua bán chưa (dùng khi ADD) */
+    boolean existsByBuilding_Id(Long buildingId);
 }
