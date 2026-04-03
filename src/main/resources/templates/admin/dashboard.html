@@ -19,8 +19,9 @@
         }
 
         main.content {
-            margin-left: 220px;
+            margin-left: var(--sb-w);
             padding: 0;
+            transition: margin-left var(--sb-transition);
             margin-top: 72px;
         }
 
@@ -371,6 +372,39 @@
             background: #eff6ff;
             color: #1d4ed8;
         }
+
+        /* ══ RESPONSIVE: Mobile staff table ══════════════════════════════════ */
+        @media (max-width: 640px) {
+
+            /* Hide Mã NV column on mobile */
+            .dash-table .col-manv,
+            .dash-table th.col-manv {
+                display: none;
+            }
+
+            /* Hide perf percentage text, keep bar only */
+            .perf-pct {
+                display: none;
+            }
+
+            /* Make bar narrower */
+            .perf-bar-wrap {
+                min-width: 60px;
+            }
+
+            /* Shrink name cell */
+            .dash-table td,
+            .dash-table th {
+                padding: 0.5rem 0.5rem;
+            }
+
+            /* Tighter rank badge */
+            .rank-badge {
+                width: 24px;
+                height: 24px;
+                font-size: 0.72rem;
+            }
+        }
     </style>
 </head>
 
@@ -569,10 +603,10 @@
                                 <thead>
                                     <tr>
                                         <th style="width:52px;">Top</th>
-                                        <th>Mã NV</th>
+                                        <th class="col-manv">Mã NV</th>
                                         <th>Tên nhân viên</th>
                                         <th style="text-align:center;">Hợp đồng</th>
-                                        <th style="min-width:160px;">Tỷ lệ đóng góp</th>
+                                        <th style="min-width:120px;">Tỷ lệ đóng góp</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -583,7 +617,7 @@
                                                 th:classappend="${iter.index == 0 ? 'rank-1' : iter.index == 1 ? 'rank-2' : iter.index == 2 ? 'rank-3' : ''}"
                                                 th:text="${iter.index + 1}"></span>
                                         </td>
-                                        <td th:text="'NV-' + ${staff.staffId}"></td>
+                                        <td class="col-manv" th:text="'NV-' + ${staff.staffId}"></td>
                                         <td th:text="${staff.fullName}"></td>
                                         <td style="text-align:center;" th:text="${staff.contractCount}"></td>
                                         <td>
@@ -785,9 +819,9 @@
 
         /* ── 3 Year Revenue Chart ───────────────────────────────────────────── */
         const revenue3YearLabels = [
-        /*[[${yearBeforeLast}]]*/ 2022,
-        /*[[${lastYear}]]*/ 2023,
-        /*[[${currentYear}]]*/ 2024
+    /*[[${yearBeforeLast}]]*/ 2022,
+    /*[[${lastYear}]]*/ 2023,
+    /*[[${currentYear}]]*/ 2024
         ];
         const revenue3YearValues = /*[[${yearlyRevenue}]]*/[0, 0, 0];
         new Chart(document.getElementById('revenue3YearChart'), {
@@ -920,19 +954,19 @@
                 tooltipEl = document.createElement('div');
                 tooltipEl.id = 'saleRateTooltip';
                 tooltipEl.style.cssText = `
-            position: absolute;
-            background: rgba(17,24,39,0.92);
-            color: #f9fafb;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            pointer-events: none;
-            transition: opacity 0.2s;
-            white-space: nowrap;
-            z-index: 100;
-            border: 1px solid #374151;
-        `;
+        position: absolute;
+        background: rgba(17,24,39,0.92);
+        color: #f9fafb;
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 600;
+        pointer-events: none;
+        transition: opacity 0.2s;
+        white-space: nowrap;
+        z-index: 100;
+        border: 1px solid #374151;
+    `;
                 // Gắn vào wrapper card thay vì canvas
                 chart.canvas.closest('.d-card').style.position = 'relative';
                 chart.canvas.closest('.d-card').appendChild(tooltipEl);
@@ -951,10 +985,10 @@
             const dotColor = dataIndex === 0 ? '#8b5cf6' : '#9ca3af';
 
             tooltipEl.innerHTML = `
-        <span style="display:inline-block;width:9px;height:9px;border-radius:50%;
-                     background:${dotColor};margin-right:6px;vertical-align:middle;"></span>
-        ${label}: <strong style="color:#fff;margin-left:4px;">${value} tòa (${pct}%)</strong>
-    `;
+    <span style="display:inline-block;width:9px;height:9px;border-radius:50%;
+                 background:${dotColor};margin-right:6px;vertical-align:middle;"></span>
+    ${label}: <strong style="color:#fff;margin-left:4px;">${value} tòa (${pct}%)</strong>
+`;
 
             // Vị trí: dựa theo vị trí chuột trong card
             const cardRect = chart.canvas.closest('.d-card').getBoundingClientRect();

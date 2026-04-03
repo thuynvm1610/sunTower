@@ -18,7 +18,6 @@ public class SaleContractEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Mỗi building chỉ được bán 1 lần — UNIQUE constraint
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "building_id", nullable = false, unique = true)
     private BuildingEntity building;
@@ -34,7 +33,6 @@ public class SaleContractEntity {
     @Column(name = "sale_price", nullable = false, precision = 15, scale = 2)
     private BigDecimal salePrice;
 
-    // NULL = chưa bàn giao
     @Column(name = "transfer_date")
     private LocalDate transferDate;
 
@@ -46,4 +44,15 @@ public class SaleContractEntity {
 
     @Column(name = "modified_date")
     private LocalDateTime modifiedDate;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdDate = LocalDateTime.now();
+        this.modifiedDate = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.modifiedDate = LocalDateTime.now();
+    }
 }

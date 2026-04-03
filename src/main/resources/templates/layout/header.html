@@ -1,7 +1,15 @@
 <header class="navbar shadow-sm" th:fragment="header">
 
+    <!-- Hamburger (mobile only, shown via CSS) -->
+    <button class="navbar-menu-btn" id="navbarMenuBtn" aria-label="Mở menu">
+        <i class="bi bi-list"></i>
+    </button>
+
     <!-- Brand -->
     <div class="brand">
+        <div class="brand-logo">
+            <i class="bi bi-sun-fill"></i>
+        </div>
         <div class="brand-text">
             <strong>SunTower</strong>
             <span class="brand-sub">Management</span>
@@ -10,9 +18,7 @@
 
     <!-- Right: User -->
     <div class="navbar-right">
-
-        <!-- User Info + Avatar -->
-        <a th:href="@{/admin/profile}" class="user-block text-decoration-none">
+        <a th:href="@{/admin/profile}" class="user-block" aria-label="Hồ sơ cá nhân">
             <div class="user-info">
                 <span class="user-greeting">Xin chào,</span>
                 <strong class="user-name" th:text="${staffName}">Nguyễn Văn Minh Thủy</strong>
@@ -22,6 +28,6 @@
                 <span class="status-indicator"></span>
             </div>
         </a>
-
     </div>
+
 </header>
