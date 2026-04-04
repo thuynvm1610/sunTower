@@ -21,6 +21,7 @@ public class CustomerDetailDTO {
     private String fullName;
     private String phone;
     private String email;
+    private String taxCode;
     private Map<String, Long> staffs = new HashMap<>();
     private List<CustomerContractDTO> customerContracts = new ArrayList<>();
 }

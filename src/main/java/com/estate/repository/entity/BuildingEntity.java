@@ -59,6 +59,9 @@ public class BuildingEntity {
     @Column(name = "transaction_type", nullable = false)
     private TransactionType transactionType;
 
+    @Column(name = "tax_code", length = 20)
+    private String taxCode;
+
     @Column(name = "rent_price")
     private BigDecimal rentPrice;
 

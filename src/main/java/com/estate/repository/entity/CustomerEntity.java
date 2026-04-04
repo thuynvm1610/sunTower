@@ -37,6 +37,9 @@ public class CustomerEntity {
     @Column
     private String email;
 
+    @Column(name = "tax_code", length = 20)
+    private String taxCode;
+
     @Column
     private String role; // CUSTOMER
 

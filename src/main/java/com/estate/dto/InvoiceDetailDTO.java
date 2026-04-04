@@ -18,6 +18,7 @@ public class InvoiceDetailDTO {
     private Integer year;
     private BigDecimal totalAmount;
     private BigDecimal totalServiceFeeAmount;
+    private String amountInWords;
     private String status; // PENDING, PAID, OVERDUE
     private String createdDate;
     private String paidDate;

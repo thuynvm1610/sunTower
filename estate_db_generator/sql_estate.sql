@@ -262,6 +262,7 @@ CREATE TABLE building (
     level              VARCHAR(50),
     property_type      ENUM('OFFICE','SHOPHOUSE','APARTMENT','WAREHOUSE') NOT NULL DEFAULT 'OFFICE' COMMENT 'Loại hình bất động sản',
     transaction_type   ENUM('FOR_RENT','FOR_SALE') NOT NULL DEFAULT 'FOR_RENT'                      COMMENT 'Loại hình giao dịch',
+    tax_code           VARCHAR(20)  NULL                                                            COMMENT 'Mã số thuế',
     rent_price         DECIMAL(15,2),
     sale_price         DECIMAL(15,2) NULL                                                           COMMENT 'Giá bán toàn bộ. NULL nếu FOR_RENT',
     service_fee        DECIMAL(15,2),
@@ -283,68 +284,68 @@ CREATE TABLE building (
 -- OFFICE FOR_RENT: B1-B5 — HN×3, HCM×1, ĐN×1
 -- -------------------------------------------------------
 INSERT INTO building
-(name, district_id, ward, street, number_of_floor, number_of_basement, floor_area, direction, level, property_type, transaction_type, rent_price, sale_price, service_fee, car_fee, motorbike_fee, water_fee, electricity_fee, deposit, link_of_building, image, latitude, longitude, created_date, modified_date) VALUES
-('Lotte Center Ha Noi'    , 1 , 'P. Cống Vị'      , '54 Liễu Giai'      , 60, 5, 7000 , 'TAY_BAC' , 'A_PLUS', 'OFFICE', 'FOR_RENT', 1200000, NULL, 2500000, 2000000, 120000,180000,55000, 200000000, 'https://lottecenter.vn'  , 'lotte-center.jpg'  , 21.032319977933223, 105.81268937783526, '2018-11-20', '2025-02-11'),
-('Keangnam Landmark 72'   , 11, 'P. Mễ Trì'       , 'E6 Phạm Hùng'      , 72, 5, 10000, 'TAY_BAC' , 'A_PLUS', 'OFFICE', 'FOR_RENT', 1200000, NULL, 3000000, 2600000, 150000,180000,55000, 250000000, 'https://keangnamtower.vn', 'keangnam-tower.jpg', 21.0167517369239  , 105.78377473603696, '2018-08-25', '2024-12-12'),
-('Pacific Place'          , 2 , 'P. Trần Hưng Đạo', '83B Lý Thường Kiệt', 20, 3, 3500 , 'NAM'     , 'B'     , 'OFFICE', 'FOR_RENT', 600000 , NULL, 2000000, 2500000, 100000,150000,45000, 100000000, 'https://pacificplace.vn' , 'pacific-place.jpg' , 21.024913138029675, 105.84336779988024, '2019-07-18', '2024-05-02'),
-('Bitexco Financial Tower', 14, 'P. Bến Nghé'     , '2 Hải Triều'       , 68, 5, 9000 , 'DONG_NAM', 'A_PLUS', 'OFFICE', 'FOR_RENT', 1100000, NULL, 2800000, 3000000, 160000,200000,55000, 220000000, 'https://bitexco.vn'      , 'bitexco.jpg'       , 10.77170738357016 , 106.70437501713937, '2018-05-20', '2025-01-10'),
-('Vincom Plaza Đà Nẵng'   , 40, 'P. An Hải Bắc'   , '910A Ngô Quyền'    , 22, 2, 3800 , 'DONG'    , 'B_PLUS', 'OFFICE', 'FOR_RENT', 550000 , NULL, 1200000, 1500000, 80000 ,120000,40000,  80000000, 'https://vincom-danang.vn', 'vincom-danang.jpg' , 16.071398821656608, 108.22996729971118, '2020-07-14', '2024-11-05');
+(name, district_id, ward, street, number_of_floor, number_of_basement, floor_area, direction, level, property_type, transaction_type, tax_code, rent_price, sale_price, service_fee, car_fee, motorbike_fee, water_fee, electricity_fee, deposit, link_of_building, image, latitude, longitude, created_date, modified_date) VALUES
+('Lotte Center Ha Noi'    , 1 , 'P. Cống Vị'      , '54 Liễu Giai'      , 60, 5, 7000 , 'TAY_BAC' , 'A_PLUS', 'OFFICE', 'FOR_RENT', '0101018580', 1200000, NULL, 2500000, 2000000, 120000,180000,55000, 200000000, 'https://lottecenter.vn'  , 'lotte-center.jpg'  , 21.032319977933223, 105.81268937783526, '2018-11-20', '2025-02-11'),
+('Keangnam Landmark 72'   , 11, 'P. Mễ Trì'       , 'E6 Phạm Hùng'      , 72, 5, 10000, 'TAY_BAC' , 'A_PLUS', 'OFFICE', 'FOR_RENT', '0101684957', 1200000, NULL, 3000000, 2600000, 150000,180000,55000, 250000000, 'https://keangnamtower.vn', 'keangnam-tower.jpg', 21.0167517369239  , 105.78377473603696, '2018-08-25', '2024-12-12'),
+('Pacific Place'          , 2 , 'P. Trần Hưng Đạo', '83B Lý Thường Kiệt', 20, 3, 3500 , 'NAM'     , 'B'     , 'OFFICE', 'FOR_RENT', '0100107694', 600000 , NULL, 2000000, 2500000, 100000,150000,45000, 100000000, 'https://pacificplace.vn' , 'pacific-place.jpg' , 21.024913138029675, 105.84336779988024, '2019-07-18', '2024-05-02'),
+('Bitexco Financial Tower', 14, 'P. Bến Nghé'     , '2 Hải Triều'       , 68, 5, 9000 , 'DONG_NAM', 'A_PLUS', 'OFFICE', 'FOR_RENT', '0301452948', 1100000, NULL, 2800000, 3000000, 160000,200000,55000, 220000000, 'https://bitexco.vn'      , 'bitexco.jpg'       , 10.77170738357016 , 106.70437501713937, '2018-05-20', '2025-01-10'),
+('Vincom Plaza Đà Nẵng'   , 40, 'P. An Hải Bắc'   , '910A Ngô Quyền'    , 22, 2, 3800 , 'DONG'    , 'B_PLUS', 'OFFICE', 'FOR_RENT', '0400582356', 550000 , NULL, 1200000, 1500000, 80000 ,120000,40000,  80000000, 'https://vincom-danang.vn', 'vincom-danang.jpg' , 16.071398821656608, 108.22996729971118, '2020-07-14', '2024-11-05');
 
 -- -------------------------------------------------------
 -- OFFICE FOR_SALE: B6-B7 — HCM, Khánh Hòa
 -- -------------------------------------------------------
 INSERT INTO building
-(name, district_id, ward, street, number_of_floor, number_of_basement, floor_area, direction, level, property_type, transaction_type, rent_price, sale_price, service_fee, car_fee, motorbike_fee, water_fee, electricity_fee, deposit, link_of_building, image, latitude, longitude, created_date, modified_date) VALUES
-('Saigon Centre Building', 14, 'P. Sài Gòn' , '67 Lê Lợi' , 25, 3, 5000, 'NAM'     , 'A_PLUS', 'OFFICE', 'FOR_SALE', NULL, 72000000000, 2200000, 2500000, 140000, 22000, 6000, NULL, 'https://saigoncentre.vn'     , 'saigon-centre.jpg'    , 10.773102238637799, 106.70104984112902, '2019-03-15', '2025-01-20'),
-('Landmark Nha Trang'    , 70, 'P. Vĩnh Hải', '06 Bắc Sơn', 32, 3, 5500, 'DONG_NAM', 'A_PLUS', 'OFFICE', 'FOR_SALE', NULL, 58000000000, 2000000, 2200000, 130000, 20000, 5500, NULL, 'https://landmark-nhatrang.vn', 'landmark-nhatrang.jpg', 12.278003404832022, 109.19739094817429, '2020-06-10', '2025-02-15');
+(name, district_id, ward, street, number_of_floor, number_of_basement, floor_area, direction, level, property_type, transaction_type, tax_code, rent_price, sale_price, service_fee, car_fee, motorbike_fee, water_fee, electricity_fee, deposit, link_of_building, image, latitude, longitude, created_date, modified_date) VALUES
+('Saigon Centre Building', 14, 'P. Sài Gòn' , '67 Lê Lợi' , 25, 3, 5000, 'NAM'     , 'A_PLUS', 'OFFICE', 'FOR_SALE', '0302685834', NULL, 72000000000, 2200000, 2500000, 140000, 22000, 6000, NULL, 'https://saigoncentre.vn'     , 'saigon-centre.jpg'    , 10.773102238637799, 106.70104984112902, '2019-03-15', '2025-01-20'),
+('Landmark Nha Trang'    , 70, 'P. Vĩnh Hải', '06 Bắc Sơn', 32, 3, 5500, 'DONG_NAM', 'A_PLUS', 'OFFICE', 'FOR_SALE', '4201432610', NULL, 58000000000, 2000000, 2200000, 130000, 20000, 5500, NULL, 'https://landmark-nhatrang.vn', 'landmark-nhatrang.jpg', 12.278003404832022, 109.19739094817429, '2020-06-10', '2025-02-15');
 
 -- -------------------------------------------------------
 -- SHOPHOUSE FOR_RENT: B8-B9 — HCM, HN
 -- -------------------------------------------------------
 INSERT INTO building
-(name, district_id, ward, street, number_of_floor, number_of_basement, floor_area, direction, level, property_type, transaction_type, rent_price, sale_price, service_fee, car_fee, motorbike_fee, water_fee, electricity_fee, deposit, link_of_building, image, latitude, longitude, created_date, modified_date) VALUES
-('The Manor 2'           , 28, 'P. 22'    , '91 Nguyễn Hữu Cảnh', 4, 1, 160, 'DONG_NAM', 'B', 'SHOPHOUSE', 'FOR_RENT', 35000000, NULL, 500000, 800000, 50000, 90000,30000,  70000000, 'https://themanor-hcm.vn'      , 'shophouse-the-manor.jpg'  , 10.792513365900277, 106.71785936601302, '2020-08-01', '2024-11-15'),
-('Vincity Sportia Tây Mỗ', 11, 'P. Tây Mỗ', 'Đại Lộ Thăng Long' , 4, 1, 200, 'TAY_NAM' , 'A', 'SHOPHOUSE', 'FOR_RENT', 28000000, NULL, 400000, 700000, 45000, 80000,28000,  56000000, 'https://vinhomes-smartcity.vn', 'shophouse-vinhomes-sc.jpg', 21.007788596072942, 105.73787479994706, '2021-05-10', '2025-01-20');
+(name, district_id, ward, street, number_of_floor, number_of_basement, floor_area, direction, level, property_type, transaction_type, tax_code, rent_price, sale_price, service_fee, car_fee, motorbike_fee, water_fee, electricity_fee, deposit, link_of_building, image, latitude, longitude, created_date, modified_date) VALUES
+('The Manor 2'           , 28, 'P. 22'    , '91 Nguyễn Hữu Cảnh', 4, 1, 160, 'DONG_NAM', 'B', 'SHOPHOUSE', 'FOR_RENT', '0311526103', 35000000, NULL, 500000, 800000, 50000, 90000,30000,  70000000, 'https://themanor-hcm.vn'      , 'shophouse-the-manor.jpg'  , 10.792513365900277, 106.71785936601302, '2020-08-01', '2024-11-15'),
+('Vincity Sportia Tây Mỗ', 11, 'P. Tây Mỗ', 'Đại Lộ Thăng Long' , 4, 1, 200, 'TAY_NAM' , 'A', 'SHOPHOUSE', 'FOR_RENT', '0109265782', 28000000, NULL, 400000, 700000, 45000, 80000,28000,  56000000, 'https://vinhomes-smartcity.vn', 'shophouse-vinhomes-sc.jpg', 21.007788596072942, 105.73787479994706, '2021-05-10', '2025-01-20');
 
 -- -------------------------------------------------------
 -- SHOPHOUSE FOR_SALE: B10 — HCM
 -- -------------------------------------------------------
 INSERT INTO building
-(name, district_id, ward, street, number_of_floor, number_of_basement, floor_area, direction, level, property_type, transaction_type, rent_price, sale_price, service_fee, car_fee, motorbike_fee, water_fee, electricity_fee, deposit, link_of_building, image, latitude, longitude, created_date, modified_date) VALUES
-('Masteri Thảo Điền', 30, 'P. Thảo Điền', '159 Võ Nguyên Giáp', 5, 1, 180, 'DONG', 'A_PLUS', 'SHOPHOUSE', 'FOR_SALE', NULL, 23000000000, NULL, NULL, NULL, NULL, NULL, NULL, 'https://masteri-thaodien.vn', 'shophouse-masteri-td.jpg', 10.802020904141203, 106.73956790040825, '2022-03-15', '2025-02-10');
+(name, district_id, ward, street, number_of_floor, number_of_basement, floor_area, direction, level, property_type, transaction_type, tax_code, rent_price, sale_price, service_fee, car_fee, motorbike_fee, water_fee, electricity_fee, deposit, link_of_building, image, latitude, longitude, created_date, modified_date) VALUES
+('Masteri Thảo Điền', 30, 'P. Thảo Điền', '159 Võ Nguyên Giáp', 5, 1, 180, 'DONG', 'A_PLUS', 'SHOPHOUSE', 'FOR_SALE', '0314872061', NULL, 23000000000, NULL, NULL, NULL, NULL, NULL, NULL, 'https://masteri-thaodien.vn', 'shophouse-masteri-td.jpg', 10.802020904141203, 106.73956790040825, '2022-03-15', '2025-02-10');
 
 -- -------------------------------------------------------
 -- APARTMENT FOR_RENT: B11-B13 — HCM×1, HN×2
 -- -------------------------------------------------------
 INSERT INTO building
-(name, district_id, ward, street, number_of_floor, number_of_basement, floor_area, direction, level, property_type, transaction_type, rent_price, sale_price, service_fee, car_fee, motorbike_fee, water_fee, electricity_fee, deposit, link_of_building, image, latitude, longitude, created_date, modified_date) VALUES
-('The Ascent Thảo Điền', 30, 'P. Thảo Điền'       , '58 Quốc Hương' , 30, 3, 75, 'NAM', 'A'     , 'APARTMENT', 'FOR_RENT', 25000000, NULL, 800000, 1200000, 60000,100000,35000,  50000000, 'https://theascent.vn'         , 'apt-theascent.jpg' , 10.807198264176137, 106.73141565928037, '2021-07-01', '2024-12-10'),
-('Masteri Waterfront'  , 13, 'P. Đa Tốn'          , 'Hải Đăng 2'    , 38, 3, 68, 'TAY', 'B_PLUS', 'APARTMENT', 'FOR_RENT', 18000000, NULL, 600000, 900000 , 50000, 90000,30000,  36000000, 'https://masteri-waterfront.vn', 'apt-masteri-wf.jpg', 20.994602250137632, 105.94490104128745, '2022-09-05', '2025-02-28'),
-('Gold Season'         , 7 , 'P. Thanh Xuân Trung', '47 Nguyễn Tuân', 37, 3, 75, 'NAM', 'A'     , 'APARTMENT', 'FOR_RENT', 18000000, NULL, 800000, 1200000, 60000,100000,35000,  36000000, 'https://goldseason.vn'        , 'apt-goldseason.jpg', 20.995411298376332, 105.80463299602404, '2021-07-01', '2024-12-10');
+(name, district_id, ward, street, number_of_floor, number_of_basement, floor_area, direction, level, property_type, transaction_type, tax_code, rent_price, sale_price, service_fee, car_fee, motorbike_fee, water_fee, electricity_fee, deposit, link_of_building, image, latitude, longitude, created_date, modified_date) VALUES
+('The Ascent Thảo Điền', 30, 'P. Thảo Điền'       , '58 Quốc Hương' , 30, 3, 75, 'NAM', 'A'     , 'APARTMENT', 'FOR_RENT', '0313652907', 25000000, NULL, 800000, 1200000, 60000,100000,35000,  50000000, 'https://theascent.vn'         , 'apt-theascent.jpg' , 10.807198264176137, 106.73141565928037, '2021-07-01', '2024-12-10'),
+('Masteri Waterfront'  , 13, 'P. Đa Tốn'          , 'Hải Đăng 2'    , 38, 3, 68, 'TAY', 'B_PLUS', 'APARTMENT', 'FOR_RENT', '0108751349', 18000000, NULL, 600000, 900000 , 50000, 90000,30000,  36000000, 'https://masteri-waterfront.vn', 'apt-masteri-wf.jpg', 20.994602250137632, 105.94490104128745, '2022-09-05', '2025-02-28'),
+('Gold Season'         , 7 , 'P. Thanh Xuân Trung', '47 Nguyễn Tuân', 37, 3, 75, 'NAM', 'A'     , 'APARTMENT', 'FOR_RENT', '0100233488', 18000000, NULL, 800000, 1200000, 60000,100000,35000,  36000000, 'https://goldseason.vn'        , 'apt-goldseason.jpg', 20.995411298376332, 105.80463299602404, '2021-07-01', '2024-12-10');
 
 -- -------------------------------------------------------
 -- APARTMENT FOR_SALE: B14-B15 — HCM, Đà Nẵng
 -- -------------------------------------------------------
 INSERT INTO building
-(name, district_id, ward, street, number_of_floor, number_of_basement, floor_area, direction, level, property_type, transaction_type, rent_price, sale_price, service_fee, car_fee, motorbike_fee, water_fee, electricity_fee, deposit, link_of_building, image, latitude, longitude, created_date, modified_date) VALUES
-('Vinhomes Central Park'               , 28, 'P. 22'        , '208 Nguyễn Hữu Cảnh', 45, 4, 95, 'DONG_NAM', 'A_PLUS', 'APARTMENT', 'FOR_SALE', NULL, 15000000000, NULL, NULL, NULL, NULL, NULL, NULL, 'https://vinhomes-centralpark.vn', 'apt-centralpark.jpg', 10.793699887408508, 106.72200904461549, '2019-04-10', '2025-03-01'),
-('Vinpearl Condotel Riverfront Da Nang', 40, 'P. An Hải Bắc', '341 Trần Hưng Đạo'  , 25, 3, 65, 'DONG_NAM', 'A_PLUS', 'APARTMENT', 'FOR_SALE', NULL, 12000000000, NULL, NULL, NULL, NULL, NULL, NULL, 'https://vinpearl-danang.vn'     , 'apt-vinpearl-dn.jpg', 16.07083189900832 , 108.22914644974416, '2021-06-01', '2025-01-15');
+(name, district_id, ward, street, number_of_floor, number_of_basement, floor_area, direction, level, property_type, transaction_type, tax_code, rent_price, sale_price, service_fee, car_fee, motorbike_fee, water_fee, electricity_fee, deposit, link_of_building, image, latitude, longitude, created_date, modified_date) VALUES
+('Vinhomes Central Park'               , 28, 'P. 22'        , '208 Nguyễn Hữu Cảnh', 45, 4, 95, 'DONG_NAM', 'A_PLUS', 'APARTMENT', 'FOR_SALE', '0303516831', NULL, 15000000000, NULL, NULL, NULL, NULL, NULL, NULL, 'https://vinhomes-centralpark.vn', 'apt-centralpark.jpg', 10.793699887408508, 106.72200904461549, '2019-04-10', '2025-03-01'),
+('Vinpearl Condotel Riverfront Da Nang', 40, 'P. An Hải Bắc', '341 Trần Hưng Đạo'  , 25, 3, 65, 'DONG_NAM', 'A_PLUS', 'APARTMENT', 'FOR_SALE', '0400896245', NULL, 12000000000, NULL, NULL, NULL, NULL, NULL, NULL, 'https://vinpearl-danang.vn'     , 'apt-vinpearl-dn.jpg', 16.07083189900832 , 108.22914644974416, '2021-06-01', '2025-01-15');
 
 -- -------------------------------------------------------
 -- WAREHOUSE FOR_RENT: B16-B17 — HCM, Đồng Nai
 -- -------------------------------------------------------
 INSERT INTO building
-(name, district_id, ward, street, number_of_floor, number_of_basement, floor_area, direction, level, property_type, transaction_type, rent_price, sale_price, service_fee, car_fee, motorbike_fee, water_fee, electricity_fee, deposit, link_of_building, image, latitude, longitude, created_date, modified_date) VALUES
-('Cảng Cát Lái'  , 30, 'P. Cát Lái'      , 'Nguyễn Thị Định'     , 2, 0, 1500, 'DONG', 'B', 'WAREHOUSE', 'FOR_RENT', 120000, NULL, NULL, 2000000, NULL, 80000,25000,  36000000, 'https://catlaiport.vn', 'warehouse-cat-lai.jpg' , 10.759855691901775, 106.78723701505041, '2021-04-18', '2025-01-10'),
-('Amata Đồng Nai', 72, 'P. Long Bình Tân', 'Đường Số 8 KCN Amata', 2, 0, 1800, 'NAM' , 'B', 'WAREHOUSE', 'FOR_RENT', 100000, NULL, NULL, 1800000, NULL, 70000,22000,  32000000, 'https://amata.com.vn' , 'warehouse-amata-dn.jpg', 10.943214724665408, 106.88020823191884, '2022-01-25', '2025-02-05');
+(name, district_id, ward, street, number_of_floor, number_of_basement, floor_area, direction, level, property_type, transaction_type, tax_code, rent_price, sale_price, service_fee, car_fee, motorbike_fee, water_fee, electricity_fee, deposit, link_of_building, image, latitude, longitude, created_date, modified_date) VALUES
+('Cảng Cát Lái'  , 30, 'P. Cát Lái'      , 'Nguyễn Thị Định'     , 2, 0, 1500, 'DONG', 'B', 'WAREHOUSE', 'FOR_RENT', '0301651089', 120000, NULL, NULL, 2000000, NULL, 80000,25000,  36000000, 'https://catlaiport.vn', 'warehouse-cat-lai.jpg' , 10.759855691901775, 106.78723701505041, '2021-04-18', '2025-01-10'),
+('Amata Đồng Nai', 72, 'P. Long Bình Tân', 'Đường Số 8 KCN Amata', 2, 0, 1800, 'NAM' , 'B', 'WAREHOUSE', 'FOR_RENT', '3602194875', 100000, NULL, NULL, 1800000, NULL, 70000,22000,  32000000, 'https://amata.com.vn' , 'warehouse-amata-dn.jpg', 10.943214724665408, 106.88020823191884, '2022-01-25', '2025-02-05');
 
 -- -------------------------------------------------------
 -- WAREHOUSE FOR_SALE: B18-B19 — HCM, Quảng Ninh
 -- -------------------------------------------------------
 INSERT INTO building
-(name, district_id, ward, street, number_of_floor, number_of_basement, floor_area, direction, level, property_type, transaction_type, rent_price, sale_price, service_fee, car_fee, motorbike_fee, water_fee, electricity_fee, deposit, link_of_building, image, latitude, longitude, created_date, modified_date) VALUES
-('Khu công nghiệp VSIP 1'                            , 17, 'P. Bình Hòa', '8 Hữu Nghị', 3, 0, 2000, 'BAC' , 'B', 'WAREHOUSE', 'FOR_SALE', NULL, 32000000000, NULL, NULL, NULL, NULL, NULL, NULL, 'https://vsip.com.vn'       , 'warehouse-vsip-bd.jpg' , 10.924383629102962, 106.7135557386782 , '2020-06-10', '2024-10-15'),
-('Khu công nghiệp Bắc Tiền Phong - Deep C Quảng Ninh', 60, 'P. Yên Hưng', 'Tiền Phong', 3, 0, 2500, 'DONG', 'B', 'WAREHOUSE', 'FOR_SALE', NULL, 28000000000, NULL, NULL, NULL, NULL, NULL, NULL, 'https://deepc-quangninh.vn', 'warehouse-deepc-qn.jpg', 20.83818117634496 , 106.86106577476207, '2021-08-15', '2025-01-20');
+(name, district_id, ward, street, number_of_floor, number_of_basement, floor_area, direction, level, property_type, transaction_type, tax_code, rent_price, sale_price, service_fee, car_fee, motorbike_fee, water_fee, electricity_fee, deposit, link_of_building, image, latitude, longitude, created_date, modified_date) VALUES
+('Khu công nghiệp VSIP 1'                            , 17, 'P. Bình Hòa', '8 Hữu Nghị', 3, 0, 2000, 'BAC' , 'B', 'WAREHOUSE', 'FOR_SALE', '0305847621', NULL, 32000000000, NULL, NULL, NULL, NULL, NULL, NULL, 'https://vsip.com.vn'       , 'warehouse-vsip-bd.jpg' , 10.924383629102962, 106.7135557386782 , '2020-06-10', '2024-10-15'),
+('Khu công nghiệp Bắc Tiền Phong - Deep C Quảng Ninh', 60, 'P. Yên Hưng', 'Tiền Phong', 3, 0, 2500, 'DONG', 'B', 'WAREHOUSE', 'FOR_SALE', '5701284936', NULL, 28000000000, NULL, NULL, NULL, NULL, NULL, NULL, 'https://deepc-quangninh.vn', 'warehouse-deepc-qn.jpg', 20.83818117634496 , 106.86106577476207, '2021-08-15', '2025-01-20');
 
 -- =============================================================================
 -- BẢNG KHÁCH HÀNG / CUSTOMER
@@ -356,6 +357,7 @@ CREATE TABLE customer (
     full_name     VARCHAR(100),
     phone         VARCHAR(20)  UNIQUE,
     email         VARCHAR(100) UNIQUE,
+    tax_code      VARCHAR(20)  NULL COMMENT 'Mã số thuế — NULL nếu là cá nhân',
     role          VARCHAR(50),
     created_date  DATETIME,
     modified_date DATETIME
@@ -363,24 +365,24 @@ CREATE TABLE customer (
 
 -- C1-C8  : Khách THUÊ  — có username/password để login theo dõi hóa đơn
 -- C9-C14 : Khách MUA   — NULL username/password, không cần tài khoản
-INSERT INTO customer (username, password, full_name, phone, email, role, created_date, modified_date) VALUES
-('abcVietNam'   , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty TNHH ABC Việt Nam'        , '0903000001', 'contact@abc.com.vn'       , 'CUSTOMER', '2019-06-18', '2024-08-10'),
-('VietATMCP'    , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Ngân hàng TMCP Việt Á'            , '0903000002', 'office@vietabank.vn'      , 'CUSTOMER', '2019-12-17', '2024-11-20'),
-('SaigonTech'   , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty CP Công nghệ Sài Gòn'     , '0903000003', 'info@saigontech.vn'       , 'CUSTOMER', '2020-03-10', '2024-09-15'),
-('DaNangMedia'  , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty TNHH Truyền thông Đà Nẵng', '0903000004', 'contact@dananmedia.vn'    , 'CUSTOMER', '2021-05-20', '2025-01-10'),
-('PhoHuongViet' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty CP Phở Hương Việt'        , '0903000005', 'info@phohuongviet.vn'     , 'CUSTOMER', '2020-08-10', '2024-11-15'),
-('AoVietFashion', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty CP Thời trang Áo Việt'    , '0903000006', 'sales@aoviet.vn'          , 'CUSTOMER', '2021-11-15', '2025-01-05'),
-('ExpatsHCM'    , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Nhóm khách thuê căn hộ Thủ Đức'   , '0903000007', 'tenant@expatshcm.vn'      , 'CUSTOMER', '2022-01-10', '2025-02-20'),
-('HoangGiaTM'   , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty TNHH Thương mại Hoàng Gia', '0903000008', 'sales@hoanggia.vn'        , 'CUSTOMER', '2021-01-09', '2024-09-18'),
-('NoiThatGoDat' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty CP Nội thất Gỗ Đất Việt'  , '0903000009', 'info@godatviet.vn'        , 'CUSTOMER', '2021-04-20', '2025-01-10'),
-('SXDongNai'    , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty TNHH Sản xuất Đồng Nai'   , '0903000010', 'info@sxdongnai.vn'        , 'CUSTOMER', '2022-02-15', '2025-02-05'),
-('APHoldings'   , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Tập đoàn An Phát Holdings'        , '0903000011', 'contact@anphatholdings.vn', 'CUSTOMER', '2024-01-05', '2024-06-15'),
-('VRS'          , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Tập đoàn Vinpearl Resort & Spa'   , '0903000012', 'invest@vinpearl.com'      , 'CUSTOMER', '2025-01-10', '2025-02-28'),
-('CPLuxuryViet' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty CP Bán lẻ Luxury Việt'    , '0903000013', 'info@luxuryviet.vn'       , 'CUSTOMER', '2023-06-01', '2024-01-20'),
-('DTNamCuong'   , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Tập đoàn Đầu tư Nam Cường'        , '0903000014', 'office@namcuonggroup.vn'  , 'CUSTOMER', '2023-04-01', '2023-07-01'),
-('NMK'          , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Ông Nguyễn Minh Khoa — Nhà đầu tư', '0903000015', 'khoa.nm@gmail.com'        , 'CUSTOMER', '2024-08-10', '2025-01-15'),
-('XDMinhPhat'   , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Tập đoàn Xây dựng Minh Phát'      , '0903000016', 'info@minhphatgroup.vn'    , 'CUSTOMER', '2025-01-20', '2025-02-01'),
-('CPLogisticsDD', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty CP Logistics Đại Dương'   , '0903000017', 'info@daiduonglogistics.vn', 'CUSTOMER', '2024-11-05', '2025-03-01');
+INSERT INTO customer (username, password, full_name, phone, email, tax_code, role, created_date, modified_date) VALUES
+('abcVietNam'   , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty TNHH ABC Việt Nam'        , '0903000001', 'contact@abc.com.vn'       , '0312847561', 'CUSTOMER', '2019-06-18', '2024-08-10'),
+('VietATMCP'    , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Ngân hàng TMCP Việt Á'            , '0903000002', 'office@vietabank.vn'      , '0100112437', 'CUSTOMER', '2019-12-17', '2024-11-20'),
+('SaigonTech'   , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty CP Công nghệ Sài Gòn'     , '0903000003', 'info@saigontech.vn'       , '0315632894', 'CUSTOMER', '2020-03-10', '2024-09-15'),
+('DaNangMedia'  , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty TNHH Truyền thông Đà Nẵng', '0903000004', 'contact@dananmedia.vn'    , '0401357829', 'CUSTOMER', '2021-05-20', '2025-01-10'),
+('PhoHuongViet' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty CP Phở Hương Việt'        , '0903000005', 'info@phohuongviet.vn'     , '0309284751', 'CUSTOMER', '2020-08-10', '2024-11-15'),
+('AoVietFashion', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty CP Thời trang Áo Việt'    , '0903000006', 'sales@aoviet.vn'          , '0310957346', 'CUSTOMER', '2021-11-15', '2025-01-05'),
+('ExpatsHCM'    , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Nhóm khách thuê căn hộ Thủ Đức'   , '0903000007', 'tenant@expatshcm.vn'      ,  NULL       , 'CUSTOMER', '2022-01-10', '2025-02-20'),
+('HoangGiaTM'   , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty TNHH Thương mại Hoàng Gia', '0903000008', 'sales@hoanggia.vn'        , '0108463572', 'CUSTOMER', '2021-01-09', '2024-09-18'),
+('NoiThatGoDat' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty CP Nội thất Gỗ Đất Việt'  , '0903000009', 'info@godatviet.vn'        , '0316258043', 'CUSTOMER', '2021-04-20', '2025-01-10'),
+('SXDongNai'    , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty TNHH Sản xuất Đồng Nai'   , '0903000010', 'info@sxdongnai.vn'        , '3601849275', 'CUSTOMER', '2022-02-15', '2025-02-05'),
+('APHoldings'   , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Tập đoàn An Phát Holdings'        , '0903000011', 'contact@anphatholdings.vn', '0200348591', 'CUSTOMER', '2024-01-05', '2024-06-15'),
+('VRS'          , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Tập đoàn Vinpearl Resort & Spa'   , '0903000012', 'invest@vinpearl.com'      , '0101436094', 'CUSTOMER', '2025-01-10', '2025-02-28'),
+('CPLuxuryViet' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty CP Bán lẻ Luxury Việt'    , '0903000013', 'info@luxuryviet.vn'       , '0317295840', 'CUSTOMER', '2023-06-01', '2024-01-20'),
+('DTNamCuong'   , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Tập đoàn Đầu tư Nam Cường'        , '0903000014', 'office@namcuonggroup.vn'  , '0102573846', 'CUSTOMER', '2023-04-01', '2023-07-01'),
+('NMK'          , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Ông Nguyễn Minh Khoa — Nhà đầu tư', '0903000015', 'khoa.nm@gmail.com'        ,  NULL       , 'CUSTOMER', '2024-08-10', '2025-01-15'),
+('XDMinhPhat'   , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Tập đoàn Xây dựng Minh Phát'      , '0903000016', 'info@minhphatgroup.vn'    , '0109384756', 'CUSTOMER', '2025-01-20', '2025-02-01'),
+('CPLogisticsDD', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty CP Logistics Đại Dương'   , '0903000017', 'info@daiduonglogistics.vn', '0318472095', 'CUSTOMER', '2024-11-05', '2025-03-01');
 
 -- =============================================================================
 -- BẢNG ĐẶT LẠI MẬT KHẨU / PASSWORD_RESET_TOKEN

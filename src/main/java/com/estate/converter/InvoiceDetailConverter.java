@@ -4,6 +4,7 @@ import com.estate.dto.*;
 import com.estate.repository.entity.InvoiceDetailEntity;
 import com.estate.repository.entity.InvoiceEntity;
 import com.estate.repository.entity.UtilityMeterEntity;
+import com.estate.util.MoneyToWords;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -70,6 +71,8 @@ public class InvoiceDetailConverter {
 
         UtilityMeterDetailDTO utilityMeterDTO = utilityMeterDetailConverter.toDTO(utilityMeter);
         dto.setUtilityMeter(utilityMeterDTO);
+
+        dto.setAmountInWords(MoneyToWords.convert(entity.getTotalAmount()));
 
         return dto;
     }
