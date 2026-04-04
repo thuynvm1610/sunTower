@@ -4,6 +4,7 @@ import com.estate.dto.BuildingSelectDTO;
 import com.estate.enums.TransactionType;
 import com.estate.repository.custom.BuildingRepositoryCustom;
 import com.estate.repository.entity.BuildingEntity;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -49,6 +49,8 @@ public class BuildingFormDTO {
     @NotBlank(message = "Vui lòng chọn loại giao dịch")
     private String transactionType; // FOR_RENT | FOR_SALE
 
+    private String taxCode;
+
     // ── Giá thuê (FOR_RENT) ─────────────────────────────────────────────────
     private BigDecimal rentPrice;
 
