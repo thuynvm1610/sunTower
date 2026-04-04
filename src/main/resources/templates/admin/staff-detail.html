@@ -698,12 +698,12 @@
                 </div>
             </div>
 
-            <!-- ── Tòa nhà được phân công ─────────────────────────────────────── -->
+            <!-- ── Bất động sản được phân công ─────────────────────────────────────── -->
             <div class="d-card">
                 <div class="d-card-header">
                     <div class="d-card-header-left">
                         <i class="bi bi-building-fill"></i>
-                        <h3>Tòa nhà được phân công quản lý</h3>
+                        <h3>Bất động sản được phân công quản lý</h3>
                     </div>
                     <button class="btn-assign-edit" id="btnEditBuildings" th:data-staff-id="${staff.id}">
                         <i class="bi bi-pencil"></i> Chỉnh sửa
@@ -735,7 +735,7 @@
                 <div th:unless="${not #lists.isEmpty(staff.buildings)}">
                     <div class="empty-state">
                         <i class="bi bi-inbox"></i>
-                        <p>Chưa có tòa nhà được phân công</p>
+                        <p>Chưa có bất động sản được phân công</p>
                     </div>
                 </div>
             </div>
@@ -743,14 +743,14 @@
         </div><!-- /detail-body -->
     </main>
 
-    <!-- ══ Modal: Phân công Tòa nhà ══════════════════════════════════════════ -->
+    <!-- ══ Modal: Phân công bất động sản ══════════════════════════════════════════ -->
     <div class="modal fade assign-modal" id="modalBuildings" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" style="max-width: 520px;">
             <div class="modal-content" style="border-radius: 12px; border: 1px solid #e5e7eb;">
                 <div class="modal-header">
                     <div class="modal-title">
                         <i class="bi bi-building-fill"></i>
-                        Phân công Tòa nhà
+                        Phân công bất động sản
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>

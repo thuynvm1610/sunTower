@@ -378,11 +378,11 @@
                         </div>
                         <div class="row g-3 mb-3">
                             <div class="col-md-6">
-                                <label class="form-label">Tòa nhà <span class="required">*</span></label>
+                                <label class="form-label">Bất động sản<span class="required">*</span></label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="bi bi-building"></i></span>
                                     <select class="form-select" name="buildingId" id="buildingSelect" required>
-                                        <option value="">-- Chọn tòa nhà --</option>
+                                        <option value="">-- Chọn bất động sản --</option>
                                         <option th:each="building : ${buildings}" th:value="${building.value}"
                                             th:text="${building.key}"></option>
                                     </select>
@@ -516,7 +516,7 @@
                 if (!areas || areas.length === 0) {
                     $rentAreaSelect.append('<option value="">-- Không có diện tích khả dụng --</option>');
                     $rentAreaSelect.prop('disabled', true);
-                    $rentAreaInfo.text('Tòa nhà này chưa có diện tích nào khả dụng');
+                    $rentAreaInfo.text('Bất động sản này chưa có diện tích nào khả dụng');
                     return;
                 }
 

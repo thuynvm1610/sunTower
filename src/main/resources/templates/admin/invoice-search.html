@@ -660,7 +660,7 @@
                         <col style="width: 60px"> <!-- Mã HĐ -->
                         <col style="width: 90px"> <!-- Tháng -->
                         <col style="width: 260px"> <!-- Khách hàng -->
-                        <col style="width: 180px"> <!-- Tòa nhà -->
+                        <col style="width: 180px"> <!-- Bất động sản -->
                         <col style="width: 110px"> <!-- Diện tích -->
                         <col style="width: 150px"> <!-- Tổng tiền -->
                         <col style="width: 150px"> <!-- Trạng thái -->
@@ -671,7 +671,7 @@
                             <th>Mã HĐ</th>
                             <th>Tháng</th>
                             <th>Khách hàng</th>
-                            <th>Tòa nhà</th>
+                            <th>Bất động sản</th>
                             <th>Diện tích</th>
                             <th>Tổng tiền</th>
                             <th>Trạng thái</th>
@@ -870,7 +870,7 @@
                             <td><span class="invoice-id">HĐ-${inv.id}</span></td>
                             <td><span class="bc bc-month"><i class="bi bi-calendar3" style="font-size:.65rem;"></i> ${formatMonth(inv.month, inv.year)}</span></td>
                             <td><span class="customer-name">${inv.customer?.fullName || '—'}</span></td>
-                            <td><span class="building-name" title="${inv.contract.building.name || ''}">${inv.contract.building.name || '—'}</span></td>
+                            <td><span class="building-name" title="${inv.contract?.building?.name || ''}">${inv.contract?.building?.name || '—'}</span></td>
                             <td><span class="bc bc-area"><i class="bi bi-rulers" style="font-size:.65rem;"></i> ${formatArea(inv.contract?.rentArea)}</span></td>
                             <td><span class="bc bc-price">${formatPrice(inv.totalAmount)}</span></td>
                             <td>${getStatusBadge(inv.status)}</td>

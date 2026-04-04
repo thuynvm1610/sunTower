@@ -1341,7 +1341,7 @@
             <div class="nav-links" id="navLinks">
                 <a onclick="scrollToSection('home')" class="active" id="nav-home">Trang chủ</a>
                 <a onclick="scrollToSection('introduce')" id="nav-introduce">Giới thiệu</a>
-                <a onclick="scrollToSection('building')" id="nav-building">Tòa nhà</a>
+                <a onclick="scrollToSection('building')" id="nav-building">Bất động sản</a>
                 <a onclick="scrollToSection('contact')" id="nav-contact">Liên hệ</a>
                 <a href="/login" class="login-btn">
                     <p style="margin-bottom: 1px;">Đăng nhập</p>
@@ -1357,9 +1357,8 @@
                 <h1>Chào mừng đến với SunTower</h1>
                 <p>Hệ thống quản lý bất động sản chuyên nghiệp và hiện đại</p>
                 <div class="banner-buttons">
-                    <button class="btn-hero btn-primary-hero" onclick="scrollToSection('building')">Xem tòa nhà</button>
-                    <button class="btn-hero btn-secondary-hero" onclick="scrollToSection('introduce')">Tìm hiểu
-                        thêm</button>
+                    <button class="btn-hero btn-primary-hero" onclick="scrollToSection('building')">Xem bất động sản</button>
+                    <button class="btn-hero btn-secondary-hero" onclick="scrollToSection('introduce')">Tìm hiểu thêm</button>
                 </div>
             </div>
         </div>
@@ -1378,8 +1377,8 @@
                                 <polyline points="9 22 9 12 15 12 15 22"></polyline>
                             </svg>
                         </div>
-                        <h3>Quản lý tòa nhà</h3>
-                        <p>Hệ thống quản lý toàn diện cho các tòa nhà, căn hộ và tiện ích đi kèm</p>
+                        <h3>Quản lý bất động sản</h3>
+                        <p>Hệ thống quản lý toàn diện cho các bất động sản, căn hộ và tiện ích đi kèm</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon-box">
@@ -1447,7 +1446,7 @@
                 <div class="stats-grid">
                     <div class="stat-box">
                         <h3>12+</h3>
-                        <p>Tòa nhà được quản lý</p>
+                        <p>Bất động sản được quản lý</p>
                     </div>
                     <div class="stat-box">
                         <h3>500+</h3>
@@ -1479,7 +1478,7 @@
                     <div class="about-text">
                         <h2>Về chúng tôi</h2>
                         <p>SunTower là hệ thống quản lý bất động sản hàng đầu tại Việt Nam, được thiết kế để đáp ứng mọi
-                            nhu cầu quản lý tòa nhà, căn hộ và khách hàng một cách chuyên nghiệp và hiệu quả.</p>
+                            nhu cầu quản lý bất động sản, căn hộ và khách hàng một cách chuyên nghiệp và hiệu quả.</p>
                         <p>Với đội ngũ chuyên gia giàu kinh nghiệm và công nghệ tiên tiến, chúng tôi cam kết mang đến
                             giải pháp tối ưu nhất cho doanh nghiệp của bạn.</p>
                         <p>Chúng tôi không ngừng đổi mới và cải tiến để đảm bảo khách hàng luôn có trải nghiệm tốt nhất
@@ -1607,8 +1606,8 @@
     <!-- ===== SECTION 3: BUILDING ===== -->
     <section id="building" class="section-anchor">
         <div class="page-header-inner">
-            <h2>Danh Sách Tòa Nhà</h2>
-            <p>Khám phá các tòa nhà hiện đại và tiện nghi của chúng tôi</p>
+            <h2>Danh Sách Bất Động Sản</h2>
+            <p>Khám phá các bất động sản hiện đại và tiện nghi của chúng tôi</p>
         </div>
 
         <div class="container-custom" style="padding-top: 28px;">
@@ -1635,7 +1634,7 @@
                     </div>
                     <div class="row g-2 mb-3">
                         <div class="col-md-3 col-sm-6">
-                            <label class="form-label">Tên tòa nhà</label>
+                            <label class="form-label">Tên bất động sản</label>
                             <input type="text" class="form-control" name="name" placeholder="VD: Sun Tower">
                         </div>
                         <div class="col-md-3 col-sm-6">
@@ -1662,9 +1661,9 @@
                         </div>
                     </div>
 
-                    <!-- Đặc điểm tòa nhà -->
+                    <!-- Đặc điểm bất động sản -->
                     <div class="filter-section-title mb-2">
-                        <i class="bi bi-building"></i> Đặc điểm tòa nhà
+                        <i class="bi bi-building"></i> Đặc điểm bất động sản
                     </div>
                     <div class="row g-2 mb-3">
                         <div class="col-md-3 col-sm-6">
@@ -1926,7 +1925,7 @@
                 <h3>Liên kết nhanh</h3>
                 <a href="#home" onclick="scrollToSection('home')">Trang chủ</a>
                 <a href="#introduce" onclick="scrollToSection('introduce')">Giới thiệu</a>
-                <a href="#building" onclick="scrollToSection('building')">Tòa nhà</a>
+                <a href="#building" onclick="scrollToSection('building')">Bất động sản</a>
                 <a href="#contact" onclick="scrollToSection('contact')">Liên hệ</a>
             </div>
             <div class="footer-section">
@@ -2052,14 +2051,14 @@
                     list.empty();
                     $('#modalContainer').empty();
 
-                    total.show().html(`Tìm thấy <strong>${totalElements}</strong> tòa nhà`);
+                    total.show().html(`Tìm thấy <strong>${totalElements}</strong> bất động sản`);
 
                     if (buildings.length === 0) {
                         list.html(`
                         <div class="col-12">
                             <div class="empty-state">
                                 <i class="bi bi-building-slash d-block"></i>
-                                <h3>Không tìm thấy tòa nhà</h3>
+                                <h3>Không tìm thấy bất động sản</h3>
                                 <p>Vui lòng thay đổi bộ lọc và thử lại.</p>
                             </div>
                         </div>`);
@@ -2128,7 +2127,7 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title">
-                                            <i class="bi bi-building me-2"></i>Thông Tin Tòa Nhà
+                                            <i class="bi bi-building me-2"></i>Thông Tin Bất Động Sản
                                         </h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
@@ -2147,7 +2146,7 @@
                                             <div class="info-row"><span class="info-label">Hướng</span><span class="info-value">${b.direction || '-'}</span></div>
                                         </div>
                                         <div class="info-section">
-                                            <div class="info-section-title"><i class="bi bi-rulers me-2"></i>Đặc Điểm Tòa Nhà</div>
+                                            <div class="info-section-title"><i class="bi bi-rulers me-2"></i>Đặc Điểm Bất Động Sản</div>
                                             <div class="feature-grid-modal">
                                                 <div class="feature-item-modal">
                                                     <div class="feature-icon-modal"><i class="bi bi-arrows-fullscreen"></i></div>

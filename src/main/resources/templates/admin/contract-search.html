@@ -640,7 +640,7 @@
                         <tr>
                             <th>Mã HĐ</th>
                             <th>Khách hàng</th>
-                            <th>Tòa nhà</th>
+                            <th>Bất động sản</th>
                             <th>Giá thuê (m²)</th>
                             <th>Thời gian</th>
                             <th>Hiệu lực</th>
@@ -685,9 +685,9 @@
                         </select>
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">Tên tòa nhà</label>
+                        <label class="form-label">Tên bất động sản</label>
                         <select class="form-control" name="buildingId" th:value="${filter.buildingId}">
-                            <option value="">-- Chọn tòa nhà --</option>
+                            <option value="">-- Chọn bất động sản --</option>
                             <option th:each="b : ${buildings}" th:value="${b.value}" th:text="${b.key}"
                                 th:selected="${b.value == filter.buildingId}">
                             </option>

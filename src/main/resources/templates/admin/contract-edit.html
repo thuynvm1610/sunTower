@@ -478,18 +478,18 @@
                             <input type="hidden" name="id" th:value="${contract.id}">
 
                             <div class="col-md-4">
-                                <label class="form-label">Tòa nhà <span class="required">*</span></label>
+                                <label class="form-label">Bất động sản<span class="required">*</span></label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="bi bi-building"></i></span>
                                     <select class="form-select" name="buildingId" required
                                         th:disabled="${contract.status == 'EXPIRED'}">
-                                        <option value="">-- Chọn tòa nhà --</option>
+                                        <option value="">-- Chọn bất động sản --</option>
                                         <option th:each="b : ${buildings}" th:value="${b.value}" th:text="${b.key}"
                                             th:selected="${b.value == contract.buildingId}">
                                         </option>
                                     </select>
                                 </div>
-                                <small class="form-text">Chọn tòa nhà cho thuê</small>
+                                <small class="form-text">Chọn bất động sản cho thuê</small>
                             </div>
 
                             <div class="col-md-4">

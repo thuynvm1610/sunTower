@@ -434,7 +434,7 @@
                     <div class="stat-card primary" onclick="window.location='/admin/building/list'">
                         <div class="icon-wrapper"><i class="bi bi-building"></i></div>
                         <div class="stat-text">
-                            <div class="stat-label">Tòa nhà</div>
+                            <div class="stat-label">Bất động sản</div>
                             <div class="stat-value" th:text="${totalBuildings}">0</div>
                         </div>
                     </div>
@@ -509,13 +509,13 @@
                 </div>
             </div>
 
-            <!-- ── Row 2: Hợp đồng theo tòa nhà + theo năm + tòa nhà theo quận ── -->
+            <!-- ── Row 2: Hợp đồng theo bất động sản + theo năm + bất động sản theo quận ── -->
             <div class="row g-3 mb-4">
                 <div class="col-lg-4">
                     <div class="d-card h-100">
                         <div class="d-card-header">
                             <i class="bi bi-buildings"></i>
-                            <h3>Hợp đồng thuê theo tòa nhà</h3>
+                            <h3>Hợp đồng thuê theo bất động sản</h3>
                         </div>
                         <div class="d-card-body">
                             <div style="position:relative;height:250px;">
@@ -541,7 +541,7 @@
                     <div class="d-card h-100">
                         <div class="d-card-header">
                             <i class="bi bi-pie-chart"></i>
-                            <h3>Tòa nhà theo quận</h3>
+                            <h3>Bất động sản theo quận</h3>
                         </div>
                         <div class="d-card-body">
                             <div style="position:relative;height:250px;">
@@ -643,20 +643,20 @@
                 </div>
             </div>
 
-            <!-- ── Row 4: Tòa nhà thêm gần đây ───────────────────────────── -->
+            <!-- ── Row 4: Bất động sản thêm gần đây ───────────────────────────── -->
             <div class="row g-3 mb-2">
                 <div class="col-lg-6">
                     <div class="d-card">
                         <div class="d-card-header">
                             <i class="bi bi-building-add"></i>
-                            <h3>Tòa nhà thêm gần đây</h3>
+                            <h3>Bất động sản thêm gần đây</h3>
                         </div>
                         <div class="d-card-body">
                             <div th:each="building, iterStat : ${recentBuildings}" th:if="${iterStat.index < 4}"
                                 class="recent-item" th:onclick="|window.location='/admin/building/' + ${building.id}|">
                                 <i class="bi bi-building"></i>
                                 <div style="min-width:0;">
-                                    <div class="ri-name" th:text="${building.name}">Tòa nhà</div>
+                                    <div class="ri-name" th:text="${building.name}">Bất động sản</div>
                                     <div class="ri-sub">Quản lý: <span th:text="${building.managerName}"></span></div>
                                 </div>
                                 <i class="bi bi-chevron-right ms-auto"
@@ -673,7 +673,7 @@
                     <div class="d-card h-100">
                         <div class="d-card-header">
                             <i class="bi bi-house-check" style="color:#8b5cf6;"></i>
-                            <h3>Tỷ lệ tòa nhà đã bán</h3>
+                            <h3>Tỷ lệ bất động sản đã bán</h3>
                             <span class="header-badge" style="background:#f5f3ff;color:#6d28d9;">
                                 Chào bán: <span th:text="${totalForSale}">0</span>
                             </span>

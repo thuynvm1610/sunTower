@@ -676,9 +676,9 @@
                                     </select>
                                 </div>
                                 <div class="col-md-4">
-                                    <label class="form-label">Tên tòa nhà</label>
+                                    <label class="form-label">Tên bất động sản</label>
                                     <select class="form-control" name="buildingId">
-                                        <option value="">-- Chọn tòa nhà --</option>
+                                        <option value="">-- Chọn bất động sản --</option>
                                         <option th:each="b : ${buildings}" th:value="${b.value}" th:text="${b.key}">
                                         </option>
                                     </select>
@@ -753,7 +753,7 @@
                         <colgroup>
                             <col style="width: 80px"> <!-- Mã HĐ -->
                             <col style="width: 300px"> <!-- Khách hàng -->
-                            <col style="width: 210px"> <!-- Tòa nhà -->
+                            <col style="width: 210px"> <!-- Bất động sản -->
                             <col style="width: 150px"> <!-- Giá thuê -->
                             <col style="width: 160px"> <!-- Thời gian -->
                             <col style="width: 110px"> <!-- Hiệu lực -->
@@ -763,7 +763,7 @@
                             <tr>
                                 <th>Mã HĐ</th>
                                 <th>Khách hàng</th>
-                                <th>Tòa nhà</th>
+                                <th>Bất động sản</th>
                                 <th>Giá thuê (m²)</th>
                                 <th>Thời gian</th>
                                 <th>Hiệu lực</th>
