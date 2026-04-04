@@ -25,6 +25,7 @@ public class BuildingDetailDTO {
 
     private String propertyType;
     private String transactionType;
+    private String taxCode;
 
     private BigDecimal rentPrice;
 
