@@ -600,6 +600,167 @@
         .year-go-btn:active {
             transform: translateY(0);
         }
+
+        /* ══ PRINT STYLES — Thuần text, không màu, không biểu đồ ══════════ */
+        @media print {
+            @page {
+                size: A4;
+                margin: 15mm 18mm 18mm 18mm;
+            }
+
+            /* Ẩn toàn bộ giao diện web */
+            body>* {
+                display: none !important;
+            }
+
+            main.content {
+                display: block !important;
+            }
+
+            main.content>* {
+                display: none !important;
+            }
+
+            main.content>.detail-body {
+                display: block !important;
+            }
+
+            .detail-body>* {
+                display: none !important;
+            }
+
+            /* Chỉ hiện print wrapper */
+            .detail-body>.print-only {
+                display: block !important;
+            }
+
+            body {
+                background: #fff !important;
+                font-family: "Times New Roman", Times, serif !important;
+                font-size: 11pt !important;
+                color: #000 !important;
+                margin: 0 !important;
+            }
+
+            main.content {
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            .detail-body {
+                padding: 0 !important;
+            }
+
+            /* ── Print wrapper layout ── */
+            .print-only {
+                display: none;
+            }
+
+            .print-section {
+                margin-bottom: 14pt;
+                page-break-inside: avoid;
+            }
+
+            .print-section-title {
+                font-size: 11pt;
+                font-weight: bold;
+                text-transform: uppercase;
+                letter-spacing: .04em;
+                border-bottom: 1pt solid #000;
+                padding-bottom: 2pt;
+                margin-bottom: 6pt;
+            }
+
+            .print-kpi-row {
+                display: table;
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 8pt;
+            }
+
+            .print-kpi-cell {
+                display: table-cell;
+                width: 33.33%;
+                border: 0.5pt solid #000;
+                padding: 5pt 8pt;
+                vertical-align: top;
+            }
+
+            .print-kpi-label {
+                font-size: 8.5pt;
+                font-weight: bold;
+                text-transform: uppercase;
+                letter-spacing: .04em;
+            }
+
+            .print-kpi-value {
+                font-size: 14pt;
+                font-weight: bold;
+                margin: 2pt 0 1pt;
+            }
+
+            .print-kpi-sub {
+                font-size: 8pt;
+                font-style: italic;
+            }
+
+            .print-table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 9.5pt;
+                margin-bottom: 4pt;
+            }
+
+            .print-table th {
+                border: 0.75pt solid #000;
+                padding: 3pt 6pt;
+                font-weight: bold;
+                background: none;
+                text-align: left;
+            }
+
+            .print-table th.r {
+                text-align: right;
+            }
+
+            .print-table th.c {
+                text-align: center;
+            }
+
+            .print-table td {
+                border: 0.5pt solid #000;
+                padding: 3pt 6pt;
+                vertical-align: middle;
+            }
+
+            .print-table td.r {
+                text-align: right;
+            }
+
+            .print-table td.c {
+                text-align: center;
+            }
+
+            .print-table td.mono {
+                font-family: "Courier New", monospace;
+                font-size: 9pt;
+            }
+
+            .print-note {
+                font-size: 8.5pt;
+                font-style: italic;
+                margin-top: 2pt;
+            }
+
+            .print-footer-bar {
+                margin-top: 20pt;
+                border-top: 0.5pt solid #000;
+                padding-top: 5pt;
+                font-size: 8pt;
+                font-style: italic;
+                text-align: center;
+            }
+        }
     </style>
 </head>
 
@@ -624,14 +785,25 @@
                         <span th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy HH:mm')}"></span>
                     </div>
                 </div>
-                <!-- Year selector -->
-                <form method="get" action="/admin/report" class="year-selector-form">
-                    <span class="year-selector-label"><i class="bi bi-calendar3 me-1"></i>Năm báo cáo:</span>
-                    <select name="year" class="year-select" onchange="this.form.submit()">
-                        <option th:each="y : ${availableYears}" th:value="${y}" th:text="${y}"
-                            th:selected="${y == report.currentYear}"></option>
-                    </select>
-                </form>
+                <!-- Year selector + Print -->
+                <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;">
+                    <form method="get" action="/admin/report" class="year-selector-form">
+                        <span class="year-selector-label"><i class="bi bi-calendar3 me-1"></i>Năm báo cáo:</span>
+                        <select name="year" class="year-select" onchange="this.form.submit()">
+                            <option th:each="y : ${availableYears}" th:value="${y}" th:text="${y}"
+                                th:selected="${y == report.currentYear}"></option>
+                        </select>
+                    </form>
+                    <button onclick="window.print()" style="
+                        display:inline-flex;align-items:center;gap:0.35rem;
+                        padding:0.375rem 0.875rem;
+                        background:#fff;color:#374151;
+                        border:1.5px solid #e5e7eb;border-radius:8px;
+                        font-size:0.8rem;font-weight:700;cursor:pointer;
+                        transition:border-color 0.2s,box-shadow 0.2s;white-space:nowrap;">
+                        <i class="bi bi-printer" style="font-size:0.875rem;"></i> In PDF
+                    </button>
+                </div>
             </div>
 
             <!-- ════════════════════════════════════════════════════════════════
@@ -875,9 +1047,35 @@
                             <h3>Top 5 BĐS doanh thu thuê cao nhất</h3>
                         </div>
                         <div class="d-card-body">
+                            <!-- Chart (ẩn khi in) -->
                             <div style="position:relative;height:240px;">
                                 <canvas id="topBuildingChart"></canvas>
                             </div>
+                            <!-- Bảng thay thế khi in (ẩn trên màn hình) -->
+                            <table class="print-data-table" style="display:none;">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align:left;">Tòa nhà</th>
+                                        <th>MST</th>
+                                        <th>Doanh thu thuê</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="b, iter : ${report.topBuildingsByRentRevenue}">
+                                        <td style="text-align:left;">
+                                            <span th:text="${iter.count} + '. ' + ${b.buildingName}">—</span>
+                                        </td>
+                                        <td style="text-align:center; font-family:monospace; font-size:8pt;"
+                                            th:text="${b.taxCode ?: '—'}">—</td>
+                                        <td
+                                            th:text="${#numbers.formatDecimal(b.totalRevenue, 0, 'COMMA', 0, 'POINT')} + ' đ'">
+                                            —</td>
+                                    </tr>
+                                    <tr th:if="${#lists.isEmpty(report.topBuildingsByRentRevenue)}">
+                                        <td colspan="3" style="text-align:center;">Chưa có dữ liệu</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -1005,7 +1203,7 @@
                                         </td>
                                     </tr>
                                     <tr th:if="${#lists.isEmpty(report.topCustomersByValue)}">
-                                        <td colspan="5" style="text-align:center;color:#9ca3af;padding:1.5rem;">
+                                        <td colspan="6" style="text-align:center;color:#9ca3af;padding:1.5rem;">
                                             Chưa có dữ liệu
                                         </td>
                                     </tr>
@@ -1015,6 +1213,262 @@
                     </div>
                 </div>
             </div>
+
+            <!-- ══════════════════════════════════════════════════════════════
+                 PRINT-ONLY WRAPPER — Toàn bộ nội dung in thuần text
+                 Ẩn trên màn hình, chỉ hiện khi @media print
+            ═══════════════════════════════════════════════════════════════ -->
+            <div class="print-only" style="display:none;">
+
+                <!-- Tiêu đề -->
+                <div style="text-align:center; border-bottom:1.5pt solid #000; padding-bottom:8pt; margin-bottom:14pt;">
+                    <div style="font-size:18pt; font-weight:bold; text-transform:uppercase; letter-spacing:.06em;">
+                        BÁO CÁO THỐNG KÊ BẤT ĐỘNG SẢN
+                    </div>
+                    <div style="font-size:11pt; margin-top:3pt;">
+                        SunTower — Năm báo cáo:
+                        <strong th:text="${report.currentYear}">2025</strong>
+                    </div>
+                    <div style="font-size:9pt; font-style:italic; margin-top:2pt;" th:text="${report.cutoffLabel}">Tích
+                        lũy đến...</div>
+                </div>
+
+                <!-- 1. KPI tổng quan -->
+                <div class="print-section">
+                    <div class="print-section-title">I. Tổng quan</div>
+                    <div class="print-kpi-row">
+                        <div class="print-kpi-cell">
+                            <div class="print-kpi-label">Doanh thu cho thuê <span
+                                    th:text="${report.currentYear}"></span></div>
+                            <div class="print-kpi-value" id="pKpiRent"
+                                th:attr="data-value=${report.totalRentRevenueCurrentYear}">—</div>
+                            <div class="print-kpi-sub" th:text="${report.cutoffLabel}"></div>
+                        </div>
+                        <div class="print-kpi-cell">
+                            <div class="print-kpi-label">Tổng giá trị mua bán</div>
+                            <div class="print-kpi-value" id="pKpiSale"
+                                th:attr="data-value=${report.totalSaleRevenueAllTime}">—</div>
+                            <div class="print-kpi-sub" th:text="${report.cutoffLabel}"></div>
+                        </div>
+                        <div class="print-kpi-cell">
+                            <div class="print-kpi-label">Hợp đồng sắp hết hạn (≤30 ngày)</div>
+                            <div class="print-kpi-value" th:text="${report.expiringContractsCount}">0</div>
+                            <div class="print-kpi-sub">Trong vòng 30 ngày tới</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Doanh thu theo tháng -->
+                <div class="print-section">
+                    <div class="print-section-title">II. Doanh thu theo tháng — năm <span
+                            th:text="${report.currentYear}"></span></div>
+                    <table class="print-table">
+                        <thead>
+                            <tr>
+                                <th>Tháng</th>
+                                <th class="r">Doanh thu thuê (đ)</th>
+                                <th class="r">Doanh thu mua bán (đ)</th>
+                                <th class="r">Tổng (đ)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pMonthlyBody">
+                            <!-- Render bằng JS -->
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td style="font-weight:bold;">Tổng cộng</td>
+                                <td class="r" id="pRentTotal" style="font-weight:bold;">—</td>
+                                <td class="r" id="pSaleTotal" style="font-weight:bold;">—</td>
+                                <td class="r" id="pGrandTotal" style="font-weight:bold;">—</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <div class="print-note" th:text="'* ' + ${report.cutoffLabel}"></div>
+                </div>
+
+                <!-- 3. Doanh thu gộp 3 năm -->
+                <div class="print-section">
+                    <div class="print-section-title">III. Doanh thu gộp 3 năm</div>
+                    <table class="print-table">
+                        <thead>
+                            <tr>
+                                <th>Năm</th>
+                                <th class="r">Doanh thu thuê (đ)</th>
+                                <th class="r">Doanh thu mua bán (đ)</th>
+                                <th class="r">Tổng (đ)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pYearlyBody">
+                            <!-- Render bằng JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 4. Danh mục BĐS -->
+                <div class="print-section">
+                    <div class="print-section-title">IV. Danh mục bất động sản</div>
+                    <table class="print-table">
+                        <thead>
+                            <tr>
+                                <th>Loại hình</th>
+                                <th class="r">Tổng số</th>
+                                <th class="r">Đang hoạt động / Đã bán</th>
+                                <th class="r">Trống / Chưa bán</th>
+                                <th class="r">Tỷ lệ (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Cho thuê (FOR_RENT)</td>
+                                <td class="r" th:text="${report.forRentCount}">0</td>
+                                <td class="r" th:text="${report.forRentActiveCount}">0</td>
+                                <td class="r" th:text="${report.forRentCount - report.forRentActiveCount}">0</td>
+                                <td class="r"
+                                    th:text="${report.forRentCount > 0} ? ${#numbers.formatDecimal(report.forRentActiveCount * 100.0 / report.forRentCount, 1, 'COMMA', 1, 'POINT')} + '%' : '—'">
+                                    —</td>
+                            </tr>
+                            <tr>
+                                <td>Mua bán (FOR_SALE)</td>
+                                <td class="r" th:text="${report.forSaleCount}">0</td>
+                                <td class="r" th:text="${report.forSaleActiveCount}">0</td>
+                                <td class="r" th:text="${report.forSaleCount - report.forSaleActiveCount}">0</td>
+                                <td class="r"
+                                    th:text="${report.forSaleCount > 0} ? ${#numbers.formatDecimal(report.forSaleActiveCount * 100.0 / report.forSaleCount, 1, 'COMMA', 1, 'POINT')} + '%' : '—'">
+                                    —</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 5. Top 5 BĐS doanh thu thuê cao nhất -->
+                <div class="print-section">
+                    <div class="print-section-title">V. Top 5 bất động sản — doanh thu thuê cao nhất</div>
+                    <table class="print-table">
+                        <thead>
+                            <tr>
+                                <th class="c" style="width:32pt;">STT</th>
+                                <th>Tên tòa nhà</th>
+                                <th class="c">Mã số thuế</th>
+                                <th class="r">Doanh thu thuê (đ)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="b, iter : ${report.topBuildingsByRentRevenue}">
+                                <td class="c" th:text="${iter.count}">1</td>
+                                <td th:text="${b.buildingName}">—</td>
+                                <td class="c mono" th:text="${b.taxCode ?: '—'}">—</td>
+                                <td class="r"
+                                    th:text="${#numbers.formatDecimal(b.totalRevenue, 0, 'COMMA', 0, 'POINT')} + ' đ'">—
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(report.topBuildingsByRentRevenue)}">
+                                <td colspan="4" class="c">Chưa có dữ liệu</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 6. Top 5 nhân viên -->
+                <div class="print-section">
+                    <div class="print-section-title">VI. Top 5 nhân viên theo tổng giá trị</div>
+                    <table class="print-table">
+                        <thead>
+                            <tr>
+                                <th class="c" style="width:32pt;">STT</th>
+                                <th>Tên nhân viên</th>
+                                <th class="r">Doanh thu thuê (đ)</th>
+                                <th class="r">Giá trị mua bán (đ)</th>
+                                <th class="r">Tổng (đ)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="s, iter : ${report.topStaffsByValue}">
+                                <td class="c" th:text="${iter.count}">1</td>
+                                <td th:text="${s.fullName}">—</td>
+                                <td class="r"
+                                    th:text="${#numbers.formatDecimal(s.rentValue, 0, 'COMMA', 0, 'POINT')} + ' đ'">—
+                                </td>
+                                <td class="r"
+                                    th:text="${#numbers.formatDecimal(s.saleValue, 0, 'COMMA', 0, 'POINT')} + ' đ'">—
+                                </td>
+                                <td class="r"
+                                    th:text="${#numbers.formatDecimal(s.total, 0, 'COMMA', 0, 'POINT')} + ' đ'">—</td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(report.topStaffsByValue)}">
+                                <td colspan="5" class="c">Chưa có dữ liệu</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 7. Top 5 khách hàng -->
+                <div class="print-section">
+                    <div class="print-section-title">VII. Top 5 khách hàng theo tổng giá trị</div>
+                    <table class="print-table">
+                        <thead>
+                            <tr>
+                                <th class="c" style="width:32pt;">STT</th>
+                                <th>Tên khách hàng</th>
+                                <th class="c">Mã số thuế</th>
+                                <th class="r">Doanh thu thuê (đ)</th>
+                                <th class="r">Giá trị mua bán (đ)</th>
+                                <th class="r">Tổng (đ)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="c, iter : ${report.topCustomersByValue}">
+                                <td class="c" th:text="${iter.count}">1</td>
+                                <td th:text="${c.fullName}">—</td>
+                                <td class="c mono" th:text="${c.taxCode ?: '—'}">—</td>
+                                <td class="r"
+                                    th:text="${#numbers.formatDecimal(c.rentValue, 0, 'COMMA', 0, 'POINT')} + ' đ'">—
+                                </td>
+                                <td class="r"
+                                    th:text="${#numbers.formatDecimal(c.saleValue, 0, 'COMMA', 0, 'POINT')} + ' đ'">—
+                                </td>
+                                <td class="r"
+                                    th:text="${#numbers.formatDecimal(c.total, 0, 'COMMA', 0, 'POINT')} + ' đ'">—</td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(report.topCustomersByValue)}">
+                                <td colspan="6" class="c">Chưa có dữ liệu</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 8. HĐ sắp hết hạn -->
+                <div class="print-section" th:if="${not #lists.isEmpty(report.expiringContracts)}">
+                    <div class="print-section-title">VIII. Hợp đồng sắp hết hạn (trong 30 ngày)</div>
+                    <table class="print-table">
+                        <thead>
+                            <tr>
+                                <th class="c" style="width:32pt;">STT</th>
+                                <th>Tòa nhà</th>
+                                <th>Khách hàng</th>
+                                <th class="c">Ngày hết hạn</th>
+                                <th class="r">Còn lại (ngày)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="e, iter : ${report.expiringContracts}">
+                                <td class="c" th:text="${iter.count}">1</td>
+                                <td th:text="${e.buildingName}">—</td>
+                                <td th:text="${e.customerName}">—</td>
+                                <td class="c" th:text="${#temporals.format(e.endDate, 'dd/MM/yyyy')}">—</td>
+                                <td class="r" th:text="${e.daysLeft}">—</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Footer -->
+                <div class="print-footer-bar">
+                    Báo cáo SunTower &nbsp;|&nbsp;
+                    In ngày: <span th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy HH:mm')}"></span>
+                    &nbsp;|&nbsp; <span th:text="${report.cutoffLabel}"></span>
+                </div>
+
+            </div><!-- /print-only -->
 
         </div><!-- /detail-body -->
     </main>
@@ -1448,6 +1902,64 @@
 
         initMonthMode(); // khởi tạo chart tăng trưởng
 
+        /* ══════════════════════════════════════════════════════════════════════
+           PRINT — Render bảng tháng + bảng 3 năm + format KPI
+        ══════════════════════════════════════════════════════════════════════ */
+        function fmtVnd(v) {
+            if (v == null || v === 0) return '—';
+            return Number(v).toLocaleString('vi-VN') + ' đ';
+        }
+
+        // Bảng doanh thu theo tháng
+        const monthLabels = ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6',
+            'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'];
+        const pBody = document.getElementById('pMonthlyBody');
+        if (pBody) {
+            let sumRent = 0, sumSale = 0;
+            for (let i = 0; i < 12; i++) {
+                const r = monthlyRent[i] || 0;
+                const s = monthlySale[i] || 0;
+                const total = r + s;
+                sumRent += r; sumSale += s;
+                const tr = document.createElement('tr');
+                const isEmpty = r === 0 && s === 0;
+                tr.innerHTML = `
+                    <td>${monthLabels[i]}</td>
+                    <td class="r" style="text-align:right">${isEmpty ? '—' : Number(r).toLocaleString('vi-VN') + ' đ'}</td>
+                    <td class="r" style="text-align:right">${s === 0 ? '—' : Number(s).toLocaleString('vi-VN') + ' đ'}</td>
+                    <td class="r" style="text-align:right">${isEmpty ? '—' : Number(total).toLocaleString('vi-VN') + ' đ'}</td>`;
+                pBody.appendChild(tr);
+            }
+            const rTot = document.getElementById('pRentTotal');
+            const sTot = document.getElementById('pSaleTotal');
+            const gTot = document.getElementById('pGrandTotal');
+            if (rTot) rTot.textContent = fmtVnd(sumRent);
+            if (sTot) sTot.textContent = fmtVnd(sumSale);
+            if (gTot) gTot.textContent = fmtVnd(sumRent + sumSale);
+        }
+
+        // Bảng doanh thu 3 năm
+        const pYBody = document.getElementById('pYearlyBody');
+        if (pYBody) {
+            const years = [yearBeforeLast, lastYear, currentYear];
+            years.forEach((y, i) => {
+                const r = yearlyRent[i] || 0;
+                const s = yearlySale[i] || 0;
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${y}</td>
+                    <td class="r" style="text-align:right">${r === 0 ? '—' : Number(r).toLocaleString('vi-VN') + ' đ'}</td>
+                    <td class="r" style="text-align:right">${s === 0 ? '—' : Number(s).toLocaleString('vi-VN') + ' đ'}</td>
+                    <td class="r" style="text-align:right">${(r + s) === 0 ? '—' : Number(r + s).toLocaleString('vi-VN') + ' đ'}</td>`;
+                pYBody.appendChild(tr);
+            });
+        }
+
+        // Format KPI trong print-only
+        ['pKpiRent', 'pKpiSale'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = fmtShort(parseFloat(el.dataset.value || 0));
+        });
 
     </script>
 

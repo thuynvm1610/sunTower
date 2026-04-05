@@ -14,4 +14,10 @@ import java.math.BigDecimal;
 public class BuildingRevenueDTO {
     private String buildingName;
     private BigDecimal totalRevenue;
+    private String taxCode;
+
+    public BuildingRevenueDTO(String buildingName, BigDecimal totalRevenue) {
+        this.buildingName = buildingName;
+        this.totalRevenue = totalRevenue;
+    }
 }
