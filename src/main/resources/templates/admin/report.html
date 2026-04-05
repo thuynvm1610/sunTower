@@ -464,34 +464,6 @@
         }
 
         /* ══ GROWTH CHART ══════════════════════════════════════════════════════ */
-        .growth-toggle {
-            display: flex;
-            gap: 0;
-            background: #f3f4f6;
-            border-radius: 8px;
-            padding: 3px;
-            margin-left: auto;
-        }
-
-        .growth-toggle-btn {
-            padding: 0.25rem 0.875rem;
-            border: none;
-            background: transparent;
-            border-radius: 6px;
-            font-size: 0.78rem;
-            font-weight: 600;
-            color: #6b7280;
-            cursor: pointer;
-            transition: all 0.2s;
-            white-space: nowrap;
-        }
-
-        .growth-toggle-btn.active {
-            background: #fff;
-            color: #111827;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-        }
-
         .growth-kpi-row {
             display: flex;
             gap: 1rem;
@@ -564,6 +536,70 @@
             border-radius: 50%;
             flex-shrink: 0;
         }
+
+        /* ══ YEAR SELECTOR ═══════════════════════════════════════════════════ */
+        .year-selector-form {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .year-selector-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #6b7280;
+            white-space: nowrap;
+        }
+
+        .year-select {
+            appearance: none;
+            -webkit-appearance: none;
+            background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 16 16'%3E%3Cpath fill='%236b7280' d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E") no-repeat right 0.6rem center;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 0.375rem 2rem 0.375rem 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: #111827;
+            cursor: pointer;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            min-width: 100px;
+        }
+
+        .year-select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+
+        .year-select:hover {
+            border-color: #9ca3af;
+        }
+
+        .year-go-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.375rem 0.875rem;
+            background: #3b82f6;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
+            white-space: nowrap;
+        }
+
+        .year-go-btn:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+        }
+
+        .year-go-btn:active {
+            transform: translateY(0);
+        }
     </style>
 </head>
 
@@ -588,6 +624,14 @@
                         <span th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy HH:mm')}"></span>
                     </div>
                 </div>
+                <!-- Year selector -->
+                <form method="get" action="/admin/report" class="year-selector-form">
+                    <span class="year-selector-label"><i class="bi bi-calendar3 me-1"></i>Năm báo cáo:</span>
+                    <select name="year" class="year-select" onchange="this.form.submit()">
+                        <option th:each="y : ${availableYears}" th:value="${y}" th:text="${y}"
+                            th:selected="${y == report.currentYear}"></option>
+                    </select>
+                </form>
             </div>
 
             <!-- ════════════════════════════════════════════════════════════════
@@ -596,54 +640,35 @@
             <div class="row g-3 mb-4">
 
                 <!-- Doanh thu thuê năm hiện tại -->
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-4 col-md-6">
                     <div class="stat-card blue">
                         <div class="icon-wrapper"><i class="bi bi-graph-up-arrow"></i></div>
                         <div>
                             <div class="stat-label">Doanh thu thuê <span th:text="${report.currentYear}"></span></div>
                             <div class="stat-value" id="kpiRentRevenue"
-                                th:attr="data-value=${report.totalRentRevenueCurrentYear}">—</div>
-                            <div class="stat-sub">Tổng giá trị hợp đồng thuê active</div>
+                                th:attr="data-value=${report.totalRentRevenueCurrentYear != null ? report.totalRentRevenueCurrentYear : 0}">
+                                —</div>
+                            <div class="stat-sub" th:text="${report.cutoffLabel}">Tích lũy đến tháng hiện tại</div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Tổng giá trị mua bán -->
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-4 col-md-6">
                     <div class="stat-card purple">
                         <div class="icon-wrapper"><i class="bi bi-bag-check-fill"></i></div>
                         <div>
                             <div class="stat-label">Tổng giá trị mua bán</div>
                             <div class="stat-value" id="kpiSaleRevenue"
-                                th:attr="data-value=${report.totalSaleRevenueAllTime}">—</div>
-                            <div class="stat-sub">Tất cả thời gian</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tỷ lệ lấp đầy -->
-                <div class="col-lg-3 col-md-6">
-                    <div class="stat-card green">
-                        <div class="icon-wrapper"><i class="bi bi-buildings-fill"></i></div>
-                        <div>
-                            <div class="stat-label">Tỷ lệ lấp đầy FOR_RENT</div>
-                            <div class="stat-value">
-                                <span th:text="${report.totalForRentBuildings > 0}
-                                    ? ${#numbers.formatDecimal(report.occupiedForRentBuildings * 100.0 / report.totalForRentBuildings, 1, 1)} + '%'
-                                    : '0%'">0%</span>
-                            </div>
-                            <div class="stat-sub">
-                                <span th:text="${report.occupiedForRentBuildings}">0</span>
-                                /
-                                <span th:text="${report.totalForRentBuildings}">0</span>
-                                building đang cho thuê
-                            </div>
+                                th:attr="data-value=${report.totalSaleRevenueAllTime != null ? report.totalSaleRevenueAllTime : 0}">
+                                —</div>
+                            <div class="stat-sub" th:text="${report.cutoffLabel}">Tích lũy đến tháng hiện tại</div>
                         </div>
                     </div>
                 </div>
 
                 <!-- HĐ sắp hết hạn -->
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-4 col-md-6">
                     <div class="stat-card red">
                         <div class="icon-wrapper"><i class="bi bi-exclamation-triangle-fill"></i></div>
                         <div>
@@ -704,33 +729,37 @@
 
 
             <!-- ════════════════════════════════════════════════════════════════
-                 NHÓM 3 — TĂNG TRƯỞNG DOANH THU
+                 NHÓM 3 — TĂNG TRƯỞNG DOANH THU THUÊ
             ════════════════════════════════════════════════════════════════════ -->
             <div class="section-title">
-                <i class="bi bi-activity"></i> Tăng trưởng doanh thu
+                <i class="bi bi-activity"></i> Tăng trưởng doanh thu thuê
             </div>
 
             <div class="row g-3 mb-4">
-                <!-- Tăng trưởng cho thuê -->
-                <div class="col-lg-6">
-                    <div class="d-card h-100">
+                <div class="col-12">
+                    <div class="d-card">
                         <div class="d-card-header">
                             <i class="bi bi-graph-up" style="color:#3b82f6;"></i>
-                            <h3>Tăng trưởng doanh thu thuê</h3>
-                            <div class="growth-toggle" id="rentGrowthToggle">
-                                <button class="growth-toggle-btn active"
-                                    onclick="switchGrowthMode('rent','month',this)">Theo tháng</button>
-                                <button class="growth-toggle-btn" onclick="switchGrowthMode('rent','year',this)">Theo
-                                    năm</button>
-                            </div>
+                            <h3>So sánh doanh thu thuê theo tháng — <span th:text="${report.currentYear}"></span> vs
+                                <span th:text="${report.lastYear}"></span>
+                            </h3>
+
                         </div>
                         <div class="d-card-body">
+                            <!-- Thông báo chưa đủ dữ liệu (tháng 1) -->
+                            <div id="rentGrowthNotEnough" style="display:none;
+                                 background:#fffbeb;border:1px solid #fde68a;border-radius:8px;
+                                 padding:1.25rem 1.5rem;text-align:center;color:#92400e;">
+                                <i class="bi bi-exclamation-triangle-fill me-2" style="color:#f59e0b;"></i>
+                                <strong>Chưa đủ dữ liệu để so sánh.</strong>
+                                Tháng 1 là tháng đầu tiên của năm — cần ít nhất 1 tháng hoàn chỉnh để tính tăng trưởng.
+                            </div>
                             <!-- Mini KPIs -->
                             <div class="growth-kpi-row" id="rentGrowthKpis">
                                 <div class="growth-kpi">
                                     <div class="growth-kpi-label">Tăng trưởng TB</div>
                                     <div class="growth-kpi-value" id="rentAvgGrowth">—</div>
-                                    <div class="growth-kpi-sub">so kỳ trước</div>
+                                    <div class="growth-kpi-sub" id="rentAvgSub">so cùng kỳ năm trước</div>
                                 </div>
                                 <div class="growth-kpi">
                                     <div class="growth-kpi-label">Tốt nhất</div>
@@ -743,47 +772,8 @@
                                     <div class="growth-kpi-sub" id="rentWorstLabel">—</div>
                                 </div>
                             </div>
-                            <div style="position:relative;height:220px;">
+                            <div style="position:relative;height:260px;">
                                 <canvas id="rentGrowthChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tăng trưởng mua bán -->
-                <div class="col-lg-6">
-                    <div class="d-card h-100">
-                        <div class="d-card-header">
-                            <i class="bi bi-graph-up" style="color:#8b5cf6;"></i>
-                            <h3>Tăng trưởng doanh thu mua bán</h3>
-                            <div class="growth-toggle" id="saleGrowthToggle">
-                                <button class="growth-toggle-btn active"
-                                    onclick="switchGrowthMode('sale','month',this)">Theo tháng</button>
-                                <button class="growth-toggle-btn" onclick="switchGrowthMode('sale','year',this)">Theo
-                                    năm</button>
-                            </div>
-                        </div>
-                        <div class="d-card-body">
-                            <!-- Mini KPIs -->
-                            <div class="growth-kpi-row">
-                                <div class="growth-kpi">
-                                    <div class="growth-kpi-label">Tăng trưởng TB</div>
-                                    <div class="growth-kpi-value" id="saleAvgGrowth">—</div>
-                                    <div class="growth-kpi-sub">so kỳ trước</div>
-                                </div>
-                                <div class="growth-kpi">
-                                    <div class="growth-kpi-label">Tốt nhất</div>
-                                    <div class="growth-kpi-value positive" id="saleBestGrowth">—</div>
-                                    <div class="growth-kpi-sub" id="saleBestLabel">—</div>
-                                </div>
-                                <div class="growth-kpi">
-                                    <div class="growth-kpi-label">Kém nhất</div>
-                                    <div class="growth-kpi-value negative" id="saleWorstGrowth">—</div>
-                                    <div class="growth-kpi-sub" id="saleWorstLabel">—</div>
-                                </div>
-                            </div>
-                            <div style="position:relative;height:220px;">
-                                <canvas id="saleGrowthChart"></canvas>
                             </div>
                         </div>
                     </div>
@@ -933,12 +923,12 @@
                                                 th:text="'NV-' + ${s.staffId}"></div>
                                         </td>
                                         <td style="text-align:center;">
-                                            <span class="val-pill val-rent" id="staffRent"
-                                                th:attr="data-value=${s.rentValue}">—</span>
+                                            <span class="val-pill val-rent staff-rent-pill"
+                                                th:attr="data-value=${s.rentValue != null ? s.rentValue : 0}">—</span>
                                         </td>
                                         <td style="text-align:center;">
-                                            <span class="val-pill val-sale" id="staffSale"
-                                                th:attr="data-value=${s.saleValue}">—</span>
+                                            <span class="val-pill val-sale staff-sale-pill"
+                                                th:attr="data-value=${s.saleValue != null ? s.saleValue : 0}">—</span>
                                         </td>
                                         <td>
                                             <div class="perf-bar-wrap">
@@ -996,10 +986,12 @@
                                                 th:text="'KH-' + ${c.customerId}"></div>
                                         </td>
                                         <td style="text-align:center;">
-                                            <span class="val-pill val-rent" th:attr="data-value=${c.rentValue}">—</span>
+                                            <span class="val-pill val-rent"
+                                                th:attr="data-value=${c.rentValue != null ? c.rentValue : 0}">—</span>
                                         </td>
                                         <td style="text-align:center;">
-                                            <span class="val-pill val-sale" th:attr="data-value=${c.saleValue}">—</span>
+                                            <span class="val-pill val-sale"
+                                                th:attr="data-value=${c.saleValue != null ? c.saleValue : 0}">—</span>
                                         </td>
                                         <td>
                                             <div class="perf-bar-wrap">
@@ -1027,7 +1019,7 @@
         </div><!-- /detail-body -->
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script th:inline="javascript">
@@ -1066,22 +1058,28 @@
         }
 
         /* ── Inject data từ Thymeleaf ───────────────────────────────────────── */
-        const monthlyRent = /*[[${report.monthlyRentRevenue}]]*/[];
-        const monthlyRentLastYear = /*[[${report.monthlyRentLastYear}]]*/[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-        const monthlySale = /*[[${report.monthlySaleRevenue}]]*/[];
-        const monthlySaleLastYear = /*[[${report.monthlySaleLastYear}]]*/[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-        const yearlyRent = /*[[${report.yearlyRentRevenue}]]*/[];
-        const yearlySale = /*[[${report.yearlySaleRevenue}]]*/[];
+        // Thymeleaf thay thế /*[[...]]*/ bằng giá trị thực, phần sau comment bị loại bỏ
+        // => KHÔNG được để bất kỳ expression JS nào sau fallback default
+        function _safe(v, n) { return (Array.isArray(v) && v.length > 0) ? v : Array(n).fill(0); }
+
+        const monthlyRent = _safe(/*[[${report.monthlyRentRevenue}]]*/ null, 12);
+        const monthlyRentLastYear = _safe(/*[[${report.monthlyRentLastYear}]]*/ null, 12);
+        const monthlySale = _safe(/*[[${report.monthlySaleRevenue}]]*/ null, 12);
+        const monthlySaleLastYear = _safe(/*[[${report.monthlySaleLastYear}]]*/ null, 12);
+        const yearlyRent = _safe(/*[[${report.yearlyRentRevenue}]]*/ null, 3);
+        const yearlySale = _safe(/*[[${report.yearlySaleRevenue}]]*/ null, 3);
 
         const yearBeforeLast = /*[[${report.yearBeforeLast}]]*/ 2022;
         const lastYear = /*[[${report.lastYear}]]*/       2023;
         const currentYear = /*[[${report.currentYear}]]*/    2024;
+        const cutoffMonth = /*[[${report.cutoffMonth}]]*/    0;
 
         const propTypeLabels = /*[[${report.buildingByPropertyType.keySet()}]]*/[];
         const propTypeCounts = /*[[${report.buildingByPropertyType.values()}]]*/[];
 
         const topBuildingNames = /*[[${report.topBuildingsByRentRevenue.![buildingName]}]]*/[];
         const topBuildingRevenue = /*[[${report.topBuildingsByRentRevenue.![totalRevenue]}]]*/[];
+
 
         /* ── KPI cards: format số ───────────────────────────────────────────── */
         document.querySelectorAll('[id^="kpi"]').forEach(el => {
@@ -1233,7 +1231,7 @@
         });
 
         /* ── Progress bars & value pills ─────────────────────────────────────── */
-        function renderProgressBars(rows, pctClass, barSelector) {
+        function renderProgressBars(rows, pctClass) {
             const totals = Array.from(rows).map(r => {
                 const bar = r.querySelector('.perf-bar-fill');
                 return bar ? parseFloat(bar.dataset.pct || 0) : 0;
@@ -1248,83 +1246,87 @@
             });
         }
 
-        function renderValuePills(selector, cls) {
-            document.querySelectorAll(selector).forEach(el => {
-                const v = parseFloat(el.dataset.value || 0);
-                el.textContent = v > 0 ? fmtShort(v) : '—';
-            });
-        }
-
-        // Staff table
+        // Staff table progress bars
         const staffRows = document.querySelectorAll('table:has(.staff-pct) tbody tr');
         renderProgressBars(staffRows, 'staff-pct');
-        renderValuePills('.val-rent[id="staffRent"]', 'val-rent');
-        renderValuePills('.val-sale[id="staffSale"]', 'val-sale');
 
-        // Customer table — tất cả val-pill trong table thứ 2
+        // Customer table progress bars
         const custRows = document.querySelectorAll('table:has(.cust-pct) tbody tr');
         renderProgressBars(custRows, 'cust-pct');
 
-        // Render tất cả val-pill theo data-value
+        // Render TẤT CẢ val-pill (staff + customer) bằng một vòng lặp duy nhất
         document.querySelectorAll('.val-pill[data-value]').forEach(el => {
-            const v = parseFloat(el.dataset.value || 0);
-            if (!el.textContent || el.textContent === '—') {
-                el.textContent = v > 0 ? fmtShort(v) : '—';
-            }
+            const raw = el.getAttribute('data-value');
+            if (raw === null || raw === 'null' || raw === '') return;
+            const v = parseFloat(raw);
+            el.textContent = (v > 0) ? fmtShort(v) : '—';
         });
 
         /* ══════════════════════════════════════════════════════════════════════
-           GROWTH CHARTS
+           GROWTH CHART — DOANH THU THUÊ
+           Logic: chỉ so sánh các tháng đã hoàn chỉnh (T1 … currentMonth-1).
+           Nếu currentMonth = 1 → chưa đủ dữ liệu, hiện thông báo.
         ══════════════════════════════════════════════════════════════════════ */
 
-        /* ── Data từ Thymeleaf ───────────────────────────────────────────────── */
-        const yearlyRentAll = yearlyRent;
-        const yearlySaleAll = yearlySale;
-        const yearLabels = [yearBeforeLast, lastYear, currentYear];
-
-        /* ── Helper: tính % tăng trưởng ─────────────────────────────────────── */
+        /* ── Helpers ─────────────────────────────────────────────────────────── */
         function calcGrowth(current, previous) {
             if (previous == null || previous === 0) return null;
             return ((current - previous) / previous) * 100;
         }
 
-        /* ── Tính growth array theo tháng (so năm trước cùng tháng) ─────────── */
-        function calcMonthlyGrowth(currArr, prevArr) {
-            return currArr.map((v, i) => {
-                if (currArr[i] === 0 && prevArr[i] === 0) return null;
-                return calcGrowth(currArr[i], prevArr[i]);
-            });
-        }
-
-        /* ── Tính growth array theo năm (so năm liền trước) ─────────────────── */
-        function calcYearlyGrowth(arr) {
-            return arr.map((v, i) => {
-                if (i === 0) return null;
-                return calcGrowth(arr[i], arr[i - 1]);
-            });
-        }
-
-        /* ── Format % ────────────────────────────────────────────────────────── */
         function fmtPct(v) {
             if (v == null) return '—';
             const sign = v >= 0 ? '+' : '';
             return sign + v.toFixed(1) + '%';
         }
 
-        /* ── Cập nhật KPI cards ──────────────────────────────────────────────── */
-        function updateKpis(growthArr, labels, prefix) {
+        /* ── completedMonthCount: số tháng có data (từ server, luôn chính xác) ── */
+        // Năm hiện tại: cutoffMonth = currentRealMonth-1 (vd tháng 4 → cutoffMonth=3)
+        // Năm quá khứ: cutoffMonth = 12 (đủ 12 tháng)
+        // Tháng 1 năm hiện tại: cutoffMonth = 0 (chưa có tháng nào hoàn chỉnh)
+
+        /* ── Năm labels ──────────────────────────────────────────────────────── */
+        const yearLabels = [yearBeforeLast, lastYear, currentYear];
+        const allMonthLabels = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'];
+
+        /* ──────────────────────────────────────────────────────────────────────
+           Tính growth array THEO THÁNG:
+           Chỉ lấy tháng 0 … (currentMonth - 2) (0-indexed), tức T1…T(currentMonth-1).
+           Các tháng còn lại trong năm loại bỏ hoàn toàn khỏi chart.
+        ────────────────────────────────────────────────────────────────────── */
+        const completedMonthCount = cutoffMonth; // từ server, đã tính đúng
+
+        // Slice chỉ lấy các tháng đã có data
+        const rentCurrSlice = monthlyRent.slice(0, completedMonthCount);
+        const rentPrevSlice = monthlyRentLastYear.slice(0, completedMonthCount);
+        const slicedMonthLabels = allMonthLabels.slice(0, completedMonthCount);
+
+        // Growth % cho từng tháng (null nếu năm trước = 0)
+        const rentMonthGrowth = rentCurrSlice.map((v, i) => calcGrowth(v, rentPrevSlice[i]));
+
+        /* ── Cập nhật KPI mini cards ─────────────────────────────────────────── */
+        function updateRentKpis(growthArr, labels) {
             const valid = growthArr.map((v, i) => ({ v, lbl: labels[i] })).filter(x => x.v != null);
-            if (!valid.length) return;
+
+            const avgEl = document.getElementById('rentAvgGrowth');
+            const bestEl = document.getElementById('rentBestGrowth');
+            const worstEl = document.getElementById('rentWorstGrowth');
+            const bestLbl = document.getElementById('rentBestLabel');
+            const worstLbl = document.getElementById('rentWorstLabel');
+            const avgSub = document.getElementById('rentAvgSub');
+
+            if (!valid.length) {
+                if (avgEl) { avgEl.textContent = '—'; avgEl.className = 'growth-kpi-value neutral'; }
+                if (bestEl) bestEl.textContent = '—';
+                if (worstEl) worstEl.textContent = '—';
+                if (bestLbl) bestLbl.textContent = '—';
+                if (worstLbl) worstLbl.textContent = '—';
+                return;
+            }
 
             const avg = valid.reduce((s, x) => s + x.v, 0) / valid.length;
             const best = valid.reduce((a, b) => b.v > a.v ? b : a);
             const worst = valid.reduce((a, b) => b.v < a.v ? b : a);
-
-            const avgEl = document.getElementById(prefix + 'AvgGrowth');
-            const bestEl = document.getElementById(prefix + 'BestGrowth');
-            const worstEl = document.getElementById(prefix + 'WorstGrowth');
-            const bestLbl = document.getElementById(prefix + 'BestLabel');
-            const worstLbl = document.getElementById(prefix + 'WorstLabel');
 
             if (avgEl) {
                 avgEl.textContent = fmtPct(avg);
@@ -1336,27 +1338,14 @@
             if (worstLbl) worstLbl.textContent = worst.lbl;
         }
 
-        /* ── Build gradient fill (xanh nếu dương, đỏ nếu âm) ───────────────── */
-        function buildGrowthGradient(ctx, data, colorPos, colorNeg) {
-            const positiveColor = colorPos || 'rgba(16,185,129,0.25)';
-            const negativeColor = colorNeg || 'rgba(239,68,68,0.2)';
-            // Dùng segment coloring của Chart.js
-            return {
-                segment: {
-                    borderColor: ctx => ctx.p0.parsed.y >= 0 ? colorPos.replace('0.25', '1').replace('0.2', '1') : colorNeg.replace('0.25', '1').replace('0.2', '1'),
-                    backgroundColor: ctx => ctx.p0.parsed.y >= 0 ? positiveColor : negativeColor,
-                }
-            };
-        }
-
-        /* ── Tạo chart tăng trưởng ───────────────────────────────────────────── */
-        function createGrowthChart(canvasId, growthArr, labels, accentColor) {
-            const posColor = accentColor === 'blue' ? 'rgba(59,130,246,0.2)' : 'rgba(139,92,246,0.2)';
-            const posLine = accentColor === 'blue' ? '#3b82f6' : '#8b5cf6';
-            const negColor = 'rgba(239,68,68,0.15)';
+        /* ── Tạo growth chart ────────────────────────────────────────────────── */
+        function createRentGrowthChart(growthArr, labels) {
+            const posLine = '#3b82f6';
             const negLine = '#ef4444';
+            const posColor = 'rgba(59,130,246,0.15)';
+            const negColor = 'rgba(239,68,68,0.12)';
 
-            const ctx = document.getElementById(canvasId);
+            const ctx = document.getElementById('rentGrowthChart');
             if (!ctx) return null;
 
             return new Chart(ctx, {
@@ -1372,7 +1361,7 @@
                         pointBackgroundColor: growthArr.map(v =>
                             v == null ? 'transparent' : v >= 0 ? posLine : negLine
                         ),
-                        pointBorderColor: 'white',
+                        pointBorderColor: '#fff',
                         pointBorderWidth: 2,
                         tension: 0.35,
                         fill: false,
@@ -1384,23 +1373,15 @@
                             }
                         }
                     }, {
-                        // Fill xanh (phần dương)
                         label: '_pos',
-                        data: growthArr.map(v => v != null && v >= 0 ? v : 0),
-                        borderWidth: 0,
-                        pointRadius: 0,
-                        fill: { target: { value: 0 }, above: posColor, below: 'transparent' },
-                        tension: 0.35,
-                        spanGaps: true
+                        data: growthArr.map(v => (v != null && v >= 0) ? v : 0),
+                        borderWidth: 0, pointRadius: 0, tension: 0.35, spanGaps: true,
+                        fill: { target: { value: 0 }, above: posColor, below: 'transparent' }
                     }, {
-                        // Fill đỏ (phần âm)
                         label: '_neg',
-                        data: growthArr.map(v => v != null && v < 0 ? v : 0),
-                        borderWidth: 0,
-                        pointRadius: 0,
-                        fill: { target: { value: 0 }, below: negColor, above: 'transparent' },
-                        tension: 0.35,
-                        spanGaps: true
+                        data: growthArr.map(v => (v != null && v < 0) ? v : 0),
+                        borderWidth: 0, pointRadius: 0, tension: 0.35, spanGaps: true,
+                        fill: { target: { value: 0 }, below: negColor, above: 'transparent' }
                     }]
                 },
                 options: {
@@ -1413,11 +1394,15 @@
                             ...tooltipDefaults,
                             filter: item => item.dataset.label === 'Tăng trưởng (%)',
                             callbacks: {
+                                title: items => {
+                                    // Hiện rõ so sánh năm nào vs năm nào
+                                    return items[0].label + ' — ' + currentYear + ' vs ' + lastYear;
+                                },
                                 label: ctx => {
                                     const v = ctx.parsed.y;
-                                    if (v == null) return ' Không có dữ liệu';
+                                    if (v == null) return ' Không có dữ liệu năm trước';
                                     const sign = v >= 0 ? '+' : '';
-                                    return ` ${sign}${v.toFixed(2)}% so với kỳ trước`;
+                                    return ` ${sign}${v.toFixed(2)}% so cùng kỳ năm trước`;
                                 }
                             }
                         }
@@ -1430,62 +1415,38 @@
                                 lineWidth: ctx => ctx.tick.value === 0 ? 2 : 1
                             },
                             border: { display: false },
-                            ticks: {
-                                callback: v => (v >= 0 ? '+' : '') + v.toFixed(0) + '%'
-                            }
+                            ticks: { callback: v => (v >= 0 ? '+' : '') + v.toFixed(0) + '%' }
                         }
                     }
                 }
             });
         }
 
-        /* ── State ───────────────────────────────────────────────────────────── */
-        const monthLabels = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'];
+        /* ── Khởi tạo ────────────────────────────────────────────────────────── */
+        const notEnoughEl = document.getElementById('rentGrowthNotEnough');
+        const kpisEl = document.getElementById('rentGrowthKpis');
+        let rentGrowthChart = null;
 
-        // Dữ liệu theo tháng
-        const rentMonthGrowth = calcMonthlyGrowth(monthlyRent, monthlyRentLastYear);
-        const saleMonthGrowth = calcMonthlyGrowth(monthlySale, monthlySaleLastYear);
-
-        // Dữ liệu theo năm (3 năm, so năm liền trước → 2 điểm có giá trị)
-        const rentYearGrowth = calcYearlyGrowth(yearlyRentAll);
-        const saleYearGrowth = calcYearlyGrowth(yearlySaleAll);
-
-        // Tạo charts lần đầu (chế độ tháng)
-        let rentGrowthChart = createGrowthChart('rentGrowthChart', rentMonthGrowth, monthLabels, 'blue');
-        let saleGrowthChart = createGrowthChart('saleGrowthChart', saleMonthGrowth, monthLabels, 'purple');
-
-        updateKpis(rentMonthGrowth, monthLabels, 'rent');
-        updateKpis(saleMonthGrowth, monthLabels, 'sale');
-
-        /* ── Switch mode (tháng ↔ năm) ───────────────────────────────────────── */
-        function switchGrowthMode(type, mode, btn) {
-            // Cập nhật toggle button active
-            const toggleGroup = btn.closest('.growth-toggle');
-            toggleGroup.querySelectorAll('.growth-toggle-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-
-            const isRent = type === 'rent';
-            const chartObj = isRent ? rentGrowthChart : saleGrowthChart;
-            const color = isRent ? 'blue' : 'purple';
-            const prefix = type;
-
-            let growthData, labels;
-            if (mode === 'month') {
-                growthData = isRent ? rentMonthGrowth : saleMonthGrowth;
-                labels = monthLabels;
-            } else {
-                growthData = isRent ? rentYearGrowth : saleYearGrowth;
-                labels = yearLabels.map(String);
+        function initMonthMode() {
+            if (completedMonthCount === 0) {
+                // Tháng 1 → chưa có tháng hoàn chỉnh nào
+                if (notEnoughEl) notEnoughEl.style.display = 'block';
+                if (kpisEl) kpisEl.style.display = 'none';
+                const canvasParent = document.getElementById('rentGrowthChart');
+                if (canvasParent) canvasParent.parentElement.style.display = 'none';
+                return;
             }
+            if (notEnoughEl) notEnoughEl.style.display = 'none';
+            if (kpisEl) kpisEl.style.display = '';
+            const canvasParent = document.getElementById('rentGrowthChart');
+            if (canvasParent) canvasParent.parentElement.style.display = '';
 
-            // Destroy và tạo lại chart
-            chartObj.destroy();
-            const newChart = createGrowthChart(isRent ? 'rentGrowthChart' : 'saleGrowthChart', growthData, labels, color);
-            if (isRent) rentGrowthChart = newChart;
-            else saleGrowthChart = newChart;
-
-            updateKpis(growthData, labels, prefix);
+            if (rentGrowthChart) rentGrowthChart.destroy();
+            rentGrowthChart = createRentGrowthChart(rentMonthGrowth, slicedMonthLabels);
+            updateRentKpis(rentMonthGrowth, slicedMonthLabels);
         }
+
+        initMonthMode(); // khởi tạo chart tăng trưởng
 
 
     </script>

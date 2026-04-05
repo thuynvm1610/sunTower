@@ -23,60 +23,93 @@ public class ReportServiceImpl implements ReportService {
     @Autowired private SaleContractRepository saleContractRepository;
     @Autowired private BuildingRepository buildingRepository;
 
+    private static final int EXPIRY_WARNING_DAYS = 30;
+    private static final int TOP_N = 5;
+
     @Override
     public ReportDTO getReport(int year) {
         ReportDTO dto = new ReportDTO();
 
-        int currentMonth = LocalDate.now().getMonthValue();
-        int currentYear  = LocalDate.now().getYear();
+        int currentRealYear  = LocalDate.now().getYear();
+        int currentRealMonth = LocalDate.now().getMonthValue();
 
         dto.setCurrentYear(year);
         dto.setLastYear(year - 1);
         dto.setYearBeforeLast(year - 2);
 
-        // ── 1. Monthly rent revenue (12 tháng năm hiện tại) ──────────────────
-        List<BigDecimal> monthlyRent = calcMonthlyRentRevenue(year, currentYear, currentMonth);
+        // ── cutoffMonth & cutoffLabel ─────────────────────────────────────────
+        final int cutoffMonth = (year == currentRealYear) ? currentRealMonth - 1 : 12;
+        dto.setCutoffMonth(cutoffMonth);
+        if (cutoffMonth == 0) {
+            dto.setCutoffLabel("Chưa có dữ liệu (tháng 1/" + year + ")");
+        } else {
+            dto.setCutoffLabel("Tích lũy đến hết T" + cutoffMonth + "/" + year);
+        }
+
+        // ── Load data 1 lần, dùng chung cho toàn bộ ──────────────────────────
+        List<SaleContractEntity> allSaleContracts = saleContractRepository.findAll();
+        List<ContractEntity>     allContracts     = contractRepository.findAll();
+
+        // ── 1. Monthly rent revenue (12 tháng năm year) ──────────────────────
+        List<BigDecimal> monthlyRent = calcMonthlyRentRevenue(year, cutoffMonth, allContracts);
         dto.setMonthlyRentRevenue(monthlyRent);
 
-        // ── 2. Monthly sale revenue (theo tháng ký sale_contract) ────────────
-        List<BigDecimal> monthlySale = calcMonthlySaleRevenue(year);
+        // ── 2. Monthly sale revenue ───────────────────────────────────────────
+        List<BigDecimal> monthlySale = calcMonthlySaleRevenue(year, allSaleContracts);
         dto.setMonthlySaleRevenue(monthlySale);
 
-        // ── 2b. Dữ liệu năm trước để tính tăng trưởng ────────────────────────
-        List<BigDecimal> monthlyRentLastYear = calcMonthlyRentRevenue(year - 1, currentYear, currentMonth);
-        List<BigDecimal> monthlySaleLastYear = calcMonthlySaleRevenue(year - 1);
+        // ── 3. Dữ liệu năm trước để tính tăng trưởng ────────────────────────
+        // Năm trước luôn lấy đủ 12 tháng (đã là quá khứ)
+        List<BigDecimal> monthlyRentLastYear = calcMonthlyRentRevenue(year - 1, 12, allContracts);
+        List<BigDecimal> monthlySaleLastYear = calcMonthlySaleRevenue(year - 1, allSaleContracts);
         dto.setMonthlyRentLastYear(monthlyRentLastYear);
         dto.setMonthlySaleLastYear(monthlySaleLastYear);
 
-        // ── 3. KPI: tổng doanh thu thuê năm hiện tại ─────────────────────────
+        // ── 4. KPI: Tổng doanh thu thuê — tích lũy đến cutoffMonth của year ──
         BigDecimal totalRent = monthlyRent.stream().reduce(BigDecimal.ZERO, BigDecimal::add);
         dto.setTotalRentRevenueCurrentYear(totalRent);
 
-        // ── 4. KPI: tổng giá trị mua bán all-time ────────────────────────────
-        BigDecimal totalSale = saleContractRepository.findAll().stream()
+        // ── 5. KPI: Tổng giá trị mua bán — theo year (đến cutoffMonth) ───────
+        BigDecimal totalSale = allSaleContracts.stream()
+                .filter(sc -> sc.getCreatedDate() != null && sc.getSalePrice() != null)
+                .filter(sc -> {
+                    int y = sc.getCreatedDate().getYear();
+                    int m = sc.getCreatedDate().getMonthValue();
+                    if (y < year) return true;              // các năm trước year
+                    if (y == year) return m <= cutoffMonth; // năm year: đến cutoffMonth
+                    return false;
+                })
                 .map(SaleContractEntity::getSalePrice)
-                .filter(Objects::nonNull)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         dto.setTotalSaleRevenueAllTime(totalSale);
 
-        // ── 5. KPI: tỷ lệ lấp đầy FOR_RENT ──────────────────────────────────
+        // ── 6. KPI: Tỷ lệ lấp đầy FOR_RENT — theo year ──────────────────────
         long totalForRent = buildingRepository.countByTransactionType(TransactionType.FOR_RENT);
-        long occupied     = contractRepository.countDistinctBuildingWithActiveContract();
+        long occupied     = calcOccupiedForRent(year, cutoffMonth, allContracts);
         dto.setTotalForRentBuildings(totalForRent);
         dto.setOccupiedForRentBuildings(occupied);
 
-        // ── 6. KPI: HĐ sắp hết hạn ≤30 ngày ─────────────────────────────────
-        LocalDateTime now     = LocalDateTime.now();
-        LocalDateTime in30    = now.plusDays(30);
-        List<ContractEntity> expiring = contractRepository
-                .findByStatusAndEndDateBetween("ACTIVE", now, in30);
-        dto.setExpiringContractsCount((long) expiring.size());
+        // ── 7. KPI: HĐ sắp hết hạn ≤30 ngày (chỉ có ý nghĩa với năm hiện tại)
+        List<ContractEntity> expiringList = Collections.emptyList();
+        long expiringCount = 0L;
+        if (year == currentRealYear) {
+            LocalDateTime now  = LocalDateTime.now();
+            LocalDateTime in30 = now.plusDays(EXPIRY_WARNING_DAYS);
+            List<ContractEntity> expiring = contractRepository
+                    .findByStatusAndEndDateBetween("ACTIVE", now, in30);
+            expiringCount = expiring.size();
+            expiringList = expiring.stream()
+                    .sorted(Comparator.comparing(ContractEntity::getEndDate))
+                    .collect(Collectors.toList());
+        }
+        dto.setExpiringContractsCount(expiringCount);
 
-        // ── 7. Yearly revenue (3 năm) ─────────────────────────────────────────
-        dto.setYearlyRentRevenue(calcYearlyRent(year - 2, year - 1, year, currentYear, currentMonth));
-        dto.setYearlySaleRevenue(calcYearlySale(year - 2, year - 1, year));
+        // ── 8. Yearly revenue (3 năm) ────────────────────────────────────────
+        dto.setYearlyRentRevenue(calcYearlyRent(year - 2, year - 1, year,
+                currentRealYear, currentRealMonth, allContracts));
+        dto.setYearlySaleRevenue(calcYearlySale(year - 2, year - 1, year, allSaleContracts));
 
-        // ── 8. Phân bổ BĐS theo loại hình ────────────────────────────────────
+        // ── 9. Phân bổ BĐS theo loại hình ────────────────────────────────────
         Map<String, Long> byType = buildingRepository.countGroupByPropertyType()
                 .stream()
                 .collect(Collectors.toMap(
@@ -89,18 +122,28 @@ public class ReportServiceImpl implements ReportService {
 
         long forRentCount  = buildingRepository.countByTransactionType(TransactionType.FOR_RENT);
         long forSaleCount  = buildingRepository.countByTransactionType(TransactionType.FOR_SALE);
-        long forSaleActive = saleContractRepository.count();
+        // Số BĐS mua bán đã có hợp đồng tính đến cutoffMonth của year
+        long forSaleActive = allSaleContracts.stream()
+                .filter(sc -> sc.getCreatedDate() != null)
+                .filter(sc -> {
+                    int y = sc.getCreatedDate().getYear();
+                    int m = sc.getCreatedDate().getMonthValue();
+                    if (y < year) return true;
+                    if (y == year) return m <= cutoffMonth;
+                    return false;
+                })
+                .count();
         dto.setForRentCount(forRentCount);
         dto.setForSaleCount(forSaleCount);
         dto.setForRentActiveCount(occupied);
         dto.setForSaleActiveCount(forSaleActive);
 
-        // ── 9. Top 5 building doanh thu thuê (năm hiện tại) ──────────────────
-        dto.setTopBuildingsByRentRevenue(calcTopBuildingRevenue(year, currentYear, currentMonth));
+        // ── 10. Top 5 building doanh thu thuê ────────────────────────────────
+        dto.setTopBuildingsByRentRevenue(calcTopBuildingRevenue(year, cutoffMonth, allContracts));
 
-        // ── 10. HĐ sắp hết hạn — table ───────────────────────────────────────
-        List<ExpiringContractDTO> expiringList = expiring.stream()
-                .sorted(Comparator.comparing(ContractEntity::getEndDate))
+        // ── 11. HĐ sắp hết hạn — table ───────────────────────────────────────
+        LocalDateTime now = LocalDateTime.now();
+        List<ExpiringContractDTO> expiringDtoList = expiringList.stream()
                 .map(c -> new ExpiringContractDTO(
                         c.getId(),
                         c.getBuilding() != null ? c.getBuilding().getName() : "—",
@@ -109,13 +152,13 @@ public class ReportServiceImpl implements ReportService {
                         ChronoUnit.DAYS.between(now, c.getEndDate())
                 ))
                 .collect(Collectors.toList());
-        dto.setExpiringContracts(expiringList);
+        dto.setExpiringContracts(expiringDtoList);
 
-        // ── 11. Top 5 nhân viên theo tổng giá trị ────────────────────────────
-        dto.setTopStaffsByValue(calcTopStaff());
+        // ── 12. Top 5 nhân viên theo tổng giá trị trong year ─────────────────
+        dto.setTopStaffsByValue(calcTopStaff(year, cutoffMonth, allContracts, allSaleContracts));
 
-        // ── 12. Top 5 khách hàng theo tổng giá trị ───────────────────────────
-        dto.setTopCustomersByValue(calcTopCustomer());
+        // ── 13. Top 5 khách hàng theo tổng giá trị trong year ────────────────
+        dto.setTopCustomersByValue(calcTopCustomer(year, cutoffMonth, allContracts, allSaleContracts));
 
         return dto;
     }
@@ -123,33 +166,30 @@ public class ReportServiceImpl implements ReportService {
     // ── HELPERS ───────────────────────────────────────────────────────────────
 
     /**
-     * Doanh thu thuê theo tháng trong năm target.
-     * Logic: với mỗi contract active trong năm, cộng rentPrice×rentArea vào từng tháng nó active.
-     * Nếu là năm hiện tại, chỉ tính đến tháng trước (tháng chưa kết thúc không tính).
+     * Doanh thu thuê theo tháng trong năm targetYear, chỉ tính đến cutoffMonth.
+     * cutoffMonth = 0 → trả về list toàn 0 (chưa có tháng hoàn chỉnh nào).
      */
-    private List<BigDecimal> calcMonthlyRentRevenue(int targetYear, int currentYear, int currentMonth) {
+    private List<BigDecimal> calcMonthlyRentRevenue(int targetYear, int cutoffMonth,
+                                                    List<ContractEntity> allContracts) {
+        List<BigDecimal> revenue = new ArrayList<>(Collections.nCopies(12, BigDecimal.ZERO));
+        if (cutoffMonth <= 0) return revenue;
+
         LocalDateTime startOfYear = LocalDateTime.of(targetYear, 1, 1, 0, 0);
         LocalDateTime endOfYear   = LocalDateTime.of(targetYear, 12, 31, 23, 59);
 
-        List<ContractEntity> contracts = contractRepository
-                .findByStartDateLessThanEqualAndEndDateGreaterThanEqual(endOfYear, startOfYear);
+        for (ContractEntity c : allContracts) {
+            if (c.getRentPrice() == null || c.getRentArea() == null) continue;
+            if (c.getStartDate().isAfter(endOfYear)) continue;
+            if (c.getEndDate().isBefore(startOfYear)) continue;
 
-        List<BigDecimal> revenue = new ArrayList<>(Collections.nCopies(12, BigDecimal.ZERO));
-
-        for (ContractEntity c : contracts) {
             BigDecimal monthlyValue = c.getRentPrice().multiply(BigDecimal.valueOf(c.getRentArea()));
 
             int startMonth = c.getStartDate().getYear() < targetYear ? 1 : c.getStartDate().getMonthValue();
             int endMonth   = c.getEndDate().getYear()   > targetYear ? 12 : c.getEndDate().getMonthValue();
-
             startMonth = Math.max(1, startMonth);
-            endMonth   = Math.min(12, endMonth);
+            endMonth   = Math.min(cutoffMonth, endMonth); // cắt tại cutoffMonth
 
-            if (targetYear == currentYear) {
-                endMonth = Math.min(endMonth, currentMonth - 1);
-            }
             if (startMonth > endMonth) continue;
-
             for (int m = startMonth; m <= endMonth; m++) {
                 revenue.set(m - 1, revenue.get(m - 1).add(monthlyValue));
             }
@@ -158,36 +198,60 @@ public class ReportServiceImpl implements ReportService {
     }
 
     /**
-     * Doanh thu mua bán ghi nhận vào tháng created_date của sale_contract.
+     * Doanh thu mua bán ghi nhận vào tháng created_date của sale_contract trong targetYear.
      */
-    private List<BigDecimal> calcMonthlySaleRevenue(int targetYear) {
+    private List<BigDecimal> calcMonthlySaleRevenue(int targetYear,
+                                                    List<SaleContractEntity> allSaleContracts) {
         List<BigDecimal> revenue = new ArrayList<>(Collections.nCopies(12, BigDecimal.ZERO));
-
-        saleContractRepository.findAll().forEach(sc -> {
-            if (sc.getCreatedDate() == null || sc.getSalePrice() == null) return;
-            if (sc.getCreatedDate().getYear() != targetYear) return;
+        for (SaleContractEntity sc : allSaleContracts) {
+            if (sc.getCreatedDate() == null || sc.getSalePrice() == null) continue;
+            if (sc.getCreatedDate().getYear() != targetYear) continue;
             int month = sc.getCreatedDate().getMonthValue();
             revenue.set(month - 1, revenue.get(month - 1).add(sc.getSalePrice()));
-        });
+        }
         return revenue;
     }
 
-    private List<BigDecimal> calcYearlyRent(int y1, int y2, int y3, int currentYear, int currentMonth) {
+    /**
+     * Tính số building FOR_RENT có hợp đồng ACTIVE tại thời điểm cuối cutoffMonth của targetYear.
+     * Nếu cutoffMonth = 0 → trả về 0.
+     */
+    private long calcOccupiedForRent(int targetYear, int cutoffMonth,
+                                     List<ContractEntity> allContracts) {
+        if (cutoffMonth <= 0) return 0L;
+        // Thời điểm tham chiếu: cuối ngày cuối tháng cutoffMonth
+        LocalDateTime refPoint = LocalDateTime.of(targetYear, cutoffMonth,
+                LocalDate.of(targetYear, cutoffMonth, 1).lengthOfMonth(), 23, 59);
+        return allContracts.stream()
+                .filter(c -> c.getBuilding() != null
+                        && c.getStartDate() != null
+                        && c.getEndDate() != null
+                        && !c.getStartDate().isAfter(refPoint)
+                        && !c.getEndDate().isBefore(refPoint))
+                .map(c -> c.getBuilding().getId())
+                .distinct()
+                .count();
+    }
+
+    private List<BigDecimal> calcYearlyRent(int y1, int y2, int y3,
+                                            int currentRealYear, int currentRealMonth,
+                                            List<ContractEntity> allContracts) {
         List<BigDecimal> result = new ArrayList<>();
         for (int y : new int[]{y1, y2, y3}) {
-            result.add(calcMonthlyRentRevenue(y, currentYear, currentMonth)
+            int cut = (y == currentRealYear) ? currentRealMonth - 1 : 12;
+            result.add(calcMonthlyRentRevenue(y, cut, allContracts)
                     .stream().reduce(BigDecimal.ZERO, BigDecimal::add));
         }
         return result;
     }
 
-    private List<BigDecimal> calcYearlySale(int y1, int y2, int y3) {
+    private List<BigDecimal> calcYearlySale(int y1, int y2, int y3,
+                                            List<SaleContractEntity> allSaleContracts) {
         Map<Integer, BigDecimal> byYear = new HashMap<>();
-        saleContractRepository.findAll().forEach(sc -> {
-            if (sc.getCreatedDate() == null || sc.getSalePrice() == null) return;
-            int y = sc.getCreatedDate().getYear();
-            byYear.merge(y, sc.getSalePrice(), BigDecimal::add);
-        });
+        for (SaleContractEntity sc : allSaleContracts) {
+            if (sc.getCreatedDate() == null || sc.getSalePrice() == null) continue;
+            byYear.merge(sc.getCreatedDate().getYear(), sc.getSalePrice(), BigDecimal::add);
+        }
         List<BigDecimal> result = new ArrayList<>();
         for (int y : new int[]{y1, y2, y3}) {
             result.add(byYear.getOrDefault(y, BigDecimal.ZERO));
@@ -196,28 +260,27 @@ public class ReportServiceImpl implements ReportService {
     }
 
     /**
-     * Top 5 building theo tổng doanh thu thuê năm targetYear.
-     * Tính: rentPrice × rentArea × số tháng active trong năm đó.
+     * Top 5 building theo tổng doanh thu thuê trong targetYear đến cutoffMonth.
      */
-    private List<BuildingRevenueDTO> calcTopBuildingRevenue(int targetYear, int currentYear, int currentMonth) {
+    private List<BuildingRevenueDTO> calcTopBuildingRevenue(int targetYear, int cutoffMonth,
+                                                            List<ContractEntity> allContracts) {
+        if (cutoffMonth <= 0) return Collections.emptyList();
+
         LocalDateTime startOfYear = LocalDateTime.of(targetYear, 1, 1, 0, 0);
         LocalDateTime endOfYear   = LocalDateTime.of(targetYear, 12, 31, 23, 59);
-
-        List<ContractEntity> contracts = contractRepository
-                .findByStartDateLessThanEqualAndEndDateGreaterThanEqual(endOfYear, startOfYear);
-
         Map<String, BigDecimal> revenueMap = new LinkedHashMap<>();
 
-        for (ContractEntity c : contracts) {
-            if (c.getBuilding() == null) continue;
+        for (ContractEntity c : allContracts) {
+            if (c.getBuilding() == null || c.getRentPrice() == null || c.getRentArea() == null) continue;
+            if (c.getStartDate().isAfter(endOfYear) || c.getEndDate().isBefore(startOfYear)) continue;
+
             String name = c.getBuilding().getName();
             BigDecimal monthly = c.getRentPrice().multiply(BigDecimal.valueOf(c.getRentArea()));
 
             int startMonth = c.getStartDate().getYear() < targetYear ? 1 : c.getStartDate().getMonthValue();
             int endMonth   = c.getEndDate().getYear()   > targetYear ? 12 : c.getEndDate().getMonthValue();
             startMonth = Math.max(1, startMonth);
-            endMonth   = Math.min(12, endMonth);
-            if (targetYear == currentYear) endMonth = Math.min(endMonth, currentMonth - 1);
+            endMonth   = Math.min(cutoffMonth, endMonth);
             if (startMonth > endMonth) continue;
 
             BigDecimal total = monthly.multiply(BigDecimal.valueOf(endMonth - startMonth + 1));
@@ -226,60 +289,63 @@ public class ReportServiceImpl implements ReportService {
 
         return revenueMap.entrySet().stream()
                 .sorted(Map.Entry.<String, BigDecimal>comparingByValue().reversed())
-                .limit(5)
+                .limit(TOP_N)
                 .map(e -> new BuildingRevenueDTO(e.getKey(), e.getValue()))
                 .collect(Collectors.toList());
     }
 
     /**
-     * Top 5 nhân viên theo tổng giá trị:
-     * - Thuê: sum(rentPrice × rentArea × số tháng active năm hiện tại) của các HĐ họ phụ trách
-     * - Mua bán: sum(sale_price) của các sale_contract họ phụ trách
+     * Top 5 nhân viên theo tổng giá trị trong targetYear đến cutoffMonth:
+     * - Thuê: tổng rentPrice × rentArea × số tháng active trong [1..cutoffMonth] của targetYear
+     * - Mua bán: tổng salePrice của sale_contract trong [targetYear-1-01-01 .. targetYear-cutoffMonth]
+     *   (tính lũy kế đến cutoffMonth của targetYear để nhất quán với totalSale KPI)
      */
-    private List<StaffValueDTO> calcTopStaff() {
-        int currentYear  = LocalDate.now().getYear();
-        int currentMonth = LocalDate.now().getMonthValue();
-
-        // Doanh thu thuê theo staff_id
-        LocalDateTime startOfYear = LocalDateTime.of(currentYear, 1, 1, 0, 0);
-        LocalDateTime endOfYear   = LocalDateTime.of(currentYear, 12, 31, 23, 59);
-        List<ContractEntity> contracts = contractRepository
-                .findByStartDateLessThanEqualAndEndDateGreaterThanEqual(endOfYear, startOfYear);
-
+    private List<StaffValueDTO> calcTopStaff(int targetYear, int cutoffMonth,
+                                             List<ContractEntity> allContracts,
+                                             List<SaleContractEntity> allSaleContracts) {
+        // Doanh thu thuê trong targetYear
         Map<Long, BigDecimal> rentByStaff = new HashMap<>();
         Map<Long, String>     staffNames  = new HashMap<>();
 
-        for (ContractEntity c : contracts) {
-            if (c.getStaff() == null) continue;
+        LocalDateTime startOfYear = LocalDateTime.of(targetYear, 1, 1, 0, 0);
+        LocalDateTime endOfYear   = LocalDateTime.of(targetYear, 12, 31, 23, 59);
+
+        for (ContractEntity c : allContracts) {
+            if (c.getStaff() == null || c.getRentPrice() == null || c.getRentArea() == null) continue;
+            if (c.getStartDate().isAfter(endOfYear) || c.getEndDate().isBefore(startOfYear)) continue;
+
             Long staffId = c.getStaff().getId();
             staffNames.put(staffId, c.getStaff().getFullName());
 
             BigDecimal monthly = c.getRentPrice().multiply(BigDecimal.valueOf(c.getRentArea()));
-            int startMonth = c.getStartDate().getYear() < currentYear ? 1 : c.getStartDate().getMonthValue();
-            int endMonth   = c.getEndDate().getYear()   > currentYear ? 12 : c.getEndDate().getMonthValue();
+            int startMonth = c.getStartDate().getYear() < targetYear ? 1 : c.getStartDate().getMonthValue();
+            int endMonth   = c.getEndDate().getYear()   > targetYear ? 12 : c.getEndDate().getMonthValue();
             startMonth = Math.max(1, startMonth);
-            endMonth   = Math.min(12, Math.min(endMonth, currentMonth - 1));
+            endMonth   = Math.min(cutoffMonth, endMonth);
             if (startMonth > endMonth) continue;
 
             BigDecimal total = monthly.multiply(BigDecimal.valueOf(endMonth - startMonth + 1));
             rentByStaff.merge(staffId, total, BigDecimal::add);
         }
 
-        // Doanh thu mua bán theo staff_id
+        // Doanh thu mua bán lũy kế đến cutoffMonth của targetYear
         Map<Long, BigDecimal> saleByStaff = new HashMap<>();
-        saleContractRepository.findAll().forEach(sc -> {
-            if (sc.getStaff() == null || sc.getSalePrice() == null) return;
+        for (SaleContractEntity sc : allSaleContracts) {
+            if (sc.getStaff() == null || sc.getSalePrice() == null || sc.getCreatedDate() == null) continue;
+            int y = sc.getCreatedDate().getYear();
+            int m = sc.getCreatedDate().getMonthValue();
+            if (y > targetYear) continue;
+            if (y == targetYear && m > cutoffMonth) continue;
             Long staffId = sc.getStaff().getId();
             staffNames.put(staffId, sc.getStaff().getFullName());
             saleByStaff.merge(staffId, sc.getSalePrice(), BigDecimal::add);
-        });
+        }
 
-        // Gộp
-        Set<Long> allStaffIds = new HashSet<>();
-        allStaffIds.addAll(rentByStaff.keySet());
-        allStaffIds.addAll(saleByStaff.keySet());
+        Set<Long> allIds = new HashSet<>();
+        allIds.addAll(rentByStaff.keySet());
+        allIds.addAll(saleByStaff.keySet());
 
-        return allStaffIds.stream()
+        return allIds.stream()
                 .map(id -> new StaffValueDTO(
                         id,
                         staffNames.getOrDefault(id, "NV-" + id),
@@ -287,41 +353,53 @@ public class ReportServiceImpl implements ReportService {
                         saleByStaff.getOrDefault(id, BigDecimal.ZERO)
                 ))
                 .sorted(Comparator.comparing(StaffValueDTO::getTotal).reversed())
-                .limit(5)
+                .limit(TOP_N)
                 .collect(Collectors.toList());
     }
 
     /**
-     * Top 5 khách hàng theo tổng giá trị (thuê all-time + mua bán).
+     * Top 5 khách hàng theo tổng giá trị trong targetYear đến cutoffMonth.
+     * - Thuê: tổng giá trị hợp đồng active trong targetYear (đến cutoffMonth)
+     * - Mua bán: lũy kế đến cutoffMonth của targetYear
      */
-    private List<CustomerValueDTO> calcTopCustomer() {
+    private List<CustomerValueDTO> calcTopCustomer(int targetYear, int cutoffMonth,
+                                                   List<ContractEntity> allContracts,
+                                                   List<SaleContractEntity> allSaleContracts) {
         Map<Long, BigDecimal> rentByCust = new HashMap<>();
         Map<Long, String>     custNames  = new HashMap<>();
 
-        // Tất cả hợp đồng thuê (all-time, tính theo tổng giá trị hợp đồng)
-        contractRepository.findAll().forEach(c -> {
-            if (c.getCustomer() == null || c.getRentPrice() == null || c.getRentArea() == null) return;
+        LocalDateTime startOfYear = LocalDateTime.of(targetYear, 1, 1, 0, 0);
+        LocalDateTime endOfYear   = LocalDateTime.of(targetYear, 12, 31, 23, 59);
+
+        for (ContractEntity c : allContracts) {
+            if (c.getCustomer() == null || c.getRentPrice() == null || c.getRentArea() == null) continue;
+            if (c.getStartDate().isAfter(endOfYear) || c.getEndDate().isBefore(startOfYear)) continue;
+
             Long custId = c.getCustomer().getId();
             custNames.put(custId, c.getCustomer().getFullName());
 
-            long months = ChronoUnit.MONTHS.between(
-                    c.getStartDate().toLocalDate().withDayOfMonth(1),
-                    c.getEndDate().toLocalDate().withDayOfMonth(1)
-            );
-            months = Math.max(1, months);
-            BigDecimal total = c.getRentPrice()
-                    .multiply(BigDecimal.valueOf(c.getRentArea()))
-                    .multiply(BigDecimal.valueOf(months));
+            BigDecimal monthly = c.getRentPrice().multiply(BigDecimal.valueOf(c.getRentArea()));
+            int startMonth = c.getStartDate().getYear() < targetYear ? 1 : c.getStartDate().getMonthValue();
+            int endMonth   = c.getEndDate().getYear()   > targetYear ? 12 : c.getEndDate().getMonthValue();
+            startMonth = Math.max(1, startMonth);
+            endMonth   = Math.min(cutoffMonth, endMonth);
+            if (startMonth > endMonth) continue;
+
+            BigDecimal total = monthly.multiply(BigDecimal.valueOf(endMonth - startMonth + 1));
             rentByCust.merge(custId, total, BigDecimal::add);
-        });
+        }
 
         Map<Long, BigDecimal> saleByCust = new HashMap<>();
-        saleContractRepository.findAll().forEach(sc -> {
-            if (sc.getCustomer() == null || sc.getSalePrice() == null) return;
+        for (SaleContractEntity sc : allSaleContracts) {
+            if (sc.getCustomer() == null || sc.getSalePrice() == null || sc.getCreatedDate() == null) continue;
+            int y = sc.getCreatedDate().getYear();
+            int m = sc.getCreatedDate().getMonthValue();
+            if (y > targetYear) continue;
+            if (y == targetYear && m > cutoffMonth) continue;
             Long custId = sc.getCustomer().getId();
             custNames.put(custId, sc.getCustomer().getFullName());
             saleByCust.merge(custId, sc.getSalePrice(), BigDecimal::add);
-        });
+        }
 
         Set<Long> allIds = new HashSet<>();
         allIds.addAll(rentByCust.keySet());
@@ -335,7 +413,7 @@ public class ReportServiceImpl implements ReportService {
                         saleByCust.getOrDefault(id, BigDecimal.ZERO)
                 ))
                 .sorted(Comparator.comparing(CustomerValueDTO::getTotal).reversed())
-                .limit(5)
+                .limit(TOP_N)
                 .collect(Collectors.toList());
     }
 }
