@@ -7,10 +7,7 @@ import com.estate.dto.*;
 import com.estate.enums.TransactionType;
 import com.estate.exception.BusinessException;
 import com.estate.repository.*;
-import com.estate.repository.entity.BuildingEntity;
-import com.estate.repository.entity.ContractEntity;
-import com.estate.repository.entity.CustomerEntity;
-import com.estate.repository.entity.StaffEntity;
+import com.estate.repository.entity.*;
 import com.estate.service.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -62,25 +59,16 @@ public class ContractServiceImpl implements ContractService {
     public List<StaffPerformanceDTO> getTopStaffs() {
         List<Object[]> rawData = contractRepository.countContractsByStaff((Pageable) PageRequest.of(0, 5));
 
-        long totalContracts = rawData.stream()
-                .mapToLong(r -> (Long) r[2])
-                .sum();
+        long totalContracts = rawData.stream().mapToLong(r -> (Long) r[2]).sum();
 
         return rawData.stream().map(r -> {
             Long staffId = (Long) r[0];
             String fullName = (String) r[1];
             Long contractCount = (Long) r[2];
 
-            double percent = totalContracts == 0
-                    ? 0
-                    : (contractCount * 100.0) / totalContracts;
+            double percent = totalContracts == 0 ? 0 : (contractCount * 100.0) / totalContracts;
 
-            return new StaffPerformanceDTO(
-                    staffId,
-                    fullName,
-                    contractCount,
-                    Math.round(percent * 100) / 100.0
-            );
+            return new StaffPerformanceDTO(staffId, fullName, contractCount, Math.round(percent * 100) / 100.0);
         }).collect(Collectors.toList());
     }
 
@@ -90,8 +78,7 @@ public class ContractServiceImpl implements ContractService {
         LocalDateTime startOfYear = LocalDateTime.of(year, 1, 1, 0, 0);
         LocalDateTime endOfYear = LocalDateTime.of(year, 12, 31, 23, 59);
 
-        List<ContractEntity> contracts = contractRepository
-                .findByStartDateLessThanEqualAndEndDateGreaterThanEqual(endOfYear, startOfYear);
+        List<ContractEntity> contracts = contractRepository.findByStartDateLessThanEqualAndEndDateGreaterThanEqual(endOfYear, startOfYear);
 
         List<BigDecimal> revenue = new ArrayList<>(Collections.nCopies(12, BigDecimal.ZERO));
 
@@ -106,12 +93,10 @@ public class ContractServiceImpl implements ContractService {
             BigDecimal monthlyPrice = c.getRentPrice().multiply(BigDecimal.valueOf(c.getRentArea()));
 
             // Xác định tháng bắt đầu trong năm
-            int startMonth = Math.max(1,
-                    start.getYear() < year ? 1 : start.getMonthValue());
+            int startMonth = start.getYear() < year ? 1 : start.getMonthValue();
 
             // Xác định tháng kết thúc trong năm
-            int endMonth = Math.min(12,
-                    end.getYear() > year ? 12 : end.getMonthValue());
+            int endMonth = end.getYear() > year ? 12 : end.getMonthValue();
 
             // Loại bỏ tháng chưa diễn ra nếu là năm hiện tại
             if (year == currentYear) {
@@ -123,11 +108,16 @@ public class ContractServiceImpl implements ContractService {
 
             // Cộng tiền vào danh sách
             for (int m = startMonth; m <= endMonth; m++) {
-                revenue.set(
-                        m - 1,
-                        revenue.get(m - 1).add(monthlyPrice)
-                );
+                revenue.set(m - 1, revenue.get(m - 1).add(monthlyPrice));
             }
+        }
+
+        List<SaleContractEntity> saleContracts = saleContractRepository.findByCreatedDateBetween(startOfYear, endOfYear);
+        for (SaleContractEntity c : saleContracts) {
+            revenue.set(
+                    c.getCreatedDate().getMonthValue() - 1,
+                    revenue.get(c.getCreatedDate().getMonthValue() - 1).add(c.getSalePrice())
+            );
         }
 
         return revenue;
@@ -200,11 +190,7 @@ public class ContractServiceImpl implements ContractService {
         }
 
         // Tạo PageImpl giữ nguyên thông tin phân trang gốc
-        Page<ContractListDTO> result = new PageImpl<>(
-                dtoList,
-                contractPage.getPageable(),
-                contractPage.getTotalElements()
-        );
+        Page<ContractListDTO> result = new PageImpl<>(dtoList, contractPage.getPageable(), contractPage.getTotalElements());
 
         return result;
     }
@@ -226,11 +212,7 @@ public class ContractServiceImpl implements ContractService {
         }
 
         // Tạo PageImpl giữ nguyên thông tin phân trang gốc
-        Page<ContractListDTO> result = new PageImpl<>(
-                dtoList,
-                contractPage.getPageable(),
-                contractPage.getTotalElements()
-        );
+        Page<ContractListDTO> result = new PageImpl<>(dtoList, contractPage.getPageable(), contractPage.getTotalElements());
 
         return result;
     }
@@ -252,11 +234,7 @@ public class ContractServiceImpl implements ContractService {
         }
 
         // Tạo PageImpl giữ nguyên thông tin phân trang gốc
-        Page<ContractDetailDTO> result = new PageImpl<>(
-                dtoList,
-                contractPage.getPageable(),
-                contractPage.getTotalElements()
-        );
+        Page<ContractDetailDTO> result = new PageImpl<>(dtoList, contractPage.getPageable(), contractPage.getTotalElements());
 
         return result;
     }
@@ -265,28 +243,22 @@ public class ContractServiceImpl implements ContractService {
     public void save(ContractFormDTO dto) {
         ContractEntity entity;
 
-        StaffEntity staff = staffRepository.findById(dto.getStaffId())
-                .orElseThrow(() -> new BusinessException("Không tìm thấy nhân viên"));
+        StaffEntity staff = staffRepository.findById(dto.getStaffId()).orElseThrow(() -> new BusinessException("Không tìm thấy nhân viên"));
         // Kiểm tra nhân viên có quản lý tòa nhà không
         if (!staffRepository.existsByStaffIdAndBuildingId(dto.getStaffId(), dto.getBuildingId())) {
-            BuildingEntity building = buildingRepository.findById(dto.getBuildingId())
-                    .orElseThrow(() -> new BusinessException("Không tìm thấy tòa nhà"));
-            throw new BusinessException("Nhân viên " + staff.getFullName() + " hiện không quản lý tòa nhà " +
-                    building.getName());
+            BuildingEntity building = buildingRepository.findById(dto.getBuildingId()).orElseThrow(() -> new BusinessException("Không tìm thấy tòa nhà"));
+            throw new BusinessException("Nhân viên " + staff.getFullName() + " hiện không quản lý tòa nhà " + building.getName());
         }
 
         // Kiểm tra nhân viên có quản lý khách hàng không
         if (!staffRepository.existsByStaffIdAndCustomerId(dto.getStaffId(), dto.getCustomerId())) {
-            CustomerEntity customer = customerRepository.findById(dto.getCustomerId())
-                    .orElseThrow(() -> new BusinessException("Không tìm thấy khách hàng"));
-            throw new BusinessException("Nhân viên " + staff.getFullName() + " hiện không quản lý khách hàng " +
-                    customer.getFullName());
+            CustomerEntity customer = customerRepository.findById(dto.getCustomerId()).orElseThrow(() -> new BusinessException("Không tìm thấy khách hàng"));
+            throw new BusinessException("Nhân viên " + staff.getFullName() + " hiện không quản lý khách hàng " + customer.getFullName());
         }
 
         if (dto.getId() != null) {
             // Update
-            entity = contractRepository.findById(dto.getId())
-                    .orElseThrow(() -> new BusinessException("Không tìm thấy hợp đồng để sửa"));
+            entity = contractRepository.findById(dto.getId()).orElseThrow(() -> new BusinessException("Không tìm thấy hợp đồng để sửa"));
         } else {
             // Thêm mới
             entity = new ContractEntity();
@@ -308,15 +280,13 @@ public class ContractServiceImpl implements ContractService {
 
     @Override
     public ContractFormDTO findById(Long id) {
-        ContractEntity contractEntity = contractRepository.findById(id)
-                .orElseThrow(() -> new BusinessException("Không tìm thấy hợp đồng"));
+        ContractEntity contractEntity = contractRepository.findById(id).orElseThrow(() -> new BusinessException("Không tìm thấy hợp đồng"));
         return contractFormConverter.toDTO(contractEntity);
     }
 
     @Override
     public ContractDetailDTO viewById(Long id) {
-        ContractEntity contractEntity = contractRepository.findById(id)
-                .orElseThrow(() -> new BusinessException("Không tìm thấy hợp đồng"));
+        ContractEntity contractEntity = contractRepository.findById(id).orElseThrow(() -> new BusinessException("Không tìm thấy hợp đồng"));
         return contractDetailConverter.toDto(contractEntity);
     }
 
@@ -397,31 +367,15 @@ public class ContractServiceImpl implements ContractService {
     @Override
     public List<ContractListDTO> getExpiringContracts(Long staffId) {
         LocalDateTime now = LocalDateTime.now();
-        LocalDateTime start = now.withDayOfMonth(1)
-                .withHour(0)
-                .withMinute(0)
-                .withSecond(0);
-        LocalDateTime end = now.plusMonths(1)
-                .withHour(0)
-                .withMinute(0)
-                .withSecond(0);
+        LocalDateTime start = now.withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0);
+        LocalDateTime end = now.plusMonths(1).withHour(0).withMinute(0).withSecond(0);
         List<ContractEntity> contractLists = contractRepository.findByStaffId(staffId);
 
-        List<Long> contractIds = contractLists
-                .stream()
-                .map(
-                        ContractEntity::getId
-                )
-                .toList();
+        List<Long> contractIds = contractLists.stream().map(ContractEntity::getId).toList();
 
         List<ContractEntity> contracts = contractRepository.getExpiringContracts(start, end, contractIds);
 
-        return contracts
-                .stream()
-                .map(
-                        c -> contractListConverter.toDto(c)
-                )
-                .toList();
+        return contracts.stream().map(c -> contractListConverter.toDto(c)).toList();
     }
 
     @Override

@@ -7,6 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Repository
 public interface SaleContractRepository extends JpaRepository<SaleContractEntity, Long>, SaleContractRepositoryCustom {
     @Query("""
@@ -19,4 +22,6 @@ public interface SaleContractRepository extends JpaRepository<SaleContractEntity
 
     /** Kiểm tra building đã có hợp đồng mua bán chưa (dùng khi ADD) */
     boolean existsByBuilding_Id(Long buildingId);
+
+    List<SaleContractEntity> findByCreatedDateBetween(LocalDateTime start, LocalDateTime end);
 }
