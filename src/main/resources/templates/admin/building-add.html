@@ -647,6 +647,11 @@
                                 </option>
                             </select>
                         </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Mã số thuế</label>
+                            <input type="text" class="form-control" name="taxCode" placeholder="VD: 0123456789"
+                                maxlength="20">
+                        </div>
                     </div>
 
                 </div>
@@ -1069,6 +1074,7 @@
                 latitude: document.getElementById('latInput').value ? Number(document.getElementById('latInput').value) : null,
                 longitude: document.getElementById('lngInput').value ? Number(document.getElementById('lngInput').value) : null,
                 linkOfBuilding: g('linkOfBuilding').value || null,
+                taxCode: g('taxCode').value || null,
                 image: document.getElementById('imageFilename').value || null,
                 rentAreaValues: txType === 'FOR_RENT' ? (document.getElementById('rentAreaValuesInput').value || null) : null,
                 staffIds: staffIds

@@ -668,6 +668,12 @@
                                     <span th:unless="${building.level}" class="empty">—</span>
                                 </div>
                             </div>
+                            <div class="col-md-3">
+                                <div class="field-lbl">Mã số thuế</div>
+                                <div class="field-val" th:classappend="${#strings.isEmpty(building.taxCode)} ? 'empty'"
+                                    th:text="${not #strings.isEmpty(building.taxCode) ? building.taxCode : '—'}">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
