@@ -1,6 +1,7 @@
 package com.estate.repository;
 
 import com.estate.dto.ContractRentAreaView;
+import com.estate.enums.TransactionType;
 import com.estate.repository.custom.ContractRepositoryCustom;
 import com.estate.repository.entity.ContractEntity;
 import org.springframework.data.domain.Pageable;
@@ -133,4 +134,11 @@ public interface ContractRepository extends JpaRepository<ContractEntity, Long>,
             "AND c.status = 'ACTIVE'")
     boolean existsActiveByStaffAndCustomer(@Param("staffId") Long staffId,
                                            @Param("customerId") Long customerId);
+
+    /** Đếm số building FOR_RENT đang có ít nhất 1 hợp đồng ACTIVE */
+    @Query("SELECT COUNT(DISTINCT c.building.id) FROM ContractEntity c WHERE c.status = 'ACTIVE'")
+    long countDistinctBuildingWithActiveContract();
+
+    /** Lấy HĐ ACTIVE có endDate trong khoảng [from, to] */
+    List<ContractEntity> findByStatusAndEndDateBetween(String status, LocalDateTime from, LocalDateTime to);
 }

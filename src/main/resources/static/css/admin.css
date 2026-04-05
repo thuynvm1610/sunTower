@@ -569,6 +569,28 @@ body {
     background: #f43f5e;
 }
 
+
+/* report — indigo */
+.sidebar a[href*="report"]:hover:not(.active),
+.sidebar a[href*="report"].active {
+    color: #3730a3;
+    background: #eef2ff;
+}
+
+.sidebar a[href*="report"]:hover:not(.active) .nav-icon,
+.sidebar a[href*="report"].active .nav-icon {
+    background: #e0e7ff;
+}
+
+.sidebar a[href*="report"]:hover:not(.active) .nav-icon i,
+.sidebar a[href*="report"].active .nav-icon i {
+    color: #6366f1;
+}
+
+.sidebar a[href*="report"].active::before {
+    background: #6366f1;
+}
+
 /* ── Active common ─────────────────────────────────────────────── */
 .sidebar .nav-link.active {
     font-weight: 600;

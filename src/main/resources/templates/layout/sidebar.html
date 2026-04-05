@@ -43,6 +43,12 @@
                 th:text="${pendingInvoicesCount}">5</span>
         </a>
 
+        <a href="/admin/report" th:classappend="${page == 'report'} ? 'active'" class="nav-link"
+            data-tooltip="Báo cáo & Thống kê">
+            <div class="nav-icon"><i class="bi bi-bar-chart-line-fill"></i></div>
+            <span class="nav-text">Báo cáo & Thống kê</span>
+        </a>
+
         <div class="sidebar-section-label">Quản lý</div>
 
         <a href="/admin/customer/list" th:classappend="${page == 'customer'} ? 'active'" class="nav-link"
