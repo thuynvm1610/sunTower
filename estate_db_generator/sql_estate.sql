@@ -749,9 +749,9 @@ END$$
 DELIMITER ;
 
 INSERT INTO sale_contract (building_id, customer_id, staff_id, sale_price, transfer_date, note, created_date, modified_date) VALUES
-(6 , 11, 7 , 72000000000, '2024-06-15', 'An Phát mua Saigon Centre làm trụ sở HCM'        , '2024-01-10', '2024-06-16'),
-(10, 13, 7 , 23000000000, '2024-01-20', 'Luxury Việt mua shophouse Masteri mở flagship'   , '2023-06-01', '2024-01-21'),
-(14, 14, 8 , 15000000000, '2023-06-30', 'Nam Cường mua Vinhomes Central Park đầu tư'      , '2023-04-15', '2023-07-01'),
+(6 , 11, 7 , 72000000000, '2024-06-15', 'An Phát mua Saigon Centre làm trụ sở HCM'        , '2024-01-10', '2024-06-15'),
+(10, 13, 7 , 23000000000, '2026-03-09', 'Luxury Việt mua shophouse Masteri mở flagship'   , '2026-03-04', '2026-03-09'),
+(14, 14, 8 , 15000000000, '2025-11-30', 'Nam Cường mua Vinhomes Central Park đầu tư'      , '2025-10-16', '2025-11-30'),
 (18, 16, 11, 32000000000, NULL        , 'Minh Phát mua KCN VSIP Bình Dương, đang thủ tục' , '2025-02-01', '2025-02-01');
 
 -- =============================================================================
