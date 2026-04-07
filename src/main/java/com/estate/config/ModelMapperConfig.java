@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 
 @Configuration
 public class ModelMapperConfig {
-
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper mapper = new ModelMapper();
@@ -41,7 +40,7 @@ public class ModelMapperConfig {
         });
 
 
-        /** -------------------- BUILDING -------------------- **/
+        /* -------------------- BUILDING -------------------- **/
         TypeMap<BuildingFormDTO, BuildingEntity> buildingMap =
                 mapper.createTypeMap(BuildingFormDTO.class, BuildingEntity.class); // tạo trống
 
@@ -51,10 +50,10 @@ public class ModelMapperConfig {
             m.skip(BuildingEntity::setRentAreas);
         });
 
-        buildingMap.implicitMappings(); // chạy implicit cuối cùng
+        buildingMap.implicitMappings();
 
 
-        /** -------------------- CONTRACT -------------------- **/
+        /* -------------------- CONTRACT -------------------- **/
         TypeMap<ContractFormDTO, ContractEntity> contractMap =
                 mapper.createTypeMap(ContractFormDTO.class, ContractEntity.class);
 
@@ -66,7 +65,7 @@ public class ModelMapperConfig {
 
         contractMap.implicitMappings();
 
-        /** -------------------- INVOICE -------------------- **/
+        /* -------------------- INVOICE -------------------- **/
         TypeMap<InvoiceFormDTO, InvoiceEntity> invoiceMap =
                 mapper.createTypeMap(InvoiceFormDTO.class, InvoiceEntity.class);
 
@@ -78,23 +77,21 @@ public class ModelMapperConfig {
 
         invoiceMap.implicitMappings();
 
-        /** -------------------- INVOICE DETAIL -------------------- **/
+        /* -------------------- INVOICE DETAIL -------------------- **/
         TypeMap<InvoiceDetailDetailDTO, InvoiceDetailEntity> invoiceDetailMap =
                 mapper.createTypeMap(InvoiceDetailDetailDTO.class, InvoiceDetailEntity.class);
 
-        invoiceDetailMap.addMappings(m -> {
-            m.skip(InvoiceDetailEntity::setInvoice);
-        });
+        invoiceDetailMap.addMappings(m ->
+                m.skip(InvoiceDetailEntity::setInvoice));
 
         invoiceDetailMap.implicitMappings();
 
-        /** -------------------- UTILITY METER -------------------- **/
+        /* -------------------- UTILITY METER -------------------- **/
         TypeMap<UtilityMeterDetailDTO, UtilityMeterEntity> utilityMeterMap =
                 mapper.createTypeMap(UtilityMeterDetailDTO.class, UtilityMeterEntity.class);
 
-        utilityMeterMap.addMappings(m -> {
-            m.skip(UtilityMeterEntity::setContract);
-        });
+        utilityMeterMap.addMappings(m ->
+                m.skip(UtilityMeterEntity::setContract));
 
         utilityMeterMap.implicitMappings();
 

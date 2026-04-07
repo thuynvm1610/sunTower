@@ -8,9 +8,11 @@ import com.estate.dto.BuildingFilterDTO;
 import com.estate.dto.BuildingFormDTO;
 import com.estate.dto.BuildingListDTO;
 import com.estate.exception.BusinessException;
-import com.estate.repository.*;
+import com.estate.repository.BuildingRepository;
+import com.estate.repository.ContractRepository;
+import com.estate.repository.SaleContractRepository;
+import com.estate.repository.StaffRepository;
 import com.estate.repository.entity.BuildingEntity;
-import com.estate.repository.entity.SaleContractEntity;
 import com.estate.service.BuildingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -59,7 +61,7 @@ public class BuildingServiceImpl implements BuildingService {
         List<BuildingListDTO> result = new ArrayList<>();
         for (BuildingEntity b : buildingEntities) {
             List<String> staffNames = staffRepository.findStaffNamesByBuildingId(b.getId());
-            result.add(buildingListConverter.toDto(b, String.join(" - ", staffNames)));
+            result.add(buildingListConverter.toDto(b, String.join(" - ", staffNames != null ? staffNames : Collections.emptyList())));
         }
         return result;
     }

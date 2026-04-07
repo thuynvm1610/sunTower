@@ -4,7 +4,7 @@ import com.estate.dto.ReportDTO;
 import com.estate.security.CustomUserDetails;
 import com.estate.service.ReportService;
 import com.estate.service.StaffService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,12 +19,11 @@ import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/admin/report")
+@RequiredArgsConstructor
 public class AdminReportController {
-
-    @Autowired private ReportService reportService;
-    @Autowired private StaffService staffService;
-
-    private static final int YEAR_RANGE = 3; // số năm hiển thị trong dropdown
+    private final ReportService reportService;
+    private final StaffService staffService;
+    private static final int YEAR_RANGE = 3; // Số năm hiển thị trong dropdown
 
     @GetMapping("")
     public String showReport(
@@ -38,8 +37,7 @@ public class AdminReportController {
         int selectedYear = (year != null && year >= currentYear - YEAR_RANGE + 1 && year <= currentYear)
                 ? year
                 : currentYear;
-
-        ReportDTO report = reportService.getReport(selectedYear);
+        model.addAttribute("report", reportService.getReport(selectedYear));
 
         // Danh sách năm cho dropdown: 3 năm gần nhất, mới nhất lên đầu
         List<Integer> availableYears = IntStream
@@ -47,13 +45,17 @@ public class AdminReportController {
                 .boxed()
                 .sorted((a, b) -> b - a) // giảm dần: 2026, 2025, 2024
                 .collect(Collectors.toList());
-
-        model.addAttribute("report", report);
         model.addAttribute("availableYears", availableYears);
-        model.addAttribute("page", "report");
-        model.addAttribute("staffName", staffService.getStaffName(user.getCustomerId()));
-        model.addAttribute("staffAvatar", staffService.getStaffAvatar(user.getCustomerId()));
+
+        addCommonAttributes(model, user);
 
         return "admin/report";
+    }
+
+    // HELPER
+    private void addCommonAttributes(Model model, CustomUserDetails user) {
+        model.addAttribute("page", "report");
+        model.addAttribute("staffName", staffService.getStaffName(user.getUserId()));
+        model.addAttribute("staffAvatar", staffService.getStaffAvatar(user.getUserId()));
     }
 }

@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -25,14 +26,21 @@ public class AdminBuildingAdditionalInformationAPI {
     private final BuildingDetailService buildingDetailService;
 
     // ===================== LEGAL AUTHORITY =====================
+    @GetMapping("/legal-authority/{buildingId}/list")
+    public List<LegalAuthorityDTO> listLegalAuthorities(@PathVariable Long buildingId) {
+        return buildingDetailService.getLegalAuthoritiesByBuilding(buildingId);
+    }
+
     @PostMapping("/legal-authority")
     public ResponseEntity<LegalAuthorityDTO> createLegalAuthority(@RequestBody LegalAuthorityDTO dto) {
         return ResponseEntity.ok(buildingDetailService.createLegalAuthority(dto));
     }
 
     @PutMapping("/legal-authority/{id}")
-    public ResponseEntity<LegalAuthorityDTO> updateLegalAuthority(@PathVariable Long id,
-                                                                  @RequestBody LegalAuthorityDTO dto) {
+    public ResponseEntity<LegalAuthorityDTO> updateLegalAuthority(
+            @PathVariable Long id,
+            @RequestBody LegalAuthorityDTO dto
+    ) {
         return ResponseEntity.ok(buildingDetailService.updateLegalAuthority(id, dto));
     }
 
@@ -43,14 +51,21 @@ public class AdminBuildingAdditionalInformationAPI {
     }
 
     // ===================== NEARBY AMENITY =====================
+    @GetMapping("/nearby-amenity/{buildingId}/list")
+    public List<NearbyAmenityDTO> listNearbyAmenities(@PathVariable Long buildingId) {
+        return buildingDetailService.getNearbyAmenitiesByBuilding(buildingId);
+    }
+
     @PostMapping("/nearby-amenity")
     public ResponseEntity<NearbyAmenityDTO> createNearbyAmenity(@RequestBody NearbyAmenityDTO dto) {
         return ResponseEntity.ok(buildingDetailService.createNearbyAmenity(dto));
     }
 
     @PutMapping("/nearby-amenity/{id}")
-    public ResponseEntity<NearbyAmenityDTO> updateNearbyAmenity(@PathVariable Long id,
-                                                                @RequestBody NearbyAmenityDTO dto) {
+    public ResponseEntity<NearbyAmenityDTO> updateNearbyAmenity(
+            @PathVariable Long id,
+            @RequestBody NearbyAmenityDTO dto
+    ) {
         return ResponseEntity.ok(buildingDetailService.updateNearbyAmenity(id, dto));
     }
 
@@ -61,14 +76,21 @@ public class AdminBuildingAdditionalInformationAPI {
     }
 
     // ===================== SUPPLIER =====================
+    @GetMapping("/supplier/{buildingId}/list")
+    public List<SupplierDTO> listSuppliers(@PathVariable Long buildingId) {
+        return buildingDetailService.getSuppliersByBuilding(buildingId);
+    }
+
     @PostMapping("/supplier")
     public ResponseEntity<SupplierDTO> createSupplier(@RequestBody SupplierDTO dto) {
         return ResponseEntity.ok(buildingDetailService.createSupplier(dto));
     }
 
     @PutMapping("/supplier/{id}")
-    public ResponseEntity<SupplierDTO> updateSupplier(@PathVariable Long id,
-                                                            @RequestBody SupplierDTO dto) {
+    public ResponseEntity<SupplierDTO> updateSupplier(
+            @PathVariable Long id,
+            @RequestBody SupplierDTO dto
+    ) {
         return ResponseEntity.ok(buildingDetailService.updateSupplier(id, dto));
     }
 
@@ -79,14 +101,21 @@ public class AdminBuildingAdditionalInformationAPI {
     }
 
     // ===================== PLANNING MAP =====================
+    @GetMapping("/planning-map/{buildingId}/list")
+    public List<PlanningMapDTO> listPlanningMaps(@PathVariable Long buildingId) {
+        return buildingDetailService.getPlanningMapsByBuilding(buildingId);
+    }
+
     @PostMapping("/planning-map")
     public ResponseEntity<PlanningMapDTO> createPlanningMap(@RequestBody PlanningMapDTO dto) {
         return ResponseEntity.ok(buildingDetailService.createPlanningMap(dto));
     }
 
     @PutMapping("/planning-map/{id}")
-    public ResponseEntity<PlanningMapDTO> updatePlanningMap(@PathVariable Long id,
-                                                            @RequestBody PlanningMapDTO dto) {
+    public ResponseEntity<PlanningMapDTO> updatePlanningMap(
+            @PathVariable Long id,
+            @RequestBody PlanningMapDTO dto
+    ) {
         return ResponseEntity.ok(buildingDetailService.updatePlanningMap(id, dto));
     }
 
@@ -97,13 +126,10 @@ public class AdminBuildingAdditionalInformationAPI {
     }
 
     // Lưu vào đúng thư mục static – WebMvcConfig serve từ filesystem nên không cần restart
-    private static final String UPLOAD_DIR =
-            "src/main/resources/static/images/planning_map_img/";
+    private static final String UPLOAD_DIR = "src/main/resources/static/images/planning_map_img/";
 
     @PostMapping("/planning-map/upload-image")
-    public ResponseEntity<Map<String, String>> uploadImage(
-            @RequestParam("file") MultipartFile file) {
-
+    public ResponseEntity<Map<String, String>> uploadImage(@RequestParam("file") MultipartFile file) {
         String contentType = file.getContentType();
         if (contentType == null ||
                 (!contentType.equals("image/jpeg") &&

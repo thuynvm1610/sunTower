@@ -5,7 +5,7 @@ import com.estate.dto.CustomerListDTO;
 import com.estate.exception.InputValidationException;
 import com.estate.service.CustomerService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -13,14 +13,15 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admin/customer")
+@RequiredArgsConstructor
 public class AdminCustomerAPI {
-    @Autowired
-    CustomerService customerService;
+    private final CustomerService customerService;
 
     @GetMapping("/list/page")
     public Page<CustomerListDTO> getCustomersPage(
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "5") int size) {
+            @RequestParam(defaultValue = "5") int size
+    ) {
         return customerService.getCustomers(page - 1, size);
     }
 
@@ -30,20 +31,21 @@ public class AdminCustomerAPI {
             @RequestParam(defaultValue = "5") int size,
             @RequestParam(required = false) String fullName
     ) {
-        Page<CustomerListDTO> result = customerService.search(fullName, page - 1, size);
-        return result;
+        return customerService.search(fullName, page - 1, size);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addCustomer(@Valid @RequestBody CustomerFormDTO dto,
-                                         BindingResult result) {
+    public ResponseEntity<?> addCustomer(
+            @Valid @RequestBody CustomerFormDTO dto,
+            BindingResult result
+    ) {
         if (result.hasErrors()) {
             String message;
 
             if (!result.getFieldErrors().isEmpty()) {
-                message = result.getFieldErrors().get(0).getDefaultMessage();
+                message = result.getFieldErrors().getFirst().getDefaultMessage();
             } else {
-                message = result.getAllErrors().get(0).getDefaultMessage();
+                message = result.getAllErrors().getFirst().getDefaultMessage();
             }
 
             throw new InputValidationException(message);

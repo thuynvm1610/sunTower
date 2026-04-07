@@ -4,21 +4,22 @@ import com.estate.dto.InvoiceFilterDTO;
 import com.estate.dto.InvoiceFormDTO;
 import com.estate.dto.InvoiceListDTO;
 import com.estate.service.InvoiceService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admin/invoice")
+@RequiredArgsConstructor
 public class AdminInvoiceAPI {
-    @Autowired
-    private InvoiceService invoiceService;
+    private final InvoiceService invoiceService;
 
     @GetMapping("/list/page")
     public Page<InvoiceListDTO> getInvoicesPage(
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "5") int size) {
+            @RequestParam(defaultValue = "5") int size
+    ) {
 
         return invoiceService.getInvoices(page - 1, size);
     }

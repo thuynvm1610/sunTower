@@ -1,5 +1,6 @@
 package com.estate.enums;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
@@ -18,6 +19,4 @@ public enum Direction {
     Direction(String label) {
         this.label = label;
     }
-
 }
-

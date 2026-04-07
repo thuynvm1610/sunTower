@@ -1,23 +1,15 @@
 package com.estate.config;
 
-import com.estate.security.CustomUserDetailsService;
-import org.springframework.context.annotation.*;
-import org.springframework.security.authentication.*;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.crypto.bcrypt.*;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
-
-    private final CustomUserDetailsService userDetailsService;
-
-    public SecurityConfig(CustomUserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
-
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -27,7 +19,7 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
-                .csrf(csrf -> csrf.disable())
+                .csrf(AbstractHttpConfigurer::disable)
 
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
@@ -43,14 +35,9 @@ public class SecurityConfig {
                                 "/payment/**"
                         ).permitAll()
 
-                        .requestMatchers("/admin/**")
-                        .hasAnyRole("ADMIN")
-
-                        .requestMatchers("/staff/**")
-                        .hasAnyRole("STAFF")
-
-                        .requestMatchers("/customer/**")
-                        .hasRole("CUSTOMER")
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/staff/**").hasRole("STAFF")
+                        .requestMatchers("/customer/**").hasRole("CUSTOMER")
 
                         .anyRequest().authenticated()
                 )
@@ -70,13 +57,5 @@ public class SecurityConfig {
                 );
 
         return http.build();
-    }
-
-    @Bean
-    AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService);
-        provider.setPasswordEncoder(passwordEncoder());
-        return provider;
     }
 }

@@ -5,18 +5,17 @@ import com.estate.dto.InvoiceFilterDTO;
 import com.estate.dto.InvoiceFormDTO;
 import com.estate.security.CustomUserDetails;
 import com.estate.service.InvoiceService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/staff/invoices")
+@RequiredArgsConstructor
 public class StaffInvoiceAPI {
-    @Autowired
-    InvoiceService invoiceService;
+    private final InvoiceService invoiceService;
 
     @GetMapping("/search")
     public Page<InvoiceDetailDTO> getInvoicesSearchPage(
@@ -25,7 +24,7 @@ public class StaffInvoiceAPI {
             InvoiceFilterDTO filter,
             @AuthenticationPrincipal CustomUserDetails user
     ) {
-        return invoiceService.searchByStaff(filter, page - 1, size, user.getCustomerId());
+        return invoiceService.searchByStaff(filter, page - 1, size, user.getUserId());
     }
 
     @DeleteMapping("/delete/{id}")

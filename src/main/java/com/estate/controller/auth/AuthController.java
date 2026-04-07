@@ -1,8 +1,7 @@
 package com.estate.controller.auth;
 
 import com.estate.service.AuthService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
+@RequiredArgsConstructor
 public class AuthController {
-    @Autowired
-    AuthService authService;
+    private final AuthService authService;
 
     @GetMapping("/login")
     public String login() {
@@ -23,7 +22,6 @@ public class AuthController {
 
     @GetMapping("/login-success")
     public String loginSuccess(Authentication authentication) {
-
         return authentication.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_CUSTOMER"))
                 ? "redirect:/customer/home"
@@ -39,8 +37,12 @@ public class AuthController {
     }
 
     @GetMapping("/auth/reset-password")
-    public String resetPasswordPage(@RequestParam String token, Model model) {
+    public String resetPasswordPage(
+            @RequestParam String token,
+            Model model
+    ) {
         model.addAttribute("token", token);
+
         return "reset-password";
     }
 
@@ -48,8 +50,8 @@ public class AuthController {
     public String resetPassword(
             @RequestParam String token,
             @RequestParam String newPassword,
-            RedirectAttributes redirectAttributes) {
-
+            RedirectAttributes redirectAttributes
+    ) {
         authService.resetPassword(token, newPassword);
 
         redirectAttributes.addFlashAttribute(

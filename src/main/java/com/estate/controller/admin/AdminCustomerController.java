@@ -1,10 +1,9 @@
 package com.estate.controller.admin;
 
-import com.estate.dto.CustomerDetailDTO;
 import com.estate.security.CustomUserDetails;
 import com.estate.service.CustomerService;
 import com.estate.service.StaffService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,23 +14,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/admin/customer")
+@RequiredArgsConstructor
 public class AdminCustomerController {
-    @Autowired
-    private StaffService staffService;
-
-    @Autowired
-    private CustomerService customerService;
+    private final StaffService staffService;
+    private final CustomerService customerService;
 
     @GetMapping("/list")
     public String listBuildings(
             Model model,
             @AuthenticationPrincipal CustomUserDetails user
     ) {
-        model.addAttribute("page", "customer");
-
-        model.addAttribute("staffName", staffService.getStaffName(user.getCustomerId()));
-
-        model.addAttribute("staffAvatar", staffService.getStaffAvatar(user.getCustomerId()));
+        addCommonAttributes(model, user);
 
         return "admin/customer-list";
     }
@@ -43,11 +36,8 @@ public class AdminCustomerController {
             @AuthenticationPrincipal CustomUserDetails user
     ) {
         model.addAttribute("fullName", fullName);
-        model.addAttribute("page", "customer");
 
-        model.addAttribute("staffName", staffService.getStaffName(user.getCustomerId()));
-
-        model.addAttribute("staffAvatar", staffService.getStaffAvatar(user.getCustomerId()));
+        addCommonAttributes(model, user);
 
         return "admin/customer-search";
     }
@@ -59,11 +49,7 @@ public class AdminCustomerController {
     ) {
         model.addAttribute("staffs", staffService.getStaffsName());
 
-        model.addAttribute("page", "customer");
-
-        model.addAttribute("staffName", staffService.getStaffName(user.getCustomerId()));
-
-        model.addAttribute("staffAvatar", staffService.getStaffAvatar(user.getCustomerId()));
+        addCommonAttributes(model, user);
 
         return "admin/customer-add";
     }
@@ -74,15 +60,17 @@ public class AdminCustomerController {
             Model model,
             @AuthenticationPrincipal CustomUserDetails user
     ) {
-        CustomerDetailDTO customer = customerService.viewById(id);
-        model.addAttribute("customer", customer);
+        model.addAttribute("customer", customerService.viewById(id));
 
-        model.addAttribute("page", "customer");
-
-        model.addAttribute("staffName", staffService.getStaffName(user.getCustomerId()));
-
-        model.addAttribute("staffAvatar", staffService.getStaffAvatar(user.getCustomerId()));
+        addCommonAttributes(model, user);
 
         return "admin/customer-detail";
+    }
+
+    // HELPER
+    private void addCommonAttributes(Model model, CustomUserDetails user) {
+        model.addAttribute("page", "customer");
+        model.addAttribute("staffName", staffService.getStaffName(user.getUserId()));
+        model.addAttribute("staffAvatar", staffService.getStaffAvatar(user.getUserId()));
     }
 }

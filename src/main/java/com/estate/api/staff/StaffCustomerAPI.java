@@ -2,7 +2,7 @@ package com.estate.api.staff;
 
 import com.estate.dto.CustomerDetailDTO;
 import com.estate.service.CustomerService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,13 +13,9 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/staff/customers")
+@RequiredArgsConstructor
 public class StaffCustomerAPI {
-    @Autowired
-    CustomerService customerService;
-
-    public StaffCustomerAPI(CustomerService customerService) {
-        this.customerService = customerService;
-    }
+    private final CustomerService customerService;
 
     @GetMapping("/search")
     public Page<CustomerDetailDTO> getContractsSearchPage(

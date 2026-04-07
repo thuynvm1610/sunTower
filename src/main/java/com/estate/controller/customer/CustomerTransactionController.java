@@ -2,7 +2,7 @@ package com.estate.controller.customer;
 
 import com.estate.security.CustomUserDetails;
 import com.estate.service.InvoiceService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,22 +11,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/customer/transaction")
+@RequiredArgsConstructor
 public class CustomerTransactionController {
-    @Autowired
-    InvoiceService invoiceService;
+    private final InvoiceService invoiceService;
 
     @GetMapping("history")
     public String transactionHistory(
             Model model,
             @AuthenticationPrincipal CustomUserDetails user
     ) {
-        Long customerId = user.getCustomerId();
+        Long userId = user.getUserId();
 
-        Long totalTransaction = invoiceService.getTotalPaidInvoice(customerId);
-        model.addAttribute("totalTransaction", totalTransaction);
-
-        String totalPaidAmount = invoiceService.findTotalAmountByCustomerId(customerId);
-        model.addAttribute("totalPaidAmount", totalPaidAmount);
+        model.addAttribute("totalTransaction", invoiceService.getTotalPaidInvoice(userId));
+        model.addAttribute("totalPaidAmount", invoiceService.findTotalAmountByCustomerId(userId));
 
         return "customer/transaction-history";
     }

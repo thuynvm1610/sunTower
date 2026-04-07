@@ -6,9 +6,8 @@ import com.estate.security.CustomUserDetails;
 import com.estate.service.BuildingService;
 import com.estate.service.DistrictService;
 import com.estate.service.StaffService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,15 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/staff")
+@RequiredArgsConstructor
 public class StaffBuildingController {
-    @Autowired
-    BuildingService buildingService;
-
-    @Autowired
-    DistrictService districtService;
-
-    @Autowired
-    StaffService staffService;
+    private final BuildingService buildingService;
+    private final DistrictService districtService;
+    private final StaffService staffService;
 
     @GetMapping("/buildings")
     public String building(
@@ -33,13 +28,14 @@ public class StaffBuildingController {
         ) {
         model.addAttribute("wards", buildingService.getWardName());
         model.addAttribute("streets", buildingService.getStreetName());
+
         model.addAttribute("directions", Direction.values());
         model.addAttribute("levels", Level.values());
+
         model.addAttribute("districts", districtService.findAll());
 
-        model.addAttribute("staffName", staffService.getStaffName(user.getCustomerId()));
-
-        model.addAttribute("staffAvatar", staffService.getStaffAvatar(user.getCustomerId()));
+        model.addAttribute("staffName", staffService.getStaffName(user.getUserId()));
+        model.addAttribute("staffAvatar", staffService.getStaffAvatar(user.getUserId()));
 
         return "staff/building-list";
     }

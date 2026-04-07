@@ -620,6 +620,30 @@
             font-size: 0.8125rem;
             color: #374151;
         }
+
+        /* ══ INFO BOX ═══════════════════════════════════════════════════════ */
+        .info-box {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 0.875rem 1rem;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.625rem;
+        }
+
+        .info-box i {
+            color: #3b82f6;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .info-box-content {
+            font-size: 0.8125rem;
+            color: #1e40af;
+            line-height: 1.5;
+        }
     </style>
 </head>
 
@@ -660,6 +684,17 @@
             <div>
                 Bất động sản này có hợp đồng cho thuê đang khả dụng — <span style="font-weight:400;">không thể chỉnh
                     sửa.</span>
+            </div>
+        </div>
+
+        <div class="info-box"
+             th:if="${(building.transactionType == 'FOR_RENT' and !hasActiveContract)
+          or (building.transactionType == 'FOR_SALE' and !isSold)}">
+            <i class="bi bi-info-circle"></i>
+            <div class="info-box-content">
+                Vui lòng điền đầy đủ thông tin bắt buộc
+                (<span style="color:#ef4444;font-weight:700;">*</span>)
+                để cập nhật thông tin mới của bất động sản.
             </div>
         </div>
 

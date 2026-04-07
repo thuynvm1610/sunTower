@@ -15,34 +15,31 @@ import java.util.Map;
 @AllArgsConstructor
 public class BuildingDetailDTO {
     private Long id;
-    private String name;
-    private String address;
+
     private Integer numberOfFloor;
     private Integer numberOfBasement;
     private Integer floorArea;
-    private String direction;
-    private String level;
-
-    private String propertyType;
-    private String transactionType;
-    private String taxCode;
 
     private BigDecimal rentPrice;
-
     private BigDecimal salePrice;
-
     private BigDecimal serviceFee;
     private BigDecimal carFee;
     private BigDecimal motorbikeFee;
     private BigDecimal waterFee;
     private BigDecimal electricityFee;
     private BigDecimal deposit;
-    private String linkOfBuilding;
-    private String image;
-
     private BigDecimal latitude;
     private BigDecimal longitude;
 
+    private String name;
+    private String address;
+    private String direction;
+    private String level;
+    private String propertyType;
+    private String transactionType;
+    private String taxCode;
+    private String linkOfBuilding;
+    private String image;
     private String rentAreaValues;
 
     private Map<String, Long> staffs = new HashMap<>();

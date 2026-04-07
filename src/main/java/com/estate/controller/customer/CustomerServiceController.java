@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/customer/service")
 public class CustomerServiceController {
     @GetMapping("")
-    public String servicePage(
-
-    ) {
+    public String servicePage() {
         return "/customer/service";
     }
 }

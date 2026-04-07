@@ -2,7 +2,7 @@ package com.estate.api.payment;
 
 import com.estate.service.VnPayService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,19 +11,23 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
 public class PaymentAPI {
-
-    @Autowired
-    private VnPayService vnPayService;
+    private final VnPayService vnPayService;
 
     @GetMapping(value = "/payment/vnpay/{invoiceId}", produces = "text/plain; charset=UTF-8")
-    public String createVnPay(@PathVariable Long invoiceId, HttpServletRequest request) {
+    public String createVnPay(
+            @PathVariable Long invoiceId,
+            HttpServletRequest request
+    ) {
         return vnPayService.createPayment(invoiceId, request).getPaymentUrl();
     }
 
     @GetMapping(value = "/payment/vnpay-return", produces = "text/html; charset=UTF-8")
-    public String vnpayReturn(@RequestParam Map<String, String> params) {
-
+    public String vnpayReturn(
+            @RequestParam Map<String,
+                    String> params
+    ) {
         boolean success = false;
 
         if (params != null && !params.isEmpty() && params.containsKey("vnp_ResponseCode")) {
@@ -47,7 +51,10 @@ public class PaymentAPI {
     }
 
     @GetMapping("/payment/vnpay-ipn")
-    public Map<String, String> ipn(@RequestParam Map<String, String> params) {
+    public Map<String, String> ipn(
+            @RequestParam Map<String,
+                    String> params
+    ) {
         boolean ok = vnPayService.handleReturn(params);
 
         if (ok) return Map.of("RspCode", "00", "Message", "Confirm Success");

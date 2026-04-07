@@ -6,7 +6,7 @@ import com.estate.dto.PhoneNumberChangeDTO;
 import com.estate.dto.UsernameChangeDTO;
 import com.estate.security.CustomUserDetails;
 import com.estate.service.StaffService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,16 +16,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/staff/profile")
+@RequiredArgsConstructor
 public class StaffProfileAPI {
-    @Autowired
-    StaffService staffService;
+    private final StaffService staffService;
 
     @PutMapping("/username")
     public ResponseEntity<?> usernameUpdate(
             @RequestBody UsernameChangeDTO dto,
             @AuthenticationPrincipal CustomUserDetails user
     ) {
-        Long staffId = user.getCustomerId();
+        Long staffId = user.getUserId();
         staffService.usernameUpdate(dto, staffId);
         return ResponseEntity.ok().build();
     }
@@ -35,7 +35,7 @@ public class StaffProfileAPI {
             @RequestBody EmailChangeDTO dto,
             @AuthenticationPrincipal CustomUserDetails user
     ) {
-        Long staffId = user.getCustomerId();
+        Long staffId = user.getUserId();
         staffService.emailUpdate(dto, staffId);
         return ResponseEntity.ok().build();
     }
@@ -45,7 +45,7 @@ public class StaffProfileAPI {
             @RequestBody PhoneNumberChangeDTO dto,
             @AuthenticationPrincipal CustomUserDetails user
     ) {
-        Long staffId = user.getCustomerId();
+        Long staffId = user.getUserId();
         staffService.phoneNumberUpdate(dto, staffId);
         return ResponseEntity.ok().build();
     }
@@ -55,7 +55,7 @@ public class StaffProfileAPI {
             @RequestBody PasswordChangeDTO dto,
             @AuthenticationPrincipal CustomUserDetails user
     ) {
-        Long staffId = user.getCustomerId();
+        Long staffId = user.getUserId();
         staffService.passwordUpdate(dto, staffId);
         return ResponseEntity.ok().build();
     }

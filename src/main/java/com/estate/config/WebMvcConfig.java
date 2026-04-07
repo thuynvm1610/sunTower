@@ -8,7 +8,6 @@ import java.io.File;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
-
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // Tính absolute path từ working directory của JVM (thường là thư mục gốc project)

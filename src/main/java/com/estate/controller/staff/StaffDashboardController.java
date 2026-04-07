@@ -4,7 +4,7 @@ import com.estate.security.CustomUserDetails;
 import com.estate.service.ContractService;
 import com.estate.service.InvoiceService;
 import com.estate.service.StaffService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,37 +13,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/staff")
+@RequiredArgsConstructor
 public class StaffDashboardController {
-    @Autowired
-    StaffService staffService;
-
-    @Autowired
-    ContractService contractService;
-
-    @Autowired
-    InvoiceService invoiceService;
+    private final StaffService staffService;
+    private final ContractService contractService;
+    private final InvoiceService invoiceService;
 
     @GetMapping("/dashboard")
     public String staffDashboard(
             Model model,
             @AuthenticationPrincipal CustomUserDetails user
         ) {
-        Long staffID = user.getCustomerId();
+        Long userId = user.getUserId();
 
-        model.addAttribute("buildingCnt", staffService.getBuildingCnt(staffID));
-        model.addAttribute("contractCnt", contractService.getContractCnt(staffID));
-        model.addAttribute("customerCnt", staffService.getCustomertCnt(staffID));
-        model.addAttribute("unpaidInvoiceCnt", invoiceService.getTotalUnpaidInvoices(staffID));
+        model.addAttribute("contractCnt", contractService.getContractCnt(userId));
+        model.addAttribute("expiringContracts", contractService.getExpiringContracts(userId));
 
-        model.addAttribute("overdueInvoices", invoiceService.getOverdueInvoices(staffID));
+        model.addAttribute("unpaidInvoiceCnt", invoiceService.getTotalUnpaidInvoices(userId));
+        model.addAttribute("overdueInvoices", invoiceService.getOverdueInvoices(userId));
+        model.addAttribute("expiringInvoices", invoiceService.getExpiringInvoices(userId));
 
-        model.addAttribute("expiringInvoices", invoiceService.getExpiringInvoices(staffID));
+        model.addAttribute("customerCnt", staffService.getCustomertCnt(userId));
+        model.addAttribute("buildingCnt", staffService.getBuildingCnt(userId));
 
-        model.addAttribute("expiringContracts", contractService.getExpiringContracts(staffID));
-
-        model.addAttribute("staffName", staffService.getStaffName(user.getCustomerId()));
-
-        model.addAttribute("staffAvatar", staffService.getStaffAvatar(user.getCustomerId()));
+        model.addAttribute("staffName", staffService.getStaffName(user.getUserId()));
+        model.addAttribute("staffAvatar", staffService.getStaffAvatar(user.getUserId()));
 
         return "/staff/dashboard";
     }

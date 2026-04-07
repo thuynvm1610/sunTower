@@ -14,12 +14,9 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BuildingFilterDTO {
-    private String name;
     private Long districtId;
-    private String ward;
-    private String street;
-    private String propertyType;
-    private String transactionType;
+    private Long staffId;
+
     private Integer numberOfFloorFrom;
     private Integer numberOfFloorTo;
     private Integer numberOfBasementFrom;
@@ -28,8 +25,8 @@ public class BuildingFilterDTO {
     private Integer floorAreaTo;
     private Integer rentAreaFrom;
     private Integer rentAreaTo;
-    private Direction direction;
-    private Level level;
+    private Integer radius;
+
     private BigDecimal rentPriceFrom;
     private BigDecimal rentPriceTo;
     private BigDecimal serviceFeeFrom;
@@ -42,10 +39,17 @@ public class BuildingFilterDTO {
     private BigDecimal waterFeeTo;
     private BigDecimal electricityFeeFrom;
     private BigDecimal electricityFeeTo;
-    private Long staffId;
 
     private Double lat;
     private Double lng;
-    private Integer radius;      // đơn vị: mét, mặc định 1000
-    private String locationLabel; // lưu tên địa điểm để hiển thị lại trên form
+
+    private String name;
+    private String ward;
+    private String street;
+    private String propertyType;
+    private String transactionType;
+    private String locationLabel;
+
+    private Direction direction;
+    private Level level;
 }

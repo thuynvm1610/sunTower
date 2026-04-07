@@ -1,8 +1,9 @@
 package com.estate.api.staff;
 
-import com.estate.dto.*;
+import com.estate.dto.ContractDetailDTO;
+import com.estate.dto.ContractFilterDTO;
 import com.estate.service.ContractService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/staff/contracts")
+@RequiredArgsConstructor
 public class StaffContractAPI {
-    @Autowired
-    ContractService contractService;
+    private final ContractService contractService;
 
     @GetMapping("/search")
     public Page<ContractDetailDTO> getContractsSearchPage(

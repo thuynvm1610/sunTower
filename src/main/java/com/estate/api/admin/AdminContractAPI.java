@@ -1,10 +1,12 @@
 package com.estate.api.admin;
 
-import com.estate.dto.*;
+import com.estate.dto.ContractFilterDTO;
+import com.estate.dto.ContractFormDTO;
+import com.estate.dto.ContractListDTO;
 import com.estate.exception.InputValidationException;
 import com.estate.service.ContractService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -12,9 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admin/contract")
+@RequiredArgsConstructor
 public class AdminContractAPI {
-    @Autowired
-    ContractService contractService;
+    private final ContractService contractService;
 
     @GetMapping("/list/page")
     public Page<ContractListDTO> getContractsPage(
@@ -30,20 +32,21 @@ public class AdminContractAPI {
             @RequestParam(defaultValue = "5") int size,
             ContractFilterDTO filter
     ) {
-        Page<ContractListDTO> result = contractService.search(filter, page - 1, size);
-        return result;
+        return contractService.search(filter, page - 1, size);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addContract(@Valid @RequestBody ContractFormDTO dto,
-                                         BindingResult result) {
+    public ResponseEntity<?> addContract(
+            @Valid @RequestBody ContractFormDTO dto,
+            BindingResult result
+    ) {
         if (result.hasErrors()) {
             String message;
 
             if (!result.getFieldErrors().isEmpty()) {
-                message = result.getFieldErrors().get(0).getDefaultMessage();
+                message = result.getFieldErrors().getFirst().getDefaultMessage();
             } else {
-                message = result.getAllErrors().get(0).getDefaultMessage();
+                message = result.getAllErrors().getFirst().getDefaultMessage();
             }
 
             throw new InputValidationException(message);
@@ -54,15 +57,17 @@ public class AdminContractAPI {
     }
 
     @PutMapping("/edit")
-    public ResponseEntity<?> editContract(@Valid @RequestBody ContractFormDTO dto,
-                                          BindingResult result) {
+    public ResponseEntity<?> editContract(
+            @Valid @RequestBody ContractFormDTO dto,
+            BindingResult result
+    ) {
         if (result.hasErrors()) {
             String message;
 
             if (!result.getFieldErrors().isEmpty()) {
-                message = result.getFieldErrors().get(0).getDefaultMessage();
+                message = result.getFieldErrors().getFirst().getDefaultMessage();
             } else {
-                message = result.getAllErrors().get(0).getDefaultMessage();
+                message = result.getAllErrors().getFirst().getDefaultMessage();
             }
 
             throw new InputValidationException(message);
@@ -79,7 +84,7 @@ public class AdminContractAPI {
     }
 
     @PutMapping("/status")
-    public ResponseEntity<?> statusUpdate(){
+    public ResponseEntity<?> statusUpdate() {
         contractService.statusUpdate();
         return ResponseEntity.ok("Cập nhật trạng thái hợp đồng thành công");
     }

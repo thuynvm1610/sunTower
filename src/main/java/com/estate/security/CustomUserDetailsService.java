@@ -1,23 +1,22 @@
 package com.estate.security;
 
-import com.estate.repository.StaffRepository;
 import com.estate.repository.CustomerRepository;
+import com.estate.repository.StaffRepository;
 import com.estate.repository.entity.CustomerEntity;
 import com.estate.repository.entity.StaffEntity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.*;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
-
-    @Autowired
-    private StaffRepository staffRepository;
-
-    @Autowired
-    private CustomerRepository customerRepository;
+    private final StaffRepository staffRepository;
+    private final CustomerRepository customerRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username)

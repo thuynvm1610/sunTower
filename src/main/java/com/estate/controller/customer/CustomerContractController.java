@@ -1,43 +1,32 @@
 package com.estate.controller.customer;
 
-import com.estate.dto.ContractDetailDTO;
 import com.estate.security.CustomUserDetails;
 import com.estate.service.BuildingService;
 import com.estate.service.ContractService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Controller
 @RequestMapping("/customer/contract")
+@RequiredArgsConstructor
 public class CustomerContractController {
-    @Autowired
-    ContractService contractService;
-
-    @Autowired
-    BuildingService buildingService;
+    private final ContractService contractService;
+    private final BuildingService buildingService;
 
     @GetMapping("/list")
     public String listContracts (
             Model model,
             @AuthenticationPrincipal CustomUserDetails user
     ) {
-        Long customerId = user.getCustomerId();
+        Long customerId = user.getUserId();
 
-        Long totalContracts = contractService.getContractCountByCustomer(customerId);
-        model.addAttribute("totalContracts", totalContracts);
-
-        Long activeContracts = contractService.getActiveContractsCount(customerId);
-        model.addAttribute("activeContracts", activeContracts);
-
-        Long expiredContracts = contractService.getExpiredContractsCount(customerId);
-        model.addAttribute("expiredContracts", expiredContracts);
+        model.addAttribute("totalContracts", contractService.getContractCountByCustomer(customerId));
+        model.addAttribute("activeContracts", contractService.getActiveContractsCount(customerId));
+        model.addAttribute("expiredContracts", contractService.getExpiredContractsCount(customerId));
 
         model.addAttribute("buildings", buildingService.getBuildingsName());
 

@@ -66,7 +66,7 @@ public class MoneyToWords {
         }
 
         if (remainder > 0) {
-            if (sb.length() > 0) sb.append(" ");
+            if (!sb.isEmpty()) sb.append(" ");
             if (remainder < 10) {
                 sb.append(UNITS[remainder]);
             } else if (remainder < 20) {
@@ -75,8 +75,8 @@ public class MoneyToWords {
                 int tens = remainder / 10;
                 int units = remainder % 10;
                 sb.append(TENS[tens]);
-                if (units == 1 && tens > 1) sb.append(" mốt");
-                else if (units == 5 && tens > 1) sb.append(" lăm");
+                if (units == 1) sb.append(" mốt");
+                else if (units == 5) sb.append(" lăm");
                 else if (units > 0) sb.append(" ").append(UNITS[units]);
             }
         }

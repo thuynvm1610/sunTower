@@ -3,7 +3,7 @@ package com.estate.api.customer;
 import com.estate.dto.InvoiceDetailDTO;
 import com.estate.security.CustomUserDetails;
 import com.estate.service.InvoiceService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/customer/transaction")
+@RequiredArgsConstructor
 public class CustomerTransactionAPI {
-    @Autowired
-    InvoiceService invoiceService;
+    private final InvoiceService invoiceService;
 
     @GetMapping("/list/page")
     public Page<InvoiceDetailDTO> getBuildingsPage(
@@ -25,7 +25,7 @@ public class CustomerTransactionAPI {
             @RequestParam(required = false) Integer year,
             @AuthenticationPrincipal CustomUserDetails user
     ) {
-        Long customerId = user.getCustomerId();
+        Long customerId = user.getUserId();
 
         return invoiceService.getInvoices(page - 1, size, month, year, customerId);
     }

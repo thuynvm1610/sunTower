@@ -6,7 +6,7 @@ import com.estate.dto.SaleContractListDTO;
 import com.estate.exception.InputValidationException;
 import com.estate.service.SaleContractService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -14,10 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admin/sale-contract")
+@RequiredArgsConstructor
 public class AdminSaleContractAPI {
-
-    @Autowired
-    private SaleContractService saleContractService;
+    private final SaleContractService saleContractService;
 
     @GetMapping("/list/page")
     public Page<SaleContractListDTO> getSaleContractsPage(
@@ -49,8 +48,8 @@ public class AdminSaleContractAPI {
     ) {
         if (result.hasErrors()) {
             String message = result.getFieldErrors().isEmpty()
-                    ? result.getAllErrors().get(0).getDefaultMessage()
-                    : result.getFieldErrors().get(0).getDefaultMessage();
+                    ? result.getAllErrors().getFirst().getDefaultMessage()
+                    : result.getFieldErrors().getFirst().getDefaultMessage();
             throw new InputValidationException(message);
         }
         saleContractService.save(dto);
@@ -64,8 +63,8 @@ public class AdminSaleContractAPI {
     ) {
         if (result.hasErrors()) {
             String message = result.getFieldErrors().isEmpty()
-                    ? result.getAllErrors().get(0).getDefaultMessage()
-                    : result.getFieldErrors().get(0).getDefaultMessage();
+                    ? result.getAllErrors().getFirst().getDefaultMessage()
+                    : result.getFieldErrors().getFirst().getDefaultMessage();
             throw new InputValidationException(message);
         }
         saleContractService.save(dto);

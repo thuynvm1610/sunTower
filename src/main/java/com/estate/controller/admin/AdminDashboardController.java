@@ -1,13 +1,11 @@
 package com.estate.controller.admin;
 
-import com.estate.dto.PotentialCustomersDTO;
-import com.estate.dto.StaffPerformanceDTO;
 import com.estate.security.CustomUserDetails;
 import com.estate.service.BuildingService;
 import com.estate.service.ContractService;
 import com.estate.service.CustomerService;
 import com.estate.service.StaffService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,55 +19,49 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/admin")
+@RequiredArgsConstructor
 public class AdminDashboardController {
-    @Autowired
-    private BuildingService buildingService;
-
-    @Autowired
-    private CustomerService customerService;
-
-    @Autowired
-    private StaffService staffService;
-
-    @Autowired
-    private ContractService contractService;
+    private final BuildingService buildingService;
+    private final CustomerService customerService;
+    private final StaffService staffService;
+    private final ContractService contractService;
 
     @GetMapping("/dashboard")
     public String showDashboard(
             Model model,
             @AuthenticationPrincipal CustomUserDetails user
-            ) {
+    ) {
         model.addAttribute("pageTitle", "Trang quản trị hệ thống SunTower");
+
         model.addAttribute("totalBuildings", buildingService.countAll());
-        model.addAttribute("totalCustomers", customerService.countAll());
-        model.addAttribute("totalStaffs", staffService.countAllStaffs());
-        model.addAttribute("totalContracts", contractService.countAll());
-
         model.addAttribute("recentBuildings", buildingService.findRecent());
-
         Map<String, Long> buildingByDistrict = buildingService.getBuildingCountByDistrict();
         model.addAttribute("districtNames", buildingByDistrict.keySet());
         model.addAttribute("districtCounts", buildingByDistrict.values());
 
+        model.addAttribute("totalCustomers", customerService.countAll());
+        model.addAttribute("potentialCustomers", customerService.getTopCustomers());
+
+        model.addAttribute("totalStaffs", staffService.countAllStaffs());
+
+        model.addAttribute("totalContracts", contractService.countAll());
+
         int currentYear = LocalDate.now().getYear();
+        int lastYear = LocalDate.now().minusYears(1).getYear();
+
         List<BigDecimal> monthlyRevenue = contractService.getMonthlyRevenue(currentYear);
         model.addAttribute("monthlyRevenue", monthlyRevenue);
         model.addAttribute("currentYear", currentYear);
 
-        int lastYear = LocalDate.now().minusYears(1).getYear();
-        List<BigDecimal> monthlyRevenueLastYear = contractService.getMonthlyRevenue(lastYear);
-        model.addAttribute("monthlyRevenueLastYear", monthlyRevenueLastYear);
+        model.addAttribute("monthlyRevenueLastYear", contractService.getMonthlyRevenue(lastYear));
         model.addAttribute("lastYear", lastYear);
 
-        List<BigDecimal> yearlyRevenue = contractService.getYearlyRevenue(currentYear-2, currentYear-1, currentYear);
-        model.addAttribute("yearlyRevenue", yearlyRevenue);
+        model.addAttribute("yearlyRevenue", contractService.getYearlyRevenue(currentYear-2, currentYear-1, currentYear));
         model.addAttribute("yearBeforeLast", currentYear-2);
         model.addAttribute("lastYear", currentYear-1);
         model.addAttribute("currentYear", currentYear);
 
-
-        List<StaffPerformanceDTO> topStaffs = contractService.getTopStaffs();
-        model.addAttribute("topStaffs", topStaffs);
+        model.addAttribute("topStaffs", contractService.getTopStaffs());
 
         Map<String, Long> contractByBuilding = contractService.getContractCountByBuilding();
         model.addAttribute("buildingNames", contractByBuilding.keySet());
@@ -79,24 +71,17 @@ public class AdminDashboardController {
         model.addAttribute("contractYearLabels", contractByYear.keySet());
         model.addAttribute("contractYearCounts", contractByYear.values());
 
-//        model.addAttribute("saleContractRate", contractService.getSaleContractRate());
         Map<Long, Long> saleRate = contractService.getSaleContractRate();
         Long totalForSale = saleRate.keySet().iterator().next();
         Long totalSold = saleRate.values().iterator().next();
         long totalNotSold = totalForSale - totalSold;
-
         model.addAttribute("totalForSale", totalForSale);
         model.addAttribute("totalSold", totalSold);
         model.addAttribute("totalNotSold", Math.max(totalNotSold, 0));
 
-        List<PotentialCustomersDTO> potentialCustomers = customerService.getTopCustomers();
-        model.addAttribute("potentialCustomers", potentialCustomers);
-
         model.addAttribute("page", "dashboard");
-
-        model.addAttribute("staffName", staffService.getStaffName(user.getCustomerId()));
-
-        model.addAttribute("staffAvatar", staffService.getStaffAvatar(user.getCustomerId()));
+        model.addAttribute("staffName", staffService.getStaffName(user.getUserId()));
+        model.addAttribute("staffAvatar", staffService.getStaffAvatar(user.getUserId()));
 
         return "admin/dashboard";
     }

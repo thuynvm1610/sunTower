@@ -1,10 +1,8 @@
 package com.estate.controller.customer;
 
-import com.estate.repository.CustomerRepository;
-import com.estate.repository.entity.CustomerEntity;
 import com.estate.security.CustomUserDetails;
 import com.estate.service.CustomerService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,18 +11,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/customer/profile")
+@RequiredArgsConstructor
 public class CustomerProfileController {
-    @Autowired
-    CustomerService customerService;
+    private final CustomerService customerService;
 
     @GetMapping("")
     public String profile(
             Model model,
             @AuthenticationPrincipal CustomUserDetails user
     ) {
-        Long customerId = user.getCustomerId();
-        CustomerEntity customer = customerService.findById(customerId);
-        model.addAttribute("customer", customer);
+        Long userId = user.getUserId();
+
+        model.addAttribute("customer", customerService.findById(userId));
 
         return "customer/profile";
     }

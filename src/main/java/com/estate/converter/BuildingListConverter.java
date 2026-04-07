@@ -23,7 +23,7 @@ public class BuildingListConverter {
         );
         dto.setManagerName(managerNameStr);
 
-        if (entity.getStaffs_buildings() != null) {
+        if (entity.getStaffs_buildings() != null && !entity.getStaffs_buildings().isEmpty()) {
             dto.setPhone(entity.getStaffs_buildings().getFirst().getPhone());
         }
 

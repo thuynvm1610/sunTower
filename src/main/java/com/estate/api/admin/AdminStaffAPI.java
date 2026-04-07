@@ -7,7 +7,7 @@ import com.estate.dto.StaffListDTO;
 import com.estate.exception.InputValidationException;
 import com.estate.service.StaffService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -18,9 +18,9 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/admin/staff")
+@RequiredArgsConstructor
 public class AdminStaffAPI {
-    @Autowired
-    StaffService staffService;
+    private final StaffService staffService;
 
     @GetMapping("/list/page")
     public Page<StaffListDTO> getCustomersPage(
@@ -37,20 +37,21 @@ public class AdminStaffAPI {
             @RequestParam(defaultValue = "5") int size,
             @RequestParam Map<String, String> filter
     ) {
-        Page<StaffListDTO> result = staffService.search(filter, page - 1, size);
-        return result;
+        return staffService.search(filter, page - 1, size);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addStaff(@Valid @RequestBody StaffFormDTO dto,
-                                         BindingResult result) {
+    public ResponseEntity<?> addStaff(
+            @Valid @RequestBody StaffFormDTO dto,
+            BindingResult result
+    ) {
         if (result.hasErrors()) {
             String message;
 
             if (!result.getFieldErrors().isEmpty()) {
-                message = result.getFieldErrors().get(0).getDefaultMessage();
+                message = result.getFieldErrors().getFirst().getDefaultMessage();
             } else {
-                message = result.getAllErrors().get(0).getDefaultMessage();
+                message = result.getAllErrors().getFirst().getDefaultMessage();
             }
 
             throw new InputValidationException(message);

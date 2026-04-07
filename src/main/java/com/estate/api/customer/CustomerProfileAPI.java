@@ -6,7 +6,7 @@ import com.estate.dto.PhoneNumberChangeDTO;
 import com.estate.dto.UsernameChangeDTO;
 import com.estate.security.CustomUserDetails;
 import com.estate.service.CustomerService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,16 +16,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/customer/profile")
+@RequiredArgsConstructor
 public class CustomerProfileAPI {
-    @Autowired
-    CustomerService customerService;
+    private final CustomerService customerService;
 
     @PutMapping("/username")
     public ResponseEntity<?> usernameUpdate(
             @RequestBody UsernameChangeDTO dto,
             @AuthenticationPrincipal CustomUserDetails user
     ) {
-        Long customerId = user.getCustomerId();
+        Long customerId = user.getUserId();
         customerService.usernameUpdate(dto, customerId);
         return ResponseEntity.ok().build();
     }
@@ -35,7 +35,7 @@ public class CustomerProfileAPI {
             @RequestBody EmailChangeDTO dto,
             @AuthenticationPrincipal CustomUserDetails user
     ) {
-        Long customerId = user.getCustomerId();
+        Long customerId = user.getUserId();
         customerService.emailUpdate(dto, customerId);
         return ResponseEntity.ok().build();
     }
@@ -45,7 +45,7 @@ public class CustomerProfileAPI {
             @RequestBody PhoneNumberChangeDTO dto,
             @AuthenticationPrincipal CustomUserDetails user
     ) {
-        Long customerId = user.getCustomerId();
+        Long customerId = user.getUserId();
         customerService.phoneNumberUpdate(dto, customerId);
         return ResponseEntity.ok().build();
     }
@@ -55,7 +55,7 @@ public class CustomerProfileAPI {
             @RequestBody PasswordChangeDTO dto,
             @AuthenticationPrincipal CustomUserDetails user
     ) {
-        Long customerId = user.getCustomerId();
+        Long customerId = user.getUserId();
         customerService.passwordUpdate(dto, customerId);
         return ResponseEntity.ok().build();
     }

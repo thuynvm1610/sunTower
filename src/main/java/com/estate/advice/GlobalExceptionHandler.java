@@ -15,14 +15,14 @@ import java.util.Map;
 public class GlobalExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<?> handleBusinessException(BusinessException ex) {
-        return ResponseEntity.badRequest().body(
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(
                 Map.of("message", ex.getMessage())
         );
     }
 
     @ExceptionHandler(InputValidationException.class)
     public ResponseEntity<?> handleValidationException(InputValidationException ex) {
-        return ResponseEntity.badRequest().body(
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                 Map.of("message", ex.getMessage())
         );
     }
@@ -36,8 +36,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleGeneralException(Exception ex) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-                Map.of("message", "Đã xảy ra lỗi hệ thống!")
-        );
+        Map<String, Object> body = new HashMap<>();
+        body.put("message", ex.getMessage() != null ? ex.getMessage() : "Internal error");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(body);
     }
 }

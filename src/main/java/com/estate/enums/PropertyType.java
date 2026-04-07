@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
 public enum PropertyType {
     OFFICE("Văn phòng"),
     SHOPHOUSE("Nhà phố thương mại"),
@@ -12,4 +11,8 @@ public enum PropertyType {
     WAREHOUSE("Kho xưởng");
 
     private final String label;
+
+    PropertyType(String label) {
+        this.label = label;
+    }
 }

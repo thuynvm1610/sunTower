@@ -6,7 +6,7 @@ import com.estate.dto.BuildingListDTO;
 import com.estate.exception.InputValidationException;
 import com.estate.service.BuildingService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -25,26 +25,24 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/admin/building")
+@RequiredArgsConstructor
 public class AdminBuildingAPI {
-
-    @Autowired
-    private BuildingService buildingService;
+    private final BuildingService buildingService;
 
     // Đường dẫn lưu ảnh — cấu hình trong application.properties
     @Value("${building.image.upload-dir:src/main/resources/static/images/building_img}")
     private String uploadDir;
 
     // Định dạng và dung lượng cho phép
-    private static final List<String> ALLOWED_TYPES    = List.of("image/jpeg", "image/png", "image/webp");
-    private static final List<String> ALLOWED_EXTS     = List.of(".jpg", ".jpeg", ".png", ".webp");
-    private static final long         MAX_SIZE_BYTES   = 5 * 1024 * 1024; // 5 MB
-
-    // ──────────────────────────────────────────────────────────────────────────
+    private static final List<String> ALLOWED_TYPES = List.of("image/jpeg", "image/png", "image/webp");
+    private static final List<String> ALLOWED_EXTS = List.of(".jpg", ".jpeg", ".png", ".webp");
+    private static final long MAX_SIZE_BYTES = 5 * 1024 * 1024; // 5 MB
 
     @GetMapping("/list/page")
     public Page<BuildingListDTO> getBuildingsPage(
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "5") int size) {
+            @RequestParam(defaultValue = "5") int size
+    ) {
         return buildingService.getBuildings(page - 1, size);
     }
 
@@ -52,13 +50,16 @@ public class AdminBuildingAPI {
     public Page<BuildingListDTO> getBuildingsSearchPage(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "5") int size,
-            BuildingFilterDTO filter) {
+            BuildingFilterDTO filter
+    ) {
         return buildingService.search(filter, page - 1, size);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addBuilding(@Valid @RequestBody BuildingFormDTO dto,
-                                         BindingResult result) {
+    public ResponseEntity<?> addBuilding(
+            @Valid @RequestBody BuildingFormDTO dto,
+            BindingResult result
+    ) {
         if (result.hasErrors()) {
             throw new InputValidationException(getFirstError(result));
         }
@@ -67,8 +68,10 @@ public class AdminBuildingAPI {
     }
 
     @PutMapping("/edit")
-    public ResponseEntity<?> editBuilding(@Valid @RequestBody BuildingFormDTO dto,
-                                          BindingResult result) {
+    public ResponseEntity<?> editBuilding(
+            @Valid @RequestBody BuildingFormDTO dto,
+            BindingResult result
+    ) {
         if (result.hasErrors()) {
             throw new InputValidationException(getFirstError(result));
         }
@@ -85,7 +88,6 @@ public class AdminBuildingAPI {
     // ── Upload ảnh bất động sản ───────────────────────────────────────────────
     @PostMapping("/upload-image")
     public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file) {
-
         // 1. Kiểm tra file rỗng
         if (file.isEmpty()) {
             return ResponseEntity.badRequest()
@@ -130,7 +132,7 @@ public class AdminBuildingAPI {
 
             return ResponseEntity.ok(Map.of(
                     "filename", newFilename,
-                    "message",  "Upload thành công"
+                    "message", "Upload thành công"
             ));
 
         } catch (IOException e) {
@@ -142,8 +144,8 @@ public class AdminBuildingAPI {
     // ── Helper ────────────────────────────────────────────────────────────────
     private String getFirstError(BindingResult result) {
         if (!result.getFieldErrors().isEmpty()) {
-            return result.getFieldErrors().get(0).getDefaultMessage();
+            return result.getFieldErrors().getFirst().getDefaultMessage();
         }
-        return result.getAllErrors().get(0).getDefaultMessage();
+        return result.getAllErrors().getFirst().getDefaultMessage();
     }
 }

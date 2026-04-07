@@ -543,6 +543,30 @@
             background: #eff6ff;
             color: #1d4ed8;
         }
+
+        /* ══ INFO BOX ═══════════════════════════════════════════════════════ */
+        .info-box {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 0.875rem 1rem;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.625rem;
+        }
+
+        .info-box i {
+            color: #3b82f6;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .info-box-content {
+            font-size: 0.8125rem;
+            color: #1e40af;
+            line-height: 1.5;
+        }
     </style>
 </head>
 
@@ -556,8 +580,16 @@
             <a th:href="@{/admin/building/list}" class="btn-back"><i class="bi bi-arrow-left"></i> Danh sách</a>
         </div>
 
-        <form id="buildingForm">
+        <!-- ── Info Box ────────────────────────────────────────────────── -->
+        <div class="info-box">
+            <i class="bi bi-info-circle"></i>
+            <div class="info-box-content">
+                Vui lòng điền đầy đủ thông tin bắt buộc (<span style="color:#ef4444;font-weight:700;">*</span>) để
+                thêm bất động sản mới vào hệ thống.
+            </div>
+        </div>
 
+        <form id="buildingForm">
             <!-- Card 1: Thông tin cơ bản -->
             <div class="form-card">
                 <div class="form-card-header"><i class="bi bi-info-circle-fill"></i>
@@ -648,9 +680,9 @@
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <label class="form-label">Mã số thuế</label>
+                            <label class="form-label">Mã số thuế <span class="required">*</span></label>
                             <input type="text" class="form-control" name="taxCode" placeholder="VD: 0123456789"
-                                maxlength="20">
+                                maxlength="20" required>
                         </div>
                     </div>
 
