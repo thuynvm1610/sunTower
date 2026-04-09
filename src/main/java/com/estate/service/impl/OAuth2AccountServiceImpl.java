@@ -83,7 +83,7 @@ public class OAuth2AccountServiceImpl implements OAuth2AccountService {
         if (existingIdentity != null
                 && !userType.equalsIgnoreCase(existingIdentity.getUserType())
                 && !userId.equals(existingIdentity.getUserId())) {
-            throw new IllegalArgumentException("This Google account is already linked to another account");
+            throw new IllegalArgumentException("Tài khoản Google này đã được sử dụng");
         }
 
         OAuthIdentityEntity currentLink = oauthIdentityRepository
@@ -114,7 +114,7 @@ public class OAuth2AccountServiceImpl implements OAuth2AccountService {
                 .orElse(null);
         if (existingIdentity != null
                 && (!userType.equalsIgnoreCase(existingIdentity.getUserType()) || !userId.equals(existingIdentity.getUserId()))) {
-            throw new IllegalArgumentException("Google account is already linked to another account");
+            throw new IllegalArgumentException("Tài khoản Google này đã được sử dụng");
         }
 
         OAuthIdentityEntity identity = new OAuthIdentityEntity();

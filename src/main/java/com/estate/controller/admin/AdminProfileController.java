@@ -10,6 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -22,6 +23,8 @@ public class AdminProfileController {
     @GetMapping("")
     public String profile(
             Model model,
+            @RequestParam(required = false) String successMessage,
+            @RequestParam(required = false) String errorMessage,
             @AuthenticationPrincipal CustomUserDetails user
     ) {
         Long userId = user.getUserId();
@@ -32,6 +35,12 @@ public class AdminProfileController {
         model.addAttribute("staffName", staffService.getStaffName(userId));
         model.addAttribute("staffAvatar", staffService.getStaffAvatar(userId));
         model.addAttribute("linkedGoogleEmail", resolveLinkedGoogleEmail(user.getUserType(), userId));
+        if (successMessage != null && !successMessage.isBlank()) {
+            model.addAttribute("successMessage", successMessage);
+        }
+        if (errorMessage != null && !errorMessage.isBlank()) {
+            model.addAttribute("errorMessage", errorMessage);
+        }
 
         return "admin/profile";
     }

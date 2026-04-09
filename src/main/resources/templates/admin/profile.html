@@ -492,18 +492,6 @@
                 </div>
             </div>
 
-            <!-- ── Alerts ───────────────────────────────────────────────────── -->
-            <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show mb-3" role="alert">
-                <i class="bi bi-check-circle-fill me-2"></i>
-                <span th:text="${successMessage}"></span>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-            <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
-                <i class="bi bi-exclamation-circle-fill me-2"></i>
-                <span th:text="${errorMessage}"></span>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-
             <div class="row g-3">
 
                 <!-- ── Left column: avatar + info ──────────────────────────── -->
@@ -818,6 +806,27 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script th:inline="javascript">
+        const profileSuccessMessage = /*[[${successMessage}]]*/ null;
+        const profileErrorMessage = /*[[${errorMessage}]]*/ null;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            if (profileSuccessMessage) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công',
+                    text: profileSuccessMessage
+                });
+            } else if (profileErrorMessage) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Thất bại',
+                    text: profileErrorMessage
+                });
+            }
+        });
+    </script>
 
     <script>
         function sendOtp(purpose, inputId) {

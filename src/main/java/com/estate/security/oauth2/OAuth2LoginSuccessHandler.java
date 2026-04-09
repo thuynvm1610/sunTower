@@ -58,12 +58,13 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
                     StandardCharsets.UTF_8
             ));
         } catch (Exception ex) {
+            String errorTarget = resolveErrorTarget(request);
             authCookieService.clearOAuthLinkCookies(response);
             String message = ex.getMessage();
             if (message == null || message.isBlank()) {
                 message = "Đăng nhập Google thất bại. Vui lòng thử lại.";
             }
-            response.sendRedirect("/login?errorMessage=" + java.net.URLEncoder.encode(
+            response.sendRedirect(errorTarget + "?errorMessage=" + java.net.URLEncoder.encode(
                     message,
                     StandardCharsets.UTF_8
             ));
@@ -138,6 +139,14 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         }
 
         return "/admin/dashboard";
+    }
+
+    private String resolveErrorTarget(HttpServletRequest request) {
+        String returnTo = authCookieService.readOAuthLinkReturnTo(request);
+        if (returnTo != null && returnTo.startsWith("/")) {
+            return returnTo;
+        }
+        return "/login";
     }
 
     private String firstNonBlank(Object... values) {

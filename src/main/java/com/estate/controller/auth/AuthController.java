@@ -46,7 +46,11 @@ public class AuthController {
                         @RequestParam(required = false) String errorMessage,
                         HttpServletResponse response,
                         Model model) {
-        if (authentication != null
+        boolean hasVisibleMessage = (successMessage != null && !successMessage.isBlank())
+                || (errorMessage != null && !errorMessage.isBlank());
+
+        if (!hasVisibleMessage
+                && authentication != null
                 && authentication.isAuthenticated()
                 && !(authentication instanceof AnonymousAuthenticationToken)) {
             return "redirect:/login-success";

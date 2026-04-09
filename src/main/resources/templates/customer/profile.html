@@ -386,19 +386,6 @@
 
     <!-- Main Container -->
     <div class="container-fluid px-4 py-4">
-        <!-- Alert Message -->
-        <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="bi bi-check-circle me-2"></i>
-            <span th:text="${successMessage}"></span>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-
-        <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="bi bi-x-circle me-2"></i>
-            <span th:text="${errorMessage}"></span>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <!-- Profile Card -->
@@ -702,6 +689,27 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!--JQuery-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script th:inline="javascript">
+        const profileSuccessMessage = /*[[${successMessage}]]*/ null;
+        const profileErrorMessage = /*[[${errorMessage}]]*/ null;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            if (profileSuccessMessage) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công',
+                    text: profileSuccessMessage
+                });
+            } else if (profileErrorMessage) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Thất bại',
+                    text: profileErrorMessage
+                });
+            }
+        });
+    </script>
 
     <script>
         function sendOtp(purpose) {
