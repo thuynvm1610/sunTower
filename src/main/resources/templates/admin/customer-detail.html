@@ -546,6 +546,12 @@
                                 th:text="${#strings.isEmpty(customer.email)} ? 'Chưa cập nhật' : ${customer.email}">
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="field-lbl">Mã số thuế</div>
+                            <div class="field-val" th:classappend="${#strings.isEmpty(customer.taxCode)} ? 'empty'"
+                                th:text="${#strings.isEmpty(customer.taxCode)} ? 'Chưa cập nhật' : ${customer.taxCode}">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
