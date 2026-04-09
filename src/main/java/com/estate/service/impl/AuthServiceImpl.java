@@ -2,97 +2,167 @@ package com.estate.service.impl;
 
 import com.estate.exception.BusinessException;
 import com.estate.repository.CustomerRepository;
+import com.estate.repository.EmailVerificationRepository;
 import com.estate.repository.StaffRepository;
 import com.estate.repository.entity.CustomerEntity;
-import com.estate.repository.entity.PasswordResetTokenEntity;
+import com.estate.repository.entity.EmailVerificationEntity;
 import com.estate.repository.entity.StaffEntity;
+import com.estate.security.jwt.RefreshTokenService;
 import com.estate.service.AuthService;
-import com.estate.service.PasswordResetTokenService;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
+import java.security.SecureRandom;
+import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
 @Transactional
 public class AuthServiceImpl implements AuthService {
-    @Autowired
-    StaffRepository staffRepository;
+    private static final int MIN_PASSWORD_LENGTH = 8;
+    private static final String PURPOSE_RESET_PASSWORD = "RESET_PASSWORD";
+    private static final String STATUS_PENDING = "PENDING";
+    private static final String STATUS_USED = "USED";
 
     @Autowired
-    CustomerRepository customerRepository;
+    private StaffRepository staffRepository;
 
     @Autowired
-    PasswordResetTokenService tokenService;
+    private CustomerRepository customerRepository;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private EmailVerificationRepository emailVerificationRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private RefreshTokenService refreshTokenService;
 
     @Autowired
     private JavaMailSender mailSender;
 
+    private final SecureRandom secureRandom = new SecureRandom();
+
     @Override
-    public void sendResetEmail(String toEmail, String token) {
+    public void forgotPassword(String email) {
+        String normalizedEmail = normalizeEmail(email);
+        if (!StringUtils.hasText(normalizedEmail) || !isLocalAccount(normalizedEmail)) {
+            throw new BusinessException("Tài khoản không tồn tại");
+        }
 
-        String link = "http://localhost:8080/auth/reset-password?token=" + token;
+        emailVerificationRepository.deleteByEmailAndPurposeAndStatus(normalizedEmail, PURPOSE_RESET_PASSWORD, STATUS_PENDING);
 
+        String otp = generateOtp();
+        EmailVerificationEntity entity = new EmailVerificationEntity();
+        entity.setEmail(normalizedEmail);
+        entity.setPurpose(PURPOSE_RESET_PASSWORD);
+        entity.setStatus(STATUS_PENDING);
+        entity.setOtpHash(hash(otp));
+        entity.setExpiresAt(LocalDateTime.now().plusMinutes(10));
+        emailVerificationRepository.save(entity);
+
+        sendResetEmail(normalizedEmail, otp);
+    }
+
+    @Override
+    public void resetPassword(String email, String otp, String newPassword, String confirmPassword) {
+        String normalizedEmail = normalizeEmail(email);
+        if (!StringUtils.hasText(normalizedEmail) || !isLocalAccount(normalizedEmail)) {
+            throw new BusinessException("Tài khoản không tồn tại");
+        }
+
+        if (newPassword == null || newPassword.length() < MIN_PASSWORD_LENGTH) {
+            throw new BusinessException("Mật khẩu phải có ít nhất 8 ký tự");
+        }
+
+        if (!StringUtils.hasText(confirmPassword) || !newPassword.equals(confirmPassword)) {
+            throw new BusinessException("Mật khẩu xác nhận không khớp");
+        }
+
+        EmailVerificationEntity verification = emailVerificationRepository
+                .findTopByEmailAndPurposeAndStatusOrderByCreatedAtDesc(normalizedEmail, PURPOSE_RESET_PASSWORD, STATUS_PENDING)
+                .orElseThrow(() -> new BusinessException("Tài khoản không tồn tại"));
+
+        if (verification.getExpiresAt().isBefore(LocalDateTime.now())) {
+            verification.setStatus(STATUS_USED);
+            verification.setUsedAt(LocalDateTime.now());
+            emailVerificationRepository.save(verification);
+            throw new BusinessException("Mã xác nhận hết hạn");
+        }
+
+        if (!hash(otp).equals(verification.getOtpHash())) {
+            throw new BusinessException("Mã xác nhận sai");
+        }
+
+        Optional<StaffEntity> staff = staffRepository.findByEmail(normalizedEmail)
+                .filter(staffEntity -> isLocalAccount(staffEntity.getEmail()));
+        if (staff.isPresent()) {
+            StaffEntity entity = staff.get();
+            entity.setPassword(passwordEncoder.encode(newPassword));
+            staffRepository.save(entity);
+            refreshTokenService.revokeAllForUser("STAFF", entity.getId());
+        } else {
+            CustomerEntity customer = customerRepository.findByEmail(normalizedEmail)
+                    .filter(customerEntity -> isLocalAccount(customerEntity.getEmail()))
+                    .orElseThrow(() -> new BusinessException("Tài khoản không tồn tại"));
+            customer.setPassword(passwordEncoder.encode(newPassword));
+            customerRepository.save(customer);
+            refreshTokenService.revokeAllForUser("CUSTOMER", customer.getId());
+        }
+
+        verification.setStatus(STATUS_USED);
+        verification.setUsedAt(LocalDateTime.now());
+        emailVerificationRepository.save(verification);
+    }
+
+    public void sendResetEmail(String toEmail, String otp) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(toEmail);
-        message.setSubject("Đặt lại mật khẩu");
+        message.setSubject("SunTower - Mã xác nhận đặt lại mật khẩu");
         message.setText(
-                "Chào bạn,\n\n" +
-                        "Vui lòng nhấp vào link dưới đây để đặt lại mật khẩu:\n" +
-                        link + "\n\n" +
-                        "Link có hiệu lực trong 30 phút."
+                "Xin chào" +
+                "Mã xác nhận đặt lại mật khẩu của bạn là: " +
+                otp +
+                " " +
+                "Mã có hiệu lực trong 10 phút. " +
+                "Nếu bạn không yêu cầu thao tác này, hãy bỏ qua email này."
         );
 
         mailSender.send(message);
     }
 
-    @Override
-    public void forgotPassword(String email) {
-        String userType = null;
-        Long userId = null;
-
-        Optional<StaffEntity> staff = staffRepository.findByEmail(email);
-        if (staff.isPresent()) {
-            userType = "STAFF";
-            userId = staff.get().getId();
-        } else {
-            Optional<CustomerEntity> customer = customerRepository.findByEmail(email);
-            if (customer.isPresent()) {
-                userType = "CUSTOMER";
-                userId = customer.get().getId();
-            }
+    private boolean isLocalAccount(String email) {
+        StaffEntity staff = staffRepository.findByEmail(email).orElse(null);
+        if (staff != null) {
+            return staff.getAuthOrigin() == null || "LOCAL".equalsIgnoreCase(staff.getAuthOrigin());
         }
 
-        if (userType == null) throw new BusinessException("Email không hợp lệ");
+        CustomerEntity customer = customerRepository.findByEmail(email).orElse(null);
+        if (customer != null) {
+            return customer.getAuthOrigin() == null || "LOCAL".equalsIgnoreCase(customer.getAuthOrigin());
+        }
 
-        PasswordResetTokenEntity token = tokenService.createToken(userType, userId);
-
-        sendResetEmail(email, token.getToken());
+        return false;
     }
 
-    @Override
-    public void resetPassword(String tokenValue, String newPassword) {
-        var token = tokenService.validate(tokenValue);
+    private String generateOtp() {
+        int code = secureRandom.nextInt(900000) + 100000;
+        return String.valueOf(code);
+    }
 
-        if (token.getUserType().equals("STAFF")) {
-            var staff = staffRepository.findById(token.getUserId())
-                    .orElseThrow(() -> new RuntimeException("Nhân viên không tồn tại"));
-            staff.setPassword(passwordEncoder.encode(newPassword));
-            staffRepository.save(staff);
-        } else {
-            var customer = customerRepository.findById(token.getUserId())
-                    .orElseThrow(() -> new RuntimeException("Khách hàng không tồn tại"));
-            customer.setPassword(passwordEncoder.encode(newPassword));
-            customerRepository.save(customer);
-        }
+    private String hash(String value) {
+        return DigestUtils.sha256Hex(value);
+    }
 
-        tokenService.markUsed(token);
+    private String normalizeEmail(String email) {
+        return StringUtils.hasText(email) ? email.trim().toLowerCase(Locale.ROOT) : null;
     }
 }

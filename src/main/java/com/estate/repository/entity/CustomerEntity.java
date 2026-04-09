@@ -43,11 +43,17 @@ public class CustomerEntity {
     @Column
     private String role; // CUSTOMER
 
+    @Column(name = "auth_origin")
+    private String authOrigin;
+
     @Column(name = "created_date")
     private LocalDateTime createdDate;
 
     @PrePersist
     protected void onCreate() {
+        if (this.authOrigin == null || this.authOrigin.isBlank()) {
+            this.authOrigin = "LOCAL";
+        }
         this.createdDate = LocalDateTime.now();
         this.modifiedDate = LocalDateTime.now();
     }

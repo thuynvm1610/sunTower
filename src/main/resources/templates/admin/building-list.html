@@ -1389,7 +1389,7 @@
     <!--JQuery-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <script>
+    <script th:inline="javascript">
         function toggleFilter() {
             const filterBody = document.getElementById('filterBody');
             const toggleBtn = document.querySelector('.btn-toggle-filter');
@@ -1400,7 +1400,7 @@
         }
     </script>
 
-    <script>
+    <script th:inline="javascript">
         let currentPage = 1;
         const pageSize = 5;
         const levelLabels = {
@@ -1607,9 +1607,9 @@
         });
     </script>
 
-    <script>
+    <script th:inline="javascript">
         // ══ GOONG PLACES AUTOCOMPLETE ══════════════════════════════════════════
-        const GOONG_API_KEY = 'MfQYQasRyhJp6OkpEOlOAW8GwrhVgz043MK0WDvx';
+        const GOONG_API_KEY = /*[[${goongApiKey}]]*/ '';
         let _autocompleteTimer = null;
         let _selectedLocation = null;
 

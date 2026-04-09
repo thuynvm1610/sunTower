@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -558,10 +558,18 @@
                                             <i class="bi bi-envelope"></i>
                                             Email
                                         </div>
-                                        <div class="info-value" th:text="${staff.email}"><a
-                                                href="/cdn-cgi/l/email-protection" class="__cf_email__"
-                                                data-cfemail="7110151c181f3102041f051e0614035f071f">[email&#160;protected]</a>
+                                        <div class="info-value" th:text="${staff.email}">admin@suntower.com</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="info-box">
+                                        <div class="info-label">
+                                            <i class="bi bi-link-45deg"></i>
+                                            Email Google liên kết
                                         </div>
+                                        <div class="info-value"
+                                            th:text="${linkedGoogleEmail != null ? linkedGoogleEmail : 'Chưa liên kết'}">
+                                            Chưa liên kết</div>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
@@ -603,11 +611,6 @@
                                     Đổi tên đăng nhập
                                     <i class="bi bi-chevron-right action-arrow"></i>
                                 </button>
-                                <button class="btn-action-card" data-bs-toggle="modal" data-bs-target="#editEmailModal">
-                                    <span class="action-icon green"><i class="bi bi-envelope-at-fill"></i></span>
-                                    Đổi Email
-                                    <i class="bi bi-chevron-right action-arrow"></i>
-                                </button>
                                 <button class="btn-action-card" data-bs-toggle="modal" data-bs-target="#editPhoneModal">
                                     <span class="action-icon amber"><i class="bi bi-phone-fill"></i></span>
                                     Đổi số điện thoại
@@ -619,6 +622,19 @@
                                     Đổi mật khẩu
                                     <i class="bi bi-chevron-right action-arrow"></i>
                                 </button>
+                                <a th:if="${linkedGoogleEmail == null}" class="btn-action-card"
+                                    th:href="@{/auth/link/google(returnTo='/admin/profile')}"
+                                    style="text-decoration:none;color:inherit;">
+                                    <span class="action-icon blue"><i class="bi bi-google"></i></span>
+                                    Liên kết Google
+                                    <i class="bi bi-chevron-right action-arrow"></i>
+                                </a>
+                                <div th:if="${linkedGoogleEmail != null}" class="btn-action-card"
+                                    style="opacity:.55; cursor:not-allowed;">
+                                    <span class="action-icon blue"><i class="bi bi-google"></i></span>
+                                    Đã liên kết Google
+                                    <i class="bi bi-check2 action-arrow"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -649,14 +665,12 @@
                                 placeholder="Nhập tên đăng nhập mới">
                         </div>
                         <div class="mb-0">
-                            <label class="form-label">Mật khẩu xác nhận</label>
-                            <div class="password-toggle-wrapper">
-                                <input type="password" class="form-control" name="password" id="usernamePassword"
-                                    required placeholder="Nhập mật khẩu để xác nhận">
-                                <button type="button" class="password-toggle-btn"
-                                    onclick="togglePassword('usernamePassword')">
-                                    <i class="bi bi-eye" id="usernamePassword-icon"></i>
-                                </button>
+                            <label class="form-label">Mã OTP xác nhận</label>
+                            <div class="d-flex gap-2">
+                                <input type="text" class="form-control" name="otp" id="usernameOtp" required
+                                    placeholder="Nhập mã OTP">
+                                <button type="button" class="btn btn-primary-custom"
+                                    onclick="sendOtp('PROFILE_USERNAME', 'usernameOtp')">Gửi mã</button>
                             </div>
                         </div>
                     </div>
@@ -729,14 +743,12 @@
                                 placeholder="Nhập số điện thoại mới">
                         </div>
                         <div class="mb-0">
-                            <label class="form-label">Mật khẩu xác nhận</label>
-                            <div class="password-toggle-wrapper">
-                                <input type="password" class="form-control" name="password" id="phonePassword" required
-                                    placeholder="Nhập mật khẩu để xác nhận">
-                                <button type="button" class="password-toggle-btn"
-                                    onclick="togglePassword('phonePassword')">
-                                    <i class="bi bi-eye" id="phonePassword-icon"></i>
-                                </button>
+                            <label class="form-label">Mã OTP xác nhận</label>
+                            <div class="d-flex gap-2">
+                                <input type="text" class="form-control" name="otp" id="phoneOtp" required
+                                    placeholder="Nhập mã OTP">
+                                <button type="button" class="btn btn-primary-custom"
+                                    onclick="sendOtp('PROFILE_PHONE', 'phoneOtp')">Gửi mã</button>
                             </div>
                         </div>
                     </div>
@@ -760,38 +772,36 @@
                 <form id="passwordForm">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label">Mật khẩu hiện tại</label>
-                            <div class="password-toggle-wrapper">
-                                <input type="password" class="form-control" name="currentPassword" id="currentPassword"
-                                    required placeholder="Nhập mật khẩu hiện tại">
-                                <button type="button" class="password-toggle-btn"
-                                    onclick="togglePassword('currentPassword')">
-                                    <i class="bi bi-eye" id="currentPassword-icon"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="mb-3">
                             <label class="form-label">Mật khẩu mới</label>
                             <div class="password-toggle-wrapper">
                                 <input type="password" class="form-control" name="newPassword" id="newPassword" required
-                                    placeholder="Nhập mật khẩu mới">
+                                    minlength="8" placeholder="Nhập mật khẩu mới">
                                 <button type="button" class="password-toggle-btn"
                                     onclick="togglePassword('newPassword')">
                                     <i class="bi bi-eye" id="newPassword-icon"></i>
                                 </button>
                             </div>
-                            <div style="font-size:0.72rem; color:#9ca3af; margin-top:0.35rem;">Ít nhất 8 ký tự, gồm chữ
-                                hoa, chữ thường, số và ký tự đặc biệt (@ $ ! % * ? &)</div>
+                            <div style="font-size:0.72rem; color:#9ca3af; margin-top:0.35rem;">Mật khẩu ít nhất 8 ký tự.
+                            </div>
                         </div>
                         <div class="mb-0">
                             <label class="form-label">Xác nhận mật khẩu mới</label>
                             <div class="password-toggle-wrapper">
                                 <input type="password" class="form-control" name="confirmPassword" id="confirmPassword"
-                                    required placeholder="Nhập lại mật khẩu mới">
+                                    required minlength="8" placeholder="Nhập lại mật khẩu mới">
                                 <button type="button" class="password-toggle-btn"
                                     onclick="togglePassword('confirmPassword')">
                                     <i class="bi bi-eye" id="confirmPassword-icon"></i>
                                 </button>
+                            </div>
+                        </div>
+                        <div class="mb-0 mt-3">
+                            <label class="form-label">Mã OTP xác nhận</label>
+                            <div class="d-flex gap-2">
+                                <input type="text" class="form-control" name="otp" id="passwordOtp" required
+                                    placeholder="Nhập mã OTP">
+                                <button type="button" class="btn btn-primary-custom"
+                                    onclick="sendOtp('PROFILE_PASSWORD', 'passwordOtp')">Gửi mã</button>
                             </div>
                         </div>
                     </div>
@@ -810,6 +820,40 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
+        function sendOtp(purpose, inputId) {
+            Swal.fire({
+                title: 'Đang gửi mã OTP',
+                text: 'Vui lòng chờ trong giây lát...',
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading()
+            });
+
+            $.ajax({
+                url: `/admin/profile/otp/${purpose}`,
+                type: 'POST',
+                success: function () {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Đã gửi mã OTP',
+                        text: 'Vui lòng kiểm tra email liên kết.'
+                    });
+                    if (inputId) {
+                        const input = document.getElementById(inputId);
+                        if (input) {
+                            input.focus();
+                        }
+                    }
+                },
+                error: function (xhr) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Không thể gửi mã',
+                        text: xhr.responseJSON?.message || 'Gửi mã thất bại.'
+                    });
+                }
+            });
+        }
+
         function togglePassword(inputId) {
             const input = document.getElementById(inputId);
             const icon = document.getElementById(inputId + '-icon');
@@ -851,7 +895,7 @@
         }
 
         handleAjax('#usernameForm', '/admin/profile/username', 'PUT',
-            () => ({ newUsername: $('[name="newUsername"]').val(), password: $('#usernamePassword').val() }),
+            () => ({ newUsername: $('[name="newUsername"]').val(), otp: $('#usernameOtp').val() }),
             'Cập nhật tên đăng nhập thành công!');
 
         handleAjax('#emailForm', '/admin/profile/email', 'PUT',
@@ -859,27 +903,15 @@
             'Cập nhật Email thành công!');
 
         handleAjax('#phoneForm', '/admin/profile/phoneNumber', 'PUT',
-            () => ({ newPhoneNumber: $('[name="newPhoneNumber"]').val(), password: $('#phonePassword').val() }),
+            () => ({ newPhoneNumber: $('[name="newPhoneNumber"]').val(), otp: $('#phoneOtp').val() }),
             'Cập nhật số điện thoại thành công!');
 
         // ══ Đổi mật khẩu: validation giống reset-password ══
         $('#passwordForm').on('submit', function (e) {
             e.preventDefault();
 
-            const currentPassword = $('#currentPassword').val();
             const newPassword = $('#newPassword').val();
             const confirmPassword = $('#confirmPassword').val();
-
-            if (newPassword === currentPassword) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Mật khẩu trùng lặp',
-                    text: 'Mật khẩu mới không được trùng với mật khẩu hiện tại.',
-                    confirmButtonText: 'Thử lại',
-                    confirmButtonColor: '#3b82f6'
-                });
-                return;
-            }
 
             if (newPassword !== confirmPassword) {
                 Swal.fire({
@@ -897,28 +929,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Mật khẩu không hợp lệ',
-                    html: `
-                        <div style="text-align:left; font-size:13.5px; color:#555; line-height:1.6">
-                            <p style="margin-bottom:10px; color:#777">Mật khẩu chưa đáp ứng các yêu cầu sau:</p>
-                            <div style="display:flex; flex-direction:column; gap:7px">
-                                <div style="display:flex; align-items:center; gap:9px">
-                                    <span style="width:20px;height:20px;border-radius:50%;background:#fee2e2;color:#ef4444;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0">✕</span>
-                                    <span>Ít nhất <strong>8 ký tự</strong></span>
-                                </div>
-                                <div style="display:flex; align-items:center; gap:9px">
-                                    <span style="width:20px;height:20px;border-radius:50%;background:#fee2e2;color:#ef4444;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0">✕</span>
-                                    <span>Bao gồm <strong>chữ hoa</strong> và <strong>chữ thường</strong></span>
-                                </div>
-                                <div style="display:flex; align-items:center; gap:9px">
-                                    <span style="width:20px;height:20px;border-radius:50%;background:#fee2e2;color:#ef4444;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0">✕</span>
-                                    <span>Ít nhất <strong>1 chữ số</strong></span>
-                                </div>
-                                <div style="display:flex; align-items:center; gap:9px">
-                                    <span style="width:20px;height:20px;border-radius:50%;background:#fee2e2;color:#ef4444;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0">✕</span>
-                                    <span>Ít nhất <strong>1 ký tự đặc biệt</strong> (@ $ ! % * ? &)</span>
-                                </div>
-                            </div>
-                        </div>`,
+                    text: 'Mật khẩu mới phải có ít nhất 8 ký tự.',
                     confirmButtonText: 'Thử lại',
                     confirmButtonColor: '#3b82f6'
                 });
@@ -930,9 +941,9 @@
                 type: 'PUT',
                 contentType: 'application/json',
                 data: JSON.stringify({
-                    currentPassword: currentPassword,
                     newPassword: newPassword,
-                    confirmPassword: confirmPassword
+                    confirmPassword: confirmPassword,
+                    otp: $('#passwordOtp').val()
                 }),
                 success: function () {
                     Swal.fire({

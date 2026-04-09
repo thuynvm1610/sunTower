@@ -221,6 +221,7 @@ CREATE TABLE staff (
     email         VARCHAR(100),
     image         VARCHAR(30),
     role          VARCHAR(50),
+    auth_origin   VARCHAR(20)  NOT NULL DEFAULT 'LOCAL',
     created_date  DATETIME,
     modified_date DATETIME
 );
@@ -359,6 +360,7 @@ CREATE TABLE customer (
     email         VARCHAR(100) UNIQUE,
     tax_code      VARCHAR(20)  NULL COMMENT 'Mã số thuế — NULL nếu là cá nhân',
     role          VARCHAR(50),
+    auth_origin   VARCHAR(20)  NOT NULL DEFAULT 'LOCAL',
     created_date  DATETIME,
     modified_date DATETIME
 );
@@ -399,8 +401,52 @@ CREATE TABLE password_reset_token (
 );
 
 -- =============================================================================
+-- BẢNG REFRESH TOKEN / REFRESH_TOKEN
+-- =============================================================================
+CREATE TABLE refresh_token (
+    id          BIGINT PRIMARY KEY AUTO_INCREMENT,
+    token_hash  VARCHAR(64)  NOT NULL,
+    user_type   VARCHAR(20)  NOT NULL,
+    user_id     BIGINT       NOT NULL,
+    expires_at  DATETIME     NOT NULL,
+    revoked     BOOLEAN      NOT NULL DEFAULT FALSE,
+    created_at  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (token_hash),
+    INDEX idx_refresh_token_user (user_type, user_id)
+);
+
+-- =============================================================================
 -- BẢNG DIỆN TÍCH THUÊ / RENT_AREA
 -- =============================================================================
+CREATE TABLE email_verification (
+    id           BIGINT PRIMARY KEY AUTO_INCREMENT,
+    email        VARCHAR(100) NOT NULL,
+    otp_hash     VARCHAR(64)  NOT NULL,
+    purpose      VARCHAR(50)  NOT NULL,
+    setup_token  VARCHAR(64),
+    status       VARCHAR(20)  NOT NULL,
+    expires_at   DATETIME     NOT NULL,
+    verified_at  DATETIME,
+    used_at      DATETIME,
+    created_at   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_email_verification_email (email, purpose, status),
+    UNIQUE (setup_token)
+);
+
+CREATE TABLE oauth_identity (
+    id               BIGINT PRIMARY KEY AUTO_INCREMENT,
+    provider         VARCHAR(50)  NOT NULL,
+    provider_user_id VARCHAR(255) NOT NULL,
+    user_type        VARCHAR(20)  NOT NULL,
+    user_id          BIGINT       NOT NULL,
+    email            VARCHAR(100),
+    display_name     VARCHAR(100),
+    created_at       DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (provider, provider_user_id),
+    UNIQUE (provider, user_type, user_id),
+    INDEX idx_oauth_identity_user (user_type, user_id)
+);
+
 CREATE TABLE rent_area (
     id            BIGINT AUTO_INCREMENT PRIMARY KEY,
     building_id   BIGINT,

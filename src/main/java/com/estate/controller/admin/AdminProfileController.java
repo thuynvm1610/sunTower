@@ -2,6 +2,8 @@ package com.estate.controller.admin;
 
 import com.estate.repository.entity.StaffEntity;
 import com.estate.security.CustomUserDetails;
+import com.estate.repository.OAuthIdentityRepository;
+import com.estate.repository.entity.OAuthIdentityEntity;
 import com.estate.service.StaffService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class AdminProfileController {
     private final StaffService staffService;
+    private final OAuthIdentityRepository oauthIdentityRepository;
 
     @GetMapping("")
     public String profile(
@@ -28,7 +31,15 @@ public class AdminProfileController {
         model.addAttribute("staff", staff);
         model.addAttribute("staffName", staffService.getStaffName(userId));
         model.addAttribute("staffAvatar", staffService.getStaffAvatar(userId));
+        model.addAttribute("linkedGoogleEmail", resolveLinkedGoogleEmail(user.getUserType(), userId));
 
         return "admin/profile";
+    }
+
+    private String resolveLinkedGoogleEmail(String userType, Long userId) {
+        return oauthIdentityRepository
+                .findByProviderAndUserTypeAndUserId("google", userType, userId)
+                .map(OAuthIdentityEntity::getEmail)
+                .orElse(null);
     }
 }

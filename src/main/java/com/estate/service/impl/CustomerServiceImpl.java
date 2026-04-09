@@ -1,14 +1,21 @@
 package com.estate.service.impl;
 
-import com.estate.converter.*;
+import com.estate.converter.ContractDetailConverter;
+import com.estate.converter.CustomerDetailConverter;
+import com.estate.converter.CustomerFormConverter;
+import com.estate.converter.CustomerListConverter;
 import com.estate.dto.*;
 import com.estate.exception.BusinessException;
 import com.estate.repository.ContractRepository;
 import com.estate.repository.CustomerRepository;
+import com.estate.repository.OAuthIdentityRepository;
 import com.estate.repository.StaffRepository;
 import com.estate.repository.entity.ContractEntity;
 import com.estate.repository.entity.CustomerEntity;
+import com.estate.repository.entity.OAuthIdentityEntity;
 import com.estate.repository.entity.StaffEntity;
+import com.estate.security.jwt.RefreshTokenService;
+import com.estate.service.ProfileOtpService;
 import com.estate.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -51,6 +58,15 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Autowired
+    RefreshTokenService refreshTokenService;
+
+    @Autowired
+    OAuthIdentityRepository oauthIdentityRepository;
+
+    @Autowired
+    ProfileOtpService profileOtpService;
 
     @Override
     public long countAll() {
@@ -175,6 +191,7 @@ public class CustomerServiceImpl implements CustomerService {
         } else {
             // Thêm mới
             entity = customerFormConverter.toEntity(dto);
+            entity.setAuthOrigin("LOCAL");
         }
 
         // Mã hóa dữ liệu
@@ -253,13 +270,9 @@ public class CustomerServiceImpl implements CustomerService {
             throw  new BusinessException("Tên đăng nhập này đã được sử dụng!");
         }
 
-        boolean isCorrect = passwordEncoder.matches(
-                dto.getPassword(),
-                customer.getPassword()
-        );
-
-        if (!isCorrect) {
-            throw new BusinessException("Mật khẩu sai");
+        profileOtpService.verifyOtp(resolveOtpEmail(customer), "PROFILE_USERNAME", dto.getOtp());
+        if (customer.getPassword() != null && !customer.getPassword().isBlank()) {
+            throw new BusinessException("Khách hàng này đã có mật khẩu đăng nhập, vui lòng dùng luồng đổi mật khẩu riêng nếu cần.");
         }
 
         customerRepository.usernameUpdate(dto.getNewUsername(), customerId);
@@ -291,21 +304,13 @@ public class CustomerServiceImpl implements CustomerService {
     public void phoneNumberUpdate(PhoneNumberChangeDTO dto, Long customerId) {
         CustomerEntity customer = this.findById(customerId);
 
-        boolean isCorrect = passwordEncoder.matches(
-                dto.getPassword(),
-                customer.getPassword()
-        );
-
-        if (!isCorrect) {
-            throw new BusinessException("Mật khẩu sai");
-        }
-
         if (customerRepository.existsByPhoneAndIdNot(dto.getNewPhoneNumber(), customerId) ||
                 staffRepository.existsByPhone(dto.getNewPhoneNumber())
         ) {
             throw new BusinessException("Số điện thoại này đã được sử dụng");
         }
 
+        profileOtpService.verifyOtp(resolveOtpEmail(customer), "PROFILE_PHONE", dto.getOtp());
         customerRepository.phoneNumberUpdate(dto.getNewPhoneNumber(), customerId);
     }
 
@@ -313,14 +318,11 @@ public class CustomerServiceImpl implements CustomerService {
     public void passwordUpdate(PasswordChangeDTO dto, Long customerId) {
         CustomerEntity customer = this.findById(customerId);
 
-        boolean isCorrect = passwordEncoder.matches(
-                dto.getCurrentPassword(),
-                customer.getPassword()
-        );
-
-        if (!isCorrect) {
-            throw new BusinessException("Mật khẩu hiện tại không đúng");
+        if (dto.getNewPassword() == null || dto.getNewPassword().length() < 8) {
+            throw new BusinessException("Mật khẩu phải có ít nhất 8 ký tự");
         }
+
+        profileOtpService.verifyOtp(resolveOtpEmail(customer), "PROFILE_PASSWORD", dto.getOtp());
 
         if (!dto.getConfirmPassword().equals(dto.getNewPassword())) {
             throw new BusinessException("Mật khẩu xác nhận sai");
@@ -328,6 +330,17 @@ public class CustomerServiceImpl implements CustomerService {
 
         String encodedPassword = passwordEncoder.encode(dto.getNewPassword());
         customerRepository.passwordUpdate(encodedPassword, customerId);
+        refreshTokenService.revokeAllForUser("CUSTOMER", customerId);
+    }
+
+    private String resolveOtpEmail(CustomerEntity customer) {
+        OAuthIdentityEntity googleIdentity = oauthIdentityRepository
+                .findByProviderAndUserTypeAndUserId("google", "CUSTOMER", customer.getId())
+                .orElse(null);
+        if (googleIdentity != null && googleIdentity.getEmail() != null && !googleIdentity.getEmail().isBlank()) {
+            return googleIdentity.getEmail();
+        }
+        return customer.getEmail();
     }
 
 }

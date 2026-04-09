@@ -1,12 +1,9 @@
-<aside class="sidebar" id="sidebar" th:fragment="sidebar">
-
-    <!-- Toggle button (desktop/tablet) -->
-    <button class="sidebar-toggle" id="sidebarToggle" title="Thu/mở sidebar">
+﻿<aside class="sidebar" id="sidebar" th:fragment="sidebar">
+    <button class="sidebar-toggle" id="sidebarToggle" title="Thu gọn/mở sidebar">
         <i class="bi bi-chevron-left" id="toggleIcon"></i>
     </button>
 
     <nav class="sidebar-nav">
-
         <div class="sidebar-section-label">Menu chính</div>
 
         <a href="/admin/dashboard" th:classappend="${page == 'dashboard'} ? 'active'" class="nav-link"
@@ -62,19 +59,18 @@
             <div class="nav-icon"><i class="bi bi-person-badge-fill"></i></div>
             <span class="nav-text">Nhân viên</span>
         </a>
-
     </nav>
 
     <div class="sidebar-bottom">
-        <a href="/logout" class="nav-link logout-link" data-tooltip="Đăng xuất">
+        <a href="#" class="nav-link logout-link" data-tooltip="Đăng xuất"
+            onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">
             <div class="nav-icon"><i class="bi bi-box-arrow-left"></i></div>
             <span class="nav-text">Đăng xuất</span>
         </a>
+        <form id="logoutForm" th:action="@{/auth/logout}" method="post" style="display:none;"></form>
     </div>
-
 </aside>
 
-<!-- Mobile backdrop -->
 <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
 <script>
@@ -92,7 +88,6 @@
         function isMobile() { return window.innerWidth <= 768; }
         function isTablet() { return window.innerWidth > 768 && window.innerWidth <= 1024; }
 
-        /* ── Apply collapsed state ── */
         function applyCollapsed(collapsed) {
             var w = collapsed ? MINI : FULL;
             root.style.setProperty('--sb-w', w);
@@ -106,13 +101,11 @@
             try { localStorage.setItem(KEY, collapsed ? '1' : '0'); } catch (e) { }
         }
 
-        /* ── Mobile overlay ── */
         function setMobileOpen(open) {
             sidebar.classList.toggle('mobile-open', open);
             if (backdrop) backdrop.classList.toggle('show', open);
         }
 
-        /* ── Resize handler ── */
         function onResize() {
             if (isMobile()) {
                 root.style.setProperty('--sb-w', '0px');
@@ -120,11 +113,10 @@
                 sidebar.classList.remove('is-collapsed');
                 setMobileOpen(false);
             } else {
-                /* Desktop & Tablet: restore from localStorage, default collapsed on tablet */
                 var saved = localStorage.getItem(KEY);
                 var collapsed;
                 if (saved === null) {
-                    collapsed = isTablet(); /* tablet starts collapsed, desktop starts expanded */
+                    collapsed = isTablet();
                 } else {
                     collapsed = saved === '1';
                 }
@@ -134,7 +126,6 @@
             }
         }
 
-        /* ── Toggle button (desktop/tablet) ── */
         if (toggleBtn) {
             toggleBtn.addEventListener('click', function (e) {
                 e.stopPropagation();
@@ -143,21 +134,17 @@
             });
         }
 
-        /* ── Event delegation: catch hamburger button wherever it lives in DOM ── */
         document.addEventListener('click', function (e) {
-            /* Mobile hamburger */
             var btn = e.target.closest('#navbarMenuBtn');
             if (btn) {
                 setMobileOpen(!sidebar.classList.contains('mobile-open'));
                 return;
             }
-            /* Backdrop */
             if (e.target === backdrop || e.target.id === 'sidebarBackdrop') {
                 setMobileOpen(false);
             }
         });
 
-        /* ── Init ── */
         onResize();
         window.addEventListener('resize', onResize);
     })();

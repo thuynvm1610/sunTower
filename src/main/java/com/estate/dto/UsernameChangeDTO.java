@@ -11,5 +11,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UsernameChangeDTO {
     private String newUsername;
-    private String password;
+    private String otp;
 }

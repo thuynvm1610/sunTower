@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -315,7 +315,10 @@
                                     class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
                             </a>
                         </div>
-                        <a href="/logout" class="btn btn-logout">Đăng xuất</a>
+                        <a href="#" class="btn btn-logout"
+                            onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">Đăng
+                            xuất</a>
+                        <form id="logoutForm" th:action="@{/auth/logout}" method="post" style="display:none;"></form>
                     </div>
                 </div>
             </div>
@@ -410,6 +413,16 @@
 
                         <div class="info-item">
                             <div class="info-label">
+                                <i class="bi bi-link-45deg"></i>
+                                Email Google liên kết
+                            </div>
+                            <div class="info-value"
+                                th:text="${linkedGoogleEmail != null ? linkedGoogleEmail : 'Chưa liên kết'}">Chưa liên
+                                kết</div>
+                        </div>
+
+                        <div class="info-item">
+                            <div class="info-label">
                                 <i class="bi bi-telephone"></i>
                                 Số điện thoại
                             </div>
@@ -452,13 +465,6 @@
                             </div>
                             <div class="col-md-6">
                                 <button class="btn btn-primary-custom btn-action w-100" data-bs-toggle="modal"
-                                    data-bs-target="#editEmailModal">
-                                    <i class="bi bi-envelope-at"></i>
-                                    Đổi Email
-                                </button>
-                            </div>
-                            <div class="col-md-6">
-                                <button class="btn btn-primary-custom btn-action w-100" data-bs-toggle="modal"
                                     data-bs-target="#editPhoneModal">
                                     <i class="bi bi-phone"></i>
                                     Đổi Số Điện Thoại
@@ -470,6 +476,20 @@
                                     <i class="bi bi-key"></i>
                                     Đổi Mật Khẩu
                                 </button>
+                            </div>
+                            <div class="col-md-6">
+                                <a th:if="${linkedGoogleEmail == null}" class="btn btn-outline-custom btn-action w-100"
+                                    th:href="@{/auth/link/google(returnTo='/staff/profile')}"
+                                    style="text-decoration:none;color:inherit;">
+                                    <i class="bi bi-google"></i>
+                                    Liên Kết Google
+                                </a>
+                                <div th:if="${linkedGoogleEmail != null}"
+                                    class="btn btn-outline-custom btn-action w-100"
+                                    style="opacity:.55; cursor:not-allowed;">
+                                    <i class="bi bi-google"></i>
+                                    Đã liên kết Google
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -500,14 +520,12 @@
                                 placeholder="Nhập tên đăng nhập mới">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Mật khẩu xác nhận</label>
-                            <div class="password-toggle-wrapper">
-                                <input type="password" class="form-control" name="password" id="usernamePassword"
-                                    required placeholder="Nhập mật khẩu để xác nhận" style="padding-right: 45px;">
-                                <button type="button" class="password-toggle-btn"
-                                    onclick="togglePassword('usernamePassword')">
-                                    <i class="bi bi-eye" id="usernamePassword-icon"></i>
-                                </button>
+                            <label class="form-label">Mã OTP xác nhận</label>
+                            <div class="d-flex gap-2">
+                                <input type="text" class="form-control" name="otp" id="usernameOtp" required
+                                    placeholder="Nhập mã OTP">
+                                <button type="button" class="btn btn-primary-custom"
+                                    onclick="sendOtp('PROFILE_USERNAME', 'usernameOtp')">Gửi mã</button>
                             </div>
                         </div>
                     </div>
@@ -584,14 +602,12 @@
                                 placeholder="Nhập số điện thoại mới">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Mật khẩu xác nhận</label>
-                            <div class="password-toggle-wrapper">
-                                <input type="password" class="form-control" name="password" id="phonePassword" required
-                                    placeholder="Nhập mật khẩu để xác nhận" style="padding-right: 45px;">
-                                <button type="button" class="password-toggle-btn"
-                                    onclick="togglePassword('phonePassword')">
-                                    <i class="bi bi-eye" id="phonePassword-icon"></i>
-                                </button>
+                            <label class="form-label">Mã OTP xác nhận</label>
+                            <div class="d-flex gap-2">
+                                <input type="text" class="form-control" name="otp" id="phoneOtp" required
+                                    placeholder="Nhập mã OTP">
+                                <button type="button" class="btn btn-primary-custom"
+                                    onclick="sendOtp('PROFILE_PHONE', 'phoneOtp')">Gửi mã</button>
                             </div>
                         </div>
                     </div>
@@ -617,37 +633,36 @@
                 <form id="passwordForm">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label">Mật khẩu hiện tại</label>
-                            <div class="password-toggle-wrapper">
-                                <input type="password" class="form-control" name="currentPassword" id="currentPassword"
-                                    required placeholder="Nhập mật khẩu hiện tại" style="padding-right: 45px;">
-                                <button type="button" class="password-toggle-btn"
-                                    onclick="togglePassword('currentPassword')">
-                                    <i class="bi bi-eye" id="currentPassword-icon"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="mb-3">
                             <label class="form-label">Mật khẩu mới</label>
                             <div class="password-toggle-wrapper">
                                 <input type="password" class="form-control" name="newPassword" id="newPassword" required
-                                    placeholder="Nhập mật khẩu mới" style="padding-right: 45px;">
+                                    minlength="8" placeholder="Nhập mật khẩu mới" style="padding-right: 45px;">
                                 <button type="button" class="password-toggle-btn"
                                     onclick="togglePassword('newPassword')">
                                     <i class="bi bi-eye" id="newPassword-icon"></i>
                                 </button>
                             </div>
-                            <small class="text-muted">Mật khẩu phải có ít nhất 8 ký tự</small>
+                            <small class="text-muted">Mật khẩu ít nhất 8 ký tự.</small>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Xác nhận mật khẩu mới</label>
                             <div class="password-toggle-wrapper">
                                 <input type="password" class="form-control" name="confirmPassword" id="confirmPassword"
-                                    required placeholder="Nhập lại mật khẩu mới" style="padding-right: 45px;">
+                                    required minlength="8" placeholder="Nhập lại mật khẩu mới"
+                                    style="padding-right: 45px;">
                                 <button type="button" class="password-toggle-btn"
                                     onclick="togglePassword('confirmPassword')">
                                     <i class="bi bi-eye" id="confirmPassword-icon"></i>
                                 </button>
+                            </div>
+                        </div>
+                        <div class="mb-0">
+                            <label class="form-label">Mã OTP xác nhận</label>
+                            <div class="d-flex gap-2">
+                                <input type="text" class="form-control" name="otp" id="passwordOtp" required
+                                    placeholder="Nhập mã OTP">
+                                <button type="button" class="btn btn-primary-custom"
+                                    onclick="sendOtp('PROFILE_PASSWORD', 'passwordOtp')">Gửi mã</button>
                             </div>
                         </div>
                     </div>
@@ -665,6 +680,40 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
+        function sendOtp(purpose, inputId) {
+            Swal.fire({
+                title: 'Đang gửi mã OTP',
+                text: 'Vui lòng chờ trong giây lát...',
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading()
+            });
+
+            $.ajax({
+                url: `/staff/profile/otp/${purpose}`,
+                type: 'POST',
+                success: function () {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Đã gửi mã OTP',
+                        text: 'Vui lòng kiểm tra email liên kết.'
+                    });
+                    if (inputId) {
+                        const input = document.getElementById(inputId);
+                        if (input) {
+                            input.focus();
+                        }
+                    }
+                },
+                error: function (xhr) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Không thể gửi mã',
+                        text: xhr.responseJSON?.message || 'Gửi mã thất bại.'
+                    });
+                }
+            });
+        }
+
         // Toggle password visibility
         function togglePassword(inputId) {
             const input = document.getElementById(inputId);
@@ -694,7 +743,7 @@
 
             const data = {
                 newUsername: $("[name='newUsername']").val(),
-                password: $("#usernamePassword").val()
+                otp: $("#usernameOtp").val()
             };
 
             $.ajax({
@@ -777,7 +826,7 @@
 
             const data = {
                 newPhoneNumber: $("[name='newPhoneNumber']").val(),
-                password: $("#phonePassword").val()
+                otp: $("#phoneOtp").val()
             };
 
             $.ajax({
@@ -822,9 +871,9 @@
             e.preventDefault(); // Ngăn form submit mặc định
 
             const data = {
-                currentPassword: $("#currentPassword").val(),
                 newPassword: $("#newPassword").val(),
-                confirmPassword: $("#confirmPassword").val()
+                confirmPassword: $("#confirmPassword").val(),
+                otp: $("#passwordOtp").val()
             };
 
             $.ajax({

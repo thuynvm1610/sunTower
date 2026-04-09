@@ -864,12 +864,12 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@goongmaps/goong-js@1.0.9/dist/goong-js.js"></script>
 
-    <script>
+    <script th:inline="javascript">
         // ═══════════════════════════════════════════════════════════════════════════
         // KEYS
         // ═══════════════════════════════════════════════════════════════════════════
         var MAPTILES_KEY = 'd2vMzWHY7kcxkY1yITDytGLWaIPf9knt8mLMXmkx';
-        var GOONG_API_KEY = 'MfQYQasRyhJp6OkpEOlOAW8GwrhVgz043MK0WDvx';
+        var GOONG_API_KEY = /*[[${goongApiKey}]]*/ '';
 
         // ═══════════════════════════════════════════════════════════════════════════
         // TYPE SELECTOR

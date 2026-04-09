@@ -11,18 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthAPI {
     private final AuthService authService;
 
     @PostMapping("/forgot-password")
     public ResponseEntity<?> forgotPassword(@RequestParam String email) {
-
         authService.forgotPassword(email);
-
-        return ResponseEntity.ok(
-                Map.of("message", "Nếu email hợp lệ, liên kết đã được gửi.")
-        );
+        return ResponseEntity.ok(Map.of("message", "Nếu email hợp lệ, liên kết đã được gửi."));
     }
 }

@@ -649,7 +649,10 @@
                             </div>
                             <span class="badge-custom">KHÁCH HÀNG</span>
                         </div>
-                        <a th:href="@{/logout}" class="btn btn-logout">Đăng xuất</a>
+                        <a href="#" class="btn btn-logout"
+                            onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">Đăng
+                            xuất</a>
+                        <form id="logoutForm" th:action="@{/auth/logout}" method="post" style="display:none;"></form>
                     </div>
                 </div>
             </div>

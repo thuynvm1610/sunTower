@@ -9,10 +9,14 @@ import com.estate.exception.InputValidationException;
 import com.estate.repository.BuildingRepository;
 import com.estate.repository.ContractRepository;
 import com.estate.repository.CustomerRepository;
+import com.estate.repository.OAuthIdentityRepository;
 import com.estate.repository.StaffRepository;
 import com.estate.repository.entity.BuildingEntity;
 import com.estate.repository.entity.CustomerEntity;
+import com.estate.repository.entity.OAuthIdentityEntity;
 import com.estate.repository.entity.StaffEntity;
+import com.estate.security.jwt.RefreshTokenService;
+import com.estate.service.ProfileOtpService;
 import com.estate.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,7 +30,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -53,7 +56,16 @@ public class StaffServiceImpl implements StaffService {
     PasswordEncoder passwordEncoder;
 
     @Autowired
+    RefreshTokenService refreshTokenService;
+
+    @Autowired
     CustomerRepository customerRepository;
+
+    @Autowired
+    OAuthIdentityRepository oauthIdentityRepository;
+
+    @Autowired
+    ProfileOtpService profileOtpService;
 
     @Override
     public Long countAllStaffs() {
@@ -141,6 +153,7 @@ public class StaffServiceImpl implements StaffService {
         } else {
             // Thêm mới
             entity = staffFormConverter.toEntity(dto);
+            entity.setAuthOrigin("LOCAL");
         }
 
         // Mã hóa dữ liệu
@@ -204,14 +217,7 @@ public class StaffServiceImpl implements StaffService {
             throw new BusinessException("Tên đăng nhập đã được sử dụng!");
         }
 
-        boolean isCorrect = passwordEncoder.matches(
-                dto.getPassword(),
-                staff.getPassword()
-        );
-
-        if (!isCorrect) {
-            throw new BusinessException("Mật khẩu sai");
-        }
+        profileOtpService.verifyOtp(resolveOtpEmail(staff), "PROFILE_USERNAME", dto.getOtp());
 
         staffRepository.usernameUpdate(dto.getNewUsername(), staffId);
     }
@@ -244,21 +250,13 @@ public class StaffServiceImpl implements StaffService {
         StaffEntity staff = staffRepository.findById(staffId)
                 .orElseThrow(() -> new BusinessException("Không tìm thấy nhân viên"));
 
-        boolean isCorrect = passwordEncoder.matches(
-                dto.getPassword(),
-                staff.getPassword()
-        );
-
-        if (!isCorrect) {
-            throw new BusinessException("Mật khẩu sai");
-        }
-
         if (customerRepository.existsByPhone(dto.getNewPhoneNumber()) ||
                 staffRepository.existsByPhoneAndIdNot(dto.getNewPhoneNumber(), staffId)
         ) {
             throw new BusinessException("Số điện thoại này đã được sử dụng");
         }
 
+        profileOtpService.verifyOtp(resolveOtpEmail(staff), "PROFILE_PHONE", dto.getOtp());
         staffRepository.phoneNumberUpdate(dto.getNewPhoneNumber(), staffId);
     }
 
@@ -267,14 +265,11 @@ public class StaffServiceImpl implements StaffService {
         StaffEntity staff = staffRepository.findById(staffId)
                 .orElseThrow(() -> new BusinessException("Không tìm thấy nhân viên"));
 
-        boolean isCorrect = passwordEncoder.matches(
-                dto.getCurrentPassword(),
-                staff.getPassword()
-        );
-
-        if (!isCorrect) {
-            throw new BusinessException("Mật khẩu hiện tại không đúng");
+        if (dto.getNewPassword() == null || dto.getNewPassword().length() < 8) {
+            throw new BusinessException("Mật khẩu phải có ít nhất 8 ký tự");
         }
+
+        profileOtpService.verifyOtp(resolveOtpEmail(staff), "PROFILE_PASSWORD", dto.getOtp());
 
         if (!dto.getConfirmPassword().equals(dto.getNewPassword())) {
             throw new BusinessException("Mật khẩu xác nhận sai");
@@ -282,6 +277,17 @@ public class StaffServiceImpl implements StaffService {
 
         String encodedPassword = passwordEncoder.encode(dto.getNewPassword());
         staffRepository.passwordUpdate(encodedPassword, staffId);
+        refreshTokenService.revokeAllForUser("STAFF", staffId);
+    }
+
+    private String resolveOtpEmail(StaffEntity staff) {
+        OAuthIdentityEntity googleIdentity = oauthIdentityRepository
+                .findByProviderAndUserTypeAndUserId("google", "STAFF", staff.getId())
+                .orElse(null);
+        if (googleIdentity != null && googleIdentity.getEmail() != null && !googleIdentity.getEmail().isBlank()) {
+            return googleIdentity.getEmail();
+        }
+        return staff.getEmail();
     }
 
     @Override

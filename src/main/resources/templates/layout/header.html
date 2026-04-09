@@ -1,11 +1,8 @@
-<header class="navbar shadow-sm" th:fragment="header">
-
-    <!-- Hamburger (mobile only, shown via CSS) -->
+﻿<header class="navbar shadow-sm" th:fragment="header">
     <button class="navbar-menu-btn" id="navbarMenuBtn" aria-label="Mở menu">
         <i class="bi bi-list"></i>
     </button>
 
-    <!-- Brand -->
     <div class="brand">
         <div class="brand-logo">
             <i class="bi bi-sun-fill"></i>
@@ -16,7 +13,6 @@
         </div>
     </div>
 
-    <!-- Right: User -->
     <div class="navbar-right">
         <a th:href="@{/admin/profile}" class="user-block" aria-label="Hồ sơ cá nhân">
             <div class="user-info">
@@ -29,5 +25,4 @@
             </div>
         </a>
     </div>
-
 </header>

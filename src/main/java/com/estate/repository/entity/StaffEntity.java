@@ -40,6 +40,9 @@ public class StaffEntity {
     @Column
     private String role; // ADMIN, STAFF
 
+    @Column(name = "auth_origin")
+    private String authOrigin;
+
     @Column
     private String image;
 
@@ -48,6 +51,9 @@ public class StaffEntity {
 
     @PrePersist
     protected void onCreate() {
+        if (this.authOrigin == null || this.authOrigin.isBlank()) {
+            this.authOrigin = "LOCAL";
+        }
         this.createdDate = LocalDateTime.now();
         this.modifiedDate = LocalDateTime.now();
     }

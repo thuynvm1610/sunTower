@@ -21,29 +21,77 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
+        return loadUserByLoginIdentifier(username);
+    }
 
-        // 1. STAFF (ADMIN / STAFF)
-        Optional<StaffEntity> staff = staffRepository.findByUsername(username);
+    public CustomUserDetails loadUserByLoginIdentifier(String identifier)
+            throws UsernameNotFoundException {
+        Optional<StaffEntity> staff = staffRepository.findByUsername(identifier);
         if (staff.isPresent()) {
-            return new CustomUserDetails(
-                    staff.get().getId(),
-                    staff.get().getUsername(),
-                    staff.get().getPassword(),
-                    staff.get().getRole()
-            );
+            return toUserDetails(staff.get());
         }
 
-        // 2. CUSTOMER
-        CustomerEntity customer = customerRepository.findByUsername(username);
+        CustomerEntity customer = customerRepository.findByUsername(identifier);
         if (customer != null) {
-            return new CustomUserDetails(
-                    customer.getId(),
-                    customer.getUsername(),
-                    customer.getPassword(),
-                    "CUSTOMER"
-            );
+            return toUserDetails(customer);
+        }
+
+        Optional<StaffEntity> staffByEmail = staffRepository.findByEmail(identifier);
+        if (staffByEmail.isPresent() && isLocalAccount(staffByEmail.get().getAuthOrigin())) {
+            return toUserDetails(staffByEmail.get());
+        }
+
+        Optional<CustomerEntity> customerByEmail = customerRepository.findByEmail(identifier);
+        if (customerByEmail.isPresent() && isLocalAccount(customerByEmail.get().getAuthOrigin())) {
+            return toUserDetails(customerByEmail.get());
         }
 
         throw new UsernameNotFoundException("User not found");
+    }
+
+    public CustomUserDetails loadUserById(String userType, Long userId) {
+        if ("STAFF".equals(userType)) {
+            StaffEntity staff = staffRepository.findById(userId)
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+            return toUserDetails(staff);
+        }
+
+        if ("CUSTOMER".equals(userType)) {
+            CustomerEntity customer = customerRepository.findById(userId)
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+            return toUserDetails(customer);
+        }
+
+        throw new UsernameNotFoundException("User not found");
+    }
+
+    private CustomUserDetails toUserDetails(StaffEntity staff) {
+        return new CustomUserDetails(
+                staff.getId(),
+                staff.getUsername(),
+                staff.getPassword(),
+                staff.getRole(),
+                "STAFF",
+                accountSource(staff.getAuthOrigin())
+        );
+    }
+
+    private CustomUserDetails toUserDetails(CustomerEntity customer) {
+        return new CustomUserDetails(
+                customer.getId(),
+                customer.getUsername(),
+                customer.getPassword(),
+                customer.getRole(),
+                "CUSTOMER",
+                accountSource(customer.getAuthOrigin())
+        );
+    }
+
+    private boolean isLocalAccount(String authOrigin) {
+        return authOrigin == null || "LOCAL".equalsIgnoreCase(authOrigin);
+    }
+
+    private String accountSource(String authOrigin) {
+        return authOrigin == null || authOrigin.isBlank() ? "LOCAL" : authOrigin;
     }
 }

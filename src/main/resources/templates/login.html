@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -545,12 +545,12 @@
                     <p>Nhập thông tin để truy cập tài khoản của bạn</p>
                 </div>
 
-                <form th:action="@{/doLogin}" method="post">
+                <form th:action="@{/login}" method="post">
                     <div class="form-group">
-                        <label for="username">Tên đăng nhập</label>
+                        <label for="username">Tên đăng nhập / Email</label>
                         <div class="input-wrapper">
-                            <input type="text" id="username" name="username" placeholder="Nhập tên đăng nhập" required
-                                autofocus>
+                            <input type="text" id="username" name="username" placeholder="Nhập tên đăng nhập hoặc email"
+                                required autofocus>
                         </div>
                     </div>
 
@@ -565,8 +565,20 @@
                     <button type="submit" class="login-button">Đăng nhập</button>
                 </form>
 
+                <div style="margin-top: 16px; text-align: center;">
+                    <a href="/oauth2/authorization/google"
+                        style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 12px 14px; border: 1px solid #d0d7e2; border-radius: 4px; text-decoration: none; color: #1a1a2e; background: #fff; font-weight: 600;">
+                        <i class="fa-brands fa-google"></i>
+                        Đăng nhập bằng Google
+                    </a>
+                </div>
+
                 <div class="forgot-password">
                     <a href="/forgot-password">Quên mật khẩu?</a>
+                </div>
+
+                <div class="forgot-password" style="margin-top: 10px;">
+                    <a href="/register">Đăng ký tài khoản</a>
                 </div>
             </div>
         </div>
@@ -610,11 +622,11 @@
             });
         }
 
-        if ([[${ param.logout != null }]]) {
+        if ([[${ errorMessage != null }]]) {
             Swal.fire({
-                icon: 'success',
-                title: 'Đã đăng xuất',
-                text: 'Bạn đã đăng xuất thành công.'
+                icon: 'error',
+                title: 'Đăng nhập thất bại',
+                text: '[[${errorMessage}]]'
             });
         }
 

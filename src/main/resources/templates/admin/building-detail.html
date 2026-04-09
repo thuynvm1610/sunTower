@@ -1366,7 +1366,7 @@
     <script th:if="${building.latitude != null}" th:inline="javascript">
         // ── Config ────────────────────────────────────────────────────────────────
         var MAPTILES_KEY = 'd2vMzWHY7kcxkY1yITDytGLWaIPf9knt8mLMXmkx';
-        var GOONG_API_KEY = 'MfQYQasRyhJp6OkpEOlOAW8GwrhVgz043MK0WDvx';
+        var GOONG_API_KEY = /*[[${goongApiKey}]]*/ '';
 
         var _mapLat = /*[[${building.latitude}]]*/  0;
         var _mapLng = /*[[${building.longitude}]]*/  0;

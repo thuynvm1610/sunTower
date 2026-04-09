@@ -1416,7 +1416,7 @@
     <!--JQuery-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <script>
+    <script th:inline="javascript">
         function resetFilter() {
             document.querySelector('.filter-card').reset();
             document.querySelectorAll('.filter-card input, .filter-card select')
@@ -1424,7 +1424,7 @@
         }
     </script>
 
-    <script>
+    <script th:inline="javascript">
         function toggleFilter() {
             const filterBody = document.getElementById('filterBody');
             const toggleBtn = document.querySelector('.btn-toggle-filter');
@@ -1703,9 +1703,9 @@
         });
     </script>
 
-    <script>
+    <script th:inline="javascript">
         // ══ GOONG PLACES AUTOCOMPLETE ══════════════════════════════════════════
-        const GOONG_API_KEY = 'MfQYQasRyhJp6OkpEOlOAW8GwrhVgz043MK0WDvx';
+        const GOONG_API_KEY = /*[[${goongApiKey}]]*/ '';
         let _autocompleteTimer = null;
 
         const locationInput = document.getElementById('locationInput');
