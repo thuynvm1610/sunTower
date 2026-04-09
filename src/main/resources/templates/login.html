@@ -404,6 +404,42 @@
             text-decoration: underline;
         }
 
+        /* ===== GOOGLE BUTTON ===== */
+        .btn-google {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #d0d7e2;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #1a1a2e;
+            background: #fff;
+            font-weight: 600;
+            transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+        }
+
+        .btn-google:hover {
+            background: #f1f5fb;
+            border-color: #4285f4;
+            box-shadow: 0 2px 8px rgba(66, 133, 244, 0.18);
+            color: #1a1a2e;
+            transform: translateY(-1px);
+        }
+
+        .btn-google:active {
+            background: #e8f0fe;
+            transform: translateY(0);
+            box-shadow: none;
+        }
+
+        .btn-google .fa-google {
+            color: #4285f4;
+            font-size: 15px;
+        }
+
         /* ===== FOOTER ===== */
         footer {
             background: #1a1a2e;
@@ -503,158 +539,157 @@
 
 <body>
 
-    <!-- ===== HEADER ===== -->
-    <header>
-        <nav>
-            <a href="/suntower" class="logo">SunTower</a>
-            <button class="menu-toggle"
+<!-- ===== HEADER ===== -->
+<header>
+    <nav>
+        <a href="/suntower" class="logo">SunTower</a>
+        <button class="menu-toggle"
                 onclick="document.getElementById('navLinks').classList.toggle('active')">☰</button>
-            <div class="nav-links" id="navLinks">
-                <a href="/suntower#home">Trang chủ</a>
-                <a href="/suntower#introduce">Giới thiệu</a>
-                <a href="/suntower#building">Bất động sản</a>
-                <a href="/suntower#contact">Liên hệ</a>
-                <a href="/login" class="login-btn active-nav">
-                    <p style="margin-bottom: 1px;">Đăng nhập</p>
+        <div class="nav-links" id="navLinks">
+            <a href="/suntower#home">Trang chủ</a>
+            <a href="/suntower#introduce">Giới thiệu</a>
+            <a href="/suntower#building">Bất động sản</a>
+            <a href="/suntower#contact">Liên hệ</a>
+            <a href="/login" class="login-btn active-nav">
+                <p style="margin-bottom: 1px;">Đăng nhập</p>
+            </a>
+        </div>
+    </nav>
+</header>
+
+<!-- ===== MAIN: LOGIN CARD ===== -->
+<main>
+    <div class="login-container">
+        <!-- LEFT -->
+        <div class="login-header-section">
+            <div class="logo-section">
+                <div class="logo-badge">Bất động sản</div>
+                <div class="brand-logo">SunTower</div>
+                <div class="logo-sub">Hệ thống quản lý tích hợp</div>
+                <div class="divider-line"></div>
+                <p class="description">
+                    Nền tảng quản lý bất động sản toàn diện dành cho đội ngũ chuyên nghiệp.
+                </p>
+            </div>
+            <div class="left-footer">© 2026 SunTower. All rights reserved.</div>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="login-form-section">
+            <div class="login-header">
+                <h2>Đăng nhập</h2>
+                <p>Nhập thông tin để truy cập tài khoản của bạn</p>
+            </div>
+
+            <form th:action="@{/login}" method="post">
+                <div class="form-group">
+                    <label for="username">Tên đăng nhập / Email</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="username" name="username" placeholder="Nhập tên đăng nhập hoặc email"
+                               required autofocus>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Mật khẩu</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" required>
+                        <i class="fa-solid fa-eye toggle-password" onclick="togglePassword('password')"></i>
+                    </div>
+                </div>
+
+                <button type="submit" class="login-button">Đăng nhập</button>
+            </form>
+
+            <div style="margin-top: 16px; text-align: center;">
+                <a href="/oauth2/authorization/google" class="btn-google">
+                    <i class="fa-brands fa-google"></i>
+                    Đăng nhập bằng Google
                 </a>
             </div>
-        </nav>
-    </header>
 
-    <!-- ===== MAIN: LOGIN CARD ===== -->
-    <main>
-        <div class="login-container">
-            <!-- LEFT -->
-            <div class="login-header-section">
-                <div class="logo-section">
-                    <div class="logo-badge">Bất động sản</div>
-                    <div class="brand-logo">SunTower</div>
-                    <div class="logo-sub">Hệ thống quản lý tích hợp</div>
-                    <div class="divider-line"></div>
-                    <p class="description">
-                        Nền tảng quản lý bất động sản toàn diện dành cho đội ngũ chuyên nghiệp.
-                    </p>
-                </div>
-                <div class="left-footer">© 2026 SunTower. All rights reserved.</div>
+            <div class="forgot-password">
+                <a href="/forgot-password">Quên mật khẩu?</a>
             </div>
 
-            <!-- RIGHT -->
-            <div class="login-form-section">
-                <div class="login-header">
-                    <h2>Đăng nhập</h2>
-                    <p>Nhập thông tin để truy cập tài khoản của bạn</p>
-                </div>
-
-                <form th:action="@{/login}" method="post">
-                    <div class="form-group">
-                        <label for="username">Tên đăng nhập / Email</label>
-                        <div class="input-wrapper">
-                            <input type="text" id="username" name="username" placeholder="Nhập tên đăng nhập hoặc email"
-                                required autofocus>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="password">Mật khẩu</label>
-                        <div class="input-wrapper">
-                            <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" required>
-                            <i class="fa-solid fa-eye toggle-password" onclick="togglePassword('password')"></i>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="login-button">Đăng nhập</button>
-                </form>
-
-                <div style="margin-top: 16px; text-align: center;">
-                    <a href="/oauth2/authorization/google"
-                        style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 12px 14px; border: 1px solid #d0d7e2; border-radius: 4px; text-decoration: none; color: #1a1a2e; background: #fff; font-weight: 600;">
-                        <i class="fa-brands fa-google"></i>
-                        Đăng nhập bằng Google
-                    </a>
-                </div>
-
-                <div class="forgot-password">
-                    <a href="/forgot-password">Quên mật khẩu?</a>
-                </div>
-
-                <div class="forgot-password" style="margin-top: 10px;">
-                    <a href="/register">Đăng ký tài khoản</a>
-                </div>
+            <div class="forgot-password" style="margin-top: 10px;">
+                <a href="/register">Đăng ký tài khoản</a>
             </div>
         </div>
-    </main>
+    </div>
+</main>
 
-    <!-- ===== FOOTER ===== -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>SunTower</h3>
-                <p>Hệ thống quản lý bất động sản chuyên nghiệp, mang đến giải pháp tối ưu cho doanh nghiệp của bạn.</p>
-            </div>
-            <div class="footer-section">
-                <h3>Liên kết nhanh</h3>
-                <a href="/suntower#home">Trang chủ</a>
-                <a href="/suntower#introduce">Giới thiệu</a>
-                <a href="/suntower#building">Bất động sản</a>
-                <a href="/suntower#contact">Liên hệ</a>
-            </div>
-            <div class="footer-section">
-                <h3>Liên hệ</h3>
-                <p>Email: suntower@realestate.vn</p>
-                <p>Hotline: 0375577856</p>
-                <p>Địa chỉ: Ng. 158 Đ. Võ Chí Công, Xuân La, Tây Hồ, Hà Nội</p>
-            </div>
+<!-- ===== FOOTER ===== -->
+<footer>
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>SunTower</h3>
+            <p>Hệ thống quản lý bất động sản chuyên nghiệp, mang đến giải pháp tối ưu cho doanh nghiệp của bạn.</p>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 SunTower. All rights reserved.</p>
+        <div class="footer-section">
+            <h3>Liên kết nhanh</h3>
+            <a href="/suntower#home">Trang chủ</a>
+            <a href="/suntower#introduce">Giới thiệu</a>
+            <a href="/suntower#building">Bất động sản</a>
+            <a href="/suntower#contact">Liên hệ</a>
         </div>
-    </footer>
+        <div class="footer-section">
+            <h3>Liên hệ</h3>
+            <p>Email: suntower@realestate.vn</p>
+            <p>Hotline: 0375577856</p>
+            <p>Địa chỉ: Ng. 158 Đ. Võ Chí Công, Xuân La, Tây Hồ, Hà Nội</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 SunTower. All rights reserved.</p>
+    </div>
+</footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        if ([[${ param.error != null }]]) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Đăng nhập thất bại',
-                text: 'Sai tài khoản hoặc mật khẩu. Vui lòng thử lại.'
-            });
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    if ([[${ param.error != null }]]) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Đăng nhập thất bại',
+            text: 'Sai tài khoản hoặc mật khẩu. Vui lòng thử lại.'
+        });
+    }
+
+    if ([[${ errorMessage != null }]]) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Đăng nhập thất bại',
+            text: '[[${errorMessage}]]'
+        });
+    }
+
+    if ([[${ successMessage != null}]]) {
+        Swal.fire({
+            icon: 'success',
+            title: 'Thành công',
+            text: '[[${successMessage}]]'
+        });
+    }
+    /*]]>*/
+</script>
+
+<script>
+    function togglePassword(fieldId) {
+        const input = document.getElementById(fieldId);
+        const icon = input.nextElementSibling;
+        if (input.type === "password") {
+            input.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        } else {
+            input.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
         }
-
-        if ([[${ errorMessage != null }]]) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Đăng nhập thất bại',
-                text: '[[${errorMessage}]]'
-            });
-        }
-
-        if ([[${ successMessage != null}]]) {
-            Swal.fire({
-                icon: 'success',
-                title: 'Thành công',
-                text: '[[${successMessage}]]'
-            });
-        }
-        /*]]>*/
-    </script>
-
-    <script>
-        function togglePassword(fieldId) {
-            const input = document.getElementById(fieldId);
-            const icon = input.nextElementSibling;
-            if (input.type === "password") {
-                input.type = "text";
-                icon.classList.remove("fa-eye");
-                icon.classList.add("fa-eye-slash");
-            } else {
-                input.type = "password";
-                icon.classList.remove("fa-eye-slash");
-                icon.classList.add("fa-eye");
-            }
-        }
-    </script>
+    }
+</script>
 
 </body>
 

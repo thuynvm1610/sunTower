@@ -227,25 +227,25 @@ CREATE TABLE staff (
 );
 
 INSERT INTO staff (username, password, full_name, phone, email, image, role, created_date, modified_date) VALUES
-('nvmt1610', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Nguyễn Văn Minh Thủy', '0375577856', 'thuy.nvm@gmail.com', 'staff_001', 'ADMIN', '2018-01-05', '2018-01-05'),
-('tmq0102' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Trần Minh Quân'      , '0812945252', 'quan.tm@gmail.com' , 'staff_002', 'STAFF', '2019-02-15', '2024-04-12'),
-('lth2105' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Lê Thị Hồng'         , '0349397989', 'hong.lt@gmail.com' , 'staff_003', 'STAFF', '2019-05-10', '2024-03-18'),
-('pvd1208' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Phạm Văn Dũng'       , '0852486437', 'dung.pv@gmail.com' , 'staff_004', 'STAFF', '2020-01-08', '2024-05-09'),
-('nha0401' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Nguyễn Hoàng Anh'    , '0384509115', 'anh.nh@gmail.com'  , 'staff_005', 'STAFF', '2020-07-20', '2024-04-28'),
-('vnb2511' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Vũ Ngọc Bích'        , '0386213813', 'bich.vn@gmail.com' , 'staff_006', 'STAFF', '2021-02-11', '2025-03-15'),
-('dhc2307' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Đặng Hữu Cường'      , '0337240999', 'cuong.dh@gmail.com', 'staff_007', 'STAFF', '2021-09-03', '2024-06-10'),
-('ltm1905' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Lương Thị Mai'       , '0385325395', 'mai.lt@gmail.com'  , 'staff_008', 'STAFF', '2022-03-25', '2025-02-02'),
-('nta1212' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Ngô Tuấn Anh'        , '0364961972', 'anhtn@gmail.com'   , 'staff_009', 'STAFF', '2022-06-11', '2024-12-30'),
-('hdk1311' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Hoàng Đức Khánh'     , '0865890758', 'khanh.hd@gmail.com', 'staff_010', 'STAFF', '2023-01-05', '2025-01-16'),
-('ttt1612' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Trịnh Thu Trang'     , '0911848571', 'trang.tt@gmail.com', 'staff_011', 'STAFF', '2023-03-12', '2025-02-25'),
-('llt2910' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Lê Thùy Linh'        , '0345914403', 'linh.lt@gmail.com' , 'staff_012', 'ADMIN', '2019-09-09', '2024-12-20'),
-('nvt1503' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Nguyễn Văn Tùng'     , '0387432641', 'tung.nv@gmail.com' , 'staff_013', 'STAFF', '2020-03-15', '2024-11-08'),
-('pth2807' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Phạm Thị Hạnh'       , '0334021344', 'hanh.pt@gmail.com' , 'staff_014', 'STAFF', '2020-07-28', '2025-01-05'),
-('tqd0211' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Trần Quang Đức'      , '0869076328', 'duc.tq@gmail.com'  , 'staff_015', 'STAFF', '2021-02-11', '2024-10-19'),
-('lmn3006' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Lê Minh Ngọc'        , '0377050627', 'ngoc.lm@gmail.com' , 'staff_016', 'STAFF', '2021-06-30', '2025-02-10'),
-('dth1708' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Đỗ Thị Hương'        , '0392613930', 'huong.dt@gmail.com', 'staff_017', 'STAFF', '2022-08-17', '2024-12-14'),
-('nqk0404' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Nguyễn Quốc Khánh'   , '0862587123', 'khanh.nq@gmail.com', 'staff_018', 'STAFF', '2022-04-04', '2025-01-28'),
-('vtl2210' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Vũ Thị Linh'         , '0356767043', 'linh.vt@gmail.com' , 'staff_019', 'STAFF', '2023-10-22', '2025-03-01');
+('nvmt1610', '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Nguyễn Văn Minh Thủy', '0375577856', 'thuy.nvm@gmail.com', 'staff_001', 'ADMIN', '2018-01-05', '2018-01-05'),
+('tmq0102' , '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Trần Minh Quân'      , '0812945252', 'quan.tm@gmail.com' , 'staff_002', 'STAFF', '2019-02-15', '2024-04-12'),
+('lth2105' , '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Lê Thị Hồng'         , '0349397989', 'hong.lt@gmail.com' , 'staff_003', 'STAFF', '2019-05-10', '2024-03-18'),
+('pvd1208' , '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Phạm Văn Dũng'       , '0852486437', 'dung.pv@gmail.com' , 'staff_004', 'STAFF', '2020-01-08', '2024-05-09'),
+('nha0401' , '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Nguyễn Hoàng Anh'    , '0384509115', 'anh.nh@gmail.com'  , 'staff_005', 'STAFF', '2020-07-20', '2024-04-28'),
+('vnb2511' , '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Vũ Ngọc Bích'        , '0386213813', 'bich.vn@gmail.com' , 'staff_006', 'STAFF', '2021-02-11', '2025-03-15'),
+('dhc2307' , '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Đặng Hữu Cường'      , '0337240999', 'cuong.dh@gmail.com', 'staff_007', 'STAFF', '2021-09-03', '2024-06-10'),
+('ltm1905' , '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Lương Thị Mai'       , '0385325395', 'mai.lt@gmail.com'  , 'staff_008', 'STAFF', '2022-03-25', '2025-02-02'),
+('nta1212' , '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Ngô Tuấn Anh'        , '0364961972', 'anhtn@gmail.com'   , 'staff_009', 'STAFF', '2022-06-11', '2024-12-30'),
+('hdk1311' , '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Hoàng Đức Khánh'     , '0865890758', 'khanh.hd@gmail.com', 'staff_010', 'STAFF', '2023-01-05', '2025-01-16'),
+('ttt1612' , '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Trịnh Thu Trang'     , '0911848571', 'trang.tt@gmail.com', 'staff_011', 'STAFF', '2023-03-12', '2025-02-25'),
+('llt2910' , '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Lê Thùy Linh'        , '0345914403', 'linh.lt@gmail.com' , 'staff_012', 'ADMIN', '2019-09-09', '2024-12-20'),
+('nvt1503' , '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Nguyễn Văn Tùng'     , '0387432641', 'tung.nv@gmail.com' , 'staff_013', 'STAFF', '2020-03-15', '2024-11-08'),
+('pth2807' , '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Phạm Thị Hạnh'       , '0334021344', 'hanh.pt@gmail.com' , 'staff_014', 'STAFF', '2020-07-28', '2025-01-05'),
+('tqd0211' , '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Trần Quang Đức'      , '0869076328', 'duc.tq@gmail.com'  , 'staff_015', 'STAFF', '2021-02-11', '2024-10-19'),
+('lmn3006' , '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Lê Minh Ngọc'        , '0377050627', 'ngoc.lm@gmail.com' , 'staff_016', 'STAFF', '2021-06-30', '2025-02-10'),
+('dth1708' , '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Đỗ Thị Hương'        , '0392613930', 'huong.dt@gmail.com', 'staff_017', 'STAFF', '2022-08-17', '2024-12-14'),
+('nqk0404' , '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Nguyễn Quốc Khánh'   , '0862587123', 'khanh.nq@gmail.com', 'staff_018', 'STAFF', '2022-04-04', '2025-01-28'),
+('vtl2210' , '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Vũ Thị Linh'         , '0356767043', 'linh.vt@gmail.com' , 'staff_019', 'STAFF', '2023-10-22', '2025-03-01');
 
 -- =============================================================================
 -- BẢNG TÒA NHÀ / BUILDING
@@ -368,23 +368,23 @@ CREATE TABLE customer (
 -- C1-C8  : Khách THUÊ  — có username/password để login theo dõi hóa đơn
 -- C9-C14 : Khách MUA   — NULL username/password, không cần tài khoản
 INSERT INTO customer (username, password, full_name, phone, email, tax_code, role, created_date, modified_date) VALUES
-('abcVietNam'   , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty TNHH ABC Việt Nam'        , '0903000001', 'contact@abc.com.vn'       , '0312847561', 'CUSTOMER', '2019-06-18', '2024-08-10'),
-('VietATMCP'    , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Ngân hàng TMCP Việt Á'            , '0903000002', 'office@vietabank.vn'      , '0100112437', 'CUSTOMER', '2019-12-17', '2024-11-20'),
-('SaigonTech'   , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty CP Công nghệ Sài Gòn'     , '0903000003', 'info@saigontech.vn'       , '0315632894', 'CUSTOMER', '2020-03-10', '2024-09-15'),
-('DaNangMedia'  , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty TNHH Truyền thông Đà Nẵng', '0903000004', 'contact@dananmedia.vn'    , '0401357829', 'CUSTOMER', '2021-05-20', '2025-01-10'),
-('PhoHuongViet' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty CP Phở Hương Việt'        , '0903000005', 'info@phohuongviet.vn'     , '0309284751', 'CUSTOMER', '2020-08-10', '2024-11-15'),
-('AoVietFashion', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty CP Thời trang Áo Việt'    , '0903000006', 'sales@aoviet.vn'          , '0310957346', 'CUSTOMER', '2021-11-15', '2025-01-05'),
-('ExpatsHCM'    , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Nhóm khách thuê căn hộ Thủ Đức'   , '0903000007', 'tenant@expatshcm.vn'      ,  NULL       , 'CUSTOMER', '2022-01-10', '2025-02-20'),
-('HoangGiaTM'   , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty TNHH Thương mại Hoàng Gia', '0903000008', 'sales@hoanggia.vn'        , '0108463572', 'CUSTOMER', '2021-01-09', '2024-09-18'),
-('NoiThatGoDat' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty CP Nội thất Gỗ Đất Việt'  , '0903000009', 'info@godatviet.vn'        , '0316258043', 'CUSTOMER', '2021-04-20', '2025-01-10'),
-('SXDongNai'    , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty TNHH Sản xuất Đồng Nai'   , '0903000010', 'info@sxdongnai.vn'        , '3601849275', 'CUSTOMER', '2022-02-15', '2025-02-05'),
-('APHoldings'   , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Tập đoàn An Phát Holdings'        , '0903000011', 'contact@anphatholdings.vn', '0200348591', 'CUSTOMER', '2024-01-05', '2024-06-15'),
-('VRS'          , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Tập đoàn Vinpearl Resort & Spa'   , '0903000012', 'invest@vinpearl.com'      , '0101436094', 'CUSTOMER', '2025-01-10', '2025-02-28'),
-('CPLuxuryViet' , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty CP Bán lẻ Luxury Việt'    , '0903000013', 'info@luxuryviet.vn'       , '0317295840', 'CUSTOMER', '2023-06-01', '2024-01-20'),
-('DTNamCuong'   , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Tập đoàn Đầu tư Nam Cường'        , '0903000014', 'office@namcuonggroup.vn'  , '0102573846', 'CUSTOMER', '2023-04-01', '2023-07-01'),
-('NMK'          , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Ông Nguyễn Minh Khoa — Nhà đầu tư', '0903000015', 'khoa.nm@gmail.com'        ,  NULL       , 'CUSTOMER', '2024-08-10', '2025-01-15'),
-('XDMinhPhat'   , '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Tập đoàn Xây dựng Minh Phát'      , '0903000016', 'info@minhphatgroup.vn'    , '0109384756', 'CUSTOMER', '2025-01-20', '2025-02-01'),
-('CPLogisticsDD', '$2a$10$9GOPNTSC5oXEiRj4u3nyEeCHBduPyco5u0QGfhZKNYfP2.QpGuXkS', 'Công ty CP Logistics Đại Dương'   , '0903000017', 'info@daiduonglogistics.vn', '0318472095', 'CUSTOMER', '2024-11-05', '2025-03-01');
+('abcVietNam'   , '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Công ty TNHH ABC Việt Nam'        , '0903000001', 'contact@abc.com.vn'       , '0312847561', 'CUSTOMER', '2019-06-18', '2024-08-10'),
+('VietATMCP'    , '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Ngân hàng TMCP Việt Á'            , '0903000002', 'office@vietabank.vn'      , '0100112437', 'CUSTOMER', '2019-12-17', '2024-11-20'),
+('SaigonTech'   , '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Công ty CP Công nghệ Sài Gòn'     , '0903000003', 'info@saigontech.vn'       , '0315632894', 'CUSTOMER', '2020-03-10', '2024-09-15'),
+('DaNangMedia'  , '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Công ty TNHH Truyền thông Đà Nẵng', '0903000004', 'contact@dananmedia.vn'    , '0401357829', 'CUSTOMER', '2021-05-20', '2025-01-10'),
+('PhoHuongViet' , '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Công ty CP Phở Hương Việt'        , '0903000005', 'info@phohuongviet.vn'     , '0309284751', 'CUSTOMER', '2020-08-10', '2024-11-15'),
+('AoVietFashion', '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Công ty CP Thời trang Áo Việt'    , '0903000006', 'sales@aoviet.vn'          , '0310957346', 'CUSTOMER', '2021-11-15', '2025-01-05'),
+('ExpatsHCM'    , '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Nhóm khách thuê căn hộ Thủ Đức'   , '0903000007', 'tenant@expatshcm.vn'      ,  NULL       , 'CUSTOMER', '2022-01-10', '2025-02-20'),
+('HoangGiaTM'   , '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Công ty TNHH Thương mại Hoàng Gia', '0903000008', 'sales@hoanggia.vn'        , '0108463572', 'CUSTOMER', '2021-01-09', '2024-09-18'),
+('NoiThatGoDat' , '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Công ty CP Nội thất Gỗ Đất Việt'  , '0903000009', 'info@godatviet.vn'        , '0316258043', 'CUSTOMER', '2021-04-20', '2025-01-10'),
+('SXDongNai'    , '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Công ty TNHH Sản xuất Đồng Nai'   , '0903000010', 'info@sxdongnai.vn'        , '3601849275', 'CUSTOMER', '2022-02-15', '2025-02-05'),
+('APHoldings'   , '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Tập đoàn An Phát Holdings'        , '0903000011', 'contact@anphatholdings.vn', '0200348591', 'CUSTOMER', '2024-01-05', '2024-06-15'),
+('VRS'          , '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Tập đoàn Vinpearl Resort & Spa'   , '0903000012', 'invest@vinpearl.com'      , '0101436094', 'CUSTOMER', '2025-01-10', '2025-02-28'),
+('CPLuxuryViet' , '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Công ty CP Bán lẻ Luxury Việt'    , '0903000013', 'info@luxuryviet.vn'       , '0317295840', 'CUSTOMER', '2023-06-01', '2024-01-20'),
+('DTNamCuong'   , '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Tập đoàn Đầu tư Nam Cường'        , '0903000014', 'office@namcuonggroup.vn'  , '0102573846', 'CUSTOMER', '2023-04-01', '2023-07-01'),
+('NMK'          , '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Ông Nguyễn Minh Khoa — Nhà đầu tư', '0903000015', 'khoa.nm@gmail.com'        ,  NULL       , 'CUSTOMER', '2024-08-10', '2025-01-15'),
+('XDMinhPhat'   , '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Tập đoàn Xây dựng Minh Phát'      , '0903000016', 'info@minhphatgroup.vn'    , '0109384756', 'CUSTOMER', '2025-01-20', '2025-02-01'),
+('CPLogisticsDD', '$2a$10$rQcSixUdC.Z3vYMwAP1LreYaFovWjN/pY9n1U5RfFevhhDBWO8K62', 'Công ty CP Logistics Đại Dương'   , '0903000017', 'info@daiduonglogistics.vn', '0318472095', 'CUSTOMER', '2024-11-05', '2025-03-01');
 
 -- =============================================================================
 -- BẢNG ĐẶT LẠI MẬT KHẨU / PASSWORD_RESET_TOKEN

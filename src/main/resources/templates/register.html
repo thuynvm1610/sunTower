@@ -243,14 +243,27 @@
         button.submit {
             width: 100%;
             padding: 13px;
+            background: var(--primary);
+            color: white;
             border: none;
             border-radius: 4px;
-            background: var(--primary);
-            color: #fff;
             font-size: 14.5px;
             font-weight: 600;
             cursor: pointer;
+            transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
             margin-top: 8px;
+            letter-spacing: 0.2px;
+        }
+
+        button.submit:hover {
+            background: #253480;
+            box-shadow: 0 4px 16px rgba(45, 62, 143, 0.25);
+            transform: translateY(-1px);
+        }
+
+        button.submit:active {
+            transform: translateY(0);
+            box-shadow: none;
         }
 
         .links {
@@ -339,93 +352,93 @@
 </head>
 
 <body>
-    <header>
-        <nav>
-            <a href="/suntower" class="logo">SunTower</a>
-            <div class="nav-links">
-                <a href="/suntower#home">Trang chủ</a>
-                <a href="/suntower#introduce">Giới thiệu</a>
-                <a href="/suntower#building">Bất động sản</a>
-                <a href="/suntower#contact">Liên hệ</a>
-                <a href="/login" class="login-btn">Đăng nhập</a>
+<header>
+    <nav>
+        <a href="/suntower" class="logo">SunTower</a>
+        <div class="nav-links">
+            <a href="/suntower#home">Trang chủ</a>
+            <a href="/suntower#introduce">Giới thiệu</a>
+            <a href="/suntower#building">Bất động sản</a>
+            <a href="/suntower#contact">Liên hệ</a>
+            <a href="/login" class="login-btn">Đăng nhập</a>
+        </div>
+    </nav>
+</header>
+<main>
+    <div class="auth-card">
+        <div class="auth-left">
+            <div>
+                <div class="badge">Bất động sản</div>
+                <div class="brand">SunTower</div>
+                <div class="sub">Tạo tài khoản bằng email</div>
+                <p class="description">Nhập email, nhận mã xác nhận, sau đó hoàn tất username và mật khẩu để sử dụng
+                    hệ thống.</p>
             </div>
-        </nav>
-    </header>
-    <main>
-        <div class="auth-card">
-            <div class="auth-left">
-                <div>
-                    <div class="badge">Bất động sản</div>
-                    <div class="brand">SunTower</div>
-                    <div class="sub">Tạo tài khoản bằng email</div>
-                    <p class="description">Nhập email, nhận mã xác nhận, sau đó hoàn tất username và mật khẩu để sử dụng
-                        hệ thống.</p>
+            <div class="footer-note">© 2026 SunTower. All rights reserved.</div>
+        </div>
+        <div class="auth-right">
+            <h2>Đăng ký tài khoản</h2>
+            <p class="note">Mã xác nhận sẽ được gửi đến email của bạn.</p>
+            <form method="post" action="/auth/register/send-code" id="registerSendCodeForm">
+                <div class="field">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Nhập email" required autofocus>
                 </div>
-                <div class="footer-note">© 2026 SunTower. All rights reserved.</div>
-            </div>
-            <div class="auth-right">
-                <h2>Đăng ký tài khoản</h2>
-                <p class="note">Mã xác nhận sẽ được gửi đến email của bạn.</p>
-                <form method="post" action="/auth/register/send-code" id="registerSendCodeForm">
-                    <div class="field">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" placeholder="Nhập email" required autofocus>
-                    </div>
-                    <button type="submit" class="submit">Gửi mã xác nhận</button>
-                </form>
-                <div class="links"><a href="/login">← Quay lại đăng nhập</a></div>
-            </div>
+                <button type="submit" class="submit">Gửi mã xác nhận</button>
+            </form>
+            <div class="links"><a href="/login">← Quay lại đăng nhập</a></div>
         </div>
-    </main>
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>SunTower</h3>
-                <p>Hệ thống quản lý bất động sản chuyên nghiệp, mang đến giải pháp tối ưu cho doanh nghiệp của bạn.</p>
-            </div>
-            <div class="footer-section">
-                <h3>Liên kết nhanh</h3>
-                <a href="/suntower#home">Trang chủ</a>
-                <a href="/suntower#introduce">Giới thiệu</a>
-                <a href="/suntower#building">Bất động sản</a>
-                <a href="/suntower#contact">Liên hệ</a>
-            </div>
-            <div class="footer-section">
-                <h3>Liên hệ</h3>
-                <p>Email: suntower@realestate.vn</p>
-                <p>Hotline: 0375577856</p>
-                <p>Địa chỉ: Ng. 158 Đ. Võ Chí Công, Xuân La, Tây Hồ, Hà Nội</p>
-            </div>
+    </div>
+</main>
+<footer>
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>SunTower</h3>
+            <p>Hệ thống quản lý bất động sản chuyên nghiệp, mang đến giải pháp tối ưu cho doanh nghiệp của bạn.</p>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 SunTower. All rights reserved.</p>
+        <div class="footer-section">
+            <h3>Liên kết nhanh</h3>
+            <a href="/suntower#home">Trang chủ</a>
+            <a href="/suntower#introduce">Giới thiệu</a>
+            <a href="/suntower#building">Bất động sản</a>
+            <a href="/suntower#contact">Liên hệ</a>
         </div>
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script th:inline="javascript">
-        const registerSendCodeForm = document.getElementById('registerSendCodeForm');
-        if (registerSendCodeForm) {
-            registerSendCodeForm.addEventListener('submit', function (e) {
-                e.preventDefault();
-                Swal.fire({
-                    title: 'Đang gửi mã xác nhận',
-                    text: 'Vui lòng chờ trong giây lát...',
-                    allowOutsideClick: false,
-                    didOpen: () => Swal.showLoading()
-                });
-                setTimeout(() => registerSendCodeForm.submit(), 120);
+        <div class="footer-section">
+            <h3>Liên hệ</h3>
+            <p>Email: suntower@realestate.vn</p>
+            <p>Hotline: 0375577856</p>
+            <p>Địa chỉ: Ng. 158 Đ. Võ Chí Công, Xuân La, Tây Hồ, Hà Nội</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 SunTower. All rights reserved.</p>
+    </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script th:inline="javascript">
+    const registerSendCodeForm = document.getElementById('registerSendCodeForm');
+    if (registerSendCodeForm) {
+        registerSendCodeForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'Đang gửi mã xác nhận',
+                text: 'Vui lòng chờ trong giây lát...',
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading()
             });
-        }
+            setTimeout(() => registerSendCodeForm.submit(), 120);
+        });
+    }
 
-        if ([[${ errorMessage != null }]]) {
-            const errorMessage = /*[[${errorMessage}]]*/ '';
-            Swal.fire({ icon: 'error', title: 'Đăng ký thất bại', text: errorMessage });
-        }
-        if ([[${ successMessage != null }]]) {
-            const successMessage = /*[[${successMessage}]]*/ '';
-            Swal.fire({ icon: 'success', title: 'Thành công', text: successMessage });
-        }
-    </script>
+    if ([[${ errorMessage != null }]]) {
+        const errorMessage = /*[[${errorMessage}]]*/ '';
+        Swal.fire({ icon: 'error', title: 'Đăng ký thất bại', text: errorMessage });
+    }
+    if ([[${ successMessage != null }]]) {
+        const successMessage = /*[[${successMessage}]]*/ '';
+        Swal.fire({ icon: 'success', title: 'Thành công', text: successMessage });
+    }
+</script>
 </body>
 
 </html>
