@@ -22,44 +22,29 @@
     .header {
       background: var(--primary-color);
       color: white;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .12);
       position: sticky;
       top: 0;
       z-index: 1000;
     }
 
-    .header-top {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
     .logo {
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 700;
-      letter-spacing: 0.5px;
-    }
-
-    .badge-custom {
-      background: rgba(255, 255, 255, 0.15);
-      padding: 4px 10px;
-      border-radius: 12px;
-      font-size: 11px;
-      font-weight: 600;
     }
 
     .btn-logout {
       background: white;
       color: var(--primary-color);
       border: none;
-      padding: 8px 18px;
+      padding: 7px 16px;
       border-radius: 6px;
       font-weight: 600;
-      font-size: 14px;
-      transition: all 0.2s;
+      font-size: 13px;
     }
 
     .btn-logout:hover {
-      background: #f0f0f0;
-      color: var(--primary-color);
+      background: #c8c7c7;
     }
 
     .nav-custom {
@@ -67,136 +52,97 @@
     }
 
     .nav-custom .nav-link {
-      color: white !important;
+      color: rgba(255, 255, 255, .85) !important;
+      font-size: 13px;
       font-weight: 500;
-      font-size: 14px;
-      padding: 14px 18px;
+      padding: 13px 16px;
       border-radius: 6px 6px 0 0;
-      transition: all 0.2s;
     }
 
     .nav-custom .nav-link:hover {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, .1);
+      color: white !important;
     }
 
     .nav-custom .nav-link.active {
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, .15);
+      color: white !important;
       font-weight: 600;
+    }
+
+    .nav-item {
+      margin-right: 5px;
+    }
+
+    .header-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255, 255, 255, .35);
+      transition: .25s;
+      cursor: pointer;
+    }
+
+    .header-avatar:hover {
+      transform: scale(1.08);
+      border-color: white;
     }
 
     .page-header {
       background: white;
       border-left: 4px solid var(--primary-color);
+      padding: 0.6rem 1rem !important;
     }
 
     .page-header h1 {
       color: var(--primary-color);
+      font-size: 1.05rem !important;
+      margin-bottom: 0.1rem !important;
+    }
+
+    .page-header p {
+      font-size: 0.78rem;
     }
 
     .filter-card {
       background: white;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, .06);
+      padding: 0.75rem 1rem !important;
     }
 
-    .filter-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.25rem;
-      padding-bottom: 1rem;
-      border-bottom: 2px solid #f0f0f0;
-    }
-
-    .filter-title {
-      font-size: 16px;
+    .filter-label {
+      font-size: 11px;
       font-weight: 600;
-      color: var(--primary-color);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      color: #6b7280;
+      margin-bottom: 3px;
     }
 
-    .btn-toggle-filter {
-      background: #f3f4f6;
-      border: none;
-      width: 32px;
-      height: 32px;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .btn-toggle-filter:hover {
-      background: #e5e7eb;
-    }
-
-    .btn-toggle-filter i {
-      transition: transform 0.3s ease;
-      color: var(--primary-color);
-    }
-
-    .btn-toggle-filter.collapsed i {
-      transform: rotate(180deg);
-    }
-
-    .filter-body {
-      max-height: 1000px;
-      overflow: hidden;
-      transition: max-height 0.3s ease, opacity 0.3s ease;
-      opacity: 1;
-    }
-
-    .filter-body.collapsed {
-      max-height: 0;
-      opacity: 0;
-    }
-
-    .filter-card .form-label {
-      font-size: 13px;
-      font-weight: 600;
-      color: #666;
-      margin-bottom: 6px;
-    }
-
-    .filter-card .form-control {
+    .filter-card .form-control,
+    .filter-card .form-select {
       border: 1px solid #dee2e6;
       border-radius: 6px;
-      font-size: 14px;
-      padding: 8px 12px;
+      font-size: 12px;
+      padding: 5px 9px;
+      height: 31px;
     }
 
     .filter-card .form-control:focus {
       border-color: var(--primary-color);
-      box-shadow: 0 0 0 0.2rem rgba(45, 62, 143, 0.1);
-    }
-
-    .filter-card .form-control.has-value {
-      background-color: #E8F0FE;
-      border-color: var(--primary-color);
-      font-weight: 600;
-    }
-
-    .filter-actions {
-      display: flex;
-      gap: 0.75rem;
-      justify-content: flex-end;
-      margin-top: 1.25rem;
+      box-shadow: 0 0 0 2px rgba(45, 62, 143, .1);
     }
 
     .btn-filter {
-      padding: 8px 20px;
-      border-radius: 6px;
+      padding: 5px 13px;
+      border-radius: 5px;
       font-weight: 600;
-      font-size: 14px;
+      font-size: 12px;
       border: none;
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      transition: all 0.2s ease;
+      gap: 4px;
+      height: 31px;
     }
 
     .btn-filter.btn-reset {
@@ -219,17 +165,17 @@
 
     .section-card {
       background: white;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, .06);
     }
 
     .section-header {
-      padding-bottom: 12px;
-      border-bottom: 2px solid #f0f0f0;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #f0f0f0;
     }
 
     .section-header h2 {
-      font-size: 18px;
+      font-size: 14px;
       color: var(--primary-color);
       font-weight: 600;
       margin: 0;
@@ -238,39 +184,39 @@
     /* Modern table */
     .modern-table {
       margin: 0;
-      min-height: 480px;
+      min-height: 300px;
     }
 
     .modern-table thead th {
       background: #f9fafb;
       border: none;
       border-bottom: 1px solid #e5e7eb;
-      padding: 0.875rem 1rem;
-      font-size: 0.875rem;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.72rem;
       font-weight: 600;
       color: #6b7280;
       text-transform: uppercase;
-      letter-spacing: 0.025em;
-      height: 60px;
+      letter-spacing: 0.02em;
+      height: 38px;
     }
 
     .modern-table tbody {
-      min-height: 420px;
+      min-height: 260px;
       display: table-row-group;
     }
 
     .modern-table tbody td {
       position: relative;
-      padding: 1rem;
+      padding: 0.5rem 0.75rem;
       border-bottom: 1px solid #e5e7eb;
-      font-size: 0.875rem;
+      font-size: 0.78rem;
       color: #374151;
       vertical-align: middle;
     }
 
     .modern-table tbody tr {
-      height: 84px;
-      min-height: 84px;
+      height: 52px;
+      min-height: 52px;
     }
 
     .modern-table tbody tr:last-child td {
@@ -286,7 +232,7 @@
     }
 
     .table-responsive {
-      min-height: 480px;
+      min-height: 300px;
     }
 
     /* Table content styling */
@@ -323,16 +269,16 @@
     }
 
     .btn-action {
-      width: 34px;
-      height: 32px;
+      width: 28px;
+      height: 26px;
       padding: 0;
-      border-radius: 6px;
+      border-radius: 5px;
       border: none;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.2s ease;
-      font-size: 0.875rem;
+      transition: all 0.15s ease;
+      font-size: 0.78rem;
     }
 
     .btn-action.btn-view {
@@ -347,10 +293,10 @@
 
     /* Empty state */
     .empty-state {
-      padding: 3rem;
+      padding: 2rem;
       text-align: center;
       color: #9ca3af;
-      min-height: 420px;
+      min-height: 260px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -358,9 +304,9 @@
     }
 
     .empty-state i {
-      font-size: 3rem;
+      font-size: 2rem;
       color: #d1d5db;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
     }
 
     .empty-state p {
@@ -370,7 +316,7 @@
 
     /* Pagination */
     .pagination-wrapper {
-      margin-top: 2rem;
+      margin-top: 1rem;
     }
 
     .pagination {
@@ -380,10 +326,10 @@
     .pagination .page-link {
       border: 1px solid #dee2e6;
       border-radius: 6px;
-      padding: 8px 14px;
+      padding: 4px 10px;
       color: #374151;
       font-weight: 600;
-      font-size: 14px;
+      font-size: 12px;
       transition: all 0.2s ease;
     }
 
@@ -423,42 +369,26 @@
     }
 
     /* Avatar hover effects */
-    .header-top img.rounded-circle {
-      width: 40px;
-      height: 40px;
-      object-fit: cover;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      transition: all 0.3s ease;
-      cursor: pointer;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-    }
-
-    .header-top img.rounded-circle:hover {
-      transform: scale(1.1);
-      border-color: white;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-    }
   </style>
 </head>
 
 <body>
+  <!-- ════ HEADER ════ -->
   <div class="header">
-    <div class="header-top py-3">
+    <div class="py-2 border-bottom border-white border-opacity-10">
       <div class="container-fluid px-4">
-        <div class="d-flex justify-content-between align-items-center flex-wrap">
+        <div class="d-flex justify-content-between align-items-center">
           <div class="logo">SunTower</div>
           <div class="d-flex align-items-center gap-3">
-            <div class="d-flex align-items-center gap-3">
-              <div class="text-end">
-                <small class="d-block opacity-85">Xin chào,</small>
-                <strong th:text="${staffName}">Nguyễn Văn B</strong>
-              </div>
-              <!-- Avatar -->
-              <a th:href="@{/staff/profile}" class="text-decoration-none text-reset">
-                <img th:src="@{'/images/staff_img/' + ${staffAvatar}}" alt="Avatar" class="rounded-circle"
-                  style="width: 40px; height: 40px; object-fit: cover;">
-              </a>
+            <div class="text-end d-none d-sm-block">
+              <small class="d-block opacity-75" style="font-size:11px;">Xin chào,</small>
+              <strong style="font-size:14px;" th:text="${staffName}">Nguyễn Văn B</strong>
             </div>
+            <a th:href="@{/staff/profile}" class="text-decoration-none">
+              <img id="headerAvatar" th:src="@{'/images/staff_img/' + ${staffAvatar}}"
+                onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23c5cae9%22/%3E%3Ccircle cx=%2250%22 cy=%2238%22 r=%2218%22 fill=%22%235c6bc0%22/%3E%3Ccircle cx=%2250%22 cy=%2290%22 r=%2230%22 fill=%22%235c6bc0%22/%3E%3C/svg%3E'"
+                alt="Avatar" class="header-avatar">
+            </a>
             <a href="#" class="btn btn-logout"
               onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">Đăng xuất</a>
             <form id="logoutForm" th:action="@{/auth/logout}" method="post" style="display:none;"></form>
@@ -466,92 +396,51 @@
         </div>
       </div>
     </div>
-
     <nav class="nav-custom">
       <div class="container-fluid px-4">
         <ul class="nav">
-          <li class="nav-item">
-            <a class="nav-link" href="/staff/dashboard">
-              <i class="bi bi-speedometer2 me-1"></i>Tổng quan
-            </a>
+          <li class="nav-item"><a class="nav-link" href="/staff/dashboard"><i class="bi bi-speedometer2 me-1"></i>Tổng
+              quan</a></li>
+          <li class="nav-item"><a class="nav-link" href="/staff/buildings"><i class="bi bi-building me-1"></i>Tòa
+              nhà</a></li>
+          <li class="nav-item"><a class="nav-link" href="/staff/contracts"><i class="bi bi-file-text me-1"></i>Hợp
+              đồng</a></li>
+          <li class="nav-item"><a class="nav-link active" href="/staff/customers"><i class="bi bi-people me-1"></i>Khách
+              hàng</a></li>
+          <li class="nav-item"><a class="nav-link" href="/staff/invoices"><i class="bi bi-receipt me-1"></i>Hóa đơn</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/staff/buildings">
-              <i class="bi bi-building me-1"></i>Tòa nhà
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/staff/contracts">
-              <i class="bi bi-file-text me-1"></i>Hợp đồng
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="/staff/customers">
-              <i class="bi bi-people me-1"></i>Khách hàng
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/staff/invoices">
-              <i class="bi bi-receipt me-1"></i>Hóa đơn
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/staff/profile">
-              <i class="bi bi-person-circle me-1"></i>Tài khoản
-            </a>
-          </li>
+          <li class="nav-item"><a class="nav-link" href="/staff/profile"><i class="bi bi-person-circle me-1"></i>Tài
+              khoản</a></li>
         </ul>
       </div>
     </nav>
   </div>
 
   <div class="container-fluid px-4 py-4">
-    <div class="page-header p-4 rounded mb-4">
-      <h1 class="h3 mb-2">Quản lý Khách hàng</h1>
+    <div class="page-header rounded mb-3">
+      <h1 class="mb-0">Quản lý Khách hàng</h1>
       <p class="text-muted mb-0">Danh sách các khách hàng đang được phân công quản lý</p>
     </div>
 
     <!-- Filter Card -->
-    <form class="filter-card p-4 mb-4" id="filterForm">
-      <div class="filter-header">
-        <div class="filter-title">
-          <i class="bi bi-funnel"></i>
-          Bộ lọc tìm kiếm
+    <form class="filter-card mb-3" id="filterForm">
+      <div class="d-flex align-items-end gap-2">
+        <div style="flex:1; max-width:360px;">
+          <div class="filter-label">Tên khách hàng</div>
+          <input type="text" class="form-control" name="fullName" placeholder="Nhập tên khách hàng cần tìm...">
         </div>
-        <button type="button" class="btn-toggle-filter" onclick="toggleFilter()">
-          <i class="bi bi-chevron-up" id="toggleIcon"></i>
-        </button>
-      </div>
-
-      <div class="filter-body" id="filterBody">
-        <div class="row g-3">
-          <div class="col-md-8">
-            <label class="form-label">Tên khách hàng</label>
-            <input type="text" class="form-control" name="fullName" placeholder="Nhập tên khách hàng cần tìm...">
-          </div>
-          <div class="col-md-4 d-flex align-items-end">
-            <div class="filter-actions w-100">
-              <button type="button" class="btn-filter btn-reset" onclick="resetFilter()">
-                <i class="bi bi-arrow-clockwise"></i>
-                Đặt lại
-              </button>
-              <button type="submit" class="btn-filter btn-search">
-                <i class="bi bi-search"></i>
-                Tìm kiếm
-              </button>
-            </div>
-          </div>
+        <div class="d-flex gap-1">
+          <button type="button" class="btn-filter btn-reset" onclick="resetFilter()"><i
+              class="bi bi-arrow-clockwise"></i> Đặt lại</button>
+          <button type="submit" class="btn-filter btn-search"><i class="bi bi-search"></i> Tìm</button>
         </div>
       </div>
     </form>
 
     <!-- Table Card -->
-    <div class="section-card p-4">
-      <div class="section-header mb-4">
-        <h2>
-          <i class="bi bi-people me-2"></i>
-          Danh sách khách hàng
-        </h2>
+    <div class="section-card p-3">
+      <div class="section-header mb-3">
+        <h2><i class="bi bi-people me-2"></i>Danh sách khách hàng</h2>
       </div>
 
       <div class="table-responsive">
@@ -586,28 +475,7 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <script>
-    function toggleFilter() {
-      const filterBody = document.getElementById('filterBody');
-      const toggleBtn = document.querySelector('.btn-toggle-filter');
-      const toggleIcon = document.getElementById('toggleIcon');
 
-      filterBody.classList.toggle('collapsed');
-      toggleBtn.classList.toggle('collapsed');
-
-      const isCollapsed = filterBody.classList.contains('collapsed');
-      localStorage.setItem('filterCollapsed', isCollapsed);
-    }
-
-    document.addEventListener('DOMContentLoaded', function () {
-      const filterBody = document.getElementById('filterBody');
-      const toggleBtn = document.querySelector('.btn-toggle-filter');
-      const isCollapsed = localStorage.getItem('filterCollapsed') === 'true';
-
-      if (isCollapsed) {
-        filterBody.classList.add('collapsed');
-        toggleBtn.classList.add('collapsed');
-      }
-    });
   </script>
 
   <script th:inline="javascript">
@@ -692,7 +560,7 @@
                                             <h5 class="modal-title fw-bold mb-1" id="modalLabel-${i}">
                                                 <i class="bi bi-person-circle me-2"></i>Chi tiết khách hàng
                                             </h5>
-                                            <small style="opacity: 0.9;">Mã khách hàng: #${customer.id}</small>
+                                            <small style="opacity: 0.9;">Mã khách hàng: KH-${customer.id}</small>
                                         </div>
                                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
