@@ -87,34 +87,42 @@
         .page-header {
             background: white;
             border-left: 4px solid var(--primary-color);
+            padding: 0.75rem 1.25rem !important;
         }
 
         .page-header h1 {
             color: var(--primary-color);
+            font-size: 1.2rem !important;
+            margin-bottom: 0.1rem !important;
+        }
+
+        .page-header p {
+            font-size: 0.8rem;
         }
 
         .filter-card {
             background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            border-radius: 8px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+            padding: 1rem 1.25rem !important;
         }
 
         .filter-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.25rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid #f0f0f0;
+            margin-bottom: 0.875rem;
+            padding-bottom: 0.625rem;
+            border-bottom: 1px solid #f0f0f0;
         }
 
         .filter-title {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 600;
             color: var(--primary-color);
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.4rem;
         }
 
         .btn-toggle-filter {
@@ -156,18 +164,18 @@
         }
 
         .filter-card .form-label {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             color: #666;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .filter-card .form-control,
         .filter-card .form-select {
             border: 1px solid #dee2e6;
             border-radius: 6px;
-            font-size: 14px;
-            padding: 8px 12px;
+            font-size: 13px;
+            padding: 6px 10px;
         }
 
         .filter-card .form-control:focus,
@@ -176,21 +184,14 @@
             box-shadow: 0 0 0 0.2rem rgba(45, 62, 143, 0.1);
         }
 
-        .filter-card .form-control.has-value,
-        .filter-card .form-select.has-value {
-            background-color: #E8F0FE;
-            border-color: var(--primary-color);
-            font-weight: 600;
-        }
-
         .filter-section-title {
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 600;
             color: #374151;
-            margin-bottom: 1rem;
+            margin-bottom: 0.625rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.4rem;
         }
 
         .filter-section-title i {
@@ -200,7 +201,7 @@
         .range-inputs {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.4rem;
         }
 
         .range-inputs .form-control {
@@ -214,20 +215,20 @@
 
         .filter-actions {
             display: flex;
-            gap: 0.75rem;
+            gap: 0.5rem;
             justify-content: flex-end;
-            margin-top: 1.25rem;
+            margin-top: 0.875rem;
         }
 
         .btn-filter {
-            padding: 8px 20px;
+            padding: 6px 16px;
             border-radius: 6px;
             font-weight: 600;
-            font-size: 14px;
+            font-size: 13px;
             border: none;
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.4rem;
             transition: all 0.2s ease;
         }
 
@@ -251,17 +252,17 @@
 
         .section-card {
             background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            border-radius: 8px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
         }
 
         .section-header {
-            padding-bottom: 12px;
-            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f0f0f0;
         }
 
         .section-header h2 {
-            font-size: 18px;
+            font-size: 15px;
             color: var(--primary-color);
             font-weight: 600;
             margin: 0;
@@ -272,13 +273,13 @@
             background: var(--primary-color);
             color: white;
             border: none;
-            padding: 10px 24px;
-            border-radius: 8px;
+            padding: 7px 16px;
+            border-radius: 7px;
             font-weight: 600;
-            font-size: 14px;
+            font-size: 13px;
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.4rem;
             transition: all 0.2s ease;
             text-decoration: none;
         }
@@ -293,39 +294,39 @@
         /* Modern table */
         .modern-table {
             margin: 0;
-            min-height: 480px;
+            min-height: 400px;
         }
 
         .modern-table thead th {
             background: #f9fafb;
             border: none;
             border-bottom: 1px solid #e5e7eb;
-            padding: 0.875rem 1rem;
-            font-size: 0.875rem;
+            padding: 0.625rem 0.875rem;
+            font-size: 0.8rem;
             font-weight: 600;
             color: #6b7280;
             text-transform: uppercase;
             letter-spacing: 0.025em;
-            height: 60px;
+            height: 44px;
         }
 
         .modern-table tbody {
-            min-height: 420px;
+            min-height: 360px;
             display: table-row-group;
         }
 
         .modern-table tbody td {
             position: relative;
-            padding: 1rem;
+            padding: 0.625rem 0.875rem;
             border-bottom: 1px solid #e5e7eb;
-            font-size: 0.875rem;
+            font-size: 0.8rem;
             color: #374151;
             vertical-align: middle;
         }
 
         .modern-table tbody tr {
-            height: 84px;
-            min-height: 84px;
+            height: 60px;
+            min-height: 60px;
         }
 
         .modern-table tbody tr:last-child td {
@@ -341,7 +342,7 @@
         }
 
         .table-responsive {
-            min-height: 480px;
+            min-height: 400px;
         }
 
         /* Table badges and cells */
@@ -366,10 +367,10 @@
 
         .month-badge {
             display: inline-block;
-            padding: 0.375rem 0.75rem;
-            border-radius: 6px;
+            padding: 0.25rem 0.6rem;
+            border-radius: 5px;
             font-weight: 600;
-            font-size: 0.875rem;
+            font-size: 0.78rem;
             white-space: nowrap;
             background: #dbeafe;
             color: #1e40af;
@@ -377,15 +378,15 @@
 
         .area-badge {
             font-weight: 600;
-            font-size: 0.875rem;
+            font-size: 0.8rem;
         }
 
         .price-badge {
             display: inline-block;
-            padding: 0.375rem 0.75rem;
-            border-radius: 6px;
+            padding: 0.25rem 0.6rem;
+            border-radius: 5px;
             font-weight: 600;
-            font-size: 0.875rem;
+            font-size: 0.78rem;
             white-space: nowrap;
             background: #ecfdf5;
             color: #059669;
@@ -393,10 +394,10 @@
 
         .status-badge {
             display: inline-block;
-            padding: 0.375rem 0.75rem;
-            border-radius: 6px;
+            padding: 0.25rem 0.6rem;
+            border-radius: 5px;
             font-weight: 600;
-            font-size: 0.875rem;
+            font-size: 0.78rem;
             white-space: nowrap;
         }
 
@@ -418,23 +419,23 @@
         /* Action buttons */
         .action-buttons {
             display: flex;
-            gap: 0.5rem;
+            gap: 0.35rem;
             justify-content: center;
             align-items: center;
             height: 100%;
         }
 
         .btn-action {
-            width: 34px;
-            height: 32px;
+            width: 30px;
+            height: 28px;
             padding: 0;
-            border-radius: 6px;
+            border-radius: 5px;
             border: none;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             transition: all 0.2s ease;
-            font-size: 0.875rem;
+            font-size: 0.8rem;
         }
 
         .btn-action.btn-view {
@@ -469,10 +470,10 @@
 
         /* Empty state */
         .empty-state {
-            padding: 3rem;
+            padding: 2rem;
             text-align: center;
             color: #9ca3af;
-            min-height: 420px;
+            min-height: 320px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -480,32 +481,32 @@
         }
 
         .empty-state i {
-            font-size: 3rem;
+            font-size: 2.25rem;
             color: #d1d5db;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
         }
 
         .empty-state p {
             margin: 0;
-            font-size: 0.875rem;
+            font-size: 0.825rem;
         }
 
         /* Pagination */
         .pagination-wrapper {
-            margin-top: 2rem;
+            margin-top: 1.25rem;
         }
 
         .pagination {
-            gap: 0.5rem;
+            gap: 0.35rem;
         }
 
         .pagination .page-link {
             border: 1px solid #dee2e6;
-            border-radius: 6px;
-            padding: 8px 14px;
+            border-radius: 5px;
+            padding: 5px 11px;
             color: #374151;
             font-weight: 600;
-            font-size: 14px;
+            font-size: 13px;
             transition: all 0.2s ease;
         }
 
@@ -606,25 +607,35 @@
 
         /* Edit Modal Styles */
         .info-box {
-            background: #fef3c7;
-            border: 1px solid #fbbf24;
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 1.5rem;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 0.6rem 0.875rem;
+            margin-bottom: 1rem;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.6rem;
         }
 
         .info-box i {
-            color: #f59e0b;
-            font-size: 1.125rem;
+            color: #6b7280;
+            font-size: 1rem;
+            flex-shrink: 0;
         }
 
         .info-box-content {
-            font-size: 0.875rem;
-            color: #78350f;
-            line-height: 1.5;
+            font-size: 0.8rem;
+            color: #374151;
+            line-height: 1.4;
+        }
+
+        .info-box.info-blocked {
+            background: #fff8f8;
+            border-color: #f5c2c7;
+        }
+
+        .info-box.info-blocked i {
+            color: #dc3545;
         }
 
         .readonly-badge {
@@ -635,14 +646,14 @@
             color: #6b7280;
             font-size: 0.7rem;
             font-weight: 600;
-            padding: 0.25rem 0.5rem;
+            padding: 0.2rem 0.45rem;
             border-radius: 4px;
             margin-left: 0.5rem;
         }
 
         .form-control.editable {
-            background-color: #fffbeb;
-            border-color: #fbbf24;
+            background-color: #fff;
+            border-color: #ced4da;
         }
 
         .form-control.editable:focus {
@@ -654,38 +665,37 @@
             background: #f9fafb;
             border: 1px solid #dee2e6;
             color: #6b7280;
-            font-size: 0.875rem;
+            font-size: 0.8rem;
             font-weight: 500;
         }
 
         .input-group:focus-within .input-group-text {
             border-color: var(--primary-color);
-            background: #eff6ff;
-            color: var(--primary-color);
         }
 
         .status-card {
-            border: 2px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 1rem;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 0.6rem 0.75rem;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.15s ease;
             text-align: center;
-            min-height: 140px;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
+            flex-direction: row;
+            justify-content: flex-start;
             align-items: center;
+            gap: 0.6rem;
+            min-height: auto;
         }
 
         .status-card:hover {
             border-color: var(--primary-color);
-            background: #f0f9ff;
+            background: #f8f9fa;
         }
 
         .status-card.selected {
             border-color: var(--primary-color);
-            background: #eff6ff;
+            background: #f0f2fa;
         }
 
         .status-card input[type="radio"] {
@@ -693,54 +703,58 @@
         }
 
         .status-icon {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
             color: #6b7280;
+            flex-shrink: 0;
         }
 
         .status-card.selected .status-icon {
             color: var(--primary-color);
         }
 
+        .status-card-body {
+            text-align: left;
+        }
+
         .status-title {
             font-weight: 600;
-            font-size: 0.875rem;
+            font-size: 0.8rem;
             color: #111827;
-            margin-bottom: 0.25rem;
+            margin-bottom: 0;
         }
 
         .status-desc {
             font-size: 0.7rem;
-            color: #6b7280;
+            color: #9ca3af;
         }
 
         .fee-item {
             background: #f9fafb;
             border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 0.75rem;
-            margin-bottom: 0.75rem;
+            border-radius: 6px;
+            padding: 0.5rem 0.75rem;
+            margin-bottom: 0.5rem;
         }
 
         .fee-label {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
             color: #374151;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.4rem;
         }
 
         .fee-label i {
-            color: var(--primary-color);
+            color: #6b7280;
         }
 
         .total-amount-box {
             background: #f9fafb;
             border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 1rem;
+            border-radius: 6px;
+            padding: 0.75rem 1rem;
         }
 
         .total-display {
@@ -750,13 +764,13 @@
         }
 
         .total-label {
-            font-size: 0.875rem;
+            font-size: 0.85rem;
             font-weight: 600;
             color: #374151;
         }
 
         .total-value {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: #111827;
         }
@@ -768,52 +782,47 @@
 
         /* Styles cho modal thêm hóa đơn */
         .modal-add-invoice .modal-dialog {
-            max-width: 900px;
+            max-width: 820px;
         }
 
         .modal-add-invoice .form-label {
-            font-size: 0.875rem;
+            font-size: 0.8rem;
             font-weight: 600;
             color: #374151;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
         }
 
         .modal-add-invoice .form-control,
         .modal-add-invoice .form-select {
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 0.625rem 0.875rem;
-            font-size: 0.875rem;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 0.45rem 0.75rem;
+            font-size: 0.825rem;
             transition: all 0.2s ease;
         }
 
         .modal-add-invoice .form-control:focus,
         .modal-add-invoice .form-select:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(45, 62, 143, 0.1);
             outline: none;
         }
 
-        .modal-add-invoice .form-control.has-value,
-        .modal-add-invoice .form-select.has-value {
-            background-color: #E8F0FE;
-            border-color: #3b82f6;
-            font-weight: 600;
-        }
-
         .modal-add-invoice .form-section-title {
-            font-size: 0.9375rem;
-            font-weight: 600;
+            font-size: 0.85rem;
+            font-weight: 700;
             color: #374151;
-            margin-bottom: 1rem;
-            margin-top: 1.5rem;
+            margin-bottom: 0.625rem;
+            margin-top: 1rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.4rem;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 0.35rem;
         }
 
         .modal-add-invoice .form-section-title i {
-            color: #3b82f6;
+            color: var(--primary-color);
         }
 
         .modal-add-invoice .form-section-title:first-of-type {
@@ -821,25 +830,39 @@
         }
 
         .meter-info-box {
-            background: #fef3c7;
-            border: 1px solid #fbbf24;
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 1rem;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 0.5rem 0.75rem;
+            margin-bottom: 0.75rem;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.6rem;
         }
 
         .meter-info-box i {
-            color: #f59e0b;
-            font-size: 1.125rem;
+            color: #6b7280;
+            font-size: 0.9rem;
         }
 
         .meter-info-content {
-            font-size: 0.875rem;
-            color: #78350f;
-            line-height: 1.5;
+            font-size: 0.775rem;
+            color: #6b7280;
+            line-height: 1.4;
+        }
+
+        /* Status badge hiển thị trong add modal */
+        .status-pending-display {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: #fef3c7;
+            color: #d97706;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            border: 1px solid #fde68a;
         }
 
         @media (max-width: 768px) {
@@ -943,10 +966,10 @@
         </nav>
     </div>
 
-    <div class="container-fluid px-4 py-4">
-        <div class="page-header p-4 rounded mb-4">
-            <h1 class="h3 mb-2">Quản lý Hóa đơn</h1>
-            <p class="text-muted mb-0">Danh sách các hóa đơn đang được phân công quản lý</p>
+    <div class="container-fluid px-4 py-3">
+        <div class="page-header rounded mb-3">
+            <h1 class="h5 mb-1">Quản lý Hóa đơn</h1>
+            <p class="text-muted mb-0 small">Danh sách các hóa đơn đang được phân công quản lý</p>
         </div>
 
         <!-- Filter Card -->
@@ -966,7 +989,7 @@
                 <div class="filter-section-title">
                     <i class="bi bi-info-circle"></i> Thông tin cơ bản
                 </div>
-                <div class="row g-3 mb-4">
+                <div class="row g-2 mb-3">
                     <div class="col-md-4">
                         <label class="form-label">Tháng</label>
                         <select class="form-select" name="month">
@@ -1007,7 +1030,7 @@
                 <div class="filter-section-title">
                     <i class="bi bi-cash-stack"></i> Tổng tiền và trạng thái
                 </div>
-                <div class="row g-3">
+                <div class="row g-2">
                     <div class="col-md-6">
                         <label class="form-label">Tổng tiền hóa đơn (VNĐ)</label>
                         <div class="range-inputs">
@@ -1042,8 +1065,8 @@
         </form>
 
         <!-- Table Card -->
-        <div class="section-card p-4">
-            <div class="section-header mb-4 d-flex justify-content-between align-items-center">
+        <div class="section-card p-3">
+            <div class="section-header mb-3 d-flex justify-content-between align-items-center">
                 <h2>
                     <i class="bi bi-receipt me-2"></i>
                     Danh sách hóa đơn
@@ -1087,7 +1110,7 @@
         <!-- Modal Thêm Hóa đơn -->
         <div class="modal fade modal-add-invoice" id="addInvoiceModal" tabindex="-1" aria-labelledby="addInvoiceLabel"
             aria-hidden="true">
-            <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
                         <div>
@@ -1100,11 +1123,12 @@
                             aria-label="Close"></button>
                     </div>
 
-                    <form id="addInvoiceForm" class="modal-body" style="padding: 2rem;">
+                    <form id="addInvoiceForm" class="modal-body"
+                        style="padding: 1.25rem 1.5rem; overflow-y: auto; max-height: 75vh;">
                         <!-- Info Box -->
-                        <div class="info-box" style="background: #eff6ff; border-color: #bfdbfe;">
-                            <i class="bi bi-info-circle" style="color: #3b82f6;"></i>
-                            <div class="info-box-content" style="color: #1e40af;">
+                        <div class="info-box">
+                            <i class="bi bi-info-circle"></i>
+                            <div class="info-box-content">
                                 Vui lòng điền đầy đủ thông tin bắt buộc để thêm hóa đơn mới vào hệ thống.
                             </div>
                         </div>
@@ -1113,7 +1137,7 @@
                         <div class="form-section-title">
                             <i class="bi bi-file-text"></i> Thông tin cơ bản
                         </div>
-                        <div class="row g-3 mb-4">
+                        <div class="row g-2 mb-3">
                             <div class="col-md-6">
                                 <label class="form-label">
                                     Khách hàng
@@ -1158,7 +1182,7 @@
                                     Các khoản phí dưới đây được lấy từ thông tin hợp đồng
                                 </div>
                             </div>
-                            <div class="row g-3 mb-4">
+                            <div class="row g-2 mb-3">
                                 <div class="col-md-4">
                                     <div class="fee-item">
                                         <div class="fee-label">
@@ -1247,7 +1271,7 @@
                         <div class="form-section-title mt-4">
                             <i class="bi bi-calendar"></i> Thông tin kỳ hóa đơn
                         </div>
-                        <div class="row g-3 mb-4">
+                        <div class="row g-2 mb-3">
                             <div class="col-md-4">
                                 <label class="form-label">
                                     Tháng
@@ -1308,7 +1332,7 @@
                             <i class="bi bi-speedometer"></i> Chỉ số điện nước
                         </div>
 
-                        <div class="row g-3 mb-4">
+                        <div class="row g-2 mb-3">
                             <div class="col-md-6">
                                 <label class="form-label">
                                     Số điện sử dụng (kWh)
@@ -1346,69 +1370,34 @@
                         <div class="form-section-title">
                             <i class="bi bi-calculator"></i> Tổng tiền
                         </div>
-                        <div class="row g-3 mb-4">
-                            <div class="col-12">
-                                <div
-                                    style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 1.25rem;">
-                                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                                        <span style="font-size: 0.9375rem; font-weight: 600; color: #374151;">Tổng tiền
-                                            hóa
-                                            đơn:</span>
-                                        <span style="font-size: 1.5rem; font-weight: 700; color: #111827;"
-                                            id="addTotalAmount">0
-                                            VNĐ</span>
-                                    </div>
-                                    <small class="form-text" style="margin-top: 0.5rem; display: block;">
-                                        Bao gồm: Tiền thuê mặt bằng + Phí dịch vụ + Phí gửi xe + Phí điện + Phí nước
-                                    </small>
+                        <div class="mb-3">
+                            <div class="total-amount-box">
+                                <div class="total-display">
+                                    <span class="total-label">Tổng tiền hóa đơn:</span>
+                                    <span class="total-value" id="addTotalAmount">0 VNĐ</span>
                                 </div>
+                                <small class="form-text text-muted"
+                                    style="margin-top: 0.3rem; display: block; font-size: 0.72rem;">
+                                    Bao gồm: Tiền thuê + Phí dịch vụ + Phí gửi xe + Phí điện + Phí nước
+                                </small>
                             </div>
                         </div>
 
-                        <!-- Trạng thái -->
+                        <!-- Trạng thái - mặc định PENDING -->
                         <div class="form-section-title mt-4">
                             <i class="bi bi-toggle-on"></i> Trạng thái thanh toán
-                            <span class="required">*</span>
                         </div>
-                        <div class="row g-3 mb-4">
-                            <div class="col-md-4">
-                                <label style="min-height: 150px; min-width: 100%;" class="status-card selected"
-                                    for="addStatusPending">
-                                    <input type="radio" name="add-status" value="PENDING" id="addStatusPending" checked>
-                                    <div class="status-icon">
-                                        <i class="bi bi-clock-history"></i>
-                                    </div>
-                                    <div class="status-title">Chờ thanh toán</div>
-                                    <div class="status-desc">Hóa đơn chưa được thanh toán</div>
-                                </label>
-                            </div>
-                            <div class="col-md-4">
-                                <label style="min-height: 150px; min-width: 100%;" class="status-card"
-                                    for="addStatusPaid">
-                                    <input type="radio" name="add-status" value="PAID" id="addStatusPaid">
-                                    <div class="status-icon">
-                                        <i class="bi bi-check-circle"></i>
-                                    </div>
-                                    <div class="status-title">Đã thanh toán</div>
-                                    <div class="status-desc">Hóa đơn đã được thanh toán</div>
-                                </label>
-                            </div>
-                            <div class="col-md-4">
-                                <label style="min-height: 150px; min-width: 100%;" class="status-card"
-                                    for="addStatusOverdue">
-                                    <input type="radio" name="add-status" value="OVERDUE" id="addStatusOverdue">
-                                    <div class="status-icon">
-                                        <i class="bi bi-exclamation-triangle"></i>
-                                    </div>
-                                    <div class="status-title">Quá hạn</div>
-                                    <div class="status-desc">Hóa đơn đã quá hạn thanh toán</div>
-                                </label>
-                            </div>
+                        <div class="mb-4">
+                            <span class="status-pending-display">
+                                <i class="bi bi-clock-history"></i> Chờ thanh toán (PENDING)
+                            </span>
+                            <small class="d-block text-muted mt-1" style="font-size: 0.75rem;">Hóa đơn mới tạo luôn ở
+                                trạng thái chờ thanh toán.</small>
                         </div>
                     </form>
 
                     <div class="modal-footer"
-                        style="background: #f9fafb; border-top: 1px solid #e5e7eb; padding: 1rem 2rem;">
+                        style="background: #f9fafb; border-top: 1px solid #e5e7eb; padding: 0.75rem 1.25rem;">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                             style="padding: 0.5rem 1.5rem; border-radius: 6px; font-weight: 600;">
                             <i class="bi bi-x-circle me-1"></i>Hủy
@@ -1470,7 +1459,7 @@
     </script>
 
     <script th:inline="javascript">
-        const staffId = /*[[${#authentication.principal.customerId}]]*/ null;
+        const staffId = /*[[${#authentication.principal.userId}]]*/ null;
         const customersData = /*[[${customers}]]*/ {};
         const contractsData = /*[[${contracts}]]*/ {};
         const contractFeesData = /*[[${contractFees}]]*/ {};
@@ -1535,12 +1524,12 @@
                 page: page,
                 pageSize: pageSize,
                 staffId: staffId,
-                month: $("[name='month']").val(),
-                year: $("[name='year']").val(),
-                customerId: $("[name='customerId']").val(),
-                totalAmountFrom: $("[name='totalAmountFrom']").val(),
-                totalAmountTo: $("[name='totalAmountTo']").val(),
-                status: $("[name='status']").val()
+                month: $("#filterForm [name='month']").val(),
+                year: $("#filterForm [name='year']").val(),
+                customerId: $("#filterForm [name='customerId']").val(),
+                totalAmountFrom: $("#filterForm [name='totalAmountFrom']").val(),
+                totalAmountTo: $("#filterForm [name='totalAmountTo']").val(),
+                status: $("#filterForm [name='status']").val()
             };
 
             $.ajax({
@@ -1584,7 +1573,7 @@
                   <button type="button" class="btn-action btn-view" onclick="openViewModal('invoiceModal-${i}')" title="Xem chi tiết">
                     <i class="bi bi-eye"></i>
                   </button>
-                  <button type="button" class="btn-action btn-edit" onclick="openEditModal('invoiceEditModal-${i}')" title="Chỉnh sửa">
+                  <button type="button" class="btn-action btn-edit" onclick="openEditModal('invoiceEditModal-${i}', '${inv.status}')" title="Chỉnh sửa">
                     <i class="bi bi-pencil"></i>
                   </button>
                   <button type="button" class="btn-action btn-delete" onclick="deleteInvoice(${inv.id})" title="Xóa">
@@ -1638,7 +1627,7 @@
 
                         modalContainer.append(`
             <div class="modal fade" id="invoiceModal-${i}" tabindex="-1" aria-labelledby="modalLabel-${i}" aria-hidden="true">
-              <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+              <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
 
                   <!-- Modal Header -->
@@ -1647,7 +1636,7 @@
                       <h5 class="modal-title fw-bold mb-1" id="modalLabel-${i}">
                         <i class="bi bi-receipt me-2"></i>Chi tiết hóa đơn
                       </h5>
-                      <small style="opacity: 0.9;">Mã hóa đơn: #${inv.id}</small>
+                      <small style="opacity: 0.9;">Mã hóa đơn: HĐ-${inv.id}</small>
                     </div>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
@@ -1781,7 +1770,7 @@
                   </div>
 
                   <!-- Modal Footer -->
-                  <div class="modal-footer" style="background: #f9fafb; border-top: 1px solid #e5e7eb; padding: 1rem 2rem;">
+                  <div class="modal-footer" style="background: #f9fafb; border-top: 1px solid #e5e7eb; padding: 0.75rem 1.25rem;">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="padding: 0.5rem 1.5rem; border-radius: 6px; font-weight: 600;">
                       <i class="bi bi-x-circle me-1"></i>Đóng
                     </button>
@@ -1825,7 +1814,7 @@
 
                         modalContainer.append(`
             <div class="modal fade" id="invoiceEditModal-${i}" tabindex="-1" aria-labelledby="editModalLabel-${i}" aria-hidden="true" data-invoice-data='${JSON.stringify(editModalData)}'>
-              <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+              <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
 
                   <!-- Modal Header -->
@@ -1840,7 +1829,7 @@
                   </div>
 
                   <!-- Modal Body -->
-                  <form id="editForm-${i}" class="modal-body" style="padding: 2rem;">
+                  <form id="editForm-${i}" class="modal-body" style="padding: 1.25rem 1.5rem;">
 
                     <!-- Info Box -->
                     <div class="info-box">
@@ -1941,29 +1930,35 @@
                         <i class="bi bi-toggle-on me-2"></i>Trạng thái thanh toán
                         <span class="required">*</span>
                       </h6>
-                      <div class="row g-3">
+                      <div class="row g-2">
                         <div class="col-md-4">
                           <label class="status-card ${inv.status === 'PENDING' ? 'selected' : ''}" for="statusPending-${i}">
                             <input type="radio" name="status-${i}" value="PENDING" id="statusPending-${i}" ${inv.status === 'PENDING' ? 'checked' : ''}>
                             <div class="status-icon"><i class="bi bi-clock-history"></i></div>
-                            <div class="status-title">Chờ thanh toán</div>
-                            <div class="status-desc">Hóa đơn chưa được thanh toán</div>
+                            <div class="status-card-body">
+                              <div class="status-title">Chờ thanh toán</div>
+                              <div class="status-desc">Chưa thanh toán</div>
+                            </div>
                           </label>
                         </div>
                         <div class="col-md-4">
                           <label class="status-card ${inv.status === 'PAID' ? 'selected' : ''}" for="statusPaid-${i}">
                             <input type="radio" name="status-${i}" value="PAID" id="statusPaid-${i}" ${inv.status === 'PAID' ? 'checked' : ''}>
                             <div class="status-icon"><i class="bi bi-check-circle"></i></div>
-                            <div class="status-title">Đã thanh toán</div>
-                            <div class="status-desc">Hóa đơn đã được thanh toán</div>
+                            <div class="status-card-body">
+                              <div class="status-title">Đã thanh toán</div>
+                              <div class="status-desc">Đã thanh toán</div>
+                            </div>
                           </label>
                         </div>
                         <div class="col-md-4">
                           <label class="status-card ${inv.status === 'OVERDUE' ? 'selected' : ''}" for="statusOverdue-${i}">
                             <input type="radio" name="status-${i}" value="OVERDUE" id="statusOverdue-${i}" ${inv.status === 'OVERDUE' ? 'checked' : ''}>
                             <div class="status-icon"><i class="bi bi-exclamation-triangle"></i></div>
-                            <div class="status-title">Quá hạn</div>
-                            <div class="status-desc">Hóa đơn đã quá hạn thanh toán</div>
+                            <div class="status-card-body">
+                              <div class="status-title">Quá hạn</div>
+                              <div class="status-desc">Đã quá hạn</div>
+                            </div>
                           </label>
                         </div>
                       </div>
@@ -1972,7 +1967,7 @@
                   </form>
 
                   <!-- Modal Footer -->
-                  <div class="modal-footer" style="background: #f9fafb; border-top: 1px solid #e5e7eb; padding: 1rem 2rem;">
+                  <div class="modal-footer" style="background: #f9fafb; border-top: 1px solid #e5e7eb; padding: 0.75rem 1.25rem;">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="padding: 0.5rem 1.5rem; border-radius: 6px; font-weight: 600;">
                       <i class="bi bi-x-circle me-1"></i>Hủy
                     </button>
@@ -2065,31 +2060,6 @@
         $(document).ready(function () {
             loadInvoices(1);
 
-            // Hàm highlight trường có giá trị
-            function highlightFilledInputs() {
-                $('.filter-card .form-control, .filter-card .form-select').each(function () {
-                    const $input = $(this);
-                    if ($input.val() && $input.val().trim() !== '') {
-                        $input.addClass('has-value');
-                    } else {
-                        $input.removeClass('has-value');
-                    }
-                });
-            }
-
-            // Highlight các trường đã có giá trị khi load trang
-            highlightFilledInputs();
-
-            // Lắng nghe sự kiện input/change để highlight real-time
-            $('.filter-card .form-control, .filter-card .form-select').on('input change', function () {
-                const $this = $(this);
-                if ($this.val() && $this.val().trim() !== '') {
-                    $this.addClass('has-value');
-                } else {
-                    $this.removeClass('has-value');
-                }
-            });
-
             // Load danh sách khách hàng cho modal thêm hóa đơn
             const $addCustomerSelect = $('#addCustomerSelect');
             $.each(customersData, function (name, id) {
@@ -2110,10 +2080,6 @@
             document.querySelectorAll('.filter-card .form-control, .filter-card .form-select').forEach(input => {
                 input.value = '';
             });
-
-            setTimeout(function () {
-                $('.filter-card .form-control, .filter-card .form-select').removeClass('has-value');
-            }, 10);
 
             loadInvoices(1);
         }
@@ -2136,52 +2102,72 @@
         }
 
         // Hàm mở modal chỉnh sửa
-        function openEditModal(modalId) {
+        function openEditModal(modalId, status) {
             const modalElement = document.getElementById(modalId);
-            if (modalElement) {
-                const modal = new bootstrap.Modal(modalElement);
-                modal.show();
+            if (!modalElement) return;
 
-                // Khởi tạo sự kiện cho status cards
-                const statusCards = modalElement.querySelectorAll('.status-card');
-                const statusRadios = modalElement.querySelectorAll('input[type="radio"]');
-
-                statusRadios.forEach(radio => {
-                    radio.addEventListener('change', function () {
-                        statusCards.forEach(card => card.classList.remove('selected'));
-                        if (this.checked) {
-                            this.closest('.status-card').classList.add('selected');
-                        }
-                    });
-                });
-
-                // Khởi tạo tính toán tổng tiền khi thay đổi điện/nước
-                const form = modalElement.querySelector('form');
-                const electricityInput = form.querySelector('.electricity-usage');
-                const waterInput = form.querySelector('.water-usage');
-                const totalDisplay = form.querySelector('.total-amount-display');
-
-                // Lấy thông tin từ data attributes (sẽ được set khi tạo modal)
-                const invoiceData = JSON.parse(modalElement.dataset.invoiceData || '{}');
-
-                function updateTotal() {
-                    const elecUsage = Number(electricityInput.value) || 0;
-                    const waterUsage = Number(waterInput.value) || 0;
-
-                    const total =
-                        (invoiceData.rentPrice || 0) +
-                        (invoiceData.serviceFee || 0) +
-                        (invoiceData.carFee || 0) +
-                        (invoiceData.motorbikeFee || 0) +
-                        elecUsage * (invoiceData.electricityUnitPrice || 0) +
-                        waterUsage * (invoiceData.waterUnitPrice || 0);
-
-                    totalDisplay.textContent = formatPrice(total);
+            // Kiểm tra status — chỉ cho sửa PENDING
+            if (status !== 'PENDING') {
+                let msg = 'Hóa đơn này không thể chỉnh sửa.';
+                let icon = 'warning';
+                if (status === 'PAID') {
+                    msg = 'Hóa đơn đã thanh toán, không thể chỉnh sửa.';
+                    icon = 'info';
+                } else if (status === 'OVERDUE') {
+                    msg = 'Hóa đơn đã quá hạn, không thể chỉnh sửa.';
+                    icon = 'warning';
                 }
-
-                electricityInput.addEventListener('input', updateTotal);
-                waterInput.addEventListener('input', updateTotal);
+                Swal.fire({
+                    icon: icon,
+                    title: 'Không thể chỉnh sửa',
+                    text: msg,
+                    confirmButtonColor: 'var(--primary-color)'
+                });
+                return;
             }
+
+            const modal = new bootstrap.Modal(modalElement);
+            modal.show();
+
+            // Khởi tạo sự kiện cho status cards
+            const statusCards = modalElement.querySelectorAll('.status-card');
+            const statusRadios = modalElement.querySelectorAll('input[type="radio"]');
+
+            statusRadios.forEach(radio => {
+                radio.addEventListener('change', function () {
+                    statusCards.forEach(card => card.classList.remove('selected'));
+                    if (this.checked) {
+                        this.closest('.status-card').classList.add('selected');
+                    }
+                });
+            });
+
+            // Khởi tạo tính toán tổng tiền khi thay đổi điện/nước
+            const form = modalElement.querySelector('form');
+            const electricityInput = form.querySelector('.electricity-usage');
+            const waterInput = form.querySelector('.water-usage');
+            const totalDisplay = form.querySelector('.total-amount-display');
+
+            // Lấy thông tin từ data attributes (sẽ được set khi tạo modal)
+            const invoiceData = JSON.parse(modalElement.dataset.invoiceData || '{}');
+
+            function updateTotal() {
+                const elecUsage = Number(electricityInput.value) || 0;
+                const waterUsage = Number(waterInput.value) || 0;
+
+                const total =
+                    (invoiceData.rentPrice || 0) +
+                    (invoiceData.serviceFee || 0) +
+                    (invoiceData.carFee || 0) +
+                    (invoiceData.motorbikeFee || 0) +
+                    elecUsage * (invoiceData.electricityUnitPrice || 0) +
+                    waterUsage * (invoiceData.waterUnitPrice || 0);
+
+                totalDisplay.textContent = formatPrice(total);
+            }
+
+            electricityInput.addEventListener('input', updateTotal);
+            waterInput.addEventListener('input', updateTotal);
         }
 
         // Hàm lưu hóa đơn
@@ -2389,7 +2375,6 @@
             // Khi đổi hợp đồng
             $('#addContractSelect').on('change', function () {
                 const contractId = String($(this).val());
-                $(this).toggleClass('has-value', !!contractId);
 
                 if (!contractId) {
                     $('#addFeeDisplayArea').hide();
@@ -2427,47 +2412,16 @@
                 calculateAddTotal();
             });
 
-            // Status card selection
-            const addStatusCards = document.querySelectorAll('#addInvoiceModal .status-card');
-            const addStatusRadios = document.querySelectorAll('#addInvoiceModal input[name="add-status"]');
-
-            addStatusRadios.forEach(radio => {
-                radio.addEventListener('change', function () {
-                    addStatusCards.forEach(card => card.classList.remove('selected'));
-                    if (this.checked) {
-                        this.closest('.status-card').classList.add('selected');
-                    }
-                });
-            });
-
-            // Highlight inputs
-            $('#addInvoiceModal .form-control, #addInvoiceModal .form-select').on('input change', function () {
-                const $this = $(this);
-                if ($this.val() && $this.val().trim() !== '') {
-                    $this.addClass('has-value');
-                } else {
-                    $this.removeClass('has-value');
-                }
-            });
-
             // Reset modal khi đóng
             $('#addInvoiceModal').on('hidden.bs.modal', function () {
                 $('#addInvoiceForm')[0].reset();
-                $('#addCustomerSelect, #addContractSelect').val('').removeClass('has-value');
+                $('#addCustomerSelect, #addContractSelect').val('');
                 $('#addContractSelect').prop('disabled', true).html('<option value="">-- Chọn khách hàng trước --</option>');
                 $('#addFeeDisplayArea').hide();
                 $('#addTotalAmount').text('0 VNĐ');
                 $('#addContractInfo').text('');
                 addCurrentFees = null;
                 addCurrentRentArea = 0;
-
-                // Reset status selection
-                addStatusCards.forEach(card => card.classList.remove('selected'));
-                document.getElementById('addStatusPending').checked = true;
-                document.querySelector('#addInvoiceModal .status-card').classList.add('selected');
-
-                // Remove has-value class
-                $('#addInvoiceModal .form-control, #addInvoiceModal .form-select').removeClass('has-value');
             });
 
             // Submit form thêm hóa đơn
@@ -2523,7 +2477,7 @@
                     customerId: Number($('#addCustomerSelect').val()),
                     month: Number($form.find('[name="month"]').val()),
                     year: Number($form.find('[name="year"]').val()),
-                    status: $form.find('[name="add-status"]:checked').val(),
+                    status: 'PENDING',
                     dueDate: $form.find('[name="dueDate"]').val(),
                     totalAmount: Number(totalAmount),
                     details: details,
