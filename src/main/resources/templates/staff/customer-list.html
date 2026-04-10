@@ -447,11 +447,12 @@
         <table class="table modern-table">
           <thead>
             <tr>
-              <th style="width: 10%;">Mã KH</th>
-              <th style="width: 30%;">Tên khách hàng</th>
-              <th style="width: 20%;">Điện thoại</th>
-              <th style="width: 25%;">Email</th>
-              <th style="width: 15%; text-align: center;">Hành động</th>
+              <th style="width: 8%;">Mã KH</th>
+              <th style="width: 20%;">Tên khách hàng</th>
+              <th style="width: 14%;">Tên đăng nhập</th>
+              <th style="width: 14%;">Điện thoại</th>
+              <th style="width: 22%;">Email</th>
+              <th style="width: 12%;">Mã số thuế</th>
             </tr>
           </thead>
 
@@ -509,7 +510,7 @@
           if (data.content.length === 0) {
             tbody.append(`
                         <tr>
-                            <td colspan="5">
+                            <td colspan="6">
                                 <div class="empty-state">
                                     <i class="bi bi-inbox"></i>
                                     <p>Không có dữ liệu khách hàng</p>
@@ -526,6 +527,7 @@
                         <tr>
                             <td><span class="customer-id">${customer.id}</span></td>
                             <td><span class="customer-name">${customer.fullName || ''}</span></td>
+                            <td><span>${customer.username || 'Chưa cập nhật'}</span></td>
                             <td>
                                 <div class="contact-info">
                                     <i class="bi bi-telephone"></i>
@@ -538,13 +540,7 @@
                                     <span>${customer.email || 'Chưa cập nhật'}</span>
                                 </div>
                             </td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button type="button" class="btn-action btn-view" onclick="openModal('customerModal-${i}')">
-                                        <i class="bi bi-eye"></i>
-                                    </button>
-                                </div>
-                            </td>
+                            <td><span>${customer.taxCode || 'Chưa cập nhật'}</span></td>
                         </tr>
                     `);
 

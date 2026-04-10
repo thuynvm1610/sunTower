@@ -17,6 +17,7 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: var(--secondary-color);
+            font-size: 15px;
         }
 
         .header {
@@ -122,7 +123,7 @@
         }
 
         .filter-title {
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 600;
             color: var(--primary-color);
             display: flex;
@@ -169,7 +170,7 @@
         }
 
         .filter-section-title {
-            font-size: 11px;
+            font-size: 13px;
             font-weight: 700;
             color: #6b7280;
             text-transform: uppercase;
@@ -190,7 +191,7 @@
         }
 
         .filter-card .form-label {
-            font-size: 11px;
+            font-size: 13px;
             font-weight: 600;
             color: #6b7280;
             margin-bottom: 3px;
@@ -200,9 +201,9 @@
         .filter-card .form-select {
             border: 1px solid #dee2e6;
             border-radius: 5px;
-            font-size: 12px;
-            padding: 4px 8px;
-            height: 28px;
+            font-size: 14px;
+            padding: 5px 10px;
+            height: 34px;
         }
 
         .filter-card .form-control:focus,
@@ -234,15 +235,15 @@
         }
 
         .btn-filter {
-            padding: 4px 12px;
+            padding: 5px 14px;
             border-radius: 5px;
             font-weight: 600;
-            font-size: 12px;
+            font-size: 14px;
             border: none;
             display: inline-flex;
             align-items: center;
             gap: 3px;
-            height: 28px;
+            height: 34px;
         }
 
         .btn-filter.btn-reset {
@@ -275,7 +276,7 @@
         }
 
         .section-header h2 {
-            font-size: 14px;
+            font-size: 16px;
             color: var(--primary-color);
             font-weight: 600;
             margin: 0;
@@ -312,7 +313,7 @@
         }
 
         .building-name {
-            font-size: 15px;
+            font-size: 17px;
             font-weight: 700;
             color: #111827;
             margin-bottom: 0.4rem;
@@ -327,7 +328,7 @@
 
         .building-address {
             color: #6b7280;
-            font-size: 12px;
+            font-size: 14px;
             margin-bottom: 0.6rem;
             display: -webkit-box;
             -webkit-line-clamp: 2;
@@ -350,7 +351,7 @@
             padding: 3px 8px;
             border-radius: 5px;
             font-weight: 600;
-            font-size: 11px;
+            font-size: 13px;
             background: #eff6ff;
             color: #2563eb;
         }
@@ -360,9 +361,34 @@
             padding: 3px 8px;
             border-radius: 5px;
             font-weight: 600;
-            font-size: 11px;
+            font-size: 13px;
             background: #ecfdf5;
             color: #059669;
+        }
+
+        .price-badge-sale {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .type-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 13px;
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .trans-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 13px;
+            background: #fef3c7;
+            color: #d97706;
         }
 
         .building-fees {
@@ -376,7 +402,7 @@
             display: flex;
             align-items: center;
             gap: 0.35rem;
-            font-size: 11px;
+            font-size: 13px;
             color: #374151;
             margin-bottom: 0.3rem;
         }
@@ -402,13 +428,13 @@
 
         .btn-view-detail {
             width: 100%;
-            padding: 7px;
+            padding: 8px;
             background: var(--primary-color);
             color: white;
             border: none;
             border-radius: 6px;
             font-weight: 600;
-            font-size: 13px;
+            font-size: 14px;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
@@ -452,10 +478,10 @@
         .pagination .page-link {
             border: 1px solid #dee2e6;
             border-radius: 6px;
-            padding: 4px 10px;
+            padding: 5px 12px;
             color: #374151;
             font-weight: 600;
-            font-size: 12px;
+            font-size: 14px;
             transition: all 0.2s ease;
         }
 
@@ -522,14 +548,8 @@
             opacity: 1;
         }
 
-        .modal-body {
-            padding: 1.5rem;
-            max-height: calc(100vh - 250px);
-            overflow-y: auto;
-        }
-
         .modal-body::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
 
         .modal-body::-webkit-scrollbar-track {
@@ -546,30 +566,31 @@
             background: #94a3b8;
         }
 
+        /* ── Modal compact styles ── */
         .building-detail-header {
             background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            border-radius: 10px;
-            padding: 1.25rem;
-            margin-bottom: 1.5rem;
-            border-left: 4px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 0.6rem 0.875rem;
+            margin-bottom: 0.75rem;
+            border-left: 3px solid var(--primary-color);
         }
 
         .building-detail-name {
-            font-size: 22px;
+            font-size: 17px;
             font-weight: 700;
             color: var(--primary-color);
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.2rem;
             display: flex;
             align-items: center;
         }
 
         .building-detail-name i {
-            font-size: 24px;
+            font-size: 17px;
         }
 
         .building-detail-address {
             color: #64748b;
-            font-size: 15px;
+            font-size: 13px;
             display: flex;
             align-items: center;
             font-weight: 500;
@@ -577,43 +598,89 @@
 
         .building-detail-address i {
             color: #ef4444;
-            font-size: 16px;
+            font-size: 13px;
+        }
+
+        /* badge strip below name */
+        .detail-badge-strip {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-top: 0.3rem;
+        }
+
+        .detail-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            padding: 3px 9px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .detail-badge.type {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .detail-badge.trans {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .detail-badge.level {
+            background: #f0fdf4;
+            color: #16a34a;
+        }
+
+        .detail-badge.tax {
+            background: #faf5ff;
+            color: #7c3aed;
+        }
+
+        /* compact info grid – 2 columns side by side */
+        .info-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0 1rem;
         }
 
         .info-section {
             background: white;
             border: 1px solid #e5e7eb;
-            border-radius: 10px;
-            padding: 1.25rem;
-            margin-bottom: 1.25rem;
-            transition: all 0.3s ease;
+            border-radius: 8px;
+            padding: 0.6rem 0.875rem;
+            margin-bottom: 0.6rem;
+            transition: border-color 0.2s;
         }
 
         .info-section:hover {
             border-color: var(--primary-color);
-            box-shadow: 0 4px 12px rgba(45, 62, 143, 0.08);
         }
 
         .info-section-title {
-            font-size: 16px;
+            font-size: 13px;
             font-weight: 700;
             color: var(--primary-color);
-            margin-bottom: 1rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 2px solid #f0f0f0;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 0.4rem;
+            padding-bottom: 0.35rem;
+            border-bottom: 1px solid #f0f0f0;
             display: flex;
             align-items: center;
         }
 
         .info-section-title i {
-            font-size: 18px;
+            font-size: 14px;
         }
 
         .info-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.75rem 0;
+            padding: 0.35rem 0;
             border-bottom: 1px solid #f3f4f6;
         }
 
@@ -623,44 +690,47 @@
         }
 
         .info-label {
-            font-weight: 600;
+            font-weight: 500;
             color: #64748b;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .info-value {
             font-weight: 700;
             color: #1e293b;
-            font-size: 14px;
+            font-size: 13px;
             text-align: right;
         }
 
+        .info-value.price-rent {
+            color: #059669;
+        }
+
+        .info-value.price-sale {
+            color: #dc2626;
+        }
+
+        /* compact feature grid */
         .feature-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.4rem;
         }
 
         .feature-item {
             background: #f8fafc;
-            border-radius: 8px;
-            padding: 1rem;
+            border-radius: 6px;
+            padding: 0.45rem 0.5rem;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            transition: all 0.3s ease;
-        }
-
-        .feature-item:hover {
-            background: #e8f0fe;
-            transform: translateY(-2px);
+            gap: 0.4rem;
         }
 
         .feature-icon {
-            width: 44px;
-            height: 44px;
+            width: 28px;
+            height: 28px;
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
-            border-radius: 8px;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -669,37 +739,33 @@
 
         .feature-icon i {
             color: white;
-            font-size: 20px;
-        }
-
-        .feature-text {
-            flex: 1;
+            font-size: 14px;
         }
 
         .feature-label {
-            font-size: 12px;
+            font-size: 13px;
             color: #64748b;
             font-weight: 500;
-            margin-bottom: 0.25rem;
         }
 
         .feature-value {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 700;
             color: var(--primary-color);
         }
 
+        /* rent area chips */
         .rent-area-list {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.5rem;
+            gap: 0.3rem;
         }
 
         .rent-area-list .info-row {
             background: #e8f0fe;
             color: var(--primary-color);
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
+            padding: 2px 8px;
+            border-radius: 4px;
             font-weight: 600;
             font-size: 13px;
             border: none;
@@ -712,17 +778,17 @@
             background: #f8fafc;
             border-top: 1px solid #e5e7eb;
             border-radius: 0 0 12px 12px;
-            padding: 1rem 1.5rem;
+            padding: 0.6rem 1rem;
         }
 
         .modal-footer .btn {
-            padding: 0.625rem 1.5rem;
-            border-radius: 8px;
+            padding: 0.4rem 1.1rem;
+            border-radius: 6px;
             font-weight: 600;
             font-size: 14px;
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.4rem;
             transition: all 0.2s ease;
         }
 
@@ -733,7 +799,17 @@
 
         .modal-footer .btn-secondary:hover {
             background: #5a6268;
-            transform: translateY(-1px);
+        }
+
+        /* wider modal */
+        .modal-dialog.modal-detail {
+            max-width: 760px;
+        }
+
+        .modal-body {
+            padding: 0.875rem 1rem;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
         }
 
         @media (max-width: 768px) {
@@ -742,17 +818,21 @@
             }
 
             .building-detail-name {
-                font-size: 18px;
+                font-size: 13px;
             }
 
             .feature-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .info-grid-2 {
                 grid-template-columns: 1fr;
             }
 
             .info-row {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 0.5rem;
+                gap: 2px;
             }
 
             .info-value {
@@ -1051,12 +1131,15 @@
         let currentPage = 1;
         const pageSize = 3;
         const levelLabels = {
-            A_PLUS: "A+",
-            A: "A",
-            B_PLUS: "B+",
-            B: "B",
-            C_PLUS: "C+",
-            C: "C"
+            "A_PLUS": "A+",
+            "A+": "A+",
+            "A": "A",
+            "B_PLUS": "B+",
+            "B+": "B+",
+            "B": "B",
+            "C_PLUS": "C+",
+            "C+": "C+",
+            "C": "C"
         };
 
         function formatPrice(price) {
@@ -1144,11 +1227,20 @@
                         }
 
                         let rentPrice = Number(b.rentPrice).toLocaleString("en-US");
+                        let salePrice = Number(b.salePrice).toLocaleString("en-US");
                         let serviceFee = Number(b.serviceFee).toLocaleString("en-US");
                         let carFee = Number(b.carFee).toLocaleString("en-US");
                         let motorbikeFee = Number(b.motorbikeFee).toLocaleString("en-US");
                         let waterFee = Number(b.waterFee).toLocaleString("en-US");
                         let electricityFee = Number(b.electricityFee).toLocaleString("en-US");
+                        let deposit = Number(b.deposit).toLocaleString("en-US");
+
+                        const propertyTypeLabels = { "OFFICE": "Văn phòng", "SHOPHOUSE": "Nhà phố thương mại", "APARTMENT": "Căn hộ", "WAREHOUSE": "Kho xưởng" };
+                        const transactionTypeLabels = { "FOR_RENT": "Cho thuê", "FOR_SALE": "Mua bán" };
+                        const propertyTypeLabel = propertyTypeLabels[b.propertyType] || b.propertyType || "—";
+                        const transactionTypeLabel = transactionTypeLabels[b.transactionType] || b.transactionType || "—";
+                        const isSale = b.transactionType === "FOR_SALE";
+                        const isRent = b.transactionType === "FOR_RENT" || !b.transactionType;
 
                         container.append(`
                         <div class="col-md-4">
@@ -1157,11 +1249,16 @@
                                 <div class="building-body">
                                     <h3 class="building-name">${b.name}</h3>
                                     <p class="building-address">
-                                        <i class="bi bi-geo-alt me-1"></i>${b.street}, ${b.ward}, ${b.district}
+                                        <i class="bi bi-geo-alt me-1"></i>${b.address}
                                     </p>
                                     <div class="building-info">
-                                        <span class="level-badge">${levelLabels[b.level] || ''}</span>
-                                        <span class="price-badge">${formatPrice(b.rentPrice)}/m²</span>
+                                        ${levelLabels[b.level] ? `<span class="level-badge">${levelLabels[b.level]}</span>` : ''}
+                                        ${isSale
+                                ? `<span class="price-badge price-badge-sale">${formatPrice(b.salePrice)}</span>`
+                                : `<span class="price-badge">${formatPrice(b.rentPrice)}/m²</span>`
+                            }
+                                        ${propertyTypeLabel !== '—' ? `<span class="type-badge">${propertyTypeLabel}</span>` : ''}
+                                        ${transactionTypeLabel !== '—' ? `<span class="trans-badge">${transactionTypeLabel}</span>` : ''}
                                     </div>
                                     <div class="building-fees">
                                         <div class="fee-item">
@@ -1186,120 +1283,108 @@
 
                         modalContainer.append(`
                             <div class="modal fade" id="buildingModal-${i}" tabindex="-1" aria-labelledby="buildingModalLabel-${i}" aria-hidden="true">
-                                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                                <div class="modal-dialog modal-detail modal-dialog-centered modal-dialog-scrollable">
                                     <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="buildingModalLabel-${i}">
-                                                <i class="bi bi-building me-2"></i>Thông Tin Tòa Nhà
-                                            </h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <div class="modal-header py-2 px-3">
+                                            <h6 class="modal-title mb-0" id="buildingModalLabel-${i}">
+                                                <i class="bi bi-building me-1"></i>Chi Tiết Tòa Nhà
+                                            </h6>
+                                            <button type="button" class="btn-close btn-close-sm" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <!-- Building Header -->
+
+                                            <!-- Header -->
                                             <div class="building-detail-header">
                                                 <div class="building-detail-name">
-                                                    <i class="bi bi-building me-2"></i>
+                                                    <i class="bi bi-building me-1"></i>
                                                     <span>${b.name}</span>
                                                 </div>
                                                 <div class="building-detail-address">
                                                     <i class="bi bi-geo-alt me-1"></i>
-                                                    <span>${b.street}, ${b.ward}, ${b.district}</span>
+                                                    <span>${b.address || "—"}</span>
+                                                </div>
+                                                <div class="detail-badge-strip">
+                                                    ${b.level ? `<span class="detail-badge level"><i class="bi bi-star-fill"></i> ${b.level}</span>` : ""}
+                                                    ${b.propertyType ? `<span class="detail-badge type"><i class="bi bi-building-gear"></i> ${propertyTypeLabel}</span>` : ""}
+                                                    ${b.transactionType ? `<span class="detail-badge trans"><i class="bi bi-arrow-left-right"></i> ${transactionTypeLabel}</span>` : ""}
+                                                    ${b.taxCode ? `<span class="detail-badge tax"><i class="bi bi-receipt"></i> MST: ${b.taxCode}</span>` : ""}
                                                 </div>
                                             </div>
 
-                                            <!-- Thông tin chung -->
-                                            <div class="info-section">
-                                                <div class="info-section-title">
-                                                    <i class="bi bi-info-circle me-2"></i>Thông Tin Chung
+                                            <!-- Row 1: Thông tin chung + Đặc điểm -->
+                                            <div class="info-grid-2">
+                                                <div class="info-section">
+                                                    <div class="info-section-title"><i class="bi bi-info-circle me-1"></i>Thông Tin Chung</div>
+                                                    <div class="info-row">
+                                                        <span class="info-label">Hướng</span>
+                                                        <span class="info-value">${b.direction || "—"}</span>
+                                                    </div>
+                                                    <div class="info-row">
+                                                        <span class="info-label">Diện tích sàn</span>
+                                                        <span class="info-value">${b.floorArea ? b.floorArea + " m²" : "—"}</span>
+                                                    </div>
+                                                    <div class="info-row">
+                                                        <span class="info-label">Số tầng</span>
+                                                        <span class="info-value">${b.numberOfFloor ?? "—"}</span>
+                                                    </div>
+                                                    <div class="info-row">
+                                                        <span class="info-label">Tầng hầm</span>
+                                                        <span class="info-value">${b.numberOfBasement ?? "—"}</span>
+                                                    </div>
+                                                    ${b.linkOfBuilding ? `<div class="info-row">
+                                                        <span class="info-label">Link</span>
+                                                        <a href="${b.linkOfBuilding}" target="_blank" class="info-value text-primary" style="font-size:10px;">Xem thêm</a>
+                                                    </div>` : ""}
                                                 </div>
-                                                <div class="info-row">
-                                                    <span class="info-label">Hạng</span>
-                                                    <span class="info-value">${b.level}</span>
-                                                </div>
-                                                <div class="info-row">
-                                                    <span class="info-label">Hướng</span>
-                                                    <span class="info-value">${b.direction}</span>
-                                                </div>
-                                            </div>
 
-                                            <!-- Đặc điểm tòa nhà -->
-                                            <div class="info-section">
-                                                <div class="info-section-title">
-                                                    <i class="bi bi-rulers me-2"></i>Đặc Điểm Tòa Nhà
-                                                </div>
-                                                <div class="feature-grid">
-                                                    <div class="feature-item">
-                                                        <div class="feature-icon">
-                                                            <i class="bi bi-arrows-fullscreen"></i>
-                                                        </div>
-                                                        <div class="feature-text">
-                                                            <div class="feature-label">Diện tích sàn</div>
-                                                            <div class="feature-value">${b.floorArea} m²</div>
-                                                        </div>
+                                                <!-- Giá -->
+                                                <div class="info-section">
+                                                    <div class="info-section-title"><i class="bi bi-cash-stack me-1"></i>Giá & Phí</div>
+                                                    ${isRent ? `<div class="info-row">
+                                                        <span class="info-label">Giá thuê</span>
+                                                        <span class="info-value price-rent">${rentPrice} ₫/m²</span>
+                                                    </div>` : ""}
+                                                    ${isSale ? `<div class="info-row">
+                                                        <span class="info-label">Giá bán</span>
+                                                        <span class="info-value price-sale">${salePrice} ₫</span>
+                                                    </div>` : ""}
+                                                    <div class="info-row">
+                                                        <span class="info-label">Phí dịch vụ</span>
+                                                        <span class="info-value">${serviceFee} ₫/tháng</span>
                                                     </div>
-                                                    <div class="feature-item">
-                                                        <div class="feature-icon">
-                                                            <i class="bi bi-layers"></i>
-                                                        </div>
-                                                        <div class="feature-text">
-                                                            <div class="feature-label">Số tầng</div>
-                                                            <div class="feature-value">${b.numberOfFloor}</div>
-                                                        </div>
+                                                    <div class="info-row">
+                                                        <span class="info-label">Đặt cọc</span>
+                                                        <span class="info-value">${deposit} ₫</span>
                                                     </div>
-                                                    <div class="feature-item">
-                                                        <div class="feature-icon">
-                                                            <i class="bi bi-layers-fill"></i>
-                                                        </div>
-                                                        <div class="feature-text">
-                                                            <div class="feature-label">Số tầng hầm</div>
-                                                            <div class="feature-value">${b.numberOfBasement}</div>
-                                                        </div>
+                                                    <div class="info-row">
+                                                        <span class="info-label">Phí điện</span>
+                                                        <span class="info-value">${electricityFee} ₫/số</span>
+                                                    </div>
+                                                    <div class="info-row">
+                                                        <span class="info-label">Phí nước</span>
+                                                        <span class="info-value">${waterFee} ₫/m³</span>
+                                                    </div>
+                                                    <div class="info-row">
+                                                        <span class="info-label">Phí ô tô</span>
+                                                        <span class="info-value">${carFee} ₫/tháng</span>
+                                                    </div>
+                                                    <div class="info-row">
+                                                        <span class="info-label">Phí xe máy</span>
+                                                        <span class="info-value">${motorbikeFee} ₫/tháng</span>
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <!-- Diện tích thuê khả dụng -->
-                                            <div class="info-section" id="rentAreaSection">
-                                                <div class="info-section-title">
-                                                    <i class="bi bi-grid me-2"></i>Diện Tích Thuê Khả Dụng
-                                                </div>
+                                            ${rentAreaHtml ? `<div class="info-section">
+                                                <div class="info-section-title"><i class="bi bi-grid me-1"></i>Diện Tích Thuê Khả Dụng</div>
                                                 <div class="rent-area-list">${rentAreaHtml}</div>
-                                            </div>
+                                            </div>` : ""}
 
-                                            <!-- Giá thuê -->
-                                            <div class="info-section">
-                                                <div class="info-section-title">
-                                                    <i class="bi bi-cash-stack me-2"></i>Giá Thuê & Phí Dịch Vụ
-                                                </div>
-                                                <div class="info-row">
-                                                    <span class="info-label">Giá thuê</span>
-                                                    <span class="info-value">${rentPrice} VNĐ/m²</span>
-                                                </div>
-                                                <div class="info-row">
-                                                    <span class="info-label">Phí dịch vụ</span>
-                                                    <span class="info-value">${serviceFee} VNĐ/tháng</span>
-                                                </div>
-                                                <div class="info-row">
-                                                    <span class="info-label">Phí gửi xe ô tô</span>
-                                                    <span class="info-value">${carFee} VNĐ/tháng</span>
-                                                </div>
-                                                <div class="info-row">
-                                                    <span class="info-label">Phí gửi xe máy</span>
-                                                    <span class="info-value">${motorbikeFee} VNĐ/tháng</span>
-                                                </div>
-                                                <div class="info-row">
-                                                    <span class="info-label">Phí nước</span>
-                                                    <span class="info-value">${waterFee} VNĐ/m³</span>
-                                                </div>
-                                                <div class="info-row">
-                                                    <span class="info-label">Phí điện</span>
-                                                    <span class="info-value">${electricityFee} VNĐ/số</span>
-                                                </div>
-                                            </div>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                                <i class="bi bi-x-circle me-2"></i>Đóng
+                                                <i class="bi bi-x-circle"></i>Đóng
                                             </button>
                                         </div>
                                     </div>
