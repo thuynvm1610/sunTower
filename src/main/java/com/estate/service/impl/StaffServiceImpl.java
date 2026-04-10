@@ -6,11 +6,7 @@ import com.estate.converter.StaffListConverter;
 import com.estate.dto.*;
 import com.estate.exception.BusinessException;
 import com.estate.exception.InputValidationException;
-import com.estate.repository.BuildingRepository;
-import com.estate.repository.ContractRepository;
-import com.estate.repository.CustomerRepository;
-import com.estate.repository.OAuthIdentityRepository;
-import com.estate.repository.StaffRepository;
+import com.estate.repository.*;
 import com.estate.repository.entity.BuildingEntity;
 import com.estate.repository.entity.CustomerEntity;
 import com.estate.repository.entity.OAuthIdentityEntity;
@@ -135,21 +131,21 @@ public class StaffServiceImpl implements StaffService {
         StaffEntity entity;
 
         if (staffRepository.existsByUsername(dto.getUsername()) || customerRepository.existsByUsername(dto.getUsername())) {
-            throw new BusinessException("Tên đăng nhập đã tồn tại");
+            throw new BusinessException("Tên đăng nhập đã sử dụng");
         }
 
         if (staffRepository.existsByEmail(dto.getEmail()) || customerRepository.existsByEmail(dto.getEmail())) {
-            throw new BusinessException("Email đã tồn tại");
+            throw new BusinessException("Email đã đăng ký");
         }
 
         if (staffRepository.existsByPhone(dto.getPhone()) || customerRepository.existsByPhone(dto.getPhone())) {
-            throw new BusinessException("Số điện thoại đã tồn tại");
+            throw new BusinessException("Số điện thoại đã sử dụng");
         }
 
         if (dto.getId() != null) {
             // Update
             entity = staffRepository.findById(dto.getId())
-                    .orElseThrow(() -> new BusinessException("Không tìm thấy nhân viên để sửa"));
+                    .orElseThrow(() -> new BusinessException("Không tìm thấy nhân viên"));
         } else {
             // Thêm mới
             entity = staffFormConverter.toEntity(dto);
@@ -193,7 +189,7 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public Long getCustomertCnt(Long staffId) {
+    public Long getCustomerCnt(Long staffId) {
         return staffRepository.countCustomersByStaffId(staffId);
     }
 
@@ -426,5 +422,12 @@ public class StaffServiceImpl implements StaffService {
                 }
             });
         }
+    }
+
+    public void avatarUpdate(String filename, Long staffId) {
+        StaffEntity staff = staffRepository.findById(staffId)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy staff"));
+        staff.setImage(filename);
+        staffRepository.save(staff);
     }
 }

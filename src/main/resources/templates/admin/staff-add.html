@@ -190,13 +190,6 @@
             color: #9ca3af;
         }
 
-        .form-control.has-value,
-        .form-select.has-value {
-            background-color: #E8F0FE;
-            border-color: #3b82f6;
-            font-weight: 600;
-        }
-
         /* Input groups */
         .input-group-text {
             background: #f9fafb;
@@ -623,20 +616,7 @@
             });
         });
 
-        $(document).ready(function () {
-            function highlightFilled() {
-                $('.form-control, .form-select').each(function () {
-                    $(this).toggleClass('has-value', !!($(this).val() && $(this).val().trim()));
-                });
-            }
-            highlightFilled();
-            $('.form-control, .form-select').on('input change', function () {
-                $(this).toggleClass('has-value', !!($(this).val() && $(this).val().trim()));
-            });
-            $('.btn-reset').on('click', function () {
-                setTimeout(() => $('.form-control, .form-select').removeClass('has-value'), 10);
-            });
-        });
+
     </script>
 </body>
 

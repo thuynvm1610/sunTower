@@ -16,7 +16,7 @@ public interface StaffService {
     void delete(Long id);
     StaffDetailDTO viewById(Long id);
     Long getBuildingCnt(Long staffId);
-    Long getCustomertCnt(Long staffId);
+    Long getCustomerCnt(Long staffId);
     String getStaffName(Long staffId);
     String getStaffAvatar(Long staffId);
     void usernameUpdate(UsernameChangeDTO dto, Long staffId);
@@ -30,4 +30,5 @@ public interface StaffService {
     List<Long> getAssignedCustomerIds(Long staffId);
     void updateBuildingAssignments(Long staffId, List<Long> buildingIds);
     void updateCustomerAssignments(Long staffId, List<Long> customerIds);
+    void avatarUpdate(String filename, Long staffId);
 }

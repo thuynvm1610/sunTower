@@ -9,229 +9,285 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
         :root {
-            --primary-color: #2d3e8f;
+            --primary: #2d3e8f;
             --primary-light: #4a5fc1;
-            --secondary-color: #f5f7fa;
+            --bg: #f5f7fa;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--secondary-color);
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--bg);
         }
 
+        /* ── Header ── */
         .header {
-            background: var(--primary-color);
+            background: var(--primary);
             color: white;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .12);
             position: sticky;
             top: 0;
             z-index: 1000;
         }
 
-        .header-top {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
         .logo {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-
-        .badge-custom {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
         }
 
         .btn-logout {
             background: white;
-            color: var(--primary-color);
+            color: var(--primary);
             border: none;
-            padding: 8px 18px;
+            padding: 7px 16px;
             border-radius: 6px;
             font-weight: 600;
-            font-size: 14px;
-            transition: all 0.2s;
+            font-size: 13px;
         }
 
         .btn-logout:hover {
             background: #f0f0f0;
-            color: var(--primary-color);
         }
 
         .nav-custom {
-            background: var(--primary-color);
+            background: var(--primary);
         }
 
         .nav-custom .nav-link {
-            color: white !important;
+            color: rgba(255, 255, 255, .85) !important;
+            font-size: 13px;
             font-weight: 500;
-            font-size: 14px;
-            padding: 14px 18px;
+            padding: 13px 16px;
             border-radius: 6px 6px 0 0;
-            transition: all 0.2s;
         }
 
         .nav-custom .nav-link:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, .1);
+            color: white !important;
         }
 
         .nav-custom .nav-link.active {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, .15);
+            color: white !important;
             font-weight: 600;
         }
 
-        /* Avatar hover effects */
-        .header-top img.rounded-circle {
-            width: 40px;
-            height: 40px;
+        .header-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
             object-fit: cover;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, .35);
+            transition: .25s;
             cursor: pointer;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
         }
 
-        .header-top img.rounded-circle:hover {
-            transform: scale(1.1);
+        .header-avatar:hover {
+            transform: scale(1.08);
             border-color: white;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
         }
 
-        /* Profile Card */
-        .profile-card {
+        /* ── Layout 2 cột ── */
+        .profile-wrap {
+            display: flex;
+            gap: 1.25rem;
+            align-items: flex-start;
+        }
+
+        /* Cột trái */
+        .profile-left {
+            flex: 0 0 230px;
             background: white;
             border-radius: 12px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .07);
             overflow: hidden;
         }
 
-        .profile-header {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
-            color: white;
-            padding: 2rem;
+        .left-banner {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            padding: 1.75rem 1rem 1.25rem;
             text-align: center;
         }
 
-        .profile-avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 4px solid white;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            object-fit: cover;
-            margin-bottom: 1rem;
-        }
-
-        .profile-name {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .profile-role {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 13px;
+        .avatar-wrapper {
+            position: relative;
             display: inline-block;
+            margin-bottom: .75rem;
         }
 
-        /* Info Section */
-        .info-section {
-            padding: 2rem;
+        .profile-avatar {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            border: 3px solid white;
+            object-fit: cover;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, .2);
+            display: block;
         }
 
-        .section-title {
-            color: var(--primary-color);
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 2px solid #f0f0f0;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .info-item {
-            padding: 1.25rem;
-            background: #f8f9fa;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            transition: all 0.2s;
-        }
-
-        .info-item:hover {
-            background: #f0f4ff;
-            transform: translateX(3px);
-        }
-
-        .info-label {
-            color: #666;
-            font-size: 13px;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .info-value {
-            color: #333;
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        /* Action Buttons */
-        .action-section {
-            padding: 2rem;
-            border-top: 1px solid #f0f0f0;
-        }
-
-        .btn-action {
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.3s;
+        .avatar-edit-btn {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: white;
+            color: var(--primary);
             border: none;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
+            font-size: 13px;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
+            transition: .2s;
         }
 
-        .btn-primary-custom {
-            background: var(--primary-color);
+        .avatar-edit-btn:hover {
+            background: var(--primary);
             color: white;
+            transform: scale(1.1);
         }
 
-        .btn-primary-custom:hover {
-            background: var(--primary-light);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(45, 62, 143, 0.3);
+        .profile-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: .35rem;
         }
 
-        .btn-outline-custom {
+        .profile-role {
+            background: rgba(255, 255, 255, .2);
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            color: white;
+            display: inline-block;
+        }
+
+        .left-actions {
+            padding: .75rem;
+        }
+
+        .btn-side {
+            width: 100%;
+            text-align: left;
+            padding: 9px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            border: none;
+            background: none;
+            color: #444;
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            transition: .18s;
+            margin-bottom: 3px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn-side:hover {
+            background: #eef1ff;
+            color: var(--primary);
+        }
+
+        .btn-side i {
+            font-size: 15px;
+            width: 18px;
+            text-align: center;
+        }
+
+        .btn-side.disabled-btn {
+            opacity: .45;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* Cột phải */
+        .profile-right {
+            flex: 1;
             background: white;
-            color: var(--primary-color);
-            border: 2px solid var(--primary-color);
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .07);
+            padding: 1.5rem;
         }
 
-        .btn-outline-custom:hover {
-            background: var(--primary-color);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(45, 62, 143, 0.2);
+        .section-title {
+            color: var(--primary);
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding-bottom: .6rem;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: .4rem;
         }
 
-        /* Modal */
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            padding: .8rem 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: .6rem;
+            transition: .18s;
+        }
+
+        .info-item:hover {
+            background: #eef1ff;
+            transform: translateX(2px);
+        }
+
+        .info-icon {
+            color: var(--primary);
+            font-size: 17px;
+            flex-shrink: 0;
+        }
+
+        .info-text .label {
+            font-size: 11px;
+            color: #888;
+            font-weight: 500;
+            margin-bottom: 1px;
+        }
+
+        .info-text .value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #222;
+        }
+
+        .security-notice {
+            background: #fff8e1;
+            border-left: 4px solid #ffc107;
+            border-radius: 8px;
+            padding: .9rem 1rem;
+            display: flex;
+            gap: .75rem;
+            align-items: flex-start;
+            margin-top: 1rem;
+        }
+
+        .security-notice i {
+            color: #ff9800;
+            font-size: 20px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .security-notice p {
+            font-size: 12px;
+            color: #666;
+            margin: 0;
+        }
+
+        /* ── Modal ── */
         .modal-header {
-            background: var(--primary-color);
+            background: var(--primary);
             color: white;
         }
 
@@ -242,79 +298,126 @@
         .form-label {
             font-weight: 600;
             color: #333;
-            margin-bottom: 0.5rem;
+            font-size: 13px;
         }
 
         .form-control {
-            padding: 0.75rem;
+            padding: .6rem .75rem;
             border: 2px solid #e0e0e0;
             border-radius: 8px;
-            transition: all 0.2s;
+            font-size: 14px;
         }
 
         .form-control:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.2rem rgba(45, 62, 143, 0.1);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 .2rem rgba(45, 62, 143, .1);
         }
 
-        .security-card {
-            background: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-        }
-
-        .security-card i {
-            color: #ff9800;
-            font-size: 24px;
-        }
-
-        /* Password Toggle */
         .password-toggle-wrapper {
             position: relative;
         }
 
         .password-toggle-btn {
             position: absolute;
-            right: 12px;
+            right: 10px;
             top: 50%;
             transform: translateY(-50%);
             background: none;
             border: none;
-            color: #666;
+            color: #888;
             cursor: pointer;
-            padding: 4px;
-            transition: color 0.2s;
         }
 
         .password-toggle-btn:hover {
-            color: var(--primary-color);
+            color: var(--primary);
         }
 
-        .password-toggle-btn i {
-            font-size: 18px;
+        .btn-primary-custom {
+            background: var(--primary);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary-custom:hover {
+            background: var(--primary-light);
+            color: white;
+        }
+
+        /* Avatar modal */
+        .avatar-preview-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: .75rem;
+        }
+
+        #avatarPreview {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #e0e0e0;
+        }
+
+        .avatar-drop-zone {
+            border: 2px dashed #c0c8e8;
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: .2s;
+            width: 100%;
+        }
+
+        .avatar-drop-zone:hover,
+        .avatar-drop-zone.dragover {
+            border-color: var(--primary);
+            background: #f0f3ff;
+        }
+
+        .avatar-drop-zone i {
+            font-size: 26px;
+            color: #aab;
+            margin-bottom: .3rem;
+            display: block;
+        }
+
+        .avatar-drop-zone span {
+            font-size: 12px;
+            color: #666;
+        }
+
+        @media (max-width:768px) {
+            .profile-wrap {
+                flex-direction: column;
+            }
+
+            .profile-left {
+                flex: none;
+                width: 100%;
+            }
         }
     </style>
 </head>
 
 <body>
+
+    <!-- ════ HEADER ════ -->
     <div class="header">
-        <div class="header-top py-3">
+        <div class="py-2 border-bottom border-white border-opacity-10">
             <div class="container-fluid px-4">
-                <div class="d-flex justify-content-between align-items-center flex-wrap">
+                <div class="d-flex justify-content-between align-items-center">
                     <div class="logo">SunTower</div>
                     <div class="d-flex align-items-center gap-3">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="text-end">
-                                <small class="d-block opacity-85">Xin chào,</small>
-                                <strong th:text="${staffName}">Nguyễn Văn B</strong>
-                            </div>
-                            <a th:href="@{/staff/profile}" class="text-decoration-none text-reset">
-                                <img th:src="@{'/images/staff_img/' + ${staffAvatar} + '.jpg'}" alt="Avatar"
-                                    class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
-                            </a>
+                        <div class="text-end d-none d-sm-block">
+                            <small class="d-block opacity-75" style="font-size:11px;">Xin chào,</small>
+                            <strong style="font-size:14px;" th:text="${staffName}">Nguyễn Văn B</strong>
                         </div>
+                        <a th:href="@{/staff/profile}" class="text-decoration-none">
+                            <img id="headerAvatar" th:src="@{'/images/staff_img/' + ${staffAvatar}}"
+                                onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23c5cae9%22/%3E%3Ccircle cx=%2250%22 cy=%2238%22 r=%2218%22 fill=%22%235c6bc0%22/%3E%3Ccircle cx=%2250%22 cy=%2290%22 r=%2230%22 fill=%22%235c6bc0%22/%3E%3C/svg%3E'"
+                                alt="Avatar" class="header-avatar">
+                        </a>
                         <a href="#" class="btn btn-logout"
                             onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">Đăng
                             xuất</a>
@@ -323,176 +426,154 @@
                 </div>
             </div>
         </div>
-
         <nav class="nav-custom">
             <div class="container-fluid px-4">
                 <ul class="nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/staff/dashboard">
-                            <i class="bi bi-speedometer2 me-1"></i>Tổng quan
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/staff/buildings">
-                            <i class="bi bi-building me-1"></i>Tòa nhà
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/staff/contracts">
-                            <i class="bi bi-file-text me-1"></i>Hợp đồng
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/staff/customers">
-                            <i class="bi bi-people me-1"></i>Khách hàng
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/staff/invoices">
-                            <i class="bi bi-receipt me-1"></i>Hóa đơn
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/staff/profile">
-                            <i class="bi bi-person-circle me-1"></i>Tài khoản
-                        </a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/staff/dashboard"><i
+                                class="bi bi-speedometer2 me-1"></i>Tổng quan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/staff/buildings"><i
+                                class="bi bi-building me-1"></i>Tòa nhà</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/staff/contracts"><i
+                                class="bi bi-file-text me-1"></i>Hợp đồng</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/staff/customers"><i
+                                class="bi bi-people me-1"></i>Khách hàng</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/staff/invoices"><i
+                                class="bi bi-receipt me-1"></i>Hóa đơn</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/staff/profile"><i
+                                class="bi bi-person-circle me-1"></i>Tài khoản</a></li>
                 </ul>
             </div>
         </nav>
     </div>
 
+    <!-- ════ CONTENT ════ -->
     <div class="container-fluid px-4 py-4">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <!-- Profile Card -->
-                <div class="profile-card">
-                    <!-- Profile Header -->
-                    <div class="profile-header">
-                        <img th:src="@{'/images/staff_img/' + ${staffAvatar} + '.jpg'}" alt="Avatar"
-                            class="profile-avatar">
-                        <div class="profile-name" th:text="${staff.fullName}">Nguyễn Văn B</div>
-                        <div class="profile-role">NHÂN VIÊN</div>
+        <div class="profile-wrap">
+
+            <!-- Cột trái -->
+            <div class="profile-left">
+                <div class="left-banner">
+                    <div class="avatar-wrapper">
+                        <img id="profileAvatar" th:src="@{'/images/staff_img/' + ${staffAvatar}}"
+                            onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23c5cae9%22/%3E%3Ccircle cx=%2250%22 cy=%2238%22 r=%2218%22 fill=%22%235c6bc0%22/%3E%3Ccircle cx=%2250%22 cy=%2290%22 r=%2230%22 fill=%22%235c6bc0%22/%3E%3C/svg%3E'"
+                            alt="Avatar" class="profile-avatar">
+                        <button class="avatar-edit-btn" title="Đổi ảnh đại diện" data-bs-toggle="modal"
+                            data-bs-target="#avatarModal">
+                            <i class="bi bi-camera-fill"></i>
+                        </button>
                     </div>
+                    <div class="profile-name" th:text="${staff.fullName}">Nguyễn Văn B</div>
+                    <div class="profile-role">NHÂN VIÊN</div>
+                </div>
+                <div class="left-actions">
+                    <button class="btn-side" data-bs-toggle="modal" data-bs-target="#editUsernameModal">
+                        <i class="bi bi-person-check"></i>Đổi tên đăng nhập
+                    </button>
+                    <button class="btn-side" data-bs-toggle="modal" data-bs-target="#editPhoneModal">
+                        <i class="bi bi-phone"></i>Đổi số điện thoại
+                    </button>
+                    <button class="btn-side" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+                        <i class="bi bi-key"></i>Đổi mật khẩu
+                    </button>
+                    <a th:if="${linkedGoogleEmail == null}" class="btn-side"
+                        th:href="@{/auth/link/google(returnTo='/staff/profile')}">
+                        <i class="bi bi-google"></i>Liên kết Google
+                    </a>
+                    <span th:if="${linkedGoogleEmail != null}" class="btn-side disabled-btn">
+                        <i class="bi bi-google"></i>Đã liên kết Google
+                    </span>
+                </div>
+            </div>
 
-                    <!-- Info Section -->
-                    <div class="info-section">
-                        <h2 class="section-title">
-                            <i class="bi bi-person-badge"></i>
-                            Thông Tin Tài Khoản
-                        </h2>
+            <!-- Cột phải -->
+            <div class="profile-right">
+                <h2 class="section-title"><i class="bi bi-person-badge"></i>Thông Tin Tài Khoản</h2>
 
-                        <div class="info-item">
-                            <div class="info-label">
-                                <i class="bi bi-person-circle"></i>
-                                Tên đăng nhập
-                            </div>
-                            <div class="info-value" th:text="${staff.username}">staffuser</div>
-                        </div>
-
-                        <div class="info-item">
-                            <div class="info-label">
-                                <i class="bi bi-envelope"></i>
-                                Email
-                            </div>
-                            <div class="info-value" th:text="${staff.email}">staff@suntower.com</div>
-                        </div>
-
-                        <div class="info-item">
-                            <div class="info-label">
-                                <i class="bi bi-link-45deg"></i>
-                                Email Google liên kết
-                            </div>
-                            <div class="info-value"
-                                th:text="${linkedGoogleEmail != null ? linkedGoogleEmail : 'Chưa liên kết'}">Chưa liên
-                                kết</div>
-                        </div>
-
-                        <div class="info-item">
-                            <div class="info-label">
-                                <i class="bi bi-telephone"></i>
-                                Số điện thoại
-                            </div>
-                            <div class="info-value" th:text="${staff.phone}">0987654321</div>
-                        </div>
+                <div class="info-item">
+                    <i class="bi bi-person-circle info-icon"></i>
+                    <div class="info-text">
+                        <div class="label">Tên đăng nhập</div>
+                        <div class="value" th:text="${staff.username}">staffuser</div>
                     </div>
-
-                    <!-- Security Notice -->
-                    <div class="info-section">
-                        <div class="security-card">
-                            <div class="d-flex gap-3">
-                                <div>
-                                    <i class="bi bi-shield-lock"></i>
-                                </div>
-                                <div>
-                                    <h5 class="mb-2" style="color: #ff9800; font-weight: 600;">Bảo Mật Tài Khoản</h5>
-                                    <p class="mb-0" style="color: #666; font-size: 14px;">
-                                        Để bảo vệ tài khoản của bạn, hãy thường xuyên cập nhật mật khẩu và không chia sẻ
-                                        thông tin đăng nhập với người khác.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+                </div>
+                <div class="info-item">
+                    <i class="bi bi-envelope info-icon"></i>
+                    <div class="info-text">
+                        <div class="label">Email</div>
+                        <div class="value" th:text="${staff.email}"><a href="/cdn-cgi/l/email-protection"
+                                class="__cf_email__"
+                                data-cfemail="b7c4c3d6d1d1f7c4c2d9c3d8c0d2c599d4d8da">[email&#160;protected]</a></div>
                     </div>
-
-                    <!-- Action Buttons -->
-                    <div class="action-section">
-                        <h2 class="section-title">
-                            <i class="bi bi-gear"></i>
-                            Quản Lý Tài Khoản
-                        </h2>
-
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <button class="btn btn-primary-custom btn-action w-100" data-bs-toggle="modal"
-                                    data-bs-target="#editUsernameModal">
-                                    <i class="bi bi-person-check"></i>
-                                    Đổi Tên Đăng Nhập
-                                </button>
-                            </div>
-                            <div class="col-md-6">
-                                <button class="btn btn-primary-custom btn-action w-100" data-bs-toggle="modal"
-                                    data-bs-target="#editPhoneModal">
-                                    <i class="bi bi-phone"></i>
-                                    Đổi Số Điện Thoại
-                                </button>
-                            </div>
-                            <div class="col-md-6">
-                                <button class="btn btn-outline-custom btn-action w-100" data-bs-toggle="modal"
-                                    data-bs-target="#changePasswordModal">
-                                    <i class="bi bi-key"></i>
-                                    Đổi Mật Khẩu
-                                </button>
-                            </div>
-                            <div class="col-md-6">
-                                <a th:if="${linkedGoogleEmail == null}" class="btn btn-outline-custom btn-action w-100"
-                                    th:href="@{/auth/link/google(returnTo='/staff/profile')}"
-                                    style="text-decoration:none;color:inherit;">
-                                    <i class="bi bi-google"></i>
-                                    Liên Kết Google
-                                </a>
-                                <div th:if="${linkedGoogleEmail != null}"
-                                    class="btn btn-outline-custom btn-action w-100"
-                                    style="opacity:.55; cursor:not-allowed;">
-                                    <i class="bi bi-google"></i>
-                                    Đã liên kết Google
-                                </div>
-                            </div>
-                        </div>
+                </div>
+                <div class="info-item">
+                    <i class="bi bi-google info-icon"></i>
+                    <div class="info-text">
+                        <div class="label">Email Google liên kết</div>
+                        <div class="value" th:text="${linkedGoogleEmail != null ? linkedGoogleEmail : 'Chưa liên kết'}">
+                            Chưa liên kết</div>
                     </div>
+                </div>
+                <div class="info-item">
+                    <i class="bi bi-telephone info-icon"></i>
+                    <div class="info-text">
+                        <div class="label">Số điện thoại</div>
+                        <div class="value" th:text="${staff.phone}">0987654321</div>
+                    </div>
+                </div>
+
+                <div class="security-notice">
+                    <i class="bi bi-shield-lock"></i>
+                    <div>
+                        <strong style="color:#ff9800; font-size:13px;">Bảo Mật Tài Khoản</strong>
+                        <p class="mt-1">Thường xuyên cập nhật mật khẩu và không chia sẻ thông tin đăng nhập với người
+                            khác.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ════ MODAL: Đổi Ảnh Đại Diện ════ -->
+    <div class="modal fade" id="avatarModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-camera me-2"></i>Đổi Ảnh Đại Diện</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="avatar-preview-wrap mb-3">
+                        <img id="avatarPreview" th:src="@{'/images/staff_img/' + ${staffAvatar}}"
+                            onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23c5cae9%22/%3E%3Ccircle cx=%2250%22 cy=%2238%22 r=%2218%22 fill=%22%235c6bc0%22/%3E%3Ccircle cx=%2250%22 cy=%2290%22 r=%2230%22 fill=%22%235c6bc0%22/%3E%3C/svg%3E'"
+                            alt="Preview">
+                        <div class="avatar-drop-zone" id="avatarDropZone"
+                            onclick="document.getElementById('avatarFileInput').click()">
+                            <i class="bi bi-cloud-arrow-up"></i>
+                            <span>Nhấp để chọn hoặc kéo thả ảnh vào đây<br>
+                                <small class="text-muted">JPG, PNG, WEBP · tối đa 5 MB</small>
+                            </span>
+                        </div>
+                        <input type="file" id="avatarFileInput" accept=".jpg,.jpeg,.png,.webp" style="display:none;">
+                    </div>
+                    <div id="avatarUploadStatus"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary-custom" id="btnSaveAvatar" disabled>
+                        <i class="bi bi-check-lg me-1"></i>Lưu ảnh
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal Đổi Tên Đăng Nhập -->
+    <!-- ════ MODAL: Đổi Tên Đăng Nhập ════ -->
     <div class="modal fade" id="editUsernameModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">
-                        <i class="bi bi-person-check me-2"></i>Đổi Tên Đăng Nhập
-                    </h5>
+                    <h5 class="modal-title"><i class="bi bi-person-check me-2"></i>Đổi Tên Đăng Nhập</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <form id="usernameForm">
@@ -506,13 +587,13 @@
                             <input type="text" class="form-control" name="newUsername" required
                                 placeholder="Nhập tên đăng nhập mới">
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-0">
                             <label class="form-label">Mã OTP xác nhận</label>
                             <div class="d-flex gap-2">
                                 <input type="text" class="form-control" name="otp" id="usernameOtp" required
                                     placeholder="Nhập mã OTP">
-                                <button type="button" class="btn btn-primary-custom"
-                                    onclick="sendOtp('PROFILE_USERNAME', 'usernameOtp')">Gửi mã</button>
+                                <button type="button" class="btn btn-primary-custom px-3"
+                                    onclick="sendOtp('PROFILE_USERNAME','usernameOtp')">Gửi mã</button>
                             </div>
                         </div>
                     </div>
@@ -525,14 +606,12 @@
         </div>
     </div>
 
-    <!-- Modal Đổi Email -->
+    <!-- ════ MODAL: Đổi Email ════ -->
     <div class="modal fade" id="editEmailModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">
-                        <i class="bi bi-envelope-at me-2"></i>Đổi Email
-                    </h5>
+                    <h5 class="modal-title"><i class="bi bi-envelope-at me-2"></i>Đổi Email</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <form id="emailForm">
@@ -546,11 +625,11 @@
                             <input type="email" class="form-control" name="newEmail" required
                                 placeholder="Nhập email mới">
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-0">
                             <label class="form-label">Mật khẩu xác nhận</label>
                             <div class="password-toggle-wrapper">
                                 <input type="password" class="form-control" name="password" id="emailPassword" required
-                                    placeholder="Nhập mật khẩu để xác nhận" style="padding-right: 45px;">
+                                    placeholder="Nhập mật khẩu để xác nhận" style="padding-right:42px;">
                                 <button type="button" class="password-toggle-btn"
                                     onclick="togglePassword('emailPassword')">
                                     <i class="bi bi-eye" id="emailPassword-icon"></i>
@@ -567,14 +646,12 @@
         </div>
     </div>
 
-    <!-- Modal Đổi Số Điện Thoại -->
+    <!-- ════ MODAL: Đổi Số Điện Thoại ════ -->
     <div class="modal fade" id="editPhoneModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">
-                        <i class="bi bi-phone me-2"></i>Đổi Số Điện Thoại
-                    </h5>
+                    <h5 class="modal-title"><i class="bi bi-phone me-2"></i>Đổi Số Điện Thoại</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <form id="phoneForm">
@@ -588,13 +665,13 @@
                             <input type="tel" class="form-control" name="newPhoneNumber" required
                                 placeholder="Nhập số điện thoại mới">
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-0">
                             <label class="form-label">Mã OTP xác nhận</label>
                             <div class="d-flex gap-2">
                                 <input type="text" class="form-control" name="otp" id="phoneOtp" required
                                     placeholder="Nhập mã OTP">
-                                <button type="button" class="btn btn-primary-custom"
-                                    onclick="sendOtp('PROFILE_PHONE', 'phoneOtp')">Gửi mã</button>
+                                <button type="button" class="btn btn-primary-custom px-3"
+                                    onclick="sendOtp('PROFILE_PHONE','phoneOtp')">Gửi mã</button>
                             </div>
                         </div>
                     </div>
@@ -607,14 +684,12 @@
         </div>
     </div>
 
-    <!-- Modal Đổi Mật Khẩu -->
+    <!-- ════ MODAL: Đổi Mật Khẩu ════ -->
     <div class="modal fade" id="changePasswordModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">
-                        <i class="bi bi-key me-2"></i>Đổi Mật Khẩu
-                    </h5>
+                    <h5 class="modal-title"><i class="bi bi-key me-2"></i>Đổi Mật Khẩu</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <form id="passwordForm">
@@ -623,20 +698,18 @@
                             <label class="form-label">Mật khẩu mới</label>
                             <div class="password-toggle-wrapper">
                                 <input type="password" class="form-control" name="newPassword" id="newPassword" required
-                                    minlength="8" placeholder="Nhập mật khẩu mới" style="padding-right: 45px;">
+                                    minlength="8" placeholder="Ít nhất 8 ký tự" style="padding-right:42px;">
                                 <button type="button" class="password-toggle-btn"
                                     onclick="togglePassword('newPassword')">
                                     <i class="bi bi-eye" id="newPassword-icon"></i>
                                 </button>
                             </div>
-                            <small class="text-muted">Mật khẩu ít nhất 8 ký tự.</small>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Xác nhận mật khẩu mới</label>
                             <div class="password-toggle-wrapper">
                                 <input type="password" class="form-control" name="confirmPassword" id="confirmPassword"
-                                    required minlength="8" placeholder="Nhập lại mật khẩu mới"
-                                    style="padding-right: 45px;">
+                                    required minlength="8" placeholder="Nhập lại mật khẩu" style="padding-right:42px;">
                                 <button type="button" class="password-toggle-btn"
                                     onclick="togglePassword('confirmPassword')">
                                     <i class="bi bi-eye" id="confirmPassword-icon"></i>
@@ -648,8 +721,8 @@
                             <div class="d-flex gap-2">
                                 <input type="text" class="form-control" name="otp" id="passwordOtp" required
                                     placeholder="Nhập mã OTP">
-                                <button type="button" class="btn btn-primary-custom"
-                                    onclick="sendOtp('PROFILE_PASSWORD', 'passwordOtp')">Gửi mã</button>
+                                <button type="button" class="btn btn-primary-custom px-3"
+                                    onclick="sendOtp('PROFILE_PASSWORD','passwordOtp')">Gửi mã</button>
                             </div>
                         </div>
                     </div>
@@ -662,6 +735,8 @@
         </div>
     </div>
 
+    <!-- ════ SCRIPTS ════ -->
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -669,258 +744,134 @@
     <script th:inline="javascript">
         const profileSuccessMessage = /*[[${successMessage}]]*/ null;
         const profileErrorMessage = /*[[${errorMessage}]]*/ null;
-
         document.addEventListener('DOMContentLoaded', function () {
-            if (profileSuccessMessage) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Thành công',
-                    text: profileSuccessMessage
-                });
-            } else if (profileErrorMessage) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Thất bại',
-                    text: profileErrorMessage
-                });
-            }
+            if (profileSuccessMessage) Swal.fire({ icon: 'success', title: 'Thành công', text: profileSuccessMessage });
+            else if (profileErrorMessage) Swal.fire({ icon: 'error', title: 'Thất bại', text: profileErrorMessage });
         });
     </script>
 
     <script>
+        function showErr(msg) { Swal.fire({ icon: 'error', title: 'Lỗi', text: msg }); }
+
+        function togglePassword(id) {
+            const input = document.getElementById(id);
+            const icon = document.getElementById(id + '-icon');
+            const show = input.type === 'password';
+            input.type = show ? 'text' : 'password';
+            icon.classList.toggle('bi-eye', !show);
+            icon.classList.toggle('bi-eye-slash', show);
+        }
+
         function sendOtp(purpose, inputId) {
-            Swal.fire({
-                title: 'Đang gửi mã OTP',
-                text: 'Vui lòng chờ trong giây lát...',
-                allowOutsideClick: false,
-                didOpen: () => Swal.showLoading()
-            });
-
+            Swal.fire({ title: 'Đang gửi mã OTP...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
             $.ajax({
-                url: `/staff/profile/otp/${purpose}`,
-                type: 'POST',
+                url: `/staff/profile/otp/${purpose}`, type: 'POST',
                 success: function () {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Đã gửi mã OTP',
-                        text: 'Vui lòng kiểm tra email liên kết.'
-                    });
-                    if (inputId) {
-                        const input = document.getElementById(inputId);
-                        if (input) {
-                            input.focus();
-                        }
-                    }
+                    Swal.fire({ icon: 'success', title: 'Đã gửi mã OTP', text: 'Vui lòng kiểm tra email liên kết.' });
+                    document.getElementById(inputId)?.focus();
                 },
-                error: function (xhr) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Không thể gửi mã',
-                        text: xhr.responseJSON?.message || 'Gửi mã thất bại.'
-                    });
-                }
+                error: function (xhr) { Swal.fire({ icon: 'error', title: 'Không thể gửi mã', text: xhr.responseJSON?.message || 'Gửi mã thất bại.' }); }
             });
         }
 
-        // Toggle password visibility
-        function togglePassword(inputId) {
-            const input = document.getElementById(inputId);
-            const icon = document.getElementById(inputId + '-icon');
+        /* ── Avatar upload ── */
+        let pendingFilename = null;
+        const fileInput = document.getElementById('avatarFileInput');
+        const dropZone = document.getElementById('avatarDropZone');
+        const preview = document.getElementById('avatarPreview');
+        const statusEl = document.getElementById('avatarUploadStatus');
+        const btnSave = document.getElementById('btnSaveAvatar');
 
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.classList.remove('bi-eye');
-                icon.classList.add('bi-eye-slash');
-            } else {
-                input.type = 'password';
-                icon.classList.remove('bi-eye-slash');
-                icon.classList.add('bi-eye');
-            }
+        document.getElementById('avatarModal').addEventListener('hidden.bs.modal', () => {
+            pendingFilename = null; fileInput.value = ''; statusEl.innerHTML = ''; btnSave.disabled = true;
+        });
+
+        dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+        dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('dragover'); if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]); });
+        fileInput.addEventListener('change', function () { if (this.files[0]) handleFile(this.files[0]); });
+
+        function handleFile(file) {
+            const allowed = ['image/jpeg', 'image/png', 'image/webp'];
+            if (!allowed.includes(file.type)) { statusEl.innerHTML = '<div class="alert alert-danger py-2 mb-0">Chỉ chấp nhận JPG, PNG, WEBP.</div>'; return; }
+            if (file.size > 5 * 1024 * 1024) { statusEl.innerHTML = '<div class="alert alert-danger py-2 mb-0">File quá lớn. Tối đa 5 MB.</div>'; return; }
+
+            const reader = new FileReader();
+            reader.onload = e => { preview.src = e.target.result; };
+            reader.readAsDataURL(file);
+
+            statusEl.innerHTML = '<div class="text-muted" style="font-size:13px;"><i class="bi bi-arrow-repeat me-1"></i>Đang tải lên...</div>';
+            btnSave.disabled = true;
+
+            const fd = new FormData();
+            fd.append('file', file);
+            $.ajax({
+                url: '/staff/profile/upload-avatar', type: 'POST', data: fd, processData: false, contentType: false,
+                success: function (res) {
+                    pendingFilename = res.filename; btnSave.disabled = false;
+                    statusEl.innerHTML = '<div class="alert alert-success py-2 mb-0"><i class="bi bi-check-circle me-1"></i>Tải lên thành công. Nhấn <strong>Lưu ảnh</strong> để xác nhận.</div>';
+                },
+                error: function (xhr) { statusEl.innerHTML = `<div class="alert alert-danger py-2 mb-0">${xhr.responseJSON?.message || 'Tải lên thất bại.'}</div>`; }
+            });
         }
 
-        // Auto dismiss alerts
-        setTimeout(function () {
-            document.querySelectorAll('.alert').forEach(alert => {
-                alert.classList.remove('show');
+        btnSave.addEventListener('click', function () {
+            if (!pendingFilename) return;
+            $.ajax({
+                url: '/staff/profile/avatar', type: 'PUT', contentType: 'application/json',
+                data: JSON.stringify({ filename: pendingFilename }),
+                success: function () {
+                    const src = '/images/staff_img/' + pendingFilename;
+                    document.getElementById('profileAvatar').src = src;
+                    document.getElementById('headerAvatar').src = src;
+                    bootstrap.Modal.getInstance(document.getElementById('avatarModal')).hide();
+                    Swal.fire({ icon: 'success', title: 'Thành công', text: 'Ảnh đại diện đã được cập nhật!', timer: 1500, showConfirmButton: false });
+                },
+                error: function (xhr) { showErr(xhr.responseJSON?.message || 'Cập nhật thất bại.'); }
             });
-        }, 5000);
+        });
 
-        // Change Username
-        $("#usernameForm").on("submit", function (e) {
+        /* ── Form handlers ── */
+        $('#usernameForm').on('submit', function (e) {
             e.preventDefault();
-
-            const data = {
-                newUsername: $("[name='newUsername']").val(),
-                otp: $("#usernameOtp").val()
-            };
-
             $.ajax({
-                url: "/staff/profile/username",
-                type: "PUT",
-                contentType: "application/json",
-                data: JSON.stringify(data),
-
-                success: function () {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Thành công',
-                        text: 'Cập nhật tên đăng nhập thành công!',
-                        timer: 1500,
-                        showConfirmButton: false
-                    }).then(() => {
-                        window.location.href = "/staff/profile";
-                    });
-                },
-                error: function (xhr) {
-                    const err = xhr.responseJSON;
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Lỗi',
-                        text: err && err.message ? err.message : 'Cập nhật thất bại!'
-                    });
-                }
+                url: '/staff/profile/username', type: 'PUT', contentType: 'application/json',
+                data: JSON.stringify({ newUsername: $("[name='newUsername']").val(), otp: $('#usernameOtp').val() }),
+                success: () => Swal.fire({ icon: 'success', title: 'Thành công', text: 'Cập nhật tên đăng nhập thành công!', timer: 1500, showConfirmButton: false }).then(() => location.href = '/staff/profile'),
+                error: xhr => showErr(xhr.responseJSON?.message || 'Cập nhật thất bại!')
             });
         });
 
-        // Change Email
-        $("#emailForm").on("submit", function (e) {
+        $('#emailForm').on('submit', function (e) {
             e.preventDefault();
-
-            const data = {
-                newEmail: $("[name='newEmail']").val(),
-                password: $("#emailPassword").val()
-            };
-
             $.ajax({
-                url: "/staff/profile/email",
-                type: "PUT",
-                contentType: "application/json",
-                data: JSON.stringify(data),
+                url: '/staff/profile/email', type: 'PUT', contentType: 'application/json',
+                data: JSON.stringify({ newEmail: $("[name='newEmail']").val(), password: $('#emailPassword').val() }),
+                success: () => Swal.fire({ icon: 'success', title: 'Thành công', text: 'Cập nhật Email thành công!', timer: 1500, showConfirmButton: false }).then(() => location.href = '/staff/profile'),
+                error: xhr => showErr(xhr.responseJSON?.message || 'Cập nhật thất bại!')
+            });
+        });
 
-                success: function () {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Thành công',
-                        text: 'Cập nhật Email thành công!',
-                        timer: 1500,
-                        showConfirmButton: false
-                    }).then(() => {
-                        window.location = "/staff/profile";
-                    });
-                },
-                error: function (xhr) {
-                    const err = xhr.responseJSON;
-                    if (err && err.message) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Lỗi',
-                            text: err.message
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Lỗi',
-                            text: 'Cập nhật thất bại!'
-                        });
-                    }
-                }
+        $('#phoneForm').on('submit', function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: '/staff/profile/phoneNumber', type: 'PUT', contentType: 'application/json',
+                data: JSON.stringify({ newPhoneNumber: $("[name='newPhoneNumber']").val(), otp: $('#phoneOtp').val() }),
+                success: () => Swal.fire({ icon: 'success', title: 'Thành công', text: 'Cập nhật số điện thoại thành công!', timer: 1500, showConfirmButton: false }).then(() => location.href = '/staff/profile'),
+                error: xhr => showErr(xhr.responseJSON?.message || 'Cập nhật thất bại!')
+            });
+        });
+
+        $('#passwordForm').on('submit', function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: '/staff/profile/password', type: 'PUT', contentType: 'application/json',
+                data: JSON.stringify({ newPassword: $('#newPassword').val(), confirmPassword: $('#confirmPassword').val(), otp: $('#passwordOtp').val() }),
+                success: () => Swal.fire({ icon: 'success', title: 'Thành công', text: 'Cập nhật mật khẩu thành công!', timer: 1500, showConfirmButton: false }).then(() => location.href = '/staff/profile'),
+                error: xhr => showErr(xhr.responseJSON?.message || 'Cập nhật thất bại!')
             });
         });
     </script>
-
-    <script>
-        $("#phoneForm").on("submit", function (e) {
-            e.preventDefault(); // Ngăn form submit mặc định
-
-            const data = {
-                newPhoneNumber: $("[name='newPhoneNumber']").val(),
-                otp: $("#phoneOtp").val()
-            };
-
-            $.ajax({
-                url: "/staff/profile/phoneNumber",
-                type: "PUT",
-                contentType: "application/json",
-                data: JSON.stringify(data),
-
-                success: function () {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Thành công',
-                        text: 'Cập nhật số điện thoại thành công!',
-                        timer: 1500,       // tự động đóng sau 1.5s
-                        showConfirmButton: false
-                    }).then(() => {
-                        window.location.href = "/staff/profile";
-                    });
-                },
-                error: function (xhr) {
-                    const err = xhr.responseJSON;
-                    if (err && err.message) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Lỗi',
-                            text: err.message
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Lỗi',
-                            text: 'Cập nhật thất bại!'
-                        });
-                    }
-                }
-            });
-        });
-    </script>
-
-    <script>
-        $("#passwordForm").on("submit", function (e) {
-            e.preventDefault(); // Ngăn form submit mặc định
-
-            const data = {
-                newPassword: $("#newPassword").val(),
-                confirmPassword: $("#confirmPassword").val(),
-                otp: $("#passwordOtp").val()
-            };
-
-            $.ajax({
-                url: "/staff/profile/password",
-                type: "PUT",
-                contentType: "application/json",
-                data: JSON.stringify(data),
-
-                success: function () {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Thành công',
-                        text: 'Cập nhật mật khẩu thành công!',
-                        timer: 1500,       // tự động đóng sau 1.5s
-                        showConfirmButton: false
-                    }).then(() => {
-                        window.location.href = "/staff/profile";
-                    });
-                },
-                error: function (xhr) {
-                    const err = xhr.responseJSON;
-                    if (err && err.message) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Lỗi',
-                            text: err.message
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Lỗi',
-                            text: 'Cập nhật thất bại!'
-                        });
-                    }
-                }
-            });
-        });
-    </script>
-
 </body>
 
 </html>

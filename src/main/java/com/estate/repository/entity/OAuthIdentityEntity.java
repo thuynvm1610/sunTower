@@ -1,12 +1,6 @@
 package com.estate.repository.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,7 +18,7 @@ public class OAuthIdentityEntity {
     @Column(nullable = false, length = 50)
     private String provider;
 
-    @Column(name = "provider_user_id", nullable = false, length = 255)
+    @Column(name = "provider_user_id", nullable = false)
     private String providerUserId;
 
     @Column(name = "user_type", nullable = false, length = 20)

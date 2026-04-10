@@ -8,7 +8,6 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -75,5 +74,5 @@ public class StaffEntity {
     private List<BuildingEntity> buildings = new ArrayList<>();
 
     @ManyToMany(mappedBy = "staffs_customers")
-    private List<CustomerEntity> customers = new ArrayList<>();;
+    private List<CustomerEntity> customers = new ArrayList<>();
 }
