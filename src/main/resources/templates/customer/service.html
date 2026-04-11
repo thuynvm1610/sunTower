@@ -5,315 +5,584 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Dịch vụ - SunTower</title>
-
-    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 
     <style>
         :root {
-            --primary-color: #2d3e8f;
-            --primary-light: #4a5fc1;
-            --secondary-color: #f5f7fa;
+            --primary: #1a1f36;
+            --accent: #2563eb;
+            --accent-dark: #1d4ed8;
+            --surface: #ffffff;
+            --bg: #f0f2f7;
+            --border: #dde1ec;
+            --text: #1a1f36;
+            --muted: #6b7280;
+            --success: #059669;
+            --danger: #dc2626;
+            --warn-bg: #fffbeb;
+            --warn-border: #f59e0b;
+            --warn-text: #92400e;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--secondary-color);
-        }
-
-        /* Header */
-        .header {
-            background: var(--primary-color);
-            color: white;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .header-top {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-
-        .badge-custom {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
-        }
-
-        .btn-logout {
-            background: white;
-            color: var(--primary-color);
-            border: none;
-            padding: 8px 18px;
-            border-radius: 6px;
-            font-weight: 600;
+            background: var(--bg);
+            color: var(--text);
             font-size: 14px;
-            transition: all 0.2s;
-        }
-
-        .btn-logout:hover {
-            background: #f0f0f0;
-            color: var(--primary-color);
-        }
-
-        /* Navigation */
-        .nav-custom {
-            background: var(--primary-color);
-        }
-
-        .nav-custom .nav-link {
-            color: white !important;
-            font-weight: 500;
-            font-size: 14px;
-            padding: 14px 18px;
-            border-radius: 6px 6px 0 0;
-            transition: all 0.2s;
-        }
-
-        .nav-custom .nav-link:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .nav-custom .nav-link.active {
-            background: rgba(255, 255, 255, 0.15);
-            font-weight: 600;
-        }
-
-        .dropdown-menu-custom {
-            background: white;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        /* Page Header */
-        .page-header {
-            background: white;
-            border-left: 4px solid var(--primary-color);
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-        }
-
-        .page-header h1 {
-            color: var(--primary-color);
-            font-size: 28px;
             margin: 0;
         }
 
-        /* Service Category */
+        /* ── HEADER ─────────────────────────────────────────────── */
+        .header {
+            background: var(--primary);
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 3px solid var(--accent);
+        }
+
+        .header-top {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .badge-custom {
+            background: var(--accent);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .btn-logout {
+            background: transparent;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 6px 16px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 13px;
+            transition: background 0.15s, border-color 0.15s;
+        }
+
+        .btn-logout:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.6);
+            color: white;
+        }
+
+        /* ── NAV ─────────────────────────────────────────────────── */
+        .nav-custom {
+            background: var(--primary);
+        }
+
+        .nav-custom .nav-link {
+            color: rgba(255, 255, 255, 0.65) !important;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 12px 15px;
+            border-bottom: 3px solid transparent;
+            transition: color 0.15s, border-color 0.15s;
+        }
+
+        .nav-custom .nav-link:hover {
+            color: white !important;
+            border-bottom-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .nav-custom .nav-link.active {
+            color: white !important;
+            font-weight: 700;
+            border-bottom-color: var(--accent);
+        }
+
+        .nav-custom .dropdown-menu {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+            padding: 4px 0;
+        }
+
+        .nav-custom .dropdown-item {
+            color: var(--text);
+            padding: 9px 16px;
+            font-size: 13px;
+        }
+
+        .nav-custom .dropdown-item:hover {
+            background: var(--bg);
+            color: var(--accent);
+        }
+
+        .nav-custom .dropdown-item i {
+            color: var(--accent);
+        }
+
+        /* ── PAGE HEADER ─────────────────────────────────────────── */
+        .page-header {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--accent);
+            border-radius: 4px;
+            padding: 0.6rem 1rem;
+            margin-bottom: 0.875rem;
+        }
+
+        .page-header h1 {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0 0 1px;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .page-header p {
+            font-size: 12px;
+            color: var(--muted);
+            margin: 0;
+        }
+
+        /* ── INFO BOX ────────────────────────────────────────────── */
+        .info-box {
+            background: var(--warn-bg);
+            border-left: 4px solid var(--warn-border);
+            border-radius: 4px;
+            padding: 0.7rem 1rem;
+            margin-bottom: 0.875rem;
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+        }
+
+        .info-box i {
+            color: var(--warn-border);
+            font-size: 15px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .info-box-content {
+            color: var(--warn-text);
+            font-size: 12.5px;
+            line-height: 1.55;
+        }
+
+        .info-box-content strong {
+            font-weight: 700;
+        }
+
+        .info-box-content ul {
+            margin: 0.3rem 0 0;
+            padding-left: 1.1rem;
+        }
+
+        .info-box-content li {
+            margin-bottom: 2px;
+        }
+
+        /* ── CATEGORY SECTION ────────────────────────────────────── */
         .category-section {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-            margin-bottom: 24px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.875rem;
         }
 
         .category-header {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+            background: var(--primary);
             color: white;
-            padding: 16px 24px;
-            border-radius: 10px 10px 0 0;
+            padding: 0.55rem 1rem;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 0.5rem;
+            border-bottom: 2px solid var(--accent);
         }
 
         .category-header i {
-            font-size: 24px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
         }
 
         .category-header h2 {
             margin: 0;
-            font-size: 20px;
-            font-weight: 600;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
         }
 
-        /* Service Card */
+        /* ── SERVICE GRID ────────────────────────────────────────── */
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1px;
+            background: var(--border);
+        }
+
+        /* ── SERVICE CARD ────────────────────────────────────────── */
         .service-card {
-            border: 1px solid #e5e5e5;
-            border-radius: 8px;
-            padding: 20px;
-            transition: all 0.3s;
+            background: var(--surface);
+            padding: 1rem;
             cursor: pointer;
-            height: 100%;
+            transition: background 0.12s;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
         }
 
         .service-card:hover {
-            border-color: var(--primary-color);
-            box-shadow: 0 4px 12px rgba(45, 62, 143, 0.15);
-            transform: translateY(-2px);
+            background: #f4f6fb;
+        }
+
+        .service-card-top {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
         }
 
         .service-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
+            width: 36px;
+            height: 36px;
+            border-radius: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
-            margin-bottom: 16px;
+            font-size: 17px;
+            flex-shrink: 0;
         }
 
         .service-icon.blue {
-            background: #e3f2fd;
-            color: #1976d2;
+            background: #eff6ff;
+            color: var(--accent);
         }
 
         .service-icon.green {
-            background: #e8f5e9;
-            color: #388e3c;
+            background: #ecfdf5;
+            color: #059669;
         }
 
         .service-icon.orange {
-            background: #fff3e0;
-            color: #f57c00;
+            background: #fff7ed;
+            color: #ea580c;
         }
 
         .service-icon.purple {
-            background: #f3e5f5;
-            color: #7b1fa2;
+            background: #faf5ff;
+            color: #7c3aed;
         }
 
         .service-icon.red {
-            background: #ffebee;
-            color: #d32f2f;
+            background: #fef2f2;
+            color: #dc2626;
         }
 
         .service-icon.teal {
-            background: #e0f2f1;
-            color: #00796b;
+            background: #f0fdfa;
+            color: #0d9488;
         }
 
         .service-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--primary-color);
-            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1.3;
         }
 
         .service-description {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 12px;
+            font-size: 12px;
+            color: var(--muted);
             line-height: 1.5;
+            margin: 0;
+        }
+
+        .service-card-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: 0.4rem;
+            border-top: 1px solid var(--border);
+            gap: 0.5rem;
         }
 
         .service-price {
-            font-size: 16px;
+            font-size: 13px;
             font-weight: 700;
-            color: #d32f2f;
-            margin-bottom: 8px;
+            color: var(--danger);
+            white-space: nowrap;
+        }
+
+        .service-price.free {
+            color: var(--success);
         }
 
         .service-availability {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            font-size: 13px;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-weight: 500;
+            gap: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 7px;
+            border-radius: 3px;
+            white-space: nowrap;
         }
 
         .service-availability.available {
-            background: #e8f5e9;
-            color: #2e7d32;
+            background: #ecfdf5;
+            color: #059669;
         }
 
         .service-availability.limited {
-            background: #fff3e0;
-            color: #f57c00;
+            background: #fffbeb;
+            color: #d97706;
         }
 
         .service-availability.unavailable {
-            background: #ffebee;
-            color: #c62828;
+            background: #fef2f2;
+            color: #dc2626;
         }
 
         .btn-request {
-            background: var(--primary-color);
+            background: var(--accent);
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
+            padding: 4px 12px;
+            border-radius: 3px;
             font-weight: 600;
-            font-size: 14px;
-            transition: all 0.2s;
-            width: 100%;
-            margin-top: 12px;
+            font-size: 12px;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            transition: background 0.15s;
+            cursor: pointer;
         }
 
         .btn-request:hover {
-            background: var(--primary-light);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(45, 62, 143, 0.3);
+            background: var(--accent-dark);
+            color: white;
         }
 
         .btn-request:disabled {
-            background: #ccc;
+            background: #e5e7eb;
+            color: var(--muted);
             cursor: not-allowed;
-            transform: none;
         }
 
-        /* Info Box */
-        .info-box {
-            background: #fff8e1;
-            border-left: 4px solid #fbc02d;
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 24px;
+        /* ── MODAL ───────────────────────────────────────────────── */
+        .modal-content {
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.14);
         }
 
-        .info-box i {
-            color: #f57c00;
-            font-size: 20px;
-        }
-
-        .info-box-content {
-            color: #5d4037;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        /* Modal */
         .modal-header {
-            background: var(--primary-color);
+            background: var(--primary);
             color: white;
-            border-radius: 0.5rem 0.5rem 0 0;
+            border-radius: 5px 5px 0 0;
+            padding: 0.75rem 1.25rem;
+            border-bottom: 3px solid var(--accent);
+        }
+
+        .modal-header .modal-title {
+            font-size: 14px;
+            font-weight: 700;
         }
 
         .modal-header .btn-close {
             filter: brightness(0) invert(1);
+            opacity: 0.7;
         }
 
-        .service-detail-section {
-            padding: 16px 0;
-            border-bottom: 1px solid #e5e5e5;
+        .modal-header .btn-close:hover {
+            opacity: 1;
         }
 
-        .service-detail-section:last-child {
+        .modal-body {
+            padding: 1rem;
+        }
+
+        .modal-footer {
+            background: var(--bg);
+            border-top: 1px solid var(--border);
+            padding: 0.6rem 1rem;
+        }
+
+        /* ── MODAL DETAIL CONTENT ────────────────────────────────── */
+        .detail-strip {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 4px;
+            padding: 0.6rem 0.875rem;
+            margin-bottom: 0.875rem;
+            border-left: 4px solid var(--accent);
+        }
+
+        .detail-strip-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 4px;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+            flex-shrink: 0;
+        }
+
+        .detail-strip-name {
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .detail-strip-price {
+            font-size: 13px;
+            color: #fbbf24;
+            font-weight: 700;
+            margin-top: 1px;
+        }
+
+        .detail-section {
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.6rem;
+        }
+
+        .detail-section-title {
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            padding: 0.35rem 0.75rem;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .detail-section-title i {
+            color: var(--accent);
+            font-size: 12px;
+        }
+
+        .detail-section-body {
+            padding: 0.65rem 0.875rem;
+            font-size: 13px;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .detail-section-body ul {
+            margin: 0;
+            padding-left: 1.1rem;
+        }
+
+        .detail-section-body li {
+            margin-bottom: 3px;
+        }
+
+        .detail-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .detail-table tr {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .detail-table tr:last-child {
             border-bottom: none;
         }
 
-        .detail-label {
-            font-weight: 600;
-            color: var(--primary-color);
-            margin-bottom: 8px;
+        .detail-table td {
+            padding: 0.45rem 0.75rem;
+            vertical-align: middle;
         }
 
-        .detail-value {
-            color: #333;
-            line-height: 1.6;
+        .detail-table .td-label {
+            color: var(--muted);
+            font-weight: 500;
+            font-size: 12px;
+            width: 40%;
+        }
+
+        .detail-table .td-value {
+            font-weight: 700;
+            color: var(--text);
+            text-align: right;
+        }
+
+        .detail-table .td-value.price {
+            color: var(--danger);
+        }
+
+        .detail-table .td-value.free {
+            color: var(--success);
+        }
+
+        .btn-contact {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.45rem 1.25rem;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: background 0.15s;
+            cursor: pointer;
+        }
+
+        .btn-contact:hover {
+            background: var(--accent-dark);
+            color: white;
+        }
+
+        .btn-secondary-sm {
+            background: var(--bg);
+            border: 1.5px solid var(--border);
+            color: var(--text);
+            font-weight: 600;
+            font-size: 13px;
+            border-radius: 4px;
+            padding: 0.45rem 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            transition: background 0.15s;
+        }
+
+        .btn-secondary-sm:hover {
+            background: #e5e7eb;
         }
     </style>
 </head>
@@ -322,21 +591,17 @@
 
     <!-- Header -->
     <div class="header">
-        <div class="header-top py-3">
+        <div class="header-top py-2">
             <div class="container-fluid px-4">
                 <div class="d-flex justify-content-between align-items-center flex-wrap">
                     <div class="logo">SunTower</div>
-                    <button class="navbar-toggler d-lg-none text-white" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarNav">
-                        <i class="bi bi-list fs-3"></i>
-                    </button>
                     <div class="d-flex align-items-center gap-3">
-                        <div class="d-flex align-items-center gap-3">
+                        <div class="d-flex align-items-center gap-2">
                             <div class="text-end">
-                                <small class="d-block opacity-85">Xin chào,</small>
-                                <strong th:text="${#authentication.name}">Nguyễn Văn A</strong>
+                                <small class="d-block" style="opacity:.7;font-size:11px;">Xin chào,</small>
+                                <strong style="font-size:13px;" th:text="${#authentication.name}">Nguyễn Văn A</strong>
                             </div>
-                            <span class="badge-custom">KHÁCH HÀNG</span>
+                            <span class="badge-custom">Khách Hàng</span>
                         </div>
                         <a href="#" class="btn btn-logout"
                             onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">Đăng
@@ -346,84 +611,55 @@
                 </div>
             </div>
         </div>
-
-        <!-- Navigation -->
         <nav class="nav-custom">
             <div class="container-fluid px-4">
                 <ul class="nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/customer/home">
-                            <i class="bi bi-house-door me-1"></i>Trang chủ
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/customer/contract/list">
-                            <i class="bi bi-file-text me-1"></i>Hợp đồng
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/customer/invoice/list">
-                            <i class="bi bi-credit-card me-1"></i>Thanh toán
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/customer/building/list">
-                            <i class="bi bi-building me-1"></i>Tòa nhà
-                        </a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/customer/home"><i
+                                class="bi bi-house-door me-1"></i>Trang chủ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/customer/contract/list"><i
+                                class="bi bi-file-text me-1"></i>Hợp đồng</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/customer/invoice/list"><i
+                                class="bi bi-credit-card me-1"></i>Thanh toán</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/customer/building/list"><i
+                                class="bi bi-building me-1"></i>Bất động sản</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             <i class="bi bi-grid-3x3-gap me-1"></i>Tiện ích
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-custom">
-                            <li>
-                                <a class="dropdown-item" href="/customer/transaction/history">
-                                    <i class="bi bi-clock-history me-2"></i>Lịch sử giao dịch
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="/customer/service">
-                                    <i class="bi bi-clipboard-check me-2"></i>Dịch vụ
-                                </a>
-                            </li>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/customer/transaction/history"><i
+                                        class="bi bi-clock-history me-2"></i>Lịch sử giao dịch</a></li>
+                            <li><a class="dropdown-item" href="/customer/service"><i
+                                        class="bi bi-clipboard-check me-2"></i>Dịch vụ</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/customer/profile">
-                            <i class="bi bi-person-circle me-1"></i>Tài khoản
-                        </a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/customer/profile"><i
+                                class="bi bi-person-circle me-1"></i>Tài khoản</a></li>
                 </ul>
             </div>
         </nav>
     </div>
 
-    <!-- Main Container -->
-    <div class="container-fluid px-4 py-4">
+    <!-- Main -->
+    <div class="container-fluid px-4 py-3">
+
         <!-- Page Header -->
-        <div class="page-header p-4 mb-4">
-            <div class="d-flex align-items-center gap-3">
-                <i class="bi bi-clipboard-check fs-1" style="color: var(--primary-color);"></i>
-                <div>
-                    <h1 class="h3 mb-2">Dịch Vụ Tại Tòa Nhà</h1>
-                    <p class="text-muted mb-0">Khám phá và đăng ký các dịch vụ tiện ích dành cho bạn</p>
-                </div>
-            </div>
+        <div class="page-header">
+            <h1><i class="bi bi-clipboard-check"></i> Dịch Vụ</h1>
+            <p>Khám phá và đăng ký các dịch vụ tiện ích dành cho bạn</p>
         </div>
 
         <!-- Info Box -->
         <div class="info-box">
-            <div class="d-flex gap-3">
-                <i class="bi bi-info-circle-fill flex-shrink-0"></i>
-                <div class="info-box-content">
-                    <strong>Lưu ý quan trọng:</strong>
-                    <ul class="mb-0 mt-2">
-                        <li>Vui lòng liên hệ bộ phận quản lý để đăng ký hoặc hủy dịch vụ</li>
-                        <li>Giá dịch vụ có thể thay đổi theo thời điểm và chính sách của tòa nhà</li>
-                        <li>Một số dịch vụ có số lượng giới hạn, đăng ký sớm để được ưu tiên</li>
-                    </ul>
-                </div>
+            <i class="bi bi-info-circle-fill"></i>
+            <div class="info-box-content">
+                <strong>Lưu ý:</strong>
+                <ul>
+                    <li>Vui lòng liên hệ bộ phận quản lý để đăng ký hoặc hủy dịch vụ</li>
+                    <li>Giá dịch vụ có thể thay đổi theo thời điểm và chính sách của bất động sản</li>
+                    <li>Một số dịch vụ có số lượng giới hạn, đăng ký sớm để được ưu tiên</li>
+                </ul>
             </div>
         </div>
 
@@ -433,68 +669,56 @@
                 <i class="bi bi-star-fill"></i>
                 <h2>Dịch Vụ Cơ Bản</h2>
             </div>
-            <div class="p-4">
-                <div class="row g-4">
-                    <div class="col-md-6 col-lg-4">
-                        <div class="service-card" onclick="showServiceDetail('parking-car')">
-                            <div class="service-icon blue">
-                                <i class="bi bi-car-front-fill"></i>
-                            </div>
-                            <div class="service-title">Đỗ Xe Ô Tô</div>
-                            <div class="service-description">
-                                Chỗ đỗ xe ô tô trong nhà, an toàn với camera giám sát 24/7
-                            </div>
+            <div class="service-grid">
+
+                <div class="service-card" onclick="showServiceDetail('parking-car')">
+                    <div class="service-card-top">
+                        <div class="service-icon blue"><i class="bi bi-car-front-fill"></i></div>
+                        <div class="service-title">Đỗ Xe Ô Tô</div>
+                    </div>
+                    <p class="service-description">Chỗ đỗ xe ô tô trong nhà, an toàn với camera giám sát 24/7</p>
+                    <div class="service-card-bottom">
+                        <div>
                             <div class="service-price">1,500,000 VNĐ/tháng</div>
-                            <span class="service-availability available">
-                                <i class="bi bi-check-circle-fill"></i>
-                                Còn chỗ trống
-                            </span>
-                            <button class="btn btn-request">
-                                <i class="bi bi-plus-circle me-2"></i>Đăng ký
-                            </button>
+                            <span class="service-availability available"><i class="bi bi-check-circle-fill"></i>Còn chỗ
+                                trống</span>
                         </div>
-                    </div>
-
-                    <div class="col-md-6 col-lg-4">
-                        <div class="service-card" onclick="showServiceDetail('parking-moto')">
-                            <div class="service-icon green">
-                                <i class="bi bi-bicycle"></i>
-                            </div>
-                            <div class="service-title">Đỗ Xe Máy</div>
-                            <div class="service-description">
-                                Khu vực đỗ xe máy rộng rãi, được bảo vệ và giám sát liên tục
-                            </div>
-                            <div class="service-price">100,000 VNĐ/tháng</div>
-                            <span class="service-availability available">
-                                <i class="bi bi-check-circle-fill"></i>
-                                Còn chỗ trống
-                            </span>
-                            <button class="btn btn-request">
-                                <i class="bi bi-plus-circle me-2"></i>Đăng ký
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-lg-4">
-                        <div class="service-card" onclick="showServiceDetail('internet')">
-                            <div class="service-icon orange">
-                                <i class="bi bi-wifi"></i>
-                            </div>
-                            <div class="service-title">Internet Tốc Độ Cao</div>
-                            <div class="service-description">
-                                Kết nối internet cáp quang tốc độ cao, ổn định 24/7
-                            </div>
-                            <div class="service-price">300,000 VNĐ/tháng</div>
-                            <span class="service-availability available">
-                                <i class="bi bi-check-circle-fill"></i>
-                                Có sẵn
-                            </span>
-                            <button class="btn btn-request">
-                                <i class="bi bi-plus-circle me-2"></i>Đăng ký
-                            </button>
-                        </div>
+                        <button class="btn-request"><i class="bi bi-plus-circle"></i>Đăng ký</button>
                     </div>
                 </div>
+
+                <div class="service-card" onclick="showServiceDetail('parking-moto')">
+                    <div class="service-card-top">
+                        <div class="service-icon green"><i class="bi bi-bicycle"></i></div>
+                        <div class="service-title">Đỗ Xe Máy</div>
+                    </div>
+                    <p class="service-description">Khu vực đỗ xe máy rộng rãi, được bảo vệ và giám sát liên tục</p>
+                    <div class="service-card-bottom">
+                        <div>
+                            <div class="service-price">100,000 VNĐ/tháng</div>
+                            <span class="service-availability available"><i class="bi bi-check-circle-fill"></i>Còn chỗ
+                                trống</span>
+                        </div>
+                        <button class="btn-request"><i class="bi bi-plus-circle"></i>Đăng ký</button>
+                    </div>
+                </div>
+
+                <div class="service-card" onclick="showServiceDetail('internet')">
+                    <div class="service-card-top">
+                        <div class="service-icon orange"><i class="bi bi-wifi"></i></div>
+                        <div class="service-title">Internet Tốc Độ Cao</div>
+                    </div>
+                    <p class="service-description">Kết nối internet cáp quang tốc độ cao, ổn định 24/7</p>
+                    <div class="service-card-bottom">
+                        <div>
+                            <div class="service-price">300,000 VNĐ/tháng</div>
+                            <span class="service-availability available"><i class="bi bi-check-circle-fill"></i>Có
+                                sẵn</span>
+                        </div>
+                        <button class="btn-request"><i class="bi bi-plus-circle"></i>Đăng ký</button>
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -504,162 +728,280 @@
                 <i class="bi bi-grid-fill"></i>
                 <h2>Dịch Vụ Tiện Ích</h2>
             </div>
-            <div class="p-4">
-                <div class="row g-4">
-                    <div class="col-md-6 col-lg-4">
-                        <div class="service-card" onclick="showServiceDetail('cleaning')">
-                            <div class="service-icon purple">
-                                <i class="bi bi-brush-fill"></i>
-                            </div>
-                            <div class="service-title">Dịch Vụ Vệ Sinh</div>
-                            <div class="service-description">
-                                Vệ sinh văn phòng định kỳ, chuyên nghiệp và tỉ mỉ
-                            </div>
+            <div class="service-grid">
+
+                <div class="service-card" onclick="showServiceDetail('cleaning')">
+                    <div class="service-card-top">
+                        <div class="service-icon purple"><i class="bi bi-brush-fill"></i></div>
+                        <div class="service-title">Dịch Vụ Vệ Sinh</div>
+                    </div>
+                    <p class="service-description">Vệ sinh văn phòng định kỳ, chuyên nghiệp và tỉ mỉ</p>
+                    <div class="service-card-bottom">
+                        <div>
                             <div class="service-price">500,000 VNĐ/lần</div>
-                            <span class="service-availability available">
-                                <i class="bi bi-check-circle-fill"></i>
-                                Có sẵn
-                            </span>
-                            <button class="btn btn-request">
-                                <i class="bi bi-plus-circle me-2"></i>Đăng ký
-                            </button>
+                            <span class="service-availability available"><i class="bi bi-check-circle-fill"></i>Có
+                                sẵn</span>
                         </div>
-                    </div>
-
-                    <div class="col-md-6 col-lg-4">
-                        <div class="service-card" onclick="showServiceDetail('security')">
-                            <div class="service-icon red">
-                                <i class="bi bi-shield-fill-check"></i>
-                            </div>
-                            <div class="service-title">An Ninh 24/7</div>
-                            <div class="service-description">
-                                Bảo vệ chuyên nghiệp, hệ thống camera và kiểm soát ra vào
-                            </div>
-                            <div class="service-price">Miễn phí</div>
-                            <span class="service-availability available">
-                                <i class="bi bi-check-circle-fill"></i>
-                                Đang hoạt động
-                            </span>
-                            <button class="btn btn-request" disabled>
-                                <i class="bi bi-check-circle me-2"></i>Đã bao gồm
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-lg-4">
-                        <div class="service-card" onclick="showServiceDetail('maintenance')">
-                            <div class="service-icon teal">
-                                <i class="bi bi-tools"></i>
-                            </div>
-                            <div class="service-title">Bảo Trì & Sửa Chữa</div>
-                            <div class="service-description">
-                                Dịch vụ bảo trì, sửa chữa các thiết bị trong văn phòng
-                            </div>
-                            <div class="service-price">Theo yêu cầu</div>
-                            <span class="service-availability available">
-                                <i class="bi bi-check-circle-fill"></i>
-                                Có sẵn
-                            </span>
-                            <button class="btn btn-request">
-                                <i class="bi bi-plus-circle me-2"></i>Liên hệ
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-lg-4">
-                        <div class="service-card" onclick="showServiceDetail('meeting-room')">
-                            <div class="service-icon blue">
-                                <i class="bi bi-people-fill"></i>
-                            </div>
-                            <div class="service-title">Phòng Họp</div>
-                            <div class="service-description">
-                                Phòng họp hiện đại với đầy đủ trang thiết bị
-                            </div>
-                            <div class="service-price">200,000 VNĐ/giờ</div>
-                            <span class="service-availability limited">
-                                <i class="bi bi-exclamation-circle-fill"></i>
-                                Cần đặt trước
-                            </span>
-                            <button class="btn btn-request">
-                                <i class="bi bi-calendar-check me-2"></i>Đặt phòng
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-lg-4">
-                        <div class="service-card" onclick="showServiceDetail('gym')">
-                            <div class="service-icon green">
-                                <i class="bi bi-heart-pulse-fill"></i>
-                            </div>
-                            <div class="service-title">Phòng Gym</div>
-                            <div class="service-description">
-                                Phòng tập gym với thiết bị hiện đại, huấn luyện viên chuyên nghiệp
-                            </div>
-                            <div class="service-price">500,000 VNĐ/tháng</div>
-                            <span class="service-availability unavailable">
-                                <i class="bi bi-x-circle-fill"></i>
-                                Tạm hết chỗ
-                            </span>
-                            <button class="btn btn-request" disabled>
-                                <i class="bi bi-x-circle me-2"></i>Hết chỗ
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-lg-4">
-                        <div class="service-card" onclick="showServiceDetail('cafe')">
-                            <div class="service-icon orange">
-                                <i class="bi bi-cup-hot-fill"></i>
-                            </div>
-                            <div class="service-title">Quán Cafe</div>
-                            <div class="service-description">
-                                Quán cafe tại tầng trệt, phục vụ đồ uống và thức ăn nhẹ
-                            </div>
-                            <div class="service-price">Giá theo menu</div>
-                            <span class="service-availability available">
-                                <i class="bi bi-check-circle-fill"></i>
-                                Đang hoạt động
-                            </span>
-                            <button class="btn btn-request" disabled>
-                                <i class="bi bi-shop me-2"></i>Dịch vụ sẵn có
-                            </button>
-                        </div>
+                        <button class="btn-request"><i class="bi bi-plus-circle"></i>Đăng ký</button>
                     </div>
                 </div>
+
+                <div class="service-card" onclick="showServiceDetail('security')">
+                    <div class="service-card-top">
+                        <div class="service-icon red"><i class="bi bi-shield-fill-check"></i></div>
+                        <div class="service-title">An Ninh 24/7</div>
+                    </div>
+                    <p class="service-description">Bảo vệ chuyên nghiệp, hệ thống camera và kiểm soát ra vào</p>
+                    <div class="service-card-bottom">
+                        <div>
+                            <div class="service-price free">Miễn phí</div>
+                            <span class="service-availability available"><i class="bi bi-check-circle-fill"></i>Đang
+                                hoạt động</span>
+                        </div>
+                        <button class="btn-request" disabled><i class="bi bi-check-circle"></i>Đã bao gồm</button>
+                    </div>
+                </div>
+
+                <div class="service-card" onclick="showServiceDetail('maintenance')">
+                    <div class="service-card-top">
+                        <div class="service-icon teal"><i class="bi bi-tools"></i></div>
+                        <div class="service-title">Bảo Trì & Sửa Chữa</div>
+                    </div>
+                    <p class="service-description">Dịch vụ bảo trì, sửa chữa các thiết bị trong văn phòng</p>
+                    <div class="service-card-bottom">
+                        <div>
+                            <div class="service-price">Theo yêu cầu</div>
+                            <span class="service-availability available"><i class="bi bi-check-circle-fill"></i>Có
+                                sẵn</span>
+                        </div>
+                        <button class="btn-request"><i class="bi bi-telephone"></i>Liên hệ</button>
+                    </div>
+                </div>
+
+                <div class="service-card" onclick="showServiceDetail('meeting-room')">
+                    <div class="service-card-top">
+                        <div class="service-icon blue"><i class="bi bi-people-fill"></i></div>
+                        <div class="service-title">Phòng Họp</div>
+                    </div>
+                    <p class="service-description">Phòng họp hiện đại với đầy đủ trang thiết bị</p>
+                    <div class="service-card-bottom">
+                        <div>
+                            <div class="service-price">200,000 VNĐ/giờ</div>
+                            <span class="service-availability limited"><i class="bi bi-exclamation-circle-fill"></i>Cần
+                                đặt trước</span>
+                        </div>
+                        <button class="btn-request"><i class="bi bi-calendar-check"></i>Đặt phòng</button>
+                    </div>
+                </div>
+
+                <div class="service-card" onclick="showServiceDetail('gym')">
+                    <div class="service-card-top">
+                        <div class="service-icon green"><i class="bi bi-heart-pulse-fill"></i></div>
+                        <div class="service-title">Phòng Gym</div>
+                    </div>
+                    <p class="service-description">Phòng tập gym với thiết bị hiện đại, huấn luyện viên chuyên nghiệp
+                    </p>
+                    <div class="service-card-bottom">
+                        <div>
+                            <div class="service-price">500,000 VNĐ/tháng</div>
+                            <span class="service-availability unavailable"><i class="bi bi-x-circle-fill"></i>Tạm hết
+                                chỗ</span>
+                        </div>
+                        <button class="btn-request" disabled><i class="bi bi-x-circle"></i>Hết chỗ</button>
+                    </div>
+                </div>
+
+                <div class="service-card" onclick="showServiceDetail('cafe')">
+                    <div class="service-card-top">
+                        <div class="service-icon orange"><i class="bi bi-cup-hot-fill"></i></div>
+                        <div class="service-title">Quán Cafe</div>
+                    </div>
+                    <p class="service-description">Quán cafe tại tầng trệt, phục vụ đồ uống và thức ăn nhẹ</p>
+                    <div class="service-card-bottom">
+                        <div>
+                            <div class="service-price">Giá theo menu</div>
+                            <span class="service-availability available"><i class="bi bi-check-circle-fill"></i>Đang
+                                hoạt động</span>
+                        </div>
+                        <button class="btn-request" disabled><i class="bi bi-shop"></i>Dịch vụ sẵn có</button>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
 
     <!-- Service Detail Modal -->
-    <div class="modal fade" id="serviceDetailModal" tabindex="-1" aria-labelledby="serviceDetailModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal fade" id="serviceDetailModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width:480px;">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="serviceDetailModalLabel">
-                        <i class="bi bi-info-circle me-2"></i>Chi Tiết Dịch Vụ
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title"><i class="bi bi-info-circle me-1"></i>Chi Tiết Dịch Vụ</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <div id="serviceDetailContent">
-                        <!-- Content will be injected here -->
-                    </div>
+                    <div id="serviceDetailContent"></div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        <i class="bi bi-x-circle me-2"></i>Đóng
-                    </button>
-                    <button type="button" class="btn btn-request" style="width: auto;">
-                        <i class="bi bi-telephone me-2"></i>Liên Hệ Đăng Ký
-                    </button>
+                    <button type="button" class="btn-secondary-sm" data-bs-dismiss="modal"><i
+                            class="bi bi-x"></i>Đóng</button>
+                    <button type="button" class="btn-contact"><i class="bi bi-telephone"></i>Liên Hệ Đăng Ký</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const serviceData = {
+            'parking-car': {
+                icon: 'bi-car-front-fill', iconClass: 'blue',
+                name: 'Đỗ Xe Ô Tô', price: '1,500,000 VNĐ/tháng',
+                description: 'Chỗ đỗ xe ô tô trong nhà, an toàn và tiện lợi với hệ thống camera giám sát 24/7.',
+                details: [
+                    ['Giá', '1,500,000 VNĐ/tháng', 'price'],
+                    ['Vị trí', 'Tầng hầm B1, B2'],
+                    ['Sức chứa', '200 xe'],
+                    ['Giờ phục vụ', '24/7'],
+                ],
+                notes: ['Camera giám sát 24/7', 'Bảo vệ thường trực', 'Hệ thống thẻ từ ra vào', 'Mỗi hợp đồng được 1 chỗ']
+            },
+            'parking-moto': {
+                icon: 'bi-bicycle', iconClass: 'green',
+                name: 'Đỗ Xe Máy', price: '100,000 VNĐ/tháng',
+                description: 'Khu vực đỗ xe máy rộng rãi, được bảo vệ và giám sát liên tục.',
+                details: [
+                    ['Giá', '100,000 VNĐ/tháng', 'price'],
+                    ['Vị trí', 'Tầng hầm B1'],
+                    ['Sức chứa', '500 xe'],
+                    ['Giờ phục vụ', '6:00 – 22:00'],
+                ],
+                notes: ['Camera giám sát 24/7', 'Bảo vệ thường trực', 'Có thể đăng ký nhiều chỗ']
+            },
+            'internet': {
+                icon: 'bi-wifi', iconClass: 'orange',
+                name: 'Internet Tốc Độ Cao', price: '300,000 VNĐ/tháng',
+                description: 'Kết nối internet cáp quang tốc độ cao, ổn định 24/7 cho văn phòng.',
+                details: [
+                    ['Giá', '300,000 VNĐ/tháng', 'price'],
+                    ['Tốc độ', '100 Mbps đối xứng'],
+                    ['Nhà cung cấp', 'Viettel / VNPT'],
+                    ['Hỗ trợ kỹ thuật', '24/7'],
+                ],
+                notes: ['Cáp quang tốc độ cao', 'IP tĩnh theo yêu cầu', 'Hỗ trợ kỹ thuật tận nơi', 'SLA 99.9% uptime']
+            },
+            'cleaning': {
+                icon: 'bi-brush-fill', iconClass: 'purple',
+                name: 'Dịch Vụ Vệ Sinh', price: '500,000 VNĐ/lần',
+                description: 'Vệ sinh văn phòng định kỳ, chuyên nghiệp và tỉ mỉ bởi đội ngũ được đào tạo.',
+                details: [
+                    ['Giá', '500,000 VNĐ/lần', 'price'],
+                    ['Thời gian', 'Theo lịch hẹn'],
+                    ['Nhân sự', '2-4 người/ca'],
+                    ['Thời lượng', '2-3 giờ/lần'],
+                ],
+                notes: ['Sử dụng hóa chất an toàn', 'Nhân viên được đào tạo', 'Có thể đặt lịch định kỳ', 'Giảm giá theo gói tháng']
+            },
+            'security': {
+                icon: 'bi-shield-fill-check', iconClass: 'red',
+                name: 'An Ninh 24/7', price: 'Miễn phí',
+                description: 'Hệ thống bảo vệ chuyên nghiệp, camera và kiểm soát ra vào toàn tòa nhà.',
+                details: [
+                    ['Giá', 'Miễn phí', 'free'],
+                    ['Giờ hoạt động', '24/7'],
+                    ['Số bảo vệ', '6 người/ca'],
+                    ['Camera', '120+ điểm'],
+                ],
+                notes: ['Đã bao gồm trong phí dịch vụ', 'Kiểm soát thẻ từ ra vào', 'Hệ thống báo cháy tự động', 'Tuần tra định kỳ']
+            },
+            'maintenance': {
+                icon: 'bi-tools', iconClass: 'teal',
+                name: 'Bảo Trì & Sửa Chữa', price: 'Theo yêu cầu',
+                description: 'Dịch vụ bảo trì và sửa chữa các thiết bị văn phòng, điện nước, điều hòa.',
+                details: [
+                    ['Giá', 'Theo thực tế'],
+                    ['Phản hồi', 'Trong 2 giờ'],
+                    ['Kỹ thuật viên', 'Có chứng chỉ'],
+                    ['Giờ làm việc', '8:00 – 18:00'],
+                ],
+                notes: ['Tư vấn miễn phí', 'Bảo hành 3 tháng sau sửa', 'Phụ tùng chính hãng', 'Ngoài giờ có phụ phí']
+            },
+            'meeting-room': {
+                icon: 'bi-people-fill', iconClass: 'blue',
+                name: 'Phòng Họp', price: '200,000 VNĐ/giờ',
+                description: 'Phòng họp hiện đại với đầy đủ trang thiết bị hội thảo chuyên nghiệp.',
+                details: [
+                    ['Giá', '200,000 VNĐ/giờ', 'price'],
+                    ['Sức chứa', '10–20 người'],
+                    ['Trang thiết bị', 'Máy chiếu, TV 4K'],
+                    ['Đặt trước', 'Tối thiểu 1 ngày'],
+                ],
+                notes: ['Máy chiếu Full HD', 'Điều hòa nhiệt độ', 'Kết nối Wifi riêng', 'Hủy trước 24h miễn phí']
+            },
+            'gym': {
+                icon: 'bi-heart-pulse-fill', iconClass: 'green',
+                name: 'Phòng Gym', price: '500,000 VNĐ/tháng',
+                description: 'Phòng tập gym với thiết bị hiện đại, huấn luyện viên chuyên nghiệp hỗ trợ.',
+                details: [
+                    ['Giá', '500,000 VNĐ/tháng', 'price'],
+                    ['Tình trạng', 'Tạm hết chỗ'],
+                    ['Giờ mở cửa', '6:00 – 22:00'],
+                    ['Sức chứa', '50 người'],
+                ],
+                notes: ['Hiện đang hết chỗ đăng ký', 'Có thể đăng ký danh sách chờ', 'Huấn luyện viên có chứng chỉ', 'Tủ đồ cá nhân']
+            },
+            'cafe': {
+                icon: 'bi-cup-hot-fill', iconClass: 'orange',
+                name: 'Quán Cafe', price: 'Giá theo menu',
+                description: 'Quán cafe tại tầng trệt, phục vụ đồ uống và thức ăn nhẹ cho cư dân tòa nhà.',
+                details: [
+                    ['Vị trí', 'Tầng trệt, khu A'],
+                    ['Giờ phục vụ', '7:00 – 20:00'],
+                    ['Menu', 'Cafe, trà, snack'],
+                    ['Wifi', 'Miễn phí cho khách'],
+                ],
+                notes: ['Giảm 10% cho cư dân tòa nhà', 'Nhận đặt trước qua điện thoại', 'Dịch vụ giao tận tầng']
+            }
+        };
+
+        function showServiceDetail(serviceId) {
+            const s = serviceData[serviceId];
+            if (!s) return;
+
+            const detailRows = s.details.map(([label, val, cls]) =>
+                `<tr><td class="td-label">${label}</td><td class="td-value ${cls || ''}">${val}</td></tr>`
+            ).join('');
+
+            const noteItems = s.notes.map(n => `<li>${n}</li>`).join('');
+
+            document.getElementById('serviceDetailContent').innerHTML = `
+                <div class="detail-strip">
+                    <div class="detail-strip-icon"><i class="bi ${s.icon}"></i></div>
+                    <div>
+                        <div class="detail-strip-name">${s.name}</div>
+                        <div class="detail-strip-price">${s.price}</div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <div class="detail-section-title"><i class="bi bi-card-text"></i> Mô tả</div>
+                    <div class="detail-section-body">${s.description}</div>
+                </div>
+
+                <div class="detail-section">
+                    <div class="detail-section-title"><i class="bi bi-list-check"></i> Thông tin dịch vụ</div>
+                    <table class="detail-table">${detailRows}</table>
+                </div>
+
+                <div class="detail-section">
+                    <div class="detail-section-title"><i class="bi bi-check2-circle"></i> Tính năng & lưu ý</div>
+                    <div class="detail-section-body"><ul>${noteItems}</ul></div>
+                </div>
+            `;
+
+            new bootstrap.Modal(document.getElementById('serviceDetailModal')).show();
+        }
+    </script>
 </body>
 
 </html>

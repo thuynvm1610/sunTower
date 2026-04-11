@@ -5,747 +5,764 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>SunTower - Lịch Sử Giao Dịch</title>
-
-    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 
     <style>
         :root {
-            --primary-color: #2d3e8f;
-            --primary-light: #4a5fc1;
-            --secondary-color: #f5f7fa;
+            --primary: #1a1f36;
+            --accent: #2563eb;
+            --accent-dark: #1d4ed8;
+            --surface: #ffffff;
+            --bg: #f0f2f7;
+            --border: #dde1ec;
+            --text: #1a1f36;
+            --muted: #6b7280;
+            --success: #059669;
+            --danger: #dc2626;
+            --warn-bg: #fffbeb;
+            --warn-border: #f59e0b;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--secondary-color);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 14px;
+            margin: 0;
         }
 
-        /* Header */
+        /* ── HEADER ─────────────────────────────────────────────── */
         .header {
-            background: var(--primary-color);
+            background: var(--primary);
             color: white;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
+            border-bottom: 3px solid var(--accent);
         }
 
         .header-top {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .logo {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 700;
-            letter-spacing: 0.5px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
         }
 
         .badge-custom {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 4px 10px;
-            border-radius: 12px;
+            background: var(--accent);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 3px;
             font-size: 11px;
-            font-weight: 600;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
         }
 
         .btn-logout {
-            background: white;
-            color: var(--primary-color);
-            border: none;
-            padding: 8px 18px;
-            border-radius: 6px;
+            background: transparent;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 6px 16px;
+            border-radius: 4px;
             font-weight: 600;
-            font-size: 14px;
-            transition: all 0.2s;
+            font-size: 13px;
+            transition: background 0.15s, border-color 0.15s;
         }
 
         .btn-logout:hover {
-            background: #f0f0f0;
-            color: var(--primary-color);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.6);
+            color: white;
         }
 
-        /* Navigation */
+        /* ── NAV ─────────────────────────────────────────────────── */
         .nav-custom {
-            background: var(--primary-color);
+            background: var(--primary);
         }
 
         .nav-custom .nav-link {
-            color: white !important;
+            color: rgba(255, 255, 255, 0.65) !important;
+            font-size: 13px;
             font-weight: 500;
-            font-size: 14px;
-            padding: 14px 18px;
-            border-radius: 6px 6px 0 0;
-            transition: all 0.2s;
+            padding: 12px 15px;
+            border-bottom: 3px solid transparent;
+            transition: color 0.15s, border-color 0.15s;
         }
 
         .nav-custom .nav-link:hover {
-            background: rgba(255, 255, 255, 0.1);
+            color: white !important;
+            border-bottom-color: rgba(255, 255, 255, 0.3);
         }
 
         .nav-custom .nav-link.active {
-            background: rgba(255, 255, 255, 0.15);
-            font-weight: 600;
+            color: white !important;
+            font-weight: 700;
+            border-bottom-color: var(--accent);
         }
 
-        /* Dropdown Menu */
-        .dropdown-menu-custom {
-            background: white;
-            border: 1px solid rgba(0, 0, 0, 0.1);
+        .nav-custom .dropdown-menu {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+            padding: 4px 0;
         }
 
-        /* Welcome Section */
-        .welcome-section {
-            background: white;
-            border-left: 4px solid var(--primary-color);
+        .nav-custom .dropdown-item {
+            color: var(--text);
+            padding: 9px 16px;
+            font-size: 13px;
         }
 
-        .welcome-section h1 {
-            color: var(--primary-color);
+        .nav-custom .dropdown-item:hover {
+            background: var(--bg);
+            color: var(--accent);
         }
 
-        /* Filter Section */
+        .nav-custom .dropdown-item i {
+            color: var(--accent);
+        }
+
+        /* ── PAGE HEADER ─────────────────────────────────────────── */
+        .page-header {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--accent);
+            border-radius: 4px;
+            padding: 0.6rem 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-header h1 {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0 0 1px;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .page-header p {
+            font-size: 12px;
+            color: var(--muted);
+            margin: 0;
+        }
+
+        /* ── STATS BAR ───────────────────────────────────────────── */
+        .stats-bar {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 0.875rem;
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+        }
+
+        .stat-number {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--muted);
+            font-weight: 500;
+        }
+
+        .stat-divider {
+            width: 1px;
+            height: 28px;
+            background: var(--border);
+        }
+
+        /* ── FILTER ──────────────────────────────────────────────── */
         .filter-section {
-            background: white;
-            border-radius: 10px;
-            padding: 1.25rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-        }
-
-        .filter-header {
-            margin-bottom: 0;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 0.875rem 1.25rem;
+            margin-bottom: 0.875rem;
         }
 
         .filter-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--primary-color);
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text);
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.4rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .filter-title i {
+            color: var(--accent);
         }
 
         .form-label {
-            font-size: 13px;
-            color: #666;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--muted);
+            margin-bottom: 3px;
         }
 
-        .form-control,
         .form-select {
-            font-size: 14px;
-            padding: 0.5rem 0.75rem;
-            border: 1px solid #e0e0e0;
-            border-radius: 6px;
+            font-size: 13px;
+            padding: 0.45rem 0.75rem;
+            border: 1.5px solid var(--border);
+            border-radius: 4px;
+            background: var(--surface);
+            height: 34px;
         }
 
-        .form-control:focus,
         .form-select:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.2rem rgba(45, 62, 143, 0.1);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            outline: none;
         }
+
 
         .btn-filter {
-            background: var(--primary-color);
+            background: var(--accent);
             color: white;
             border: none;
-            padding: 10px 24px;
-            border-radius: 6px;
+            padding: 0 14px;
+            height: 34px;
+            border-radius: 4px;
             font-weight: 600;
-            font-size: 14px;
-            transition: all 0.2s;
-            display: flex;
+            font-size: 13px;
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
+            gap: 0.35rem;
+            transition: background 0.15s;
         }
 
         .btn-filter:hover {
-            background: var(--primary-light);
+            background: var(--accent-dark);
             color: white;
         }
 
         .btn-reset {
-            background: white;
-            color: #666;
-            border: 1px solid #ddd;
-            padding: 10px 24px;
-            border-radius: 6px;
+            background: var(--surface);
+            color: var(--muted);
+            border: 1.5px solid var(--border);
+            padding: 0 14px;
+            height: 34px;
+            border-radius: 4px;
             font-weight: 600;
-            font-size: 14px;
-            transition: all 0.2s;
-            display: flex;
+            font-size: 13px;
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
+            gap: 0.35rem;
+            transition: background 0.15s;
         }
 
         .btn-reset:hover {
-            background: #f5f7fa;
-            color: #666;
+            background: var(--bg);
+            color: var(--text);
         }
 
-        /* Statistics Bar */
-        .stats-bar {
-            background: white;
-            border-radius: 10px;
-            padding: 1.25rem 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .stat-item {
-            text-align: center;
-            padding: 0.75rem;
-            border-radius: 8px;
-            transition: all 0.2s;
-        }
-
-        .stat-item:hover {
-            background: #f8f9fa;
-        }
-
-        .stat-number {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            font-size: 13px;
-            color: #666;
-            font-weight: 500;
-        }
-
-        /* Thông báo số hóa đơn tìm kiếm */
+        /* ── SEARCH RESULT NOTICE ────────────────────────────────── */
         .total-transaction-search {
-            background: linear-gradient(135deg, #e8f0fe 0%, #f0f7ff 100%);
-            padding: 14px 20px;
-            border-radius: 8px;
-            border-left: 4px solid var(--primary-color);
-            font-size: 15px;
-            color: #495057;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+            background: var(--warn-bg);
+            border-left: 4px solid var(--warn-border);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 13px;
+            color: var(--text);
+            margin-bottom: 0.875rem;
             display: none;
         }
 
         .total-transaction-search strong {
-            color: var(--primary-color);
-            font-size: 18px;
-            margin-left: 4px;
+            color: var(--accent);
         }
 
-        /* Table Container */
+        /* ── TABLE ───────────────────────────────────────────────── */
         .table-container {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 4px;
             overflow: hidden;
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.875rem;
         }
 
-        /* Table Styles */
         .table-custom {
             margin: 0;
             width: 100%;
+            border-collapse: collapse;
         }
 
         .table-custom thead {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
-            color: white;
+            background: var(--primary);
         }
 
         .table-custom thead th {
-            font-weight: 600;
-            font-size: 14px;
-            padding: 1rem 1.25rem;
+            font-weight: 700;
+            font-size: 11px;
+            padding: 0.6rem 1rem;
             border: none;
+            color: rgba(255, 255, 255, 0.85);
             text-transform: uppercase;
-            letter-spacing: 0.3px;
+            letter-spacing: 0.05em;
             white-space: nowrap;
         }
 
         .table-custom tbody tr {
-            border-bottom: 1px solid #f0f0f0;
-            transition: all 0.2s;
-        }
-
-        .table-custom tbody tr:hover {
-            background: #f8f9fa;
-            transform: scale(1.002);
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: background 0.12s;
         }
 
         .table-custom tbody tr:last-child {
             border-bottom: none;
         }
 
+        .table-custom tbody tr:hover {
+            background: #f0f4ff;
+        }
+
         .table-custom tbody td {
-            padding: 1rem 1.25rem;
-            font-size: 14px;
-            color: #333;
+            padding: 0.6rem 1rem;
+            font-size: 13px;
+            color: var(--text);
             vertical-align: middle;
         }
 
-        .table-custom tbody td:first-child {
-            font-weight: 600;
-            color: var(--primary-color);
-        }
-
-        .table-custom tbody td:last-child {
+        /* Badges in table */
+        .month-badge {
+            display: inline-block;
+            background: #eff6ff;
+            color: var(--accent);
+            padding: 2px 8px;
+            border-radius: 3px;
             font-weight: 700;
-            color: #059669;
-            font-size: 15px;
+            font-size: 12px;
         }
 
-        /* Empty State */
-        .empty-state {
-            padding: 3rem;
-            text-align: center;
-            color: #9ca3af;
+        .amount-badge {
+            display: inline-block;
+            background: #ecfdf5;
+            color: var(--success);
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-weight: 700;
+            font-size: 12px;
         }
 
-        .empty-state i {
-            font-size: 3rem;
-            color: #d1d5db;
-            margin-bottom: 1rem;
-        }
-
-        .empty-state h3 {
-            color: #666;
-            font-size: 18px;
+        .building-link {
+            color: var(--accent);
+            text-decoration: none;
             font-weight: 600;
-            margin-bottom: 0.5rem;
+            font-size: 13px;
         }
 
-        .empty-state p {
-            margin: 0;
-            font-size: 14px;
+        .building-link:hover {
+            text-decoration: underline;
         }
 
-        /* Pagination Styles */
+        /* ── PAGINATION ──────────────────────────────────────────── */
         .pagination-container {
-            background: white;
-            border-radius: 10px;
-            padding: 1.25rem;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 0.75rem 1rem;
         }
 
         .pagination {
             margin: 0;
-            gap: 0.5rem;
-        }
-
-        .pagination .page-item {
-            margin: 0;
+            gap: 0.3rem;
         }
 
         .pagination .page-link {
-            border: 1px solid #e0e0e0;
-            color: #666;
-            padding: 0.5rem 0.85rem;
-            font-weight: 500;
-            font-size: 14px;
-            border-radius: 6px;
-            transition: all 0.2s;
+            border: 1.5px solid var(--border);
+            color: var(--muted);
+            padding: 0.3rem 0.7rem;
+            font-weight: 600;
+            font-size: 13px;
+            border-radius: 4px;
+            transition: all 0.15s;
+            min-width: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-width: 38px;
         }
 
         .pagination .page-link:hover {
-            background: var(--primary-color);
+            background: var(--accent);
             color: white;
-            border-color: var(--primary-color);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(45, 62, 143, 0.2);
+            border-color: var(--accent);
         }
 
         .pagination .page-item.active .page-link {
-            background: var(--primary-color);
-            border-color: var(--primary-color);
+            background: var(--accent);
+            border-color: var(--accent);
             color: white;
-            font-weight: 600;
-            box-shadow: 0 4px 8px rgba(45, 62, 143, 0.3);
         }
 
         .pagination .page-item.disabled .page-link {
-            background: #f5f5f5;
-            border-color: #e0e0e0;
-            color: #ccc;
+            background: var(--bg);
+            color: #c7d0e0;
+            border-color: var(--border);
             cursor: not-allowed;
         }
 
         .pagination .page-item.disabled .page-link:hover {
-            transform: none;
-            box-shadow: none;
+            background: var(--bg);
+            color: #c7d0e0;
         }
 
-        .pagination .page-link i {
-            font-size: 12px;
+        /* ── EMPTY STATE ─────────────────────────────────────────── */
+        .empty-state {
+            padding: 2.5rem;
+            text-align: center;
+            color: var(--muted);
         }
 
-        /* Responsive Table */
-        @media (max-width: 768px) {
-            .table-container {
-                overflow-x: auto;
-            }
-
-            .table-custom {
-                min-width: 800px;
-            }
-
-            .pagination {
-                flex-wrap: wrap;
-            }
+        .empty-state i {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--border);
         }
 
-        /* Building Link */
-        .building-link {
-            color: var(--primary-color);
-            text-decoration: none;
+        .empty-state h3 {
+            font-size: 15px;
             font-weight: 600;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
+            color: var(--muted);
+            margin-bottom: 0.25rem;
         }
 
-        .building-link:hover {
-            color: var(--primary-light);
-            text-decoration: underline;
+        .empty-state p {
+            font-size: 13px;
+            margin: 0;
         }
 
-        /* Badge for Month/Year */
-        .month-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #e8f0fe 0%, #f0f7ff 100%);
-            padding: 4px 10px;
+        /* ── MODAL ───────────────────────────────────────────────── */
+        .modal-content {
+            border: 1px solid var(--border);
             border-radius: 6px;
-            font-weight: 600;
-            color: var(--primary-color);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.14);
         }
 
-        /* Area Badge */
-        .area-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
-            color: #666;
-        }
-
-        .area-badge i {
-            color: var(--primary-color);
-            font-size: 12px;
-        }
-
-        /* Date Badge */
-        .date-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
-            color: #666;
-        }
-
-        .date-badge i {
-            color: #10b981;
-            font-size: 12px;
-        }
-
-        /* Amount Badge */
-        .amount-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-
-        .amount-badge i {
-            color: #059669;
-            font-size: 14px;
-        }
-
-        /* Highlight khi có giá trị */
-        .filter-section .form-select.has-value {
-            background-color: #E8F0FE;
-            border-color: #3b82f6;
-            font-weight: 600;
-        }
-
-        /* Invoice modal */
         .modal-header {
-            background: var(--primary-color);
+            background: var(--primary);
             color: white;
-            border-radius: 0.5rem 0.5rem 0 0;
+            border-radius: 5px 5px 0 0;
+            padding: 0.75rem 1.25rem;
+            border-bottom: 3px solid var(--accent);
+        }
+
+        .modal-header .modal-title {
+            font-size: 14px;
+            font-weight: 700;
         }
 
         .modal-header .btn-close {
             filter: brightness(0) invert(1);
+            opacity: 0.7;
         }
 
-        .invoice-header {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
-            color: white;
-            border-radius: 0.5rem;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
+        .modal-header .btn-close:hover {
+            opacity: 1;
         }
 
-        .invoice-id {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
+        .modal-footer {
+            background: var(--bg);
+            border-top: 1px solid var(--border);
+            padding: 0.6rem 1rem;
         }
 
-        .invoice-period {
-            font-size: 1rem;
-            opacity: 0.95;
-        }
-
-        .info-section {
-            background: #f8f9fa;
-            border-radius: 0.5rem;
+        .modal-body {
             padding: 1rem;
-            margin-bottom: 1rem;
         }
 
-        .info-section-title {
-            color: var(--primary-color);
-            font-weight: 600;
-            font-size: 0.95rem;
-            margin-bottom: 0.75rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--primary-color);
-        }
-
-        .info-row {
+        /* ── INVOICE HEADER STRIP ────────────────────────────────── */
+        .invoice-strip {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid #e0e0e0;
+            justify-content: space-between;
+            background: var(--primary);
+            color: white;
+            border-radius: 4px;
+            padding: 0.6rem 0.875rem;
+            margin-bottom: 0.875rem;
+            border-left: 4px solid var(--accent);
         }
 
-        .info-row:last-child {
+        .invoice-strip-id {
+            font-size: 14px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .invoice-strip-meta {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.75);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        /* ── MODAL INFO TABLE ────────────────────────────────────── */
+        .modal-section {
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.6rem;
+        }
+
+        .modal-section-title {
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            padding: 0.35rem 0.75rem;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .modal-section-title i {
+            color: var(--accent);
+            font-size: 12px;
+        }
+
+        .modal-info-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .modal-info-table tr {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-info-table tr:last-child {
             border-bottom: none;
         }
 
-        .info-label {
-            color: #666;
-            font-size: 0.9rem;
+        .modal-info-table td {
+            padding: 0.45rem 0.75rem;
+            vertical-align: middle;
         }
 
-        .info-value {
-            font-weight: 600;
-            color: #333;
+        .modal-info-table .td-label {
+            color: var(--muted);
+            font-weight: 500;
+            width: 45%;
+            font-size: 12px;
+        }
+
+        .modal-info-table .td-value {
+            font-weight: 700;
+            color: var(--text);
             text-align: right;
         }
 
-        .utility-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.75rem;
-            margin-top: 0.75rem;
+        .modal-info-table .td-value.text-danger {
+            color: var(--danger);
         }
 
-        .utility-item {
-            background: white;
-            padding: 0.75rem;
-            border-radius: 0.375rem;
-            border: 1px solid #e0e0e0;
+        .modal-info-table .td-value.text-success {
+            color: var(--success);
         }
 
-        .utility-label {
-            color: #666;
-            font-size: 0.85rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .utility-value {
-            font-weight: 600;
-            color: #333;
-            font-size: 0.95rem;
-        }
-
-        .meter-reading {
+        /* ── METER ROW ───────────────────────────────────────────── */
+        .meter-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: white;
-            padding: 0.75rem;
-            border-radius: 0.375rem;
-            margin-bottom: 0.5rem;
-            border: 1px solid #e0e0e0;
+            padding: 0.45rem 0.75rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
         }
 
-        .meter-info {
+        .meter-row:last-child {
+            border-bottom: none;
+        }
+
+        .meter-left {
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
         .meter-icon {
-            width: 40px;
-            height: 40px;
-            background: #f0f4ff;
-            border-radius: 0.375rem;
+            width: 28px;
+            height: 28px;
+            background: #eff6ff;
+            border-radius: 3px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--primary-color);
+            color: var(--accent);
+            font-size: 13px;
+            flex-shrink: 0;
         }
 
-        .meter-details {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .meter-label {
-            font-size: 0.85rem;
-            color: #666;
-        }
-
-        .meter-values {
-            font-size: 0.9rem;
+        .meter-name {
             font-weight: 600;
-            color: #333;
+            color: var(--text);
+            font-size: 12px;
         }
 
-        .usage-badge {
-            background: #e3f2fd;
-            color: #1976d2;
-            padding: 0.375rem 0.75rem;
-            border-radius: 1rem;
-            font-weight: 600;
-            font-size: 0.85rem;
-            width: fit-content;
-            margin-left: auto;
+        .meter-reading-val {
+            font-size: 11px;
+            color: var(--muted);
         }
 
-        .total-section {
-            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
-            border-radius: 0.5rem;
-            padding: 1.25rem;
-            margin-top: 1.5rem;
+        .meter-right {
+            text-align: right;
         }
 
+        .usage-chip {
+            display: inline-block;
+            background: #eff6ff;
+            color: var(--accent);
+            padding: 1px 7px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .meter-amount {
+            font-weight: 700;
+            font-size: 12px;
+            color: var(--text);
+        }
+
+        /* ── STATUS BADGE ────────────────────────────────────────── */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-weight: 700;
+            font-size: 11px;
+        }
+
+        .status-PENDING {
+            background: #fffbeb;
+            color: #d97706;
+            border: 1.5px solid #f59e0b;
+        }
+
+        .status-OVERDUE {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 1.5px solid #f87171;
+        }
+
+        .status-PAID {
+            background: #ecfdf5;
+            color: #059669;
+            border: 1.5px solid #6ee7b7;
+        }
+
+        /* ── TOTAL ROW ───────────────────────────────────────────── */
         .total-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.75rem;
-        }
-
-        .total-row:last-child {
-            margin-bottom: 0;
-            padding-top: 0.75rem;
-            border-top: 2px solid rgba(0, 0, 0, 0.1);
+            background: var(--primary);
+            color: white;
+            border-radius: 4px;
+            padding: 0.6rem 0.875rem;
+            margin-top: 0.6rem;
         }
 
         .total-label {
-            font-size: 1.1rem;
+            font-size: 12px;
             font-weight: 700;
-            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
         }
 
         .total-amount {
-            font-size: 1.5rem;
+            font-size: 16px;
             font-weight: 700;
-            color: #d32f2f;
+            color: #fbbf24;
         }
 
-        .status-badge {
+        /* ── PAYMENT BUTTON ──────────────────────────────────────── */
+        .btn-payment {
+            background: var(--accent);
+            color: white;
+            font-weight: 700;
+            font-size: 13px;
+            padding: 0.45rem 1.25rem;
+            border: none;
+            border-radius: 4px;
             display: inline-flex;
             align-items: center;
-            gap: 0.375rem;
-            padding: 0.5rem 1rem;
-            border-radius: 1.5rem;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .status-unpaid {
-            background: #fff3e0;
-            color: #f57c00;
-            border: 2px solid #ffb74d;
-        }
-
-        .btn-payment {
-            background: var(--primary-color);
-            color: white;
-            font-weight: 600;
-            padding: 0.75rem 2rem;
-            border: none;
-            border-radius: 0.5rem;
-            transition: all 0.3s;
+            gap: 0.4rem;
+            transition: background 0.15s;
         }
 
         .btn-payment:hover {
-            background: var(--primary-light);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(45, 62, 143, 0.3);
+            background: var(--accent-dark);
+            color: white;
         }
 
-        .icon-circle {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
+        .btn-secondary-sm {
+            background: var(--bg);
+            border: 1.5px solid var(--border);
+            color: var(--text);
+            font-weight: 600;
+            font-size: 13px;
+            border-radius: 4px;
+            padding: 0.45rem 1rem;
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            margin-right: 0.5rem;
+            gap: 0.35rem;
+            transition: background 0.15s;
         }
 
-        /* Base table styles */
-        #transactionTableBody tr {
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border-bottom: 1px solid #e0e0e0;
+        .btn-secondary-sm:hover {
+            background: #e5e7eb;
         }
 
-        /* Simple hover effect */
-        #transactionTableBody tr:hover {
-            background-color: #f5f7fa;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-        }
+        @media (max-width: 768px) {
+            .table-container {
+                overflow-x: auto;
+            }
 
-        /* Badge base styles */
-        .month-badge,
-        .amount-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-weight: 500;
-            font-size: 14px;
-        }
-
-        .month-badge {
-            background-color: #e3f2fd;
-            color: #1976d2;
-        }
-
-        .amount-badge {
-            background-color: #e8f5e9;
-            color: #388e3c;
-            font-weight: 600;
-        }
-
-        .building-link {
-            color: #1976d2;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .building-link:hover {
-            text-decoration: underline;
+            .table-custom {
+                min-width: 600px;
+            }
         }
     </style>
 </head>
@@ -754,21 +771,17 @@
 
     <!-- Header -->
     <div class="header">
-        <div class="header-top py-3">
+        <div class="header-top py-2">
             <div class="container-fluid px-4">
                 <div class="d-flex justify-content-between align-items-center flex-wrap">
                     <div class="logo">SunTower</div>
-                    <button class="navbar-toggler d-lg-none text-white" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarNav">
-                        <i class="bi bi-list fs-3"></i>
-                    </button>
                     <div class="d-flex align-items-center gap-3">
-                        <div class="d-flex align-items-center gap-3">
+                        <div class="d-flex align-items-center gap-2">
                             <div class="text-end">
-                                <small class="d-block opacity-85">Xin chào,</small>
-                                <strong th:text="${#authentication.name}">Nguyễn Văn A</strong>
+                                <small class="d-block" style="opacity:.7;font-size:11px;">Xin chào,</small>
+                                <strong style="font-size:13px;" th:text="${#authentication.name}">Nguyễn Văn A</strong>
                             </div>
-                            <span class="badge-custom">KHÁCH HÀNG</span>
+                            <span class="badge-custom">Khách Hàng</span>
                         </div>
                         <a href="#" class="btn btn-logout"
                             onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">Đăng
@@ -778,102 +791,62 @@
                 </div>
             </div>
         </div>
-
-        <!-- Navigation -->
         <nav class="nav-custom">
             <div class="container-fluid px-4">
                 <ul class="nav">
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/customer/home}">
-                            <i class="bi bi-house-door me-1"></i>Trang chủ
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/customer/contract/list}">
-                            <i class="bi bi-file-text me-1"></i>Hợp đồng
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/customer/invoice/list}">
-                            <i class="bi bi-credit-card me-1"></i>Thanh toán
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/customer/building/list}">
-                            <i class="bi bi-building me-1"></i>Tòa nhà
-                        </a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/customer/home}"><i
+                                class="bi bi-house-door me-1"></i>Trang chủ</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/customer/contract/list}"><i
+                                class="bi bi-file-text me-1"></i>Hợp đồng</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/customer/invoice/list}"><i
+                                class="bi bi-credit-card me-1"></i>Thanh toán</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/customer/building/list}"><i
+                                class="bi bi-building me-1"></i>Bất động sản</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             <i class="bi bi-grid-3x3-gap me-1"></i>Tiện ích
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-custom">
-                            <li>
-                                <a class="dropdown-item" th:href="@{/customer/transaction/history}">
-                                    <i class="bi bi-clock-history me-2"></i>Lịch sử giao dịch
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" th:href="@{/customer/service}">
-                                    <i class="bi bi-clipboard-check me-2"></i>Dịch vụ
-                                </a>
-                            </li>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" th:href="@{/customer/transaction/history}"><i
+                                        class="bi bi-clock-history me-2"></i>Lịch sử giao dịch</a></li>
+                            <li><a class="dropdown-item" th:href="@{/customer/service}"><i
+                                        class="bi bi-clipboard-check me-2"></i>Dịch vụ</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/customer/profile}">
-                            <i class="bi bi-person-circle me-1"></i>Tài khoản
-                        </a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/customer/profile}"><i
+                                class="bi bi-person-circle me-1"></i>Tài khoản</a></li>
                 </ul>
             </div>
         </nav>
     </div>
 
-    <!-- Main Container -->
-    <div class="container-fluid px-4 py-4">
-        <!-- Welcome Section -->
-        <div class="welcome-section p-4 rounded mb-4">
-            <h1 class="h3 mb-2">
-                <i class="bi bi-clock-history me-2"></i>
-                Lịch Sử Giao Dịch
-            </h1>
-            <p class="text-muted mb-0">Xem lại toàn bộ lịch sử thanh toán hóa đơn của bạn</p>
+    <div class="container-fluid px-4 py-3">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1><i class="bi bi-clock-history"></i> Lịch Sử Giao Dịch</h1>
+            <p>Xem lại toàn bộ lịch sử thanh toán hóa đơn của bạn</p>
         </div>
 
-        <!-- Statistics Bar -->
+        <!-- Stats Bar -->
         <div class="stats-bar">
             <div class="stat-item">
-                <div class="stat-number">
-                    <span th:text="${totalTransaction}">
-                        0
-                    </span>
-                </div>
+                <div class="stat-number" th:text="${totalTransaction}">0</div>
                 <div class="stat-label">Tổng giao dịch</div>
             </div>
+            <div class="stat-divider"></div>
             <div class="stat-item">
-                <div class="stat-number">
-                    <span th:text="${totalPaidAmount} + ' VNĐ'">
-                        0 VNĐ
-                    </span>
-                </div>
-                <div class="stat-label">Tổng số tiền</div>
+                <div class="stat-number" th:text="${totalPaidAmount} + ' VNĐ'">0 VNĐ</div>
+                <div class="stat-label">Tổng số tiền đã trả</div>
             </div>
         </div>
 
         <!-- Filter Section -->
         <div class="filter-section">
             <form id="filterForm">
-                <div class="filter-header mb-3">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="filter-title">
-                            <i class="bi bi-funnel"></i>
-                            Bộ lọc tìm kiếm
-                        </div>
-                    </div>
-                </div>
-                <div class="row g-3 align-items-end">
+                <div class="filter-title"><i class="bi bi-funnel"></i> Bộ lọc tìm kiếm</div>
+                <div class="row g-2 align-items-end">
                     <div class="col-md-4">
                         <label class="form-label">Tháng</label>
                         <select class="form-select" name="month">
@@ -896,18 +869,15 @@
                         <label class="form-label">Năm</label>
                         <select class="form-select" name="year">
                             <option value="">-- Chọn năm --</option>
-                            <!-- Động từ server hoặc JS -->
                         </select>
                     </div>
                     <div class="col-md-4">
                         <div class="d-flex gap-2">
-                            <button type="submit" class="btn btn-filter flex-grow-1">
-                                <i class="bi bi-search"></i>
-                                Tìm kiếm
+                            <button type="submit" class="btn-filter ms-auto">
+                                <i class="bi bi-search"></i> Tìm kiếm
                             </button>
                             <button type="button" class="btn-reset" onclick="resetFilter()">
-                                <i class="bi bi-arrow-counterclockwise"></i>
-                                Đặt lại
+                                <i class="bi bi-arrow-counterclockwise"></i> Đặt lại
                             </button>
                         </div>
                     </div>
@@ -918,47 +888,51 @@
         <!-- Search Result Count -->
         <div id="totalTransactionSearch" class="total-transaction-search"></div>
 
-        <!-- Table Container -->
+        <!-- Table -->
         <div class="table-container">
-            <table class="table table-custom">
+            <table class="table-custom">
                 <thead>
                     <tr>
-                        <th><i class="bi bi-calendar-check me-2"></i>Hóa đơn tháng</th>
-                        <th><i class="bi bi-building me-2"></i>Tòa nhà</th>
-                        <th><i class="bi bi-rulers me-2"></i>Diện tích thuê</th>
-                        <th><i class="bi bi-clock me-2"></i>Ngày thanh toán</th>
-                        <th><i class="bi bi-currency-dollar me-2"></i>Tổng thanh toán</th>
+                        <th><i class="bi bi-calendar-check me-1"></i>Hóa đơn tháng</th>
+                        <th><i class="bi bi-building me-1"></i>Bất động sản</th>
+                        <th><i class="bi bi-rulers me-1"></i>Diện tích thuê</th>
+                        <th><i class="bi bi-clock me-1"></i>Ngày thanh toán</th>
+                        <th><i class="bi bi-tag me-1"></i>Trạng thái</th>
+                        <th><i class="bi bi-currency-dollar me-1"></i>Tổng thanh toán</th>
                     </tr>
                 </thead>
-                <tbody id="transactionTableBody">
-                    <!-- Data will be loaded here -->
-                </tbody>
+                <tbody id="transactionTableBody"></tbody>
             </table>
         </div>
 
         <!-- Pagination -->
         <div id="transactionPagination"></div>
 
-        <!-- Modal Chi Tiết Hóa Đơn -->
-        <div id="modalContainer">
-        </div>
+        <!-- Modal Container -->
+        <div id="modalContainer"></div>
 
-        <!-- Bootstrap 5 JS Bundle -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-        <!--JQuery-->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
         <script>
-            // Khởi tạo danh sách năm
             function initYearSelect() {
                 const currentYear = new Date().getFullYear();
                 const yearSelect = $("[name='year']");
-
                 for (let year = currentYear; year >= currentYear - 10; year--) {
                     yearSelect.append(`<option value="${year}">${year}</option>`);
                 }
             }
 
+            const STATUS_CONFIG = {
+                PENDING: { icon: 'bi-exclamation-circle', label: 'Chưa thanh toán' },
+                OVERDUE: { icon: 'bi-x-octagon', label: 'Quá hạn' },
+                PAID: { icon: 'bi-check-circle', label: 'Đã thanh toán' },
+            };
+
+            function statusBadge(status) {
+                const cfg = STATUS_CONFIG[status] || STATUS_CONFIG.PENDING;
+                return `<span class="status-badge status-${status}"><i class="bi ${cfg.icon}"></i> ${cfg.label}</span>`;
+            }
 
             function loadTransactions(page, event) {
                 if (event) event.preventDefault();
@@ -977,265 +951,161 @@
                         tbody.empty();
                         const modalContainer = $("#modalContainer");
                         modalContainer.empty();
-
                         const searchResult = $("#totalTransactionSearch");
 
                         if (data.content.length === 0) {
                             tbody.append(`
-                        <tr>
-                            <td colspan="5">
-                                <div class="empty-state">
-                                    <i class="bi bi-inbox"></i>
-                                    <h3>Không có giao dịch nào</h3>
-                                    <p>Chưa có lịch sử giao dịch theo điều kiện tìm kiếm</p>
-                                </div>
-                            </td>
-                        </tr>
-                    `);
+                                <tr><td colspan="6">
+                                    <div class="empty-state">
+                                        <i class="bi bi-inbox"></i>
+                                        <h3>Không có giao dịch nào</h3>
+                                        <p>Chưa có lịch sử giao dịch theo điều kiện tìm kiếm</p>
+                                    </div>
+                                </td></tr>
+                            `);
                             $("#transactionPagination").empty();
                             searchResult.hide();
                             return;
                         }
 
-                        searchResult.html(`Kết quả tìm kiếm: <strong>${data.totalElements}</strong> giao dịch`).show();
+                        searchResult.html(`Kết quả: <strong>${data.totalElements}</strong> giao dịch`).show();
 
                         $.each(data.content, function (i, t) {
-                            const totalPaidAmount = (Number(t.totalAmount))
-                                .toLocaleString("vi-VN").replace(/\./g, ",");
+                            const totalPaidAmount = Number(t.totalAmount).toLocaleString("vi-VN").replace(/\./g, ",");
+                            const isPending = t.status === 'PENDING' || t.status === 'OVERDUE';
 
                             tbody.append(`
-                            <tr data-bs-toggle="modal" data-bs-target="#invoiceModal-${t.id}">
-                                <td>
-                                    <span class="month-badge">
-                                        ${t.month}/${t.year}
-                                    </span>
-                                </td>
-                                <td>
-                                    <a href="/customer/building/list?buildingName=${t.contract.building.name}" class="building-link">
-                                        ${t.contract.building.name}
-                                    </a>
-                                </td>
-                                <td>
-                                    <span class="area-badge">
-                                        ${t.contract.rentArea} m²
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="date-badge">
-                                        ${t.paidDate}
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="amount-badge">
-                                        ${totalPaidAmount} đ
-                                    </span>
-                                </td>
-                            </tr>
-                        `);
+                                <tr data-bs-toggle="modal" data-bs-target="#invoiceModal-${t.id}">
+                                    <td><span class="month-badge">${t.month}/${t.year}</span></td>
+                                    <td><a href="/customer/building/list?buildingName=${t.contract.building.name}" class="building-link">${t.contract.building.name}</a></td>
+                                    <td>${t.contract.rentArea} m²</td>
+                                    <td>${t.paidDate || '—'}</td>
+                                    <td>${statusBadge(t.status)}</td>
+                                    <td><span class="amount-badge">${totalPaidAmount} đ</span></td>
+                                </tr>
+                            `);
 
                             modalContainer.append(`
-                            <div class="modal fade" id="invoiceModal-${t.id}" tabindex="-1" aria-labelledby="invoiceModalLabel-${i}" aria-hidden="true">
-                                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="invoiceModalLabel-${i}">
-                                                <i class="bi bi-file-earmark-text me-2"></i>Chi Tiết Hóa Đơn
-                                            </h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <!-- Invoice Header -->
-                                            <div class="invoice-header">
-                                                <div class="invoice-id">
-                                                    <i class="bi bi-receipt me-2"></i>
-                                                    <span>Mã hóa đơn: ${t.id}</span>
-                                                </div>
-                                                <div class="invoice-period">
-                                                    <i class="bi bi-calendar-month me-2"></i>
-                                                    <span>
-                                                        Tháng ${t.month}/${t.year}
-                                                    </span>
-                                                </div>
+                                <div class="modal fade" id="invoiceModal-${t.id}" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width:540px;">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title"><i class="bi bi-file-earmark-text me-1"></i>Chi Tiết Hóa Đơn</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                             </div>
+                                            <div class="modal-body">
 
-                                            <!-- Thông tin chung -->
-                                            <div class="info-section">
-                                                <div class="info-section-title">
-                                                    <i class="bi bi-info-circle me-2"></i>Thông Tin Chung
+                                                <!-- Invoice strip -->
+                                                <div class="invoice-strip">
+                                                    <div class="invoice-strip-id"><i class="bi bi-receipt"></i> Hóa đơn: HĐ-${t.id}</div>
+                                                    <div class="invoice-strip-meta"><i class="bi bi-calendar-month"></i> Tháng ${t.month}/${t.year}</div>
                                                 </div>
-                                                <div class="info-row">
-                                                    <span class="info-label">Ngày tạo hóa đơn</span>
-                                                    <span class="info-value">${t.createdDate}</span>
-                                                </div>
-                                                <div class="info-row">
-                                                    <span class="info-label">Hạn thanh toán</span>
-                                                    <span class="info-value text-danger">${t.dueDate}</span>
-                                                </div>
-                                                <div class="info-row">
-                                                    <p class="text-muted mb-0 small">
-                                                        Tòa ${t.contract.building.name} - Thuê ${t.contract.rentArea} m²
-                                                    </p>
-                                                </div>
-                                                <div class="info-row">
-                                                    <span class="info-label">Trạng thái</span>
-                                                    <span class="status-badge status-unpaid">
-                                                        <i class="bi bi-exclamation-circle"></i>
-                                                        Chưa thanh toán
-                                                    </span>
-                                                </div>
-                                            </div>
 
-                                            <!-- Chi phí cố định -->
-                                            <div class="info-section">
-                                                <div class="info-section-title">
-                                                    <i class="bi bi-cash-stack me-2"></i>Chi Phí Cố Định
+                                                <!-- Thông tin chung -->
+                                                <div class="modal-section">
+                                                    <div class="modal-section-title"><i class="bi bi-info-circle"></i> Thông Tin Chung</div>
+                                                    <table class="modal-info-table">
+                                                        <tr>
+                                                            <td class="td-label">Bất động sản / Diện tích</td>
+                                                            <td class="td-value">${t.contract.building.name} · ${t.contract.rentArea} m²</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="td-label">Ngày tạo</td>
+                                                            <td class="td-value">${t.createdDate}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="td-label">Hạn thanh toán</td>
+                                                            <td class="td-value text-danger">${t.dueDate}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="td-label">Ngày thanh toán</td>
+                                                            <td class="td-value">${t.paidDate || '—'}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="td-label">Trạng thái</td>
+                                                            <td class="td-value">${statusBadge(t.status)}</td>
+                                                        </tr>
+                                                    </table>
                                                 </div>
-                                                <div class="info-row">
-                                                    <span class="info-label">Tiền thuê mặt bằng</span>
-                                                    <span class="info-value">
-                                                        ${Number(t.contract.rentPrice).toLocaleString("vi-VN").replace(/\./g, ",")} VNĐ
-                                                        </span>
-                                                </div>
-                                                <div class="info-row">
-                                                    <span class="info-label">Phí dịch vụ</span>
-                                                    <span class="info-value" >
-                                                        ${Number(t.details[1].amount).toLocaleString("vi-VN").replace(/\./g, ",")} VNĐ
-                                                    </span>
-                                                </div>
-                                            </div>
 
-                                            <!-- Chi phí phương tiện -->
-                                            <div class="info-section">
-                                                <div class="info-section-title">
-                                                    <i class="bi bi-car-front me-2"></i>Phí Gửi Xe
+                                                <!-- Chi phí cố định -->
+                                                <div class="modal-section">
+                                                    <div class="modal-section-title"><i class="bi bi-cash-stack"></i> Chi Phí Cố Định</div>
+                                                    <table class="modal-info-table">
+                                                        <tr>
+                                                            <td class="td-label">Tiền thuê mặt bằng</td>
+                                                            <td class="td-value">${Number(t.contract.rentPrice).toLocaleString("vi-VN").replace(/\./g, ",")} VNĐ</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="td-label">Phí dịch vụ</td>
+                                                            <td class="td-value">${Number(t.details[1].amount).toLocaleString("vi-VN").replace(/\./g, ",")} VNĐ</td>
+                                                        </tr>
+                                                    </table>
                                                 </div>
-                                                <div class="utility-grid">
-                                                    <div class="utility-item">
-                                                        <div class="utility-label">
-                                                            <i class="bi bi-car-front-fill me-1"></i>Ô tô
+
+                                                <!-- Phí gửi xe -->
+                                                <div class="modal-section">
+                                                    <div class="modal-section-title"><i class="bi bi-car-front"></i> Phí Gửi Xe</div>
+                                                    <table class="modal-info-table">
+                                                        <tr>
+                                                            <td class="td-label"><i class="bi bi-car-front-fill me-1" style="color:var(--accent)"></i>Ô tô</td>
+                                                            <td class="td-value">${Number(t.details[2].amount).toLocaleString("vi-VN").replace(/\./g, ",")} VNĐ</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="td-label"><i class="bi bi-bicycle me-1" style="color:var(--accent)"></i>Xe máy</td>
+                                                            <td class="td-value">${Number(t.details[3].amount).toLocaleString("vi-VN").replace(/\./g, ",")} VNĐ</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+
+                                                <!-- Sinh hoạt -->
+                                                <div class="modal-section">
+                                                    <div class="modal-section-title"><i class="bi bi-house"></i> Sinh Hoạt</div>
+                                                    <div class="meter-row">
+                                                        <div class="meter-left">
+                                                            <div class="meter-icon"><i class="bi bi-lightning-charge-fill"></i></div>
+                                                            <div>
+                                                                <div class="meter-name">Điện</div>
+                                                                <div class="meter-reading-val">${t.utilityMeter.electricityOld} → ${t.utilityMeter.electricityNew} kWh</div>
+                                                            </div>
                                                         </div>
-                                                        <div class="utility-value">
-                                                            ${Number(t.details[2].amount).toLocaleString("vi-VN").replace(/\./g, ",")} VNĐ
+                                                        <div class="meter-right">
+                                                            <div class="usage-chip">${t.utilityMeter.electricityNew - t.utilityMeter.electricityOld} kWh</div>
+                                                            <div class="meter-amount">${Number(t.details[4].amount).toLocaleString("vi-VN").replace(/\./g, ",")} VNĐ</div>
                                                         </div>
                                                     </div>
-                                                    <div class="utility-item">
-                                                        <div class="utility-label">
-                                                            <i class="bi bi-bicycle me-1"></i>Xe máy
+                                                    <div class="meter-row">
+                                                        <div class="meter-left">
+                                                            <div class="meter-icon"><i class="bi bi-droplet-fill"></i></div>
+                                                            <div>
+                                                                <div class="meter-name">Nước</div>
+                                                                <div class="meter-reading-val">${t.utilityMeter.waterOld} → ${t.utilityMeter.waterNew} m³</div>
+                                                            </div>
                                                         </div>
-                                                        <div class="utility-value">
-                                                            ${Number(t.details[3].amount).toLocaleString("vi-VN").replace(/\./g, ",")} VNĐ
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Chi phí sinh hoạt -->
-                                            <div class="info-section">
-                                                <div class="info-section-title">
-                                                    <i class="bi bi-house"></i> Phí sinh hoạt
-                                                </div>
-                                                <div class="utility-grid">
-                                                    <div class="utility-item">
-                                                        <div class="utility-label">
-                                                            <i class="bi bi-lightning-charge"></i> Điện
-                                                        </div>
-                                                        <div class="utility-value">
-                                                            ${Number(t.contract.building.electricityFee).toLocaleString("vi-VN").replace(/\./g, ",")} VNĐ
-                                                        </div>
-                                                    </div>
-                                                    <div class="utility-item">
-                                                        <div class="utility-label">
-                                                            <i class="bi bi-droplet"></i> Nước
-                                                        </div>
-                                                        <div class="utility-value">
-                                                            ${Number(t.contract.building.waterFee).toLocaleString("vi-VN").replace(/\./g, ",")} VNĐ
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Tiện ích (Điện & Nước) -->
-                                            <div class="info-section">
-                                                <div class="info-section-title">
-                                                    <i class="bi bi-house"></i> Sinh hoạt
-                                                </div>
-
-                                                <!-- Điện -->
-                                                <div class="meter-reading">
-                                                    <div class="meter-info">
-                                                        <div class="meter-icon">
-                                                            <i class="bi bi-lightning-charge-fill"></i>
-                                                        </div>
-                                                        <div class="meter-details">
-                                                            <span class="meter-label">Điện</span>
-                                                            <span class="meter-values">
-                                                                <span>${t.utilityMeter.electricityOld}</span> →
-                                                                <span>${t.utilityMeter.electricityNew}</span> kWh
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="text-end">
-                                                        <div class="usage-badge">
-                                                            <span>${t.utilityMeter.electricityNew - t.utilityMeter.electricityOld}</span>
-                                                            kWh
-                                                        </div>
-                                                        <div class="info-value mt-1">
-                                                            ${Number(t.details[4].amount).toLocaleString("vi-VN").replace(/\./g, ",")} VNĐ
+                                                        <div class="meter-right">
+                                                            <div class="usage-chip">${t.utilityMeter.waterNew - t.utilityMeter.waterOld} m³</div>
+                                                            <div class="meter-amount">${Number(t.details[5].amount).toLocaleString("vi-VN").replace(/\./g, ",")} VNĐ</div>
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <!-- Nước -->
-                                                <div class="meter-reading">
-                                                    <div class="meter-info">
-                                                        <div class="meter-icon">
-                                                            <i class="bi bi-droplet-fill"></i>
-                                                        </div>
-                                                        <div class="meter-details">
-                                                            <span class="meter-label">Nước</span>
-                                                            <span class="meter-values">
-                                                                <span>${t.utilityMeter.waterOld}</span> →
-                                                                <span>${t.utilityMeter.waterNew}</span> m³
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="text-end">
-                                                        <div class="usage-badge">
-                                                            <span>${t.utilityMeter.waterNew - t.utilityMeter.waterOld}</span>
-                                                            m³
-                                                        </div>
-                                                        <div class="info-value mt-1">
-                                                            ${Number(t.details[5].amount).toLocaleString("vi-VN").replace(/\./g, ",")} VNĐ
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Tổng cộng -->
-                                            <div class="total-section">
+                                                <!-- Tổng cộng -->
                                                 <div class="total-row">
-                                                    <span class="total-label">
-                                                        <i class="bi bi-cash-coin me-2"></i>TỔNG CỘNG
-                                                    </span>
-                                                    <span class="total-amount">
-                                                        ${Number(t.totalAmount).toLocaleString("vi-VN").replace(/\./g, ",")} VNĐ
-                                                    </span>
+                                                    <div class="total-label"><i class="bi bi-cash-coin"></i> Tổng cộng</div>
+                                                    <div class="total-amount">${Number(t.totalAmount).toLocaleString("vi-VN").replace(/\./g, ",")} VNĐ</div>
                                                 </div>
+
                                             </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                                <i class="bi bi-x-circle me-2"></i>Đóng
-                                            </button>
-                                            <button type="button" class="btn btn-payment"
-                                                onclick="payInvoice(${t.id})">
-                                                <i class="bi bi-credit-card me-2"></i> Xác Nhận Thanh Toán
-                                            </button>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn-secondary-sm" data-bs-dismiss="modal">
+                                                    <i class="bi bi-x"></i> Đóng
+                                                </button>
+                                                ${isPending ? `<button type="button" class="btn-payment" onclick="payInvoice(${t.id})"><i class="bi bi-credit-card"></i> Xác Nhận Thanh Toán</button>` : ''}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        `);
+                            `);
                         });
 
                         renderTransactionPagination(data.totalPages, page);
@@ -1251,91 +1121,29 @@
                 pagination.empty();
                 if (totalPages <= 1) return;
 
-                let html = `
-        <div class="pagination-container">
-            <nav>
-                <ul class="pagination justify-content-center">
-        `;
+                let html = `<div class="pagination-container"><nav><ul class="pagination justify-content-center">`;
+                html += `<li class="page-item ${current === 1 ? 'disabled' : ''}"><a href="#" class="page-link" onclick="loadTransactions(1, event)"><i class="bi bi-chevron-bar-left"></i></a></li>`;
+                html += `<li class="page-item ${current === 1 ? 'disabled' : ''}"><a href="#" class="page-link" onclick="loadTransactions(${current - 1}, event)"><i class="bi bi-chevron-left"></i></a></li>`;
 
-                // --- First ---
-                html += `
-            <li class="page-item ${current === 1 ? 'disabled' : ''}">
-                <a href="#" class="page-link" onclick="loadTransactions(1, event)" title="Trang đầu">
-                    <i class="bi bi-chevron-bar-left"></i>
-                </a>
-            </li>
-        `;
-
-                // --- Prev ---
-                html += `
-            <li class="page-item ${current === 1 ? 'disabled' : ''}">
-                <a href="#" class="page-link" onclick="loadTransactions(${current - 1}, event)" title="Trang trước">
-                    <i class="bi bi-chevron-left"></i>
-                </a>
-            </li>
-        `;
-
-                // --- BLOCK 5 PAGE ---
                 const blockSize = 5;
                 const blockStart = Math.floor((current - 1) / blockSize) * blockSize + 1;
-                let blockEnd = blockStart + blockSize - 1;
-                if (blockEnd > totalPages) blockEnd = totalPages;
-
+                let blockEnd = Math.min(blockStart + blockSize - 1, totalPages);
                 for (let i = blockStart; i <= blockEnd; i++) {
-                    html += `
-                <li class="page-item ${i === current ? 'active' : ''}">
-                    <a href="#" class="page-link" onclick="loadTransactions(${i}, event)">${i}</a>
-                </li>
-            `;
+                    html += `<li class="page-item ${i === current ? 'active' : ''}"><a href="#" class="page-link" onclick="loadTransactions(${i}, event)">${i}</a></li>`;
                 }
 
-                // --- Next ---
-                html += `
-            <li class="page-item ${current === totalPages ? 'disabled' : ''}">
-                <a href="#" class="page-link" onclick="loadTransactions(${current + 1}, event)" title="Trang sau">
-                    <i class="bi bi-chevron-right"></i>
-                </a>
-            </li>
-        `;
-
-                // --- Last ---
-                html += `
-            <li class="page-item ${current === totalPages ? 'disabled' : ''}">
-                <a href="#" class="page-link" onclick="loadTransactions(${totalPages}, event)" title="Trang cuối">
-                    <i class="bi bi-chevron-bar-right"></i>
-                </a>
-            </li>
-        `;
-
-                html += `
-                </ul>
-            </nav>
-        </div>
-        `;
-
+                html += `<li class="page-item ${current === totalPages ? 'disabled' : ''}"><a href="#" class="page-link" onclick="loadTransactions(${current + 1}, event)"><i class="bi bi-chevron-right"></i></a></li>`;
+                html += `<li class="page-item ${current === totalPages ? 'disabled' : ''}"><a href="#" class="page-link" onclick="loadTransactions(${totalPages}, event)"><i class="bi bi-chevron-bar-right"></i></a></li>`;
+                html += `</ul></nav></div>`;
                 pagination.html(html);
             }
 
-            // Reset input filter
             function resetFilter() {
-                document.querySelectorAll('.form-select').forEach(input => {
-                    input.value = '';
+                document.querySelectorAll('.form-select').forEach(el => {
+                    el.value = '';
                 });
-
-                setTimeout(function () {
-                    $('.filter-section .form-select').removeClass('has-value');
-                }, 10);
             }
 
-            // Lắng nghe sự kiện input/change để highlight real-time
-            $('.filter-section .form-select').on('input change', function () {
-                const $this = $(this);
-                if ($this.val() && $this.val().trim() !== '') {
-                    $this.addClass('has-value');
-                } else {
-                    $this.removeClass('has-value');
-                }
-            });
 
             $(document).ready(function () {
                 initYearSelect();
