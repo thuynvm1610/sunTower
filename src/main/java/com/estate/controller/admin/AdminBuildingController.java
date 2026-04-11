@@ -34,13 +34,8 @@ public class AdminBuildingController {
     ) {
         model.addAttribute("managers", staffService.getStaffsName());
 
-        model.addAttribute("wards", buildingService.getWardName());
-        model.addAttribute("streets", buildingService.getStreetName());
-
         model.addAttribute("directions", Direction.values());
         model.addAttribute("levels", Level.values());
-
-        model.addAttribute("districts", districtService.findAll());
 
         model.addAttribute("propertyTypes", PropertyType.values());
         model.addAttribute("transactionTypes", TransactionType.values());
