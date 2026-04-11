@@ -643,14 +643,14 @@
         .info-grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 0 1rem;
+            gap: 0 1.25rem;
         }
 
         .info-section {
             background: white;
             border: 1px solid #e5e7eb;
             border-radius: 8px;
-            padding: 0.6rem 0.875rem;
+            padding: 0.75rem 1.1rem;
             margin-bottom: 0.6rem;
             transition: border-color 0.2s;
         }
@@ -692,13 +692,13 @@
         .info-label {
             font-weight: 500;
             color: #64748b;
-            font-size: 13px;
+            font-size: 14px;
         }
 
         .info-value {
             font-weight: 700;
             color: #1e293b;
-            font-size: 13px;
+            font-size: 14px;
             text-align: right;
         }
 
@@ -803,11 +803,174 @@
 
         /* wider modal */
         .modal-dialog.modal-detail {
-            max-width: 760px;
+            max-width: 1100px;
+        }
+
+        /* ── Tab navigation ── */
+        .detail-tabs {
+            display: flex;
+            gap: 2px;
+            border-bottom: 2px solid #e5e7eb;
+            margin-bottom: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .detail-tab-btn {
+            padding: 6px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #6b7280;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: color 0.2s, border-color 0.2s;
+            border-radius: 4px 4px 0 0;
+        }
+
+        .detail-tab-btn:hover {
+            color: var(--primary-color);
+            background: #f0f4ff;
+        }
+
+        .detail-tab-btn.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+            background: #f0f4ff;
+        }
+
+        .detail-tab-btn .tab-badge {
+            background: var(--primary-color);
+            color: white;
+            font-size: 11px;
+            padding: 1px 6px;
+            border-radius: 10px;
+            font-weight: 700;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        .detail-tab-panel {
+            display: none;
+        }
+
+        .detail-tab-panel.active {
+            display: block;
+        }
+
+        /* ── Loading spinner ── */
+        .tab-loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 2rem;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .tab-loading .spinner-border {
+            width: 1.2rem;
+            height: 1.2rem;
+            border-width: 2px;
+            color: var(--primary-color);
+        }
+
+        /* ── Extra detail tables ── */
+        .extra-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 13px;
+        }
+
+        .extra-table th {
+            background: #f8fafc;
+            color: #374151;
+            font-weight: 700;
+            font-size: 12.5px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            padding: 9px 14px;
+            border-bottom: 2px solid #e5e7eb;
+            white-space: nowrap;
+        }
+
+        .extra-table td {
+            padding: 9px 14px;
+            border-bottom: 1px solid #f3f4f6;
+            vertical-align: middle;
+            color: #374151;
+            font-size: 13.5px;
+        }
+
+        .extra-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .extra-table tr:hover td {
+            background: #f8fafc;
+        }
+
+        .extra-empty {
+            text-align: center;
+            padding: 1.5rem;
+            color: #9ca3af;
+            font-size: 13px;
+        }
+
+        .extra-empty i {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 0.4rem;
+            color: #d1d5db;
+        }
+
+        /* badge cho authority/amenity type */
+        .type-chip {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .expired-chip {
+            display: inline-block;
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .expired-chip.yes {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .expired-chip.no {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .distance-chip {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            background: #fef3c7;
+            color: #d97706;
         }
 
         .modal-body {
-            padding: 0.875rem 1rem;
+            padding: 1rem 1.25rem;
             max-height: calc(100vh - 200px);
             overflow-y: auto;
         }
@@ -1282,10 +1445,12 @@
                     `);
 
                         modalContainer.append(`
-                            <div class="modal fade" id="buildingModal-${i}" tabindex="-1" aria-labelledby="buildingModalLabel-${i}" aria-hidden="true">
+                            <div class="modal fade" id="buildingModal-${i}" tabindex="-1"
+                                 aria-labelledby="buildingModalLabel-${i}" aria-hidden="true"
+                                 data-building-id="${b.id}">
                                 <div class="modal-dialog modal-detail modal-dialog-centered modal-dialog-scrollable">
                                     <div class="modal-content">
-                                        <div class="modal-header py-2 px-3">
+                                        <div class="modal-header p-3">
                                             <h6 class="modal-title mb-0" id="buildingModalLabel-${i}">
                                                 <i class="bi bi-building me-1"></i>Chi Tiết Tòa Nhà
                                             </h6>
@@ -1311,75 +1476,116 @@
                                                 </div>
                                             </div>
 
-                                            <!-- Row 1: Thông tin chung + Đặc điểm -->
-                                            <div class="info-grid-2">
-                                                <div class="info-section">
-                                                    <div class="info-section-title"><i class="bi bi-info-circle me-1"></i>Thông Tin Chung</div>
-                                                    <div class="info-row">
-                                                        <span class="info-label">Hướng</span>
-                                                        <span class="info-value">${b.direction || "—"}</span>
-                                                    </div>
-                                                    <div class="info-row">
-                                                        <span class="info-label">Diện tích sàn</span>
-                                                        <span class="info-value">${b.floorArea ? b.floorArea + " m²" : "—"}</span>
-                                                    </div>
-                                                    <div class="info-row">
-                                                        <span class="info-label">Số tầng</span>
-                                                        <span class="info-value">${b.numberOfFloor ?? "—"}</span>
-                                                    </div>
-                                                    <div class="info-row">
-                                                        <span class="info-label">Tầng hầm</span>
-                                                        <span class="info-value">${b.numberOfBasement ?? "—"}</span>
-                                                    </div>
-                                                    ${b.linkOfBuilding ? `<div class="info-row">
-                                                        <span class="info-label">Link</span>
-                                                        <a href="${b.linkOfBuilding}" target="_blank" class="info-value text-primary" style="font-size:10px;">Xem thêm</a>
-                                                    </div>` : ""}
-                                                </div>
-
-                                                <!-- Giá -->
-                                                <div class="info-section">
-                                                    <div class="info-section-title"><i class="bi bi-cash-stack me-1"></i>Giá & Phí</div>
-                                                    ${isRent ? `<div class="info-row">
-                                                        <span class="info-label">Giá thuê</span>
-                                                        <span class="info-value price-rent">${rentPrice} ₫/m²</span>
-                                                    </div>` : ""}
-                                                    ${isSale ? `<div class="info-row">
-                                                        <span class="info-label">Giá bán</span>
-                                                        <span class="info-value price-sale">${salePrice} ₫</span>
-                                                    </div>` : ""}
-                                                    <div class="info-row">
-                                                        <span class="info-label">Phí dịch vụ</span>
-                                                        <span class="info-value">${serviceFee} ₫/tháng</span>
-                                                    </div>
-                                                    <div class="info-row">
-                                                        <span class="info-label">Đặt cọc</span>
-                                                        <span class="info-value">${deposit} ₫</span>
-                                                    </div>
-                                                    <div class="info-row">
-                                                        <span class="info-label">Phí điện</span>
-                                                        <span class="info-value">${electricityFee} ₫/số</span>
-                                                    </div>
-                                                    <div class="info-row">
-                                                        <span class="info-label">Phí nước</span>
-                                                        <span class="info-value">${waterFee} ₫/m³</span>
-                                                    </div>
-                                                    <div class="info-row">
-                                                        <span class="info-label">Phí ô tô</span>
-                                                        <span class="info-value">${carFee} ₫/tháng</span>
-                                                    </div>
-                                                    <div class="info-row">
-                                                        <span class="info-label">Phí xe máy</span>
-                                                        <span class="info-value">${motorbikeFee} ₫/tháng</span>
-                                                    </div>
-                                                </div>
+                                            <!-- ── Tabs ── -->
+                                            <div class="detail-tabs" id="tabs-${i}">
+                                                <button class="detail-tab-btn active" onclick="switchTab(${i}, 'overview')">
+                                                    <i class="bi bi-info-circle"></i> Tổng quan
+                                                </button>
+                                                <button class="detail-tab-btn" onclick="switchTab(${i}, 'legal')">
+                                                    <i class="bi bi-shield-check"></i> Pháp lý
+                                                    <span class="tab-badge" id="badge-legal-${i}">…</span>
+                                                </button>
+                                                <button class="detail-tab-btn" onclick="switchTab(${i}, 'supplier')">
+                                                    <i class="bi bi-truck"></i> Nhà cung cấp
+                                                    <span class="tab-badge" id="badge-supplier-${i}">…</span>
+                                                </button>
+                                                <button class="detail-tab-btn" onclick="switchTab(${i}, 'planning')">
+                                                    <i class="bi bi-map"></i> Quy hoạch
+                                                    <span class="tab-badge" id="badge-planning-${i}">…</span>
+                                                </button>
+                                                <button class="detail-tab-btn" onclick="switchTab(${i}, 'amenity')">
+                                                    <i class="bi bi-shop"></i> Tiện ích lân cận
+                                                    <span class="tab-badge" id="badge-amenity-${i}">…</span>
+                                                </button>
                                             </div>
 
-                                            <!-- Diện tích thuê khả dụng -->
-                                            ${rentAreaHtml ? `<div class="info-section">
-                                                <div class="info-section-title"><i class="bi bi-grid me-1"></i>Diện Tích Thuê Khả Dụng</div>
-                                                <div class="rent-area-list">${rentAreaHtml}</div>
-                                            </div>` : ""}
+                                            <!-- Tab: Tổng quan (dữ liệu sẵn từ search) -->
+                                            <div class="detail-tab-panel active" id="panel-${i}-overview">
+                                                <div class="info-grid-2">
+                                                    <div class="info-section">
+                                                        <div class="info-section-title"><i class="bi bi-info-circle me-1"></i>Thông Tin Chung</div>
+                                                        <div class="info-row">
+                                                            <span class="info-label">Hướng</span>
+                                                            <span class="info-value">${b.direction || "—"}</span>
+                                                        </div>
+                                                        <div class="info-row">
+                                                            <span class="info-label">Diện tích sàn</span>
+                                                            <span class="info-value">${b.floorArea ? b.floorArea + " m²" : "—"}</span>
+                                                        </div>
+                                                        <div class="info-row">
+                                                            <span class="info-label">Số tầng</span>
+                                                            <span class="info-value">${b.numberOfFloor ?? "—"}</span>
+                                                        </div>
+                                                        <div class="info-row">
+                                                            <span class="info-label">Tầng hầm</span>
+                                                            <span class="info-value">${b.numberOfBasement ?? "—"}</span>
+                                                        </div>
+                                                        ${b.linkOfBuilding ? `<div class="info-row">
+                                                            <span class="info-label">Link</span>
+                                                            <a href="${b.linkOfBuilding}" target="_blank" class="info-value text-primary" style="font-size:10px;">Xem thêm</a>
+                                                        </div>` : ""}
+                                                    </div>
+                                                    <div class="info-section">
+                                                        <div class="info-section-title"><i class="bi bi-cash-stack me-1"></i>Giá & Phí</div>
+                                                        ${isRent ? `<div class="info-row">
+                                                            <span class="info-label">Giá thuê</span>
+                                                            <span class="info-value price-rent">${rentPrice} ₫/m²</span>
+                                                        </div>` : ""}
+                                                        ${isSale ? `<div class="info-row">
+                                                            <span class="info-label">Giá bán</span>
+                                                            <span class="info-value price-sale">${salePrice} ₫</span>
+                                                        </div>` : ""}
+                                                        <div class="info-row">
+                                                            <span class="info-label">Phí dịch vụ</span>
+                                                            <span class="info-value">${serviceFee} ₫/tháng</span>
+                                                        </div>
+                                                        <div class="info-row">
+                                                            <span class="info-label">Đặt cọc</span>
+                                                            <span class="info-value">${deposit} ₫</span>
+                                                        </div>
+                                                        <div class="info-row">
+                                                            <span class="info-label">Phí điện</span>
+                                                            <span class="info-value">${electricityFee} ₫/số</span>
+                                                        </div>
+                                                        <div class="info-row">
+                                                            <span class="info-label">Phí nước</span>
+                                                            <span class="info-value">${waterFee} ₫/m³</span>
+                                                        </div>
+                                                        <div class="info-row">
+                                                            <span class="info-label">Phí ô tô</span>
+                                                            <span class="info-value">${carFee} ₫/tháng</span>
+                                                        </div>
+                                                        <div class="info-row">
+                                                            <span class="info-label">Phí xe máy</span>
+                                                            <span class="info-value">${motorbikeFee} ₫/tháng</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                ${rentAreaHtml ? `<div class="info-section">
+                                                    <div class="info-section-title"><i class="bi bi-grid me-1"></i>Diện Tích Thuê Khả Dụng</div>
+                                                    <div class="rent-area-list">${rentAreaHtml}</div>
+                                                </div>` : ""}
+                                            </div>
+
+                                            <!-- Tab: Pháp lý -->
+                                            <div class="detail-tab-panel" id="panel-${i}-legal">
+                                                <div class="tab-loading"><div class="spinner-border" role="status"></div> Đang tải...</div>
+                                            </div>
+
+                                            <!-- Tab: Nhà cung cấp -->
+                                            <div class="detail-tab-panel" id="panel-${i}-supplier">
+                                                <div class="tab-loading"><div class="spinner-border" role="status"></div> Đang tải...</div>
+                                            </div>
+
+                                            <!-- Tab: Quy hoạch -->
+                                            <div class="detail-tab-panel" id="panel-${i}-planning">
+                                                <div class="tab-loading"><div class="spinner-border" role="status"></div> Đang tải...</div>
+                                            </div>
+
+                                            <!-- Tab: Tiện ích lân cận -->
+                                            <div class="detail-tab-panel" id="panel-${i}-amenity">
+                                                <div class="tab-loading"><div class="spinner-border" role="status"></div> Đang tải...</div>
+                                            </div>
 
                                         </div>
                                         <div class="modal-footer">
@@ -1500,14 +1706,22 @@
     </script>
 
     <script>
+        // ── Utilities ─────────────────────────────────────────────────────────
         function resetFilter() {
             document.querySelectorAll('.form-control, .form-select').forEach(input => {
                 input.value = '';
             });
-
             setTimeout(function () {
                 $('.filter-body .form-control').removeClass('has-value');
             }, 10);
+        }
+
+        function openModal(modalId) {
+            const modalElement = document.getElementById(modalId);
+            if (modalElement) {
+                const modal = new bootstrap.Modal(modalElement);
+                modal.show();
+            }
         }
 
         $('.filter-body .form-control').on('input change', function () {
@@ -1519,13 +1733,182 @@
             }
         });
 
-        // Hàm mở modal
-        function openModal(modalId) {
-            const modalElement = document.getElementById(modalId);
-            if (modalElement) {
-                const modal = new bootstrap.Modal(modalElement);
-                modal.show();
+        // ── Tab switching ──────────────────────────────────────────────────────
+        function switchTab(idx, tabName) {
+            // Deactivate all panels and buttons in this modal
+            document.querySelectorAll(`#panel-${idx}-overview, #panel-${idx}-legal, #panel-${idx}-supplier, #panel-${idx}-planning, #panel-${idx}-amenity`)
+                .forEach(p => p.classList.remove('active'));
+            document.querySelectorAll(`#tabs-${idx} .detail-tab-btn`)
+                .forEach(b => b.classList.remove('active'));
+
+            // Activate selected
+            document.getElementById(`panel-${idx}-${tabName}`).classList.add('active');
+            const tabBtns = document.querySelectorAll(`#tabs-${idx} .detail-tab-btn`);
+            const tabOrder = ['overview', 'legal', 'supplier', 'planning', 'amenity'];
+            tabBtns[tabOrder.indexOf(tabName)].classList.add('active');
+        }
+
+        // ── Lazy-load extra detail khi mở modal ───────────────────────────────
+        document.addEventListener('show.bs.modal', function (e) {
+            const modal = e.target;
+            const buildingId = modal.getAttribute('data-building-id');
+            if (!buildingId) return;
+
+            // Tìm index của modal để biết panel nào cần điền
+            const modalId = modal.id; // "buildingModal-{i}"
+            const idx = modalId.replace('buildingModal-', '');
+
+            // Kiểm tra đã tải chưa (tránh gọi API lại khi đóng/mở lại)
+            if (modal.dataset.extraLoaded === 'true') return;
+
+            $.ajax({
+                url: `/staff/building/${buildingId}/detail`,
+                type: 'GET',
+                success: function (data) {
+                    modal.dataset.extraLoaded = 'true';
+                    renderLegalTab(idx, data.legalAuthorities);
+                    renderSupplierTab(idx, data.suppliers);
+                    renderPlanningTab(idx, data.planningMaps);
+                    renderAmenityTab(idx, data.nearbyAmenities);
+                },
+                error: function (xhr) {
+                    const msg = xhr.status === 403
+                        ? 'Bạn không có quyền xem thông tin này.'
+                        : 'Không tải được dữ liệu bổ sung.';
+                    ['legal', 'supplier', 'planning', 'amenity'].forEach(tab => {
+                        $(`#panel-${idx}-${tab}`).html(`<div class="extra-empty"><i class="bi bi-exclamation-circle"></i>${msg}</div>`);
+                    });
+                    ['legal', 'supplier', 'planning', 'amenity'].forEach(tab => {
+                        $(`#badge-${tab}-${idx}`).text('!');
+                    });
+                }
+            });
+        });
+
+        // ── Render helpers ─────────────────────────────────────────────────────
+        function fmtDate(str) {
+            if (!str) return '—';
+            try {
+                return new Date(str).toLocaleDateString('vi-VN');
+            } catch { return str; }
+        }
+
+        function emptyState(icon, msg) {
+            return `<div class="extra-empty"><i class="bi ${icon}"></i>${msg}</div>`;
+        }
+
+        function renderLegalTab(idx, list) {
+            $(`#badge-legal-${idx}`).text(list.length);
+            if (!list.length) {
+                $(`#panel-${idx}-legal`).html(emptyState('bi-shield-check', 'Chưa có thông tin pháp lý'));
+                return;
             }
+            let rows = list.map(r => `
+                <tr>
+                    <td>${r.authorityName || '—'}</td>
+                    <td><span class="type-chip">${r.authorityTypeLabel || r.authorityType || '—'}</span></td>
+                    <td>${r.address || '—'}</td>
+                    <td>${r.phone || '—'}</td>
+                    <td>${r.email || '—'}</td>
+                    <td style="max-width:140px;white-space:normal;">${r.note || '—'}</td>
+                </tr>`).join('');
+            $(`#panel-${idx}-legal`).html(`
+                <div class="info-section p-0" style="overflow-x:auto;">
+                    <table class="extra-table">
+                        <thead><tr>
+                            <th>Cơ quan</th><th>Loại</th><th>Địa chỉ</th>
+                            <th>SĐT</th><th>Email</th><th>Ghi chú</th>
+                        </tr></thead>
+                        <tbody>${rows}</tbody>
+                    </table>
+                </div>`);
+        }
+
+        function renderSupplierTab(idx, list) {
+            $(`#badge-supplier-${idx}`).text(list.length);
+            if (!list.length) {
+                $(`#panel-${idx}-supplier`).html(emptyState('bi-truck', 'Chưa có nhà cung cấp'));
+                return;
+            }
+            let rows = list.map(r => `
+                <tr>
+                    <td><strong>${r.name || '—'}</strong></td>
+                    <td><span class="type-chip">${r.serviceType || '—'}</span></td>
+                    <td>${r.phone || '—'}</td>
+                    <td>${r.email || '—'}</td>
+                    <td>${r.address || '—'}</td>
+                    <td style="max-width:140px;white-space:normal;">${r.note || '—'}</td>
+                </tr>`).join('');
+            $(`#panel-${idx}-supplier`).html(`
+                <div class="info-section p-0" style="overflow-x:auto;">
+                    <table class="extra-table">
+                        <thead><tr>
+                            <th>Tên</th><th>Dịch vụ</th><th>SĐT</th>
+                            <th>Email</th><th>Địa chỉ</th><th>Ghi chú</th>
+                        </tr></thead>
+                        <tbody>${rows}</tbody>
+                    </table>
+                </div>`);
+        }
+
+        function renderPlanningTab(idx, list) {
+            $(`#badge-planning-${idx}`).text(list.length);
+            if (!list.length) {
+                $(`#panel-${idx}-planning`).html(emptyState('bi-map', 'Chưa có bản đồ quy hoạch'));
+                return;
+            }
+            let rows = list.map(r => `
+                <tr>
+                    <td><span class="type-chip">${r.mapType || '—'}</span></td>
+                    <td>${r.issuedBy || '—'}</td>
+                    <td>${fmtDate(r.issuedDate)}</td>
+                    <td>${fmtDate(r.expiredDate)}</td>
+                    <td><span class="expired-chip ${r.expired ? 'yes' : 'no'}">${r.expired ? 'Hết hạn' : 'Còn hiệu lực'}</span></td>
+                    <td>
+                    ${r.imageUrl
+                    ? `<a href="/images/planning_map_img/${r.imageUrl.includes('/')
+                        ? r.imageUrl.substring(r.imageUrl.lastIndexOf('/') + 1)
+                        : r.imageUrl
+                    }" target="_blank" class="text-primary">Xem</a>`
+                    : '—'
+                }
+                    </td>
+                    <td style="max-width:120px;white-space:normal;">${r.note || '—'}</td>
+                </tr>`).join('');
+            $(`#panel-${idx}-planning`).html(`
+                <div class="info-section p-0" style="overflow-x:auto;">
+                    <table class="extra-table">
+                        <thead><tr>
+                            <th>Loại</th><th>Cơ quan cấp</th><th>Ngày cấp</th>
+                            <th>Hết hạn</th><th>Trạng thái</th><th>Bản đồ</th><th>Ghi chú</th>
+                        </tr></thead>
+                        <tbody>${rows}</tbody>
+                    </table>
+                </div>`);
+        }
+
+        function renderAmenityTab(idx, list) {
+            $(`#badge-amenity-${idx}`).text(list.length);
+            if (!list.length) {
+                $(`#panel-${idx}-amenity`).html(emptyState('bi-shop', 'Chưa có tiện ích lân cận'));
+                return;
+            }
+            let rows = list.map(r => `
+                <tr>
+                    <td><strong>${r.name || '—'}</strong></td>
+                    <td><span class="type-chip">${r.amenityTypeLabel || r.amenityType || '—'}</span></td>
+                    <td>${r.address || '—'}</td>
+                    <td>${r.distanceMeter != null ? `<span class="distance-chip">${r.distanceMeter.toLocaleString('vi-VN')} m</span>` : '—'}</td>
+                </tr>`).join('');
+            $(`#panel-${idx}-amenity`).html(`
+                <div class="info-section p-0" style="overflow-x:auto;">
+                    <table class="extra-table">
+                        <thead><tr>
+                            <th>Tên tiện ích</th><th>Loại</th><th>Địa chỉ</th><th>Khoảng cách</th>
+                        </tr></thead>
+                        <tbody>${rows}</tbody>
+                    </table>
+                </div>`);
         }
     </script>
 </body>
