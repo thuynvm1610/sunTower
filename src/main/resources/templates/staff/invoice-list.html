@@ -920,7 +920,7 @@
                     <li class="nav-item"><a class="nav-link" href="/staff/dashboard"><i
                                 class="bi bi-speedometer2 me-1"></i>Tổng quan</a></li>
                     <li class="nav-item"><a class="nav-link" href="/staff/buildings"><i
-                                class="bi bi-building me-1"></i>Tòa nhà</a></li>
+                                class="bi bi-building me-1"></i>Bất động sản</a></li>
                     <li class="nav-item"><a class="nav-link" href="/staff/contracts"><i
                                 class="bi bi-file-text me-1"></i>Hợp đồng</a></li>
                     <li class="nav-item"><a class="nav-link" href="/staff/customers"><i
@@ -1052,7 +1052,7 @@
                             <th style="width: 8%;">Mã HĐ</th>
                             <th style="width: 12%;">Hóa đơn tháng</th>
                             <th style="width: 18%;">Khách hàng</th>
-                            <th style="width: 18%;">Tòa nhà</th>
+                            <th style="width: 18%;">Bất động sản</th>
                             <th style="width: 12%;">Diện tích thuê</th>
                             <th style="width: 14%;">Tổng tiền</th>
                             <th style="width: 10%;">Trạng thái</th>
@@ -1692,7 +1692,7 @@
                         </div>
                         <div class="col-md-3">
                           <div class="info-item">
-                            <label>Tòa nhà</label>
+                            <label>Bất động sản</label>
                             <p>${inv.contract.building.name || 'N/A'}</p>
                           </div>
                         </div>
@@ -1791,7 +1791,7 @@
                       <h5 class="modal-title fw-bold mb-1" id="editModalLabel-${i}">
                         <i class="bi bi-pencil-square me-2"></i>Chỉnh sửa hóa đơn
                       </h5>
-                      <small style="opacity: 0.9;">Mã hóa đơn: #${inv.id}</small>
+                      <small style="opacity: 0.9;">Mã hóa đơn: HĐ-${inv.id}</small>
                     </div>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
@@ -1821,7 +1821,7 @@
                           <input type="text" class="form-control" value="${inv.customer.fullName}" disabled>
                         </div>
                         <div class="col-md-4">
-                          <label class="form-label">Tòa nhà</label>
+                          <label class="form-label">Bất động sản</label>
                           <input type="text" class="form-control" value="${inv.contract.building.name}" disabled>
                         </div>
                         <div class="col-md-4">

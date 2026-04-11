@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SunTower - Quản lý Tòa nhà</title>
+    <title>SunTower - Quản lý bất động sản</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
@@ -1036,7 +1036,7 @@
                     <li class="nav-item"><a class="nav-link" href="/staff/dashboard"><i
                                 class="bi bi-speedometer2 me-1"></i>Tổng quan</a></li>
                     <li class="nav-item"><a class="nav-link active" href="/staff/buildings"><i
-                                class="bi bi-building me-1"></i>Tòa nhà</a></li>
+                                class="bi bi-building me-1"></i>Bất động sản</a></li>
                     <li class="nav-item"><a class="nav-link" href="/staff/contracts"><i
                                 class="bi bi-file-text me-1"></i>Hợp đồng</a></li>
                     <li class="nav-item"><a class="nav-link" href="/staff/customers"><i
@@ -1052,8 +1052,8 @@
 
     <div class="container-fluid px-4 py-3">
         <div class="page-header rounded mb-3">
-            <h1 class="mb-0">Quản lý Tòa nhà</h1>
-            <p class="text-muted mb-0">Danh sách các tòa nhà đang được phân công quản lý</p>
+            <h1 class="mb-0">Quản lý bất động sản</h1>
+            <p class="text-muted mb-0">Danh sách các bất động sản đang được phân công quản lý</p>
         </div>
 
         <!-- Filter Card -->
@@ -1075,7 +1075,7 @@
                 </div>
                 <div class="row g-2 mb-2">
                     <div class="col-md-3">
-                        <label class="form-label">Tên tòa nhà</label>
+                        <label class="form-label">Tên bất động sản</label>
                         <input type="text" class="form-control" name="name" placeholder="VD: Sun Tower">
                     </div>
 
@@ -1105,9 +1105,9 @@
                     </div>
                 </div>
 
-                <!-- Đặc điểm tòa nhà -->
+                <!-- Đặc điểm bất động sản -->
                 <div class="filter-section-title">
-                    <i class="bi bi-building"></i> Đặc điểm tòa nhà
+                    <i class="bi bi-building"></i> Đặc điểm bất động sản
                 </div>
                 <div class="row g-2 mb-2">
                     <div class="col-md-3">
@@ -1242,7 +1242,7 @@
         <!-- Building Cards Section -->
         <div class="section-card p-3">
             <div class="section-header mb-3">
-                <h2><i class="bi bi-building me-2"></i>Danh sách tòa nhà</h2>
+                <h2><i class="bi bi-building me-2"></i>Danh sách bất động sản</h2>
             </div>
 
             <div class="row g-3" id="buildingCardsContainer">
@@ -1253,7 +1253,7 @@
         <!-- Pagination -->
         <div id="pagination"></div>
 
-        <!-- Modal Chi Tiết Tòa Nhà -->
+        <!-- Modal Chi Tiết Bất Động Sản -->
         <div id="modalContainer">
             <!-- Ajax tải dữ liệu -->
         </div>
@@ -1368,7 +1368,7 @@
                         <div class="col-12">
                             <div class="empty-state">
                                 <i class="bi bi-building"></i>
-                                <p>Bạn hiện chưa được phân công quản lý tòa nhà nào</p>
+                                <p>Bạn hiện chưa được phân công quản lý bất động sản nào</p>
                             </div>
                         </div>
                     `);
@@ -1452,7 +1452,7 @@
                                     <div class="modal-content">
                                         <div class="modal-header p-3">
                                             <h6 class="modal-title mb-0" id="buildingModalLabel-${i}">
-                                                <i class="bi bi-building me-1"></i>Chi Tiết Tòa Nhà
+                                                <i class="bi bi-building me-1"></i>Chi Tiết Bất Động Sản
                                             </h6>
                                             <button type="button" class="btn-close btn-close-sm" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>

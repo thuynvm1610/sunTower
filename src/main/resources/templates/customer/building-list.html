@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>SunTower - Tòa Nhà</title>
+    <title>SunTower - Bất động sản</title>
 
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -694,7 +694,7 @@
             font-size: 14px;
         }
 
-        /* Thông báo số tòa nhà tìm kiếm*/
+        /* Thông báo số bất động sản tìm kiếm*/
         .total-building-search {
             background: linear-gradient(135deg, #e8f0fe 0%, #f0f7ff 100%);
             padding: 14px 20px;
@@ -765,7 +765,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" th:href="@{/customer/building/list}">
-                            <i class="bi bi-building me-1"></i>Tòa nhà
+                            <i class="bi bi-building me-1"></i>Bất động sản
                         </a>
                     </li>
                     <li class="nav-item dropdown">
@@ -800,8 +800,8 @@
     <div class="container-fluid px-4 py-4">
         <!-- Welcome Section -->
         <div class="welcome-section p-4 rounded mb-4">
-            <h1 class="h3 mb-2">Danh Sách Tòa Nhà</h1>
-            <p class="text-muted mb-0">Xem thông tin chi tiết các tòa nhà trong hệ thống</p>
+            <h1 class="h3 mb-2">Danh Sách Bất Động Sản</h1>
+            <p class="text-muted mb-0">Xem thông tin chi tiết các bất động sản trong hệ thống</p>
         </div>
 
         <!-- Filter Section -->
@@ -823,7 +823,7 @@
                 </div>
                 <div class="row g-3 mb-4">
                     <div class="col-md-3">
-                        <label class="form-label">Tên tòa nhà</label>
+                        <label class="form-label">Tên bất động sản</label>
                         <input type="text" class="form-control" name="name" placeholder="VD: Sun Tower">
                     </div>
 
@@ -855,9 +855,9 @@
                     </div>
                 </div>
 
-                <!-- Đặc điểm tòa nhà -->
+                <!-- Đặc điểm bất động sản -->
                 <div class="filter-section-title mb-2">
-                    <i class="bi bi-building"></i> Đặc điểm tòa nhà
+                    <i class="bi bi-building"></i> Đặc điểm bất động sản
                 </div>
                 <div class="row g-3 mb-4">
                     <div class="col-md-3">
@@ -998,7 +998,7 @@
         </div>
     </div>
 
-    <!-- Modal Chi Tiết Tòa Nhà -->
+    <!-- Modal Chi Tiết Bất Động Sản -->
     <div id="modalContainer">
         <!-- Ajax tải dữ liệu -->
     </div>
@@ -1060,15 +1060,15 @@
                         body.append(`
                             <div class="empty-state">
                                 <i class="bi bi-inbox"></i>
-                                <h3>Không có tòa nhà nào</h3>
-                                <p>Chưa có tòa nhà theo điều kiện tìm kiếm</p>
+                                <h3>Không có bất động sản nào</h3>
+                                <p>Chưa có bất động sản theo điều kiện tìm kiếm</p>
                             </div>
                         `);
                         searchResult.hide();
                         return;
                     }
 
-                    searchResult.html(`Kết quả tìm kiếm: <strong>${data.length}</strong> tòa nhà`).show();
+                    searchResult.html(`Kết quả tìm kiếm: <strong>${data.length}</strong> bất động sản`).show();
 
                     // Render danh sách
                     $.each(data, function (i, b) {
@@ -1130,7 +1130,7 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="buildingModalLabel-${i}">
-                                                <i class="bi bi-building me-2"></i>Thông Tin Tòa Nhà
+                                                <i class="bi bi-building me-2"></i>Thông Tin Bất Động Sản
                                             </h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
@@ -1162,10 +1162,10 @@
                                                 </div>
                                             </div>
 
-                                            <!-- Đặc điểm tòa nhà -->
+                                            <!-- Đặc điểm bất động sản -->
                                             <div class="info-section">
                                                 <div class="info-section-title">
-                                                    <i class="bi bi-rulers me-2"></i>Đặc Điểm Tòa Nhà
+                                                    <i class="bi bi-rulers me-2"></i>Đặc Điểm Bất Động Sản
                                                 </div>
                                                 <div class="feature-grid">
                                                     <div class="feature-item">

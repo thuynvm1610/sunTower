@@ -807,7 +807,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/customer/building/list}">
-                            <i class="bi bi-building me-1"></i>Tòa nhà
+                            <i class="bi bi-building me-1"></i>Bất động sản
                         </a>
                     </li>
                     <li class="nav-item dropdown">
@@ -910,7 +910,7 @@
                         </div>
                         <div class="row g-2">
                             <div class="col-6">
-                                <div class="detail-label">Tòa nhà</div>
+                                <div class="detail-label">Bất động sản</div>
                                 <div class="detail-value" th:text="${contract.building.name}">SunTower A1</div>
                             </div>
                             <div class="col-6">
@@ -971,7 +971,7 @@
                                             th:text="${detailInvoice.dueDate}">05/12/2025</span>
                                     </div>
                                     <div class="bill-row">
-                                        <span class="bill-label">Tòa nhà</span>
+                                        <span class="bill-label">Bất động sản</span>
                                         <span class="bill-value"
                                             th:text="${detailInvoice.contract.building.name} + ' · ' + ${detailInvoice.contract.rentArea} + 'm²'">
                                             Duy Tân Tower · 85m²
@@ -1087,7 +1087,7 @@
                                 <td class="td-value text-danger" th:text="${detailInvoice.dueDate}">05/12/2024</td>
                             </tr>
                             <tr>
-                                <td class="td-label">Tòa nhà</td>
+                                <td class="td-label">Bất động sản</td>
                                 <td class="td-value"
                                     th:text="${detailInvoice.contract.building.name} + ' · ' + ${detailInvoice.contract.rentArea} + 'm²'">
                                     Duy Tân Tower · 85m²

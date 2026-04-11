@@ -540,7 +540,7 @@
                     <li class="nav-item"><a class="nav-link" href="/staff/dashboard"><i
                                 class="bi bi-speedometer2 me-1"></i>Tổng quan</a></li>
                     <li class="nav-item"><a class="nav-link" href="/staff/buildings"><i
-                                class="bi bi-building me-1"></i>Tòa nhà</a></li>
+                                class="bi bi-building me-1"></i>Bất động sản</a></li>
                     <li class="nav-item"><a class="nav-link active" href="/staff/contracts"><i
                                 class="bi bi-file-text me-1"></i>Hợp đồng</a></li>
                     <li class="nav-item"><a class="nav-link" href="/staff/customers"><i
@@ -586,7 +586,7 @@
                         </select>
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label">Tòa nhà</label>
+                        <label class="form-label">Bất động sản</label>
                         <select class="form-select" name="buildingId">
                             <option value="">-- Tất cả --</option>
                             <option th:each="b : ${buildings}" th:value="${b.value}" th:text="${b.key}"></option>
@@ -650,7 +650,7 @@
                         <tr>
                             <th>Mã HĐ</th>
                             <th>Khách hàng</th>
-                            <th>Tòa nhà</th>
+                            <th>Bất động sản</th>
                             <th>Giá thuê (m²)</th>
                             <th>Thời gian</th>
                             <th>Hiệu lực</th>
@@ -849,15 +849,15 @@
                                                 </div>
                                             </div>
 
-                                            <!-- Thông tin tòa nhà -->
+                                            <!-- Thông tin bất động sản -->
                                             <div class="info-section mb-4">
                                                 <h6 class="section-title mb-3" style="color: #2d3e8f; font-weight: 700; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem;">
-                                                    <i class="bi bi-building me-2"></i>Thông tin tòa nhà
+                                                    <i class="bi bi-building me-2"></i>Thông tin bất động sản
                                                 </h6>
                                                 <div class="row g-3">
                                                     <div class="col-md-6">
                                                         <div class="info-item">
-                                                            <label style="font-size: 0.8rem; color: #6b7280; font-weight: 600; display: block; margin-bottom: 0.25rem;">Tên tòa nhà</label>
+                                                            <label style="font-size: 0.8rem; color: #6b7280; font-weight: 600; display: block; margin-bottom: 0.25rem;">Tên bất động sản</label>
                                                             <p style="font-size: 0.95rem; color: #111827; font-weight: 600; margin: 0;">${c.building.name || 'N/A'}</p>
                                                         </div>
                                                     </div>

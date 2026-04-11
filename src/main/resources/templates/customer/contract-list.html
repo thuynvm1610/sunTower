@@ -565,7 +565,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/customer/building/list}">
-                            <i class="bi bi-building me-1"></i>Tòa nhà
+                            <i class="bi bi-building me-1"></i>Bất động sản
                         </a>
                     </li>
                     <li class="nav-item dropdown">
@@ -615,10 +615,10 @@
                 <div class="row g-2 align-items-end">
                     <div class="col-md-4">
                         <label class="form-label">
-                            <i class="bi bi-building me-1"></i>Tòa nhà
+                            <i class="bi bi-building me-1"></i>Bất động sản
                         </label>
                         <select class="form-select" name="buildingId">
-                            <option value="">-- Chọn tòa nhà --</option>
+                            <option value="">-- Chọn bất động sản --</option>
                             <option th:each="b : ${buildings}" th:value="${b.value}" th:text="${b.key}">SunTower
                             </option>
                         </select>
@@ -734,7 +734,7 @@
                                 <div class="contract-body">
                                     <div class="info-grid">
                                         <div class="info-item">
-                                            <div class="info-label"><i class="bi bi-building"></i> Tòa nhà</div>
+                                            <div class="info-label"><i class="bi bi-building"></i> Bất động sản</div>
                                             <div class="info-value">
                                                 <a href="/customer/building/list?buildingName=${c.building.name}" class="building-link">
                                                     ${c.building.name}
