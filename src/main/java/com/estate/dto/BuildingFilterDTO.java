@@ -29,6 +29,8 @@ public class BuildingFilterDTO {
 
     private BigDecimal rentPriceFrom;
     private BigDecimal rentPriceTo;
+    private BigDecimal salePriceFrom;
+    private BigDecimal salePriceTo;
     private BigDecimal serviceFeeFrom;
     private BigDecimal serviceFeeTo;
     private BigDecimal carFeeFrom;

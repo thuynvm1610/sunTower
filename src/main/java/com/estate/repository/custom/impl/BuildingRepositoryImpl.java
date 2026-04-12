@@ -138,8 +138,6 @@ public class BuildingRepositoryImpl implements BuildingRepositoryCustom {
     private void setParams(Query q, BuildingFilterDTO f) {
 
         if (notEmpty(f.getName())) q.setParameter("name", "%" + f.getName() + "%");
-        if (notEmpty(f.getWard())) q.setParameter("ward", "%" + f.getWard() + "%");
-        if (notEmpty(f.getStreet())) q.setParameter("street", "%" + f.getStreet() + "%");
         if (notEmpty(f.getTransactionType())) q.setParameter("transactionType", "%" + f.getTransactionType() + "%");
         if (notEmpty(f.getPropertyType())) q.setParameter("propertyType", "%" + f.getPropertyType() + "%");
 
@@ -193,62 +191,25 @@ public class BuildingRepositoryImpl implements BuildingRepositoryCustom {
         StringBuilder where = new StringBuilder(" WHERE 1=1 ");
 
         // ========== JOIN bảng ==========
-
-        if (f.getDistrictId() != null) {
-            jpql.append(" LEFT JOIN b.district d ");
-        }
-
         if (f.getRentAreaFrom() != null || f.getRentAreaTo() != null) {
             jpql.append(" LEFT JOIN b.rentAreas ra ");
-        }
-
-        if (f.getStaffId() != null) {
-            jpql.append(" LEFT JOIN b.staffs_buildings sb");
         }
 
         // ========== LIKE ==========
         if (notEmpty(f.getName())) {
             where.append(" AND LOWER(b.name) LIKE LOWER(:name) ");
         }
-        if (notEmpty(f.getWard())) {
-            where.append(" AND LOWER(b.ward) LIKE LOWER(:ward) ");
+        if (notEmpty(f.getTransactionType())) {
+            where.append(" AND LOWER(b.transactionType) LIKE LOWER(:transactionType) ");
         }
-        if (notEmpty(f.getStreet())) {
-            where.append(" AND LOWER(b.street) LIKE LOWER(:street) ");
-        }
-        if (f.getStaffId() != null) {
-            where.append(" AND LOWER(sb.fullName) LIKE LOWER(:managerName) ");
-        }
-
-        // ========== EQUAL ==========
-        if (f.getDistrictId() != null) {
-            where.append(" AND d.id = :districtId ");
-        }
-
-        if (f.getDirection() != null) {
-            if (notEmpty(f.getDirection().toString())) {
-                where.append(" AND b.direction = :direction ");
-            }
-        }
-
-        if (f.getLevel() != null) {
-            if (notEmpty(f.getLevel().toString())) {
-                where.append(" AND b.level = :level ");
-            }
+        if (notEmpty(f.getPropertyType())) {
+            where.append(" AND LOWER(b.propertyType) LIKE LOWER(:propertyType) ");
         }
 
         // ========== RANGE INT ==========
         addRangeInt(where, "b.numberOfFloor", "floorFrom", "floorTo", f.getNumberOfFloorFrom(), f.getNumberOfFloorTo());
         addRangeInt(where, "b.numberOfBasement", "basementFrom", "basementTo", f.getNumberOfBasementFrom(), f.getNumberOfBasementTo());
         addRangeInt(where, "b.floorArea", "areaFrom", "areaTo", f.getFloorAreaFrom(), f.getFloorAreaTo());
-
-        // ========== RANGE BigDecimal ==========
-        addRangeDecimal(where, "b.rentPrice", "rentPriceFrom", "rentPriceTo", f.getRentPriceFrom(), f.getRentPriceTo());
-        addRangeDecimal(where, "b.serviceFee", "serviceFeeFrom", "serviceFeeTo", f.getServiceFeeFrom(), f.getServiceFeeTo());
-        addRangeDecimal(where, "b.carFee", "carFeeFrom", "carFeeTo", f.getCarFeeFrom(), f.getCarFeeTo());
-        addRangeDecimal(where, "b.motorbikeFee", "motorbikeFeeFrom", "motorbikeFeeTo", f.getMotorbikeFeeFrom(), f.getMotorbikeFeeTo());
-        addRangeDecimal(where, "b.waterFee", "waterFeeFrom", "waterFeeTo", f.getWaterFeeFrom(), f.getWaterFeeTo());
-        addRangeDecimal(where, "b.electricityFee", "electricityFeeFrom", "electricityFeeTo", f.getElectricityFeeFrom(), f.getElectricityFeeTo());
 
         // ========== Dữ liệu khác bảng ==========
         if (f.getRentAreaFrom() != null) {

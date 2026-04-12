@@ -227,7 +227,14 @@ public class BuildingServiceImpl implements BuildingService {
 
     @Override
     public List<BuildingDetailDTO> searchByCustomer(BuildingFilterDTO filter) {
+
         List<BuildingEntity> buildings = buildingRepository.searchBuildingsByCustomer(filter);
+
+        // Lọc theo vị trí nếu có lat/lng
+        if (filter.getLat() != null && filter.getLng() != null) {
+            buildings = filterByLocation(buildings, filter);
+        }
+
         List<BuildingDetailDTO> dtoList = new ArrayList<>();
         for (BuildingEntity b : buildings) {
             dtoList.add(buildingDetailConverter.toDTO(b));

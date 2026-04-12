@@ -52,6 +52,13 @@ public class BuildingDetailConverter {
                                     StaffEntity::getId
                             ))
             );
+
+            dto.setStaffPhones(
+                    entity.getStaffs_buildings()
+                            .stream()
+                            .map(StaffEntity::getPhone)
+                            .collect(Collectors.toList())
+            );
         }
         return dto;
     }
