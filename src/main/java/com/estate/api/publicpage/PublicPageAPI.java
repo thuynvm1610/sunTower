@@ -17,7 +17,9 @@ public class PublicPageAPI {
     private final BuildingService buildingService;
 
     @GetMapping("/building/search")
-    public List<BuildingDetailDTO> getBuildingsSearch(BuildingFilterDTO filter) {
+    public List<BuildingDetailDTO> getBuildingsSearch(
+            BuildingFilterDTO filter
+    ) {
         return buildingService.searchByCustomer(filter);
     }
 }

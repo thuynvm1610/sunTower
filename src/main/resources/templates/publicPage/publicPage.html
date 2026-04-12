@@ -769,11 +769,79 @@
             background: #f5f7fa;
         }
 
-        .form-control.has-value,
-        .form-select.has-value {
-            background-color: #e8f0fe;
-            border-color: var(--primary-light);
-            font-weight: 600;
+
+        /* ── GOONG LOCATION SEARCH ───────────────────────────────── */
+        .location-search-wrap {
+            position: relative;
+        }
+
+        .location-clear-btn {
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+            display: none;
+            font-size: 0.8rem;
+        }
+
+        .location-clear-btn:hover {
+            color: #dc2626;
+        }
+
+        #locationSuggestions {
+            position: absolute;
+            top: calc(100% + 3px);
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1.5px solid #dde1e7;
+            border-radius: 6px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, .10);
+            z-index: 9999;
+            max-height: 220px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        #locationSuggestions .suggest-item {
+            padding: 0.4rem 0.75rem;
+            font-size: 12px;
+            color: var(--text);
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        #locationSuggestions .suggest-item:last-child {
+            border-bottom: none;
+        }
+
+        #locationSuggestions .suggest-item:hover,
+        #locationSuggestions .suggest-item.active {
+            background: rgba(45, 62, 143, 0.07);
+            color: var(--primary);
+        }
+
+        .location-active-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 2px 8px;
+            background: #e8f0fe;
+            border: 1px solid #c7d7fc;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-left: 0.5rem;
         }
 
         /* Building cards */
@@ -1328,6 +1396,125 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* ── MODAL TABS ──────────────────────────────────────────── */
+        .detail-tabs {
+            display: flex;
+            gap: 2px;
+            border-bottom: 2px solid var(--border);
+            margin-bottom: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .detail-tab-btn {
+            padding: 6px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: color 0.2s, border-color 0.2s;
+            border-radius: 4px 4px 0 0;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .detail-tab-btn:hover {
+            color: var(--primary);
+            background: rgba(45, 62, 143, .05);
+        }
+
+        .detail-tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+            background: rgba(45, 62, 143, .05);
+        }
+
+        .detail-tab-panel {
+            display: none;
+        }
+
+        .detail-tab-panel.active {
+            display: block;
+        }
+
+        /* ── EXTRA TABLES ────────────────────────────────────────── */
+        .extra-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12.5px;
+        }
+
+        .extra-table th {
+            background: #f8f9fb;
+            color: var(--text-muted);
+            font-weight: 700;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            padding: 7px 12px;
+            border-bottom: 1.5px solid var(--border);
+            white-space: nowrap;
+        }
+
+        .extra-table td {
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+            vertical-align: middle;
+        }
+
+        .extra-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .extra-table tr:hover td {
+            background: #f8f9fb;
+        }
+
+        .extra-empty {
+            text-align: center;
+            padding: 1.5rem;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .extra-empty i {
+            font-size: 1.75rem;
+            display: block;
+            margin-bottom: 0.35rem;
+            color: var(--border);
+        }
+
+        .type-chip {
+            display: inline-block;
+            padding: 2px 7px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 700;
+            background: #e8f0fe;
+            color: var(--primary);
+        }
+
+        .distance-chip {
+            display: inline-block;
+            padding: 2px 7px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 700;
+            background: #fffbeb;
+            color: #d97706;
+        }
+
+        .modal-dialog.modal-detail {
+            max-width: 1100px;
+        }
     </style>
 </head>
 
@@ -1357,8 +1544,10 @@
                 <h1>Chào mừng đến với SunTower</h1>
                 <p>Hệ thống quản lý bất động sản chuyên nghiệp và hiện đại</p>
                 <div class="banner-buttons">
-                    <button class="btn-hero btn-primary-hero" onclick="scrollToSection('building')">Xem bất động sản</button>
-                    <button class="btn-hero btn-secondary-hero" onclick="scrollToSection('introduce')">Tìm hiểu thêm</button>
+                    <button class="btn-hero btn-primary-hero" onclick="scrollToSection('building')">Xem bất động
+                        sản</button>
+                    <button class="btn-hero btn-secondary-hero" onclick="scrollToSection('introduce')">Tìm hiểu
+                        thêm</button>
                 </div>
             </div>
         </div>
@@ -1628,6 +1817,45 @@
                 </div>
 
                 <div class="filter-body" id="filterBody">
+
+                    <!-- Tìm kiếm theo vị trí -->
+                    <div class="filter-section-title mb-2">
+                        <i class="bi bi-geo-alt-fill"></i> Tìm kiếm theo vị trí
+                        <span id="locationActiveBadge" class="location-active-badge" style="display:none;">
+                            <i class="bi bi-pin-map-fill"></i> <span id="locationBadgeText">Đang lọc</span>
+                        </span>
+                    </div>
+                    <div class="row g-2 mb-3">
+                        <div class="col-md-5 col-sm-12">
+                            <label class="form-label">Địa chỉ</label>
+                            <div class="location-search-wrap">
+                                <input type="text" id="locationInput" class="form-control"
+                                    placeholder="VD: 200 Nguyễn Trãi, Hà Nội..." autocomplete="off"
+                                    style="padding-right:2rem;">
+                                <button type="button" class="location-clear-btn" id="locationClearBtn"
+                                    onclick="clearLocation()">
+                                    <i class="bi bi-x-circle-fill"></i>
+                                </button>
+                                <div id="locationSuggestions"></div>
+                            </div>
+                            <input type="hidden" name="lat" id="hiddenLat">
+                            <input type="hidden" name="lng" id="hiddenLng">
+                            <input type="hidden" name="locationLabel" id="hiddenLocationLabel">
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <label class="form-label">Bán kính tìm kiếm</label>
+                            <select name="radius" id="radiusSelect" class="form-control">
+                                <option value="1000" selected>1 km</option>
+                                <option value="5000">5 km</option>
+                                <option value="10000">10 km</option>
+                                <option value="20000">20 km</option>
+                                <option value="30000">30 km</option>
+                                <option value="50000">50 km</option>
+                                <option value="100000">100 km</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <!-- Thông tin cơ bản -->
                     <div class="filter-section-title mb-2">
                         <i class="bi bi-info-circle"></i> Thông tin cơ bản
@@ -1636,50 +1864,6 @@
                         <div class="col-md-3 col-sm-6">
                             <label class="form-label">Tên bất động sản</label>
                             <input type="text" class="form-control" name="name" placeholder="VD: Sun Tower">
-                        </div>
-                        <div class="col-md-3 col-sm-6">
-                            <label class="form-label">Quận</label>
-                            <select class="form-select" name="districtId">
-                                <option value="">-- Chọn quận --</option>
-                                <option th:each="d : ${districts}" th:value="${d.getValue()}" th:text="${d.getKey()}">
-                                </option>
-                            </select>
-                        </div>
-                        <div class="col-md-3 col-sm-6">
-                            <label class="form-label">Phường</label>
-                            <select class="form-select" name="ward">
-                                <option value="">-- Chọn phường --</option>
-                                <option th:each="w : ${wards}" th:value="${w}" th:text="${w}"></option>
-                            </select>
-                        </div>
-                        <div class="col-md-3 col-sm-6">
-                            <label class="form-label">Phố</label>
-                            <select class="form-select" name="street">
-                                <option value="">-- Chọn phố --</option>
-                                <option th:each="s : ${streets}" th:value="${s}" th:text="${s}"></option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Đặc điểm bất động sản -->
-                    <div class="filter-section-title mb-2">
-                        <i class="bi bi-building"></i> Đặc điểm bất động sản
-                    </div>
-                    <div class="row g-2 mb-3">
-                        <div class="col-md-3 col-sm-6">
-                            <label class="form-label">Hướng</label>
-                            <select class="form-select" name="direction">
-                                <option value="">-- Chọn hướng --</option>
-                                <option th:each="d : ${directions}" th:value="${d.name()}" th:text="${d.label}">
-                                </option>
-                            </select>
-                        </div>
-                        <div class="col-md-3 col-sm-6">
-                            <label class="form-label">Hạng</label>
-                            <select class="form-select" name="level">
-                                <option value="">-- Chọn hạng --</option>
-                                <option th:each="l : ${levels}" th:value="${l.name()}" th:text="${l.label}"></option>
-                            </select>
                         </div>
                         <div class="col-md-3 col-sm-6">
                             <label class="form-label">Số tầng</label>
@@ -1702,14 +1886,6 @@
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6">
-                            <label class="form-label">Diện tích sàn (m²)</label>
-                            <div class="range-inputs">
-                                <input type="number" class="form-control" name="floorAreaFrom" placeholder="Từ" min="0">
-                                <span class="range-separator">–</span>
-                                <input type="number" class="form-control" name="floorAreaTo" placeholder="Đến" min="0">
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6">
                             <label class="form-label">Diện tích thuê (m²)</label>
                             <div class="range-inputs">
                                 <input type="number" class="form-control" name="rentAreaFrom" placeholder="Từ" min="0">
@@ -1719,72 +1895,36 @@
                         </div>
                     </div>
 
-                    <!-- Giá và phí -->
+                    <!-- Loại hình & Giao dịch -->
                     <div class="filter-section-title mb-2">
-                        <i class="bi bi-cash-stack"></i> Giá và phí (VNĐ)
+                        <i class="bi bi-tag"></i> Loại hình & Giao dịch
                     </div>
-                    <div class="row g-2">
+                    <div class="row g-2 mb-3">
                         <div class="col-md-3 col-sm-6">
-                            <label class="form-label">Giá thuê</label>
-                            <div class="range-inputs">
-                                <input type="number" class="form-control" name="rentPriceFrom" placeholder="Từ" min="0">
-                                <span class="range-separator">–</span>
-                                <input type="number" class="form-control" name="rentPriceTo" placeholder="Đến" min="0">
-                            </div>
+                            <label class="form-label">Loại hình BĐS</label>
+                            <select class="form-select" name="propertyType">
+                                <option value="">-- Tất cả --</option>
+                                <option th:each="pt : ${propertyTypes}" th:value="${pt.name()}" th:text="${pt.label}">
+                                </option>
+                            </select>
                         </div>
                         <div class="col-md-3 col-sm-6">
-                            <label class="form-label">Phí dịch vụ</label>
-                            <div class="range-inputs">
-                                <input type="number" class="form-control" name="serviceFeeFrom" placeholder="Từ"
-                                    min="0">
-                                <span class="range-separator">–</span>
-                                <input type="number" class="form-control" name="serviceFeeTo" placeholder="Đến" min="0">
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6">
-                            <label class="form-label">Phí xe ô tô</label>
-                            <div class="range-inputs">
-                                <input type="number" class="form-control" name="carFeeFrom" placeholder="Từ" min="0">
-                                <span class="range-separator">–</span>
-                                <input type="number" class="form-control" name="carFeeTo" placeholder="Đến" min="0">
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6">
-                            <label class="form-label">Phí xe máy</label>
-                            <div class="range-inputs">
-                                <input type="number" class="form-control" name="motorbikeFeeFrom" placeholder="Từ"
-                                    min="0">
-                                <span class="range-separator">–</span>
-                                <input type="number" class="form-control" name="motorbikeFeeTo" placeholder="Đến"
-                                    min="0">
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6">
-                            <label class="form-label">Phí nước</label>
-                            <div class="range-inputs">
-                                <input type="number" class="form-control" name="waterFeeFrom" placeholder="Từ" min="0">
-                                <span class="range-separator">–</span>
-                                <input type="number" class="form-control" name="waterFeeTo" placeholder="Đến" min="0">
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6">
-                            <label class="form-label">Phí điện</label>
-                            <div class="range-inputs">
-                                <input type="number" class="form-control" name="electricityFeeFrom" placeholder="Từ"
-                                    min="0">
-                                <span class="range-separator">–</span>
-                                <input type="number" class="form-control" name="electricityFeeTo" placeholder="Đến"
-                                    min="0">
-                            </div>
+                            <label class="form-label">Loại giao dịch</label>
+                            <select class="form-select" name="transactionType">
+                                <option value="">-- Tất cả --</option>
+                                <option th:each="tt : ${transactionTypes}" th:value="${tt.name()}"
+                                    th:text="${tt.label}">
+                                </option>
+                            </select>
                         </div>
                     </div>
 
                     <div class="filter-actions mt-3">
-                        <button type="submit" class="btn-filter">
-                            <i class="bi bi-search"></i> Tìm kiếm
-                        </button>
                         <button type="button" class="btn-reset" onclick="resetFilter()">
                             <i class="bi bi-arrow-clockwise"></i> Đặt lại
+                        </button>
+                        <button type="submit" class="btn-filter">
+                            <i class="bi bi-search"></i> Tìm kiếm
                         </button>
                     </div>
                 </div>
@@ -1847,7 +1987,10 @@
                             </div>
                             <div class="info-content">
                                 <h3>Email</h3>
-                                <p><a href="mailto:info@suntower.vn">info@suntower.vn</a></p>
+                                <p><a href="/cdn-cgi/l/email-protection#5d34333b321d2e283329322a382f732b33"><span
+                                            class="__cf_email__"
+                                            data-cfemail="84edeae2ebc4f7f1eaf0ebf3e1f6aaf2ea">[email&#160;protected]</span></a>
+                                </p>
                             </div>
                         </div>
                         <div class="info-item">
@@ -1930,7 +2073,8 @@
             </div>
             <div class="footer-section">
                 <h3>Liên hệ</h3>
-                <p>Email: info@suntower.vn</p>
+                <p>Email: <a href="/cdn-cgi/l/email-protection" class="__cf_email__"
+                        data-cfemail="acc5c2cac3ecdfd9c2d8c3dbc9de82dac2">[email&#160;protected]</a></p>
                 <p>Hotline: 0375577856</p>
                 <p>Địa chỉ: Ng. 158 Đ. Võ Chí Công, Xuân La, Tây Hồ, Hà Nội</p>
             </div>
@@ -1941,6 +2085,7 @@
     </footer>
 
     <!-- Bootstrap 5 JS -->
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -2010,48 +2155,33 @@
         function resetFilter() {
             document.querySelectorAll('#filterForm .form-control, #filterForm .form-select').forEach(input => {
                 input.value = '';
-                input.classList.remove('has-value');
             });
+            clearLocation();
         }
 
         // ===== BUILDING SEARCH =====
         // API endpoint: /suntower/building/search (searchByCustomer — has pagination)
         // Paginated: page & size params supported
-        let currentPage = 0;
-        const PAGE_SIZE = 9;
+        function loadBuildings() {
+            const lat = $('#hiddenLat').val();
+            const lng = $('#hiddenLng').val();
 
-        function loadBuildings(page) {
-            if (page === undefined) page = 0;
-            currentPage = page;
-
-            const formData = $('#filterForm').serialize() + '&page=' + page + '&size=' + PAGE_SIZE;
+            let finalData = $('#filterForm').serialize();
+            if (!lat || !lng) {
+                finalData = finalData.replace(/&?(lat|lng|locationLabel|radius)=[^&]*/g, '');
+            }
 
             $.ajax({
                 url: '/suntower/building/search',
                 type: 'GET',
-                data: formData,
-                success: function (response) {
-                    // Support both plain list and paginated Page<BuildingDetailDTO>
-                    let buildings, totalElements, totalPages;
-
-                    if (Array.isArray(response)) {
-                        // Legacy non-paginated
-                        buildings = response;
-                        totalElements = buildings.length;
-                        totalPages = 1;
-                    } else {
-                        // Spring Page object
-                        buildings = response.content || [];
-                        totalElements = response.totalElements || buildings.length;
-                        totalPages = response.totalPages || 1;
-                    }
-
+                data: finalData,
+                success: function (buildings) {
                     const list = $('#buildingList');
                     const total = $('#totalBuilding');
                     list.empty();
                     $('#modalContainer').empty();
 
-                    total.show().html(`Tìm thấy <strong>${totalElements}</strong> bất động sản`);
+                    total.show().html(`Tìm thấy <strong>${buildings.length}</strong> bất động sản`);
 
                     if (buildings.length === 0) {
                         list.html(`
@@ -2062,35 +2192,41 @@
                                 <p>Vui lòng thay đổi bộ lọc và thử lại.</p>
                             </div>
                         </div>`);
-                        renderPagination(totalPages, currentPage);
                         return;
                     }
 
+                    const propLabels = { OFFICE: 'Văn phòng', SHOPHOUSE: 'Nhà phố TM', APARTMENT: 'Căn hộ', WAREHOUSE: 'Kho xưởng' };
+                    const txLabels = { FOR_RENT: 'Cho thuê', FOR_SALE: 'Mua bán' };
+
                     buildings.forEach(function (b, i) {
                         const address = [b.street, b.ward, b.districtName].filter(Boolean).join(', ');
-                        const rentPrice = b.rentPrice ? b.rentPrice.toLocaleString('vi-VN') : 'Liên hệ';
-                        const serviceFee = b.serviceFee ? b.serviceFee.toLocaleString('vi-VN') : 'Liên hệ';
-                        const carFee = b.carFee ? b.carFee.toLocaleString('vi-VN') : 'Liên hệ';
-                        const motorbikeFee = b.motorbikeFee ? b.motorbikeFee.toLocaleString('vi-VN') : 'Liên hệ';
-                        const waterFee = b.waterFee ? b.waterFee.toLocaleString('vi-VN') : 'Liên hệ';
-                        const electricityFee = b.electricityFee ? b.electricityFee.toLocaleString('vi-VN') : 'Liên hệ';
 
-                        let rentAreaHtml = '';
-                        if (b.rentAreas && b.rentAreas.length > 0) {
-                            b.rentAreas.forEach(area => {
-                                rentAreaHtml += `<div class="rent-area-badge">${area} m²</div>`;
-                            });
-                        } else {
-                            rentAreaHtml = '<p style="color:#999;font-size:12px;">Chưa có thông tin</p>';
+                        let rentAreaHtml = '<span style="color:#999;font-size:12px;">Chưa có dữ liệu</span>';
+                        if (b.rentAreaValues) {
+                            rentAreaHtml = b.rentAreaValues.split(',')
+                                .map(v => `<span class="rent-area-badge">${v.trim()} m²</span>`).join('');
+                        } else if (b.rentAreas && b.rentAreas.length > 0) {
+                            rentAreaHtml = b.rentAreas.map(area => `<span class="rent-area-badge">${area} m²</span>`).join('');
                         }
 
-                        const cardIdx = page * PAGE_SIZE + i;
+                        const fmt0 = v => v != null ? Number(v).toLocaleString('vi-VN') : '0';
+                        const isSale = b.transactionType === 'FOR_SALE';
+                        const rentPrice = fmt0(b.rentPrice);
+                        const salePrice = fmt0(b.salePrice);
+                        const serviceFee = fmt0(b.serviceFee);
+                        const carFee = fmt0(b.carFee);
+                        const motorbikeFee = fmt0(b.motorbikeFee);
+                        const waterFee = fmt0(b.waterFee);
+                        const electricityFee = fmt0(b.electricityFee);
+                        const deposit = fmt0(b.deposit);
+
+                        const cardIdx = i;
 
                         list.append(`
                         <div class="col-md-4 col-sm-6">
                             <div class="building-card" data-bs-toggle="modal" data-bs-target="#buildingModal-${cardIdx}">
                                 <div class="building-image">
-                                    ${b.image ? `<img src="/images/building_img/${b.image}" alt="${b.name}" onerror="this.style.display='none'"/>` : `<i class="bi bi-building" style="font-size:36px;color:white;opacity:0.6;"></i>`}
+                                    ${b.image ? `<img src="/images/building_img/${b.image}" alt="${b.name}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 220%22%3E%3Crect fill=%22%23e5e7eb%22 width=%22400%22 height=%22220%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%239ca3af%22 font-size=%2214%22%3EKhông có ảnh%3C/text%3E%3C/svg%3E'"/>` : `<i class="bi bi-building" style="font-size:36px;color:white;opacity:0.6;"></i>`}
                                 </div>
                                 <div class="building-body">
                                     <div class="building-name">${b.name}</div>
@@ -2100,16 +2236,16 @@
                                     </div>
                                     <div class="building-stats">
                                         <div class="stat-item-card">
-                                            <span class="stat-label">Số tầng</span>
-                                            <span class="stat-value">${b.numberOfFloor || '-'}</span>
-                                        </div>
-                                        <div class="stat-item-card">
                                             <span class="stat-label">Diện tích sàn</span>
                                             <span class="stat-value">${b.floorArea ? b.floorArea + ' m²' : '-'}</span>
                                         </div>
                                         <div class="stat-item-card">
-                                            <span class="stat-label">Giá thuê</span>
-                                            <span class="stat-value">${rentPrice} VNĐ</span>
+                                            <span class="stat-label">Số tầng</span>
+                                            <span class="stat-value">${b.numberOfFloor || '-'}</span>
+                                        </div>
+                                        <div class="stat-item-card">
+                                            <span class="stat-label">${isSale ? 'Giá bán' : 'Giá thuê/m²'}</span>
+                                            <span class="stat-value">${isSale ? salePrice : rentPrice} VNĐ</span>
                                         </div>
                                         <div class="stat-item-card">
                                             <span class="stat-label">Hạng</span>
@@ -2123,7 +2259,7 @@
 
                         $('#modalContainer').append(`
                         <div class="modal fade" id="buildingModal-${cardIdx}" tabindex="-1">
-                            <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                            <div class="modal-dialog modal-detail modal-dialog-centered modal-dialog-scrollable">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title">
@@ -2139,42 +2275,77 @@
                                             <div class="building-detail-address">
                                                 <i class="bi bi-geo-alt me-1"></i><span>${address}</span>
                                             </div>
-                                        </div>
-                                        <div class="info-section">
-                                            <div class="info-section-title"><i class="bi bi-info-circle me-2"></i>Thông Tin Chung</div>
-                                            <div class="info-row"><span class="info-label">Hạng</span><span class="info-value">${b.level || '-'}</span></div>
-                                            <div class="info-row"><span class="info-label">Hướng</span><span class="info-value">${b.direction || '-'}</span></div>
-                                        </div>
-                                        <div class="info-section">
-                                            <div class="info-section-title"><i class="bi bi-rulers me-2"></i>Đặc Điểm Bất Động Sản</div>
-                                            <div class="feature-grid-modal">
-                                                <div class="feature-item-modal">
-                                                    <div class="feature-icon-modal"><i class="bi bi-arrows-fullscreen"></i></div>
-                                                    <div><div class="feature-label">Diện tích sàn</div><div class="feature-value">${b.floorArea || '-'} m²</div></div>
-                                                </div>
-                                                <div class="feature-item-modal">
-                                                    <div class="feature-icon-modal"><i class="bi bi-layers"></i></div>
-                                                    <div><div class="feature-label">Số tầng</div><div class="feature-value">${b.numberOfFloor || '-'}</div></div>
-                                                </div>
-                                                <div class="feature-item-modal">
-                                                    <div class="feature-icon-modal"><i class="bi bi-layers-fill"></i></div>
-                                                    <div><div class="feature-label">Số tầng hầm</div><div class="feature-value">${b.numberOfBasement || '-'}</div></div>
-                                                </div>
+                                            <div class="mt-1" style="display:flex;flex-wrap:wrap;gap:4px;">
+                                                ${b.propertyType ? `<span class="type-chip"><i class="bi bi-building-gear me-1"></i>${propLabels[b.propertyType] || b.propertyType}</span>` : ''}
+                                                ${b.transactionType ? `<span class="type-chip" style="background:#fffbeb;color:#d97706;">${txLabels[b.transactionType] || b.transactionType}</span>` : ''}
+                                                ${b.level ? `<span class="type-chip" style="background:#f0fdf4;color:#16a34a;">${b.level}</span>` : ''}
                                             </div>
                                         </div>
-                                        <div class="info-section">
-                                            <div class="info-section-title"><i class="bi bi-grid me-2"></i>Diện Tích Thuê Khả Dụng</div>
-                                            <div class="rent-area-list">${rentAreaHtml}</div>
+
+                                        <!-- Tabs -->
+                                        <div class="detail-tabs" id="tabs-${cardIdx}">
+                                            <button class="detail-tab-btn active" onclick="switchTab(${cardIdx},'overview')">
+                                                <i class="bi bi-info-circle"></i> Tổng quan
+                                            </button>
+                                            <button class="detail-tab-btn" onclick="switchTab(${cardIdx},'extra')">
+                                                <i class="bi bi-plus-circle"></i> Thông tin bổ sung
+                                            </button>
                                         </div>
-                                        <div class="info-section">
-                                            <div class="info-section-title"><i class="bi bi-cash-stack me-2"></i>Giá Thuê & Phí Dịch Vụ</div>
-                                            <div class="info-row"><span class="info-label">Giá thuê</span><span class="info-value">${rentPrice} VNĐ/m²</span></div>
-                                            <div class="info-row"><span class="info-label">Phí dịch vụ</span><span class="info-value">${serviceFee} VNĐ/tháng</span></div>
-                                            <div class="info-row"><span class="info-label">Phí gửi xe ô tô</span><span class="info-value">${carFee} VNĐ/tháng</span></div>
-                                            <div class="info-row"><span class="info-label">Phí gửi xe máy</span><span class="info-value">${motorbikeFee} VNĐ/tháng</span></div>
-                                            <div class="info-row"><span class="info-label">Phí nước</span><span class="info-value">${waterFee} VNĐ/m³</span></div>
-                                            <div class="info-row"><span class="info-label">Phí điện</span><span class="info-value">${electricityFee} VNĐ/số</span></div>
+
+                                        <!-- Tab: Tổng quan -->
+                                        <div class="detail-tab-panel active" id="panel-${cardIdx}-overview">
+                                            <div class="info-section">
+                                                <div class="info-section-title"><i class="bi bi-rulers me-2"></i>Đặc Điểm Bất Động Sản</div>
+                                                <div class="feature-grid-modal">
+                                                    <div class="feature-item-modal">
+                                                        <div class="feature-icon-modal"><i class="bi bi-arrows-fullscreen"></i></div>
+                                                        <div><div class="feature-label">Diện tích sàn</div><div class="feature-value">${b.floorArea || '-'} m²</div></div>
+                                                    </div>
+                                                    <div class="feature-item-modal">
+                                                        <div class="feature-icon-modal"><i class="bi bi-layers"></i></div>
+                                                        <div><div class="feature-label">Số tầng</div><div class="feature-value">${b.numberOfFloor || '-'}</div></div>
+                                                    </div>
+                                                    <div class="feature-item-modal">
+                                                        <div class="feature-icon-modal"><i class="bi bi-layers-fill"></i></div>
+                                                        <div><div class="feature-label">Số tầng hầm</div><div class="feature-value">${b.numberOfBasement || '-'}</div></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="info-section">
+                                                <div class="info-section-title"><i class="bi bi-info-circle me-2"></i>Thông Tin Chung</div>
+                                                <div class="info-row"><span class="info-label">Hướng</span><span class="info-value">${b.direction || '-'}</span></div>
+                                                <div class="info-row"><span class="info-label">Hạng</span><span class="info-value">${b.level || '-'}</span></div>
+                                                ${b.linkOfBuilding ? `<div class="info-row"><span class="info-label">Link tòa nhà</span><span class="info-value"><a href="${b.linkOfBuilding}" target="_blank" style="color:var(--primary);">Xem</a></span></div>` : ''}
+                                            </div>
+                                            ${b.rentAreaValues ? `
+                                            <div class="info-section">
+                                                <div class="info-section-title"><i class="bi bi-grid me-2"></i>Diện Tích Thuê Khả Dụng</div>
+                                                <div class="rent-area-list">${rentAreaHtml}</div>
+                                            </div>` : ''}
+                                            <div class="info-section">
+                                                <div class="info-section-title"><i class="bi bi-cash-stack me-2"></i>Giá & Phí</div>
+                                                ${isSale
+                                ? `<div class="info-row"><span class="info-label">Giá bán</span><span class="info-value" style="color:#dc2626;font-weight:700;">${salePrice} VNĐ</span></div>`
+                                : `<div class="info-row"><span class="info-label">Giá thuê</span><span class="info-value" style="color:#059669;font-weight:700;">${rentPrice} VNĐ/m²</span></div>`
+                            }
+                                                <div class="info-row"><span class="info-label">Đặt cọc</span><span class="info-value">${deposit} VNĐ</span></div>
+                                                <div class="info-row"><span class="info-label">Phí dịch vụ</span><span class="info-value">${serviceFee} VNĐ/tháng</span></div>
+                                                <div class="info-row"><span class="info-label">Phí gửi xe ô tô</span><span class="info-value">${carFee} VNĐ/tháng</span></div>
+                                                <div class="info-row"><span class="info-label">Phí gửi xe máy</span><span class="info-value">${motorbikeFee} VNĐ/tháng</span></div>
+                                                <div class="info-row"><span class="info-label">Phí nước</span><span class="info-value">${waterFee} VNĐ/m³</span></div>
+                                                <div class="info-row"><span class="info-label">Phí điện</span><span class="info-value">${electricityFee} VNĐ/số</span></div>
+                                            </div>
                                         </div>
+
+                                        <!-- Tab: Thông tin bổ sung (lazy-load) -->
+                                        <div class="detail-tab-panel" id="panel-${cardIdx}-extra"
+                                            data-building-id="${b.id}" data-loaded="false">
+                                            <div class="extra-empty">
+                                                <i class="bi bi-hourglass-split"></i>
+                                                Nhấn tab để tải thông tin bổ sung
+                                            </div>
+                                        </div>
+
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
@@ -2187,7 +2358,6 @@
                     `);
                     });
 
-                    renderPagination(totalPages, currentPage);
                 },
                 error: function () {
                     alert("Không tải được dữ liệu!");
@@ -2195,39 +2365,220 @@
             });
         }
 
-        function renderPagination(totalPages, page) {
-            $('#paginationContainer').remove();
-            if (totalPages <= 1) return;
 
-            let paginationHtml = `<div id="paginationContainer" style="display:flex;justify-content:center;gap:6px;margin-top:20px;flex-wrap:wrap;">`;
-            for (let i = 0; i < totalPages; i++) {
-                const isActive = i === page;
-                paginationHtml += `
-                <button onclick="loadBuildings(${i})"
-                    style="min-width:34px;height:34px;padding:0 10px;border-radius:6px;border:1.5px solid ${isActive ? 'var(--primary)' : '#dde1e7'};
-                    background:${isActive ? 'var(--primary)' : 'white'};color:${isActive ? 'white' : '#333'};
-                    font-weight:${isActive ? '700' : '500'};font-size:12px;cursor:pointer;transition:all 0.2s;">
-                    ${i + 1}
-                </button>`;
+
+        // ── Tab switching ─────────────────────────────────────────
+        function switchTab(i, tabName) {
+            document.querySelectorAll(`#panel-${i}-overview, #panel-${i}-extra`)
+                .forEach(p => p.classList.remove('active'));
+            document.querySelectorAll(`#tabs-${i} .detail-tab-btn`)
+                .forEach(b => b.classList.remove('active'));
+
+            const panel = document.getElementById(`panel-${i}-${tabName}`);
+            panel.classList.add('active');
+            const tabOrder = ['overview', 'extra'];
+            document.querySelectorAll(`#tabs-${i} .detail-tab-btn`)[tabOrder.indexOf(tabName)].classList.add('active');
+
+            // Lazy-load extra tab
+            if (tabName === 'extra' && panel.dataset.loaded === 'false') {
+                const buildingId = panel.dataset.buildingId;
+                panel.dataset.loaded = 'true';
+                panel.innerHTML = `<div class="extra-empty"><div class="spinner-border spinner-border-sm text-primary me-2"></div> Đang tải...</div>`;
+
+                $.ajax({
+                    url: `/suntower/building/${buildingId}/detail`,
+                    type: 'GET',
+                    success: function (data) {
+                        let html = '';
+
+                        // Nhà cung cấp
+                        html += renderExtraTable('bi-truck', 'Nhà Cung Cấp', data.suppliers, [
+                            { label: 'Tên', key: 'name', bold: true },
+                            { label: 'Dịch vụ', key: 'serviceType', chip: true },
+                            { label: 'SĐT', key: 'phone' },
+                            { label: 'Email', key: 'email' },
+                            { label: 'Địa chỉ', key: 'address' },
+                            { label: 'Ghi chú', key: 'note' }
+                        ], 'bi-truck Chưa có nhà cung cấp');
+
+                        // Quy hoạch
+                        html += `<div class="info-section mt-2">
+                            <div class="info-section-title"><i class="bi bi-map"></i> Bản Đồ Quy Hoạch</div>`;
+                        if (!data.planningMaps || data.planningMaps.length === 0) {
+                            html += `<div class="extra-empty"><i class="bi bi-map"></i>Chưa có bản đồ quy hoạch</div>`;
+                        } else {
+                            html += `<div style="overflow-x:auto;"><table class="extra-table"><thead><tr>
+                                <th>Loại</th><th>Cơ quan cấp</th><th>Ngày cấp</th><th>Hết hạn</th><th>Trạng thái</th><th>Bản đồ</th><th>Ghi chú</th>
+                            </tr></thead><tbody>`;
+                            data.planningMaps.forEach(r => {
+                                const fmtDate = s => s ? new Date(s).toLocaleDateString('vi-VN') : '—';
+                                const expiredBadge = r.expired
+                                    ? `<span style="background:#fee2e2;color:#dc2626;padding:2px 6px;border-radius:3px;font-size:11px;font-weight:700;">Hết hạn</span>`
+                                    : `<span style="background:#dcfce7;color:#16a34a;padding:2px 6px;border-radius:3px;font-size:11px;font-weight:700;">Còn hiệu lực</span>`;
+                                const imgName = r.imageUrl ? r.imageUrl.substring(r.imageUrl.lastIndexOf('/') + 1) : null;
+                                html += `<tr>
+                                    <td><span class="type-chip">${r.mapType || '—'}</span></td>
+                                    <td>${r.issuedBy || '—'}</td>
+                                    <td>${fmtDate(r.issuedDate)}</td>
+                                    <td>${fmtDate(r.expiredDate)}</td>
+                                    <td>${expiredBadge}</td>
+                                    <td>${imgName ? `<a href="/images/planning_map_img/${imgName}" target="_blank" style="color:var(--primary);">Xem</a>` : '—'}</td>
+                                    <td>${r.note || '—'}</td>
+                                </tr>`;
+                            });
+                            html += `</tbody></table></div>`;
+                        }
+                        html += `</div>`;
+
+                        // Tiện ích lân cận
+                        html += renderExtraTable('bi-shop', 'Tiện Ích Lân Cận', data.nearbyAmenities, [
+                            { label: 'Tên', key: 'name', bold: true },
+                            { label: 'Loại', key: 'amenityTypeLabel', chip: true },
+                            { label: 'Địa chỉ', key: 'address' },
+                            { label: 'Khoảng cách', key: 'distanceMeter', distance: true }
+                        ], 'bi-shop Chưa có tiện ích lân cận');
+
+                        panel.innerHTML = html;
+                    },
+                    error: function () {
+                        panel.innerHTML = `<div class="extra-empty"><i class="bi bi-exclamation-circle"></i>Không tải được thông tin bổ sung</div>`;
+                    }
+                });
             }
-            paginationHtml += `</div>`;
-            $('#buildingList').after(paginationHtml);
+        }
+
+        function renderExtraTable(icon, title, list, cols, emptyMsg) {
+            let html = `<div class="info-section mt-2">
+                <div class="info-section-title"><i class="bi ${icon}"></i> ${title}</div>`;
+            if (!list || list.length === 0) {
+                const parts = emptyMsg.split(' ');
+                html += `<div class="extra-empty"><i class="bi ${parts[0]}"></i>${parts.slice(1).join(' ')}</div>`;
+            } else {
+                html += `<div style="overflow-x:auto;"><table class="extra-table"><thead><tr>`;
+                cols.forEach(c => { html += `<th>${c.label}</th>`; });
+                html += `</tr></thead><tbody>`;
+                list.forEach(r => {
+                    html += '<tr>';
+                    cols.forEach(c => {
+                        const val = r[c.key];
+                        if (c.bold) html += `<td><strong>${val || '—'}</strong></td>`;
+                        else if (c.chip) html += `<td><span class="type-chip">${val || '—'}</span></td>`;
+                        else if (c.distance) html += `<td>${val != null ? `<span class="distance-chip">${Number(val).toLocaleString('vi-VN')} m</span>` : '—'}</td>`;
+                        else html += `<td>${val || '—'}</td>`;
+                    });
+                    html += '</tr>';
+                });
+                html += `</tbody></table></div>`;
+            }
+            html += `</div>`;
+            return html;
         }
 
         $(document).ready(function () {
             if (buildingName !== "") {
                 $("[name='name']").val(buildingName);
             }
-            loadBuildings(0);
+            loadBuildings();
 
-            $('.filter-body .form-control, .filter-body .form-select').on('input change', function () {
-                $(this).toggleClass('has-value', $(this).val() !== '');
-            });
         });
 
         $('#filterForm').on('submit', function (e) {
             e.preventDefault();
-            loadBuildings(0);
+            loadBuildings();
+        });
+
+    </script>
+
+    <script th:inline="javascript">
+        // ══ GOONG PLACES AUTOCOMPLETE ══════════════════════════════
+        const GOONG_API_KEY = /*[[${goongApiKey}]]*/ '';
+        let _autocompleteTimer = null;
+
+        const locationInput = document.getElementById('locationInput');
+        const suggestions = document.getElementById('locationSuggestions');
+        const clearBtn = document.getElementById('locationClearBtn');
+        const hiddenLat = document.getElementById('hiddenLat');
+        const hiddenLng = document.getElementById('hiddenLng');
+        const activeBadge = document.getElementById('locationActiveBadge');
+        const badgeText = document.getElementById('locationBadgeText');
+
+        locationInput.addEventListener('input', function () {
+            const q = this.value.trim();
+            clearBtn.style.display = q ? 'block' : 'none';
+            if (!q) { clearLocation(); return; }
+            clearTimeout(_autocompleteTimer);
+            _autocompleteTimer = setTimeout(() => fetchSuggestions(q), 350);
+        });
+
+        function fetchSuggestions(query) {
+            fetch(`https://rsapi.goong.io/Place/AutoComplete?api_key=${GOONG_API_KEY}&input=${encodeURIComponent(query)}`)
+                .then(r => r.json())
+                .then(data => {
+                    suggestions.innerHTML = '';
+                    if (!data.predictions || !data.predictions.length) { suggestions.style.display = 'none'; return; }
+                    data.predictions.forEach(p => {
+                        const item = document.createElement('div');
+                        item.className = 'suggest-item';
+                        item.textContent = p.description;
+                        item.addEventListener('click', () => selectPlace(p));
+                        suggestions.appendChild(item);
+                    });
+                    suggestions.style.display = 'block';
+                })
+                .catch(() => { suggestions.style.display = 'none'; });
+        }
+
+        function selectPlace(prediction) {
+            locationInput.value = prediction.description;
+            suggestions.style.display = 'none';
+            clearBtn.style.display = 'block';
+
+            fetch(`https://rsapi.goong.io/Place/Detail?api_key=${GOONG_API_KEY}&place_id=${prediction.place_id}`)
+                .then(r => r.json())
+                .then(data => {
+                    const loc = data.result?.geometry?.location;
+                    if (!loc) return;
+                    hiddenLat.value = loc.lat;
+                    hiddenLng.value = loc.lng;
+                    document.getElementById('hiddenLocationLabel').value = prediction.description;
+                    badgeText.textContent = prediction.description.split(',')[0];
+                    activeBadge.style.display = 'inline-flex';
+                })
+                .catch(() => { });
+        }
+
+        function clearLocation() {
+            locationInput.value = '';
+            hiddenLat.value = '';
+            hiddenLng.value = '';
+            suggestions.style.display = 'none';
+            clearBtn.style.display = 'none';
+            activeBadge.style.display = 'none';
+        }
+
+        document.addEventListener('click', function (e) {
+            if (!locationInput.contains(e.target) && !suggestions.contains(e.target)) {
+                suggestions.style.display = 'none';
+            }
+        });
+
+        locationInput.addEventListener('keydown', function (e) {
+            const items = suggestions.querySelectorAll('.suggest-item');
+            const active = suggestions.querySelector('.suggest-item.active');
+            let idx = Array.from(items).indexOf(active);
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (active) active.classList.remove('active');
+                (items[idx + 1] || items[0])?.classList.add('active');
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                if (active) active.classList.remove('active');
+                (items[idx - 1] || items[items.length - 1])?.classList.add('active');
+            } else if (e.key === 'Enter' && active) {
+                e.preventDefault(); active.click();
+            } else if (e.key === 'Escape') {
+                suggestions.style.display = 'none';
+            }
         });
     </script>
 
