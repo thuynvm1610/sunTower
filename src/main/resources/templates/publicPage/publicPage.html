@@ -1507,6 +1507,47 @@
         .modal-dialog.modal-detail {
             max-width: 1100px;
         }
+
+        /* ── RESPONSIVE: Extra tables on small screens ───────────── */
+        @media (max-width: 576px) {
+
+            /* ── Nhà Cung Cấp: giữ Tên(1), Dịch vụ(2), SĐT(3); ẩn Email(4), Địa chỉ(5), Ghi chú(6) ── */
+            .supplier-table th:nth-child(4),
+            .supplier-table td:nth-child(4),
+            .supplier-table th:nth-child(5),
+            .supplier-table td:nth-child(5),
+            .supplier-table th:nth-child(6),
+            .supplier-table td:nth-child(6) {
+                display: none;
+            }
+
+            /* ── Bản Đồ Quy Hoạch: giữ Loại(1), Cơ quan cấp(2), Xem bản đồ(6); ẩn Ngày cấp(3), Hết hạn(4), Trạng thái(5), Ghi chú(7) ── */
+            .planning-table th:nth-child(3),
+            .planning-table td:nth-child(3),
+            .planning-table th:nth-child(4),
+            .planning-table td:nth-child(4),
+            .planning-table th:nth-child(5),
+            .planning-table td:nth-child(5),
+            .planning-table th:nth-child(7),
+            .planning-table td:nth-child(7) {
+                display: none;
+            }
+
+            /* ── Tiện Ích Lân Cận: giữ Tên(1), Khoảng cách(4); ẩn Loại(2), Địa chỉ(3) ── */
+            .amenity-table th:nth-child(2),
+            .amenity-table td:nth-child(2),
+            .amenity-table th:nth-child(3),
+            .amenity-table td:nth-child(3) {
+                display: none;
+            }
+
+            /* Thu nhỏ padding bảng cho màn hình nhỏ */
+            .extra-table th,
+            .extra-table td {
+                padding: 6px 8px;
+                font-size: 12px;
+            }
+        }
     </style>
 </head>
 
@@ -1979,9 +2020,8 @@
                             </div>
                             <div class="info-content">
                                 <h3>Email</h3>
-                                <p><a href="/cdn-cgi/l/email-protection#5d34333b321d2e283329322a382f732b33"><span
-                                            class="__cf_email__"
-                                            data-cfemail="84edeae2ebc4f7f1eaf0ebf3e1f6aaf2ea">[email&#160;protected]</span></a>
+                                <p><a href="/cdn-cgi/l/email-protection" class="__cf_email__"
+                                        data-cfemail="dba8aeb5afb4acbea99ba9bebab7bea8afbaafbef5adb5">[email&#160;protected]</a>
                                 </p>
                             </div>
                         </div>
@@ -2066,7 +2106,7 @@
             <div class="footer-section">
                 <h3>Liên hệ</h3>
                 <p>Email: <a href="/cdn-cgi/l/email-protection" class="__cf_email__"
-                        data-cfemail="b2c1c7dcc6ddc5d7c0f2c0d7d3ded7c1c6d3c6d79cc4dc">[email&#160;protected]</a></a></p>
+                        data-cfemail="f281879c869d859780b28097939e978186938697dc849c">[email&#160;protected]</a></p>
                 <p>Hotline: 0375577856</p>
                 <p>Địa chỉ: Ng. 158 Đ. Võ Chí Công, Xuân La, Tây Hồ, Hà Nội</p>
             </div>
@@ -2077,6 +2117,7 @@
     </footer>
 
     <!-- Bootstrap 5 JS -->
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -2400,7 +2441,7 @@
                             { label: 'Email', key: 'email' },
                             { label: 'Địa chỉ', key: 'address' },
                             { label: 'Ghi chú', key: 'note' }
-                        ], 'bi-truck Chưa có nhà cung cấp');
+                        ], 'bi-truck Chưa có nhà cung cấp', 'supplier-table');
 
                         // Quy hoạch
                         html += `<div class="info-section mt-2">
@@ -2408,7 +2449,7 @@
                         if (!data.planningMaps || data.planningMaps.length === 0) {
                             html += `<div class="extra-empty"><i class="bi bi-map"></i>Chưa có bản đồ quy hoạch</div>`;
                         } else {
-                            html += `<div style="overflow-x:auto;"><table class="extra-table"><thead><tr>
+                            html += `<div style="overflow-x:auto;"><table class="extra-table planning-table"><thead><tr>
                                 <th>Loại</th><th>Cơ quan cấp</th><th>Ngày cấp</th><th>Hết hạn</th><th>Trạng thái</th><th>Bản đồ</th><th>Ghi chú</th>
                             </tr></thead><tbody>`;
                             data.planningMaps.forEach(r => {
@@ -2437,7 +2478,7 @@
                             { label: 'Loại', key: 'amenityTypeLabel', chip: true },
                             { label: 'Địa chỉ', key: 'address' },
                             { label: 'Khoảng cách', key: 'distanceMeter', distance: true }
-                        ], 'bi-shop Chưa có tiện ích lân cận');
+                        ], 'bi-shop Chưa có tiện ích lân cận', 'amenity-table');
 
                         panel.innerHTML = html;
                     },
@@ -2448,14 +2489,15 @@
             }
         }
 
-        function renderExtraTable(icon, title, list, cols, emptyMsg) {
+        function renderExtraTable(icon, title, list, cols, emptyMsg, tableClass) {
             let html = `<div class="info-section mt-2">
                 <div class="info-section-title"><i class="bi ${icon}"></i> ${title}</div>`;
             if (!list || list.length === 0) {
                 const parts = emptyMsg.split(' ');
                 html += `<div class="extra-empty"><i class="bi ${parts[0]}"></i>${parts.slice(1).join(' ')}</div>`;
             } else {
-                html += `<div style="overflow-x:auto;"><table class="extra-table"><thead><tr>`;
+                const cls = tableClass ? `extra-table ${tableClass}` : 'extra-table';
+                html += `<div style="overflow-x:auto;"><table class="${cls}"><thead><tr>`;
                 cols.forEach(c => { html += `<th>${c.label}</th>`; });
                 html += `</tr></thead><tbody>`;
                 list.forEach(r => {
@@ -2576,12 +2618,16 @@
                 if (active) active.classList.remove('active');
                 (items[idx - 1] || items[items.length - 1])?.classList.add('active');
             } else if (e.key === 'Enter') {
-                const highlighted = suggestions.querySelector('.suggest-item.active');
-                if (highlighted) highlighted.click();
+                if (active) {
+                    active.click();
+                } else if (items[0]) {
+                    items[0].click();
+                }
             } else if (e.key === 'Escape') {
                 suggestions.style.display = 'none';
             }
         });
+
     </script>
 
 </body>
