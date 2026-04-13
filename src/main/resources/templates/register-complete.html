@@ -107,6 +107,15 @@
             display: none !important;
         }
 
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
         main {
             flex: 1;
             display: flex;
@@ -323,6 +332,26 @@
         }
 
         @media (max-width:768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 56px;
+                left: 0;
+                right: 0;
+                background: var(--primary);
+                flex-direction: column;
+                padding: 16px;
+                gap: 14px;
+                display: none;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
             .footer-content {
                 grid-template-columns: 1fr;
                 gap: 20px;
@@ -330,22 +359,79 @@
         }
 
         @media (max-width:640px) {
+            main {
+                align-items: flex-start;
+                padding: 16px 12px 24px;
+            }
+
             .auth-card {
                 flex-direction: column;
-                max-width: 420px;
+                max-width: 100%;
+                min-height: unset;
+                border-radius: 10px;
             }
 
             .auth-left {
                 width: 100%;
-                padding: 28px;
+                padding: 18px 20px;
+                flex-direction: row;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .auth-left>div:first-child {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 10px;
+                flex: 1;
+            }
+
+            .auth-left .badge {
+                display: none;
+            }
+
+            .auth-left .brand {
+                font-size: 20px;
+                margin-bottom: 0;
+            }
+
+            .auth-left .sub {
+                font-size: 11px;
+                margin-bottom: 0;
+                opacity: 0.75;
+            }
+
+            .auth-left .description,
+            .auth-left .footer-note {
+                display: none;
             }
 
             .auth-right {
-                padding: 32px 28px;
+                padding: 22px 20px 28px;
             }
 
-            .description {
-                display: none;
+            .auth-right h2 {
+                font-size: 19px;
+            }
+
+            .auth-right p.note {
+                font-size: 12.5px;
+                margin-bottom: 18px;
+            }
+
+            .field {
+                margin-bottom: 14px;
+            }
+
+            input {
+                padding: 10px 13px;
+                font-size: 14px;
+            }
+
+            button.submit {
+                padding: 12px;
+                font-size: 14px;
             }
         }
     </style>
@@ -355,7 +441,9 @@
     <header>
         <nav>
             <a href="/suntower" class="logo">SunTower</a>
-            <div class="nav-links">
+            <button class="menu-toggle"
+                onclick="document.getElementById('navLinks').classList.toggle('active')">☰</button>
+            <div class="nav-links" id="navLinks">
                 <a href="/suntower#home">Trang chủ</a>
                 <a href="/suntower#introduce">Giới thiệu</a>
                 <a href="/suntower#building">Bất động sản</a>
