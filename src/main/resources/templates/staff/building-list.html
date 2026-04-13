@@ -651,7 +651,107 @@
             color: var(--muted);
         }
 
-        @media (max-width: 768px) {
+        /* ══════════════════════════════════════
+           HAMBURGER MENU
+        ══════════════════════════════════════ */
+
+        .hamburger-btn {
+            background: var(--primary-bg);
+            border: none;
+            border-radius: 8px;
+            padding: 7px 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: .2s;
+            margin: 6px 0;
+        }
+
+        .hamburger-btn:hover {
+            background: var(--accent);
+        }
+
+        .hamburger-icon {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 4px;
+            width: 18px;
+        }
+
+        .hamburger-icon span {
+            display: block;
+            height: 2px;
+            background: var(--primary-color);
+            border-radius: 2px;
+            transition: all .25s ease;
+        }
+
+        .hamburger-btn.open .hamburger-icon span:nth-child(1) {
+            transform: translateY(6px) rotate(45deg);
+        }
+
+        .hamburger-btn.open .hamburger-icon span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-btn.open .hamburger-icon span:nth-child(3) {
+            transform: translateY(-6px) rotate(-45deg);
+        }
+
+        .mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .3s ease;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+        }
+
+        .mobile-menu.open {
+            max-height: 400px;
+        }
+
+        .mobile-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 1.5rem;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border);
+            transition: background .15s, color .15s;
+        }
+
+        .mobile-menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-menu-item i {
+            font-size: 16px;
+            color: var(--primary-color);
+            width: 20px;
+            text-align: center;
+        }
+
+        .mobile-menu-item:hover,
+        .mobile-menu-item.active {
+            background: var(--primary-bg);
+            color: var(--primary-color);
+        }
+
+        /* ── Ẩn cột trên mobile cho extra-table ── */
+        @media (max-width: 575.98px) {
+            .col-hide-mobile {
+                display: none;
+            }
+        }
+
+        /* ══════════════════════════════════════
+           RESPONSIVE – Tablet ≤ 991px
+        ══════════════════════════════════════ */
+        @media (max-width: 991.98px) {
             .container-fluid {
                 padding-left: 1rem;
                 padding-right: 1rem;
@@ -660,7 +760,107 @@
             .page-header {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 1rem;
+                gap: 0.5rem;
+            }
+
+            /* Filter: các cột xếp 2 hàng */
+            .filter-card .col-md-3,
+            .filter-card .col-md-5 {
+                flex: 0 0 50%;
+                max-width: 50%;
+            }
+        }
+
+        /* ══════════════════════════════════════
+           RESPONSIVE – Mobile ≤ 575px
+        ══════════════════════════════════════ */
+        @media (max-width: 575.98px) {
+            .container-fluid {
+                padding-left: .75rem;
+                padding-right: .75rem;
+            }
+
+            .logo {
+                font-size: 17px;
+            }
+
+            .btn-logout {
+                padding: 5px 10px;
+                font-size: 11px;
+            }
+
+            /* Page header */
+            .page-header {
+                padding: 0.5rem 0.75rem !important;
+            }
+
+            .page-header h1 {
+                font-size: 13px !important;
+            }
+
+            .page-header p {
+                font-size: 11px;
+            }
+
+            /* Filter card: ẩn bớt fields ít quan trọng, xếp 1 cột */
+            .filter-card {
+                padding: 0.75rem !important;
+            }
+
+            .filter-card .col-md-3,
+            .filter-card .col-md-5,
+            .filter-card [class*="col-"] {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+
+            /* Ẩn bán kính, loại hình, hướng trên mobile — dùng filter nâng cao khi cần */
+            .filter-hide-mobile {
+                display: none;
+            }
+
+            /* Building cards: 1 cột full-width */
+            .col-md-4 {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+
+            .building-image {
+                height: 140px;
+            }
+
+            .building-name {
+                font-size: 14px;
+                min-height: unset;
+            }
+
+            .building-address {
+                font-size: 11px;
+                min-height: unset;
+            }
+
+            .section-card {
+                padding: .75rem !important;
+            }
+
+            .section-header h2 {
+                font-size: 11px;
+            }
+
+            /* Pagination nhỏ hơn */
+            .pagination .page-link {
+                font-size: 11px;
+                padding: 3px 8px;
+            }
+
+            /* Filter button actions */
+            .filter-actions {
+                justify-content: stretch;
+            }
+
+            .btn-filter {
+                flex: 1;
+                justify-content: center;
             }
         }
 
@@ -1177,8 +1377,9 @@
             </div>
         </div>
         <nav class="nav-custom">
-            <div class="container-fluid px-4">
-                <ul class="nav">
+            <div class="container-fluid px-4 d-flex align-items-center justify-content-between">
+                <!-- Desktop nav -->
+                <ul class="nav d-none d-md-flex">
                     <li class="nav-item"><a class="nav-link" href="/staff/dashboard"><i
                                 class="bi bi-speedometer2 me-1"></i>Tổng quan</a></li>
                     <li class="nav-item"><a class="nav-link active" href="/staff/buildings"><i
@@ -1192,6 +1393,24 @@
                     <li class="nav-item"><a class="nav-link" href="/staff/profile"><i
                                 class="bi bi-person-circle me-1"></i>Tài khoản</a></li>
                 </ul>
+                <!-- Mobile hamburger button -->
+                <button class="hamburger-btn d-flex d-md-none" id="hamburgerBtn" aria-label="Menu"
+                    aria-expanded="false">
+                    <span class="hamburger-icon">
+                        <span></span><span></span><span></span>
+                    </span>
+                    <span class="ms-2" style="font-size:12px;font-weight:600;color:var(--primary-color);">Menu</span>
+                </button>
+            </div>
+            <!-- Mobile dropdown menu -->
+            <div class="mobile-menu d-md-none" id="mobileMenu">
+                <a class="mobile-menu-item" href="/staff/dashboard"><i class="bi bi-speedometer2"></i>Tổng quan</a>
+                <a class="mobile-menu-item active" href="/staff/buildings"><i class="bi bi-building"></i>Bất động
+                    sản</a>
+                <a class="mobile-menu-item" href="/staff/contracts"><i class="bi bi-file-text"></i>Hợp đồng</a>
+                <a class="mobile-menu-item" href="/staff/customers"><i class="bi bi-people"></i>Khách hàng</a>
+                <a class="mobile-menu-item" href="/staff/invoices"><i class="bi bi-receipt"></i>Hóa đơn</a>
+                <a class="mobile-menu-item" href="/staff/profile"><i class="bi bi-person-circle"></i>Tài khoản</a>
             </div>
         </nav>
     </div>
@@ -1281,10 +1500,10 @@
                 </div>
 
                 <!-- Đặc điểm bất động sản -->
-                <div class="filter-section-title">
+                <div class="filter-section-title filter-hide-mobile">
                     <i class="bi bi-building"></i> Đặc điểm bất động sản
                 </div>
-                <div class="row g-2 mb-2">
+                <div class="row g-2 mb-2 filter-hide-mobile">
                     <div class="col-md-3">
                         <label class="form-label">Số tầng</label>
                         <div class="range-inputs">
@@ -1341,10 +1560,10 @@
                 </div>
 
                 <!-- Giá và phí -->
-                <div class="filter-section-title">
+                <div class="filter-section-title filter-hide-mobile">
                     <i class="bi bi-cash-stack"></i> Giá và phí (VNĐ)
                 </div>
-                <div class="row g-2">
+                <div class="row g-2 filter-hide-mobile">
                     <div class="col-md-3">
                         <label class="form-label">Giá thuê</label>
                         <div class="range-inputs">
@@ -1993,17 +2212,17 @@
                 <tr>
                     <td>${r.authorityName || '—'}</td>
                     <td><span class="type-chip">${r.authorityTypeLabel || r.authorityType || '—'}</span></td>
-                    <td>${r.address || '—'}</td>
+                    <td class="col-hide-mobile">${r.address || '—'}</td>
                     <td>${r.phone || '—'}</td>
-                    <td>${r.email || '—'}</td>
-                    <td style="max-width:140px;white-space:normal;">${r.note || '—'}</td>
+                    <td class="col-hide-mobile">${r.email || '—'}</td>
+                    <td class="col-hide-mobile" style="max-width:140px;white-space:normal;">${r.note || '—'}</td>
                 </tr>`).join('');
             $(`#panel-${idx}-legal`).html(`
                 <div class="info-section p-0" style="overflow-x:auto;">
                     <table class="extra-table">
                         <thead><tr>
-                            <th>Cơ quan</th><th>Loại</th><th>Địa chỉ</th>
-                            <th>SĐT</th><th>Email</th><th>Ghi chú</th>
+                            <th>Cơ quan</th><th>Loại</th><th class="col-hide-mobile">Địa chỉ</th>
+                            <th>SĐT</th><th class="col-hide-mobile">Email</th><th class="col-hide-mobile">Ghi chú</th>
                         </tr></thead>
                         <tbody>${rows}</tbody>
                     </table>
@@ -2021,16 +2240,16 @@
                     <td><strong>${r.name || '—'}</strong></td>
                     <td><span class="type-chip">${r.serviceType || '—'}</span></td>
                     <td>${r.phone || '—'}</td>
-                    <td>${r.email || '—'}</td>
-                    <td>${r.address || '—'}</td>
-                    <td style="max-width:140px;white-space:normal;">${r.note || '—'}</td>
+                    <td class="col-hide-mobile">${r.email || '—'}</td>
+                    <td class="col-hide-mobile">${r.address || '—'}</td>
+                    <td class="col-hide-mobile" style="max-width:140px;white-space:normal;">${r.note || '—'}</td>
                 </tr>`).join('');
             $(`#panel-${idx}-supplier`).html(`
                 <div class="info-section p-0" style="overflow-x:auto;">
                     <table class="extra-table">
                         <thead><tr>
                             <th>Tên</th><th>Dịch vụ</th><th>SĐT</th>
-                            <th>Email</th><th>Địa chỉ</th><th>Ghi chú</th>
+                            <th class="col-hide-mobile">Email</th><th class="col-hide-mobile">Địa chỉ</th><th class="col-hide-mobile">Ghi chú</th>
                         </tr></thead>
                         <tbody>${rows}</tbody>
                     </table>
@@ -2047,9 +2266,9 @@
                 <tr>
                     <td><span class="type-chip">${r.mapType || '—'}</span></td>
                     <td>${r.issuedBy || '—'}</td>
-                    <td>${fmtDate(r.issuedDate)}</td>
-                    <td>${fmtDate(r.expiredDate)}</td>
-                    <td><span class="expired-chip ${r.expired ? 'yes' : 'no'}">${r.expired ? 'Hết hạn' : 'Còn hiệu lực'}</span></td>
+                    <td class="col-hide-mobile">${fmtDate(r.issuedDate)}</td>
+                    <td class="col-hide-mobile">${fmtDate(r.expiredDate)}</td>
+                    <td class="col-hide-mobile"><span class="expired-chip ${r.expired ? 'yes' : 'no'}">${r.expired ? 'Hết hạn' : 'Còn hiệu lực'}</span></td>
                     <td>
                     ${r.imageUrl
                     ? `<a href="/images/planning_map_img/${r.imageUrl.includes('/')
@@ -2059,14 +2278,14 @@
                     : '—'
                 }
                     </td>
-                    <td style="max-width:120px;white-space:normal;">${r.note || '—'}</td>
+                    <td class="col-hide-mobile" style="max-width:120px;white-space:normal;">${r.note || '—'}</td>
                 </tr>`).join('');
             $(`#panel-${idx}-planning`).html(`
                 <div class="info-section p-0" style="overflow-x:auto;">
                     <table class="extra-table">
                         <thead><tr>
-                            <th>Loại</th><th>Cơ quan cấp</th><th>Ngày cấp</th>
-                            <th>Hết hạn</th><th>Trạng thái</th><th>Bản đồ</th><th>Ghi chú</th>
+                            <th>Loại</th><th>Cơ quan cấp</th><th class="col-hide-mobile">Ngày cấp</th>
+                            <th class="col-hide-mobile">Hết hạn</th><th class="col-hide-mobile">Trạng thái</th><th>Bản đồ</th><th class="col-hide-mobile">Ghi chú</th>
                         </tr></thead>
                         <tbody>${rows}</tbody>
                     </table>
@@ -2082,15 +2301,15 @@
             let rows = list.map(r => `
                 <tr>
                     <td><strong>${r.name || '—'}</strong></td>
-                    <td><span class="type-chip">${r.amenityTypeLabel || r.amenityType || '—'}</span></td>
-                    <td>${r.address || '—'}</td>
+                    <td class="col-hide-mobile"><span class="type-chip">${r.amenityTypeLabel || r.amenityType || '—'}</span></td>
+                    <td class="col-hide-mobile">${r.address || '—'}</td>
                     <td>${r.distanceMeter != null ? `<span class="distance-chip">${r.distanceMeter.toLocaleString('vi-VN')} m</span>` : '—'}</td>
                 </tr>`).join('');
             $(`#panel-${idx}-amenity`).html(`
                 <div class="info-section p-0" style="overflow-x:auto;">
                     <table class="extra-table">
                         <thead><tr>
-                            <th>Tên tiện ích</th><th>Loại</th><th>Địa chỉ</th><th>Khoảng cách</th>
+                            <th>Tên tiện ích</th><th class="col-hide-mobile">Loại</th><th class="col-hide-mobile">Địa chỉ</th><th>Khoảng cách</th>
                         </tr></thead>
                         <tbody>${rows}</tbody>
                     </table>
@@ -2201,6 +2420,26 @@
                 suggestions.style.display = 'none';
             }
         });
+    </script>
+
+    <script>
+        // ══ HAMBURGER MENU ══════════════════════════════════════════
+        const hamburgerBtn = document.getElementById("hamburgerBtn");
+        const mobileMenu = document.getElementById("mobileMenu");
+        if (hamburgerBtn && mobileMenu) {
+            hamburgerBtn.addEventListener("click", function () {
+                const isOpen = mobileMenu.classList.toggle("open");
+                hamburgerBtn.classList.toggle("open", isOpen);
+                hamburgerBtn.setAttribute("aria-expanded", isOpen);
+            });
+            document.addEventListener("click", function (e) {
+                if (!hamburgerBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+                    mobileMenu.classList.remove("open");
+                    hamburgerBtn.classList.remove("open");
+                    hamburgerBtn.setAttribute("aria-expanded", false);
+                }
+            });
+        }
     </script>
 </body>
 

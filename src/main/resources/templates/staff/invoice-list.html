@@ -474,6 +474,7 @@
             font-weight: 600;
             font-size: 12px;
             white-space: nowrap;
+            width: fit-content;
         }
 
         .status-badge.paid {
@@ -1022,7 +1023,106 @@
             border-color: #c8d0e0;
         }
 
-        @media (max-width: 768px) {
+        /* ══════════════════════════════════════
+           HAMBURGER MENU
+        ══════════════════════════════════════ */
+        .hamburger-btn {
+            background: var(--primary-bg);
+            border: none;
+            border-radius: 8px;
+            padding: 7px 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: .2s;
+            margin: 6px 0;
+        }
+
+        .hamburger-btn:hover {
+            background: var(--accent);
+        }
+
+        .hamburger-icon {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 4px;
+            width: 18px;
+        }
+
+        .hamburger-icon span {
+            display: block;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 2px;
+            transition: all .25s ease;
+        }
+
+        .hamburger-btn.open .hamburger-icon span:nth-child(1) {
+            transform: translateY(6px) rotate(45deg);
+        }
+
+        .hamburger-btn.open .hamburger-icon span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-btn.open .hamburger-icon span:nth-child(3) {
+            transform: translateY(-6px) rotate(-45deg);
+        }
+
+        .mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .3s ease;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+        }
+
+        .mobile-menu.open {
+            max-height: 400px;
+        }
+
+        .mobile-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 1.5rem;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border);
+            transition: background .15s, color .15s;
+        }
+
+        .mobile-menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-menu-item i {
+            font-size: 16px;
+            color: var(--primary);
+            width: 20px;
+            text-align: center;
+        }
+
+        .mobile-menu-item:hover,
+        .mobile-menu-item.active {
+            background: var(--primary-bg);
+            color: var(--primary);
+        }
+
+        /* ── Ẩn cột trên mobile ── */
+        @media (max-width: 575.98px) {
+            .col-hide-mobile {
+                display: none !important;
+            }
+        }
+
+        /* ══════════════════════════════════════
+           RESPONSIVE – Tablet ≤ 991px
+        ══════════════════════════════════════ */
+        @media (max-width: 991.98px) {
             .container-fluid {
                 padding-left: 1rem;
                 padding-right: 1rem;
@@ -1031,11 +1131,152 @@
             .page-header {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 1rem;
+                gap: 0.5rem;
             }
 
+            .filter-card .col-md-4,
+            .filter-card .col-md-6 {
+                flex: 0 0 50%;
+                max-width: 50%;
+            }
+        }
+
+        /* ══════════════════════════════════════
+           RESPONSIVE – Mobile ≤ 575px
+        ══════════════════════════════════════ */
+        @media (max-width: 575.98px) {
+            .container-fluid {
+                padding-left: .75rem;
+                padding-right: .75rem;
+            }
+
+            .logo {
+                font-size: 17px;
+            }
+
+            .btn-logout {
+                padding: 5px 10px;
+                font-size: 11px;
+            }
+
+            .page-header {
+                padding: 0.5rem 0.75rem !important;
+            }
+
+            .page-header h1 {
+                font-size: 13px !important;
+            }
+
+            .page-header p {
+                font-size: 11px;
+            }
+
+            /* Filter: 1 cột, hiển thị đầy đủ tất cả tiêu chí */
+            .filter-card {
+                padding: 0.75rem !important;
+            }
+
+            .filter-card .col-md-4,
+            .filter-card .col-md-6,
+            .filter-card [class*="col-"] {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+
+            .filter-actions {
+                justify-content: stretch;
+            }
+
+            .btn-filter {
+                flex: 1;
+                justify-content: center;
+            }
+
+            /* Section card & header */
+            .section-card {
+                padding: .75rem !important;
+            }
+
+            .section-header h2 {
+                font-size: 11px;
+            }
+
+            .btn-add-invoice {
+                font-size: 11px;
+                padding: 5px 10px;
+            }
+
+            /* Table – 3 cột: Mã HĐ, Trạng thái, Hành động */
+            .modern-table thead th {
+                font-size: 11px;
+                padding: .45rem .5rem;
+            }
+
+            .modern-table tbody td {
+                font-size: 12px;
+                padding: .45rem .5rem;
+            }
+
+            .modern-table tbody tr {
+                height: 52px;
+            }
+
+            /* Phân bổ width: Mã HĐ 18%, Trạng thái 37%, Hành động 45% */
+            .modern-table th:nth-child(1),
+            .modern-table td:nth-child(1) {
+                width: 18% !important;
+                min-width: 50px;
+            }
+
+            .modern-table th:nth-child(7),
+            .modern-table td:nth-child(7) {
+                width: 37% !important;
+                min-width: 95px;
+            }
+
+            .modern-table th:nth-child(8),
+            .modern-table td:nth-child(8) {
+                width: 45% !important;
+            }
+
+            /* Mã HĐ: to, rõ trên mobile */
+            .invoice-id {
+                font-size: 14px;
+                font-weight: 700;
+            }
+
+            /* Status badge: block, font đủ lớn */
+            .status-badge {
+                font-size: 11px;
+                padding: .25rem .45rem;
+                white-space: normal;
+                text-align: center;
+                line-height: 1.3;
+                display: block;
+            }
+
+            /* Action buttons */
             .action-buttons {
-                flex-wrap: wrap;
+                flex-wrap: nowrap;
+                gap: .3rem;
+                justify-content: center;
+            }
+
+            .btn-action {
+                width: 30px;
+                height: 28px;
+                font-size: 12px;
+            }
+
+            /* Pagination */
+            .pagination .page-link {
+                font-size: 11px;
+                padding: 3px 8px;
+            }
+
+            /* Modal */
+            .modal-dialog {
+                margin: 0.5rem;
             }
         }
     </style>
@@ -1068,8 +1309,9 @@
             </div>
         </div>
         <nav class="nav-custom">
-            <div class="container-fluid px-4">
-                <ul class="nav">
+            <div class="container-fluid px-4 d-flex align-items-center justify-content-between">
+                <!-- Desktop nav -->
+                <ul class="nav d-none d-md-flex">
                     <li class="nav-item"><a class="nav-link" href="/staff/dashboard"><i
                                 class="bi bi-speedometer2 me-1"></i>Tổng quan</a></li>
                     <li class="nav-item"><a class="nav-link" href="/staff/buildings"><i
@@ -1083,6 +1325,21 @@
                     <li class="nav-item"><a class="nav-link" href="/staff/profile"><i
                                 class="bi bi-person-circle me-1"></i>Tài khoản</a></li>
                 </ul>
+                <!-- Mobile hamburger -->
+                <button class="hamburger-btn d-flex d-md-none" id="hamburgerBtn" aria-label="Menu"
+                    aria-expanded="false">
+                    <span class="hamburger-icon"><span></span><span></span><span></span></span>
+                    <span class="ms-2" style="font-size:12px;font-weight:600;color:var(--primary);">Menu</span>
+                </button>
+            </div>
+            <!-- Mobile dropdown -->
+            <div class="mobile-menu d-md-none" id="mobileMenu">
+                <a class="mobile-menu-item" href="/staff/dashboard"><i class="bi bi-speedometer2"></i>Tổng quan</a>
+                <a class="mobile-menu-item" href="/staff/buildings"><i class="bi bi-building"></i>Bất động sản</a>
+                <a class="mobile-menu-item" href="/staff/contracts"><i class="bi bi-file-text"></i>Hợp đồng</a>
+                <a class="mobile-menu-item" href="/staff/customers"><i class="bi bi-people"></i>Khách hàng</a>
+                <a class="mobile-menu-item active" href="/staff/invoices"><i class="bi bi-receipt"></i>Hóa đơn</a>
+                <a class="mobile-menu-item" href="/staff/profile"><i class="bi bi-person-circle"></i>Tài khoản</a>
             </div>
         </nav>
     </div>
@@ -1203,13 +1460,13 @@
                     <thead>
                         <tr>
                             <th style="width: 8%;">Mã HĐ</th>
-                            <th style="width: 12%;">Hóa đơn tháng</th>
-                            <th style="width: 18%;">Khách hàng</th>
-                            <th style="width: 18%;">Bất động sản</th>
-                            <th style="width: 12%;">Diện tích thuê</th>
-                            <th style="width: 14%;">Tổng tiền</th>
+                            <th class="col-hide-mobile" style="width: 12%;">Hóa đơn tháng</th>
+                            <th class="col-hide-mobile" style="width: 18%;">Khách hàng</th>
+                            <th class="col-hide-mobile" style="width: 18%;">Bất động sản</th>
+                            <th class="col-hide-mobile" style="width: 12%;">Diện tích thuê</th>
+                            <th class="col-hide-mobile" style="width: 14%;">Tổng tiền</th>
                             <th style="width: 10%;">Trạng thái</th>
-                            <th style="width: 8%; text-align: center;">Hành động</th>
+                            <th style="text-align: center;">Hành động</th>
                         </tr>
                     </thead>
 
@@ -1682,15 +1939,15 @@
                     $.each(data.content, function (i, inv) {
                         tbody.append(`
             <tr>
-              <td><span class="invoice-id">${inv.id}</span></td>
-              <td><span class="month-badge">${formatMonth(inv.month, inv.year)}</span></td>
-              <td><span class="customer-name">${inv.customer.fullName || ''}</span></td>
-              <td><span class="building-name">${inv.contract.building.name || ''}</span></td>
-              <td><span class="area-badge">${formatArea(inv.contract.rentArea)}</span></td>
-              <td><span class="price-badge">${formatPrice(inv.totalAmount)}</span></td>
+              <td><span class="invoice-id">HĐ-${inv.id}</span></td>
+              <td class="col-hide-mobile"><span class="month-badge">${formatMonth(inv.month, inv.year)}</span></td>
+              <td class="col-hide-mobile"><span class="customer-name">${inv.customer.fullName || ''}</span></td>
+              <td class="col-hide-mobile"><span class="building-name">${inv.contract.building.name || ''}</span></td>
+              <td class="col-hide-mobile"><span class="area-badge">${formatArea(inv.contract.rentArea)}</span></td>
+              <td class="col-hide-mobile"><span class="price-badge">${formatPrice(inv.totalAmount)}</span></td>
               <td>${getStatusBadge(inv.status)}</td>
-              <td>
-                <div class="action-buttons">
+              <td style="text-align:center;">
+                <div class="action-buttons" style="justify-content:center;">
                   <button type="button" class="btn-action btn-view" onclick="openViewModal('invoiceModal-${i}')" title="Xem chi tiết">
                     <i class="bi bi-eye"></i>
                   </button>
@@ -1840,7 +2097,7 @@
                         <div class="col-md-3">
                           <div class="info-item">
                             <label>Mã hợp đồng</label>
-                            <p>#${inv.contract.id}</p>
+                            <p>HĐ-${inv.contract.id}</p>
                           </div>
                         </div>
                         <div class="col-md-3">
@@ -2669,6 +2926,26 @@
                 (waterUsage * Number(addCurrentFees.waterFee || 0));
 
             $('#addTotalAmount').text(formatNumber(total) + ' đ');
+        }
+    </script>
+
+    <script>
+        // ══ HAMBURGER MENU ══════════════════════════════════════════
+        const hamburgerBtn = document.getElementById("hamburgerBtn");
+        const mobileMenu = document.getElementById("mobileMenu");
+        if (hamburgerBtn && mobileMenu) {
+            hamburgerBtn.addEventListener("click", function () {
+                const isOpen = mobileMenu.classList.toggle("open");
+                hamburgerBtn.classList.toggle("open", isOpen);
+                hamburgerBtn.setAttribute("aria-expanded", isOpen);
+            });
+            document.addEventListener("click", function (e) {
+                if (!hamburgerBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+                    mobileMenu.classList.remove("open");
+                    hamburgerBtn.classList.remove("open");
+                    hamburgerBtn.setAttribute("aria-expanded", false);
+                }
+            });
         }
     </script>
 </body>

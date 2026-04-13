@@ -147,7 +147,7 @@
 
         .left-banner {
             background: linear-gradient(145deg, var(--primary) 0%, var(--primary-lt) 100%);
-            padding: 2rem 1rem 1.5rem;
+            padding: 2rem 1rem 2.5rem;
             text-align: center;
             position: relative;
         }
@@ -560,7 +560,104 @@
             justify-content: center;
         }
 
-        @media (max-width:768px) {
+        /* ══════════════════════════════════════
+           HAMBURGER MENU
+        ══════════════════════════════════════ */
+        .hamburger-btn {
+            background: var(--primary-bg);
+            border: none;
+            border-radius: 8px;
+            padding: 7px 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: .2s;
+            margin: 6px 0;
+        }
+
+        .hamburger-btn:hover {
+            background: var(--accent);
+        }
+
+        .hamburger-icon {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 4px;
+            width: 18px;
+        }
+
+        .hamburger-icon span {
+            display: block;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 2px;
+            transition: all .25s ease;
+        }
+
+        .hamburger-btn.open .hamburger-icon span:nth-child(1) {
+            transform: translateY(6px) rotate(45deg);
+        }
+
+        .hamburger-btn.open .hamburger-icon span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-btn.open .hamburger-icon span:nth-child(3) {
+            transform: translateY(-6px) rotate(-45deg);
+        }
+
+        .mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .3s ease;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+        }
+
+        .mobile-menu.open {
+            max-height: 400px;
+        }
+
+        .mobile-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 1.5rem;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border);
+            transition: background .15s, color .15s;
+        }
+
+        .mobile-menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-menu-item i {
+            font-size: 16px;
+            color: var(--primary);
+            width: 20px;
+            text-align: center;
+        }
+
+        .mobile-menu-item:hover,
+        .mobile-menu-item.active {
+            background: var(--primary-bg);
+            color: var(--primary);
+        }
+
+        /* ══════════════════════════════════════
+           RESPONSIVE – Tablet <= 991px
+        ══════════════════════════════════════ */
+        @media (max-width: 991.98px) {
+            .container-fluid {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
             .profile-wrap {
                 flex-direction: column;
             }
@@ -568,6 +665,91 @@
             .profile-left {
                 flex: none;
                 width: 100%;
+            }
+
+            .left-banner {
+                padding: 1.5rem 1rem 2.25rem;
+            }
+
+            .profile-avatar {
+                width: 80px;
+                height: 80px;
+            }
+
+            .left-actions {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: .25rem;
+                padding: .75rem;
+            }
+        }
+
+        /* ══════════════════════════════════════
+           RESPONSIVE – Mobile <= 575px
+        ══════════════════════════════════════ */
+        @media (max-width: 575.98px) {
+            .container-fluid {
+                padding-left: .75rem;
+                padding-right: .75rem;
+            }
+
+            .logo {
+                font-size: 17px;
+            }
+
+            .btn-logout {
+                padding: 5px 10px;
+                font-size: 11px;
+            }
+
+            .left-banner {
+                padding: 1.25rem 1rem 2rem;
+            }
+
+            .profile-avatar {
+                width: 72px;
+                height: 72px;
+            }
+
+            .profile-name {
+                font-size: 14px;
+            }
+
+            .left-actions {
+                grid-template-columns: 1fr 1fr;
+                padding: .6rem;
+                gap: .2rem;
+            }
+
+            .btn-side {
+                font-size: 12px;
+                padding: 8px 10px;
+                gap: .4rem;
+            }
+
+            .btn-side i {
+                font-size: 13px;
+            }
+
+            .profile-right {
+                padding: 1.25rem;
+            }
+
+            .section-title {
+                font-size: 13px;
+            }
+
+            .info-item {
+                padding: .7rem .875rem;
+                gap: .7rem;
+            }
+
+            .info-text .value {
+                font-size: 13px;
+            }
+
+            .modal-dialog {
+                margin: .5rem;
             }
         }
     </style>
@@ -600,8 +782,9 @@
             </div>
         </div>
         <nav class="nav-custom">
-            <div class="container-fluid px-4">
-                <ul class="nav">
+            <div class="container-fluid px-4 d-flex align-items-center justify-content-between">
+                <!-- Desktop nav -->
+                <ul class="nav d-none d-md-flex">
                     <li class="nav-item"><a class="nav-link" href="/staff/dashboard"><i
                                 class="bi bi-speedometer2 me-1"></i>Tổng quan</a></li>
                     <li class="nav-item"><a class="nav-link" href="/staff/buildings"><i
@@ -615,6 +798,22 @@
                     <li class="nav-item"><a class="nav-link active" href="/staff/profile"><i
                                 class="bi bi-person-circle me-1"></i>Tài khoản</a></li>
                 </ul>
+                <!-- Mobile hamburger -->
+                <button class="hamburger-btn d-flex d-md-none" id="hamburgerBtn" aria-label="Menu"
+                    aria-expanded="false">
+                    <span class="hamburger-icon"><span></span><span></span><span></span></span>
+                    <span class="ms-2" style="font-size:12px;font-weight:600;color:var(--primary);">Menu</span>
+                </button>
+            </div>
+            <!-- Mobile dropdown -->
+            <div class="mobile-menu d-md-none" id="mobileMenu">
+                <a class="mobile-menu-item" href="/staff/dashboard"><i class="bi bi-speedometer2"></i>Tổng quan</a>
+                <a class="mobile-menu-item" href="/staff/buildings"><i class="bi bi-building"></i>Bất động sản</a>
+                <a class="mobile-menu-item" href="/staff/contracts"><i class="bi bi-file-text"></i>Hợp đồng</a>
+                <a class="mobile-menu-item" href="/staff/customers"><i class="bi bi-people"></i>Khách hàng</a>
+                <a class="mobile-menu-item" href="/staff/invoices"><i class="bi bi-receipt"></i>Hóa đơn</a>
+                <a class="mobile-menu-item active" href="/staff/profile"><i class="bi bi-person-circle"></i>Tài
+                    khoản</a>
             </div>
         </nav>
     </div>
@@ -1050,6 +1249,26 @@
                 error: xhr => showErr(xhr.responseJSON?.message || 'Cập nhật thất bại!')
             });
         });
+    </script>
+
+    <script>
+        // HAMBURGER MENU
+        const hamburgerBtn = document.getElementById("hamburgerBtn");
+        const mobileMenu = document.getElementById("mobileMenu");
+        if (hamburgerBtn && mobileMenu) {
+            hamburgerBtn.addEventListener("click", function () {
+                const isOpen = mobileMenu.classList.toggle("open");
+                hamburgerBtn.classList.toggle("open", isOpen);
+                hamburgerBtn.setAttribute("aria-expanded", isOpen);
+            });
+            document.addEventListener("click", function (e) {
+                if (!hamburgerBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+                    mobileMenu.classList.remove("open");
+                    hamburgerBtn.classList.remove("open");
+                    hamburgerBtn.setAttribute("aria-expanded", false);
+                }
+            });
+        }
     </script>
 </body>
 

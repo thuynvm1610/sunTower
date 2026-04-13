@@ -560,7 +560,106 @@
             color: var(--muted);
         }
 
-        @media (max-width: 768px) {
+        /* ══════════════════════════════════════
+           HAMBURGER MENU
+        ══════════════════════════════════════ */
+        .hamburger-btn {
+            background: var(--primary-bg);
+            border: none;
+            border-radius: 8px;
+            padding: 7px 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: .2s;
+            margin: 6px 0;
+        }
+
+        .hamburger-btn:hover {
+            background: var(--accent);
+        }
+
+        .hamburger-icon {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 4px;
+            width: 18px;
+        }
+
+        .hamburger-icon span {
+            display: block;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 2px;
+            transition: all .25s ease;
+        }
+
+        .hamburger-btn.open .hamburger-icon span:nth-child(1) {
+            transform: translateY(6px) rotate(45deg);
+        }
+
+        .hamburger-btn.open .hamburger-icon span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-btn.open .hamburger-icon span:nth-child(3) {
+            transform: translateY(-6px) rotate(-45deg);
+        }
+
+        .mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .3s ease;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+        }
+
+        .mobile-menu.open {
+            max-height: 400px;
+        }
+
+        .mobile-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 1.5rem;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border);
+            transition: background .15s, color .15s;
+        }
+
+        .mobile-menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-menu-item i {
+            font-size: 16px;
+            color: var(--primary);
+            width: 20px;
+            text-align: center;
+        }
+
+        .mobile-menu-item:hover,
+        .mobile-menu-item.active {
+            background: var(--primary-bg);
+            color: var(--primary);
+        }
+
+        /* ── Ẩn cột trên mobile ── */
+        @media (max-width: 575.98px) {
+            .col-hide-mobile {
+                display: none !important;
+            }
+        }
+
+        /* ══════════════════════════════════════
+           RESPONSIVE – Tablet ≤ 991px
+        ══════════════════════════════════════ */
+        @media (max-width: 991.98px) {
             .container-fluid {
                 padding-left: 1rem;
                 padding-right: 1rem;
@@ -569,11 +668,103 @@
             .page-header {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 1rem;
+                gap: 0.5rem;
             }
 
-            .action-button {
-                flex-wrap: wrap;
+            .filter-card .col-md-3 {
+                flex: 0 0 50%;
+                max-width: 50%;
+            }
+        }
+
+        /* ══════════════════════════════════════
+           RESPONSIVE – Mobile ≤ 575px
+        ══════════════════════════════════════ */
+        @media (max-width: 575.98px) {
+            .container-fluid {
+                padding-left: .75rem;
+                padding-right: .75rem;
+            }
+
+            .logo {
+                font-size: 17px;
+            }
+
+            .btn-logout {
+                padding: 5px 10px;
+                font-size: 11px;
+            }
+
+            .page-header {
+                padding: 0.5rem 0.75rem !important;
+            }
+
+            .page-header h1 {
+                font-size: 13px !important;
+            }
+
+            .page-header p {
+                font-size: 11px;
+            }
+
+            /* Filter: 1 cột, ẩn filter thời gian và giá */
+            .filter-card {
+                padding: 0.75rem !important;
+            }
+
+            .filter-card .col-md-3,
+            .filter-card [class*="col-"] {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+
+            .filter-hide-mobile {
+                display: none !important;
+            }
+
+            /* Section card */
+            .section-card {
+                padding: .75rem !important;
+            }
+
+            .section-header h2 {
+                font-size: 11px;
+            }
+
+            /* Table font nhỏ hơn */
+            .modern-table thead th {
+                font-size: 10px;
+                padding: .4rem .5rem;
+            }
+
+            .modern-table tbody td {
+                font-size: 11px;
+                padding: .4rem .5rem;
+            }
+
+            .modern-table tbody tr {
+                height: 44px;
+            }
+
+            /* Pagination nhỏ hơn */
+            .pagination .page-link {
+                font-size: 11px;
+                padding: 3px 8px;
+            }
+
+            /* Filter actions full width */
+            .filter-actions {
+                justify-content: stretch;
+            }
+
+            .btn-filter {
+                flex: 1;
+                justify-content: center;
+            }
+
+            /* Modal responsive */
+            .modal-dialog {
+                margin: 0.5rem;
             }
         }
     </style>
@@ -606,8 +797,9 @@
             </div>
         </div>
         <nav class="nav-custom">
-            <div class="container-fluid px-4">
-                <ul class="nav">
+            <div class="container-fluid px-4 d-flex align-items-center justify-content-between">
+                <!-- Desktop nav -->
+                <ul class="nav d-none d-md-flex">
                     <li class="nav-item"><a class="nav-link" href="/staff/dashboard"><i
                                 class="bi bi-speedometer2 me-1"></i>Tổng quan</a></li>
                     <li class="nav-item"><a class="nav-link" href="/staff/buildings"><i
@@ -621,6 +813,21 @@
                     <li class="nav-item"><a class="nav-link" href="/staff/profile"><i
                                 class="bi bi-person-circle me-1"></i>Tài khoản</a></li>
                 </ul>
+                <!-- Mobile hamburger -->
+                <button class="hamburger-btn d-flex d-md-none" id="hamburgerBtn" aria-label="Menu"
+                    aria-expanded="false">
+                    <span class="hamburger-icon"><span></span><span></span><span></span></span>
+                    <span class="ms-2" style="font-size:12px;font-weight:600;color:var(--primary);">Menu</span>
+                </button>
+            </div>
+            <!-- Mobile dropdown -->
+            <div class="mobile-menu d-md-none" id="mobileMenu">
+                <a class="mobile-menu-item" href="/staff/dashboard"><i class="bi bi-speedometer2"></i>Tổng quan</a>
+                <a class="mobile-menu-item" href="/staff/buildings"><i class="bi bi-building"></i>Bất động sản</a>
+                <a class="mobile-menu-item active" href="/staff/contracts"><i class="bi bi-file-text"></i>Hợp đồng</a>
+                <a class="mobile-menu-item" href="/staff/customers"><i class="bi bi-people"></i>Khách hàng</a>
+                <a class="mobile-menu-item" href="/staff/invoices"><i class="bi bi-receipt"></i>Hóa đơn</a>
+                <a class="mobile-menu-item" href="/staff/profile"><i class="bi bi-person-circle"></i>Tài khoản</a>
             </div>
         </nav>
     </div>
@@ -682,10 +889,10 @@
                 </div>
 
                 <!-- Thời gian -->
-                <div class="filter-section-title">
+                <div class="filter-section-title filter-hide-mobile">
                     <i class="bi bi-calendar-range"></i> Thời gian hợp đồng
                 </div>
-                <div class="row g-2">
+                <div class="row g-2 filter-hide-mobile">
                     <div class="col-md-3">
                         <label class="form-label">Ngày bắt đầu</label>
                         <input type="date" class="form-control" name="startDate">
@@ -721,9 +928,9 @@
                         <tr>
                             <th>Mã HĐ</th>
                             <th>Khách hàng</th>
-                            <th>Bất động sản</th>
-                            <th>Giá thuê (m²)</th>
-                            <th>Thời gian</th>
+                            <th class="col-hide-mobile">Bất động sản</th>
+                            <th class="col-hide-mobile">Giá thuê (m²)</th>
+                            <th class="col-hide-mobile">Thời gian</th>
                             <th>Hiệu lực</th>
                             <th style="text-align: center;">Hành động</th>
                         </tr>
@@ -835,9 +1042,9 @@
                         <tr>
                             <td><span class="contract-id">${c.id}</span></td>
                             <td><span class="customer-name">${c.customer.fullName || ''}</span></td>
-                            <td><span class="building-name">${c.building.name || ''}</span></td>
-                            <td><span class="price-badge">${formatPrice(c.rentPrice)}</span></td>
-                            <td>
+                            <td class="col-hide-mobile"><span class="building-name">${c.building.name || ''}</span></td>
+                            <td class="col-hide-mobile"><span class="price-badge">${formatPrice(c.rentPrice)}</span></td>
+                            <td class="col-hide-mobile">
                                 <div class="date-info">
                                     <div><i class="bi bi-calendar-check"></i> ${formatDate(c.startDate)}</div>
                                     <div><i class="bi bi-calendar-x"></i> ${formatDate(c.endDate)}</div>
@@ -926,13 +1133,13 @@
                                                     <i class="bi bi-building" style="color:var(--primary);"></i>Thông tin bất động sản
                                                 </h6>
                                                 <div class="row g-3">
-                                                    <div class="col-md-6">
+                                                    <div class="col-12 col-md-6">
                                                         <div class="info-item">
                                                             <label style="font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:.25rem;">Tên bất động sản</label>
                                                             <p style="font-size:13px;color:var(--text);font-weight:600;margin:0;">${c.building.name || 'N/A'}</p>
                                                         </div>
                                                     </div>
-                                                    <div class="col-6">
+                                                    <div class="col-12 col-md-6">
                                                         <div class="info-item">
                                                             <label style="font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:.25rem;">Địa chỉ</label>
                                                             <p style="font-size:13px;color:var(--text);font-weight:600;margin:0;">
@@ -1161,6 +1368,26 @@
                 const modal = new bootstrap.Modal(modalElement);
                 modal.show();
             }
+        }
+    </script>
+
+    <script>
+        // ══ HAMBURGER MENU ══════════════════════════════════════════
+        const hamburgerBtn = document.getElementById("hamburgerBtn");
+        const mobileMenu = document.getElementById("mobileMenu");
+        if (hamburgerBtn && mobileMenu) {
+            hamburgerBtn.addEventListener("click", function () {
+                const isOpen = mobileMenu.classList.toggle("open");
+                hamburgerBtn.classList.toggle("open", isOpen);
+                hamburgerBtn.setAttribute("aria-expanded", isOpen);
+            });
+            document.addEventListener("click", function (e) {
+                if (!hamburgerBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+                    mobileMenu.classList.remove("open");
+                    hamburgerBtn.classList.remove("open");
+                    hamburgerBtn.setAttribute("aria-expanded", false);
+                }
+            });
         }
     </script>
 </body>

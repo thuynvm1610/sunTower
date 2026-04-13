@@ -323,10 +323,206 @@
             border-bottom: none;
         }
 
-        @media (max-width: 768px) {
+        /* ══════════════════════════════════════
+           HAMBURGER MENU
+        ══════════════════════════════════════ */
+
+        .hamburger-btn {
+            background: var(--primary-bg);
+            border: none;
+            border-radius: 8px;
+            padding: 7px 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: .2s;
+            margin: 6px 0;
+        }
+
+        .hamburger-btn:hover {
+            background: var(--accent);
+        }
+
+        .hamburger-icon {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 4px;
+            width: 18px;
+        }
+
+        .hamburger-icon span {
+            display: block;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 2px;
+            transition: all .25s ease;
+        }
+
+        .hamburger-btn.open .hamburger-icon span:nth-child(1) {
+            transform: translateY(6px) rotate(45deg);
+        }
+
+        .hamburger-btn.open .hamburger-icon span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-btn.open .hamburger-icon span:nth-child(3) {
+            transform: translateY(-6px) rotate(-45deg);
+        }
+
+        .mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .3s ease;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+        }
+
+        .mobile-menu.open {
+            max-height: 400px;
+        }
+
+        .mobile-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 1.5rem;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border);
+            transition: background .15s, color .15s;
+        }
+
+        .mobile-menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-menu-item i {
+            font-size: 16px;
+            color: var(--primary);
+            width: 20px;
+            text-align: center;
+        }
+
+        .mobile-menu-item:hover,
+        .mobile-menu-item.active {
+            background: var(--primary-bg);
+            color: var(--primary);
+        }
+
+        /* ══════════════════════════════════════
+           RESPONSIVE – Mobile first approach
+        ══════════════════════════════════════ */
+
+        /* ── Ẩn cột trên mobile cho bảng hóa đơn sắp hết hạn ── */
+        @media (max-width: 575.98px) {
+            .col-hide-mobile {
+                display: none;
+            }
+        }
+
+        /* ── Tablet: ≤ 991px ── */
+        @media (max-width: 991.98px) {
             .container-fluid {
                 padding-left: 1rem;
                 padding-right: 1rem;
+            }
+
+            /* Stat cards: 2 cột */
+            .col-md-3 {
+                flex: 0 0 50%;
+                max-width: 50%;
+            }
+
+            /* Row tables: xếp chồng */
+            .col-lg-6,
+            .col-lg-9,
+            .col-lg-3 {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+
+            .info-box {
+                margin-top: 0;
+            }
+        }
+
+        /* ── Mobile: ≤ 575px ── */
+        @media (max-width: 575.98px) {
+            .container-fluid {
+                padding-left: .75rem;
+                padding-right: .75rem;
+            }
+
+            .logo {
+                font-size: 17px;
+            }
+
+            .btn-logout {
+                padding: 5px 10px;
+                font-size: 11px;
+            }
+
+            .welcome-section {
+                padding: .75rem 1rem !important;
+            }
+
+            .welcome-section h1 {
+                font-size: 14px;
+            }
+
+            /* Stat cards: 1 cột */
+            .col-md-3 {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+
+            .stat-card {
+                padding: .75rem !important;
+            }
+
+            .stat-icon {
+                width: 38px;
+                height: 38px;
+                font-size: 17px;
+            }
+
+            .stat-info h3 {
+                font-size: 17px;
+            }
+
+            .section-card {
+                padding: .75rem !important;
+            }
+
+            .section-header h2 {
+                font-size: 11px;
+            }
+
+            .view-all-link {
+                font-size: 11px;
+            }
+
+            .badge-status {
+                font-size: 10px;
+                padding: .15rem .4rem;
+            }
+
+            .table-custom td,
+            .table-custom thead th {
+                font-size: 11px;
+                padding: .4rem .5rem;
+            }
+
+            .info-box {
+                margin-top: 0;
+            }
+
+            .info-item {
+                font-size: 11px;
             }
         }
     </style>
@@ -359,8 +555,9 @@
             </div>
         </div>
         <nav class="nav-custom">
-            <div class="container-fluid px-4">
-                <ul class="nav">
+            <div class="container-fluid px-4 d-flex align-items-center justify-content-between">
+                <!-- Desktop nav -->
+                <ul class="nav d-none d-md-flex">
                     <li class="nav-item"><a class="nav-link active" href="/staff/dashboard"><i
                                 class="bi bi-speedometer2 me-1"></i>Tổng quan</a></li>
                     <li class="nav-item"><a class="nav-link" href="/staff/buildings"><i
@@ -374,6 +571,24 @@
                     <li class="nav-item"><a class="nav-link" href="/staff/profile"><i
                                 class="bi bi-person-circle me-1"></i>Tài khoản</a></li>
                 </ul>
+                <!-- Mobile hamburger button -->
+                <button class="hamburger-btn d-flex d-md-none" id="hamburgerBtn" aria-label="Menu"
+                    aria-expanded="false">
+                    <span class="hamburger-icon">
+                        <span></span><span></span><span></span>
+                    </span>
+                    <span class="ms-2" style="font-size:12px;font-weight:600;color:var(--primary);">Menu</span>
+                </button>
+            </div>
+            <!-- Mobile dropdown menu -->
+            <div class="mobile-menu d-md-none" id="mobileMenu">
+                <a class="mobile-menu-item active" href="/staff/dashboard"><i class="bi bi-speedometer2"></i>Tổng
+                    quan</a>
+                <a class="mobile-menu-item" href="/staff/buildings"><i class="bi bi-building"></i>Bất động sản</a>
+                <a class="mobile-menu-item" href="/staff/contracts"><i class="bi bi-file-text"></i>Hợp đồng</a>
+                <a class="mobile-menu-item" href="/staff/customers"><i class="bi bi-people"></i>Khách hàng</a>
+                <a class="mobile-menu-item" href="/staff/invoices"><i class="bi bi-receipt"></i>Hóa đơn</a>
+                <a class="mobile-menu-item" href="/staff/profile"><i class="bi bi-person-circle"></i>Tài khoản</a>
             </div>
         </nav>
     </div>
@@ -570,11 +785,11 @@
                                 <tr>
                                     <th>MÃ HÓA ĐƠN</th>
                                     <th>KHÁCH HÀNG</th>
-                                    <th>BẤT ĐỘNG SẢN</th>
-                                    <th>THÁNG/NĂM</th>
-                                    <th>SỐ TIỀN</th>
+                                    <th class="col-hide-mobile">BẤT ĐỘNG SẢN</th>
+                                    <th class="col-hide-mobile">THÁNG/NĂM</th>
+                                    <th class="col-hide-mobile">SỐ TIỀN</th>
                                     <th>HẠN THANH TOÁN</th>
-                                    <th>TRẠNG THÁI</th>
+                                    <th class="col-hide-mobile">TRẠNG THÁI</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -582,16 +797,17 @@
                                     <tr th:each="invoice, stat : ${expiringInvoices}" th:if="${stat.index < 3}">
                                         <td><strong th:text="${invoice.id}">INV-2024120</strong></td>
                                         <td th:text="${invoice.customerName}">Lê Văn C</td>
-                                        <td th:text="${invoice.customerName}">ABC Tower</td>
-                                        <td th:text="${invoice.month} + '/' + ${invoice.year}">12/2024</td>
-                                        <td
+                                        <td class="col-hide-mobile" th:text="${invoice.customerName}">ABC Tower</td>
+                                        <td class="col-hide-mobile" th:text="${invoice.month} + '/' + ${invoice.year}">
+                                            12/2024</td>
+                                        <td class="col-hide-mobile"
                                             th:text="${#numbers.formatDecimal(invoice.totalAmount, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">
                                             15,770,000 VNĐ</td>
                                         <td>
                                             <span class="badge-status badge-unpaid"
                                                 th:text="${#temporals.format(invoice.dueDate, 'dd/MM/yyyy')}">01/01/2026</span>
                                         </td>
-                                        <td>
+                                        <td class="col-hide-mobile">
                                             <span class="badge-status badge-unpaid"
                                                 th:text="${invoice.status == 'PENDING' ? 'Chưa thanh toán' : invoice.status}">
                                                 Chưa thanh toán
@@ -632,6 +848,24 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const hamburgerBtn = document.getElementById("hamburgerBtn");
+        const mobileMenu = document.getElementById("mobileMenu");
+        if (hamburgerBtn && mobileMenu) {
+            hamburgerBtn.addEventListener("click", function () {
+                const isOpen = mobileMenu.classList.toggle("open");
+                hamburgerBtn.classList.toggle("open", isOpen);
+                hamburgerBtn.setAttribute("aria-expanded", isOpen);
+            });
+            document.addEventListener("click", function (e) {
+                if (!hamburgerBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+                    mobileMenu.classList.remove("open");
+                    hamburgerBtn.classList.remove("open");
+                    hamburgerBtn.setAttribute("aria-expanded", false);
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>
