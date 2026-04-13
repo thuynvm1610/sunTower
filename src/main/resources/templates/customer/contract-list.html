@@ -134,6 +134,135 @@
             color: var(--accent);
         }
 
+        /* ── HAMBURGER BUTTON ────────────────────────────────────── */
+        .nav-toggler {
+            display: none;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            color: white;
+            width: 36px;
+            height: 36px;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background 0.15s;
+            flex-shrink: 0;
+        }
+
+        .nav-toggler:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* ── RESPONSIVE HEADER ───────────────────────────────────── */
+        @media (max-width: 768px) {
+            .header-top .user-greeting small {
+                display: none !important;
+            }
+
+            .badge-custom {
+                display: none !important;
+            }
+
+            .logo {
+                font-size: 16px;
+            }
+
+            .nav-toggler {
+                display: inline-flex;
+            }
+
+            .nav-custom .container-fluid {
+                padding: 0 !important;
+            }
+
+            .nav-custom .nav {
+                flex-direction: column;
+                display: none;
+                background: #12172a;
+                width: 100%;
+            }
+
+            .nav-custom .nav.nav-open {
+                display: flex;
+            }
+
+            .nav-custom .nav-item {
+                width: 100%;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            }
+
+            .nav-custom .nav-link {
+                padding: 13px 20px !important;
+                border-bottom: none !important;
+                border-left: 3px solid transparent;
+                display: flex;
+                align-items: center;
+            }
+
+            .nav-custom .nav-link:hover {
+                border-left-color: rgba(255, 255, 255, 0.3);
+                border-bottom-color: transparent !important;
+                background: rgba(255, 255, 255, 0.04);
+            }
+
+            .nav-custom .nav-link.active {
+                border-left-color: var(--accent) !important;
+                border-bottom-color: transparent !important;
+                background: rgba(37, 99, 235, 0.12);
+            }
+
+            .nav-custom .dropdown-menu {
+                position: static !important;
+                transform: none !important;
+                border: none;
+                border-radius: 0;
+                box-shadow: none;
+                background: rgba(0, 0, 0, 0.2);
+                padding: 0;
+                margin: 0;
+                width: 100%;
+            }
+
+            .nav-custom .dropdown-menu .dropdown-item {
+                color: rgba(255, 255, 255, 0.7);
+                padding: 11px 20px 11px 36px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            }
+
+            .nav-custom .dropdown-menu .dropdown-item:hover {
+                background: rgba(255, 255, 255, 0.07);
+                color: white;
+            }
+
+            .nav-custom .dropdown-menu .dropdown-item i {
+                color: rgba(255, 255, 255, 0.5);
+            }
+
+            .nav-custom .dropdown-toggle::after {
+                margin-left: auto;
+            }
+
+            .nav-top-bar {
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                padding: 6px 16px;
+                border-top: 1px solid rgba(255, 255, 255, 0.08);
+            }
+        }
+
+        @media (min-width: 769px) {
+            .nav-top-bar {
+                display: none;
+            }
+
+            .nav-custom .nav {
+                display: flex !important;
+            }
+        }
+
         /* ── PAGE HEADER ─────────────────────────────────────────── */
         .page-header {
             background: var(--surface);
@@ -168,7 +297,7 @@
             padding: 0.75rem 1.25rem;
             margin-bottom: 0.875rem;
             display: flex;
-            gap: 2rem;
+            gap: 0;
             align-items: center;
         }
 
@@ -176,6 +305,8 @@
             display: flex;
             align-items: baseline;
             gap: 0.5rem;
+            flex: 1;
+            justify-content: center;
         }
 
         .stat-number {
@@ -194,6 +325,7 @@
             width: 1px;
             height: 28px;
             background: var(--border);
+            flex-shrink: 0;
         }
 
         /* ── FILTER ──────────────────────────────────────────────── */
@@ -478,6 +610,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            flex-wrap: wrap;
         }
 
         .staff-name {
@@ -487,6 +620,7 @@
             display: flex;
             align-items: center;
             gap: 0.35rem;
+            white-space: nowrap;
         }
 
         .staff-name i {
@@ -518,6 +652,41 @@
             color: var(--accent);
             font-size: 11px;
         }
+
+        /* ── RESPONSIVE ──────────────────────────────────────────── */
+        @media (max-width: 576px) {
+
+            /* Stats bar: 1 row, không wrap */
+            .stats-bar {
+                padding: 0.6rem 0.75rem;
+            }
+
+            .stat-item {
+                flex-direction: column;
+                align-items: center;
+                gap: 0;
+            }
+
+            .stat-number {
+                font-size: 18px;
+            }
+
+            .stat-label {
+                font-size: 11px;
+                text-align: center;
+            }
+
+            /* Staff footer: tên 1 dòng, contact xuống dòng */
+            .staff-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+            }
+
+            .staff-contact {
+                gap: 12px;
+            }
+        }
     </style>
 </head>
 
@@ -530,7 +699,7 @@
                 <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
                     <div class="logo">SunTower</div>
                     <div class="d-flex align-items-center gap-3">
-                        <div class="text-end" style="font-size:13px;">
+                        <div class="text-end user-greeting" style="font-size:13px;">
                             <small class="d-block opacity-75">Xin chào,</small>
                             <strong th:text="${#authentication.name}">Nguyễn Văn A</strong>
                         </div>
@@ -548,7 +717,12 @@
         <!-- Navigation -->
         <nav class="nav-custom">
             <div class="container-fluid px-4">
-                <ul class="nav">
+                <div class="nav-top-bar">
+                    <button class="nav-toggler" id="navToggler" aria-label="Mở menu">
+                        <i class="bi bi-list" id="navTogglerIcon"></i>
+                    </button>
+                </div>
+                <ul class="nav" id="mainNav">
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/customer/home}">
                             <i class="bi bi-house-door me-1"></i>Trang chủ
@@ -798,6 +972,26 @@
         $("#filterForm").on("submit", function (e) {
             e.preventDefault();
             loadContracts();
+        });
+    </script>
+    <script>
+        // ── Hamburger Menu Toggle ─────────────────────────────────
+        const navToggler = document.getElementById('navToggler');
+        const mainNav = document.getElementById('mainNav');
+        const navTogglerIcon = document.getElementById('navTogglerIcon');
+        if (navToggler) {
+            navToggler.addEventListener('click', function () {
+                const isOpen = mainNav.classList.toggle('nav-open');
+                navTogglerIcon.className = isOpen ? 'bi bi-x-lg' : 'bi bi-list';
+            });
+        }
+        mainNav && mainNav.querySelectorAll('.nav-link:not(.dropdown-toggle)').forEach(function (link) {
+            link.addEventListener('click', function () {
+                if (window.innerWidth <= 768) {
+                    mainNav.classList.remove('nav-open');
+                    navTogglerIcon.className = 'bi bi-list';
+                }
+            });
         });
     </script>
 

@@ -883,6 +883,133 @@
             max-height: calc(100vh - 200px);
             overflow-y: auto;
         }
+
+        /* ── HAMBURGER ROW (mobile only) ─────────────────────────── */
+        .hamburger-row {
+            display: none;
+            background: var(--primary);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .nav-toggler {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            color: white;
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background 0.15s;
+            flex-shrink: 0;
+        }
+
+        .nav-toggler:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* ── RESPONSIVE ──────────────────────────────────────────── */
+        @media (max-width: 768px) {
+            .user-greeting {
+                display: none !important;
+            }
+
+            .logo {
+                font-size: 16px;
+            }
+
+            .hamburger-row {
+                display: block;
+            }
+
+            .nav-custom .container-fluid {
+                padding: 0 !important;
+            }
+
+            .nav-custom .nav {
+                flex-direction: column;
+                display: none;
+                background: #12172a;
+                width: 100%;
+            }
+
+            .nav-custom .nav.nav-open {
+                display: flex;
+            }
+
+            .nav-custom .nav-item {
+                width: 100%;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            }
+
+            .nav-custom .nav-link {
+                padding: 13px 20px !important;
+                border-bottom: none !important;
+                border-left: 3px solid transparent;
+                display: flex;
+                align-items: center;
+            }
+
+            .nav-custom .nav-link:hover {
+                border-left-color: rgba(255, 255, 255, 0.3);
+                border-bottom-color: transparent !important;
+                background: rgba(255, 255, 255, 0.04);
+            }
+
+            .nav-custom .nav-link.active {
+                border-left-color: var(--accent) !important;
+                border-bottom-color: transparent !important;
+                background: rgba(37, 99, 235, 0.12);
+            }
+
+            .nav-custom .dropdown-menu {
+                position: static !important;
+                transform: none !important;
+                border: none;
+                border-radius: 0;
+                box-shadow: none;
+                background: rgba(0, 0, 0, 0.2);
+                padding: 0;
+                margin: 0;
+                width: 100%;
+            }
+
+            .nav-custom .dropdown-menu .dropdown-item {
+                color: rgba(255, 255, 255, 0.7);
+                padding: 11px 20px 11px 36px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            }
+
+            .nav-custom .dropdown-menu .dropdown-item:hover {
+                background: rgba(255, 255, 255, 0.07);
+                color: white;
+            }
+
+            .nav-custom .dropdown-menu .dropdown-item i {
+                color: rgba(255, 255, 255, 0.5);
+            }
+
+            .nav-custom .dropdown-toggle::after {
+                margin-left: auto;
+            }
+
+            .mobile-hide {
+                display: none !important;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .hamburger-row {
+                display: none !important;
+            }
+
+            .nav-custom .nav {
+                display: flex !important;
+            }
+        }
     </style>
 </head>
 
@@ -892,14 +1019,16 @@
     <div class="header">
         <div class="header-top py-2">
             <div class="container-fluid px-4">
-                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <div class="d-flex justify-content-between align-items-center">
                     <div class="logo">SunTower</div>
                     <div class="d-flex align-items-center gap-3">
-                        <div class="text-end" style="font-size:13px;">
-                            <small class="d-block opacity-75">Xin chào,</small>
-                            <strong th:text="${#authentication.name}">Nguyễn Văn A</strong>
+                        <div class="d-flex align-items-center gap-2 user-greeting">
+                            <div class="text-end" style="font-size:13px;">
+                                <small class="d-block opacity-75">Xin chào,</small>
+                                <strong th:text="${#authentication.name}">Nguyễn Văn A</strong>
+                            </div>
+                            <span class="badge-custom">Khách hàng</span>
                         </div>
-                        <span class="badge-custom">Khách hàng</span>
                         <a href="#" class="btn-logout"
                             onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">
                             <i class="bi bi-box-arrow-right me-1"></i>Đăng xuất
@@ -911,7 +1040,17 @@
         </div>
 
         <!-- Navigation -->
-        <nav class="nav-custom">
+        <!-- Hamburger row (mobile only) -->
+        <div class="hamburger-row">
+            <div class="container-fluid px-4">
+                <div class="d-flex justify-content-end py-1">
+                    <button class="nav-toggler" id="navToggler" type="button">
+                        <i class="bi bi-list" id="navTogglerIcon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <nav class="nav-custom" id="mainNav">
             <div class="container-fluid px-4">
                 <ul class="nav">
                     <li class="nav-item">
@@ -1197,12 +1336,12 @@
                             const phones = b.staffPhones || [];
                             staffHtml = names.map((name, idx) => {
                                 const phone = phones[idx] || null;
-                                return `<span class="type-chip" style="display:inline-flex;align-items:center;gap:4px;">
-                                    <i class="bi bi-person"></i>${name}
-                                    ${phone ? `<span style="opacity:.6;">|</span><i class="bi bi-telephone"></i>
+                                return `<span style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;">
+                                    <i class="bi bi-person"></i><span>${name}</span>
+                                    ${phone ? `<span style="opacity:.5;">|</span><i class="bi bi-telephone"></i>
                                     <a href="tel:${phone}" style="color:inherit;text-decoration:none;">${phone}</a>` : ""}
                                 </span>`;
-                            }).join(" ");
+                            }).join("");
                         }
 
                         const imgSrc = b.image
@@ -1439,9 +1578,9 @@
                             { label: 'Tên', key: 'name', bold: true },
                             { label: 'Dịch vụ', key: 'serviceType', chip: true },
                             { label: 'SĐT', key: 'phone' },
-                            { label: 'Email', key: 'email' },
-                            { label: 'Địa chỉ', key: 'address' },
-                            { label: 'Ghi chú', key: 'note' }
+                            { label: 'Email', key: 'email', mobileHide: true },
+                            { label: 'Địa chỉ', key: 'address', mobileHide: true },
+                            { label: 'Ghi chú', key: 'note', mobileHide: true }
                         ], 'bi-truck Chưa có nhà cung cấp');
 
                         // Quy hoạch
@@ -1451,7 +1590,7 @@
                             html += `<div class="extra-empty"><i class="bi bi-map"></i>Chưa có bản đồ quy hoạch</div>`;
                         } else {
                             html += `<div style="overflow-x:auto;"><table class="extra-table"><thead><tr>
-                                <th>Loại</th><th>Cơ quan cấp</th><th>Ngày cấp</th><th>Hết hạn</th><th>Trạng thái</th><th>Bản đồ</th><th>Ghi chú</th>
+                                <th>Loại</th><th>Cơ quan cấp</th><th class="mobile-hide">Ngày cấp</th><th class="mobile-hide">Hết hạn</th><th class="mobile-hide">Trạng thái</th><th>Xem</th><th class="mobile-hide">Ghi chú</th>
                             </tr></thead><tbody>`;
                             data.planningMaps.forEach(r => {
                                 const fmtDate = s => s ? new Date(s).toLocaleDateString('vi-VN') : '—';
@@ -1462,11 +1601,11 @@
                                 html += `<tr>
                                     <td><span class="type-chip">${r.mapType || '—'}</span></td>
                                     <td>${r.issuedBy || '—'}</td>
-                                    <td>${fmtDate(r.issuedDate)}</td>
-                                    <td>${fmtDate(r.expiredDate)}</td>
-                                    <td>${expiredBadge}</td>
+                                    <td class="mobile-hide">${fmtDate(r.issuedDate)}</td>
+                                    <td class="mobile-hide">${fmtDate(r.expiredDate)}</td>
+                                    <td class="mobile-hide">${expiredBadge}</td>
                                     <td>${imgName ? `<a href="/images/planning_map_img/${imgName}" target="_blank" style="color:var(--accent);">Xem</a>` : '—'}</td>
-                                    <td>${r.note || '—'}</td>
+                                    <td class="mobile-hide">${r.note || '—'}</td>
                                 </tr>`;
                             });
                             html += `</tbody></table></div>`;
@@ -1477,7 +1616,7 @@
                         html += renderExtraTable('bi-shop', 'Tiện Ích Lân Cận', data.nearbyAmenities, [
                             { label: 'Tên', key: 'name', bold: true },
                             { label: 'Loại', key: 'amenityTypeLabel', chip: true },
-                            { label: 'Địa chỉ', key: 'address' },
+                            { label: 'Địa chỉ', key: 'address', mobileHide: true },
                             { label: 'Khoảng cách', key: 'distanceMeter', distance: true }
                         ], 'bi-shop Chưa có tiện ích lân cận');
 
@@ -1498,16 +1637,17 @@
                 html += `<div class="extra-empty"><i class="bi ${parts[0]}"></i>${parts.slice(1).join(' ')}</div>`;
             } else {
                 html += `<div style="overflow-x:auto;"><table class="extra-table"><thead><tr>`;
-                cols.forEach(c => { html += `<th>${c.label}</th>`; });
+                cols.forEach(c => { html += `<th${c.mobileHide ? ' class="mobile-hide"' : ''}>${c.label}</th>`; });
                 html += `</tr></thead><tbody>`;
                 list.forEach(r => {
                     html += '<tr>';
                     cols.forEach(c => {
                         const val = r[c.key];
-                        if (c.bold) html += `<td><strong>${val || '—'}</strong></td>`;
-                        else if (c.chip) html += `<td><span class="type-chip">${val || '—'}</span></td>`;
-                        else if (c.distance) html += `<td>${val != null ? `<span class="distance-chip">${Number(val).toLocaleString('vi-VN')} m</span>` : '—'}</td>`;
-                        else html += `<td>${val || '—'}</td>`;
+                        const cls = c.mobileHide ? ' class="mobile-hide"' : '';
+                        if (c.bold) html += `<td${cls}><strong>${val || '—'}</strong></td>`;
+                        else if (c.chip) html += `<td${cls}><span class="type-chip">${val || '—'}</span></td>`;
+                        else if (c.distance) html += `<td${cls}>${val != null ? `<span class="distance-chip">${Number(val).toLocaleString('vi-VN')} m</span>` : '—'}</td>`;
+                        else html += `<td${cls}>${val || '—'}</td>`;
                     });
                     html += '</tr>';
                 });
@@ -1644,6 +1784,28 @@
         });
     </script>
 
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const navToggler = document.getElementById('navToggler');
+            const navTogglerIcon = document.getElementById('navTogglerIcon');
+            const mainNavUl = document.querySelector('#mainNav .nav');
+            if (navToggler && mainNavUl) {
+                navToggler.addEventListener('click', function () {
+                    const isOpen = mainNavUl.classList.toggle('nav-open');
+                    navTogglerIcon.className = isOpen ? 'bi bi-x-lg' : 'bi bi-list';
+                });
+                mainNavUl.querySelectorAll('.nav-link:not(.dropdown-toggle)').forEach(function (link) {
+                    link.addEventListener('click', function () {
+                        if (window.innerWidth <= 768) {
+                            mainNavUl.classList.remove('nav-open');
+                            navTogglerIcon.className = 'bi bi-list';
+                        }
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>
