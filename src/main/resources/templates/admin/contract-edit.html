@@ -19,9 +19,10 @@
         }
 
         main.content {
-            margin-left: 220px;
+            margin-left: var(--sb-w, 220px);
             padding: 0;
             margin-top: 72px;
+            transition: margin-left var(--sb-transition, 0.25s ease);
         }
 
         /* ══ PAGE BODY ══════════════════════════════════════════════════════ */
@@ -390,24 +391,194 @@
             color: #9ca3af;
         }
 
-        /* ══ RESPONSIVE ═════════════════════════════════════════════════════ */
-        @media (max-width: 768px) {
-            main.content {
-                margin-left: 0;
+        /* ══ RESPONSIVE ══════════════════════════════════════════════════════
+           Breakpoints:
+             • 769px – 1024px  — tablet
+             • ≤ 768px         — mobile
+             • ≤ 480px         — small mobile
+             • ≤ 360px         — very small mobile
+        ═════════════════════════════════════════════════════════════════════ */
+
+        /* ── Tablet (769px – 1024px) ── */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .detail-body {
+                padding: 1.25rem;
             }
 
+            .page-header-bar h2 {
+                font-size: 1.2rem;
+            }
+
+            .d-card-body {
+                padding: 1rem 1.25rem;
+            }
+
+            .d-card-header {
+                padding: 0.75rem 1.25rem;
+            }
+        }
+
+        /* ── Mobile (≤ 768px) ── */
+        @media (max-width: 768px) {
+            main.content {
+                margin-left: 0 !important;
+                margin-top: 64px;
+            }
+
+            .detail-body {
+                padding: 1rem;
+            }
+
+            /* Page header */
             .page-header-bar {
                 flex-direction: column;
                 align-items: flex-start;
+                margin-bottom: 1rem;
             }
 
+            .page-header-bar h2 {
+                font-size: 1.1rem;
+            }
+
+            .page-header-bar .update-time {
+                font-size: 0.75rem;
+            }
+
+            .btn-back {
+                width: 100%;
+                justify-content: center;
+                padding: 0.6rem 1rem;
+            }
+
+            /* Card */
+            .d-card-body {
+                padding: 1rem;
+            }
+
+            .d-card-header {
+                padding: 0.75rem 1rem;
+                flex-wrap: wrap;
+                gap: 0.375rem;
+            }
+
+            .d-card-header .header-badge {
+                margin-left: auto;
+            }
+
+            /* Form grid: stack tất cả columns thành 1 cột */
+            .row>[class*="col-"] {
+                flex: 0 0 100% !important;
+                max-width: 100% !important;
+            }
+
+            /* Form actions */
             .form-actions {
                 flex-direction: column;
+                gap: 0.5rem;
             }
 
             .btn-filter {
                 width: 100%;
                 justify-content: center;
+            }
+
+            /* Info/expired banner */
+            .info-box,
+            .expired-banner {
+                padding: 0.75rem;
+                margin-bottom: 1rem;
+            }
+
+            /* d-card margin */
+            .d-card {
+                margin-bottom: 1rem;
+            }
+        }
+
+        /* ── Small mobile (≤ 480px) ── */
+        @media (max-width: 480px) {
+            .detail-body {
+                padding: 0.75rem;
+            }
+
+            .page-header-bar h2 {
+                font-size: 1rem;
+            }
+
+            .page-header-bar h2 i {
+                font-size: 1rem;
+            }
+
+            .d-card-body {
+                padding: 0.875rem;
+            }
+
+            .d-card-header {
+                padding: 0.625rem 0.875rem;
+            }
+
+            .d-card-header h3 {
+                font-size: 0.8125rem;
+            }
+
+            .form-section-title {
+                font-size: 0.68rem;
+            }
+
+            .form-label {
+                font-size: 0.68rem;
+            }
+
+            .form-control,
+            .form-select {
+                font-size: 0.8rem;
+                padding: 0.45rem 0.65rem;
+            }
+
+            .input-group-text {
+                font-size: 0.8rem;
+                padding: 0.45rem 0.65rem;
+            }
+
+            .info-box-content,
+            .expired-banner-content {
+                font-size: 0.775rem;
+            }
+
+            .btn-filter {
+                font-size: 0.8rem;
+                padding: 0.5rem 0.875rem;
+            }
+
+            .section-divider {
+                margin: 1rem 0;
+            }
+        }
+
+        /* ── Very small mobile (≤ 360px) ── */
+        @media (max-width: 360px) {
+            .detail-body {
+                padding: 0.625rem;
+            }
+
+            .form-control,
+            .form-select {
+                font-size: 0.75rem;
+                padding: 0.4rem 0.55rem;
+            }
+
+            .input-group-text {
+                font-size: 0.75rem;
+                padding: 0.4rem 0.55rem;
+            }
+
+            .page-header-bar h2 {
+                font-size: 0.9375rem;
+            }
+
+            .btn-back {
+                font-size: 0.75rem;
+                padding: 0.5rem 0.875rem;
             }
         }
     </style>
@@ -415,9 +586,111 @@
 
 <body>
 
-    <!-- HEADER + SIDEBAR -->
-    <div th:replace="~{layout/header :: header}"></div>
-    <div th:replace="~{layout/sidebar :: sidebar}"></div>
+    <!-- ══ HEADER ══════════════════════════════════════════════════════════ -->
+    <header class="navbar shadow-sm">
+        <button class="navbar-menu-btn" id="navbarMenuBtn" aria-label="Mở menu">
+            <i class="bi bi-list"></i>
+        </button>
+
+        <div class="brand">
+            <div class="brand-logo">
+                <i class="bi bi-sun-fill"></i>
+            </div>
+            <div class="brand-text">
+                <strong>SunTower</strong>
+                <span class="brand-sub">Management</span>
+            </div>
+        </div>
+
+        <div class="navbar-right">
+            <a th:href="@{/admin/profile}" class="user-block" aria-label="Hồ sơ cá nhân">
+                <div class="user-info">
+                    <span class="user-greeting">Xin chào,</span>
+                    <strong class="user-name" th:text="${staffName}">Nguyễn Văn Minh Thủy</strong>
+                </div>
+                <div class="avatar-wrapper">
+                    <img th:src="@{'/images/staff_img/' + ${staffAvatar}}" alt="Admin Avatar">
+                    <span class="status-indicator"></span>
+                </div>
+            </a>
+        </div>
+    </header>
+
+    <!-- ══ SIDEBAR ══════════════════════════════════════════════════════════ -->
+    <aside class="sidebar" id="sidebar">
+        <button class="sidebar-toggle" id="sidebarToggle" title="Thu gọn/mở sidebar">
+            <i class="bi bi-chevron-left" id="toggleIcon"></i>
+        </button>
+
+        <nav class="sidebar-nav">
+            <div class="sidebar-section-label">Menu chính</div>
+
+            <a href="/admin/dashboard" th:classappend="${page == 'dashboard'} ? 'active'" class="nav-link"
+                data-tooltip="Dashboard">
+                <div class="nav-icon"><i class="bi bi-grid-1x2-fill"></i></div>
+                <span class="nav-text">Dashboard</span>
+            </a>
+
+            <a href="/admin/building/list" th:classappend="${page == 'building'} ? 'active'" class="nav-link"
+                data-tooltip="Bất động sản">
+                <div class="nav-icon"><i class="bi bi-buildings-fill"></i></div>
+                <span class="nav-text">Bất động sản</span>
+            </a>
+
+            <a href="/admin/contract/list" th:classappend="${page == 'contract'} ? 'active'" class="nav-link"
+                data-tooltip="Hợp đồng thuê">
+                <div class="nav-icon"><i class="bi bi-file-earmark-check-fill"></i></div>
+                <span class="nav-text">Hợp đồng thuê</span>
+                <span class="nav-badge" th:if="${newContractsCount != null and newContractsCount > 0}"
+                    th:text="${newContractsCount}">3</span>
+            </a>
+
+            <a href="/admin/sale-contract/list" th:classappend="${page == 'sale-contract'} ? 'active'" class="nav-link"
+                data-tooltip="Hợp đồng mua bán">
+                <div class="nav-icon"><i class="bi bi-file-earmark-ruled-fill"></i></div>
+                <span class="nav-text">Hợp đồng mua bán</span>
+            </a>
+
+            <a href="/admin/invoice/list" th:classappend="${page == 'invoice'} ? 'active'" class="nav-link"
+                data-tooltip="Hóa đơn">
+                <div class="nav-icon"><i class="bi bi-receipt-cutoff"></i></div>
+                <span class="nav-text">Hóa đơn</span>
+                <span class="nav-badge badge-amber" th:if="${pendingInvoicesCount != null and pendingInvoicesCount > 0}"
+                    th:text="${pendingInvoicesCount}">5</span>
+            </a>
+
+            <a href="/admin/report" th:classappend="${page == 'report'} ? 'active'" class="nav-link"
+                data-tooltip="Báo cáo & Thống kê">
+                <div class="nav-icon"><i class="bi bi-bar-chart-line-fill"></i></div>
+                <span class="nav-text">Báo cáo & Thống kê</span>
+            </a>
+
+            <div class="sidebar-section-label">Quản lý</div>
+
+            <a href="/admin/customer/list" th:classappend="${page == 'customer'} ? 'active'" class="nav-link"
+                data-tooltip="Khách hàng">
+                <div class="nav-icon"><i class="bi bi-people-fill"></i></div>
+                <span class="nav-text">Khách hàng</span>
+            </a>
+
+            <a href="/admin/staff/list" th:classappend="${page == 'staff'} ? 'active'" class="nav-link"
+                data-tooltip="Nhân viên">
+                <div class="nav-icon"><i class="bi bi-person-badge-fill"></i></div>
+                <span class="nav-text">Nhân viên</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a href="#" class="nav-link logout-link" data-tooltip="Đăng xuất"
+                onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">
+                <div class="nav-icon"><i class="bi bi-box-arrow-left"></i></div>
+                <span class="nav-text">Đăng xuất</span>
+            </a>
+            <form id="logoutForm" th:action="@{/auth/logout}" method="post" style="display:none;"></form>
+        </div>
+    </aside>
+
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
     <main class="content">
         <div class="detail-body">
@@ -730,6 +1003,85 @@
             }
         });
     </script>
+
+    <!-- ══ SIDEBAR / NAVBAR SCRIPT ════════════════════════════════════════ -->
+    <script>
+        (function () {
+            var root = document.documentElement;
+            var sidebar = document.getElementById('sidebar');
+            var backdrop = document.getElementById('sidebarBackdrop');
+            var toggleBtn = document.getElementById('sidebarToggle');
+            var icon = document.getElementById('toggleIcon');
+            var KEY = 'st_sb';
+
+            var FULL = '220px';
+            var MINI = '60px';
+
+            function isMobile() { return window.innerWidth <= 768; }
+            function isTablet() { return window.innerWidth > 768 && window.innerWidth <= 1024; }
+
+            function applyCollapsed(collapsed) {
+                var w = collapsed ? MINI : FULL;
+                root.style.setProperty('--sb-w', w);
+                sidebar.style.width = w;
+                sidebar.classList.toggle('is-collapsed', collapsed);
+                if (icon) icon.className = collapsed ? 'bi bi-chevron-right' : 'bi bi-chevron-left';
+            }
+
+            function setCollapsed(collapsed) {
+                applyCollapsed(collapsed);
+                try { localStorage.setItem(KEY, collapsed ? '1' : '0'); } catch (e) { }
+            }
+
+            function setMobileOpen(open) {
+                sidebar.classList.toggle('mobile-open', open);
+                if (backdrop) backdrop.classList.toggle('show', open);
+            }
+
+            function onResize() {
+                if (isMobile()) {
+                    root.style.setProperty('--sb-w', '0px');
+                    sidebar.style.width = '';
+                    sidebar.classList.remove('is-collapsed');
+                    setMobileOpen(false);
+                } else {
+                    var saved = localStorage.getItem(KEY);
+                    var collapsed;
+                    if (saved === null) {
+                        collapsed = isTablet();
+                    } else {
+                        collapsed = saved === '1';
+                    }
+                    applyCollapsed(collapsed);
+                    setMobileOpen(false);
+                    if (backdrop) backdrop.classList.remove('show');
+                }
+            }
+
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    var isCollapsed = sidebar.classList.contains('is-collapsed');
+                    setCollapsed(!isCollapsed);
+                });
+            }
+
+            document.addEventListener('click', function (e) {
+                var btn = e.target.closest('#navbarMenuBtn');
+                if (btn) {
+                    setMobileOpen(!sidebar.classList.contains('mobile-open'));
+                    return;
+                }
+                if (e.target === backdrop || e.target.id === 'sidebarBackdrop') {
+                    setMobileOpen(false);
+                }
+            });
+
+            onResize();
+            window.addEventListener('resize', onResize);
+        })();
+    </script>
+
 </body>
 
 </html>
