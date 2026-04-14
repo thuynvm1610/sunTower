@@ -18,9 +18,10 @@
         }
 
         main.content {
-            margin-left: 220px;
+            margin-left: var(--sb-w, 220px);
             padding: 0;
             margin-top: 72px;
+            transition: margin-left var(--sb-transition, 0.25s ease);
         }
 
         .detail-body {
@@ -268,7 +269,7 @@
             gap: 0.2rem;
         }
 
-        .date-slot + .date-slot {
+        .date-slot+.date-slot {
             border-left: 1px solid #e5e7eb;
         }
 
@@ -336,9 +337,20 @@
             flex-shrink: 0;
         }
 
-        .avatar-customer { background: #eff6ff; color: #2563eb; }
-        .avatar-building  { background: #f0fdf4; color: #059669; }
-        .avatar-staff     { background: #fef3c7; color: #d97706; }
+        .avatar-customer {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .avatar-building {
+            background: #f0fdf4;
+            color: #059669;
+        }
+
+        .avatar-staff {
+            background: #fef3c7;
+            color: #d97706;
+        }
 
         .entity-content {
             flex: 1;
@@ -418,305 +430,700 @@
             color: #1d4ed8;
         }
 
-        /* ══ RESPONSIVE ══════════════════════════════════════════════════════ */
+        /* ══ RESPONSIVE ══════════════════════════════════════════════════════
+           Breakpoints:
+             • 769px – 1024px  — tablet
+             • ≤ 768px         — mobile
+             • ≤ 480px         — small mobile
+             • ≤ 360px         — very small mobile
+        ════════════════════════════════════════════════════════════════════════ */
+
+        /* ── Tablet (769px – 1024px) ── */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .detail-body {
+                padding: 1.25rem;
+            }
+
+            .page-header-bar h2 {
+                font-size: 1.2rem;
+            }
+
+            .d-card-body {
+                padding: 1rem 1.25rem;
+            }
+
+            .d-card-header {
+                padding: 0.75rem 1.25rem;
+            }
+
+            .entity-item {
+                padding: 0.875rem 1.25rem;
+            }
+
+            .contract-strip {
+                padding: 0.75rem 1rem;
+                gap: 0.75rem;
+            }
+
+            .strip-sep {
+                display: none;
+            }
+        }
+
+        /* ── Mobile (≤ 768px) ── */
         @media (max-width: 768px) {
-            main.content { margin-left: 0; }
-            .detail-body { padding: 1rem; }
-            .page-header-bar { flex-direction: column; align-items: flex-start; }
-            .date-range { flex-direction: column; }
-            .date-slot + .date-slot { border-left: none; border-top: 1px solid #e5e7eb; }
-            .entity-view-btn { display: none; }
+            main.content {
+                margin-left: 0 !important;
+                margin-top: 64px;
+            }
+
+            .detail-body {
+                padding: 1rem;
+            }
+
+            /* Page header */
+            .page-header-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+
+            .page-header-bar h2 {
+                font-size: 1.1rem;
+            }
+
+            .page-sub {
+                font-size: 0.75rem;
+            }
+
+            .header-actions {
+                width: 100%;
+                flex-wrap: wrap;
+                gap: 0.4rem;
+            }
+
+            .header-actions .btn-hd {
+                flex: 1 1 auto;
+                justify-content: center;
+                padding: 0.5rem 0.75rem;
+                font-size: 0.8rem;
+            }
+
+            /* Contract strip */
+            .contract-strip {
+                flex-wrap: wrap;
+                gap: 0.625rem 1rem;
+                padding: 0.75rem 1rem;
+            }
+
+            .strip-sep {
+                display: none;
+            }
+
+            /* Card body */
+            .d-card-body {
+                padding: 1rem;
+            }
+
+            .d-card-header {
+                padding: 0.75rem 1rem;
+            }
+
+            /* Date range — stack vertically on mobile */
+            .date-range {
+                flex-direction: column;
+            }
+
+            .date-slot+.date-slot {
+                border-left: none;
+                border-top: 1px solid #e5e7eb;
+            }
+
+            /* Entity list */
+            .entity-item {
+                padding: 0.875rem 1rem;
+                gap: 0.75rem;
+            }
+
+            .entity-avatar {
+                width: 38px;
+                height: 38px;
+                font-size: 1rem;
+            }
+
+            .entity-name {
+                font-size: 0.875rem;
+            }
+
+            /* row columns full width */
+            .d-card-body .row>[class*="col-"] {
+                flex: 0 0 100% !important;
+                max-width: 100% !important;
+            }
+        }
+
+        /* ── Small mobile (≤ 480px) ── */
+        @media (max-width: 480px) {
+            .detail-body {
+                padding: 0.75rem;
+            }
+
+            .page-header-bar h2 {
+                font-size: 1rem;
+            }
+
+            .header-actions .btn-hd {
+                font-size: 0.75rem;
+                padding: 0.45rem 0.625rem;
+            }
+
+            .d-card-body {
+                padding: 0.875rem 0.75rem;
+            }
+
+            .d-card-header {
+                padding: 0.625rem 0.875rem;
+            }
+
+            .d-card-header h3 {
+                font-size: 0.8125rem;
+            }
+
+            .field-val {
+                font-size: 0.8125rem;
+            }
+
+            .contract-strip {
+                padding: 0.625rem 0.875rem;
+            }
+
+            .strip-id {
+                font-size: 0.875rem;
+            }
+
+            .entity-item {
+                padding: 0.75rem 0.875rem;
+            }
+
+            .note-box {
+                font-size: 0.8125rem;
+                padding: 0.75rem;
+            }
+
+            .date-slot {
+                padding: 0.625rem 0.75rem;
+            }
+
+            .date-slot-val {
+                font-size: 0.8125rem;
+            }
+        }
+
+        /* ── Very small mobile (≤ 360px) ── */
+        @media (max-width: 360px) {
+            .detail-body {
+                padding: 0.625rem;
+            }
+
+            .header-actions {
+                flex-direction: column;
+            }
+
+            .header-actions .btn-hd {
+                width: 100%;
+            }
+
+            .entity-avatar {
+                width: 32px;
+                height: 32px;
+                font-size: 0.9rem;
+            }
+
+            .entity-name {
+                font-size: 0.8125rem;
+            }
+
+            .entity-meta-pill {
+                font-size: 0.75rem;
+            }
         }
     </style>
 </head>
 
 <body>
 
-<div th:replace="~{layout/header :: header}"></div>
-<div th:replace="~{layout/sidebar :: sidebar}"></div>
+    <!-- ══ HEADER ══════════════════════════════════════════════════════════ -->
+    <header class="navbar shadow-sm">
+        <button class="navbar-menu-btn" id="navbarMenuBtn" aria-label="Mở menu">
+            <i class="bi bi-list"></i>
+        </button>
 
-<main class="content">
-    <div class="detail-body">
-
-        <!-- ── Page Header ─────────────────────────────────────────────── -->
-        <div class="page-header-bar">
-            <div>
-                <h2>
-                    <i class="bi bi-file-earmark-ruled-fill"></i>
-                    Chi tiết Hợp đồng mua bán
-                </h2>
-                <div class="page-sub">Xem thông tin chi tiết hợp đồng mua bán</div>
+        <div class="brand">
+            <div class="brand-logo">
+                <i class="bi bi-sun-fill"></i>
             </div>
-            <div class="header-actions">
-                <a th:href="@{/admin/sale-contract/list}" class="btn-hd btn-hd-back">
-                    <i class="bi bi-arrow-left"></i> Danh sách
-                </a>
-                <a th:href="@{'/admin/sale-contract/edit/' + ${contract.id}}" class="btn-hd btn-hd-edit">
-                    <i class="bi bi-pencil"></i> Chỉnh sửa
-                </a>
-                <button class="btn-hd btn-hd-delete" th:data-id="${contract.id}">
-                    <i class="bi bi-trash"></i> Xóa
-                </button>
+            <div class="brand-text">
+                <strong>SunTower</strong>
+                <span class="brand-sub">Management</span>
             </div>
         </div>
 
-        <!-- ── Contract ID Strip ───────────────────────────────────────── -->
-        <div class="contract-strip">
-            <div class="strip-icon">
-                <i class="bi bi-file-earmark-ruled"></i>
+        <div class="navbar-right">
+            <a th:href="@{/admin/profile}" class="user-block" aria-label="Hồ sơ cá nhân">
+                <div class="user-info">
+                    <span class="user-greeting">Xin chào,</span>
+                    <strong class="user-name" th:text="${staffName}">Nguyễn Văn Minh Thủy</strong>
+                </div>
+                <div class="avatar-wrapper">
+                    <img th:src="@{'/images/staff_img/' + ${staffAvatar}}" alt="Admin Avatar">
+                    <span class="status-indicator"></span>
+                </div>
+            </a>
+        </div>
+    </header>
+
+    <!-- ══ SIDEBAR ══════════════════════════════════════════════════════════ -->
+    <aside class="sidebar" id="sidebar">
+        <button class="sidebar-toggle" id="sidebarToggle" title="Thu gọn/mở sidebar">
+            <i class="bi bi-chevron-left" id="toggleIcon"></i>
+        </button>
+
+        <nav class="sidebar-nav">
+            <div class="sidebar-section-label">Menu chính</div>
+
+            <a href="/admin/dashboard" th:classappend="${page == 'dashboard'} ? 'active'" class="nav-link"
+                data-tooltip="Dashboard">
+                <div class="nav-icon"><i class="bi bi-grid-1x2-fill"></i></div>
+                <span class="nav-text">Dashboard</span>
+            </a>
+
+            <a href="/admin/building/list" th:classappend="${page == 'building'} ? 'active'" class="nav-link"
+                data-tooltip="Bất động sản">
+                <div class="nav-icon"><i class="bi bi-buildings-fill"></i></div>
+                <span class="nav-text">Bất động sản</span>
+            </a>
+
+            <a href="/admin/contract/list" th:classappend="${page == 'contract'} ? 'active'" class="nav-link"
+                data-tooltip="Hợp đồng thuê">
+                <div class="nav-icon"><i class="bi bi-file-earmark-check-fill"></i></div>
+                <span class="nav-text">Hợp đồng thuê</span>
+                <span class="nav-badge" th:if="${newContractsCount != null and newContractsCount > 0}"
+                    th:text="${newContractsCount}">3</span>
+            </a>
+
+            <a href="/admin/sale-contract/list" th:classappend="${page == 'sale-contract'} ? 'active'" class="nav-link"
+                data-tooltip="Hợp đồng mua bán">
+                <div class="nav-icon"><i class="bi bi-file-earmark-ruled-fill"></i></div>
+                <span class="nav-text">Hợp đồng mua bán</span>
+            </a>
+
+            <a href="/admin/invoice/list" th:classappend="${page == 'invoice'} ? 'active'" class="nav-link"
+                data-tooltip="Hóa đơn">
+                <div class="nav-icon"><i class="bi bi-receipt-cutoff"></i></div>
+                <span class="nav-text">Hóa đơn</span>
+                <span class="nav-badge badge-amber" th:if="${pendingInvoicesCount != null and pendingInvoicesCount > 0}"
+                    th:text="${pendingInvoicesCount}">5</span>
+            </a>
+
+            <a href="/admin/report" th:classappend="${page == 'report'} ? 'active'" class="nav-link"
+                data-tooltip="Báo cáo & Thống kê">
+                <div class="nav-icon"><i class="bi bi-bar-chart-line-fill"></i></div>
+                <span class="nav-text">Báo cáo & Thống kê</span>
+            </a>
+
+            <div class="sidebar-section-label">Quản lý</div>
+
+            <a href="/admin/customer/list" th:classappend="${page == 'customer'} ? 'active'" class="nav-link"
+                data-tooltip="Khách hàng">
+                <div class="nav-icon"><i class="bi bi-people-fill"></i></div>
+                <span class="nav-text">Khách hàng</span>
+            </a>
+
+            <a href="/admin/staff/list" th:classappend="${page == 'staff'} ? 'active'" class="nav-link"
+                data-tooltip="Nhân viên">
+                <div class="nav-icon"><i class="bi bi-person-badge-fill"></i></div>
+                <span class="nav-text">Nhân viên</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a href="#" class="nav-link logout-link" data-tooltip="Đăng xuất"
+                onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">
+                <div class="nav-icon"><i class="bi bi-box-arrow-left"></i></div>
+                <span class="nav-text">Đăng xuất</span>
+            </a>
+            <form id="logoutForm" th:action="@{/auth/logout}" method="post" style="display:none;"></form>
+        </div>
+    </aside>
+
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <main class="content">
+        <div class="detail-body">
+
+            <!-- ── Page Header ─────────────────────────────────────────────── -->
+            <div class="page-header-bar">
+                <div>
+                    <h2>
+                        <i class="bi bi-file-earmark-ruled-fill"></i>
+                        Chi tiết Hợp đồng mua bán
+                    </h2>
+                    <div class="page-sub">Xem thông tin chi tiết hợp đồng mua bán</div>
+                </div>
+                <div class="header-actions">
+                    <a th:href="@{/admin/sale-contract/list}" class="btn-hd btn-hd-back">
+                        <i class="bi bi-arrow-left"></i> Danh sách
+                    </a>
+                    <a th:href="@{'/admin/sale-contract/edit/' + ${contract.id}}" class="btn-hd btn-hd-edit">
+                        <i class="bi bi-pencil"></i> Chỉnh sửa
+                    </a>
+                    <button class="btn-hd btn-hd-delete" th:data-id="${contract.id}">
+                        <i class="bi bi-trash"></i> Xóa
+                    </button>
+                </div>
             </div>
-            <div>
-                <div class="strip-label">Mã hợp đồng</div>
-                <div class="strip-id">HĐMB-<span th:text="${contract.id}">001</span></div>
-            </div>
-            <div class="strip-sep"></div>
-            <div>
-                <div class="strip-label">Trạng thái bàn giao</div>
-                <span class="bc"
-                      th:classappend="${contract.transferDate != null} ? 'bc-transferred' : 'bc-pending'">
+
+            <!-- ── Contract ID Strip ───────────────────────────────────────── -->
+            <div class="contract-strip">
+                <div class="strip-icon">
+                    <i class="bi bi-file-earmark-ruled"></i>
+                </div>
+                <div>
+                    <div class="strip-label">Mã hợp đồng</div>
+                    <div class="strip-id">HĐMB-<span th:text="${contract.id}">001</span></div>
+                </div>
+                <div class="strip-sep"></div>
+                <div>
+                    <div class="strip-label">Trạng thái bàn giao</div>
+                    <span class="bc"
+                        th:classappend="${contract.transferDate != null} ? 'bc-transferred' : 'bc-pending'">
                         <i class="bi bi-circle-fill" style="font-size: 0.42rem;"></i>
-                        <span th:text="${contract.transferDate != null} ? 'Đã bàn giao' : 'Chưa bàn giao'">Chưa bàn giao</span>
+                        <span th:text="${contract.transferDate != null} ? 'Đã bàn giao' : 'Chưa bàn giao'">Chưa bàn
+                            giao</span>
                     </span>
-            </div>
-            <div class="strip-sep"></div>
-            <div>
-                <div class="strip-label">Ngày ký</div>
-                <div class="strip-id" style="font-size:0.875rem;">
-                    <span th:text="${contract.createdDate != null} ? ${#temporals.format(contract.createdDate, 'dd/MM/yyyy')} : '—'">01/01/2024</span>
                 </div>
-            </div>
-        </div>
-
-        <!-- ── Thông tin hợp đồng ─────────────────────────────────────── -->
-        <div class="d-card">
-            <div class="d-card-header">
-                <i class="bi bi-file-earmark-text"></i>
-                <h3>Thông tin hợp đồng</h3>
-            </div>
-            <div class="d-card-body">
-
-                <div class="row g-3 mb-3">
-                    <div class="col-md-6">
-                        <div class="field-lbl">Giá bán</div>
-                        <div class="field-val price">
-                            <i class="bi bi-cash-stack me-1"></i>
-                            <span th:text="${#numbers.formatDecimal(contract.salePrice, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">2,500,000,000 VNĐ</span>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="field-lbl">Ngày chỉnh sửa gần nhất</div>
-                        <div class="field-val"
-                             th:text="${contract.modifiedDate != null} ? ${#temporals.format(contract.modifiedDate, 'dd/MM/yyyy HH:mm')} : '—'">
-                            01/01/2024 10:00
-                        </div>
+                <div class="strip-sep"></div>
+                <div>
+                    <div class="strip-label">Ngày ký</div>
+                    <div class="strip-id" style="font-size:0.875rem;">
+                        <span
+                            th:text="${contract.createdDate != null} ? ${#temporals.format(contract.createdDate, 'dd/MM/yyyy')} : '—'">01/01/2024</span>
                     </div>
                 </div>
+            </div>
 
-                <hr class="section-div">
+            <!-- ── Thông tin hợp đồng ─────────────────────────────────────── -->
+            <div class="d-card">
+                <div class="d-card-header">
+                    <i class="bi bi-file-earmark-text"></i>
+                    <h3>Thông tin hợp đồng</h3>
+                </div>
+                <div class="d-card-body">
 
-                <div class="field-lbl mb-2">Ngày bàn giao</div>
-                <div class="date-range">
-                    <div class="date-slot">
-                        <span class="date-slot-lbl">Ngày ký hợp đồng</span>
-                        <span class="date-slot-val">
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <div class="field-lbl">Giá bán</div>
+                            <div class="field-val price">
+                                <i class="bi bi-cash-stack me-1"></i>
+                                <span
+                                    th:text="${#numbers.formatDecimal(contract.salePrice, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">2,500,000,000
+                                    VNĐ</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="field-lbl">Ngày chỉnh sửa gần nhất</div>
+                            <div class="field-val"
+                                th:text="${contract.modifiedDate != null} ? ${#temporals.format(contract.modifiedDate, 'dd/MM/yyyy HH:mm')} : '—'">
+                                01/01/2024 10:00
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="section-div">
+
+                    <div class="field-lbl mb-2">Ngày bàn giao</div>
+                    <div class="date-range">
+                        <div class="date-slot">
+                            <span class="date-slot-lbl">Ngày ký hợp đồng</span>
+                            <span class="date-slot-val">
                                 <i class="bi bi-calendar-check"></i>
-                                <span th:text="${contract.createdDate != null} ? ${#temporals.format(contract.createdDate, 'dd/MM/yyyy')} : '—'">01/01/2024</span>
+                                <span
+                                    th:text="${contract.createdDate != null} ? ${#temporals.format(contract.createdDate, 'dd/MM/yyyy')} : '—'">01/01/2024</span>
                             </span>
-                    </div>
-                    <div class="date-slot">
-                        <span class="date-slot-lbl">Ngày bàn giao thực tế</span>
-                        <span th:if="${contract.transferDate != null}" class="date-slot-val">
+                        </div>
+                        <div class="date-slot">
+                            <span class="date-slot-lbl">Ngày bàn giao thực tế</span>
+                            <span th:if="${contract.transferDate != null}" class="date-slot-val">
                                 <i class="bi bi-calendar-check-fill" style="color:#059669;"></i>
-                                <span th:text="${#temporals.format(contract.transferDate, 'dd/MM/yyyy')}">01/06/2024</span>
+                                <span
+                                    th:text="${#temporals.format(contract.transferDate, 'dd/MM/yyyy')}">01/06/2024</span>
                             </span>
-                        <span th:unless="${contract.transferDate != null}" class="date-slot-val muted">
+                            <span th:unless="${contract.transferDate != null}" class="date-slot-val muted">
                                 Chưa bàn giao
                             </span>
+                        </div>
                     </div>
+
+                    <hr class="section-div">
+
+                    <div class="field-lbl mb-1">Ghi chú</div>
+                    <div th:if="${contract.note != null and !#strings.isEmpty(contract.note)}" class="note-box"
+                        th:text="${contract.note}">
+                        Nội dung ghi chú...
+                    </div>
+                    <div th:unless="${contract.note != null and !#strings.isEmpty(contract.note)}"
+                        class="field-val empty">
+                        Không có ghi chú
+                    </div>
+
                 </div>
-
-                <hr class="section-div">
-
-                <div class="field-lbl mb-1">Ghi chú</div>
-                <div th:if="${contract.note != null and !#strings.isEmpty(contract.note)}"
-                     class="note-box" th:text="${contract.note}">
-                    Nội dung ghi chú...
-                </div>
-                <div th:unless="${contract.note != null and !#strings.isEmpty(contract.note)}"
-                     class="field-val empty">
-                    Không có ghi chú
-                </div>
-
-            </div>
-        </div>
-
-        <!-- ── Các bên liên quan ──────────────────────────────────────── -->
-        <div class="d-card">
-            <div class="d-card-header">
-                <i class="bi bi-diagram-3-fill"></i>
-                <h3>Các bên liên quan</h3>
             </div>
 
-            <!-- Khách hàng -->
-            <div class="entity-item" th:if="${contract.customer != null}">
-                <div class="entity-avatar avatar-customer">
-                    <i class="bi bi-person-circle"></i>
+            <!-- ── Các bên liên quan ──────────────────────────────────────── -->
+            <div class="d-card">
+                <div class="d-card-header">
+                    <i class="bi bi-diagram-3-fill"></i>
+                    <h3>Các bên liên quan</h3>
                 </div>
-                <div class="entity-content">
-                    <div class="entity-type-lbl">Khách hàng</div>
-                    <div class="entity-name">
-                        <span th:text="${contract.customer.fullName}">Nguyễn Văn A</span>
-                        <span class="entity-id-tag">KH-<span th:text="${contract.customer.id}">1</span></span>
+
+                <!-- Khách hàng -->
+                <div class="entity-item" th:if="${contract.customer != null}">
+                    <div class="entity-avatar avatar-customer">
+                        <i class="bi bi-person-circle"></i>
                     </div>
-                    <div class="entity-meta">
+                    <div class="entity-content">
+                        <div class="entity-type-lbl">Khách hàng</div>
+                        <div class="entity-name">
+                            <span th:text="${contract.customer.fullName}">Nguyễn Văn A</span>
+                            <span class="entity-id-tag">KH-<span th:text="${contract.customer.id}">1</span></span>
+                        </div>
+                        <div class="entity-meta">
                             <span class="entity-meta-pill" th:if="${contract.customer.phone != null}">
                                 <i class="bi bi-telephone-fill"></i>
                                 <span th:text="${contract.customer.phone}">0123456789</span>
                             </span>
-                        <span class="entity-meta-pill" th:if="${contract.customer.email != null}">
+                            <span class="entity-meta-pill" th:if="${contract.customer.email != null}">
                                 <i class="bi bi-envelope-fill"></i>
-                                <span th:text="${contract.customer.email}">customer@email.com</span>
+                                <span th:text="${contract.customer.email}">email@example.com</span>
                             </span>
+                        </div>
+                    </div>
+                    <a th:href="@{'/admin/customer/' + ${contract.customer.id}}" class="entity-view-btn">
+                        Xem <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="entity-item" th:unless="${contract.customer != null}">
+                    <div class="entity-avatar avatar-customer">
+                        <i class="bi bi-person-circle"></i>
+                    </div>
+                    <div class="entity-content">
+                        <div class="entity-type-lbl">Khách hàng</div>
+                        <div class="field-val empty">Chưa có thông tin khách hàng</div>
                     </div>
                 </div>
-                <a th:href="@{'/admin/customer/' + ${contract.customer.id}}" class="entity-view-btn">
-                    Xem <i class="bi bi-arrow-right"></i>
-                </a>
-            </div>
-            <div class="entity-item" th:unless="${contract.customer != null}">
-                <div class="entity-avatar avatar-customer">
-                    <i class="bi bi-person-circle"></i>
-                </div>
-                <div class="entity-content">
-                    <div class="entity-type-lbl">Khách hàng</div>
-                    <div class="field-val empty">Chưa có thông tin khách hàng</div>
-                </div>
-            </div>
 
-            <!-- Bất động sản -->
-            <div class="entity-item" th:if="${contract.building != null}">
-                <div class="entity-avatar avatar-building">
-                    <i class="bi bi-building"></i>
-                </div>
-                <div class="entity-content">
-                    <div class="entity-type-lbl">Bất động sản</div>
-                    <div class="entity-name">
-                        <span th:text="${contract.building.name}">SunTower A</span>
-                        <span class="entity-id-tag">BĐS-<span th:text="${contract.building.id}">1</span></span>
+                <!-- Bất động sản -->
+                <div class="entity-item" th:if="${contract.building != null}">
+                    <div class="entity-avatar avatar-building">
+                        <i class="bi bi-building"></i>
                     </div>
-                    <div class="entity-meta">
+                    <div class="entity-content">
+                        <div class="entity-type-lbl">Bất động sản</div>
+                        <div class="entity-name">
+                            <span th:text="${contract.building.name}">SunTower A</span>
+                            <span class="entity-id-tag">BĐS-<span th:text="${contract.building.id}">1</span></span>
+                        </div>
+                        <div class="entity-meta">
                             <span class="entity-meta-pill" th:if="${contract.building.address != null}">
                                 <i class="bi bi-geo-alt-fill"></i>
                                 <span th:text="${contract.building.address}">123 Đường ABC, Quận 1</span>
                             </span>
-                        <span class="entity-meta-pill" th:if="${contract.building.level != null}">
+                            <span class="entity-meta-pill" th:if="${contract.building.level != null}">
                                 <i class="bi bi-bar-chart-steps"></i>
                                 <span th:text="'Hạng ' + ${contract.building.level}">Hạng A</span>
                             </span>
+                        </div>
+                    </div>
+                    <a th:href="@{'/admin/building/' + ${contract.building.id}}" class="entity-view-btn">
+                        Xem <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="entity-item" th:unless="${contract.building != null}">
+                    <div class="entity-avatar avatar-building">
+                        <i class="bi bi-building"></i>
+                    </div>
+                    <div class="entity-content">
+                        <div class="entity-type-lbl">Bất động sản</div>
+                        <div class="field-val empty">Chưa có thông tin bất động sản</div>
                     </div>
                 </div>
-                <a th:href="@{'/admin/building/' + ${contract.building.id}}" class="entity-view-btn">
-                    Xem <i class="bi bi-arrow-right"></i>
-                </a>
-            </div>
-            <div class="entity-item" th:unless="${contract.building != null}">
-                <div class="entity-avatar avatar-building">
-                    <i class="bi bi-building"></i>
-                </div>
-                <div class="entity-content">
-                    <div class="entity-type-lbl">Bất động sản</div>
-                    <div class="field-val empty">Chưa có thông tin bất động sản</div>
-                </div>
-            </div>
 
-            <!-- Nhân viên -->
-            <div class="entity-item" th:if="${contract.staff != null}">
-                <div class="entity-avatar avatar-staff">
-                    <i class="bi bi-person-badge"></i>
-                </div>
-                <div class="entity-content">
-                    <div class="entity-type-lbl">Nhân viên phụ trách</div>
-                    <div class="entity-name">
-                        <span th:text="${contract.staff.fullName}">Trần Thị B</span>
-                        <span class="entity-id-tag">NV-<span th:text="${contract.staff.id}">1</span></span>
+                <!-- Nhân viên -->
+                <div class="entity-item" th:if="${contract.staff != null}">
+                    <div class="entity-avatar avatar-staff">
+                        <i class="bi bi-person-badge"></i>
                     </div>
-                    <div class="entity-meta">
+                    <div class="entity-content">
+                        <div class="entity-type-lbl">Nhân viên phụ trách</div>
+                        <div class="entity-name">
+                            <span th:text="${contract.staff.fullName}">Trần Thị B</span>
+                            <span class="entity-id-tag">NV-<span th:text="${contract.staff.id}">1</span></span>
+                        </div>
+                        <div class="entity-meta">
                             <span class="entity-meta-pill" th:if="${contract.staff.phone != null}">
                                 <i class="bi bi-telephone-fill"></i>
                                 <span th:text="${contract.staff.phone}">0987654321</span>
                             </span>
-                        <span class="entity-meta-pill" th:if="${contract.staff.email != null}">
+                            <span class="entity-meta-pill" th:if="${contract.staff.email != null}">
                                 <i class="bi bi-envelope-fill"></i>
-                                <span th:text="${contract.staff.email}">staff@email.com</span>
+                                <span th:text="${contract.staff.email}">staff@example.com</span>
                             </span>
+                        </div>
+                    </div>
+                    <a th:href="@{'/admin/staff/' + ${contract.staff.id}}" class="entity-view-btn">
+                        Xem <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="entity-item" th:unless="${contract.staff != null}">
+                    <div class="entity-avatar avatar-staff">
+                        <i class="bi bi-person-badge"></i>
+                    </div>
+                    <div class="entity-content">
+                        <div class="entity-type-lbl">Nhân viên phụ trách</div>
+                        <div class="field-val empty">Chưa có nhân viên phụ trách</div>
                     </div>
                 </div>
-                <a th:href="@{'/admin/staff/' + ${contract.staff.id}}" class="entity-view-btn">
-                    Xem <i class="bi bi-arrow-right"></i>
-                </a>
-            </div>
-            <div class="entity-item" th:unless="${contract.staff != null}">
-                <div class="entity-avatar avatar-staff">
-                    <i class="bi bi-person-badge"></i>
-                </div>
-                <div class="entity-content">
-                    <div class="entity-type-lbl">Nhân viên phụ trách</div>
-                    <div class="field-val empty">Chưa có nhân viên phụ trách</div>
-                </div>
-            </div>
 
-        </div><!-- /d-card -->
+            </div><!-- /d-card -->
 
-    </div><!-- /detail-body -->
-</main>
+        </div><!-- /detail-body -->
+    </main>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script>
-    $(document).on("click", ".btn-hd-delete", function (e) {
-        e.preventDefault();
-        let id = $(e.target).closest(".btn-hd-delete").data("id");
+    <script>
+        $(document).on("click", ".btn-hd-delete", function (e) {
+            e.preventDefault();
+            let id = $(e.target).closest(".btn-hd-delete").data("id");
 
-        Swal.fire({
-            title: 'Xác nhận xóa',
-            text: "Bạn có chắc muốn xóa hợp đồng mua bán này?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#dc2626',
-            cancelButtonColor: '#6b7280',
-            confirmButtonText: 'Xóa',
-            cancelButtonText: 'Hủy'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: "/admin/sale-contract/delete/" + id,
-                    type: "DELETE",
-                    success: function () {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Thành công',
-                            text: 'Xóa hợp đồng mua bán thành công!',
-                            timer: 1500,
-                            showConfirmButton: false
-                        }).then(() => {
-                            window.location.href = "/admin/sale-contract/list";
-                        });
-                    },
-                    error: function (xhr) {
-                        const err = xhr.responseJSON;
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Lỗi',
-                            text: err?.message || 'Xóa thất bại!'
-                        });
+            Swal.fire({
+                title: 'Xác nhận xóa',
+                text: "Bạn có chắc muốn xóa hợp đồng mua bán này?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc2626',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "/admin/sale-contract/delete/" + id,
+                        type: "DELETE",
+                        success: function () {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Thành công',
+                                text: 'Xóa hợp đồng mua bán thành công!',
+                                timer: 1500,
+                                showConfirmButton: false
+                            }).then(() => {
+                                window.location.href = "/admin/sale-contract/list";
+                            });
+                        },
+                        error: function (xhr) {
+                            const err = xhr.responseJSON;
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi',
+                                text: err?.message || 'Xóa thất bại!'
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+    <!-- ══ SIDEBAR / NAVBAR SCRIPT ════════════════════════════════════════ -->
+    <script>
+        (function () {
+            var root = document.documentElement;
+            var sidebar = document.getElementById('sidebar');
+            var backdrop = document.getElementById('sidebarBackdrop');
+            var toggleBtn = document.getElementById('sidebarToggle');
+            var icon = document.getElementById('toggleIcon');
+            var KEY = 'st_sb';
+
+            var FULL = '220px';
+            var MINI = '60px';
+
+            function isMobile() { return window.innerWidth <= 768; }
+            function isTablet() { return window.innerWidth > 768 && window.innerWidth <= 1024; }
+
+            function applyCollapsed(collapsed) {
+                var w = collapsed ? MINI : FULL;
+                root.style.setProperty('--sb-w', w);
+                sidebar.style.width = w;
+                sidebar.classList.toggle('is-collapsed', collapsed);
+                if (icon) icon.className = collapsed ? 'bi bi-chevron-right' : 'bi bi-chevron-left';
+            }
+
+            function setCollapsed(collapsed) {
+                applyCollapsed(collapsed);
+                try { localStorage.setItem(KEY, collapsed ? '1' : '0'); } catch (e) { }
+            }
+
+            function setMobileOpen(open) {
+                sidebar.classList.toggle('mobile-open', open);
+                if (backdrop) backdrop.classList.toggle('show', open);
+            }
+
+            function onResize() {
+                if (isMobile()) {
+                    root.style.setProperty('--sb-w', '0px');
+                    sidebar.style.width = '';
+                    sidebar.classList.remove('is-collapsed');
+                    setMobileOpen(false);
+                } else {
+                    var saved = localStorage.getItem(KEY);
+                    var collapsed;
+                    if (saved === null) {
+                        collapsed = isTablet();
+                    } else {
+                        collapsed = saved === '1';
                     }
+                    applyCollapsed(collapsed);
+                    setMobileOpen(false);
+                    if (backdrop) backdrop.classList.remove('show');
+                }
+            }
+
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    var isCollapsed = sidebar.classList.contains('is-collapsed');
+                    setCollapsed(!isCollapsed);
                 });
             }
-        });
-    });
-</script>
+
+            document.addEventListener('click', function (e) {
+                var btn = e.target.closest('#navbarMenuBtn');
+                if (btn) {
+                    setMobileOpen(!sidebar.classList.contains('mobile-open'));
+                    return;
+                }
+                if (e.target === backdrop || e.target.id === 'sidebarBackdrop') {
+                    setMobileOpen(false);
+                }
+            });
+
+            onResize();
+            window.addEventListener('resize', onResize);
+        })();
+    </script>
 
 </body>
 
