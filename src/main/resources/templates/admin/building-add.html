@@ -10,15 +10,171 @@
     <link href="https://cdn.jsdelivr.net/npm/@goongmaps/goong-js@1.0.9/dist/goong-js.css" rel="stylesheet" />
     <link th:href="@{/css/admin.css}" rel="stylesheet">
     <style>
+        /* ── CSS Variables (sidebar width) ── */
+        :root {
+            --sb-w: 220px;
+            --sb-transition: 0.25s ease;
+        }
+
         body {
             background: #f4f6f9;
             overflow-x: hidden;
         }
 
         main.content {
-            margin-left: 220px;
+            margin-left: var(--sb-w, 220px);
             padding: 2rem 2.5rem;
             margin-top: 72px;
+            transition: margin-left var(--sb-transition, 0.25s ease);
+        }
+
+        /* ══ RESPONSIVE ═══════════════════════════════════════════════════════ */
+
+        /* ── Tablet (769px – 1024px) ── */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            main.content {
+                padding: 1.5rem 1.75rem;
+            }
+
+            .form-card-body {
+                padding: 1.25rem;
+            }
+
+            .page-header h2 {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* ── Mobile (≤ 768px) ── */
+        @media (max-width: 768px) {
+            main.content {
+                margin-left: 0 !important;
+                padding: 1rem 0.875rem;
+                margin-top: 64px;
+            }
+
+            .page-header {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .page-header h2 {
+                font-size: 1.1rem;
+            }
+
+            .btn-back {
+                font-size: 0.8125rem;
+                padding: 0.4rem 0.75rem;
+            }
+
+            .form-card {
+                border-radius: 8px;
+            }
+
+            .form-card-header {
+                padding: 0.75rem 1rem;
+            }
+
+            .form-card-body {
+                padding: 1rem;
+            }
+
+            .form-card-body .row>[class*="col-md-"] {
+                flex: 0 0 100% !important;
+                max-width: 100% !important;
+            }
+
+            .form-actions {
+                flex-direction: column-reverse;
+            }
+
+            .btn-form {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .info-box {
+                padding: 0.75rem;
+            }
+
+            .type-selector {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .type-btn {
+                min-width: unset;
+            }
+
+            .geocode-row {
+                flex-direction: column;
+                align-items: stretch !important;
+            }
+
+            .geocode-row .btn-geocode {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* ── Small mobile (≤ 480px) ── */
+        @media (max-width: 480px) {
+            main.content {
+                padding: 0.75rem;
+            }
+
+            .page-header h2 {
+                font-size: 1rem;
+            }
+
+            .form-card-body {
+                padding: 0.875rem;
+            }
+        }
+
+        /* ══ MAP MODAL RESPONSIVE ════════════════════════════════════════════ */
+        @media (max-width: 640px) {
+            #mapModal>div {
+                width: 100vw !important;
+                max-width: 100vw !important;
+                height: 100dvh !important;
+                max-height: 100dvh !important;
+                border-radius: 0 !important;
+            }
+
+            #mapModal>div>div:first-child {
+                padding: 0.75rem 1rem !important;
+            }
+
+            #mapModal>div>div:nth-child(2) {
+                padding: 0.75rem 1rem !important;
+            }
+
+            #mapModal>div>div:nth-child(3) {
+                padding: 0.4rem 1rem !important;
+                font-size: 0.75rem !important;
+            }
+
+            #modalMap {
+                flex: 1 !important;
+                height: auto !important;
+            }
+
+            #mapModal>div>div:last-child {
+                padding: 0.75rem 1rem !important;
+                flex-direction: column !important;
+                gap: 0.5rem !important;
+            }
+
+            #mapModal>div>div:last-child>div:last-child {
+                display: flex !important;
+                gap: 0.5rem !important;
+            }
+
+            #mapModal>div>div:last-child>div:last-child button {
+                flex: 1 !important;
+            }
         }
 
         .page-header {
@@ -767,7 +923,7 @@
                     <h3>Vị trí bản đồ <span class="required">*</span></h3>
                 </div>
                 <div class="form-card-body">
-                    <div class="d-flex align-items-center gap-3 flex-wrap">
+                    <div class="d-flex align-items-center gap-3 flex-wrap geocode-row">
                         <div
                             style="display:flex;align-items:center;gap:0.5rem;background:#f8fafc;border:1px solid #e5e7eb;border-radius:8px;padding:0.5rem 1rem;flex:1;min-width:260px;">
                             <i class="bi bi-geo-alt-fill" style="color:#3b82f6;font-size:1rem;flex-shrink:0;"></i>
@@ -1352,15 +1508,93 @@
                     vị trí</div>
                 <div style="display:flex;gap:0.5rem;">
                     <button type="button" onclick="closeMapModal()"
-                        style="padding:0.45rem 1rem;background:#f3f4f6;color:#374151;border:none;border-radius:7px;font-size:0.875rem;font-weight:600;cursor:pointer;">Hủy</button>
+                        style="white-space:nowrap;padding:0.45rem 1rem;background:#f3f4f6;color:#374151;border:none;border-radius:7px;font-size:0.875rem;font-weight:600;cursor:pointer;">Hủy</button>
                     <button type="button" id="btnConfirmCoord" onclick="confirmCoord()" disabled
-                        style="padding:0.45rem 1rem;background:#3b82f6;color:#fff;border:none;border-radius:7px;font-size:0.875rem;font-weight:600;cursor:pointer;opacity:0.5;">
+                        style="white-space:nowrap;padding:0.45rem 1rem;background:#3b82f6;color:#fff;border:none;border-radius:7px;font-size:0.875rem;font-weight:600;cursor:pointer;opacity:0.5;">
                         <i class="bi bi-check-circle"></i> Xác nhận
                     </button>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- ══ SIDEBAR / NAVBAR SCRIPT ════════════════════════════════════════ -->
+    <script>
+        (function () {
+            var root = document.documentElement;
+            var sidebar = document.getElementById('sidebar');
+            var backdrop = document.getElementById('sidebarBackdrop');
+            var toggleBtn = document.getElementById('sidebarToggle');
+            var icon = document.getElementById('toggleIcon');
+            var KEY = 'st_sb';
+
+            var FULL = '220px';
+            var MINI = '60px';
+
+            function isMobile() { return window.innerWidth <= 768; }
+            function isTablet() { return window.innerWidth > 768 && window.innerWidth <= 1024; }
+
+            function applyCollapsed(collapsed) {
+                var w = collapsed ? MINI : FULL;
+                root.style.setProperty('--sb-w', w);
+                sidebar.style.width = w;
+                sidebar.classList.toggle('is-collapsed', collapsed);
+                if (icon) icon.className = collapsed ? 'bi bi-chevron-right' : 'bi bi-chevron-left';
+            }
+
+            function setCollapsed(collapsed) {
+                applyCollapsed(collapsed);
+                try { localStorage.setItem(KEY, collapsed ? '1' : '0'); } catch (e) { }
+            }
+
+            function setMobileOpen(open) {
+                sidebar.classList.toggle('mobile-open', open);
+                if (backdrop) backdrop.classList.toggle('show', open);
+            }
+
+            function onResize() {
+                if (isMobile()) {
+                    root.style.setProperty('--sb-w', '0px');
+                    sidebar.style.width = '';
+                    sidebar.classList.remove('is-collapsed');
+                    setMobileOpen(false);
+                } else {
+                    var saved = localStorage.getItem(KEY);
+                    var collapsed;
+                    if (saved === null) {
+                        collapsed = isTablet();
+                    } else {
+                        collapsed = saved === '1';
+                    }
+                    applyCollapsed(collapsed);
+                    setMobileOpen(false);
+                    if (backdrop) backdrop.classList.remove('show');
+                }
+            }
+
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    var isCollapsed = sidebar.classList.contains('is-collapsed');
+                    setCollapsed(!isCollapsed);
+                });
+            }
+
+            document.addEventListener('click', function (e) {
+                var btn = e.target.closest('#navbarMenuBtn');
+                if (btn) {
+                    setMobileOpen(!sidebar.classList.contains('mobile-open'));
+                    return;
+                }
+                if (e.target === backdrop || e.target.id === 'sidebarBackdrop') {
+                    setMobileOpen(false);
+                }
+            });
+
+            onResize();
+            window.addEventListener('resize', onResize);
+        })();
+    </script>
 
 </body>
 
