@@ -447,6 +447,33 @@ CREATE TABLE oauth_identity (
     INDEX idx_oauth_identity_user (user_type, user_id)
 );
 
+CREATE TABLE chat_room (
+    id              BIGINT PRIMARY KEY AUTO_INCREMENT,
+    building_id     BIGINT       NOT NULL,
+    customer_id     BIGINT       NOT NULL,
+    staff_id        BIGINT       NOT NULL,
+    status          VARCHAR(20)  NOT NULL,
+    last_message_at DATETIME     NULL,
+    closed_at       DATETIME     NULL,
+    created_at      DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_at     DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE (building_id, customer_id, staff_id),
+    FOREIGN KEY (building_id) REFERENCES building(id),
+    FOREIGN KEY (customer_id) REFERENCES customer(id),
+    FOREIGN KEY (staff_id) REFERENCES staff(id)
+);
+
+CREATE TABLE chat_message (
+    id          BIGINT PRIMARY KEY AUTO_INCREMENT,
+    room_id     BIGINT       NOT NULL,
+    sender_type VARCHAR(20)  NOT NULL,
+    sender_id   BIGINT       NOT NULL,
+    content     TEXT         NOT NULL,
+    read_at     DATETIME     NULL,
+    created_at  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (room_id) REFERENCES chat_room(id)
+);
+
 CREATE TABLE rent_area (
     id            BIGINT AUTO_INCREMENT PRIMARY KEY,
     building_id   BIGINT,

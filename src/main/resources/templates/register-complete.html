@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SunTower - Hoàn tất đăng ký</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
         * {
             margin: 0;
@@ -440,7 +441,12 @@
 <body>
     <header>
         <nav>
-            <a href="/suntower" class="logo">SunTower</a>
+            <a href="/suntower" class="logo">
+                <div
+                    style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(255,255,255,0.15);border-radius:6px;margin-right:8px;">
+                    <i class="bi bi-sun-fill"></i>
+                </div>SunTower
+            </a>
             <button class="menu-toggle"
                 onclick="document.getElementById('navLinks').classList.toggle('active')">☰</button>
             <div class="nav-links" id="navLinks">

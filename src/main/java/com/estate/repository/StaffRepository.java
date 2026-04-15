@@ -1,6 +1,7 @@
 package com.estate.repository;
 
 import com.estate.repository.entity.StaffEntity;
+import com.estate.dto.chat.ChatStaffOptionDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -145,4 +146,14 @@ public interface StaffRepository extends JpaRepository<StaffEntity, Long> {
             WHERE s.id = :staffId
             """)
     List<Long> findAssignedCustomerIds(@Param("staffId") Long staffId);
+
+    @Query("""
+            SELECT new com.estate.dto.chat.ChatStaffOptionDTO(s.id, s.fullName, s.phone, s.image)
+            FROM StaffEntity s
+            JOIN s.buildings b
+            WHERE b.id = :buildingId
+              AND s.role = 'STAFF'
+            ORDER BY s.fullName ASC
+            """)
+    List<ChatStaffOptionDTO> findChatStaffOptionsByBuildingId(@Param("buildingId") Long buildingId);
 }

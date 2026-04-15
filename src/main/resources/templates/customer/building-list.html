@@ -1246,8 +1246,53 @@
     <!-- Modal Container -->
     <div id="modalContainer"></div>
 
+    <!-- Staff select modal -->
+    <div class="modal fade" id="staffSelectModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-people me-2"></i>Chọn nhân viên</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="fw-semibold mb-2" id="staffSelectTitle">Tòa nhà</div>
+                    <div class="list-group" id="staffSelectList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customer chat modal -->
+    <div class="modal fade" id="customerChatModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div>
+                        <h5 class="modal-title" id="customerChatTitle">Hỗ trợ</h5>
+                        <div class="small opacity-75" id="customerChatSubtitle"></div>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="customerChatMessages" style="min-height:320px;max-height:420px;overflow-y:auto;"></div>
+                    <div id="customerChatEmpty" class="text-center text-muted py-5">Chưa có tin nhắn nào</div>
+                    <div id="customerChatTyping" class="small text-primary d-none mb-2">...đang soạn tin.</div>
+                </div>
+                <div class="modal-footer d-flex flex-column align-items-stretch gap-2">
+                    <textarea id="customerChatInput" class="form-control" rows="2" placeholder="Nhập tin nhắn..."></textarea>
+                    <div class="d-flex justify-content-end gap-2">
+                        <button type="button" class="btn btn-outline-secondary" id="customerChatCloseRoomBtn">Đóng hội thoại</button>
+                        <button type="button" class="btn btn-primary" id="customerChatSendBtn">Gửi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
 
     <script th:inline="javascript">
         const buildingName = /*[[${buildingName}]]*/ "";
@@ -1533,6 +1578,12 @@
 
                                         </div>
                                         <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary btn-sm"
+                                                data-building-id="${b.id}"
+                                                data-building-name="${(JSON.stringify(b.name || '')).replace(/"/g, '&quot;')}"
+                                                onclick="ChatCustomer.openSelector(this.dataset.buildingId, this.dataset.buildingName)">
+                                                <i class="bi bi-chat-dots me-1"></i>Liên hệ ngay
+                                            </button>
                                             <button type="button" class="btn-secondary-sm" data-bs-dismiss="modal">
                                                 <i class="bi bi-x"></i> Đóng
                                             </button>
@@ -1806,6 +1857,7 @@
             }
         });
     </script>
+    <script src="/js/chat-customer.js"></script>
 </body>
 
 </html>

@@ -916,6 +916,13 @@
                 margin: 15mm 18mm 18mm 18mm;
             }
 
+            /* Buộc trình duyệt in màu nền và màu SVG */
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
             body>* {
                 display: none !important;
             }
@@ -1629,6 +1636,59 @@
             ═══════════════════════════════════════════════════════════════ -->
             <div class="print-only" style="display:none;">
 
+                <!-- ── Logo Header ── -->
+                <table
+                    style="width:100%; border-collapse:collapse; margin-bottom:10pt; padding-bottom:8pt; border-bottom:1.5pt solid #000;">
+                    <tr>
+                        <td style="vertical-align:middle; padding-bottom:10;">
+                            <table style="border-collapse:collapse;">
+                                <tr>
+                                    <td style="vertical-align:middle; padding-right:8pt;">
+                                        <!-- Sun SVG logo box -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+                                            viewBox="0 0 40 40">
+                                            <rect width="40" height="40" rx="8" ry="8" fill="#000000" />
+                                            <!-- Sun circle -->
+                                            <circle cx="20" cy="20" r="6" fill="white" />
+                                            <!-- Sun rays -->
+                                            <line x1="20" y1="6" x2="20" y2="10" stroke="white" stroke-width="2"
+                                                stroke-linecap="round" />
+                                            <line x1="20" y1="30" x2="20" y2="34" stroke="white" stroke-width="2"
+                                                stroke-linecap="round" />
+                                            <line x1="6" y1="20" x2="10" y2="20" stroke="white" stroke-width="2"
+                                                stroke-linecap="round" />
+                                            <line x1="30" y1="20" x2="34" y2="20" stroke="white" stroke-width="2"
+                                                stroke-linecap="round" />
+                                            <line x1="10.1" y1="10.1" x2="13" y2="13" stroke="white" stroke-width="2"
+                                                stroke-linecap="round" />
+                                            <line x1="27" y1="27" x2="29.9" y2="29.9" stroke="white" stroke-width="2"
+                                                stroke-linecap="round" />
+                                            <line x1="29.9" y1="10.1" x2="27" y2="13" stroke="white" stroke-width="2"
+                                                stroke-linecap="round" />
+                                            <line x1="13" y1="27" x2="10.1" y2="29.9" stroke="white" stroke-width="2"
+                                                stroke-linecap="round" />
+                                        </svg>
+                                    </td>
+                                    <td style="vertical-align:middle; padding:0;">
+                                        <div
+                                            style="font-size:16pt; font-weight:bold; line-height:1.1; letter-spacing:.03em;">
+                                            SunTower</div>
+                                        <div
+                                            style="font-size:7.5pt; font-weight:600; text-transform:uppercase; letter-spacing:.05em;">
+                                            Real Estate Management</div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td
+                            style="vertical-align:middle; text-align:right; font-size:8pt; color:#6b7280; font-style:italic; padding:0;">
+                            <div>In ngày: <span
+                                    th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy HH:mm')}"></span></div>
+                            <div th:text="${report.cutoffLabel}"></div>
+                        </td>
+                    </tr>
+                </table>
+
                 <div style="text-align:center; border-bottom:1.5pt solid #000; padding-bottom:8pt; margin-bottom:14pt;">
                     <div style="font-size:18pt; font-weight:bold; text-transform:uppercase; letter-spacing:.06em;">
                         BÁO CÁO THỐNG KÊ BẤT ĐỘNG SẢN
@@ -1855,6 +1915,22 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+
+                <!-- Nguoi xuat bao cao -->
+                <div style="margin-top:20pt; display:table; width:100%;">
+                    <div style="display:table-cell; width:50%; vertical-align:top;"></div>
+                    <div style="display:table-cell; width:50%; text-align:center; vertical-align:top;">
+                        <div style="font-size:9pt; font-style:italic; color:#374151;">
+                            <span th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy')}"></span>
+                        </div>
+                        <div style="font-size:9.5pt; font-weight:bold; text-transform:uppercase; margin-top:2pt;">Người
+                            xuất báo cáo</div>
+                        <div
+                            style="margin-top:36pt; border-top:0.75pt solid #000; padding-top:3pt; display:inline-block; min-width:120pt;">
+                            <span style="font-size:10pt; font-weight:bold;" th:text="${staffName}">Ten nhan vien</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="print-footer-bar">
