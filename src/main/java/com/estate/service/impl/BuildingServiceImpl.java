@@ -14,7 +14,7 @@ import com.estate.repository.SaleContractRepository;
 import com.estate.repository.StaffRepository;
 import com.estate.repository.entity.BuildingEntity;
 import com.estate.service.BuildingService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -27,28 +27,15 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class BuildingServiceImpl implements BuildingService {
-
-    @Autowired
-    private BuildingRepository buildingRepository;
-
-    @Autowired
-    private SaleContractRepository saleContractRepository;
-
-    @Autowired
-    private BuildingListConverter buildingListConverter;
-
-    @Autowired
-    private StaffRepository staffRepository;
-
-    @Autowired
-    private ContractRepository contractRepository;
-
-    @Autowired
-    private BuildingFormConverter buildingFormConverter;
-
-    @Autowired
-    private BuildingDetailConverter buildingDetailConverter;
+    private final BuildingRepository buildingRepository;
+    private final SaleContractRepository saleContractRepository;
+    private final BuildingListConverter buildingListConverter;
+    private final StaffRepository staffRepository;
+    private final ContractRepository contractRepository;
+    private final BuildingFormConverter buildingFormConverter;
+    private final BuildingDetailConverter buildingDetailConverter;
 
     @Override
     public long countAll() {

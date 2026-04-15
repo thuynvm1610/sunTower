@@ -15,9 +15,9 @@ import com.estate.repository.entity.CustomerEntity;
 import com.estate.repository.entity.OAuthIdentityEntity;
 import com.estate.repository.entity.StaffEntity;
 import com.estate.security.jwt.RefreshTokenService;
-import com.estate.service.ProfileOtpService;
 import com.estate.service.CustomerService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.estate.service.ProfileOtpService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -34,39 +34,19 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
-    @Autowired
-    CustomerRepository customerRepository;
-
-    @Autowired
-    CustomerListConverter customerListConverter;
-
-    @Autowired
-    CustomerFormConverter customerFormConverter;
-
-    @Autowired
-    StaffRepository staffRepository;
-
-    @Autowired
-    ContractRepository contractRepository;
-
-    @Autowired
-    CustomerDetailConverter customerDetailConverter;
-
-    @Autowired
-    ContractDetailConverter contractDetailConverter;
-
-    @Autowired
-    PasswordEncoder passwordEncoder;
-
-    @Autowired
-    RefreshTokenService refreshTokenService;
-
-    @Autowired
-    OAuthIdentityRepository oauthIdentityRepository;
-
-    @Autowired
-    ProfileOtpService profileOtpService;
+    private final CustomerRepository customerRepository;
+    private final CustomerListConverter customerListConverter;
+    private final CustomerFormConverter customerFormConverter;
+    private final StaffRepository staffRepository;
+    private final ContractRepository contractRepository;
+    private final CustomerDetailConverter customerDetailConverter;
+    private final ContractDetailConverter contractDetailConverter;
+    private final PasswordEncoder passwordEncoder;
+    private final RefreshTokenService refreshTokenService;
+    private final OAuthIdentityRepository oauthIdentityRepository;
+    private final ProfileOtpService profileOtpService;
 
     @Override
     public long countAll() {
@@ -75,7 +55,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<PotentialCustomersDTO> getTopCustomers() {
-        List<Object[]> rawData = customerRepository.countContractsByCustomer((Pageable) PageRequest.of(0, 5));
+        List<Object[]> rawData = customerRepository.countContractsByCustomer(PageRequest.of(0, 5));
 
         return rawData.stream().map(r -> {
             Long customerId = (Long) r[0];
@@ -105,13 +85,11 @@ public class CustomerServiceImpl implements CustomerService {
         }
 
         // Tạo PageImpl giữ nguyên thông tin phân trang gốc
-        Page<CustomerListDTO> result = new PageImpl<>(
+        return new PageImpl<>(
                 dtoList,
                 customerPage.getPageable(),
                 customerPage.getTotalElements()
         );
-
-        return result;
     }
 
     @Override
@@ -130,13 +108,11 @@ public class CustomerServiceImpl implements CustomerService {
         }
 
         // Tạo PageImpl giữ nguyên thông tin phân trang gốc
-        Page<CustomerListDTO> result = new PageImpl<>(
+        return new PageImpl<>(
                 dtoList,
                 customerPage.getPageable(),
                 customerPage.getTotalElements()
         );
-
-        return result;
     }
 
     @Override
@@ -159,13 +135,11 @@ public class CustomerServiceImpl implements CustomerService {
         }
 
         // Tạo PageImpl giữ nguyên thông tin phân trang gốc
-        Page<CustomerDetailDTO> result = new PageImpl<>(
+        return new PageImpl<>(
                 dtoList,
                 customerPage.getPageable(),
                 customerPage.getTotalElements()
         );
-
-        return result;
     }
 
     @Override

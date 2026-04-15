@@ -7,6 +7,5 @@ import java.util.List;
 
 @Repository
 public interface LegalAuthorityRepository extends JpaRepository<LegalAuthorityEntity, Long> {
-
     List<LegalAuthorityEntity> findByBuildingId(Long buildingId);
 }

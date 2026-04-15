@@ -22,7 +22,6 @@ import java.util.Locale;
 public class ProfileOtpServiceImpl implements ProfileOtpService {
     private static final String STATUS_PENDING = "PENDING";
     private static final String STATUS_USED = "USED";
-    private static final int OTP_LENGTH = 6;
     private static final int OTP_EXPIRE_MINUTES = 10;
 
     private final EmailVerificationRepository emailVerificationRepository;

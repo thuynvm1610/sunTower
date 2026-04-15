@@ -13,10 +13,10 @@ import java.util.List;
 @Repository
 public interface SaleContractRepository extends JpaRepository<SaleContractEntity, Long>, SaleContractRepositoryCustom {
     @Query("""
-                SELECT COUNT(sc)
-                FROM SaleContractEntity sc
-                JOIN sc.building b
-                WHERE b.id = :buildingId
+            SELECT COUNT(sc)
+            FROM SaleContractEntity sc
+            JOIN sc.building b
+            WHERE b.id = :buildingId
             """)
     Long saleContractCnt(@Param("buildingId") Long buildingId);
 

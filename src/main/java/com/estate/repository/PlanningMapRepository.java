@@ -7,6 +7,5 @@ import java.util.List;
 
 @Repository
 public interface PlanningMapRepository extends JpaRepository<PlanningMapEntity, Long> {
-
     List<PlanningMapEntity> findByBuildingId(Long buildingId);
 }

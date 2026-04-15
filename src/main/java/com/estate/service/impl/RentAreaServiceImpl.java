@@ -2,7 +2,7 @@ package com.estate.service.impl;
 
 import com.estate.repository.RentAreaRepository;
 import com.estate.service.RentAreaService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class RentAreaServiceImpl implements RentAreaService {
-    @Autowired
-    RentAreaRepository rentAreaRepository;
+    private final RentAreaRepository rentAreaRepository;
 
     @Override
     public Map<Long, List<Integer>> getAllRentAreas() {

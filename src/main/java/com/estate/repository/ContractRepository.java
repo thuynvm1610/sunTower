@@ -1,7 +1,6 @@
 package com.estate.repository;
 
 import com.estate.dto.ContractRentAreaView;
-import com.estate.enums.TransactionType;
 import com.estate.repository.custom.ContractRepositoryCustom;
 import com.estate.repository.entity.ContractEntity;
 import org.springframework.data.domain.Pageable;
@@ -14,32 +13,40 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ContractRepository extends JpaRepository<ContractEntity, Long>, ContractRepositoryCustom {
-    @Query("SELECT c.staff.id, c.staff.fullName, COUNT(c.id) " +
-            "FROM ContractEntity c " +
-            "GROUP BY c.staff.id, c.staff.fullName " +
-            "ORDER BY COUNT(c.id) DESC")
+    @Query("""
+            SELECT c.staff.id, c.staff.fullName, COUNT(c.id)
+            FROM ContractEntity c
+            GROUP BY c.staff.id, c.staff.fullName
+            ORDER BY COUNT(c.id) DESC
+            """)
     List<Object[]> countContractsByStaff(Pageable pageable);
 
     List<ContractEntity> findByStartDateLessThanEqualAndEndDateGreaterThanEqual(
-            LocalDateTime endOfYear, LocalDateTime startOfYear
-    );
+            @Param("endOfYear") LocalDateTime endOfYear,
+            @Param("startOfYear") LocalDateTime startOfYear);
 
-    @Query("SELECT b.name, COUNT(c) " +
-            "FROM ContractEntity c JOIN c.building b " +
-            "GROUP BY b.name " +
-            "ORDER BY COUNT(c) DESC")
+    @Query("""
+            SELECT b.name, COUNT(c)
+            FROM ContractEntity c JOIN c.building b
+            GROUP BY b.name
+            ORDER BY COUNT(c) DESC
+            """)
     List<Object[]> countContractsByBuilding(Pageable pageable);
 
-    @Query("SELECT YEAR(c.startDate), COUNT(c) " +
-            "FROM ContractEntity c " +
-            "GROUP BY YEAR(c.startDate) " +
-            "ORDER BY YEAR(c.startDate)")
+    @Query("""
+            SELECT YEAR(c.startDate), COUNT(c)
+            FROM ContractEntity c
+            GROUP BY YEAR(c.startDate)
+            ORDER BY YEAR(c.startDate)
+            """)
     List<Long[]> countRentContractsByYear();
 
-    @Query("SELECT YEAR(sc.createdDate), COUNT(sc) " +
-            "FROM SaleContractEntity sc " +
-            "GROUP BY YEAR(sc.createdDate) " +
-            "ORDER BY YEAR(sc.createdDate)")
+    @Query("""
+            SELECT YEAR(sc.createdDate), COUNT(sc)
+            FROM SaleContractEntity sc
+            GROUP BY YEAR(sc.createdDate)
+            ORDER BY YEAR(sc.createdDate)
+            """)
     List<Long[]> countSaleContractsByYear();
 
     long countByBuildingIdAndStatus(Long buildingId, String status);
@@ -55,12 +62,15 @@ public interface ContractRepository extends JpaRepository<ContractEntity, Long>,
     Long countByCustomerIdAndStatus(Long customerId, String status);
 
     @Query("""
-                SELECT c FROM ContractEntity c
-                WHERE c.customer.id = :customerId
-                  AND (:buildingId IS NULL OR c.building.id = :buildingId)
-                  AND (:status = '' OR c.status = :status)
+            SELECT c FROM ContractEntity c
+            WHERE c.customer.id = :customerId
+              AND (:buildingId IS NULL OR c.building.id = :buildingId)
+              AND (:status = '' OR c.status = :status)
             """)
-    List<ContractEntity> searchContracts(Long customerId, Long buildingId, String status);
+    List<ContractEntity> searchContracts(
+            @Param("customerId") Long customerId,
+            @Param("buildingId") Long buildingId,
+            @Param("status") String status);
 
     @Query("""
             SELECT cu.id, c.id
@@ -71,28 +81,28 @@ public interface ContractRepository extends JpaRepository<ContractEntity, Long>,
     List<Long[]> getActiveContracts();
 
     @Query("""
-                SELECT c.id,
-                       new com.estate.dto.ContractFeeDTO(
-                           b.rentPrice,
-                           b.serviceFee,
-                           b.carFee,
-                           b.motorbikeFee,
-                           b.waterFee,
-                           b.electricityFee
-                       )
-                FROM ContractEntity c
-                JOIN c.building b
-                WHERE c.status = 'ACTIVE'
+            SELECT c.id,
+                   new com.estate.dto.ContractFeeDTO(
+                       b.rentPrice,
+                       b.serviceFee,
+                       b.carFee,
+                       b.motorbikeFee,
+                       b.waterFee,
+                       b.electricityFee
+                   )
+            FROM ContractEntity c
+            JOIN c.building b
+            WHERE c.status = 'ACTIVE'
             """)
     List<Object[]> getContractsFees();
 
     @Query("""
-       SELECT new com.estate.dto.ContractRentAreaView(
-           c.id,
-           c.rentArea
-       )
-       FROM ContractEntity c
-       """)
+            SELECT new com.estate.dto.ContractRentAreaView(
+                c.id,
+                c.rentArea
+            )
+            FROM ContractEntity c
+            """)
     List<ContractRentAreaView> findAllIdAndRentArea();
 
     @Modifying
@@ -100,7 +110,7 @@ public interface ContractRepository extends JpaRepository<ContractEntity, Long>,
             UPDATE ContractEntity c
             SET c.status = "EXPIRED"
             WHERE c.status = "ACTIVE"
-            AND c.endDate < CURRENT_DATE
+              AND c.endDate < CURRENT_DATE
             """)
     void statusUpdate();
 
@@ -110,35 +120,35 @@ public interface ContractRepository extends JpaRepository<ContractEntity, Long>,
             SELECT c
             FROM ContractEntity c
             WHERE c.endDate >= :start
-            AND c.endDate < :end
-            AND c.status = "ACTIVE"
-            AND c.id IN :contractIds
+              AND c.endDate < :end
+              AND c.status = "ACTIVE"
+              AND c.id IN :contractIds
             """)
     List<ContractEntity> getExpiringContracts(
             @Param("start") LocalDateTime start,
             @Param("end") LocalDateTime end,
-            @Param("contractIds") List<Long> contractIds
-    );
+            @Param("contractIds") List<Long> contractIds);
 
-    @Query("SELECT COUNT(c) > 0 FROM ContractEntity c " +
-            "WHERE c.staff.id = :staffId " +
-            "AND c.building.id = :buildingId " +
-            "AND c.status = 'ACTIVE'")
-    boolean existsActiveByStaffAndBuilding(@Param("staffId") Long staffId,
-                                           @Param("buildingId") Long buildingId);
+    @Query("""
+            SELECT COUNT(c) > 0 FROM ContractEntity c
+            WHERE c.staff.id = :staffId
+              AND c.building.id = :buildingId
+              AND c.status = 'ACTIVE'
+            """)
+    boolean existsActiveByStaffAndBuilding(
+            @Param("staffId") Long staffId,
+            @Param("buildingId") Long buildingId);
 
     // Kiểm tra active contract theo staff + customer
-    @Query("SELECT COUNT(c) > 0 FROM ContractEntity c " +
-            "WHERE c.staff.id = :staffId " +
-            "AND c.customer.id = :customerId " +
-            "AND c.status = 'ACTIVE'")
-    boolean existsActiveByStaffAndCustomer(@Param("staffId") Long staffId,
-                                           @Param("customerId") Long customerId);
+    @Query("""
+            SELECT COUNT(c) > 0 FROM ContractEntity c
+            WHERE c.staff.id = :staffId
+            AND c.customer.id = :customerId
+            AND c.status = 'ACTIVE'
+            """)
+    boolean existsActiveByStaffAndCustomer(
+            @Param("staffId") Long staffId,
+            @Param("customerId") Long customerId);
 
-    /** Đếm số building FOR_RENT đang có ít nhất 1 hợp đồng ACTIVE */
-    @Query("SELECT COUNT(DISTINCT c.building.id) FROM ContractEntity c WHERE c.status = 'ACTIVE'")
-    long countDistinctBuildingWithActiveContract();
-
-    /** Lấy HĐ ACTIVE có endDate trong khoảng [from, to] */
     List<ContractEntity> findByStatusAndEndDateBetween(String status, LocalDateTime from, LocalDateTime to);
 }

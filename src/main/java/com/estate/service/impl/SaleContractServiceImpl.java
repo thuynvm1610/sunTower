@@ -15,7 +15,7 @@ import com.estate.repository.entity.BuildingEntity;
 import com.estate.repository.entity.SaleContractEntity;
 import com.estate.service.SaleContractService;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -27,25 +27,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class SaleContractServiceImpl implements SaleContractService {
-
-    @Autowired
-    private SaleContractRepository saleContractRepository;
-
-    @Autowired
-    private BuildingRepository buildingRepository;
-
-    @Autowired
-    private SaleContractListConverter saleContractListConverter;
-
-    @Autowired
-    private SaleContractDetailConverter saleContractDetailConverter;
-
-    @Autowired
-    private SaleContractFormConverter saleContractFormConverter;
-
-    @Autowired
-    private StaffRepository staffRepository;
+    private final SaleContractRepository saleContractRepository;
+    private final BuildingRepository buildingRepository;
+    private final SaleContractListConverter saleContractListConverter;
+    private final SaleContractDetailConverter saleContractDetailConverter;
+    private final SaleContractFormConverter saleContractFormConverter;
+    private final StaffRepository staffRepository;
 
     // ─────────────────────────────────────────────────────────────────────────
     // READ
@@ -155,11 +144,11 @@ public class SaleContractServiceImpl implements SaleContractService {
     // ─────────────────────────────────────────────────────────────────────────
 
     private void validateStaffAssignment(Long buildingId, Long customerId, Long staffId) {
-        if (!staffRepository.existsByStaffIdAndBuildingId(staffId, buildingId)) {
+        if (staffRepository.notExistsByStaffIdAndBuildingId(staffId, buildingId)) {
             throw new SaleContractValidationException(
                     "Nhân viên được chọn không quản lý bất động sản này");
         }
-        if (!staffRepository.existsByStaffIdAndCustomerId(staffId, customerId)) {
+        if (staffRepository.notExistsByStaffIdAndCustomerId(staffId, customerId)) {
             throw new SaleContractValidationException(
                     "Nhân viên được chọn không quản lý khách hàng này");
         }

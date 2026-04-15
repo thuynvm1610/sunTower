@@ -12,7 +12,7 @@ import com.estate.repository.entity.InvoiceEntity;
 import com.estate.repository.entity.UtilityMeterEntity;
 import com.estate.service.InvoiceService;
 import com.estate.service.UtilityMeterService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -30,33 +30,17 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class InvoiceServiceImpl implements InvoiceService {
-    @Autowired
-    InvoiceRepository invoiceRepository;
-
-    @Autowired
-    UtilityMeterService utilityMeterService;
-
-    @Autowired
-    InvoiceDetailConverter invoiceDetailConverter;
-
-    @Autowired
-    InvoiceListDTOConverter invoiceListDTOConverter;
-
-    @Autowired
-    InvoiceFormConverter invoiceFormConverter;
-
-    @Autowired
-    UtilityMeterRepository utilityMeterRepository;
-
-    @Autowired
-    ContractRepository contractRepository;
-
-    @Autowired
-    OverdueInvoiceListConverter overdueInvoiceListConverter;
-
-    @Autowired
-    ExpiringInvoiceConverter expiringInvoiceConverter;
+    private final InvoiceRepository invoiceRepository;
+    private final UtilityMeterService utilityMeterService;
+    private final InvoiceDetailConverter invoiceDetailConverter;
+    private final InvoiceListDTOConverter invoiceListDTOConverter;
+    private final InvoiceFormConverter invoiceFormConverter;
+    private final UtilityMeterRepository utilityMeterRepository;
+    private final ContractRepository contractRepository;
+    private final OverdueInvoiceListConverter overdueInvoiceListConverter;
+    private final ExpiringInvoiceConverter expiringInvoiceConverter;
 
     @Override
     public String findTotalAmountByCustomerId(Long id) {
@@ -180,13 +164,11 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
 
         // Tạo PageImpl giữ nguyên thông tin phân trang gốc
-        Page<InvoiceDetailDTO> result = new PageImpl<>(
+        return new PageImpl<>(
                 dtoList,
                 invoicePage.getPageable(),
                 invoicePage.getTotalElements()
         );
-
-        return result;
     }
 
     @Override
@@ -205,13 +187,11 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
 
         // Tạo PageImpl giữ nguyên thông tin phân trang gốc
-        Page<InvoiceListDTO> result = new PageImpl<>(
+        return new PageImpl<>(
                 dtoList,
                 invoicePage.getPageable(),
                 invoicePage.getTotalElements()
         );
-
-        return result;
     }
 
     @Override
@@ -230,13 +210,11 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
 
         // Tạo PageImpl giữ nguyên thông tin phân trang gốc
-        Page<InvoiceListDTO> result = new PageImpl<>(
+        return new PageImpl<>(
                 dtoList,
                 invoicePage.getPageable(),
                 invoicePage.getTotalElements()
         );
-
-        return result;
     }
 
     @Override
@@ -267,13 +245,11 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
 
         // Tạo PageImpl giữ nguyên thông tin phân trang gốc
-        Page<InvoiceDetailDTO> result = new PageImpl<>(
+        return new PageImpl<>(
                 dtoList,
                 invoicePage.getPageable(),
                 invoicePage.getTotalElements()
         );
-
-        return result;
     }
 
     @Override
@@ -435,7 +411,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         return overdueInvoices
                 .stream()
                 .map(
-                        i -> overdueInvoiceListConverter.toDTO(i)
+                        overdueInvoiceListConverter::toDTO
                 )
                 .toList();
     }
@@ -463,7 +439,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         return invoices
                 .stream()
                 .map(
-                        i -> expiringInvoiceConverter.toDto(i)
+                        expiringInvoiceConverter::toDto
                 )
                 .toList();
     }

@@ -1,10 +1,10 @@
 package com.estate.service.impl;
 
-import com.estate.repository.OAuthIdentityRepository;
 import com.estate.repository.CustomerRepository;
+import com.estate.repository.OAuthIdentityRepository;
 import com.estate.repository.StaffRepository;
-import com.estate.repository.entity.OAuthIdentityEntity;
 import com.estate.repository.entity.CustomerEntity;
+import com.estate.repository.entity.OAuthIdentityEntity;
 import com.estate.repository.entity.StaffEntity;
 import com.estate.security.CustomUserDetails;
 import com.estate.security.oauth2.OAuth2PrincipalInfo;
@@ -86,12 +86,9 @@ public class OAuth2AccountServiceImpl implements OAuth2AccountService {
             throw new IllegalArgumentException("Tài khoản Google này đã được sử dụng");
         }
 
-        OAuthIdentityEntity currentLink = oauthIdentityRepository
+        oauthIdentityRepository
                 .findByProviderAndUserTypeAndUserId(principalInfo.provider(), userType, userId)
-                .orElse(null);
-        if (currentLink != null) {
-            oauthIdentityRepository.delete(currentLink);
-        }
+                .ifPresent(oauthIdentityRepository::delete);
 
         linkIdentity(principalInfo, userType, userId, principalInfo.email(), principalInfo.displayName());
         return loadUser(userType, userId);
@@ -234,28 +231,6 @@ public class OAuth2AccountServiceImpl implements OAuth2AccountService {
 
     private String accountSource(String authOrigin) {
         return StringUtils.hasText(authOrigin) ? authOrigin : ACCOUNT_SOURCE_LOCAL;
-    }
-
-    private String fetchEmail(String userType, Long userId) {
-        if ("STAFF".equalsIgnoreCase(userType)) {
-            StaffEntity staff = staffRepository.findById(userId)
-                    .orElseThrow(() -> new IllegalArgumentException("Linked staff account not found"));
-            return staff.getEmail();
-        }
-        CustomerEntity customer = customerRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("Linked customer account not found"));
-        return customer.getEmail();
-    }
-
-    private String fetchDisplayName(String userType, Long userId) {
-        if ("STAFF".equalsIgnoreCase(userType)) {
-            StaffEntity staff = staffRepository.findById(userId)
-                    .orElseThrow(() -> new IllegalArgumentException("Linked staff account not found"));
-            return staff.getFullName();
-        }
-        CustomerEntity customer = customerRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("Linked customer account not found"));
-        return customer.getFullName();
     }
 
     private String normalizeEmail(String email) {

@@ -11,9 +11,9 @@ import java.util.List;
 public interface DistrictRepository extends JpaRepository<DistrictEntity, Long> {
 
     @Query("""
-                SELECT d.name, d.id
-                FROM DistrictEntity d
-                ORDER BY d.id
+            SELECT d.name, d.id
+            FROM DistrictEntity d
+            ORDER BY d.id
             """)
     List<Object[]> getDistricts();
 }

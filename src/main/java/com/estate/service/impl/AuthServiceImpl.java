@@ -9,8 +9,8 @@ import com.estate.repository.entity.EmailVerificationEntity;
 import com.estate.repository.entity.StaffEntity;
 import com.estate.security.jwt.RefreshTokenService;
 import com.estate.service.AuthService;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,30 +25,19 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
     private static final int MIN_PASSWORD_LENGTH = 8;
     private static final String PURPOSE_RESET_PASSWORD = "RESET_PASSWORD";
     private static final String STATUS_PENDING = "PENDING";
     private static final String STATUS_USED = "USED";
 
-    @Autowired
-    private StaffRepository staffRepository;
-
-    @Autowired
-    private CustomerRepository customerRepository;
-
-    @Autowired
-    private EmailVerificationRepository emailVerificationRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private RefreshTokenService refreshTokenService;
-
-    @Autowired
-    private JavaMailSender mailSender;
-
+    private final StaffRepository staffRepository;
+    private final CustomerRepository customerRepository;
+    private final EmailVerificationRepository emailVerificationRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final RefreshTokenService refreshTokenService;
+    private final JavaMailSender mailSender;
     private final SecureRandom secureRandom = new SecureRandom();
 
     @Override

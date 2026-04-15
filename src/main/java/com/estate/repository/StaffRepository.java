@@ -16,23 +16,24 @@ public interface StaffRepository extends JpaRepository<StaffEntity, Long> {
 
     List<StaffEntity> findByRole(String role);
 
-    @Query("SELECT s.fullName FROM StaffEntity s " +
-            "JOIN s.buildings b " +
-            "WHERE b.id = :buildingId")
+    @Query("""
+            SELECT s.fullName FROM StaffEntity s
+            JOIN s.buildings b
+            WHERE b.id = :buildingId
+            """)
     List<String> findStaffNamesByBuildingId(@Param("buildingId") Long buildingId);
 
     Page<StaffEntity> findByRole(Pageable pageable, String role);
 
     @Query("""
-                SELECT s FROM StaffEntity s
-                WHERE (:fullName = '' OR s.fullName LIKE CONCAT('%', :fullName, '%'))
+            SELECT s FROM StaffEntity s
+            WHERE (:fullName = '' OR s.fullName LIKE CONCAT('%', :fullName, '%'))
                 AND (:role = '' OR s.role = :role)
             """)
     Page<StaffEntity> search(
             @Param("fullName") String fullName,
             @Param("role") String role,
-            Pageable pageable
-    );
+            Pageable pageable);
 
     boolean existsByUsername(String username);
 
@@ -46,30 +47,42 @@ public interface StaffRepository extends JpaRepository<StaffEntity, Long> {
 
     boolean existsByUsernameAndIdNot(String username, Long id);
 
-    @Query("select count(b) from StaffEntity s join s.buildings b where s.id = :staffId")
+    @Query("""
+            SELECT count(b)
+            FROM StaffEntity s
+            JOIN s.buildings b
+            WHERE s.id = :staffId
+            """)
     Long countBuildingsByStaffId(@Param("staffId") Long staffId);
 
-    @Query("select count(c) from StaffEntity s join s.customers c where s.id = :customerId")
+    @Query("""
+            SELECT count(c)
+            FROM StaffEntity s
+            JOIN s.customers c
+            WHERE s.id = :customerId
+            """)
     Long countCustomersByStaffId(@Param("customerId") Long customerId);
 
     @Query("""
-                select count(s) > 0
-                from StaffEntity s
-                join s.buildings b
-                where s.id = :staffId and b.id = :buildingId
+            SELECT count(s) = 0
+            FROM StaffEntity s
+            JOIN s.buildings b
+            WHERE s.id = :staffId and b.id = :buildingId
             """)
-    boolean existsByStaffIdAndBuildingId(@Param("staffId") Long staffId,
-                                         @Param("buildingId") Long buildingId);
+    boolean notExistsByStaffIdAndBuildingId(
+            @Param("staffId") Long staffId,
+            @Param("buildingId") Long buildingId);
 
 
     @Query("""
-                select count(s) > 0
-                from StaffEntity s
-                join s.customers c
-                where s.id = :staffId and c.id = :customerId
+            SELECT count(s) = 0
+            FROM StaffEntity s
+            JOIN s.customers c
+            WHERE s.id = :staffId and c.id = :customerId
             """)
-    boolean existsByStaffIdAndCustomerId(@Param("staffId") Long staffId,
-                                         @Param("customerId") Long customerId);
+    boolean notExistsByStaffIdAndCustomerId(
+            @Param("staffId") Long staffId,
+            @Param("customerId") Long customerId);
 
     Optional<StaffEntity> findByEmail(String email);
 
@@ -79,8 +92,9 @@ public interface StaffRepository extends JpaRepository<StaffEntity, Long> {
             SET s.username = :username
             WHERE s.id = :staffId
             """)
-    void usernameUpdate(@Param("username") String username,
-                        @Param("staffId") Long staffId);
+    void usernameUpdate(
+            @Param("username") String username,
+            @Param("staffId") Long staffId);
 
     @Modifying
     @Query("""
@@ -88,8 +102,9 @@ public interface StaffRepository extends JpaRepository<StaffEntity, Long> {
             SET s.email = :email
             WHERE s.id = :staffId
             """)
-    void emailUpdate(@Param("email") String email,
-                     @Param("staffId") Long staffId);
+    void emailUpdate(
+            @Param("email") String email,
+            @Param("staffId") Long staffId);
 
     @Modifying
     @Query("""
@@ -97,8 +112,9 @@ public interface StaffRepository extends JpaRepository<StaffEntity, Long> {
             SET s.phone = :phone
             WHERE s.id = :staffId
             """)
-    void phoneNumberUpdate(@Param("phone") String phone,
-                           @Param("staffId") Long staffId);
+    void phoneNumberUpdate(
+            @Param("phone") String phone,
+            @Param("staffId") Long staffId);
 
     @Modifying
     @Query("""
@@ -106,22 +122,27 @@ public interface StaffRepository extends JpaRepository<StaffEntity, Long> {
             SET s.password = :password
             WHERE s.id = :staffId
             """)
-    void passwordUpdate(@Param("password") String password,
-                        @Param("staffId") Long staffId);
+    void passwordUpdate(
+            @Param("password") String password,
+            @Param("staffId") Long staffId);
 
     Optional<StaffEntity> findByUsername(String username);
 
     // Lấy danh sách buildingId đang được phân công cho staff
-    @Query("SELECT b.id " +
-            "FROM StaffEntity s " +
-            "JOIN s.buildings b " +
-            "WHERE s.id = :staffId")
+    @Query("""
+            SELECT b.id
+            FROM StaffEntity s
+            JOIN s.buildings b
+            WHERE s.id = :staffId
+            """)
     List<Long> findAssignedBuildingIds(@Param("staffId") Long staffId);
 
     // Lấy danh sách customerId đang được phân công cho staff
-    @Query("SELECT c.id " +
-            "FROM StaffEntity s " +
-            "JOIN s.customers c " +
-            "WHERE s.id = :staffId")
+    @Query("""
+            SELECT c.id
+            FROM StaffEntity s
+            JOIN s.customers c
+            WHERE s.id = :staffId
+            """)
     List<Long> findAssignedCustomerIds(@Param("staffId") Long staffId);
 }

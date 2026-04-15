@@ -51,7 +51,7 @@ public class JwtTokenService {
 
         Long userId = userIdValue instanceof Number number
                 ? number.longValue()
-                : Long.valueOf(String.valueOf(userIdValue));
+                : Long.parseLong(String.valueOf(userIdValue));
         String userType = String.valueOf(userTypeValue);
 
         return new JwtUserClaims(userId, userType);

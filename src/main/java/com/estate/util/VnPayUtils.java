@@ -50,7 +50,7 @@ public class VnPayUtils {
                     .append(urlEncode(value))
                     .append("&");
         }
-        if (query.length() > 0) query.deleteCharAt(query.length() - 1);
+        if (!query.isEmpty()) query.deleteCharAt(query.length() - 1);
         return query.toString();
     }
 
@@ -59,14 +59,5 @@ public class VnPayUtils {
         String ip = request.getHeader("X-FORWARDED-FOR");
         if (ip != null && !ip.isBlank()) return ip.split(",")[0].trim();
         return request.getRemoteAddr();
-    }
-
-    /** random string */
-    public static String randomNumeric(int len) {
-        String chars = "0123456789";
-        Random r = new Random();
-        StringBuilder sb = new StringBuilder(len);
-        for (int i = 0; i < len; i++) sb.append(chars.charAt(r.nextInt(chars.length())));
-        return sb.toString();
     }
 }

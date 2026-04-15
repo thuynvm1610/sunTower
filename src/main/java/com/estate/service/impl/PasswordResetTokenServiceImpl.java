@@ -3,7 +3,7 @@ package com.estate.service.impl;
 import com.estate.repository.PasswordResetTokenRepository;
 import com.estate.repository.entity.PasswordResetTokenEntity;
 import com.estate.service.PasswordResetTokenService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,9 +12,9 @@ import java.util.UUID;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class PasswordResetTokenServiceImpl implements PasswordResetTokenService {
-    @Autowired
-    private PasswordResetTokenRepository tokenRepo;
+    private final PasswordResetTokenRepository tokenRepo;
 
     @Override
     public PasswordResetTokenEntity createToken(String userType, Long userId) {

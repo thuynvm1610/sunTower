@@ -9,7 +9,7 @@ import com.estate.exception.BusinessException;
 import com.estate.repository.*;
 import com.estate.repository.entity.*;
 import com.estate.service.ContractService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -25,30 +25,16 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class ContractServiceImpl implements ContractService {
-    @Autowired
-    private ContractRepository contractRepository;
-
-    @Autowired
-    private ContractListConverter contractListConverter;
-
-    @Autowired
-    private ContractFormConverter contractFormConverter;
-
-    @Autowired
-    private StaffRepository staffRepository;
-
-    @Autowired
-    private BuildingRepository buildingRepository;
-
-    @Autowired
-    private CustomerRepository customerRepository;
-
-    @Autowired
-    private ContractDetailConverter contractDetailConverter;
-
-    @Autowired
-    private SaleContractRepository saleContractRepository;
+    private final ContractRepository contractRepository;
+    private final ContractListConverter contractListConverter;
+    private final ContractFormConverter contractFormConverter;
+    private final StaffRepository staffRepository;
+    private final BuildingRepository buildingRepository;
+    private final CustomerRepository customerRepository;
+    private final ContractDetailConverter contractDetailConverter;
+    private final SaleContractRepository saleContractRepository;
 
     @Override
     public Long countAll() {
@@ -57,7 +43,7 @@ public class ContractServiceImpl implements ContractService {
 
     @Override
     public List<StaffPerformanceDTO> getTopStaffs() {
-        List<Object[]> rawData = contractRepository.countContractsByStaff((Pageable) PageRequest.of(0, 5));
+        List<Object[]> rawData = contractRepository.countContractsByStaff(PageRequest.of(0, 5));
 
         long totalContracts = rawData.stream().mapToLong(r -> (Long) r[2]).sum();
 
@@ -150,7 +136,7 @@ public class ContractServiceImpl implements ContractService {
 
     @Override
     public Map<String, Long> getContractCountByBuilding() {
-        List<Object[]> result = contractRepository.countContractsByBuilding((Pageable) PageRequest.of(0, 5));
+        List<Object[]> result = contractRepository.countContractsByBuilding(PageRequest.of(0, 5));
         Map<String, Long> map = new LinkedHashMap<>();
         for (Object[] row : result) {
             map.put((String) row[0], (Long) row[1]);
@@ -190,9 +176,7 @@ public class ContractServiceImpl implements ContractService {
         }
 
         // Tạo PageImpl giữ nguyên thông tin phân trang gốc
-        Page<ContractListDTO> result = new PageImpl<>(dtoList, contractPage.getPageable(), contractPage.getTotalElements());
-
-        return result;
+        return new PageImpl<>(dtoList, contractPage.getPageable(), contractPage.getTotalElements());
     }
 
     @Override
@@ -212,9 +196,7 @@ public class ContractServiceImpl implements ContractService {
         }
 
         // Tạo PageImpl giữ nguyên thông tin phân trang gốc
-        Page<ContractListDTO> result = new PageImpl<>(dtoList, contractPage.getPageable(), contractPage.getTotalElements());
-
-        return result;
+        return new PageImpl<>(dtoList, contractPage.getPageable(), contractPage.getTotalElements());
     }
 
     @Override
@@ -234,9 +216,7 @@ public class ContractServiceImpl implements ContractService {
         }
 
         // Tạo PageImpl giữ nguyên thông tin phân trang gốc
-        Page<ContractDetailDTO> result = new PageImpl<>(dtoList, contractPage.getPageable(), contractPage.getTotalElements());
-
-        return result;
+        return new PageImpl<>(dtoList, contractPage.getPageable(), contractPage.getTotalElements());
     }
 
     @Override
@@ -245,13 +225,13 @@ public class ContractServiceImpl implements ContractService {
 
         StaffEntity staff = staffRepository.findById(dto.getStaffId()).orElseThrow(() -> new BusinessException("Không tìm thấy nhân viên"));
         // Kiểm tra nhân viên có quản lý tòa nhà không
-        if (!staffRepository.existsByStaffIdAndBuildingId(dto.getStaffId(), dto.getBuildingId())) {
+        if (staffRepository.notExistsByStaffIdAndBuildingId(dto.getStaffId(), dto.getBuildingId())) {
             BuildingEntity building = buildingRepository.findById(dto.getBuildingId()).orElseThrow(() -> new BusinessException("Không tìm thấy tòa nhà"));
             throw new BusinessException("Nhân viên " + staff.getFullName() + " hiện không quản lý tòa nhà " + building.getName());
         }
 
         // Kiểm tra nhân viên có quản lý khách hàng không
-        if (!staffRepository.existsByStaffIdAndCustomerId(dto.getStaffId(), dto.getCustomerId())) {
+        if (staffRepository.notExistsByStaffIdAndCustomerId(dto.getStaffId(), dto.getCustomerId())) {
             CustomerEntity customer = customerRepository.findById(dto.getCustomerId()).orElseThrow(() -> new BusinessException("Không tìm thấy khách hàng"));
             throw new BusinessException("Nhân viên " + staff.getFullName() + " hiện không quản lý khách hàng " + customer.getFullName());
         }
@@ -375,7 +355,7 @@ public class ContractServiceImpl implements ContractService {
 
         List<ContractEntity> contracts = contractRepository.getExpiringContracts(start, end, contractIds);
 
-        return contracts.stream().map(c -> contractListConverter.toDto(c)).toList();
+        return contracts.stream().map(contractListConverter::toDto).toList();
     }
 
     @Override

@@ -14,7 +14,7 @@ import com.estate.repository.entity.StaffEntity;
 import com.estate.security.jwt.RefreshTokenService;
 import com.estate.service.ProfileOtpService;
 import com.estate.service.StaffService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -29,39 +29,19 @@ import java.util.Map;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class StaffServiceImpl implements StaffService {
-    @Autowired
-    private StaffRepository staffRepository;
-
-    @Autowired
-    private BuildingRepository buildingRepository;
-
-    @Autowired
-    private ContractRepository contractRepository;
-
-    @Autowired
-    private StaffListConverter staffListConverter;
-
-    @Autowired
-    private StaffFormConverter staffFormConverter;
-
-    @Autowired
-    private StaffDetailConverter staffDetailConverter;
-
-    @Autowired
-    PasswordEncoder passwordEncoder;
-
-    @Autowired
-    RefreshTokenService refreshTokenService;
-
-    @Autowired
-    CustomerRepository customerRepository;
-
-    @Autowired
-    OAuthIdentityRepository oauthIdentityRepository;
-
-    @Autowired
-    ProfileOtpService profileOtpService;
+    private final StaffRepository staffRepository;
+    private final BuildingRepository buildingRepository;
+    private final ContractRepository contractRepository;
+    private final StaffListConverter staffListConverter;
+    private final StaffFormConverter staffFormConverter;
+    private final StaffDetailConverter staffDetailConverter;
+    private final PasswordEncoder passwordEncoder;
+    private final RefreshTokenService refreshTokenService;
+    private final CustomerRepository customerRepository;
+    private final OAuthIdentityRepository oauthIdentityRepository;
+    private final ProfileOtpService profileOtpService;
 
     @Override
     public Long countAllStaffs() {
@@ -88,13 +68,11 @@ public class StaffServiceImpl implements StaffService {
         }
 
         // Tạo PageImpl giữ nguyên thông tin phân trang gốc
-        Page<StaffListDTO> result = new PageImpl<>(
+        return new PageImpl<>(
                 dtoList,
                 staffPage.getPageable(),
                 staffPage.getTotalElements()
         );
-
-        return result;
     }
 
     @Override
@@ -117,13 +95,11 @@ public class StaffServiceImpl implements StaffService {
         }
 
         // Tạo PageImpl giữ nguyên thông tin phân trang gốc
-        Page<StaffListDTO> result = new PageImpl<>(
+        return new PageImpl<>(
                 dtoList,
                 staffPage.getPageable(),
                 staffPage.getTotalElements()
         );
-
-        return result;
     }
 
     @Override
@@ -156,7 +132,7 @@ public class StaffServiceImpl implements StaffService {
         entity.setPassword(passwordEncoder.encode(dto.getPassword()));
 
         // Lưu nhân viên
-        StaffEntity saved = staffRepository.save(entity);
+        staffRepository.save(entity);
     }
 
     @Override
@@ -179,8 +155,7 @@ public class StaffServiceImpl implements StaffService {
     public StaffDetailDTO viewById(Long id) {
         StaffEntity staffEntity = staffRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("Không tìm thấy nhân viên"));
-        StaffDetailDTO staffDetailDTO = staffDetailConverter.toDTO(staffEntity);
-        return staffDetailDTO;
+        return staffDetailConverter.toDTO(staffEntity);
     }
 
     @Override
@@ -195,12 +170,16 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public String getStaffName(Long staffId) {
-        return staffRepository.findById(staffId).get().getFullName();
+        StaffEntity staff = staffRepository.findById(staffId)
+                .orElseThrow(() -> new BusinessException("Không tim thấy nhân viên"));
+        return staff.getFullName();
     }
 
     @Override
     public String getStaffAvatar(Long staffId) {
-        return staffRepository.findById(staffId).get().getImage();
+        StaffEntity staff = staffRepository.findById(staffId)
+                .orElseThrow(() -> new BusinessException("Không tim thấy nhân viên"));
+        return staff.getImage();
     }
 
     @Override

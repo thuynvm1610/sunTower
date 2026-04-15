@@ -6,13 +6,13 @@ import com.estate.repository.UtilityMeterRepository;
 import com.estate.repository.entity.InvoiceEntity;
 import com.estate.repository.entity.UtilityMeterEntity;
 import com.estate.service.UtilityMeterService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class UtilityMeterServiceImpl implements UtilityMeterService {
-    @Autowired
-    UtilityMeterRepository utilityMeterRepository;
+    private final UtilityMeterRepository utilityMeterRepository;
 
     @Override
     public UtilityMeterEntity findByContractIdAndMonthAndYear(Long contractId, Integer month, Integer year) {

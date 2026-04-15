@@ -1,12 +1,14 @@
 package com.estate.service.impl;
 
 import com.estate.dto.*;
+import com.estate.enums.TransactionType;
+import com.estate.repository.BuildingRepository;
+import com.estate.repository.ContractRepository;
+import com.estate.repository.SaleContractRepository;
 import com.estate.repository.entity.ContractEntity;
 import com.estate.repository.entity.SaleContractEntity;
-import com.estate.enums.TransactionType;
-import com.estate.repository.*;
 import com.estate.service.ReportService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -17,14 +19,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ReportServiceImpl implements ReportService {
-
-    @Autowired
-    private ContractRepository contractRepository;
-    @Autowired
-    private SaleContractRepository saleContractRepository;
-    @Autowired
-    private BuildingRepository buildingRepository;
+    private final ContractRepository contractRepository;
+    private final SaleContractRepository saleContractRepository;
+    private final BuildingRepository buildingRepository;
 
     private static final int EXPIRY_WARNING_DAYS = 30;
     private static final int TOP_N = 5;
@@ -103,7 +102,7 @@ public class ReportServiceImpl implements ReportService {
             expiringCount = expiring.size();
             expiringList = expiring.stream()
                     .sorted(Comparator.comparing(ContractEntity::getEndDate))
-                    .collect(Collectors.toList());
+                    .toList();
         }
         dto.setExpiringContractsCount(expiringCount);
 
@@ -195,7 +194,6 @@ public class ReportServiceImpl implements ReportService {
         int endMonth = (c.getEndDate().getYear() > targetYear)
                 ? 12 : c.getEndDate().getMonthValue();
 
-        startMonth = Math.max(1, startMonth);
         endMonth = Math.min(cutoffMonth, endMonth);
 
         if (startMonth > endMonth) {
@@ -237,7 +235,6 @@ public class ReportServiceImpl implements ReportService {
 
             int startMonth = c.getStartDate().getYear() < targetYear ? 1 : c.getStartDate().getMonthValue();
             int endMonth = c.getEndDate().getYear() > targetYear ? 12 : c.getEndDate().getMonthValue();
-            startMonth = Math.max(1, startMonth);
             endMonth = Math.min(cutoffMonth, endMonth); // cắt tại cutoffMonth
 
             if (startMonth > endMonth) continue;
@@ -379,7 +376,6 @@ public class ReportServiceImpl implements ReportService {
             BigDecimal monthly = c.getRentPrice().multiply(BigDecimal.valueOf(c.getRentArea()));
             int startMonth = c.getStartDate().getYear() < targetYear ? 1 : c.getStartDate().getMonthValue();
             int endMonth = c.getEndDate().getYear() > targetYear ? 12 : c.getEndDate().getMonthValue();
-            startMonth = Math.max(1, startMonth);
             endMonth = Math.min(cutoffMonth, endMonth);
             if (startMonth > endMonth) continue;
 
@@ -442,7 +438,6 @@ public class ReportServiceImpl implements ReportService {
             BigDecimal monthly = c.getRentPrice().multiply(BigDecimal.valueOf(c.getRentArea()));
             int startMonth = c.getStartDate().getYear() < targetYear ? 1 : c.getStartDate().getMonthValue();
             int endMonth = c.getEndDate().getYear() > targetYear ? 12 : c.getEndDate().getMonthValue();
-            startMonth = Math.max(1, startMonth);
             endMonth = Math.min(cutoffMonth, endMonth);
             if (startMonth > endMonth) continue;
 
