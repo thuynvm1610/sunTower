@@ -84,6 +84,21 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
+    public List<ChatRoomSummaryDTO> getCustomerInbox(Long customerId) {
+        return chatRoomRepository.findByCustomerIdAndLastMessageAtIsNotNullOrderByLastMessageAtDesc(customerId)
+                .stream()
+                .map(room -> {
+                    ChatRoomSummaryDTO dto = toSummary(room);
+                    dto.setUnreadCount(chatMessageRepository.countUnreadByRoomIdAndSenderTypeNot(room.getId(), ChatSenderType.CUSTOMER));
+                    dto.setLastMessage(chatMessageRepository.findTopByRoomIdOrderByCreatedAtDesc(room.getId())
+                            .map(ChatMessageEntity::getContent)
+                            .orElse(null));
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<ChatMessageDTO> getRoomMessages(Long roomId, Long userId, String userType) {
         ChatRoomEntity room = findAndAuthorize(roomId, userId, userType);
         markAsRead(roomId, userId, userType);
@@ -148,6 +163,20 @@ public class ChatServiceImpl implements ChatService {
                 ? ChatSenderType.STAFF
                 : ChatSenderType.CUSTOMER;
         chatMessageRepository.markReadByRoomId(room.getId(), senderType, LocalDateTime.now());
+    }
+
+    @Override
+    public ChatRoomSummaryDTO getRoomSummary(Long roomId, Long userId, String userType) {
+        ChatRoomEntity room = findAndAuthorize(roomId, userId, userType);
+        ChatRoomSummaryDTO dto = toSummary(room);
+        dto.setUnreadCount(chatMessageRepository.countUnreadByRoomIdAndSenderTypeNot(
+                room.getId(),
+                "STAFF".equalsIgnoreCase(userType) ? ChatSenderType.STAFF : ChatSenderType.CUSTOMER
+        ));
+        dto.setLastMessage(chatMessageRepository.findTopByRoomIdOrderByCreatedAtDesc(room.getId())
+                .map(ChatMessageEntity::getContent)
+                .orElse(null));
+        return dto;
     }
 
     private ChatRoomEntity findAndAuthorize(Long roomId, Long userId, String userType) {

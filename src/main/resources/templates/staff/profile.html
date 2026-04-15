@@ -762,7 +762,12 @@
         <div class="py-2 border-bottom border-white border-opacity-10">
             <div class="container-fluid px-4">
                 <div class="d-flex justify-content-between align-items-center">
-                    <div class="logo">SunTower</div>
+                    <div class="logo d-flex align-items-center gap-2">
+                        <div
+                            style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;background:#3b6ef0;border-radius:6px;">
+                            <i class="bi bi-sun-fill" style="font-size:16px;color:white;"></i>
+                        </div>SunTower
+                    </div>
                     <div class="d-flex align-items-center gap-3">
                         <div class="text-end d-none d-sm-block">
                             <small class="d-block opacity-75" style="font-size:11px;">Xin chào,</small>
@@ -773,6 +778,19 @@
                                 onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23c5cae9%22/%3E%3Ccircle cx=%2250%22 cy=%2238%22 r=%2218%22 fill=%22%235c6bc0%22/%3E%3Ccircle cx=%2250%22 cy=%2290%22 r=%2230%22 fill=%22%235c6bc0%22/%3E%3C/svg%3E'"
                                 alt="Avatar" class="header-avatar">
                         </a>
+                        <div class="dropdown">
+                            <button class="btn btn-outline-primary btn-sm position-relative" id="chatNotificationBtn"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-bell"></i>
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none"
+                                    id="chatUnreadBadge">0</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end p-0 shadow" id="chatDropdownMenu"
+                                style="min-width:380px;max-height:420px;overflow:auto;">
+                                <li><span class="dropdown-item-text text-muted small">Đang tải...</span></li>
+                            </ul>
+                        </div>
                         <a href="#" class="btn btn-logout"
                             onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">Đăng
                             xuất</a>
@@ -1250,6 +1268,39 @@
             });
         });
     </script>
+
+    <!-- Staff chat modal -->
+    <div class="modal fade" id="staffChatModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div>
+                        <h5 class="modal-title" id="staffChatTitle">Hội thoại hỗ trợ</h5>
+                        <div class="small opacity-75" id="staffChatSubtitle"></div>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="staffChatMessages" style="min-height:320px;max-height:420px;overflow-y:auto;"></div>
+                    <div id="staffChatEmpty" class="text-center text-muted py-5">Chưa có tin nhắn nào</div>
+                    <div id="staffChatTyping" class="small text-primary d-none mb-2">... Đang soạn tin</div>
+                </div>
+                <div class="modal-footer d-flex flex-column align-items-stretch gap-2">
+                    <textarea id="staffChatInput" class="form-control" rows="2"
+                        placeholder="Nhập tin nhắn..."></textarea>
+                    <div class="d-flex justify-content-end gap-2">
+                        <button type="button" class="btn btn-outline-secondary" id="staffChatCloseRoomBtn">Đóng hội
+                            thoại</button>
+                        <button type="button" class="btn btn-primary" id="staffChatSendBtn">Gửi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+    <script src="/js/chat-staff.js"></script>
 
     <script>
         // HAMBURGER MENU

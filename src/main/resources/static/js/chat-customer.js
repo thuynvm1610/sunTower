@@ -2,12 +2,14 @@
     const state = {
         stomp: null,
         roomId: null,
+        roomSummary: null,
         buildingId: null,
         staffId: null,
         typingTimer: null,
         typingSent: false,
         roomSubscription: null,
-        typingSubscription: null
+        typingSubscription: null,
+        notificationSubscription: null
     };
     const viewerType = "CUSTOMER";
 
@@ -58,6 +60,99 @@
         scrollBottom();
     }
 
+    function getRoomLabel(room) {
+        if (!room) return "";
+        const parts = [];
+        if (room.staffName) parts.push(room.staffName);
+        if (room.staffPhone) parts.push(room.staffPhone);
+        return parts.join(" | ");
+    }
+
+    function ensureCustomerChatDom() {
+        if (!document.getElementById("customerChatNotificationBtn")) {
+            const actionHost =
+                document.getElementById("customerChatHeaderHost")
+                || document.querySelector(".header-top .d-flex.justify-content-between > .d-flex.align-items-center.gap-3")
+                || document.querySelector(".header-top .d-flex.justify-content-between > .d-flex.align-items-center")
+                || document.querySelector(".header-top .d-flex.justify-content-between");
+            const logoutBtn = document.querySelector(".btn-logout");
+            if (actionHost) {
+                const wrapper = document.createElement("div");
+                wrapper.id = "customerChatNotificationWrap";
+                wrapper.className = "dropdown";
+                wrapper.innerHTML = `
+                    <button class="btn btn-outline-primary btn-sm position-relative" id="customerChatNotificationBtn" data-bs-toggle="dropdown" aria-expanded="false" type="button" title="Hội thoại hỗ trợ">
+                        <i class="bi bi-bell"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none" id="customerChatUnreadBadge"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end p-0 shadow" id="customerChatDropdownMenu" style="min-width:340px; max-height:380px; overflow-y:auto;"></ul>
+                `;
+                if (logoutBtn && logoutBtn.parentElement === actionHost) {
+                    actionHost.insertBefore(wrapper, logoutBtn);
+                } else {
+                    actionHost.appendChild(wrapper);
+                }
+            }
+        }
+
+        if (!document.getElementById("staffSelectModal")) {
+            const selectModal = document.createElement("div");
+            selectModal.id = "customerChatSelectModalHost";
+            selectModal.innerHTML = `
+                <div class="modal fade" id="staffSelectModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <div>
+                                    <h5 class="modal-title" id="staffSelectTitle">Chọn nhân viên</h5>
+                                    <div class="small opacity-75">Chọn 1 nhân viên để mở cuộc hội thoại.</div>
+                                </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="list-group" id="staffSelectList"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(selectModal);
+        }
+
+        if (!document.getElementById("customerChatModal")) {
+            const chatModal = document.createElement("div");
+            chatModal.id = "customerChatModalHost";
+            chatModal.innerHTML = `
+                <div class="modal fade" id="customerChatModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <div>
+                                    <h5 class="modal-title" id="customerChatTitle">Hỗ trợ</h5>
+                                    <div class="small opacity-75" id="customerChatSubtitle"></div>
+                                </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div id="customerChatMessages" style="min-height:320px;max-height:420px;overflow-y:auto;"></div>
+                                <div id="customerChatEmpty" class="text-center text-muted py-5">Chưa có tin nhắn nào</div>
+                                <div id="customerChatTyping" class="small text-primary d-none mb-2">...đang soạn tin.</div>
+                            </div>
+                            <div class="modal-footer d-flex flex-column align-items-stretch gap-2">
+                                <textarea id="customerChatInput" class="form-control" rows="2" placeholder="Nhập tin nhắn..."></textarea>
+                                <div class="d-flex justify-content-end gap-2">
+                                    <button type="button" class="btn btn-outline-secondary" id="customerChatCloseRoomBtn">Đóng hội thoại</button>
+                                    <button type="button" class="btn btn-primary" id="customerChatSendBtn">Gửi</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(chatModal);
+        }
+    }
+
     function appendMessage(message) {
         const mine = String(message.senderType || "").toUpperCase() === viewerType;
         $("#customerChatMessages").append(`
@@ -87,6 +182,11 @@
             const payload = JSON.parse(frame.body);
             appendMessage(payload);
             $("#customerChatEmpty").addClass("d-none");
+            if (state.roomId === Number(roomId) && String(payload.senderType || "").toUpperCase() !== viewerType) {
+                markCurrentRoomRead().then(loadInbox);
+            } else {
+                loadInbox();
+            }
         });
 
         state.typingSubscription = state.stomp.subscribe(`/topic/chat/typing/${roomId}`, function (frame) {
@@ -114,6 +214,7 @@
         state.buildingId = Number(buildingId);
         state.staffId = Number(staffId);
         state.roomId = response.room.roomId;
+        state.roomSummary = response.room;
 
             $("#customerChatTitle").text(buildingName || response.room.buildingName || "Hỗ trợ");
             $("#customerChatSubtitle").text(`${staffName || response.room.staffName || ""}${response.room.staffPhone ? " | " + response.room.staffPhone : ""}`);
@@ -125,7 +226,10 @@
             renderMessages(response.messages || []);
 
             await ensureConnected();
+            subscribeNotifications();
             subscribeRoom(state.roomId);
+            markCurrentRoomRead().catch(console.error);
+            loadInbox().catch(console.error);
         } catch (error) {
             const message = error?.responseJSON?.message || "Không thể mở cuộc hội thoại.";
             if (window.Swal) {
@@ -170,6 +274,99 @@
             const message = error?.responseJSON?.message || "Không thể tải danh sách nhân viên.";
             if (window.Swal) {
                 Swal.fire({ icon: "error", title: "Liên hệ thất bại", text: message });
+            } else {
+                alert(message);
+            }
+        }
+    }
+
+    async function markCurrentRoomRead() {
+        if (!state.roomId) return;
+        try {
+            await $.post(`/customer/chat/rooms/${state.roomId}/read`);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async function loadInbox() {
+        try {
+            const rooms = await $.get("/customer/chat/rooms");
+            const menu = $("#customerChatDropdownMenu");
+            const badge = $("#customerChatUnreadBadge");
+            if (!menu.length) return;
+
+            menu.empty();
+            let unreadTotal = 0;
+
+            if (!rooms || rooms.length === 0) {
+                menu.append(`<li><span class="dropdown-item-text text-muted small">Chưa có cuộc hội thoại nào</span></li>`);
+            } else {
+                rooms.forEach(room => {
+                    unreadTotal += Number(room.unreadCount || 0);
+                    const preview = room.lastMessage || "Cuộc hội thoại mới";
+                    const title = `${room.staffName || ""}${room.staffPhone ? " | " + room.staffPhone : ""}`.trim();
+                    menu.append(`
+                        <li>
+                            <button class="dropdown-item customer-chat-room-item text-start" type="button"
+                                    data-room-id="${room.roomId}"
+                                    data-building-name="${escapeHtml(room.buildingName || "")}"
+                                    data-staff-name="${escapeHtml(room.staffName || "")}"
+                                    data-staff-phone="${escapeHtml(room.staffPhone || "")}">
+                                <div class="d-flex justify-content-between gap-3">
+                                    <div class="text-start">
+                                        <div class="fw-semibold">${escapeHtml(title || "")}</div>
+                                        <div class="small text-muted">${escapeHtml(room.buildingName || "")}</div>
+                                        <div class="small text-truncate" style="max-width:250px;">${escapeHtml(preview)}</div>
+                                    </div>
+                                    <div class="text-end small">
+                                        ${room.unreadCount ? `<span class="badge bg-primary rounded-pill">${room.unreadCount}</span>` : ""}
+                                    </div>
+                                </div>
+                            </button>
+                        </li>
+                    `);
+                });
+            }
+
+            if (badge.length) {
+                badge.text(unreadTotal > 0 ? unreadTotal : "");
+                badge.toggleClass("d-none", unreadTotal <= 0);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    function subscribeNotifications() {
+        if (!state.stomp || !state.stomp.connected || state.notificationSubscription) return;
+        state.notificationSubscription = state.stomp.subscribe("/user/queue/chat/notifications", function () {
+            loadInbox();
+        });
+    }
+
+    async function openExistingRoom(roomId, buildingName, staffName, staffPhone) {
+        try {
+            const messages = await $.get(`/customer/chat/rooms/${roomId}/messages`);
+            state.roomId = roomId;
+            state.roomSummary = { roomId, buildingName, staffName, staffPhone };
+
+            $("#customerChatTitle").text(buildingName || "Hỗ trợ");
+            $("#customerChatSubtitle").text(`${staffName || ""}${staffPhone ? " | " + staffPhone : ""}`);
+            $("#customerChatInput").val("");
+            $("#customerChatTyping").addClass("d-none");
+            $("#customerChatModal").modal("show");
+            renderMessages(messages || []);
+
+            await ensureConnected();
+            subscribeNotifications();
+            subscribeRoom(state.roomId);
+            markCurrentRoomRead().catch(console.error);
+            loadInbox().catch(console.error);
+        } catch (error) {
+            const message = error?.responseJSON?.message || "Không thể mở cuộc hội thoại.";
+            if (window.Swal) {
+                Swal.fire({ icon: "error", title: "Không thể mở hội thoại", text: message });
             } else {
                 alert(message);
             }
@@ -225,8 +422,12 @@
     }
 
     function bindEvents() {
+        ensureCustomerChatDom();
         $("#customerChatSendBtn").on("click", sendMessage);
         $("#customerChatCloseRoomBtn").on("click", closeRoom);
+        $("#customerChatNotificationBtn").on("click", function () {
+            loadInbox();
+        });
 
         $("#customerChatInput").on("input", function () {
             if (!state.roomId || !state.stomp || !state.stomp.connected) return;
@@ -264,6 +465,16 @@
             }
             state.roomId = null;
         });
+
+        $(document).on("click", ".customer-chat-room-item", function () {
+            const roomId = Number($(this).data("room-id"));
+            const buildingName = String($(this).data("building-name") || "");
+            const staffName = String($(this).data("staff-name") || "");
+            const staffPhone = String($(this).data("staff-phone") || "");
+            if (roomId) {
+                openExistingRoom(roomId, buildingName, staffName, staffPhone);
+            }
+        });
     }
 
     window.ChatCustomer = {
@@ -275,4 +486,9 @@
     };
 
     $(bindEvents);
+    $(function () {
+        ensureCustomerChatDom();
+        ensureConnected().then(subscribeNotifications);
+        loadInbox();
+    });
 })();

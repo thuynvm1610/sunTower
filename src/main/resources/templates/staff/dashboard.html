@@ -534,7 +534,11 @@
         <div class="py-2">
             <div class="container-fluid px-4">
                 <div class="d-flex justify-content-between align-items-center">
-                    <div class="logo">SunTower</div>
+                    <div class="logo d-flex align-items-center gap-2">
+                        <div
+                            style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;background:#3b6ef0;border-radius:6px;">
+                            <i class="bi bi-sun-fill" style="font-size:16px;color:white;"></i></div>SunTower
+                    </div>
                     <div class="d-flex align-items-center gap-3">
                         <div class="text-end d-none d-sm-block">
                             <small class="d-block" style="font-size:11px;color:var(--muted);">Xin chào,</small>
@@ -550,7 +554,8 @@
                             <button class="btn btn-outline-primary btn-sm position-relative" id="chatNotificationBtn"
                                 data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-bell"></i>
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none"
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none"
                                     id="chatUnreadBadge">0</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end p-0 shadow" id="chatDropdownMenu"
@@ -873,12 +878,14 @@
                 <div class="modal-body">
                     <div id="staffChatMessages" style="min-height:320px;max-height:420px;overflow-y:auto;"></div>
                     <div id="staffChatEmpty" class="text-center text-muted py-5">Chưa có tin nhắn nào</div>
-                    <div id="staffChatTyping" class="small text-primary d-none mb-2">...đang soạn tin.</div>
+                    <div id="staffChatTyping" class="small text-primary d-none mb-2">... Đang soạn tin</div>
                 </div>
                 <div class="modal-footer d-flex flex-column align-items-stretch gap-2">
-                    <textarea id="staffChatInput" class="form-control" rows="2" placeholder="Nhập tin nhắn..."></textarea>
+                    <textarea id="staffChatInput" class="form-control" rows="2"
+                        placeholder="Nhập tin nhắn..."></textarea>
                     <div class="d-flex justify-content-end gap-2">
-                        <button type="button" class="btn btn-outline-secondary" id="staffChatCloseRoomBtn">Đóng hội thoại</button>
+                        <button type="button" class="btn btn-outline-secondary" id="staffChatCloseRoomBtn">Đóng hội
+                            thoại</button>
                         <button type="button" class="btn btn-primary" id="staffChatSendBtn">Gửi</button>
                     </div>
                 </div>

@@ -14,6 +14,8 @@ public interface ChatService {
 
     List<ChatRoomSummaryDTO> getStaffInbox(Long staffId);
 
+    List<ChatRoomSummaryDTO> getCustomerInbox(Long customerId);
+
     List<ChatMessageDTO> getRoomMessages(Long roomId, Long userId, String userType);
 
     ChatMessageDTO sendMessage(Long roomId, Long senderId, String senderType, String content);
@@ -21,4 +23,6 @@ public interface ChatService {
     ChatRoomSummaryDTO closeRoom(Long roomId, Long userId, String userType);
 
     void markAsRead(Long roomId, Long userId, String userType);
+
+    ChatRoomSummaryDTO getRoomSummary(Long roomId, Long userId, String userType);
 }

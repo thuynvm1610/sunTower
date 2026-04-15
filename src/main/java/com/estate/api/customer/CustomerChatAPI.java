@@ -24,6 +24,13 @@ public class CustomerChatAPI {
         return ResponseEntity.ok(chatService.getStaffOptionsByBuilding(buildingId, user.getUserId()));
     }
 
+    @GetMapping("/rooms")
+    public ResponseEntity<List<ChatRoomSummaryDTO>> getInbox(
+            @AuthenticationPrincipal CustomUserDetails user
+    ) {
+        return ResponseEntity.ok(chatService.getCustomerInbox(user.getUserId()));
+    }
+
     @PostMapping("/rooms/open")
     public ResponseEntity<ChatRoomOpenResponseDTO> openRoom(
             @RequestBody ChatRoomCreateRequestDTO request,
@@ -38,6 +45,14 @@ public class CustomerChatAPI {
             @AuthenticationPrincipal CustomUserDetails user
     ) {
         return ResponseEntity.ok(chatService.getRoomMessages(roomId, user.getUserId(), "CUSTOMER"));
+    }
+
+    @GetMapping("/rooms/{roomId}")
+    public ResponseEntity<ChatRoomSummaryDTO> getRoomSummary(
+            @PathVariable Long roomId,
+            @AuthenticationPrincipal CustomUserDetails user
+    ) {
+        return ResponseEntity.ok(chatService.getRoomSummary(roomId, user.getUserId(), "CUSTOMER"));
     }
 
     @PostMapping("/rooms/{roomId}/messages")
@@ -55,5 +70,14 @@ public class CustomerChatAPI {
             @AuthenticationPrincipal CustomUserDetails user
     ) {
         return ResponseEntity.ok(chatService.closeRoom(roomId, user.getUserId(), "CUSTOMER"));
+    }
+
+    @PostMapping("/rooms/{roomId}/read")
+    public ResponseEntity<Void> markRead(
+            @PathVariable Long roomId,
+            @AuthenticationPrincipal CustomUserDetails user
+    ) {
+        chatService.markAsRead(roomId, user.getUserId(), "CUSTOMER");
+        return ResponseEntity.ok().build();
     }
 }
