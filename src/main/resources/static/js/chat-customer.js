@@ -136,7 +136,7 @@
                             <div class="modal-body">
                                 <div id="customerChatMessages" style="min-height:320px;max-height:420px;overflow-y:auto;"></div>
                                 <div id="customerChatEmpty" class="text-center text-muted py-5">Chưa có tin nhắn nào</div>
-                                <div id="customerChatTyping" class="small text-primary d-none mb-2">...đang soạn tin.</div>
+                                <div id="customerChatTyping" class="small text-primary d-none mb-2">... Đang soạn tin</div>
                             </div>
                             <div class="modal-footer d-flex flex-column align-items-stretch gap-2">
                                 <textarea id="customerChatInput" class="form-control" rows="2" placeholder="Nhập tin nhắn..."></textarea>
@@ -199,7 +199,7 @@
         });
     }
 
-    async function openRoom(buildingId, staffId, buildingName, staffName) {
+    async function openRoom(buildingId, staffId, buildingName, staffName, silent = false) {
         try {
             const response = await $.ajax({
                 url: "/customer/chat/rooms/open",
@@ -230,13 +230,19 @@
             subscribeRoom(state.roomId);
             markCurrentRoomRead().catch(console.error);
             loadInbox().catch(console.error);
+            return response;
         } catch (error) {
+            if (silent) {
+                console.error(error);
+                return null;
+            }
             const message = error?.responseJSON?.message || "Không thể mở cuộc hội thoại.";
             if (window.Swal) {
                 Swal.fire({ icon: "error", title: "Không thể liên hệ", text: message });
             } else {
                 alert(message);
             }
+            throw error;
         }
     }
 
@@ -308,8 +314,10 @@
                     const title = `${room.staffName || ""}${room.staffPhone ? " | " + room.staffPhone : ""}`.trim();
                     menu.append(`
                         <li>
-                            <button class="dropdown-item customer-chat-room-item text-start" type="button"
+                    <button class="dropdown-item customer-chat-room-item text-start" type="button"
+                                    data-building-id="${room.buildingId}"
                                     data-room-id="${room.roomId}"
+                                    data-staff-id="${room.staffId}"
                                     data-building-name="${escapeHtml(room.buildingName || "")}"
                                     data-staff-name="${escapeHtml(room.staffName || "")}"
                                     data-staff-phone="${escapeHtml(room.staffPhone || "")}">
@@ -345,32 +353,67 @@
         });
     }
 
-    async function openExistingRoom(roomId, buildingName, staffName, staffPhone) {
+    async function openExistingRoom(roomId, buildingId, staffId, buildingName, staffName, staffPhone, silent = false) {
         try {
-            const messages = await $.get(`/customer/chat/rooms/${roomId}/messages`);
-            state.roomId = roomId;
-            state.roomSummary = { roomId, buildingName, staffName, staffPhone };
+            const response = await $.post(`/customer/chat/rooms/${roomId}/resume`);
+            state.roomId = response.room.roomId;
+            state.roomSummary = response.room;
 
-            $("#customerChatTitle").text(buildingName || "Hỗ trợ");
-            $("#customerChatSubtitle").text(`${staffName || ""}${staffPhone ? " | " + staffPhone : ""}`);
+            $("#customerChatTitle").text(buildingName || response.room.buildingName || "Hỗ trợ");
+            $("#customerChatSubtitle").text(`${staffName || response.room.staffName || ""}${staffPhone || response.room.staffPhone ? " | " + (staffPhone || response.room.staffPhone || "") : ""}`);
             $("#customerChatInput").val("");
             $("#customerChatTyping").addClass("d-none");
             $("#customerChatModal").modal("show");
-            renderMessages(messages || []);
+            renderMessages(response.messages || []);
 
             await ensureConnected();
             subscribeNotifications();
             subscribeRoom(state.roomId);
             markCurrentRoomRead().catch(console.error);
             loadInbox().catch(console.error);
+            return response;
         } catch (error) {
+            if (buildingId && staffId) {
+                try {
+                    return await openRoom(buildingId, staffId, buildingName, staffName, true);
+                } catch (fallbackError) {
+                    console.error(fallbackError);
+                    return;
+                }
+            }
+            if (silent) {
+                console.error(error);
+                return null;
+            }
             const message = error?.responseJSON?.message || "Không thể mở cuộc hội thoại.";
             if (window.Swal) {
                 Swal.fire({ icon: "error", title: "Không thể mở hội thoại", text: message });
             } else {
                 alert(message);
             }
+            throw error;
         }
+    }
+
+    async function openConversationFromInbox(roomId, buildingId, staffId, buildingName, staffName, staffPhone) {
+        const normalizedBuildingId = Number(buildingId);
+        const normalizedStaffId = Number(staffId);
+
+        if (normalizedBuildingId && normalizedStaffId) {
+            const opened = await openRoom(normalizedBuildingId, normalizedStaffId, buildingName, staffName, true);
+            if (opened) {
+                return opened;
+            }
+        }
+
+        if (roomId) {
+            const resumed = await openExistingRoom(roomId, normalizedBuildingId, normalizedStaffId, buildingName, staffName, staffPhone, true);
+            if (resumed) {
+                return resumed;
+            }
+        }
+
+        return null;
     }
 
     async function sendMessage() {
@@ -467,13 +510,14 @@
         });
 
         $(document).on("click", ".customer-chat-room-item", function () {
+            const buildingId = Number($(this).data("building-id"));
+            const staffId = Number($(this).data("staff-id"));
             const roomId = Number($(this).data("room-id"));
             const buildingName = String($(this).data("building-name") || "");
             const staffName = String($(this).data("staff-name") || "");
             const staffPhone = String($(this).data("staff-phone") || "");
-            if (roomId) {
-                openExistingRoom(roomId, buildingName, staffName, staffPhone);
-            }
+            openConversationFromInbox(roomId, buildingId, staffId, buildingName, staffName, staffPhone)
+                .catch(console.error);
         });
     }
 

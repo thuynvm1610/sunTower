@@ -39,6 +39,14 @@ public class CustomerChatAPI {
         return ResponseEntity.ok(chatService.openRoom(request.getBuildingId(), request.getStaffId(), user.getUserId()));
     }
 
+    @PostMapping("/rooms/{roomId}/resume")
+    public ResponseEntity<ChatRoomOpenResponseDTO> resumeRoom(
+            @PathVariable Long roomId,
+            @AuthenticationPrincipal CustomUserDetails user
+    ) {
+        return ResponseEntity.ok(chatService.resumeRoom(roomId, user.getUserId()));
+    }
+
     @GetMapping("/rooms/{roomId}/messages")
     public ResponseEntity<List<ChatMessageDTO>> getMessages(
             @PathVariable Long roomId,

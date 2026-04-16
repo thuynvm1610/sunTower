@@ -12,6 +12,8 @@ public interface ChatService {
 
     ChatRoomOpenResponseDTO openRoom(Long buildingId, Long staffId, Long customerId);
 
+    ChatRoomOpenResponseDTO resumeRoom(Long roomId, Long customerId);
+
     List<ChatRoomSummaryDTO> getStaffInbox(Long staffId);
 
     List<ChatRoomSummaryDTO> getCustomerInbox(Long customerId);

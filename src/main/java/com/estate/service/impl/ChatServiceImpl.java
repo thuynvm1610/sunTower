@@ -69,6 +69,17 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
+    public ChatRoomOpenResponseDTO resumeRoom(Long roomId, Long customerId) {
+        ChatRoomEntity room = chatRoomRepository.findById(roomId)
+                .orElseThrow(() -> new BusinessException("Không tìm thấy cuộc hội thoại"));
+        authorize(room, customerId, "CUSTOMER");
+        room.setStatus(ChatRoomStatus.OPEN);
+        room.setClosedAt(null);
+        room = chatRoomRepository.save(room);
+        return new ChatRoomOpenResponseDTO(toSummary(room), getRoomMessages(room.getId(), customerId, "CUSTOMER"));
+    }
+
+    @Override
     public List<ChatRoomSummaryDTO> getStaffInbox(Long staffId) {
         return chatRoomRepository.findByStaffIdAndLastMessageAtIsNotNullOrderByLastMessageAtDesc(staffId)
                 .stream()
