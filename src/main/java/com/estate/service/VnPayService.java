@@ -20,14 +20,9 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class VnPayService {
-    @Autowired
-    VnPayConfig config;
-
-    @Autowired
-    InvoiceRepository invoiceRepository;
-
-    @Autowired
-    InvoiceService invoiceService;
+    private final VnPayConfig config;
+    private final InvoiceRepository invoiceRepository;
+    private final InvoiceService invoiceService;
 
     private static final DateTimeFormatter VNP_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 
