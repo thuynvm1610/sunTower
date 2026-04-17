@@ -56,7 +56,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     if (SecurityContextHolder.getContext().getAuthentication() != null) {
                         return;
                     }
-                } catch (RuntimeException ignored) {
+                } catch (RuntimeException e) {
+                    System.err.println(">>> JWT auth failed: " + e.getClass().getName() + ": " + e.getMessage());
                     // Fall through to refresh token handling.
                 }
             } catch (JwtException | IllegalArgumentException ignored) {
