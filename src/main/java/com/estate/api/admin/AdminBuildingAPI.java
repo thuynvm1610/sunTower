@@ -5,33 +5,24 @@ import com.estate.dto.BuildingFormDTO;
 import com.estate.dto.BuildingListDTO;
 import com.estate.exception.InputValidationException;
 import com.estate.service.BuildingService;
+import com.estate.service.ImageStorageService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/admin/building")
 @RequiredArgsConstructor
 public class AdminBuildingAPI {
     private final BuildingService buildingService;
-
-    // Đường dẫn lưu ảnh — cấu hình trong application.properties
-    @Value("${building.image.upload-dir:src/main/resources/static/images/building_img}")
-    private String uploadDir;
+    private final ImageStorageService imageStorageService;
 
     // Định dạng và dung lượng cho phép
     private static final List<String> ALLOWED_TYPES = List.of("image/jpeg", "image/png", "image/webp");
@@ -85,63 +76,30 @@ public class AdminBuildingAPI {
         return ResponseEntity.ok().build();
     }
 
-    // ── Upload ảnh bất động sản ───────────────────────────────────────────────
+    // Upload ảnh bất động sản
     @PostMapping("/upload-image")
     public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file) {
-        // 1. Kiểm tra file rỗng
-        if (file.isEmpty()) {
-            return ResponseEntity.badRequest()
-                    .body(Map.of("message", "Vui lòng chọn file ảnh."));
-        }
-
-        // 2. Kiểm tra dung lượng (tối đa 5 MB)
-        if (file.getSize() > MAX_SIZE_BYTES) {
-            return ResponseEntity.badRequest()
-                    .body(Map.of("message", "File quá lớn. Dung lượng tối đa cho phép là 5 MB."));
-        }
-
-        // 3. Kiểm tra định dạng theo Content-Type
+        // validate (giữ nguyên logic cũ)
+        if (file.isEmpty())
+            return ResponseEntity.badRequest().body(Map.of("message", "Vui lòng chọn file ảnh."));
+        if (file.getSize() > MAX_SIZE_BYTES)
+            return ResponseEntity.badRequest().body(Map.of("message", "File quá lớn. Tối đa 5 MB."));
         String contentType = file.getContentType();
-        if (contentType == null || !ALLOWED_TYPES.contains(contentType)) {
-            return ResponseEntity.badRequest()
-                    .body(Map.of("message", "Định dạng không hợp lệ. Chỉ chấp nhận JPG, PNG, WEBP."));
-        }
-
-        // 4. Kiểm tra extension tên file
-        String originalName = file.getOriginalFilename() != null
-                ? file.getOriginalFilename().toLowerCase()
-                : "";
-        boolean validExt = ALLOWED_EXTS.stream().anyMatch(originalName::endsWith);
-        if (!validExt) {
-            return ResponseEntity.badRequest()
-                    .body(Map.of("message", "Định dạng file không hợp lệ. Chỉ chấp nhận .jpg, .png, .webp."));
-        }
-
-        // 5. Lấy extension và tạo tên file unique
-        String ext = originalName.substring(originalName.lastIndexOf('.'));
-        String newFilename = UUID.randomUUID().toString().replace("-", "") + ext;
+        if (contentType == null || !ALLOWED_TYPES.contains(contentType))
+            return ResponseEntity.badRequest().body(Map.of("message", "Định dạng không hợp lệ."));
+        String originalName = file.getOriginalFilename() != null ? file.getOriginalFilename().toLowerCase() : "";
+        if (ALLOWED_EXTS.stream().noneMatch(originalName::endsWith))
+            return ResponseEntity.badRequest().body(Map.of("message", "Định dạng file không hợp lệ."));
 
         try {
-            // 6. Tạo thư mục nếu chưa có
-            Path uploadPath = Paths.get(uploadDir).toAbsolutePath();
-            Files.createDirectories(uploadPath);
-
-            // 7. Lưu file
-            Path targetPath = uploadPath.resolve(newFilename);
-            Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
-
-            return ResponseEntity.ok(Map.of(
-                    "filename", newFilename,
-                    "message", "Upload thành công"
-            ));
-
-        } catch (IOException e) {
-            return ResponseEntity.internalServerError()
-                    .body(Map.of("message", "Lỗi lưu file: " + e.getMessage()));
+            String result = imageStorageService.store(file, "building");
+            return ResponseEntity.ok(Map.of("filename", result, "message", "Upload thành công"));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(Map.of("message", "Lỗi lưu file: " + e.getMessage()));
         }
     }
 
-    // ── Helper ────────────────────────────────────────────────────────────────
+    // Helper
     private String getFirstError(BindingResult result) {
         if (!result.getFieldErrors().isEmpty()) {
             return result.getFieldErrors().getFirst().getDefaultMessage();
