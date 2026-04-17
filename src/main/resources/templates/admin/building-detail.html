@@ -1658,11 +1658,9 @@
                                 <td><span th:if="${pm.expired}" class="bc bc-expired">Hết hạn</span><span
                                         th:unless="${pm.expired}" class="bc bc-valid">Còn hạn</span></td>
                                 <td>
-                                    <a th:if="${pm.imageUrl}"
-                                        th:href="${'/images/planning_map_img/' + (pm.imageUrl.contains('/') ? pm.imageUrl.substring(pm.imageUrl.lastIndexOf('/')+1) : pm.imageUrl)}"
-                                        target="_blank" title="Xem ảnh bản đồ">
-                                        <img th:src="${'/images/planning_map_img/' + (pm.imageUrl.contains('/') ? pm.imageUrl.substring(pm.imageUrl.lastIndexOf('/')+1) : pm.imageUrl)}"
-                                            alt="Bản đồ quy hoạch"
+                                    <a th:if="${pm.imageUrl}" th:href="${pm.imageUrl}" target="_blank"
+                                        title="Xem ảnh bản đồ">
+                                        <img th:src="${pm.imageUrl}" alt="Bản đồ quy hoạch"
                                             style="width:56px;height:40px;object-fit:cover;border-radius:4px;border:1px solid #e5e7eb;display:block;transition:opacity 0.15s;"
                                             onerror="this.style.display='none'" onmouseover="this.style.opacity='0.75'"
                                             onmouseout="this.style.opacity='1'">
