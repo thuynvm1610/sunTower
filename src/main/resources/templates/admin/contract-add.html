@@ -508,7 +508,8 @@
                     <strong class="user-name" th:text="${staffName}">Nguyễn Văn Minh Thủy</strong>
                 </div>
                 <div class="avatar-wrapper">
-                    <img th:src="@{'/images/staff_img/' + ${staffAvatar}}" alt="Admin Avatar">
+                    <img th:src="${staffAvatar != null and staffAvatar.startsWith('http') ? staffAvatar : '/images/staff_img/' + staffAvatar}"
+                        alt="Admin Avatar">
                     <span class="status-indicator"></span>
                 </div>
             </a>
