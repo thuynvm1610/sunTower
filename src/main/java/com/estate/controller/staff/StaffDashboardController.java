@@ -39,6 +39,6 @@ public class StaffDashboardController {
         model.addAttribute("staffName", staffService.getStaffName(user.getUserId()));
         model.addAttribute("staffAvatar", staffService.getStaffAvatar(user.getUserId()));
 
-        return "/staff/dashboard";
+        return "staff/dashboard";
     }
 }
