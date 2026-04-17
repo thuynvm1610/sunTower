@@ -3,16 +3,18 @@ package com.estate.converter;
 import com.estate.dto.BuildingDetailDTO;
 import com.estate.repository.entity.BuildingEntity;
 import com.estate.repository.entity.StaffEntity;
+import com.estate.util.ImageUrlResolver;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class BuildingDetailConverter {
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
+    private final ImageUrlResolver imageUrlResolver;
 
     public BuildingDetailDTO toDTO(BuildingEntity entity) {
         BuildingDetailDTO dto = modelMapper.map(entity, BuildingDetailDTO.class);
@@ -60,6 +62,9 @@ public class BuildingDetailConverter {
                             .collect(Collectors.toList())
             );
         }
+
+        dto.setImage(imageUrlResolver.resolve(entity.getImage(), "building"));
+
         return dto;
     }
 

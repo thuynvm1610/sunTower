@@ -1,28 +1,33 @@
 package com.estate.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.io.File;
 
 @Configuration
+@Profile("local")  // ← Thêm dòng này
 public class WebMvcConfig implements WebMvcConfigurer {
+
+    @Value("${building.image.upload-dir}")
+    private String buildingDir;
+
+    @Value("${staff.image.upload-dir}")
+    private String staffDir;
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // Tính absolute path từ working directory của JVM (thường là thư mục gốc project)
-        // Dùng File để tự xử lý separator trên cả Windows lẫn Linux
-        String staticBase = new File("src/main/resources/static").getAbsolutePath()
-                + File.separator;
-
-        // file: URI trên Windows: file:///D:/path/to/static/
-        // file: URI trên Linux:   file:/home/user/.../static/
-        String resourceBase = new File(staticBase).toURI().toString();
-
-        registry.addResourceHandler("/images/planning_map_img/**")
-                .addResourceLocations(resourceBase + "images/planning_map_img/");
-
         registry.addResourceHandler("/images/building_img/**")
-                .addResourceLocations(resourceBase + "images/building_img/");
+                .addResourceLocations(
+                        "file:" + new File(buildingDir).getAbsolutePath() + File.separator
+                );
+
+        registry.addResourceHandler("/images/staff_img/**")
+                .addResourceLocations(
+                        "file:" + new File(staffDir).getAbsolutePath() + File.separator
+                );
     }
 }
