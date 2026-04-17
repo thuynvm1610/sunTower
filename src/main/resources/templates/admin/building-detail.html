@@ -851,7 +851,8 @@
             <div class="hero">
                 <!-- Ảnh nếu có -->
                 <img th:if="${not #strings.isEmpty(building.image)}"
-                    th:src="${'/images/building_img/' + building.image}" alt="" class="hero-img"
+                    th:src="${building.image.startsWith('http') ? building.image : '/images/building_img/' + building.image}"
+                    alt="" class="hero-img"
                     onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
                 <!-- Fallback nếu ảnh lỗi load -->
                 <div class="hero-no-img" style="display:none;">
