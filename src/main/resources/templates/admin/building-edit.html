@@ -1216,7 +1216,8 @@
                                     <label class="form-label">Hình ảnh</label>
                                     <!-- Preview ảnh hiện tại -->
                                     <div class="current-img-wrap" th:if="${not #strings.isEmpty(building.image)}">
-                                        <img th:src="${'/images/building_img/' + building.image}" alt="current">
+                                        <img th:src="${building.image.startsWith('http') ? building.image : '/images/building_img/' + building.image}"
+                                            alt="current">
                                         <span th:text="'Ảnh hiện tại: ' + ${building.image}"></span>
                                     </div>
                                     <div class="upload-zone" id="uploadZone">
