@@ -1249,8 +1249,7 @@
                 success: function () {
                     const src = pendingFilename;
                     document.getElementById('profileAvatar').src = src;
-                    const headerAv = document.getElementById('headerAvatar');
-                    if (headerAv) headerAv.src = src;
+                    document.getElementById('headerAvatar').src = src;
                     bootstrap.Modal.getInstance(document.getElementById('avatarModal')).hide();
                     Swal.fire({ icon: 'success', title: 'Thành công', text: 'Ảnh đại diện đã được cập nhật!', timer: 1500, showConfirmButton: false });
                 },
