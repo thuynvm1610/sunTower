@@ -1831,7 +1831,7 @@
                     }
 
                     $.each(data.content, function (i, b) {
-                        const imageUrl = b.image
+                        const imageUrl = (b.image || '').trim()
                             ? b.image
                             : 'https://via.placeholder.com/400x300?text=No+Image';
 
@@ -2321,9 +2321,9 @@
                     <td class="col-hide-mobile"><span class="expired-chip ${r.expired ? 'yes' : 'no'}">${r.expired ? 'Hết hạn' : 'Còn hiệu lực'}</span></td>
                     <td>
                         ${r.imageUrl
-                            ? `<a href="${r.imageUrl}" target="_blank" class="text-primary">Xem</a>`
-                            : '—'
-                        }
+                    ? `<a href="${r.imageUrl}" target="_blank" class="text-primary">Xem</a>`
+                    : '—'
+                }
                     </td>
                     <td class="col-hide-mobile" style="max-width:120px;white-space:normal;">${r.note || '—'}</td>
                 </tr>`).join('');

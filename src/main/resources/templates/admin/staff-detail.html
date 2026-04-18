@@ -823,7 +823,9 @@
                     <strong class="user-name" th:text="${staffName}">Nguyễn Văn Minh Thủy</strong>
                 </div>
                 <div class="avatar-wrapper">
-                    <img th:src="${staffAvatar != null and staffAvatar.startsWith('http') ? staffAvatar : '/images/staff_img/' + staffAvatar}"
+                    <img th:src="${staffAvatar != null && !#strings.isEmpty(staffAvatar) 
+                        ? staffAvatar 
+                        : 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23c5cae9%22/%3E%3Ccircle cx=%2250%22 cy=%2238%22 r=%2218%22 fill=%22%235c6bc0%22/%3E%3Ccircle cx=%2250%22 cy=%2290%22 r=%2230%22 fill=%22%235c6bc0%22/%3E%3C/svg%3E'}"
                         alt="Admin Avatar">
                     <span class="status-indicator"></span>
                 </div>

@@ -759,7 +759,9 @@
                     <strong class="user-name" th:text="${staffName}">Nguyễn Văn Minh Thủy</strong>
                 </div>
                 <div class="avatar-wrapper">
-                    <img th:src="${staffAvatar != null and staffAvatar.startsWith('http') ? staffAvatar : '/images/staff_img/' + staffAvatar}"
+                    <img th:src="${staffAvatar != null && !#strings.isEmpty(staffAvatar) 
+                        ? staffAvatar 
+                        : 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23c5cae9%22/%3E%3Ccircle cx=%2250%22 cy=%2238%22 r=%2218%22 fill=%22%235c6bc0%22/%3E%3Ccircle cx=%2250%22 cy=%2290%22 r=%2230%22 fill=%22%235c6bc0%22/%3E%3C/svg%3E'}"
                         alt="Admin Avatar">
                     <span class="status-indicator"></span>
                 </div>
@@ -850,20 +852,12 @@
 
             <!-- ══ HERO ══════════════════════════════════════════════════════════════ -->
             <div class="hero">
-                <!-- Ảnh nếu có -->
-                <img th:if="${not #strings.isEmpty(building.image)}"
-                    th:src="${building.image.startsWith('http') ? building.image : '/images/building_img/' + building.image}"
-                    alt="" class="hero-img"
-                    onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-                <!-- Fallback nếu ảnh lỗi load -->
-                <div class="hero-no-img" style="display:none;">
+                <img th:if="${building.image != null && !#strings.isEmpty(building.image)}" th:src="${building.image}"
+                    alt="" class="hero-img" />
+
+                <div th:if="${building.image == null || #strings.isEmpty(building.image)}" class="hero-no-img">
                     <i class="bi bi-image-fill"></i>
-                    <span>Không tải được ảnh</span>
-                </div>
-                <!-- Placeholder nếu không có ảnh -->
-                <div th:unless="${not #strings.isEmpty(building.image)}" class="hero-no-img">
-                    <i class="bi bi-buildings"></i>
-                    <span>Chưa có hình ảnh</span>
+                    <span>Không có ảnh</span>
                 </div>
                 <!-- Nội dung overlay -->
                 <div class="hero-content">
@@ -1658,14 +1652,18 @@
                                 <td><span th:if="${pm.expired}" class="bc bc-expired">Hết hạn</span><span
                                         th:unless="${pm.expired}" class="bc bc-valid">Còn hạn</span></td>
                                 <td>
-                                    <a th:if="${pm.imageUrl}" th:href="${pm.imageUrl}" target="_blank"
-                                        title="Xem ảnh bản đồ">
+                                    <a th:if="${pm.imageUrl != null && !#strings.isEmpty(pm.imageUrl)}"
+                                        th:href="${pm.imageUrl}" target="_blank" title="Xem ảnh bản đồ">
                                         <img th:src="${pm.imageUrl}" alt="Bản đồ quy hoạch"
                                             style="width:56px;height:40px;object-fit:cover;border-radius:4px;border:1px solid #e5e7eb;display:block;transition:opacity 0.15s;"
-                                            onerror="this.style.display='none'" onmouseover="this.style.opacity='0.75'"
-                                            onmouseout="this.style.opacity='1'">
+                                            onerror="this.style.display='none'; this.closest('a').style.display='none'; this.parentElement.nextElementSibling.style.display='inline';"
+                                            onmouseover="this.style.opacity='0.75'" onmouseout="this.style.opacity='1'">
                                     </a>
-                                    <span th:unless="${pm.imageUrl}" style="color:#9ca3af;">—</span>
+
+                                    <span th:if="${pm.imageUrl == null || #strings.isEmpty(pm.imageUrl)}"
+                                        style="color:#9ca3af;">—</span>
+
+                                    <span style="display:none;color:#9ca3af;">—</span>
                                 </td>
                             </tr>
                         </tbody>
