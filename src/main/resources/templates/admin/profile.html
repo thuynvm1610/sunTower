@@ -1247,7 +1247,7 @@
                 url: '/admin/profile/avatar', type: 'PUT', contentType: 'application/json',
                 data: JSON.stringify({ filename: pendingFilename }),
                 success: function () {
-                    const src = '/images/staff_img/' + pendingFilename;
+                    const src = pendingFilename;
                     document.getElementById('profileAvatar').src = src;
                     const headerAv = document.getElementById('headerAvatar');
                     if (headerAv) headerAv.src = src;
