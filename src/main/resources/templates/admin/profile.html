@@ -111,12 +111,12 @@
             position: absolute;
             bottom: 2px;
             right: 2px;
-            width: 28px;
-            height: 28px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             background: #3b82f6;
             color: white;
-            border: none;
+            border: 2px solid #fff;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -846,115 +846,114 @@
                                         : 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23dbeafe%22/%3E%3Ccircle cx=%2250%22 cy=%2238%22 r=%2218%22 fill=%22%2393c5fd%22/%3E%3Ccircle cx=%2250%22 cy=%2290%22 r=%2230%22 fill=%22%2393c5fd%22/%3E%3C/svg%3E'}"
                                         onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23dbeafe%22/%3E%3Ccircle cx=%2250%22 cy=%2238%22 r=%2218%22 fill=%22%2393c5fd%22/%3E%3Ccircle cx=%2250%22 cy=%2290%22 r=%2230%22 fill=%22%2393c5fd%22/%3E%3C/svg%3E'"
                                         alt="Avatar" class="profile-avatar">
+                                    <button class="avatar-edit-btn" title="Đổi ảnh đại diện" data-bs-toggle="modal"
+                                        data-bs-target="#avatarModal">
+                                        <i class="bi bi-camera-fill"></i>
+                                    </button>
                                 </div>
-                                <button class="avatar-edit-btn" title="Đổi ảnh đại diện" data-bs-toggle="modal"
-                                    data-bs-target="#avatarModal">
-                                    <i class="bi bi-camera-fill"></i>
-                                </button>
-                            </div>
-                            <div class="profile-hero-info">
-                                <div class="profile-hero-name" th:text="${staffName}">Nguyễn Văn Minh Thủy</div>
-                                <div class="mt-1">
-                                    <span class="profile-role-badge">
-                                        <i class="bi bi-shield-check"></i>Quản trị viên
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="d-card">
-                    <div class="d-card-body">
-                        <div class="card-section-title"><i class="bi bi-info-circle"></i>Thông tin tài khoản</div>
-                        <div class="row g-3">
-                            <div class="col-sm-4">
-                                <div class="info-box">
-                                    <div class="info-label"><i class="bi bi-person-circle"></i>Tên đăng nhập</div>
-                                    <div class="info-value" th:text="${staff.username}">adminuser</div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="info-box">
-                                    <div class="info-label"><i class="bi bi-envelope"></i>Email</div>
-                                    <div class="info-value" th:text="${staff.email}">admin@suntower.com</div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="info-box">
-                                    <div class="info-label"><i class="bi bi-link-45deg"></i>Email Google liên kết
+                                <div class="profile-hero-info">
+                                    <div class="profile-hero-name" th:text="${staffName}">Nguyễn Văn Minh Thủy</div>
+                                    <div class="mt-1">
+                                        <span class="profile-role-badge">
+                                            <i class="bi bi-shield-check"></i>Quản trị viên
+                                        </span>
                                     </div>
-                                    <div class="info-value"
-                                        th:text="${linkedGoogleEmail != null ? linkedGoogleEmail : 'Chưa liên kết'}">
-                                        Chưa liên kết</div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="info-box">
-                                    <div class="info-label"><i class="bi bi-telephone"></i>Số điện thoại</div>
-                                    <div class="info-value" th:text="${staff.phone}">0912345678</div>
                                 </div>
                             </div>
                         </div>
-                        <div class="security-notice mt-3">
-                            <i class="bi bi-shield-lock-fill"></i>
-                            <div>
-                                <strong>Bảo mật tài khoản</strong>
-                                Thường xuyên cập nhật mật khẩu và không chia sẻ thông tin đăng nhập.
-                                Sử dụng mật khẩu mạnh gồm ít nhất 8 ký tự, chữ hoa, chữ thường và số.
+                    </div>
+
+                    <div class="d-card">
+                        <div class="d-card-body">
+                            <div class="card-section-title"><i class="bi bi-info-circle"></i>Thông tin tài khoản</div>
+                            <div class="row g-3">
+                                <div class="col-sm-4">
+                                    <div class="info-box">
+                                        <div class="info-label"><i class="bi bi-person-circle"></i>Tên đăng nhập</div>
+                                        <div class="info-value" th:text="${staff.username}">adminuser</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="info-box">
+                                        <div class="info-label"><i class="bi bi-envelope"></i>Email</div>
+                                        <div class="info-value" th:text="${staff.email}">admin@suntower.com</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="info-box">
+                                        <div class="info-label"><i class="bi bi-link-45deg"></i>Email Google liên kết
+                                        </div>
+                                        <div class="info-value"
+                                            th:text="${linkedGoogleEmail != null ? linkedGoogleEmail : 'Chưa liên kết'}">
+                                            Chưa liên kết</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="info-box">
+                                        <div class="info-label"><i class="bi bi-telephone"></i>Số điện thoại</div>
+                                        <div class="info-value" th:text="${staff.phone}">0912345678</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="security-notice mt-3">
+                                <i class="bi bi-shield-lock-fill"></i>
+                                <div>
+                                    <strong>Bảo mật tài khoản</strong>
+                                    Thường xuyên cập nhật mật khẩu và không chia sẻ thông tin đăng nhập.
+                                    Sử dụng mật khẩu mạnh gồm ít nhất 8 ký tự, chữ hoa, chữ thường và số.
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Cột phải -->
-            <div class="col-lg-4">
-                <div class="d-card">
-                    <div class="d-card-body">
-                        <div class="card-section-title"><i class="bi bi-gear"></i>Quản lý tài khoản</div>
-                        <div class="d-flex flex-column gap-2">
-                            <button class="btn-action-card" data-bs-toggle="modal" data-bs-target="#avatarModal">
-                                <span class="action-icon green"><i class="bi bi-camera-fill"></i></span>
-                                Đổi ảnh đại diện
-                                <i class="bi bi-chevron-right action-arrow"></i>
-                            </button>
-                            <button class="btn-action-card" data-bs-toggle="modal" data-bs-target="#editUsernameModal">
-                                <span class="action-icon blue"><i class="bi bi-person-check-fill"></i></span>
-                                Đổi tên đăng nhập
-                                <i class="bi bi-chevron-right action-arrow"></i>
-                            </button>
-                            <button class="btn-action-card" data-bs-toggle="modal" data-bs-target="#editPhoneModal">
-                                <span class="action-icon amber"><i class="bi bi-phone-fill"></i></span>
-                                Đổi số điện thoại
-                                <i class="bi bi-chevron-right action-arrow"></i>
-                            </button>
-                            <button class="btn-action-card" data-bs-toggle="modal"
-                                data-bs-target="#changePasswordModal">
-                                <span class="action-icon red"><i class="bi bi-key-fill"></i></span>
-                                Đổi mật khẩu
-                                <i class="bi bi-chevron-right action-arrow"></i>
-                            </button>
-                            <a th:if="${linkedGoogleEmail == null}" class="btn-action-card"
-                                th:href="@{/auth/link/google(returnTo='/admin/profile')}"
-                                style="text-decoration:none;color:inherit;">
-                                <span class="action-icon blue"><i class="bi bi-google"></i></span>
-                                Liên kết Google
-                                <i class="bi bi-chevron-right action-arrow"></i>
-                            </a>
-                            <div th:if="${linkedGoogleEmail != null}" class="btn-action-card"
-                                style="opacity:.55; cursor:not-allowed;">
-                                <span class="action-icon blue"><i class="bi bi-google"></i></span>
-                                Đã liên kết Google
-                                <i class="bi bi-check2 action-arrow"></i>
+                <!-- Cột phải -->
+                <div class="col-lg-4">
+                    <div class="d-card">
+                        <div class="d-card-body">
+                            <div class="card-section-title"><i class="bi bi-gear"></i>Quản lý tài khoản</div>
+                            <div class="d-flex flex-column gap-2">
+                                <button class="btn-action-card" data-bs-toggle="modal" data-bs-target="#avatarModal">
+                                    <span class="action-icon green"><i class="bi bi-camera-fill"></i></span>
+                                    Đổi ảnh đại diện
+                                    <i class="bi bi-chevron-right action-arrow"></i>
+                                </button>
+                                <button class="btn-action-card" data-bs-toggle="modal"
+                                    data-bs-target="#editUsernameModal">
+                                    <span class="action-icon blue"><i class="bi bi-person-check-fill"></i></span>
+                                    Đổi tên đăng nhập
+                                    <i class="bi bi-chevron-right action-arrow"></i>
+                                </button>
+                                <button class="btn-action-card" data-bs-toggle="modal" data-bs-target="#editPhoneModal">
+                                    <span class="action-icon amber"><i class="bi bi-phone-fill"></i></span>
+                                    Đổi số điện thoại
+                                    <i class="bi bi-chevron-right action-arrow"></i>
+                                </button>
+                                <button class="btn-action-card" data-bs-toggle="modal"
+                                    data-bs-target="#changePasswordModal">
+                                    <span class="action-icon red"><i class="bi bi-key-fill"></i></span>
+                                    Đổi mật khẩu
+                                    <i class="bi bi-chevron-right action-arrow"></i>
+                                </button>
+                                <a th:if="${linkedGoogleEmail == null}" class="btn-action-card"
+                                    th:href="@{/auth/link/google(returnTo='/admin/profile')}"
+                                    style="text-decoration:none;color:inherit;">
+                                    <span class="action-icon blue"><i class="bi bi-google"></i></span>
+                                    Liên kết Google
+                                    <i class="bi bi-chevron-right action-arrow"></i>
+                                </a>
+                                <div th:if="${linkedGoogleEmail != null}" class="btn-action-card"
+                                    style="opacity:.55; cursor:not-allowed;">
+                                    <span class="action-icon blue"><i class="bi bi-google"></i></span>
+                                    Đã liên kết Google
+                                    <i class="bi bi-check2 action-arrow"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-        </div>
-        </div>
+            </div>
     </main>
 
     <!-- Modal: Đổi ảnh đại diện -->
@@ -966,7 +965,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <img id="avatarPreview" th:src="@{'/images/staff_img/' + ${staffAvatar}}"
+                    <img id="avatarPreview"
+                        th:src="${staffAvatar != null && !#strings.isEmpty(staffAvatar) 
+                        ? staffAvatar 
+                        : 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23dbeafe%22/%3E%3Ccircle cx=%2250%22 cy=%2238%22 r=%2218%22 fill=%22%2393c5fd%22/%3E%3Ccircle cx=%2250%22 cy=%2290%22 r=%2230%22 fill=%22%2393c5fd%22/%3E%3C/svg%3E'}"
                         onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23dbeafe%22/%3E%3Ccircle cx=%2250%22 cy=%2238%22 r=%2218%22 fill=%22%2393c5fd%22/%3E%3Ccircle cx=%2250%22 cy=%2290%22 r=%2230%22 fill=%22%2393c5fd%22/%3E%3C/svg%3E'"
                         alt="Preview">
                     <div class="avatar-drop-zone" id="avatarDropZone"
