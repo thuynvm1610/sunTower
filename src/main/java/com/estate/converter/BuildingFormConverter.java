@@ -28,7 +28,6 @@ public class BuildingFormConverter {
     @Autowired private DistrictRepository  districtRepository;
     @Autowired private StaffRepository     staffRepository;
 
-    // ── Entity → DTO (dùng cho trang edit) ───────────────────────────────────
     public BuildingFormDTO toDTO(BuildingEntity entity) {
         BuildingFormDTO dto = modelMapper.map(entity, BuildingFormDTO.class);
 
@@ -73,7 +72,6 @@ public class BuildingFormConverter {
         return dto;
     }
 
-    // ── DTO → Entity (dùng cho cả add và edit) ───────────────────────────────
     public void toEntity(BuildingEntity entity, BuildingFormDTO dto) {
         modelMapper.map(dto, entity);
 

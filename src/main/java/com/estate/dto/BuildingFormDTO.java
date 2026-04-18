@@ -58,7 +58,7 @@ public class BuildingFormDTO {
     private String level;
     private String taxCode;
     private String linkOfBuilding;
-    private String image; // tên file ảnh, VD: "abc123.jpg"
+    private String image;
     private String rentAreaValues; // "100,200,350"
 
     @NotNull(message = "Tọa độ không được để trống")

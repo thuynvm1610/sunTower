@@ -173,6 +173,7 @@ public class BuildingServiceImpl implements BuildingService {
             entity = new BuildingEntity();
         }
         buildingFormConverter.toEntity(entity, dto);
+        System.out.println("DEBUG image after map: " + entity.getImage());
         buildingRepository.save(entity);
     }
 
