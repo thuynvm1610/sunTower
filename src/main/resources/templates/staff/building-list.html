@@ -1370,8 +1370,7 @@
                         </div>
                         <a th:href="@{/staff/profile}" class="text-decoration-none">
                             <img id="headerAvatar"
-                                th:src="${staffAvatar != null and staffAvatar.startsWith('http') ? staffAvatar : '/images/staff_img/' + staffAvatar}"
-                                onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23c5cae9%22/%3E%3Ccircle cx=%2250%22 cy=%2238%22 r=%2218%22 fill=%22%235c6bc0%22/%3E%3Ccircle cx=%2250%22 cy=%2290%22 r=%2230%22 fill=%22%235c6bc0%22/%3E%3C/svg%3E'"
+                                th:src="${staffAvatar != null ? staffAvatar : 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23c5cae9%22/%3E%3Ccircle cx=%2250%22 cy=%2238%22 r=%2218%22 fill=%22%235c6bc0%22/%3E%3Ccircle cx=%2250%22 cy=%2290%22 r=%2230%22 fill=%22%235c6bc0%22/%3E%3C/svg%3E'}"
                                 alt="Avatar" class="header-avatar">
                         </a>
                         <div class="dropdown">
@@ -1833,7 +1832,7 @@
 
                     $.each(data.content, function (i, b) {
                         const imageUrl = b.image
-                            ? (b.image.startsWith('http') ? b.image : `/images/building_img/${b.image}`)
+                            ? b.image
                             : 'https://via.placeholder.com/400x300?text=No+Image';
 
                         let rentAreaHtml = "";
@@ -2321,13 +2320,10 @@
                     <td class="col-hide-mobile">${fmtDate(r.expiredDate)}</td>
                     <td class="col-hide-mobile"><span class="expired-chip ${r.expired ? 'yes' : 'no'}">${r.expired ? 'Hết hạn' : 'Còn hiệu lực'}</span></td>
                     <td>
-                    ${r.imageUrl
-                    ? `<a href="/images/planning_map_img/${r.imageUrl.includes('/')
-                        ? r.imageUrl.substring(r.imageUrl.lastIndexOf('/') + 1)
-                        : r.imageUrl
-                    }" target="_blank" class="text-primary">Xem</a>`
-                    : '—'
-                }
+                        ${r.imageUrl
+                            ? `<a href="${r.imageUrl}" target="_blank" class="text-primary">Xem</a>`
+                            : '—'
+                        }
                     </td>
                     <td class="col-hide-mobile" style="max-width:120px;white-space:normal;">${r.note || '—'}</td>
                 </tr>`).join('');

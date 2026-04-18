@@ -775,8 +775,7 @@
                         </div>
                         <a th:href="@{/staff/profile}" class="text-decoration-none">
                             <img id="headerAvatar"
-                                th:src="${staffAvatar != null and staffAvatar.startsWith('http') ? staffAvatar : '/images/staff_img/' + staffAvatar}"
-                                onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23c5cae9%22/%3E%3Ccircle cx=%2250%22 cy=%2238%22 r=%2218%22 fill=%22%235c6bc0%22/%3E%3Ccircle cx=%2250%22 cy=%2290%22 r=%2230%22 fill=%22%235c6bc0%22/%3E%3C/svg%3E'"
+                                th:src="${staffAvatar != null ? staffAvatar : 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23c5cae9%22/%3E%3Ccircle cx=%2250%22 cy=%2238%22 r=%2218%22 fill=%22%235c6bc0%22/%3E%3Ccircle cx=%2250%22 cy=%2290%22 r=%2230%22 fill=%22%235c6bc0%22/%3E%3C/svg%3E'}"
                                 alt="Avatar" class="header-avatar">
                         </a>
                         <div class="dropdown">
@@ -846,8 +845,7 @@
                 <div class="left-banner">
                     <div class="avatar-wrapper">
                         <img id="profileAvatar"
-                            th:src="${staffAvatar != null and staffAvatar.startsWith('http') ? staffAvatar : '/images/staff_img/' + staffAvatar}"
-                            onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23c5cae9%22/%3E%3Ccircle cx=%2250%22 cy=%2238%22 r=%2218%22 fill=%22%235c6bc0%22/%3E%3Ccircle cx=%2250%22 cy=%2290%22 r=%2230%22 fill=%22%235c6bc0%22/%3E%3C/svg%3E'"
+                            th:src="${staffAvatar != null && !#strings.isEmpty(staffAvatar) ? staffAvatar : 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23c5cae9%22/%3E%3Ccircle cx=%2250%22 cy=%2238%22 r=%2218%22 fill=%22%235c6bc0%22/%3E%3Ccircle cx=%2250%22 cy=%2290%22 r=%2230%22 fill=%22%235c6bc0%22/%3E%3C/svg%3E'}"
                             alt="Avatar" class="profile-avatar">
                         <button class="avatar-edit-btn" title="Đổi ảnh đại diện" data-bs-toggle="modal"
                             data-bs-target="#avatarModal">
@@ -939,8 +937,8 @@
                 </div>
                 <div class="modal-body">
                     <div class="avatar-preview-wrap mb-3">
-                        <img id="avatarPreview" th:src="@{'/images/staff_img/' + ${staffAvatar}}"
-                            onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23c5cae9%22/%3E%3Ccircle cx=%2250%22 cy=%2238%22 r=%2218%22 fill=%22%235c6bc0%22/%3E%3Ccircle cx=%2250%22 cy=%2290%22 r=%2230%22 fill=%22%235c6bc0%22/%3E%3C/svg%3E'"
+                        <img id="avatarPreview"
+                            th:src="${staffAvatar != null && !#strings.isEmpty(staffAvatar) ? staffAvatar : 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23c5cae9%22/%3E%3Ccircle cx=%2250%22 cy=%2238%22 r=%2218%22 fill=%22%235c6bc0%22/%3E%3Ccircle cx=%2250%22 cy=%2290%22 r=%2230%22 fill=%22%235c6bc0%22/%3E%3C/svg%3E'}"
                             alt="Preview">
                         <div class="avatar-drop-zone" id="avatarDropZone"
                             onclick="document.getElementById('avatarFileInput').click()">
@@ -1219,7 +1217,7 @@
                 url: '/staff/profile/avatar', type: 'PUT', contentType: 'application/json',
                 data: JSON.stringify({ filename: pendingFilename }),
                 success: function () {
-                    const src = '/images/staff_img/' + pendingFilename;
+                    const src = pendingFilename;
                     document.getElementById('profileAvatar').src = src;
                     document.getElementById('headerAvatar').src = src;
                     bootstrap.Modal.getInstance(document.getElementById('avatarModal')).hide();
