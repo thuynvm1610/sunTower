@@ -209,12 +209,12 @@
                     buildingId: Number(buildingId),
                     staffId: Number(staffId)
                 })
-        });
+            });
 
-        state.buildingId = Number(buildingId);
-        state.staffId = Number(staffId);
-        state.roomId = response.room.roomId;
-        state.roomSummary = response.room;
+            state.buildingId = Number(buildingId);
+            state.staffId = Number(staffId);
+            state.roomId = response.room.roomId;
+            state.roomSummary = response.room;
 
             $("#customerChatTitle").text(buildingName || response.room.buildingName || "Hỗ trợ");
             $("#customerChatSubtitle").text(`${staffName || response.room.staffName || ""}${response.room.staffPhone ? " | " + response.room.staffPhone : ""}`);
@@ -257,8 +257,9 @@
                 list.append(`<div class="text-muted small">Tòa nhà này chưa có nhân viên quản lý.</div>`);
             } else {
                 staffs.forEach(staff => {
-                    const avatar = staff.image ? `/images/staff_img/${staff.image}` :
-                        'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Crect width="100" height="100" fill="%23dbe4ff"/%3E%3Ccircle cx="50" cy="38" r="18" fill="%235b89ff"/%3E%3Ccircle cx="50" cy="90" r="30" fill="%235b89ff"/%3E%3C/svg%3E';
+                    const avatar = staff.image
+                        ? staff.image
+                        : 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Crect width="100" height="100" fill="%23dbe4ff"/%3E%3Ccircle cx="50" cy="38" r="18" fill="%235b89ff"/%3E%3Ccircle cx="50" cy="90" r="30" fill="%235b89ff"/%3E%3C/svg%3E';
                     list.append(`
                         <button type="button" class="list-group-item list-group-item-action d-flex align-items-center gap-3"
                                 onclick="ChatCustomer.openRoom(${buildingId}, ${staff.staffId}, ${attrEncode(buildingName || "")}, ${attrEncode(staff.fullName || "")})">

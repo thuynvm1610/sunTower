@@ -1397,7 +1397,7 @@
                         }
 
                         const imgSrc = b.image
-                            ? (b.image.startsWith('http') ? b.image : `/images/building_img/${b.image}`)
+                            ? b.image
                             : 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220"%3E%3Crect fill="%23e5e7eb" width="400" height="220"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" fill="%239ca3af" font-size="14"%3EKhông có ảnh%3C/text%3E%3C/svg%3E';
 
                         // ════ CARD ════
@@ -1655,14 +1655,16 @@
                                 const expiredBadge = r.expired
                                     ? `<span style="background:#fee2e2;color:#dc2626;padding:2px 6px;border-radius:3px;font-size:11px;font-weight:700;">Hết hạn</span>`
                                     : `<span style="background:#dcfce7;color:#16a34a;padding:2px 6px;border-radius:3px;font-size:11px;font-weight:700;">Còn hiệu lực</span>`;
-                                const imgName = r.imageUrl ? r.imageUrl.substring(r.imageUrl.lastIndexOf('/') + 1) : null;
+                                const imgCell = r.imageUrl
+                                    ? `<a href="${r.imageUrl}" target="_blank" style="color:var(--accent);">Xem</a>`
+                                    : '—';
                                 html += `<tr>
                                     <td><span class="type-chip">${r.mapType || '—'}</span></td>
                                     <td>${r.issuedBy || '—'}</td>
                                     <td class="mobile-hide">${fmtDate(r.issuedDate)}</td>
                                     <td class="mobile-hide">${fmtDate(r.expiredDate)}</td>
                                     <td class="mobile-hide">${expiredBadge}</td>
-                                    <td>${imgName ? `<a href="/images/planning_map_img/${imgName}" target="_blank" style="color:var(--accent);">Xem</a>` : '—'}</td>
+                                    <td>${imgCell}</td>
                                     <td class="mobile-hide">${r.note || '—'}</td>
                                 </tr>`;
                             });
