@@ -2434,8 +2434,18 @@
             };
             reader.readAsDataURL(file);
 
-            setPlanningUploadStatus('Đang tải lên...', '#6b7280');
             document.getElementById('planningUploadZone').classList.add('uploading');
+
+            Swal.fire({
+                title: 'Đang tải ảnh lên...',
+                html: 'Vui lòng chờ trong giây lát',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                didOpen: function () {
+                    Swal.showLoading();
+                }
+            });
 
             var formData = new FormData();
             formData.append('file', file);
@@ -2446,17 +2456,32 @@
             })
                 .then(function (r) { return r.json(); })
                 .then(function (data) {
+                    Swal.close();
+                    document.getElementById('planningUploadZone').classList.remove('uploading');
                     if (data.filename) {
                         document.getElementById('planning-imageUrl').value = data.filename;
                         setPlanningUploadStatus('✓ ' + data.filename, '#059669');
-                        document.getElementById('planningUploadZone').classList.remove('uploading');
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Tải ảnh thành công!',
+                            text: data.filename,
+                            timer: 1800,
+                            showConfirmButton: false,
+                            timerProgressBar: true
+                        });
                     } else {
                         throw new Error(data.message || 'Upload thất bại');
                     }
                 })
                 .catch(function (err) {
-                    setPlanningUploadStatus('Lỗi: ' + err.message, '#dc2626');
+                    Swal.close();
                     document.getElementById('planningUploadZone').classList.remove('uploading');
+                    setPlanningUploadStatus('Lỗi: ' + err.message, '#dc2626');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Upload thất bại',
+                        text: err.message || 'Không thể tải ảnh lên. Vui lòng thử lại.'
+                    });
                 });
         }
 

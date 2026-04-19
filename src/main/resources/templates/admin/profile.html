@@ -1228,7 +1228,16 @@
             statusEl.innerHTML = '';
             btnSave.disabled = true;
 
-            Swal.fire({ title: 'Đang tải ảnh lên...', allowOutsideClick: false, allowEscapeKey: false, didOpen: () => Swal.showLoading() });
+            Swal.fire({
+                title: 'Đang tải ảnh lên...',
+                html: 'Vui lòng chờ trong giây lát',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                didOpen: function () {
+                    Swal.showLoading();
+                }
+            });
 
             const fd = new FormData();
             fd.append('file', file);
@@ -1256,7 +1265,14 @@
                     document.getElementById('profileAvatar').src = src;
                     document.getElementById('headerAvatar').src = src;
                     bootstrap.Modal.getInstance(document.getElementById('avatarModal')).hide();
-                    Swal.fire({ icon: 'success', title: 'Thành công', text: 'Ảnh đại diện đã được cập nhật!', timer: 1500, showConfirmButton: false });
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Tải ảnh thành công!',
+                        text: data.filename,
+                        timer: 1800,
+                        showConfirmButton: false,
+                        timerProgressBar: true
+                    });
                 },
                 error: function (xhr) { Swal.fire({ icon: 'error', title: 'Lỗi', text: xhr.responseJSON?.message || 'Cập nhật thất bại.', confirmButtonColor: '#3b82f6' }); }
             });

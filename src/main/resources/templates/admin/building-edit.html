@@ -1465,20 +1465,55 @@
                 document.getElementById('uploadPreview').style.display = 'block';
             };
             reader.readAsDataURL(file);
-            setUploadStatus('<i class="bi bi-arrow-repeat"></i> Đang upload...', 'loading');
+
+            Swal.fire({
+                title: 'Đang tải ảnh lên...',
+                html: 'Vui lòng chờ trong giây lát',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                didOpen: function () {
+                    Swal.showLoading();
+                }
+            });
+
             var formData = new FormData();
             formData.append('file', file);
             fetch('/admin/building/upload-image', { method: 'POST', body: formData })
                 .then(function (r) { return r.json(); })
                 .then(function (data) {
+                    Swal.close();
                     if (data.filename) {
                         document.getElementById('imageFilename').value = data.filename;
                         setUploadStatus('✓ ' + data.filename, 'success');
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Tải ảnh thành công!',
+                            text: data.filename,
+                            timer: 1800,
+                            showConfirmButton: false,
+                            timerProgressBar: true
+                        });
                     } else {
-                        setUploadStatus(data.message || 'Upload thất bại.', 'error'); removeImage();
+                        setUploadStatus(data.message || 'Upload thất bại.', 'error');
+                        removeImage();
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Upload thất bại',
+                            text: data.message || 'Không thể tải ảnh lên. Vui lòng thử lại.'
+                        });
                     }
                 })
-                .catch(function () { setUploadStatus('Lỗi kết nối.', 'error'); removeImage(); });
+                .catch(function () {
+                    Swal.close();
+                    setUploadStatus('Lỗi kết nối.', 'error');
+                    removeImage();
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi kết nối',
+                        text: 'Không thể kết nối đến máy chủ. Vui lòng thử lại.'
+                    });
+                });
         }
 
         function removeImage(e) {
