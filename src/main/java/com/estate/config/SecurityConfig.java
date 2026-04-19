@@ -37,6 +37,7 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
+                                "/",
                                 "/suntower",
                                 "/suntower/**",
                                 "/css/**",

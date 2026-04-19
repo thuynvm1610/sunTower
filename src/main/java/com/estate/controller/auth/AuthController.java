@@ -40,6 +40,16 @@ public class AuthController {
 
     private static final int MIN_PASSWORD_LENGTH = 8;
 
+    @GetMapping("/")
+    public String home(Authentication authentication) {
+        if (authentication != null
+                && authentication.isAuthenticated()
+                && !(authentication instanceof AnonymousAuthenticationToken)) {
+            return "redirect:/login-success";
+        }
+        return "redirect:/login";
+    }
+
     @GetMapping("/login")
     public String login(Authentication authentication,
                         @RequestParam(required = false) String successMessage,
