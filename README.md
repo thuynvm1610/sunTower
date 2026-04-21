@@ -18,7 +18,7 @@ invoices, and transactions with role-based access control.
 - Real-time chat: implemented using WebSockets for instant messaging between users.
 
 ## Database Design
-![ERD](screenshots/estate_erd.png)
+![ERD](screenshots/0.png)
 
 ## Screenshots
 (screenshots/1.png)
