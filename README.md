@@ -18,34 +18,34 @@ invoices, and transactions with role-based access control.
 - Real-time chat: implemented using WebSockets for instant messaging between users.
 
 ## Database Design
-![ERD](screenshots/0.png)
+![0](screenshots/0.png)
 
 ## Screenshots
-(screenshots/1.png)
+![1](screenshots/1.png)
 
-(screenshots/2.png)
+![2](screenshots/2.png)
 
-(screenshots/3.png)
+![3](screenshots/3.png)
 
-(screenshots/4.png)
+![4](screenshots/4.png)
 
-(screenshots/5.png)
+![5](screenshots/5.png)
 
-(screenshots/6.png)
+![6](screenshots/6.png)
 
-(screenshots/7.png)
+![7](screenshots/7.png)
 
-(screenshots/8.png)
+![8](screenshots/8.png)
 
-(screenshots/9.png)
+![9](screenshots/9.png)
 
-(screenshots/10.png)
+![10](screenshots/10.png)
 
-(screenshots/11.png)
+![11](screenshots/11.png)
 
-(screenshots/12.png)
+![12](screenshots/12.png)
 
-(screenshots/13.png)
+![13](screenshots/13.png)
 
 ## How to Run
 Read "guide.txt" file
