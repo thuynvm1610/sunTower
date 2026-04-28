@@ -48,6 +48,16 @@ invoices, and transactions with role-based access control.
 ![13](screenshots/13.png)
 
 ## How to Run
-Read "guide.txt" file
+*** Thông tin tài khoản mật khẩu ***
+- Tài khoản admin: nvmt1610/thuy.nvm@gmail.com
+- Tài khoản staff: tmq0102/quan.tm@gmail.com
+- Tài khoản customer: abcVietNam/contact@abc.com.vn
+- Mật khẩu: 12345678
+
+*** URL ***
+- Trang public: http://localhost:8080/suntower
+
+*** Tạo cơ sở dữ liệu ***
+Mở folder "estate_db_generator"
 
 ## PROJECT IS FINISHED
