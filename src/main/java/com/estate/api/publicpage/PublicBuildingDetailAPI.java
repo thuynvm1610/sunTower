@@ -1,4 +1,4 @@
-package com.estate.api.customer;
+package com.estate.api.publicpage;
 
 import com.estate.dto.NearbyAmenityDTO;
 import com.estate.dto.PlanningMapDTO;

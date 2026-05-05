@@ -863,7 +863,7 @@
             min-height: 0;
         }
 
-        .search-map-modal .modal-body > .search-map-layout {
+        .search-map-modal .modal-body>.search-map-layout {
             height: 100%;
             min-height: 0;
         }
@@ -1728,7 +1728,8 @@
                 <div class="modal-header">
                     <div>
                         <h5 class="modal-title"><i class="bi bi-geo-alt-fill me-2"></i>Chọn vị trí tìm kiếm</h5>
-                        <div class="small opacity-75">Nhập địa chỉ, chọn trên bản đồ hoặc lấy vị trí hiện tại để tìm bất động sản theo bán kính.</div>
+                        <div class="small opacity-75">Nhập địa chỉ, chọn trên bản đồ hoặc lấy vị trí hiện tại để tìm bất
+                            động sản theo bán kính.</div>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -1751,7 +1752,8 @@
                             <div class="mb-3">
                                 <label class="form-label">Bán kính tìm kiếm</label>
                                 <div class="input-group radius-input">
-                                    <input type="text" id="searchLocationRadius" class="form-control" inputmode="numeric" pattern="[0-9]*" autocomplete="off" value="1">
+                                    <input type="text" id="searchLocationRadius" class="form-control"
+                                        inputmode="numeric" pattern="[0-9]*" autocomplete="off" value="1">
                                     <span class="input-group-text radius-unit">km</span>
                                 </div>
                                 <div class="map-note">Chỉ nhập số nguyên. Đơn vị mặc định là km.</div>
@@ -1774,7 +1776,8 @@
                             </div>
 
                             <div class="map-note mt-2">
-                                Gợi ý địa chỉ sẽ tự động hiện thị khi nhập text. Bạn có thể chọn một gợi ý, bấm “Chọn trên bản đồ” rồi nhấp vào vị trí cần tìm, hoặc dùng vị trí hiện tại của mình.
+                                Gợi ý địa chỉ sẽ tự động hiện thị khi nhập text. Bạn có thể chọn một gợi ý, bấm “Chọn
+                                trên bản đồ” rồi nhấp vào vị trí cần tìm, hoặc dùng vị trí hiện tại của mình.
                             </div>
                         </div>
 
@@ -1784,14 +1787,16 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" id="cancelLocationBtn" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-outline-secondary" id="cancelLocationBtn"
+                        data-bs-dismiss="modal">Đóng</button>
                     <button type="button" class="btn btn-primary" id="applyLocationBtn">Áp dụng vị trí</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="publicMapOverlay" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.55);backdrop-filter:blur(4px);">
+    <div id="publicMapOverlay"
+        style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.55);backdrop-filter:blur(4px);">
         <div class="map-modal-inner">
             <div class="map-modal-header">
                 <i class="bi bi-geo-alt-fill" style="color:#3b82f6;flex-shrink:0;"></i>
@@ -1814,77 +1819,106 @@
                 </button>
                 <div id="directionPanel" class="map-direction-panel">
                     <div style="padding:0.875rem 1rem;border-bottom:1px solid #f3f4f6;">
-                        <div style="font-size:0.72rem;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.625rem;">
+                        <div
+                            style="font-size:0.72rem;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.625rem;">
                             <i class="bi bi-sign-turn-right-fill" style="color:#3b82f6;"></i> Chỉ đường
                         </div>
                         <div style="margin-bottom:0.5rem;">
-                            <div style="font-size:0.72rem;color:#6b7280;font-weight:600;margin-bottom:0.25rem;display:flex;align-items:center;gap:0.3rem;">
+                            <div
+                                style="font-size:0.72rem;color:#6b7280;font-weight:600;margin-bottom:0.25rem;display:flex;align-items:center;gap:0.3rem;">
                                 <i class="bi bi-circle-fill" style="color:#10b981;font-size:0.45rem;"></i>
                                 Điểm xuất phát
                             </div>
                             <div style="position:relative;">
-                                <div style="display:flex;align-items:center;gap:0.4rem;padding:0.4rem 0.6rem;border:1px solid #e5e7eb;border-radius:6px;background:#f9fafb;">
-                                    <input id="originInput" type="text" placeholder="Nhập hoặc chọn trên bản đồ..." style="border:none;background:transparent;outline:none;font-size:0.8125rem;color:#374151;width:100%;" autocomplete="off" />
-                                    <button onclick="detailClearOrigin()" id="btnClearOrigin" style="display:none;background:none;border:none;padding:0;cursor:pointer;color:#9ca3af;font-size:0.75rem;flex-shrink:0;">
+                                <div
+                                    style="display:flex;align-items:center;gap:0.4rem;padding:0.4rem 0.6rem;border:1px solid #e5e7eb;border-radius:6px;background:#f9fafb;">
+                                    <input id="originInput" type="text" placeholder="Nhập hoặc chọn trên bản đồ..."
+                                        style="border:none;background:transparent;outline:none;font-size:0.8125rem;color:#374151;width:100%;"
+                                        autocomplete="off" />
+                                    <button onclick="detailClearOrigin()" id="btnClearOrigin"
+                                        style="display:none;background:none;border:none;padding:0;cursor:pointer;color:#9ca3af;font-size:0.75rem;flex-shrink:0;">
                                         <i class="bi bi-x-circle-fill"></i>
                                     </button>
                                 </div>
-                                <div id="originSuggestions" style="display:none;position:absolute;top:calc(100% + 2px);left:0;right:0;background:#fff;border:1px solid #e5e7eb;border-radius:7px;box-shadow:0 6px 18px rgba(0,0,0,0.1);z-index:10000;max-height:180px;overflow-y:auto;"></div>
+                                <div id="originSuggestions"
+                                    style="display:none;position:absolute;top:calc(100% + 2px);left:0;right:0;background:#fff;border:1px solid #e5e7eb;border-radius:7px;box-shadow:0 6px 18px rgba(0,0,0,0.1);z-index:10000;max-height:180px;overflow-y:auto;">
+                                </div>
                             </div>
                             <div style="display:flex;gap:0.375rem;margin-top:0.35rem;flex-wrap:wrap;">
-                                <button onclick="detailUseMyLocation()" id="btnMyLocation" style="display:inline-flex;align-items:center;gap:0.25rem;padding:0.2rem 0.5rem;background:#f0fdf4;color:#059669;border:1px solid #bbf7d0;border-radius:5px;font-size:0.75rem;font-weight:600;cursor:pointer;">
+                                <button onclick="detailUseMyLocation()" id="btnMyLocation"
+                                    style="display:inline-flex;align-items:center;gap:0.25rem;padding:0.2rem 0.5rem;background:#f0fdf4;color:#059669;border:1px solid #bbf7d0;border-radius:5px;font-size:0.75rem;font-weight:600;cursor:pointer;">
                                     <i class="bi bi-crosshair2"></i> Vị trí của tôi
                                 </button>
-                                <button onclick="detailSetPickMode('origin')" id="btnPickOrigin" style="display:inline-flex;align-items:center;gap:0.25rem;padding:0.2rem 0.5rem;background:#f9fafb;color:#374151;border:1px solid #e5e7eb;border-radius:5px;font-size:0.75rem;font-weight:600;cursor:pointer;">
+                                <button onclick="detailSetPickMode('origin')" id="btnPickOrigin"
+                                    style="display:inline-flex;align-items:center;gap:0.25rem;padding:0.2rem 0.5rem;background:#f9fafb;color:#374151;border:1px solid #e5e7eb;border-radius:5px;font-size:0.75rem;font-weight:600;cursor:pointer;">
                                     <i class="bi bi-cursor-fill"></i> Chọn trên bản đồ
                                 </button>
                             </div>
                         </div>
                         <div style="margin-bottom:0.625rem;">
-                            <div style="font-size:0.72rem;color:#6b7280;font-weight:600;margin-bottom:0.25rem;display:flex;align-items:center;gap:0.3rem;">
+                            <div
+                                style="font-size:0.72rem;color:#6b7280;font-weight:600;margin-bottom:0.25rem;display:flex;align-items:center;gap:0.3rem;">
                                 <i class="bi bi-geo-alt-fill" style="color:#3b82f6;font-size:0.7rem;"></i>
                                 Điểm đến
                             </div>
-                            <div style="display:flex;align-items:center;justify-content:space-between;gap:0.4rem;padding:0.4rem 0.6rem;border:1px solid #dbeafe;border-radius:6px;background:#eff6ff;">
-                                <span id="destLabel" style="font-size:0.8125rem;color:#1d4ed8;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
-                                <button onclick="detailSetPickMode('dest')" id="btnPickDest" style="display:inline-flex;align-items:center;gap:0.2rem;padding:0.15rem 0.4rem;background:#dbeafe;color:#1d4ed8;border:none;border-radius:4px;font-size:0.72rem;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;">
+                            <div
+                                style="display:flex;align-items:center;justify-content:space-between;gap:0.4rem;padding:0.4rem 0.6rem;border:1px solid #dbeafe;border-radius:6px;background:#eff6ff;">
+                                <span id="destLabel"
+                                    style="font-size:0.8125rem;color:#1d4ed8;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
+                                <button onclick="detailSetPickMode('dest')" id="btnPickDest"
+                                    style="display:inline-flex;align-items:center;gap:0.2rem;padding:0.15rem 0.4rem;background:#dbeafe;color:#1d4ed8;border:none;border-radius:4px;font-size:0.72rem;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;">
                                     <i class="bi bi-cursor-fill"></i> Đổi
                                 </button>
                             </div>
                         </div>
                         <div style="margin-bottom:0.625rem;">
-                            <div style="font-size:0.72rem;color:#6b7280;font-weight:600;margin-bottom:0.25rem;">Phương tiện</div>
+                            <div style="font-size:0.72rem;color:#6b7280;font-weight:600;margin-bottom:0.25rem;">Phương
+                                tiện</div>
                             <div style="display:flex;gap:0.375rem;">
-                                <button onclick="detailSetVehicle('car')" id="veh-car" class="veh-btn veh-active" style="flex:1;padding:0.3rem;border-radius:6px;font-size:0.78rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.3rem;border:1.5px solid #3b82f6;background:#eff6ff;color:#1d4ed8;">
+                                <button onclick="detailSetVehicle('car')" id="veh-car" class="veh-btn veh-active"
+                                    style="flex:1;padding:0.3rem;border-radius:6px;font-size:0.78rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.3rem;border:1.5px solid #3b82f6;background:#eff6ff;color:#1d4ed8;">
                                     <i class="bi bi-car-front-fill"></i> Ô tô
                                 </button>
-                                <button onclick="detailSetVehicle('bike')" id="veh-bike" class="veh-btn" style="flex:1;padding:0.3rem;border-radius:6px;font-size:0.78rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.3rem;border:1.5px solid #e5e7eb;background:#f9fafb;color:#6b7280;">
+                                <button onclick="detailSetVehicle('bike')" id="veh-bike" class="veh-btn"
+                                    style="flex:1;padding:0.3rem;border-radius:6px;font-size:0.78rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.3rem;border:1.5px solid #e5e7eb;background:#f9fafb;color:#6b7280;">
                                     <i class="bi bi-bicycle"></i> Xe máy
                                 </button>
                             </div>
                         </div>
-                        <button id="btnGetDirections" onclick="detailGetDirections()" style="width:100%;padding:0.45rem;background:#3b82f6;color:#fff;border:none;border-radius:7px;font-size:0.8125rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.4rem;">
+                        <button id="btnGetDirections" onclick="detailGetDirections()"
+                            style="width:100%;padding:0.45rem;background:#3b82f6;color:#fff;border:none;border-radius:7px;font-size:0.8125rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.4rem;">
                             <i class="bi bi-arrows-angle-contract"></i> Tìm đường
                         </button>
-                        <button id="btnClearRoute" onclick="detailClearRoute()" style="display:none;margin-top:0.4rem;width:100%;padding:0.4rem;background:#f3f4f6;color:#374151;border:1px solid #e5e7eb;border-radius:7px;font-size:0.8rem;font-weight:600;cursor:pointer;">
+                        <button id="btnClearRoute" onclick="detailClearRoute()"
+                            style="display:none;margin-top:0.4rem;width:100%;padding:0.4rem;background:#f3f4f6;color:#374151;border:1px solid #e5e7eb;border-radius:7px;font-size:0.8rem;font-weight:600;cursor:pointer;">
                             <i class="bi bi-x-circle"></i> Xóa tuyến đường
                         </button>
                     </div>
                     <div id="routeResult" style="padding:0.875rem 1rem;display:none;">
-                        <div style="font-size:0.72rem;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.625rem;">Thông tin tuyến đường</div>
+                        <div
+                            style="font-size:0.72rem;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.625rem;">
+                            Thông tin tuyến đường</div>
                         <div style="display:flex;gap:0.75rem;margin-bottom:0.75rem;">
-                            <div style="flex:1;background:#f0fdf4;border-radius:8px;padding:0.625rem;text-align:center;">
-                                <div style="font-size:1.125rem;font-weight:700;color:#059669;" id="routeDistance">—</div>
+                            <div
+                                style="flex:1;background:#f0fdf4;border-radius:8px;padding:0.625rem;text-align:center;">
+                                <div style="font-size:1.125rem;font-weight:700;color:#059669;" id="routeDistance">—
+                                </div>
                                 <div style="font-size:0.72rem;color:#6b7280;margin-top:0.1rem;">Khoảng cách</div>
                             </div>
-                            <div style="flex:1;background:#eff6ff;border-radius:8px;padding:0.625rem;text-align:center;">
-                                <div style="font-size:1.125rem;font-weight:700;color:#1d4ed8;" id="routeDuration">—</div>
+                            <div
+                                style="flex:1;background:#eff6ff;border-radius:8px;padding:0.625rem;text-align:center;">
+                                <div style="font-size:1.125rem;font-weight:700;color:#1d4ed8;" id="routeDuration">—
+                                </div>
                                 <div style="font-size:0.72rem;color:#6b7280;margin-top:0.1rem;">Thời gian</div>
                             </div>
                         </div>
-                        <div id="routeSteps" style="display:flex;flex-direction:column;gap:0.35rem;max-height:40vh;overflow-y:auto;"></div>
+                        <div id="routeSteps"
+                            style="display:flex;flex-direction:column;gap:0.35rem;max-height:40vh;overflow-y:auto;">
+                        </div>
                     </div>
-                    <div id="routeError" style="display:none;padding:0.75rem 1rem;margin:0.5rem 1rem;background:#fef2f2;border:1px solid #fecaca;border-radius:7px;font-size:0.8rem;color:#dc2626;"></div>
+                    <div id="routeError"
+                        style="display:none;padding:0.75rem 1rem;margin:0.5rem 1rem;background:#fef2f2;border:1px solid #fecaca;border-radius:7px;font-size:0.8rem;color:#dc2626;">
+                    </div>
                 </div>
                 <div id="buildingMap" class="map-canvas"></div>
             </div>
@@ -1985,14 +2019,14 @@
 
                     if (data.length === 0) {
                         body.append(`
-                            <div class="col-12">
-                                <div class="empty-state">
-                                    <i class="bi bi-inbox"></i>
-                                    <h3>Không có bất động sản nào</h3>
-                                    <p>Chưa có bất động sản theo điều kiện tìm kiếm</p>
-                                </div>
+                        <div class="col-12">
+                            <div class="empty-state">
+                                <i class="bi bi-inbox"></i>
+                                <h3>Không có bất động sản nào</h3>
+                                <p>Chưa có bất động sản theo điều kiện tìm kiếm</p>
                             </div>
-                        `);
+                        </div>
+                    `);
                         searchResult.hide();
                         return;
                     }
@@ -2030,10 +2064,10 @@
                             staffHtml = names.map((name, idx) => {
                                 const phone = phones[idx] || null;
                                 return `<span style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;">
-                                    <i class="bi bi-person"></i><span>${name}</span>
-                                    ${phone ? `<span style="opacity:.5;">|</span><i class="bi bi-telephone"></i>
-                                    <a href="tel:${phone}" style="color:inherit;text-decoration:none;">${phone}</a>` : ""}
-                                </span>`;
+                                <i class="bi bi-person"></i><span>${name}</span>
+                                ${phone ? `<span style="opacity:.5;">|</span><i class="bi bi-telephone"></i>
+                                <a href="tel:${phone}" style="color:inherit;text-decoration:none;">${phone}</a>` : ""}
+                            </span>`;
                             }).join("");
                         }
 
@@ -2043,214 +2077,214 @@
 
                         // ════ CARD ════
                         body.append(`
-                            <div class="col-md-6 col-lg-4">
-                                <div class="building-card" data-bs-toggle="modal" data-bs-target="#buildingModal-${i}">
-                                    <div class="building-image">
-                                        <img src="${imgSrc}" alt="${b.name}"
-                                            onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 220%22%3E%3Crect fill=%22%23e5e7eb%22 width=%22400%22 height=%22220%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%239ca3af%22 font-size=%2214%22%3EKhông có ảnh%3C/text%3E%3C/svg%3E'"/>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="building-card" data-bs-toggle="modal" data-bs-target="#buildingModal-${i}">
+                                <div class="building-image">
+                                    <img src="${imgSrc}" alt="${b.name}"
+                                        onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 220%22%3E%3Crect fill=%22%23e5e7eb%22 width=%22400%22 height=%22220%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%239ca3af%22 font-size=%2214%22%3EKhông có ảnh%3C/text%3E%3C/svg%3E'"/>
+                                </div>
+                                <div class="building-body">
+                                    <h3 class="building-name">${b.name}</h3>
+                                    <div class="building-address">
+                                        <i class="bi bi-geo-alt"></i>
+                                        <span>${dash(b.address)}</span>
                                     </div>
-                                    <div class="building-body">
-                                        <h3 class="building-name">${b.name}</h3>
-                                        <div class="building-address">
-                                            <i class="bi bi-geo-alt"></i>
-                                            <span>${dash(b.address)}</span>
+                                    <div class="building-stats">
+                                        <div class="stat-item">
+                                            <span class="stat-label">Diện tích sàn</span>
+                                            <span class="stat-value">${dash(b.floorArea)} m²</span>
                                         </div>
-                                        <div class="building-stats">
-                                            <div class="stat-item">
-                                                <span class="stat-label">Diện tích sàn</span>
-                                                <span class="stat-value">${dash(b.floorArea)} m²</span>
-                                            </div>
-                                            <div class="stat-item">
-                                                <span class="stat-label">Số tầng</span>
-                                                <span class="stat-value">${dash(b.numberOfFloor)}</span>
-                                            </div>
-                                            <div class="stat-item">
-                                                <span class="stat-label">${isSale ? 'Giá bán' : 'Giá thuê/m²'}</span>
-                                                <span class="stat-value">${isSale ? salePrice : rentPrice} VNĐ</span>
-                                            </div>
-                                            <div class="stat-item">
-                                                <span class="stat-label">Hạng</span>
-                                                <span class="badge-available">${dash(b.level)}</span>
-                                            </div>
+                                        <div class="stat-item">
+                                            <span class="stat-label">Số tầng</span>
+                                            <span class="stat-value">${dash(b.numberOfFloor)}</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <span class="stat-label">${isSale ? 'Giá bán' : 'Giá thuê/m²'}</span>
+                                            <span class="stat-value">${isSale ? salePrice : rentPrice} VNĐ</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <span class="stat-label">Hạng</span>
+                                            <span class="badge-available">${dash(b.level)}</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        `);
+                        </div>
+                    `);
 
                         // ════ MODAL ════
                         modalContainer.append(`
-                            <div class="modal fade" id="buildingModal-${i}" tabindex="-1" aria-hidden="true">
-                                <div class="modal-dialog modal-detail modal-dialog-centered modal-dialog-scrollable">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">
-                                                <i class="bi bi-building me-2"></i>Thông Tin Bất Động Sản
-                                            </h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        <div class="modal fade" id="buildingModal-${i}" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-detail modal-dialog-centered modal-dialog-scrollable">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">
+                                            <i class="bi bi-building me-2"></i>Thông Tin Bất Động Sản
+                                        </h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <!-- Header strip -->
+                                        <div class="building-detail-header">
+                                            <div class="building-detail-name">
+                                                <i class="bi bi-building"></i>
+                                                <span>${b.name}</span>
+                                            </div>
+                                            <div class="building-detail-address">
+                                                <i class="bi bi-geo-alt"></i>
+                                                <span>${dash(b.address)}</span>
+                                            </div>
+                                            <div class="building-detail-actions">
+                                                ${b.latitude != null && b.longitude != null ? `
+                                                <button type="button" class="btn-open-map"
+                                                    onclick='openMapModal(${JSON.stringify(b.latitude)}, ${JSON.stringify(b.longitude)}, ${JSON.stringify(b.name)}, ${JSON.stringify(b.address || "")})'>
+                                                    <i class="bi bi-map-fill"></i> Xem bản đồ
+                                                </button>
+                                                <span class="coord-mono">
+                                                    <i class="bi bi-compass text-success"></i>
+                                                    <span>${Number(b.latitude).toFixed(6)}, ${Number(b.longitude).toFixed(6)}</span>
+                                                </span>` : ''}
+                                            </div>
+                                            <div class="mt-1" style="display:flex;flex-wrap:wrap;gap:4px;">
+                                                ${b.propertyType ? `<span class="type-chip"><i class="bi bi-building-gear me-1"></i>${propLabels[b.propertyType] || b.propertyType}</span>` : ""}
+                                                ${b.transactionType ? `<span class="type-chip" style="background:#fffbeb;color:#d97706;">${txLabels[b.transactionType] || b.transactionType}</span>` : ""}
+                                                ${b.level ? `<span class="type-chip" style="background:#f0fdf4;color:#16a34a;">${b.level}</span>` : ""}
+                                                ${b.taxCode ? `<span class="type-chip" style="background:#faf5ff;color:#7c3aed;">MST: ${b.taxCode}</span>` : ""}
+                                            </div>
                                         </div>
-                                        <div class="modal-body">
 
-                                            <!-- Header strip -->
-                                            <div class="building-detail-header">
-                                                <div class="building-detail-name">
-                                                    <i class="bi bi-building"></i>
-                                                    <span>${b.name}</span>
+                                        <!-- Tabs -->
+                                        <div class="detail-tabs" id="tabs-${i}">
+                                            <button class="detail-tab-btn active" onclick="switchTab(${i},'overview')">
+                                                <i class="bi bi-info-circle"></i> Tổng quan
+                                            </button>
+                                            <button class="detail-tab-btn" onclick="switchTab(${i},'extra')">
+                                                <i class="bi bi-plus-circle"></i> Thông tin bổ sung
+                                            </button>
+                                        </div>
+
+                                        <!-- Tab: Tổng quan -->
+                                        <div class="detail-tab-panel active" id="panel-${i}-overview">
+
+                                            <!-- Đặc điểm -->
+                                            <div class="info-section">
+                                                <div class="info-section-title">
+                                                    <i class="bi bi-rulers"></i> Đặc Điểm Bất Động Sản
                                                 </div>
-                                                <div class="building-detail-address">
-                                                    <i class="bi bi-geo-alt"></i>
-                                                    <span>${dash(b.address)}</span>
-                                                </div>
-                                                <div class="building-detail-actions">
-                                                    ${b.latitude != null && b.longitude != null ? `
-                                                    <button type="button" class="btn-open-map"
-                                                        onclick='openMapModal(${JSON.stringify(b.latitude)}, ${JSON.stringify(b.longitude)}, ${JSON.stringify(b.name)}, ${JSON.stringify(b.address || "")})'>
-                                                        <i class="bi bi-map-fill"></i> Xem bản đồ
-                                                    </button>
-                                                    <span class="coord-mono">
-                                                        <i class="bi bi-compass text-success"></i>
-                                                        <span>${Number(b.latitude).toFixed(6)}, ${Number(b.longitude).toFixed(6)}</span>
-                                                    </span>` : ''}
-                                                </div>
-                                                <div class="mt-1" style="display:flex;flex-wrap:wrap;gap:4px;">
-                                                    ${b.propertyType ? `<span class="type-chip"><i class="bi bi-building-gear me-1"></i>${propLabels[b.propertyType] || b.propertyType}</span>` : ""}
-                                                    ${b.transactionType ? `<span class="type-chip" style="background:#fffbeb;color:#d97706;">${txLabels[b.transactionType] || b.transactionType}</span>` : ""}
-                                                    ${b.level ? `<span class="type-chip" style="background:#f0fdf4;color:#16a34a;">${b.level}</span>` : ""}
-                                                    ${b.taxCode ? `<span class="type-chip" style="background:#faf5ff;color:#7c3aed;">MST: ${b.taxCode}</span>` : ""}
+                                                <div class="feature-grid">
+                                                    <div class="feature-item">
+                                                        <div class="feature-label">Diện tích sàn</div>
+                                                        <div class="feature-value">${dash(b.floorArea)} m²</div>
+                                                    </div>
+                                                    <div class="feature-item">
+                                                        <div class="feature-label">Số tầng</div>
+                                                        <div class="feature-value">${dash(b.numberOfFloor)}</div>
+                                                    </div>
+                                                    <div class="feature-item">
+                                                        <div class="feature-label">Số tầng hầm</div>
+                                                        <div class="feature-value">${dash(b.numberOfBasement)}</div>
+                                                    </div>
                                                 </div>
                                             </div>
 
-                                            <!-- Tabs -->
-                                            <div class="detail-tabs" id="tabs-${i}">
-                                                <button class="detail-tab-btn active" onclick="switchTab(${i},'overview')">
-                                                    <i class="bi bi-info-circle"></i> Tổng quan
-                                                </button>
-                                                <button class="detail-tab-btn" onclick="switchTab(${i},'extra')">
-                                                    <i class="bi bi-plus-circle"></i> Thông tin bổ sung
-                                                </button>
-                                            </div>
-
-                                            <!-- Tab: Tổng quan -->
-                                            <div class="detail-tab-panel active" id="panel-${i}-overview">
-
-                                                <!-- Đặc điểm -->
-                                                <div class="info-section">
-                                                    <div class="info-section-title">
-                                                        <i class="bi bi-rulers"></i> Đặc Điểm Bất Động Sản
-                                                    </div>
-                                                    <div class="feature-grid">
-                                                        <div class="feature-item">
-                                                            <div class="feature-label">Diện tích sàn</div>
-                                                            <div class="feature-value">${dash(b.floorArea)} m²</div>
-                                                        </div>
-                                                        <div class="feature-item">
-                                                            <div class="feature-label">Số tầng</div>
-                                                            <div class="feature-value">${dash(b.numberOfFloor)}</div>
-                                                        </div>
-                                                        <div class="feature-item">
-                                                            <div class="feature-label">Số tầng hầm</div>
-                                                            <div class="feature-value">${dash(b.numberOfBasement)}</div>
-                                                        </div>
-                                                    </div>
+                                            <!-- Thông tin chung -->
+                                            <div class="info-section">
+                                                <div class="info-section-title">
+                                                    <i class="bi bi-info-circle"></i> Thông Tin Chung
                                                 </div>
-
-                                                <!-- Thông tin chung -->
-                                                <div class="info-section">
-                                                    <div class="info-section-title">
-                                                        <i class="bi bi-info-circle"></i> Thông Tin Chung
-                                                    </div>
-                                                    <div class="info-row">
-                                                        <span class="info-label">Hướng</span>
-                                                        <span class="info-value">${dash(b.direction)}</span>
-                                                    </div>
-                                                    <div class="info-row">
-                                                        <span class="info-label">Link tòa nhà</span>
-                                                        <span class="info-value">
-                                                            ${b.linkOfBuilding
+                                                <div class="info-row">
+                                                    <span class="info-label">Hướng</span>
+                                                    <span class="info-value">${dash(b.direction)}</span>
+                                                </div>
+                                                <div class="info-row">
+                                                    <span class="info-label">Link tòa nhà</span>
+                                                    <span class="info-value">
+                                                        ${b.linkOfBuilding
                                 ? `<a href="${b.linkOfBuilding}" target="_blank" style="color:var(--accent);">Xem</a>`
                                 : '—'}
-                                                        </span>
-                                                    </div>
-                                                    <div class="info-row">
-                                                        <span class="info-label">Nhân viên quản lý</span>
-                                                        <span class="info-value">${staffHtml}</span>
-                                                    </div>
+                                                    </span>
                                                 </div>
+                                                <div class="info-row">
+                                                    <span class="info-label">Nhân viên quản lý</span>
+                                                    <span class="info-value">${staffHtml}</span>
+                                                </div>
+                                            </div>
 
-                                                <!-- Diện tích thuê -->
-                                                ${b.rentAreaValues ? `
-                                                <div class="info-section">
-                                                    <div class="info-section-title">
-                                                        <i class="bi bi-grid"></i> Diện Tích Thuê Khả Dụng
-                                                    </div>
-                                                    <div class="rent-area-list">${rentAreaHtml}</div>
+                                            <!-- Diện tích thuê -->
+                                            ${b.rentAreaValues ? `
+                                            <div class="info-section">
+                                                <div class="info-section-title">
+                                                    <i class="bi bi-grid"></i> Diện Tích Thuê Khả Dụng
+                                                </div>
+                                                <div class="rent-area-list">${rentAreaHtml}</div>
+                                            </div>` : ""}
+
+                                            <!-- Giá & Phí -->
+                                            <div class="info-section">
+                                                <div class="info-section-title">
+                                                    <i class="bi bi-cash-stack"></i> Giá & Phí
+                                                </div>
+                                                ${isRent ? `<div class="info-row">
+                                                    <span class="info-label">Giá thuê</span>
+                                                    <span class="info-value" style="color:var(--success);">${rentPrice} VNĐ/m²</span>
                                                 </div>` : ""}
-
-                                                <!-- Giá & Phí -->
-                                                <div class="info-section">
-                                                    <div class="info-section-title">
-                                                        <i class="bi bi-cash-stack"></i> Giá & Phí
-                                                    </div>
-                                                    ${isRent ? `<div class="info-row">
-                                                        <span class="info-label">Giá thuê</span>
-                                                        <span class="info-value" style="color:var(--success);">${rentPrice} VNĐ/m²</span>
-                                                    </div>` : ""}
-                                                    ${isSale ? `<div class="info-row">
-                                                        <span class="info-label">Giá bán</span>
-                                                        <span class="info-value" style="color:var(--danger);">${salePrice} VNĐ</span>
-                                                    </div>` : ""}
-                                                    <div class="info-row">
-                                                        <span class="info-label">Phí dịch vụ</span>
-                                                        <span class="info-value">${serviceFee} VNĐ/tháng</span>
-                                                    </div>
-                                                    <div class="info-row">
-                                                        <span class="info-label">Đặt cọc</span>
-                                                        <span class="info-value">${deposit} VNĐ</span>
-                                                    </div>
-                                                    <div class="info-row">
-                                                        <span class="info-label">Phí gửi xe ô tô</span>
-                                                        <span class="info-value">${carFee} VNĐ/tháng</span>
-                                                    </div>
-                                                    <div class="info-row">
-                                                        <span class="info-label">Phí gửi xe máy</span>
-                                                        <span class="info-value">${motorbikeFee} VNĐ/tháng</span>
-                                                    </div>
-                                                    <div class="info-row">
-                                                        <span class="info-label">Phí nước</span>
-                                                        <span class="info-value">${waterFee} VNĐ/m³</span>
-                                                    </div>
-                                                    <div class="info-row">
-                                                        <span class="info-label">Phí điện</span>
-                                                        <span class="info-value">${electricityFee} VNĐ/số</span>
-                                                    </div>
+                                                ${isSale ? `<div class="info-row">
+                                                    <span class="info-label">Giá bán</span>
+                                                    <span class="info-value" style="color:var(--danger);">${salePrice} VNĐ</span>
+                                                </div>` : ""}
+                                                <div class="info-row">
+                                                    <span class="info-label">Phí dịch vụ</span>
+                                                    <span class="info-value">${serviceFee} VNĐ/tháng</span>
+                                                </div>
+                                                <div class="info-row">
+                                                    <span class="info-label">Đặt cọc</span>
+                                                    <span class="info-value">${deposit} VNĐ</span>
+                                                </div>
+                                                <div class="info-row">
+                                                    <span class="info-label">Phí gửi xe ô tô</span>
+                                                    <span class="info-value">${carFee} VNĐ/tháng</span>
+                                                </div>
+                                                <div class="info-row">
+                                                    <span class="info-label">Phí gửi xe máy</span>
+                                                    <span class="info-value">${motorbikeFee} VNĐ/tháng</span>
+                                                </div>
+                                                <div class="info-row">
+                                                    <span class="info-label">Phí nước</span>
+                                                    <span class="info-value">${waterFee} VNĐ/m³</span>
+                                                </div>
+                                                <div class="info-row">
+                                                    <span class="info-label">Phí điện</span>
+                                                    <span class="info-value">${electricityFee} VNĐ/số</span>
                                                 </div>
                                             </div>
+                                        </div>
 
-                                            <!-- Tab: Thông tin bổ sung (lazy-load) -->
-                                            <div class="detail-tab-panel" id="panel-${i}-extra"
-                                                data-building-id="${b.id}" data-loaded="false">
-                                                <div class="extra-empty">
-                                                    <i class="bi bi-hourglass-split"></i>
-                                                    Nhấn tab để tải thông tin bổ sung
-                                                </div>
+                                        <!-- Tab: Thông tin bổ sung (lazy-load) -->
+                                        <div class="detail-tab-panel" id="panel-${i}-extra"
+                                            data-building-id="${b.id}" data-loaded="false">
+                                            <div class="extra-empty">
+                                                <i class="bi bi-hourglass-split"></i>
+                                                Nhấn tab để tải thông tin bổ sung
                                             </div>
+                                        </div>
 
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary btn-sm"
-                                                data-building-id="${b.id}"
-                                                data-building-name="${(JSON.stringify(b.name || '')).replace(/"/g, '&quot;')}"
-                                                onclick="ChatCustomer.openSelector(this.dataset.buildingId, this.dataset.buildingName)">
-                                                <i class="bi bi-chat-dots me-1"></i>Liên hệ ngay
-                                            </button>
-                                            <button type="button" class="btn-secondary-sm" data-bs-dismiss="modal">
-                                                <i class="bi bi-x"></i> Đóng
-                                            </button>
-                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary btn-sm"
+                                            data-building-id="${b.id}"
+                                            data-building-name="${(JSON.stringify(b.name || '')).replace(/"/g, '&quot;')}"
+                                            onclick="ChatCustomer.openSelector(this.dataset.buildingId, this.dataset.buildingName)">
+                                            <i class="bi bi-chat-dots me-1"></i>Liên hệ ngay
+                                        </button>
+                                        <button type="button" class="btn-secondary-sm" data-bs-dismiss="modal">
+                                            <i class="bi bi-x"></i> Đóng
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-                        `);
+                        </div>
+                    `);
                     });
                 },
                 error: function () {
@@ -2295,13 +2329,13 @@
 
                         // Quy hoạch
                         html += `<div class="info-section mt-2">
-                            <div class="info-section-title"><i class="bi bi-map"></i> Bản Đồ Quy Hoạch</div>`;
+                        <div class="info-section-title"><i class="bi bi-map"></i> Bản Đồ Quy Hoạch</div>`;
                         if (!data.planningMaps || data.planningMaps.length === 0) {
                             html += `<div class="extra-empty"><i class="bi bi-map"></i>Chưa có bản đồ quy hoạch</div>`;
                         } else {
                             html += `<div style="overflow-x:auto;"><table class="extra-table"><thead><tr>
-                                <th>Loại</th><th>Cơ quan cấp</th><th class="mobile-hide">Ngày cấp</th><th class="mobile-hide">Hết hạn</th><th class="mobile-hide">Trạng thái</th><th>Xem</th><th class="mobile-hide">Ghi chú</th>
-                            </tr></thead><tbody>`;
+                            <th>Loại</th><th>Cơ quan cấp</th><th class="mobile-hide">Ngày cấp</th><th class="mobile-hide">Hết hạn</th><th class="mobile-hide">Trạng thái</th><th>Xem</th><th class="mobile-hide">Ghi chú</th>
+                        </tr></thead><tbody>`;
                             data.planningMaps.forEach(r => {
                                 const fmtDate = s => s ? new Date(s).toLocaleDateString('vi-VN') : '—';
                                 const expiredBadge = r.expired
@@ -2311,14 +2345,14 @@
                                     ? `<a href="${r.imageUrl}" target="_blank" style="color:var(--accent);">Xem</a>`
                                     : '—';
                                 html += `<tr>
-                                    <td><span class="type-chip">${r.mapType || '—'}</span></td>
-                                    <td>${r.issuedBy || '—'}</td>
-                                    <td class="mobile-hide">${fmtDate(r.issuedDate)}</td>
-                                    <td class="mobile-hide">${fmtDate(r.expiredDate)}</td>
-                                    <td class="mobile-hide">${expiredBadge}</td>
-                                    <td>${imgCell}</td>
-                                    <td class="mobile-hide">${r.note || '—'}</td>
-                                </tr>`;
+                                <td><span class="type-chip">${r.mapType || '—'}</span></td>
+                                <td>${r.issuedBy || '—'}</td>
+                                <td class="mobile-hide">${fmtDate(r.issuedDate)}</td>
+                                <td class="mobile-hide">${fmtDate(r.expiredDate)}</td>
+                                <td class="mobile-hide">${expiredBadge}</td>
+                                <td>${imgCell}</td>
+                                <td class="mobile-hide">${r.note || '—'}</td>
+                            </tr>`;
                             });
                             html += `</tbody></table></div>`;
                         }
@@ -2343,7 +2377,7 @@
 
         function renderExtraTable(icon, title, list, cols, emptyMsg) {
             let html = `<div class="info-section mt-2">
-                <div class="info-section-title"><i class="bi ${icon}"></i> ${title}</div>`;
+            <div class="info-section-title"><i class="bi ${icon}"></i> ${title}</div>`;
             if (!list || list.length === 0) {
                 const parts = emptyMsg.split(' ');
                 html += `<div class="extra-empty"><i class="bi ${parts[0]}"></i>${parts.slice(1).join(' ')}</div>`;
