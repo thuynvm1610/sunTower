@@ -166,8 +166,10 @@
         try {
             const messages = await $.get(`/staff/chat/rooms/${roomId}/messages`);
             state.roomId = roomId;
+            const buildingName = messages?.[0]?.buildingName || "Bất động sản";
             $("#staffChatTitle").text("Hội thoại hỗ trợ");
-            $("#staffChatSubtitle").text(`${customerName || "Khách hàng"}${customerPhone ? " | " + customerPhone : ""}`);
+            $("#staffChatSubtitleBuilding").text(`${buildingName || "Bất động sản"}`);
+            $("#staffChatSubtitleCustomer").text(`${customerName || "Khách hàng"}${customerPhone ? " | " + customerPhone : ""}`);
             $("#staffChatInput").val("");
             $("#staffChatTyping").addClass("d-none");
             $("#staffChatModal").modal("show");

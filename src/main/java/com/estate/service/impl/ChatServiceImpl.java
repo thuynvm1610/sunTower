@@ -238,6 +238,7 @@ public class ChatServiceImpl implements ChatService {
         String senderName = "STAFF".equals(message.getSenderType().name())
                 ? room.getStaff().getFullName()
                 : room.getCustomer().getFullName();
+        String buildingName = message.getRoom().getBuilding().getName();
         return new ChatMessageDTO(
                 message.getId(),
                 room.getId(),
@@ -246,7 +247,8 @@ public class ChatServiceImpl implements ChatService {
                 senderName,
                 message.getContent(),
                 message.getCreatedAt(),
-                mine
+                mine,
+                buildingName
         );
     }
 

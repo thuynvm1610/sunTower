@@ -20,4 +20,5 @@ public class ChatMessageDTO {
     private String content;
     private LocalDateTime createdAt;
     private boolean mine;
+    private String buildingName;
 }
